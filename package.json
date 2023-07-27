@@ -1,0 +1,67 @@
+{
+  "type": "module",
+  "name": "@hazae41/asn1",
+  "version": "1.2.23",
+  "description": "Zero-copy ASN.1 <=> DER encoding for the web",
+  "homepage": "https://github.com/hazae41/asn1",
+  "repository": "github:hazae41/asn1",
+  "author": "hazae41",
+  "license": "MIT",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "./dist/esm",
+    "./dist/cjs",
+    "./dist/types"
+  ],
+  "scripts": {
+    "build": "rimraf dist && rollup -c",
+    "test": "node ./dist/test/index.test.mjs",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@hazae41/binary": "^1.2.34",
+    "@hazae41/bytes": "^1.1.21",
+    "@hazae41/cursor": "^1.1.19",
+    "@hazae41/result": "^1.0.52"
+  },
+  "devDependencies": {
+    "@hazae41/phobos": "^1.0.10",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/node": "^20.4.5",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.26.3",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-node-externals": "^6.1.1",
+    "tslib": "^2.6.1",
+    "typescript": "^5.1.6"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs"
+    }
+  },
+  "keywords": [
+    "asn1",
+    "x509",
+    "der",
+    "ber",
+    "buffer",
+    "encoding",
+    "encoder",
+    "decoding",
+    "decoder",
+    "binary",
+    "parsing",
+    "parser",
+    "esmodules",
+    "browser",
+    "zero-copy",
+    "typescript",
+    "unit-tested"
+  ]
+}
