@@ -1,9 +1,9 @@
-import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
+import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
-import { Uint256 } from "../index.js";
+import { Uint256 } from "../uint/uint.js";
 
-export interface BytesN<N extends number = number> {
+export interface BytesN<N extends number = number> extends Writable<never, BinaryWriteError> {
   readonly value: Uint8Array
   readonly bytes: N
 }
@@ -69,23 +69,34 @@ export const Bytes160 = BytesN(20)
 export const Bytes256 = BytesN(32)
 
 export class Bytes<N extends number = number> {
+  readonly #class = Bytes
+
+  static readonly dynamic = true as const
 
   private constructor(
     readonly value: Uint8Array & { length: N }
   ) { }
 
+  static new<N extends number>(value: Uint8Array & { length: N }) {
+    return new Bytes(value)
+  }
+
+  get dynamic() {
+    return this.#class.dynamic
+  }
+
   trySize(): Result<number, never> {
-    return new Ok(1 + (Math.ceil(this.value.length / 32) * 32))
+    return new Ok(32 + (Math.ceil(this.value.length / 32) * 32))
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
       const length = Uint256.new(BigInt(this.value.length))
-      const size = 1 + (Math.ceil(this.value.length / 32) * 32)
+      const size = 32 + (Math.ceil(this.value.length / 32) * 32)
 
       length.tryWrite(cursor).throw(t)
       cursor.tryWrite(this.value).throw(t)
-      cursor.fill(0, size - this.value.length)
+      cursor.fill(0, size - 32 - this.value.length)
 
       return Ok.void()
     })
@@ -95,9 +106,9 @@ export class Bytes<N extends number = number> {
     return Result.unthrowSync(t => {
       const length = Uint256.tryRead(cursor).throw(t)
       const bytes = cursor.tryRead(Number(length.value)).throw(t)
-      const size = 1 + (Math.ceil(bytes.length / 32) * 32)
+      const size = 32 + (Math.ceil(bytes.length / 32) * 32)
 
-      cursor.offset += size - bytes.length
+      cursor.offset += size - 32 - bytes.length
 
       return new Ok(new Bytes(bytes))
     })

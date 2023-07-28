@@ -31,6 +31,7 @@ export class Bool {
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
       cursor.fill(0, 31)
+
       const byte = this.value ? 1 : 0
       cursor.tryWriteUint8(byte).throw(t)
 

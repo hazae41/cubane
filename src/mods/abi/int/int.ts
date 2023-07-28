@@ -1,4 +1,4 @@
-import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
+import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
@@ -6,7 +6,7 @@ import { Ok, Result } from "@hazae41/result";
 const BN_0 = 0n
 const BN_1 = 1n
 
-export interface IntN<N extends number = number> {
+export interface IntN<N extends number = number> extends Writable<never, BinaryWriteError> {
   readonly value: bigint
   readonly bytes: N
 }
