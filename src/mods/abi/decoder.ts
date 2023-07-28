@@ -1,16 +1,16 @@
 import { Readable } from "@hazae41/binary"
 import { Cursor } from "@hazae41/cursor"
 import { Ok, Result } from "@hazae41/result"
-import { Instance, Type } from "./abi.js"
+import { Factory, Instance } from "./abi.js"
 import { Uint256 } from "./uint/uint.js"
 
 export class Decoder {
 
   private constructor(
-    readonly types: Type[]
+    readonly types: Factory[]
   ) { }
 
-  static tryNew(types: Type[]) {
+  static tryNew(types: Factory[]) {
     return new Ok(new Decoder(types))
   }
 
@@ -35,7 +35,13 @@ export class Decoder {
     })
   }
 
-  static tryDecode(bytes: Uint8Array, ...types: Type[]): Result<Instance[], Error> {
+  /**
+   * Shorthand for creating a new Decoder and reading some bytes
+   * @param bytes 
+   * @param types 
+   * @returns 
+   */
+  static tryDecode(bytes: Uint8Array, ...types: Factory[]): Result<Instance[], Error> {
     return Result.unthrowSync(t => {
       const decoder = Decoder.tryNew(types).throw(t)
       const instances = Readable.tryReadFromBytes(decoder, bytes).throw(t)

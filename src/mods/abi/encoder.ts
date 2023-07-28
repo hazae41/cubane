@@ -57,6 +57,11 @@ export class Encoder {
     })
   }
 
+  /**
+   * Shorthand for creating a new Encoder and writing some bytes
+   * @param instances 
+   * @returns 
+   */
   static tryEncode(...instances: Instance[]): Result<Uint8Array, Error> {
     return Result.unthrowSync(t => {
       const encoder = Encoder.tryNew(instances).throw(t)

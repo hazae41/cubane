@@ -4,6 +4,6 @@ export interface Instance extends Writable<Error, Error> {
   dynamic?: boolean
 }
 
-export interface Type extends Readable<Instance, Error> {
+export interface Factory extends Readable<Instance, Error> {
   dynamic?: boolean
 }
