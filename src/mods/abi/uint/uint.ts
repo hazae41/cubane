@@ -27,7 +27,7 @@ export const Uint = <N extends number>(bits: N) => class {
     return this.#class.bytes
   }
 
-  trySize() {
+  trySize(): Result<number, never> {
     return new Ok(32)
   }
 
