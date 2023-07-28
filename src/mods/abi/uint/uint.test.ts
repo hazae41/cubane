@@ -1,7 +1,7 @@
 import { Readable, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { assert, test } from "@hazae41/phobos";
-import { Uint, Uint256, Uint32 } from "./uint.js";
+import { Uint256, Uint32 } from "./uint.js";
 
 test("uint32", async ({ message, test }) => {
   const value = 123n
@@ -11,7 +11,7 @@ test("uint32", async ({ message, test }) => {
   console.log(message, value)
   console.log(message, Bytes.toHex(bytes))
 
-  const abi2 = Readable.tryReadFromBytes(Uint(32), bytes).unwrap()
+  const abi2 = Readable.tryReadFromBytes(Uint32, bytes).unwrap()
   const value2 = abi2.value
 
   console.log(message, value2)
@@ -27,7 +27,7 @@ test("uint256", async ({ message, test }) => {
   console.log(message, value)
   console.log(message, Bytes.toHex(bytes))
 
-  const abi2 = Readable.tryReadFromBytes(Uint(256), bytes).unwrap()
+  const abi2 = Readable.tryReadFromBytes(Uint256, bytes).unwrap()
   const value2 = abi2.value
 
   console.log(message, value2)

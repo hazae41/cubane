@@ -6,18 +6,18 @@ import { Ok, Result } from "@hazae41/result";
 const BN_0 = 0n
 const BN_1 = 1n
 
-export interface Int<N extends number> {
+export interface IntN<N extends number = number> {
   readonly value: bigint
-  readonly bits: N
+  readonly bytes: N
 }
 
-export const Int = <N extends number>(bits: N) => {
+export const IntN = <N extends number = number>(bytes: N) => {
   const Int = class {
     get #class() { return Int }
 
-    static readonly bits = bits
+    static readonly bits = bytes * 8
 
-    static readonly bytes = bits / 8
+    static readonly bytes = bytes
 
     private constructor(
       readonly value: bigint
@@ -62,19 +62,18 @@ export const Int = <N extends number>(bits: N) => {
       })
     }
 
-    static tryRead(cursor: Cursor): Result<Int<N>, BinaryReadError> {
+    static tryRead(cursor: Cursor): Result<IntN<N>, BinaryReadError> {
       return Result.unthrowSync(t => {
         cursor.offset += 32 - Int.bytes
 
         const bytes = cursor.tryRead(Int.bytes).throw(t)
         const value = Bytes.toBigInt(bytes)
 
-        const bitsn = BigInt(bits)
-
-        const mask = (BN_1 << bitsn) - BN_1
+        const bits = BigInt(Int.bits)
+        const mask = (BN_1 << bits) - BN_1
         const masked = value & mask
 
-        if (masked >> (bitsn - BN_1)) {
+        if (masked >> (bits - BN_1)) {
           const signed = -(((~value) & mask) + BN_1)
 
           return new Ok(new Int(signed))
@@ -88,10 +87,10 @@ export const Int = <N extends number>(bits: N) => {
   return Int
 }
 
-export const Int8 = Int(8)
-export const Int16 = Int(16)
-export const Int32 = Int(32)
-export const Int64 = Int(64)
-export const Int128 = Int(128)
-export const Int160 = Int(160)
-export const Int256 = Int(256)
+export const Int8 = IntN(1)
+export const Int16 = IntN(2)
+export const Int32 = IntN(4)
+export const Int64 = IntN(8)
+export const Int128 = IntN(16)
+export const Int160 = IntN(20)
+export const Int256 = IntN(32)

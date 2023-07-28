@@ -3,18 +3,18 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 
-export interface Uint<N extends number> {
+export interface UintN<N extends number = number> {
   readonly value: bigint
-  readonly bits: N
+  readonly bytes: N
 }
 
-export const Uint = <N extends number>(bits: N) => {
+export const UintN = <N extends number = number>(bytes: N) => {
   const Uint = class {
     get #class() { return Uint }
 
-    static readonly bits = bits
+    static readonly bits = bytes * 8
 
-    static readonly bytes = bits / 8
+    static readonly bytes = bytes
 
     private constructor(
       readonly value: bigint
@@ -47,7 +47,7 @@ export const Uint = <N extends number>(bits: N) => {
       })
     }
 
-    static tryRead(cursor: Cursor): Result<Uint<N>, BinaryReadError> {
+    static tryRead(cursor: Cursor): Result<UintN<N>, BinaryReadError> {
       return Result.unthrowSync(t => {
         cursor.offset += 32 - Uint.bytes
 
@@ -62,10 +62,10 @@ export const Uint = <N extends number>(bits: N) => {
   return Uint
 }
 
-export const Uint8 = Uint(8)
-export const Uint16 = Uint(16)
-export const Uint32 = Uint(32)
-export const Uint64 = Uint(64)
-export const Uint128 = Uint(128)
-export const Uint160 = Uint(160)
-export const Uint256 = Uint(256)
+export const Uint8 = UintN(1)
+export const Uint16 = UintN(2)
+export const Uint32 = UintN(4)
+export const Uint64 = UintN(8)
+export const Uint128 = UintN(16)
+export const Uint160 = UintN(20)
+export const Uint256 = UintN(32)

@@ -1,1 +1,1 @@
-export * from "./abi/index.js";
+export * as Abi from "./abi/index.js";
