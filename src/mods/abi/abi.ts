@@ -12,8 +12,8 @@ export function tryEncode(...instances: Instance[]): Result<Uint8Array, Error> {
     let length = 0
     let offset = instances.length * 32
 
-    const head = new Array<Writable<Error, Error>>()
-    const body = new Array<Writable<Error, Error>>()
+    const head = new Array<Instance>()
+    const body = new Array<Instance>()
 
     for (const instance of instances) {
       const size = instance.trySize().throw(t)
