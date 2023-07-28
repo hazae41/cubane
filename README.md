@@ -1,6 +1,6 @@
 # Cubane
 
-Next-gen Ethereum for TypeScript
+Next-gen Ethereum library for TypeScript
 
 ## Features
 
