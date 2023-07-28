@@ -6,14 +6,14 @@ import { Bool, InvalidBoolValueError } from "./bool.js";
 
 test("bool true", async ({ message, test }) => {
   const value = true
-  const abi = new Bool(value)
+  const abi = Bool.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   console.log(message, value)
   console.log(message, Bytes.toHex(bytes))
 
-  const uint2 = Readable.tryReadFromBytes(Bool, bytes).unwrap()
-  const value2 = uint2.value
+  const abi2 = Readable.tryReadFromBytes(Bool, bytes).unwrap()
+  const value2 = abi2.value
 
   console.log(message, value2)
 
@@ -22,14 +22,14 @@ test("bool true", async ({ message, test }) => {
 
 test("bool false", async ({ message, test }) => {
   const value = false
-  const uint = new Bool(value)
-  const bytes = Writable.tryWriteToBytes(uint).unwrap()
+  const abi = Bool.new(value)
+  const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   console.log(message, value)
   console.log(message, Bytes.toHex(bytes))
 
-  const uint2 = Readable.tryReadFromBytes(Bool, bytes).unwrap()
-  const value2 = uint2.value
+  const abi2 = Readable.tryReadFromBytes(Bool, bytes).unwrap()
+  const value2 = abi2.value
 
   console.log(message, value2)
 

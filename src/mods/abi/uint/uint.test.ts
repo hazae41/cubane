@@ -1,18 +1,18 @@
 import { Readable, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { assert, test } from "@hazae41/phobos";
-import { Uint } from "./uint.js";
+import { Uint, Uint256, Uint32 } from "./uint.js";
 
 test("uint32", async ({ message, test }) => {
   const value = 123n
-  const uint = new (Uint(32))(value)
-  const bytes = Writable.tryWriteToBytes(uint).unwrap()
+  const abi = Uint32.new(value)
+  const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   console.log(message, value)
   console.log(message, Bytes.toHex(bytes))
 
-  const uint2 = Readable.tryReadFromBytes(Uint(32), bytes).unwrap()
-  const value2 = uint2.value
+  const abi2 = Readable.tryReadFromBytes(Uint(32), bytes).unwrap()
+  const value2 = abi2.value
 
   console.log(message, value2)
 
@@ -21,14 +21,14 @@ test("uint32", async ({ message, test }) => {
 
 test("uint256", async ({ message, test }) => {
   const value = Bytes.toBigInt(Bytes.random(32))
-  const uint = new (Uint(256))(value)
-  const bytes = Writable.tryWriteToBytes(uint).unwrap()
+  const abi = Uint256.new(value)
+  const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   console.log(message, value)
   console.log(message, Bytes.toHex(bytes))
 
-  const uint2 = Readable.tryReadFromBytes(Uint(256), bytes).unwrap()
-  const value2 = uint2.value
+  const abi2 = Readable.tryReadFromBytes(Uint(256), bytes).unwrap()
+  const value2 = abi2.value
 
   console.log(message, value2)
 
