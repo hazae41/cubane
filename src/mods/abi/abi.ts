@@ -1,8 +1,9 @@
 import { Readable, Writable } from "@hazae41/binary";
 import { Ok, Result } from "@hazae41/result";
-import { Instanced, createTuple, } from "./tuple/tuple.js";
+import { Function, createFunctionAndParams } from "./index.js";
+import { Instanced } from "./tuple/tuple.js";
 
-export interface Instance extends Writable<Error, Error> {
+export interface Instance extends Writable<never, Error> {
   readonly class: Factory<this>
   readonly dynamic?: boolean
 }
@@ -12,9 +13,9 @@ export interface Instance extends Writable<Error, Error> {
  * @param instances 
  * @returns 
  */
-export function tryEncode(...instances: Instance[]): Result<Uint8Array, Error> {
+export function tryEncode(fun: Function, ...instances: Instance[]): Result<Uint8Array, Error> {
   return Result.unthrowSync(t => {
-    const encoder = createTuple(...[] as any).tryNew(...instances).throw(t)
+    const encoder = createFunctionAndParams(...[] as any).new(fun, ...instances)
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)
@@ -32,5 +33,5 @@ export interface Factory<Output extends Instance = Instance> extends Readable<Ou
  * @returns 
  */
 export function tryDecode<T extends readonly Factory[]>(bytes: Uint8Array, ...types: T): Result<Instanced<T>, Error> {
-  return Readable.tryReadFromBytes(createTuple(...types), bytes).mapSync(x => x.inner)
+  return Readable.tryReadFromBytes(createFunctionAndParams(...types), bytes).mapSync(x => x.params.inner)
 }

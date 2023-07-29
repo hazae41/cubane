@@ -23,34 +23,32 @@ export const createTuple = <T extends readonly Factory[]>(...factories: T) => cl
     readonly size: number,
   ) { }
 
-  static tryNew(...instances: Instanced<T>): Result<Class, Error> {
-    return Result.unthrowSync(t => {
-      let length = 0
-      let offset = instances.length * 32
+  static new(...instances: Instanced<T>): Class {
+    let length = 0
+    let offset = instances.length * 32
 
-      const heads = new Array<Instance>()
-      const tails = new Array<Instance>()
+    const heads = new Array<Instance>()
+    const tails = new Array<Instance>()
 
-      for (const instance of instances) {
-        const size = instance.trySize().throw(t)
+    for (const instance of instances) {
+      const size = instance.trySize().get()
 
-        if (instance.dynamic) {
-          const pointer = Uint256.new(BigInt(offset))
+      if (instance.dynamic) {
+        const pointer = Uint256.new(BigInt(offset))
 
-          heads.push(pointer)
-          length += 32
+        heads.push(pointer)
+        length += 32
 
-          tails.push(instance)
-          length += size
-          offset += size
-        } else {
-          heads.push(instance)
-          length += size
-        }
+        tails.push(instance)
+        length += size
+        offset += size
+      } else {
+        heads.push(instance)
+        length += size
       }
+    }
 
-      return new Ok(new Class(instances, heads, tails, length))
-    })
+    return new Class(instances, heads, tails, length)
   }
 
   get class() {
@@ -98,8 +96,9 @@ export const createTuple = <T extends readonly Factory[]>(...factories: T) => cl
         }
       }
 
-      cursor.offset = Math.max(cursor.offset, subcursor.offset)
-      const size = cursor.offset - start
+      const size = Math.max(cursor.offset - start, subcursor.offset)
+
+      cursor.offset = start + size
 
       return new Ok(new Class(inner as Instanced<T>, heads, tails, size))
     })
