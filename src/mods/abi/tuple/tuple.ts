@@ -4,16 +4,16 @@ import { Ok, Result } from "@hazae41/result";
 import { Factory, Instance } from "../abi.js";
 import { Uint256 } from "../uint/uint.js";
 
-export type Instanced<Tuple extends [...Factory[]]> = {
+export type Instanced<Tuple extends readonly Factory[]> = {
   [Index in keyof Tuple]: Readable.ReadOutput<Tuple[Index]>
-} & { length: Tuple["length"] }
+}
 
-export interface Tuple<T extends Factory[]> extends Writable<never, Error> {
+export interface Tuple<T extends readonly Factory[]> extends Writable<never, Error> {
   readonly class: Factory<Tuple<T>>
   readonly inner: Instanced<T>
 }
 
-export const createTuple = <T extends Factory[]>(factories: T) => class Class {
+export const createTuple = <T extends readonly Factory[]>(factories: T) => class Class {
   readonly #class = Class
 
   private constructor(
@@ -77,7 +77,7 @@ export const createTuple = <T extends Factory[]>(factories: T) => class Class {
 
       const subcursor = new Cursor(cursor.after)
 
-      const inner = new Array<Instance>() as Instanced<T>
+      const inner = new Array<Instance>()
       const heads = new Array<Instance>()
       const tails = new Array<Instance>()
 
@@ -101,7 +101,7 @@ export const createTuple = <T extends Factory[]>(factories: T) => class Class {
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
       const size = cursor.offset - start
 
-      return new Ok(new Class(inner, heads, tails, size))
+      return new Ok(new Class(inner as Instanced<T>, heads, tails, size))
     })
   }
 

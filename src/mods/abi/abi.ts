@@ -3,12 +3,12 @@ import { Ok, Result } from "@hazae41/result";
 import { Instanced, createTuple, } from "./tuple/tuple.js";
 
 export interface Instance extends Writable<Error, Error> {
-  readonly class: Factory
+  readonly class: Factory<this>
   readonly dynamic?: boolean
 }
 
 /**
- * Shorthand for creating a new writable and writing some bytes
+ * Shorthand for creating a new tuple and writing some bytes
  * @param instances 
  * @returns 
  */
@@ -26,7 +26,7 @@ export interface Factory<Output extends Instance = Instance> extends Readable<Ou
 }
 
 /**
- * Shorthand for creating a new readable and reading some bytes
+ * Shorthand for creating a new tuple and reading some bytes
  * @param bytes 
  * @param types 
  * @returns 
@@ -34,3 +34,4 @@ export interface Factory<Output extends Instance = Instance> extends Readable<Ou
 export function tryDecode<T extends Factory[]>(bytes: Uint8Array, ...types: T): Result<Instanced<T>, Error> {
   return Readable.tryReadFromBytes(createTuple(types), bytes).mapSync(x => x.inner)
 }
+
