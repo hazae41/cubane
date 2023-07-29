@@ -5,7 +5,7 @@ import { Factory, Instance } from "../abi.js";
 import { Uint256 } from "../uint/uint.js";
 
 export type Instanced<Tuple extends readonly Factory[]> = {
-  readonly [Index in keyof Tuple]: Readable.ReadOutput<Tuple[Index]>
+  [Index in keyof Tuple]: Readable.ReadOutput<Tuple[Index]>
 }
 
 export interface Tuple<T extends readonly Factory[]> extends Writable<never, Error> {

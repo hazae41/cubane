@@ -31,6 +31,6 @@ export interface Factory<Output extends Instance = Instance> extends Readable<Ou
  * @param types 
  * @returns 
  */
-export function tryDecode<T extends Factory[]>(bytes: Uint8Array, ...types: T): Result<Instanced<T>, Error> {
+export function tryDecode<T extends readonly Factory[]>(bytes: Uint8Array, ...types: T): Result<Instanced<T>, Error> {
   return Readable.tryReadFromBytes(createTuple(...types), bytes).mapSync(x => x.inner)
 }
