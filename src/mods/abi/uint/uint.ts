@@ -4,14 +4,14 @@ import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { Factory } from "../abi.js";
 
-export interface UintN<N extends number = number> extends Writable<never, BinaryWriteError> {
-  readonly class: Factory<UintN<N>>
+export interface Uint<N extends number = number> extends Writable<never, BinaryWriteError> {
+  readonly class: Factory<Uint<N>>
   readonly value: bigint
   readonly bytes: N
 }
 
-export const UintN = <N extends number = number>(bytes: N) => class Uint {
-  readonly #class = Uint
+export const createUint = <N extends number = number>(bytes: N) => class Class {
+  readonly #class = Class
 
   static readonly bits = bytes * 8
 
@@ -22,7 +22,7 @@ export const UintN = <N extends number = number>(bytes: N) => class Uint {
   ) { }
 
   static new(value: bigint) {
-    return new Uint(value)
+    return new Class(value)
   }
 
   get class() {
@@ -52,22 +52,22 @@ export const UintN = <N extends number = number>(bytes: N) => class Uint {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<UintN<N>, BinaryReadError> {
+  static tryRead(cursor: Cursor): Result<Uint<N>, BinaryReadError> {
     return Result.unthrowSync(t => {
-      cursor.offset += 32 - Uint.bytes
+      cursor.offset += 32 - Class.bytes
 
-      const bytes = cursor.tryRead(Uint.bytes).throw(t)
+      const bytes = cursor.tryRead(Class.bytes).throw(t)
       const value = Bytes.toBigInt(bytes)
 
-      return new Ok(new Uint(value))
+      return new Ok(new Class(value))
     })
   }
 }
 
-export const Uint8 = UintN(1)
-export const Uint16 = UintN(2)
-export const Uint32 = UintN(4)
-export const Uint64 = UintN(8)
-export const Uint128 = UintN(16)
-export const Uint160 = UintN(20)
-export const Uint256 = UintN(32)
+export const Uint8 = createUint(1)
+export const Uint16 = createUint(2)
+export const Uint32 = createUint(4)
+export const Uint64 = createUint(8)
+export const Uint128 = createUint(16)
+export const Uint160 = createUint(20)
+export const Uint256 = createUint(32)

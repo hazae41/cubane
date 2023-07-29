@@ -1,6 +1,6 @@
 import { Readable, Writable } from "@hazae41/binary";
 import { Ok, Result } from "@hazae41/result";
-import { Tuple } from "./tuple/tuple.js";
+import { Instanced, createTuple, } from "./tuple/tuple.js";
 
 export interface Instance extends Writable<Error, Error> {
   readonly class: Factory
@@ -14,7 +14,7 @@ export interface Instance extends Writable<Error, Error> {
  */
 export function tryEncode(...instances: Instance[]): Result<Uint8Array, Error> {
   return Result.unthrowSync(t => {
-    const encoder = Tuple([]).tryNew(instances).throw(t)
+    const encoder = createTuple([] as any).tryNew(instances).throw(t)
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)
@@ -31,6 +31,6 @@ export interface Factory<Output extends Instance = Instance> extends Readable<Ou
  * @param types 
  * @returns 
  */
-export function tryDecode(bytes: Uint8Array, ...types: Factory[]): Result<Instance[], Error> {
-  return Readable.tryReadFromBytes(Tuple(types), bytes).mapSync(x => x.inner)
+export function tryDecode<T extends Factory[]>(bytes: Uint8Array, ...types: T): Result<Instanced<T>, Error> {
+  return Readable.tryReadFromBytes(createTuple(types), bytes).mapSync(x => x.inner)
 }

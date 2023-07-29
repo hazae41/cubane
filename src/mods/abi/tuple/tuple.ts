@@ -1,19 +1,29 @@
+import { Readable, Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { Factory, Instance } from "../abi.js";
 import { Uint256 } from "../uint/uint.js";
 
-export const Tuple = (factories: Factory[]) => class Tuple {
-  readonly #class = Tuple
+export type Instanced<Tuple extends [...Factory[]]> = {
+  [Index in keyof Tuple]: Readable.ReadOutput<Tuple[Index]>;
+} & { length: Tuple['length'] }
+
+export interface Tuple<T extends Factory[]> extends Writable<never, Error> {
+  readonly class: Factory<Tuple<T>>
+  readonly inner: Instanced<T>
+}
+
+export const createTuple = <T extends Factory[]>(factories: T) => class Class {
+  readonly #class = Class
 
   private constructor(
-    readonly inner: Instance[],
+    readonly inner: Instanced<T>,
     readonly heads: Instance[],
     readonly tails: Instance[],
     readonly size: number,
   ) { }
 
-  static tryNew(instances: Instance[]): Result<Tuple, Error> {
+  static tryNew(instances: Instanced<T>): Result<Class, Error> {
     return Result.unthrowSync(t => {
       let length = 0
       let offset = instances.length * 32
@@ -39,7 +49,7 @@ export const Tuple = (factories: Factory[]) => class Tuple {
         }
       }
 
-      return new Ok(new Tuple(instances, heads, tails, length))
+      return new Ok(new Class(instances, heads, tails, length))
     })
   }
 
@@ -61,13 +71,13 @@ export const Tuple = (factories: Factory[]) => class Tuple {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<Tuple, Error> {
+  static tryRead(cursor: Cursor): Result<Tuple<T>, Error> {
     return Result.unthrowSync(t => {
       const start = cursor.offset
 
       const subcursor = new Cursor(cursor.after)
 
-      const inner = new Array<Instance>()
+      const inner = new Array<Instance>() as Instanced<T>
       const heads = new Array<Instance>()
       const tails = new Array<Instance>()
 
@@ -91,7 +101,7 @@ export const Tuple = (factories: Factory[]) => class Tuple {
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
       const size = cursor.offset - start
 
-      return new Ok(new Tuple(inner, heads, tails, size))
+      return new Ok(new Class(inner, heads, tails, size))
     })
   }
 

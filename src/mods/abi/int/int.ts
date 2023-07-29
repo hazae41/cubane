@@ -7,14 +7,14 @@ import { Factory } from "../abi.js";
 const BN_0 = 0n
 const BN_1 = 1n
 
-export interface IntN<N extends number = number> extends Writable<never, BinaryWriteError> {
-  readonly class: Factory<IntN<N>>
+export interface Int<N extends number = number> extends Writable<never, BinaryWriteError> {
+  readonly class: Factory<Int<N>>
   readonly value: bigint
   readonly bytes: N
 }
 
-export const IntN = <N extends number = number>(bytes: N) => class Int {
-  readonly #class = Int
+export const createInt = <N extends number = number>(bytes: N) => class Class {
+  readonly #class = Class
 
   static readonly bits = bytes * 8
 
@@ -25,7 +25,7 @@ export const IntN = <N extends number = number>(bytes: N) => class Int {
   ) { }
 
   static new(value: bigint) {
-    return new Int(value)
+    return new Class(value)
   }
 
   get class() {
@@ -67,32 +67,32 @@ export const IntN = <N extends number = number>(bytes: N) => class Int {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<IntN<N>, BinaryReadError> {
+  static tryRead(cursor: Cursor): Result<Int<N>, BinaryReadError> {
     return Result.unthrowSync(t => {
-      cursor.offset += 32 - Int.bytes
+      cursor.offset += 32 - Class.bytes
 
-      const bytes = cursor.tryRead(Int.bytes).throw(t)
+      const bytes = cursor.tryRead(Class.bytes).throw(t)
       const value = Bytes.toBigInt(bytes)
 
-      const bits = BigInt(Int.bits)
+      const bits = BigInt(Class.bits)
       const mask = (BN_1 << bits) - BN_1
       const masked = value & mask
 
       if (masked >> (bits - BN_1)) {
         const signed = -(((~value) & mask) + BN_1)
 
-        return new Ok(new Int(signed))
+        return new Ok(new Class(signed))
       }
 
-      return new Ok(new Int(value))
+      return new Ok(new Class(value))
     })
   }
 }
 
-export const Int8 = IntN(1)
-export const Int16 = IntN(2)
-export const Int32 = IntN(4)
-export const Int64 = IntN(8)
-export const Int128 = IntN(16)
-export const Int160 = IntN(20)
-export const Int256 = IntN(32)
+export const Int8 = createInt(1)
+export const Int16 = createInt(2)
+export const Int32 = createInt(4)
+export const Int64 = createInt(8)
+export const Int128 = createInt(16)
+export const Int160 = createInt(20)
+export const Int256 = createInt(32)

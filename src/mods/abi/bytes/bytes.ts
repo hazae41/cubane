@@ -3,13 +3,13 @@ import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { Uint256 } from "../uint/uint.js";
 
-export interface BytesN<N extends number = number> extends Writable<never, BinaryWriteError> {
+export interface StaticBytes<N extends number = number> extends Writable<never, BinaryWriteError> {
   readonly value: Uint8Array
   readonly bytes: N
 }
 
-export const BytesN = <N extends number = number>(bytes: N) => class Bytes {
-  readonly #class = Bytes
+export const createStaticBytes = <N extends number = number>(bytes: N) => class Class {
+  readonly #class = Class
 
   static readonly bytes = bytes
 
@@ -20,7 +20,7 @@ export const BytesN = <N extends number = number>(bytes: N) => class Bytes {
   ) { }
 
   static new(value: Uint8Array & { length: N }) {
-    return new Bytes(value)
+    return new Class(value)
   }
 
   get class() {
@@ -48,28 +48,28 @@ export const BytesN = <N extends number = number>(bytes: N) => class Bytes {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<BytesN<N>, BinaryReadError> {
+  static tryRead(cursor: Cursor): Result<StaticBytes<N>, BinaryReadError> {
     return Result.unthrowSync(t => {
-      const bytes = cursor.tryRead(Bytes.bytes).throw(t)
+      const bytes = cursor.tryRead(Class.bytes).throw(t)
 
-      cursor.offset += 32 - Bytes.bytes
+      cursor.offset += 32 - Class.bytes
 
-      return new Ok(new Bytes(bytes))
+      return new Ok(new Class(bytes))
     })
   }
 
 }
 
-export const Bytes8 = BytesN(1)
-export const Bytes16 = BytesN(2)
-export const Bytes32 = BytesN(4)
-export const Bytes64 = BytesN(8)
-export const Bytes128 = BytesN(16)
-export const Bytes160 = BytesN(20)
-export const Bytes256 = BytesN(32)
+export const Bytes8 = createStaticBytes(1)
+export const Bytes16 = createStaticBytes(2)
+export const Bytes32 = createStaticBytes(4)
+export const Bytes64 = createStaticBytes(8)
+export const Bytes128 = createStaticBytes(16)
+export const Bytes160 = createStaticBytes(20)
+export const Bytes256 = createStaticBytes(32)
 
-export class Bytes<N extends number = number> {
-  readonly #class = Bytes
+export class DynamicBytes<N extends number = number> {
+  readonly #class = DynamicBytes
 
   static readonly dynamic = true as const
 
@@ -78,7 +78,7 @@ export class Bytes<N extends number = number> {
   ) { }
 
   static new<N extends number>(value: Uint8Array & { length: N }) {
-    return new Bytes(value)
+    return new DynamicBytes(value)
   }
 
   get class() {
@@ -106,7 +106,7 @@ export class Bytes<N extends number = number> {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<Bytes<number>, BinaryReadError> {
+  static tryRead(cursor: Cursor): Result<DynamicBytes<number>, BinaryReadError> {
     return Result.unthrowSync(t => {
       const length = Uint256.tryRead(cursor).throw(t)
       const bytes = cursor.tryRead(Number(length.value)).throw(t)
@@ -114,7 +114,7 @@ export class Bytes<N extends number = number> {
 
       cursor.offset += size - 32 - bytes.length
 
-      return new Ok(new Bytes(bytes))
+      return new Ok(new DynamicBytes(bytes))
     })
   }
 

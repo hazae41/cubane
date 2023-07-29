@@ -2,7 +2,7 @@ import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
 import { Bytes as LibBytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Result } from "@hazae41/result";
-import { Bytes as AbiBytes } from "mods/abi/bytes/bytes.js";
+import { DynamicBytes as AbiBytes } from "mods/abi/bytes/bytes.js";
 
 export class String {
   readonly #class = String
