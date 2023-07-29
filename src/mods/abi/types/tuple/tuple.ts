@@ -1,7 +1,8 @@
 import { Readable, Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
-import { Factory, Instance } from "../abi.js";
+import { DecodingError } from "mods/abi/errors/errors.js";
+import { Factory, Instance } from "../../abi.js";
 import { Uint256 } from "../uint/uint.js";
 
 export type Instanced<Tuple extends readonly Factory[]> = {
@@ -69,7 +70,7 @@ export const createTuple = <T extends readonly Factory[]>(...factories: T) => cl
     })
   }
 
-  static tryRead(cursor: Cursor): Result<Tuple<T>, Error> {
+  static tryRead(cursor: Cursor): Result<Tuple<T>, DecodingError> {
     return Result.unthrowSync(t => {
       const start = cursor.offset
 

@@ -2,7 +2,7 @@ import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
-import { Factory } from "../abi.js";
+import { Factory } from "mods/abi/abi.js";
 
 const BN_0 = 0n
 const BN_1 = 1n

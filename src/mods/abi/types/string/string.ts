@@ -2,7 +2,7 @@ import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Result } from "@hazae41/result";
-import { DynamicBytes } from "mods/abi/bytes/bytes.js";
+import { DynamicBytes } from "../bytes/bytes.js";
 
 export class DynamicString {
   readonly #class = DynamicString

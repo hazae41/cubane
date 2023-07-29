@@ -2,8 +2,18 @@ import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
-import { Factory } from "../abi.js";
+import { DecodingError } from "index.test.js";
+import { Factory } from "mods/abi/abi.js";
 import { Instanced, Tuple, createTuple } from "../tuple/tuple.js";
+
+export class InvalidFunctionSelector extends Error {
+  readonly #class = InvalidFunctionSelector
+  readonly name = this.#class.name
+
+  constructor() {
+    super(`Invalid function selector`)
+  }
+}
 
 export class FunctionSelector {
   readonly #class = FunctionSelector
@@ -71,7 +81,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
     })
   }
 
-  static tryRead(cursor: Cursor): Result<FunctionSelectorAndArguments<T>, Error> {
+  static tryRead(cursor: Cursor): Result<FunctionSelectorAndArguments<T>, DecodingError> {
     return Result.unthrowSync(t => {
       const func = FunctionSelector.tryRead(cursor).throw(t)
       const args = Class.Tuple.tryRead(cursor).throw(t)
