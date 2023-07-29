@@ -5,7 +5,7 @@ import { Factory, Instance } from "../abi.js";
 import { Uint256 } from "../uint/uint.js";
 
 export type Instanced<Tuple extends readonly Factory[]> = {
-  [Index in keyof Tuple]: Readable.ReadOutput<Tuple[Index]>
+  readonly [Index in keyof Tuple]: Readable.ReadOutput<Tuple[Index]>
 }
 
 export interface Tuple<T extends readonly Factory[]> extends Writable<never, Error> {
@@ -13,7 +13,7 @@ export interface Tuple<T extends readonly Factory[]> extends Writable<never, Err
   readonly inner: Instanced<T>
 }
 
-export const createTuple = <T extends readonly Factory[]>(factories: T) => class Class {
+export const createTuple = <T extends readonly Factory[]>(...factories: T) => class Class {
   readonly #class = Class
 
   private constructor(
@@ -23,7 +23,7 @@ export const createTuple = <T extends readonly Factory[]>(factories: T) => class
     readonly size: number,
   ) { }
 
-  static tryNew(instances: Instanced<T>): Result<Class, Error> {
+  static tryNew(...instances: Instanced<T>): Result<Class, Error> {
     return Result.unthrowSync(t => {
       let length = 0
       let offset = instances.length * 32

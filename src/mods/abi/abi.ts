@@ -14,7 +14,7 @@ export interface Instance extends Writable<Error, Error> {
  */
 export function tryEncode(...instances: Instance[]): Result<Uint8Array, Error> {
   return Result.unthrowSync(t => {
-    const encoder = createTuple([] as any).tryNew(instances).throw(t)
+    const encoder = createTuple(...[] as any).tryNew(...instances).throw(t)
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)
@@ -32,6 +32,5 @@ export interface Factory<Output extends Instance = Instance> extends Readable<Ou
  * @returns 
  */
 export function tryDecode<T extends Factory[]>(bytes: Uint8Array, ...types: T): Result<Instanced<T>, Error> {
-  return Readable.tryReadFromBytes(createTuple(types), bytes).mapSync(x => x.inner)
+  return Readable.tryReadFromBytes(createTuple(...types), bytes).mapSync(x => x.inner)
 }
-
