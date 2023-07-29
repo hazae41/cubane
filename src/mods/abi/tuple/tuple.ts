@@ -5,8 +5,8 @@ import { Factory, Instance } from "../abi.js";
 import { Uint256 } from "../uint/uint.js";
 
 export type Instanced<Tuple extends [...Factory[]]> = {
-  [Index in keyof Tuple]: Readable.ReadOutput<Tuple[Index]>;
-} & { length: Tuple['length'] }
+  [Index in keyof Tuple]: Readable.ReadOutput<Tuple[Index]>
+} & { length: Tuple["length"] }
 
 export interface Tuple<T extends Factory[]> extends Writable<never, Error> {
   readonly class: Factory<Tuple<T>>
