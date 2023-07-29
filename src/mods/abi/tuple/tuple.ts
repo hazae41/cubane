@@ -3,15 +3,17 @@ import { Ok, Result } from "@hazae41/result";
 import { Factory, Instance } from "../abi.js";
 import { Uint256 } from "../uint/uint.js";
 
-export class WritableTuple {
+export const Tuple = (factories: Factory[]) => class Tuple {
+  readonly #class = Tuple
 
   private constructor(
+    readonly inner: Instance[],
     readonly heads: Instance[],
     readonly tails: Instance[],
     readonly size: number,
   ) { }
 
-  static tryNew(instances: Instance[]): Result<WritableTuple, Error> {
+  static tryNew(instances: Instance[]): Result<Tuple, Error> {
     return Result.unthrowSync(t => {
       let length = 0
       let offset = instances.length * 32
@@ -37,8 +39,12 @@ export class WritableTuple {
         }
       }
 
-      return new Ok(new WritableTuple(heads, tails, length))
+      return new Ok(new Tuple(instances, heads, tails, length))
     })
+  }
+
+  get class() {
+    return this.#class
   }
 
   trySize(): Result<number, never> {
@@ -55,36 +61,37 @@ export class WritableTuple {
     })
   }
 
-}
-
-export class ReadableTuple {
-
-  private constructor(
-    readonly types: Factory[]
-  ) { }
-
-  static tryNew(types: Factory[]) {
-    return new Ok(new ReadableTuple(types))
-  }
-
-  tryRead(cursor: Cursor): Result<Instance[], Error> {
+  static tryRead(cursor: Cursor): Result<Tuple, Error> {
     return Result.unthrowSync(t => {
-      const subcursor = new Cursor(cursor.after)
-      const result = new Array<Instance>()
+      const start = cursor.offset
 
-      for (const type of this.types) {
-        if (type.dynamic) {
+      const subcursor = new Cursor(cursor.after)
+
+      const inner = new Array<Instance>()
+      const heads = new Array<Instance>()
+      const tails = new Array<Instance>()
+
+      for (const factory of factories) {
+        if (factory.dynamic) {
           const pointer = Uint256.tryRead(cursor).throw(t)
+          heads.push(pointer)
+
           subcursor.offset = Number(pointer.value)
-          result.push(type.tryRead(subcursor).throw(t))
+          const instance = factory.tryRead(subcursor).throw(t)
+
+          inner.push(instance)
+          tails.push(instance)
         } else {
-          result.push(type.tryRead(cursor).throw(t))
+          const instance = factory.tryRead(cursor).throw(t)
+          inner.push(instance)
+          heads.push(instance)
         }
       }
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
+      const size = cursor.offset - start
 
-      return new Ok(result)
+      return new Ok(new Tuple(inner, heads, tails, size))
     })
   }
 

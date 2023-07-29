@@ -1,9 +1,10 @@
 import { Readable, Writable } from "@hazae41/binary";
 import { Ok, Result } from "@hazae41/result";
-import { ReadableTuple, WritableTuple } from "./tuple/tuple.js";
+import { Tuple } from "./tuple/tuple.js";
 
 export interface Instance extends Writable<Error, Error> {
-  dynamic?: boolean
+  readonly class: Factory
+  readonly dynamic?: boolean
 }
 
 /**
@@ -13,15 +14,15 @@ export interface Instance extends Writable<Error, Error> {
  */
 export function tryEncode(...instances: Instance[]): Result<Uint8Array, Error> {
   return Result.unthrowSync(t => {
-    const encoder = WritableTuple.tryNew(instances).throw(t)
+    const encoder = Tuple([]).tryNew(instances).throw(t)
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)
   })
 }
 
-export interface Factory extends Readable<Instance, Error> {
-  dynamic?: boolean
+export interface Factory<Output extends Instance = Instance> extends Readable<Output, Error> {
+  readonly dynamic?: boolean
 }
 
 /**
@@ -31,10 +32,5 @@ export interface Factory extends Readable<Instance, Error> {
  * @returns 
  */
 export function tryDecode(bytes: Uint8Array, ...types: Factory[]): Result<Instance[], Error> {
-  return Result.unthrowSync(t => {
-    const decoder = ReadableTuple.tryNew(types).throw(t)
-    const instances = Readable.tryReadFromBytes(decoder, bytes).throw(t)
-
-    return new Ok(instances)
-  })
+  return Readable.tryReadFromBytes(Tuple(types), bytes).mapSync(x => x.inner)
 }

@@ -2,89 +2,91 @@ import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
+import { Factory } from "../abi.js";
 
 const BN_0 = 0n
 const BN_1 = 1n
 
 export interface IntN<N extends number = number> extends Writable<never, BinaryWriteError> {
+  readonly class: Factory<IntN<N>>
   readonly value: bigint
   readonly bytes: N
 }
 
-export const IntN = <N extends number = number>(bytes: N) => {
-  const Int = class {
-    get #class() { return Int }
+export const IntN = <N extends number = number>(bytes: N) => class Int {
+  readonly #class = Int
 
-    static readonly bits = bytes * 8
+  static readonly bits = bytes * 8
 
-    static readonly bytes = bytes
+  static readonly bytes = bytes
 
-    private constructor(
-      readonly value: bigint
-    ) { }
+  private constructor(
+    readonly value: bigint
+  ) { }
 
-    static new(value: bigint) {
-      return new Int(value)
-    }
+  static new(value: bigint) {
+    return new Int(value)
+  }
 
-    get bits() {
-      return this.#class.bits
-    }
+  get class() {
+    return this.#class
+  }
 
-    get bytes() {
-      return this.#class.bytes
-    }
+  get bits() {
+    return this.#class.bits
+  }
 
-    trySize(): Result<number, never> {
-      return new Ok(32)
-    }
+  get bytes() {
+    return this.#class.bytes
+  }
 
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        if (this.value < BN_0) {
-          let value = -this.value
-          const mask = (BN_1 << 256n) - BN_1
-          value = ((~value) & mask) + BN_1
+  trySize(): Result<number, never> {
+    return new Ok(32)
+  }
 
-          const bytes = Bytes.fromBigInt(value)
+  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
+    return Result.unthrowSync(t => {
+      if (this.value < BN_0) {
+        let value = -this.value
+        const mask = (BN_1 << 256n) - BN_1
+        value = ((~value) & mask) + BN_1
 
-          cursor.tryWrite(bytes).throw(t)
+        const bytes = Bytes.fromBigInt(value)
 
-          return Ok.void()
-        }
-
-        const bytes = Bytes.fromBigInt(this.value)
-
-        cursor.fill(0, 32 - bytes.length)
         cursor.tryWrite(bytes).throw(t)
 
         return Ok.void()
-      })
-    }
+      }
 
-    static tryRead(cursor: Cursor): Result<IntN<N>, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        cursor.offset += 32 - Int.bytes
+      const bytes = Bytes.fromBigInt(this.value)
 
-        const bytes = cursor.tryRead(Int.bytes).throw(t)
-        const value = Bytes.toBigInt(bytes)
+      cursor.fill(0, 32 - bytes.length)
+      cursor.tryWrite(bytes).throw(t)
 
-        const bits = BigInt(Int.bits)
-        const mask = (BN_1 << bits) - BN_1
-        const masked = value & mask
-
-        if (masked >> (bits - BN_1)) {
-          const signed = -(((~value) & mask) + BN_1)
-
-          return new Ok(new Int(signed))
-        }
-
-        return new Ok(new Int(value))
-      })
-    }
+      return Ok.void()
+    })
   }
 
-  return Int
+  static tryRead(cursor: Cursor): Result<IntN<N>, BinaryReadError> {
+    return Result.unthrowSync(t => {
+      cursor.offset += 32 - Int.bytes
+
+      const bytes = cursor.tryRead(Int.bytes).throw(t)
+      const value = Bytes.toBigInt(bytes)
+
+      const bits = BigInt(Int.bits)
+      const mask = (BN_1 << bits) - BN_1
+      const masked = value & mask
+
+      if (masked >> (bits - BN_1)) {
+        const signed = -(((~value) & mask) + BN_1)
+
+        return new Ok(new Int(signed))
+      }
+
+      return new Ok(new Int(value))
+    })
+  }
 }
 
 export const Int8 = IntN(1)

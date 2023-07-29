@@ -4,6 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 
 export class Address {
+  readonly #class = Address
 
   private constructor(
     /**
@@ -14,6 +15,10 @@ export class Address {
 
   static new(value: string) {
     return new Address(value)
+  }
+
+  get class() {
+    return this.#class
   }
 
   trySize(): Result<number, never> {

@@ -21,6 +21,10 @@ export class String {
     return new String(value)
   }
 
+  get class() {
+    return this.#class
+  }
+
   get dynamic() {
     return this.#class.dynamic
   }

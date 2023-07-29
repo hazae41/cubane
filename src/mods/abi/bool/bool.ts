@@ -15,6 +15,7 @@ export class InvalidBoolValueError extends Error {
 }
 
 export class Bool {
+  readonly #class = Bool
 
   private constructor(
     readonly value: boolean
@@ -22,6 +23,10 @@ export class Bool {
 
   static new(value: boolean) {
     return new Bool(value)
+  }
+
+  get class() {
+    return this.#class
   }
 
   trySize(): Result<number, never> {

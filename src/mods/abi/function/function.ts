@@ -4,6 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 
 export class Function {
+  readonly #class = Function
 
   private constructor(
     readonly value: Bytes<4>
@@ -11,6 +12,10 @@ export class Function {
 
   static new(value: Bytes<4>) {
     return new Function(value)
+  }
+
+  get class() {
+    return this.#class
   }
 
   trySize(): Result<number, never> {

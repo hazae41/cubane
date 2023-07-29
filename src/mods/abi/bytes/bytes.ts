@@ -8,56 +8,56 @@ export interface BytesN<N extends number = number> extends Writable<never, Binar
   readonly bytes: N
 }
 
-export const BytesN = <N extends number = number>(bytes: N) => {
-  const Bytes = class {
-    get #class() { return Bytes }
+export const BytesN = <N extends number = number>(bytes: N) => class Bytes {
+  readonly #class = Bytes
 
-    static readonly bytes = bytes
+  static readonly bytes = bytes
 
-    static readonly bits = bytes * 8
+  static readonly bits = bytes * 8
 
-    private constructor(
-      readonly value: Uint8Array & { length: N }
-    ) { }
+  private constructor(
+    readonly value: Uint8Array & { length: N }
+  ) { }
 
-    static new(value: Uint8Array & { length: N }) {
-      return new Bytes(value)
-    }
-
-    get bits() {
-      return this.#class.bits
-    }
-
-    get bytes() {
-      return this.#class.bytes
-    }
-
-    trySize(): Result<number, never> {
-      return new Ok(32)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
-    }
-
-    static tryRead(cursor: Cursor): Result<BytesN<N>, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes.bytes
-
-        return new Ok(new Bytes(bytes))
-      })
-    }
-
+  static new(value: Uint8Array & { length: N }) {
+    return new Bytes(value)
   }
 
-  return Bytes
+  get class() {
+    return this.#class
+  }
+
+  get bits() {
+    return this.#class.bits
+  }
+
+  get bytes() {
+    return this.#class.bytes
+  }
+
+  trySize(): Result<number, never> {
+    return new Ok(32)
+  }
+
+  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
+    return Result.unthrowSync(t => {
+      cursor.tryWrite(this.value).throw(t)
+      cursor.fill(0, 32 - this.value.length)
+
+      return Ok.void()
+    })
+  }
+
+  static tryRead(cursor: Cursor): Result<BytesN<N>, BinaryReadError> {
+    return Result.unthrowSync(t => {
+      const bytes = cursor.tryRead(Bytes.bytes).throw(t)
+
+      cursor.offset += 32 - Bytes.bytes
+
+      return new Ok(new Bytes(bytes))
+    })
+  }
+
 }
 
 export const Bytes8 = BytesN(1)
@@ -79,6 +79,10 @@ export class Bytes<N extends number = number> {
 
   static new<N extends number>(value: Uint8Array & { length: N }) {
     return new Bytes(value)
+  }
+
+  get class() {
+    return this.#class
   }
 
   get dynamic() {
