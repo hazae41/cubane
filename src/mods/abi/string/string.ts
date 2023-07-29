@@ -2,23 +2,20 @@ import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Result } from "@hazae41/result";
-import { DynamicBytes as AbiBytes, DynamicBytes } from "mods/abi/bytes/bytes.js";
+import { DynamicBytes } from "mods/abi/bytes/bytes.js";
 
-export class String {
-  readonly #class = String
+export class DynamicString {
+  readonly #class = DynamicString
 
   static readonly dynamic = true as const
 
-  readonly inner: AbiBytes
-
   private constructor(
-    readonly value: string
-  ) {
-    this.inner = DynamicBytes.new(Bytes.fromUtf8(value))
-  }
+    readonly value: string,
+    readonly inner: DynamicBytes
+  ) { }
 
   static new(value: string) {
-    return new String(value)
+    return new DynamicString(value, DynamicBytes.new(Bytes.fromUtf8(value)))
   }
 
   get class() {
@@ -37,8 +34,8 @@ export class String {
     return this.inner.tryWrite(cursor)
   }
 
-  static tryRead(cursor: Cursor): Result<String, BinaryReadError> {
-    return DynamicBytes.tryRead(cursor).mapSync(x => new String(Bytes.toUtf8(x.value)))
+  static tryRead(cursor: Cursor): Result<DynamicString, BinaryReadError> {
+    return DynamicBytes.tryRead(cursor).mapSync(x => new DynamicString(Bytes.toUtf8(x.value), DynamicBytes.new(x.value)))
   }
 
 }

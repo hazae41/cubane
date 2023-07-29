@@ -5,15 +5,15 @@ import { Ok, Result } from "@hazae41/result";
 import { Factory } from "../abi.js";
 import { Instanced, Tuple, createTuple } from "../tuple/tuple.js";
 
-export class Function {
-  readonly #class = Function
+export class FunctionSelector {
+  readonly #class = FunctionSelector
 
   private constructor(
     readonly value: Bytes<4>
   ) { }
 
   static new(value: Bytes<4>) {
-    return new Function(value)
+    return new FunctionSelector(value)
   }
 
   get class() {
@@ -28,29 +28,29 @@ export class Function {
     return cursor.tryWrite(this.value)
   }
 
-  static tryRead(cursor: Cursor): Result<Function, BinaryReadError> {
-    return cursor.tryRead(4).mapSync(Function.new)
+  static tryRead(cursor: Cursor): Result<FunctionSelector, BinaryReadError> {
+    return cursor.tryRead(4).mapSync(FunctionSelector.new)
   }
 
 }
 
-export interface FunctionAndParameters<T extends readonly Factory[]> extends Writable<never, Error> {
-  readonly class: Factory<FunctionAndParameters<T>>
-  readonly inner: Function,
-  readonly params: Tuple<T>
+export interface FunctionSelectorAndArguments<T extends readonly Factory[]> extends Writable<never, Error> {
+  readonly class: Factory<FunctionSelectorAndArguments<T>>
+  readonly func: FunctionSelector,
+  readonly args: Tuple<T>
 }
 
-export const createFunctionAndParams = <T extends readonly Factory[]>(...factories: T) => class Class {
+export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>(...factories: T) => class Class {
   readonly #class = Class
 
   static readonly Tuple = createTuple(...factories)
 
   constructor(
-    readonly inner: Function,
-    readonly params: Tuple<T>
+    readonly func: FunctionSelector,
+    readonly args: Tuple<T>
   ) { }
 
-  static new(inner: Function, ...instances: Instanced<T>) {
+  static new(inner: FunctionSelector, ...instances: Instanced<T>) {
     return new Class(inner, Class.Tuple.new(...instances))
   }
 
@@ -59,24 +59,24 @@ export const createFunctionAndParams = <T extends readonly Factory[]>(...factori
   }
 
   trySize(): Result<number, never> {
-    return new Ok(this.inner.trySize().get() + this.params.trySize().get())
+    return new Ok(this.func.trySize().get() + this.args.trySize().get())
   }
 
   tryWrite(cursor: Cursor): Result<void, Error> {
     return Result.unthrowSync(t => {
-      this.inner.tryWrite(cursor).throw(t)
-      this.params.tryWrite(cursor).throw(t)
+      this.func.tryWrite(cursor).throw(t)
+      this.args.tryWrite(cursor).throw(t)
 
       return Ok.void()
     })
   }
 
-  static tryRead(cursor: Cursor): Result<FunctionAndParameters<T>, Error> {
+  static tryRead(cursor: Cursor): Result<FunctionSelectorAndArguments<T>, Error> {
     return Result.unthrowSync(t => {
-      const inner = Function.tryRead(cursor).throw(t)
-      const params = Class.Tuple.tryRead(cursor).throw(t)
+      const func = FunctionSelector.tryRead(cursor).throw(t)
+      const args = Class.Tuple.tryRead(cursor).throw(t)
 
-      return new Ok(new Class(inner, params))
+      return new Ok(new Class(func, args))
     })
   }
 
