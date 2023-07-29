@@ -1,8 +1,8 @@
 import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
-import { Bytes as LibBytes } from "@hazae41/bytes";
+import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Result } from "@hazae41/result";
-import { DynamicBytes as AbiBytes } from "mods/abi/bytes/bytes.js";
+import { DynamicBytes as AbiBytes, DynamicBytes } from "mods/abi/bytes/bytes.js";
 
 export class String {
   readonly #class = String
@@ -14,7 +14,7 @@ export class String {
   private constructor(
     readonly value: string
   ) {
-    this.inner = AbiBytes.new(LibBytes.fromUtf8(value))
+    this.inner = DynamicBytes.new(Bytes.fromUtf8(value))
   }
 
   static new(value: string) {
@@ -38,7 +38,7 @@ export class String {
   }
 
   static tryRead(cursor: Cursor): Result<String, BinaryReadError> {
-    return AbiBytes.tryRead(cursor).mapSync(x => new String(LibBytes.toUtf8(x.value)))
+    return DynamicBytes.tryRead(cursor).mapSync(x => new String(Bytes.toUtf8(x.value)))
   }
 
 }
