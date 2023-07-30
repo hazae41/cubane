@@ -14,6 +14,8 @@ export interface DynamicArray<T extends Factory> extends Writable<never, Error> 
 export const createDynamicArray = <T extends Factory>(factory: T) => class Class {
   readonly #class = Class
 
+  static readonly dynamic = true as const
+
   private constructor(
     readonly inner: ReadOutputs<T[]>,
     readonly heads: Writable<never, Error>[],
@@ -53,6 +55,10 @@ export const createDynamicArray = <T extends Factory>(factory: T) => class Class
     return this.#class
   }
 
+  get dynamic() {
+    return this.#class.dynamic
+  }
+
   trySize(): Result<number, never> {
     return new Ok(32 + this.size)
   }
@@ -73,9 +79,9 @@ export const createDynamicArray = <T extends Factory>(factory: T) => class Class
 
   static tryRead(cursor: Cursor): Result<DynamicArray<T>, DecodingError> {
     return Result.unthrowSync(t => {
-      const start = cursor.offset
-
       const length = Uint256.tryRead(cursor).throw(t)
+
+      const start = cursor.offset
 
       const subcursor = new Cursor(cursor.after)
 
