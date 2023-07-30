@@ -215,22 +215,26 @@ export function tryPrint(prefix: string, container: any) {
     return console.log(prefix, container.inner)
 
   for (const factory of container.inner) {
+
     if (factory instanceof StaticTuple) {
       console.log(prefix, "(")
       tryPrint(prefix + "-", factory)
       console.log(prefix, ")")
+      continue
     }
 
     if (factory instanceof StaticArray) {
       console.log(prefix, "[")
       tryPrint(prefix + "-", factory)
       console.log(prefix, "]")
+      continue
     }
 
     if (factory instanceof DynamicArray) {
       console.log(prefix, "[")
       tryPrint(prefix + "-", factory)
       console.log(prefix, "]")
+      continue
     }
 
     console.log(prefix, factory)
@@ -251,6 +255,8 @@ export function tryParseStaticTuple(tokens: string[]): Result<StaticTuple, Error
 
     while (tokens.length) {
       const token = tokens.shift()!
+
+      console.log(token)
 
       if (!token)
         continue
@@ -320,7 +326,7 @@ export function doParseDynamicArray(tokens: string[], factory: any) {
   if (tokens[0] === "[" && tokens[1] === "]") {
     tokens.shift()
     tokens.shift()
-    return new DynamicArray(factory)
+    return new DynamicArray([factory])
   }
 
   return factory
@@ -329,7 +335,7 @@ export function doParseDynamicArray(tokens: string[], factory: any) {
 export function tryParseSignature(signature: string): Result<Factory[], Error> {
   const index = { current: 0 }
 
-  tryParseSignature2("withdraw((address,uint256,uint8)[],bytes)").inspectErrSync(console.log)
+  tryParseSignature2("withdraw(([address],uint256,uint8)[],bytes)").inspectErrSync(console.log)
 
   while (index.current < signature.length) {
     const char = signature[index.current++]
