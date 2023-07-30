@@ -210,33 +210,33 @@ export function tryParseSignature2(signature: string): Result<void, Error> {
   })
 }
 
-export function tryPrint(prefix: string, container: any) {
-  if (container instanceof StaticTuple) {
+export function tryPrint(prefix: string, object: any) {
+  if (object instanceof StaticTuple) {
     console.log(prefix, "(")
-    tryPrint(prefix + "-", container.inner)
+    tryPrint(prefix + "-", object.inner)
     console.log(prefix, ")")
     return
   }
 
-  if (container instanceof StaticArray) {
+  if (object instanceof StaticArray) {
     console.log(prefix, "[")
-    tryPrint(prefix + "-", container.inner)
-    console.log(prefix + "-", container.length)
+    tryPrint(prefix + "-", object.inner)
+    console.log(prefix + "-", object.length)
     console.log(prefix, "]")
     return
   }
 
-  if (container instanceof DynamicArray) {
+  if (object instanceof DynamicArray) {
     console.log(prefix, "[")
-    tryPrint(prefix + "-", container.inner)
+    tryPrint(prefix + "-", object.inner)
     console.log(prefix, "]")
     return
   }
 
-  if (!Array.isArray(container))
-    return console.log(prefix, container)
-  for (const contained of container)
-    tryPrint(prefix + "-", contained)
+  if (!Array.isArray(object))
+    return console.log(prefix, object)
+  for (const element of object)
+    tryPrint(prefix + "-", element)
 }
 
 class StaticTuple {
@@ -313,7 +313,8 @@ export function doParseArray(tokens: string[], factory: any) {
 export function tryParseSignature(signature: string): Result<Factory[], Error> {
   const index = { current: 0 }
 
-  tryParseSignature2("withdraw((address[5],uint256,uint8)[],bytes)").inspectErrSync(console.log)
+  tryParseSignature2("withdraw((address[5],uint256,uint8)[],bytes)").unwrap()
+  tryParseSignature2("getPenpieAccountInfo((uint256,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,address,bool,bool,string,(address,string,uint256),(address,(address,string,uint256),(address,string,uint256),(address,string,uint256)),(address,address,address,address,uint256,bool,uint256,uint256),(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256),(uint256,address[],string[],uint256[]),(uint256,uint256,(uint256,uint256,uint256,uint256,uint256)[],uint256,uint256,bool)),address)").unwrap()
 
   while (index.current < signature.length) {
     const char = signature[index.current++]
