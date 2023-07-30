@@ -1,30 +1,30 @@
-import { Readable, Writable } from "@hazae41/binary";
+import { Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
+import { Factory } from "mods/abi/abi.js";
 import { DecodingError } from "mods/abi/errors/errors.js";
-import { Factory } from "../../abi.js";
+import { ReadOutputs } from "../tuple/tuple.js";
 import { Uint256 } from "../uint/uint.js";
 
-export type ReadOutputs<T extends readonly Readable[]> = {
-  [Index in keyof T]: Readable.ReadOutput<T[Index]>
+export interface StaticArray<T extends Factory, N extends number> extends Writable<never, Error> {
+  readonly class: Factory<StaticArray<T, N>>
+  readonly inner: ReadOutputs<T[]> & { length: N }
+  readonly count: N
 }
 
-export interface StaticTuple<T extends readonly Factory[]> extends Writable<never, Error> {
-  readonly class: Factory<StaticTuple<T>>
-  readonly inner: ReadOutputs<T>
-}
-
-export const createStaticTuple = <T extends readonly Factory[]>(...factories: T) => class Class {
+export const createStaticArray = <T extends Factory, N extends number>(factory: T, count: N) => class Class {
   readonly #class = Class
 
+  static readonly count = count
+
   private constructor(
-    readonly inner: ReadOutputs<T>,
+    readonly inner: ReadOutputs<T[]> & { length: N },
     readonly heads: Writable<never, Error>[],
     readonly tails: Writable<never, Error>[],
     readonly size: number,
   ) { }
 
-  static new(...instances: ReadOutputs<T>): Class {
+  static new(...instances: ReadOutputs<T[]> & { length: N }): Class {
     let length = 0
     let offset = instances.length * 32
 
@@ -56,6 +56,10 @@ export const createStaticTuple = <T extends readonly Factory[]>(...factories: T)
     return this.#class
   }
 
+  get count() {
+    return this.#class.count
+  }
+
   trySize(): Result<number, never> {
     return new Ok(this.size)
   }
@@ -70,7 +74,7 @@ export const createStaticTuple = <T extends readonly Factory[]>(...factories: T)
     })
   }
 
-  static tryRead(cursor: Cursor): Result<StaticTuple<T>, DecodingError> {
+  static tryRead(cursor: Cursor): Result<StaticArray<T, N>, DecodingError> {
     return Result.unthrowSync(t => {
       const start = cursor.offset
 
@@ -81,7 +85,7 @@ export const createStaticTuple = <T extends readonly Factory[]>(...factories: T)
       const heads = new Array<Writable<never, Error>>()
       const tails = new Array<Writable<never, Error>>()
 
-      for (const factory of factories) {
+      for (let i = 0; i < this.count; i++) {
         if (factory.dynamic) {
           const pointer = Uint256.tryRead(cursor).throw(t)
           heads.push(pointer)
@@ -102,7 +106,7 @@ export const createStaticTuple = <T extends readonly Factory[]>(...factories: T)
 
       cursor.offset = start + size
 
-      return new Ok(new Class(inner as ReadOutputs<T>, heads, tails, size))
+      return new Ok(new Class(inner as ReadOutputs<T[]> & { length: N }, heads, tails, size))
     })
   }
 

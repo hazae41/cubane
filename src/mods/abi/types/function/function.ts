@@ -2,9 +2,9 @@ import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
-import { DecodingError } from "index.test.js";
 import { Factory } from "mods/abi/abi.js";
-import { Instanced, Tuple, createTuple } from "../tuple/tuple.js";
+import { DecodingError } from "mods/abi/errors/errors.js";
+import { ReadOutputs, StaticTuple, createStaticTuple } from "../tuple/tuple.js";
 
 export class InvalidFunctionSelector extends Error {
   readonly #class = InvalidFunctionSelector
@@ -47,20 +47,20 @@ export class FunctionSelector {
 export interface FunctionSelectorAndArguments<T extends readonly Factory[]> extends Writable<never, Error> {
   readonly class: Factory<FunctionSelectorAndArguments<T>>
   readonly func: FunctionSelector,
-  readonly args: Tuple<T>
+  readonly args: StaticTuple<T>
 }
 
 export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>(...factories: T) => class Class {
   readonly #class = Class
 
-  static readonly Tuple = createTuple(...factories)
+  static readonly Tuple = createStaticTuple(...factories)
 
   constructor(
     readonly func: FunctionSelector,
-    readonly args: Tuple<T>
+    readonly args: StaticTuple<T>
   ) { }
 
-  static new(inner: FunctionSelector, ...instances: Instanced<T>) {
+  static new(inner: FunctionSelector, ...instances: ReadOutputs<T>) {
     return new Class(inner, Class.Tuple.new(...instances))
   }
 

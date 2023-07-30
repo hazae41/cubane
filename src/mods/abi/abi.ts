@@ -4,7 +4,10 @@ import { Err, Ok, Result } from "@hazae41/result";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { DecodingError } from "./errors/errors.js";
 import { tryParseSignature } from "./parser/parser.js";
+import { Bool } from "./types/bool/bool.js";
 import { FunctionSelector, FunctionSelectorAndArguments, InvalidFunctionSelector, createFunctionSelectorAndArguments } from "./types/function/function.js";
+import { DynamicString } from "./types/string/string.js";
+import { Uint256 } from "./types/uint/uint.js";
 
 export interface Instance extends Writable<never, Error> {
   readonly class: Factory<this>
@@ -40,7 +43,7 @@ export function tryDecode<T extends readonly Factory[]>(signature: string, bytes
   return Result.unthrowSync(t => {
     const factories = tryParseSignature(signature).throw(t)
     const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
-    const decoder = createFunctionSelectorAndArguments(...factories)
+    const decoder = createFunctionSelectorAndArguments(Bool, DynamicString, Uint256)
     const decoded = Readable.tryReadFromBytes(decoder, bytes).throw(t)
 
     if (!Bytes.equals(selector.value, decoded.func.value))

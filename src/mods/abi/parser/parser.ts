@@ -1,5 +1,4 @@
 import { Err, Ok, Result } from "@hazae41/result";
-import { Factory } from "../abi.js";
 import { Address } from "../types/address/address.js";
 import { Bool } from "../types/bool/bool.js";
 import { DynamicBytes } from "../types/bytes/bytes.js";
@@ -189,20 +188,19 @@ export const factoryByName: {
   int256: Int256,
 } as const
 
-interface Ref<T> {
-  current: T
-}
-
-export function tryParseSignature2(signature: string): Result<void, Error> {
+export function tryParseSignature(signature: string): Result<void, Error> {
   return Result.unthrowSync(t => {
     const tokens = signature.trim().split(/(\s+|,|\(|\)|\[|\])/g).filter(Boolean)
     const results = tryParseStaticTuple(tokens).throw(t)
 
     console.log()
     console.log()
+
     console.log(signature)
     console.log()
+
     tryPrint("", results.inner)
+
     console.log()
     console.log()
 
@@ -308,67 +306,4 @@ export function doParseArray(tokens: string[], factory: any) {
   }
 
   return factory
-}
-
-export function tryParseSignature(signature: string): Result<Factory[], Error> {
-  const index = { current: 0 }
-
-  tryParseSignature2("withdraw((address[5],uint256,uint8)[],bytes)").unwrap()
-  tryParseSignature2("getPenpieAccountInfo((uint256,address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,address,bool,bool,string,(address,string,uint256),(address,(address,string,uint256),(address,string,uint256),(address,string,uint256)),(address,address,address,address,uint256,bool,uint256,uint256),(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256),(uint256,address[],string[],uint256[]),(uint256,uint256,(uint256,uint256,uint256,uint256,uint256)[],uint256,uint256,bool)),address)").unwrap()
-
-  while (index.current < signature.length) {
-    const char = signature[index.current++]
-
-    console.log("outer", char)
-
-    if (char === "(")
-      return tryParseNames(signature, index)
-    continue
-  }
-
-  return new Err(new SignatureParseError())
-}
-
-function tryParseNames(signature: string, index: Ref<number>): Result<Factory[], Error> {
-  return Result.unthrowSync(t => {
-    const factories = new Array<Factory>()
-
-    while (index.current < signature.length) {
-      const char = signature[index.current]
-
-      console.log("names", char)
-
-      if (char === ")")
-        return new Ok(factories)
-
-      if (char === ",") {
-        index.current++
-        continue
-      }
-
-      factories.push(tryParseName(signature, index).throw(t))
-    }
-
-    return new Err(new NamesParseError())
-  })
-}
-
-function tryParseName(signature: string, index: Ref<number>): Result<Factory, Error> {
-  let name = ""
-
-  while (index.current < signature.length) {
-    const char = signature[index.current]
-
-    console.log("name", char)
-
-    if (char === ")")
-      return new Ok((factoryByName as Record<string, Factory>)[name])
-    if (char === ",")
-      return new Ok((factoryByName as Record<string, Factory>)[name])
-
-    name += char
-    index.current++
-  }
-
-  return new Err(new NameParseError())
 }
