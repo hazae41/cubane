@@ -202,7 +202,7 @@ export function tryParseSignature2(signature: string): Result<void, Error> {
     console.log()
     console.log(signature)
     console.log()
-    tryPrint("-", results)
+    tryPrint("", results.inner)
     console.log()
     console.log()
 
@@ -211,34 +211,32 @@ export function tryParseSignature2(signature: string): Result<void, Error> {
 }
 
 export function tryPrint(prefix: string, container: any) {
-  if (!Array.isArray(container.inner))
-    return console.log(prefix, container.inner)
-
-  for (const factory of container.inner) {
-
-    if (factory instanceof StaticTuple) {
-      console.log(prefix, "(")
-      tryPrint(prefix + "-", factory)
-      console.log(prefix, ")")
-      continue
-    }
-
-    if (factory instanceof StaticArray) {
-      console.log(prefix, "[")
-      tryPrint(prefix + "-", factory)
-      console.log(prefix, "]")
-      continue
-    }
-
-    if (factory instanceof DynamicArray) {
-      console.log(prefix, "[")
-      tryPrint(prefix + "-", factory)
-      console.log(prefix, "]")
-      continue
-    }
-
-    console.log(prefix, factory)
+  if (container instanceof StaticTuple) {
+    console.log(prefix, "(")
+    tryPrint(prefix + "-", container.inner)
+    console.log(prefix, ")")
+    return
   }
+
+  if (container instanceof StaticArray) {
+    console.log(prefix, "[")
+    tryPrint(prefix + "-", container.inner)
+    console.log(prefix + "-", container.length)
+    console.log(prefix, "]")
+    return
+  }
+
+  if (container instanceof DynamicArray) {
+    console.log(prefix, "[")
+    tryPrint(prefix + "-", container.inner)
+    console.log(prefix, "]")
+    return
+  }
+
+  if (!Array.isArray(container))
+    return console.log(prefix, container)
+  for (const contained of container)
+    tryPrint(prefix + "-", contained)
 }
 
 class StaticTuple {
@@ -263,15 +261,15 @@ export function tryParseStaticTuple(tokens: string[]): Result<StaticTuple, Error
       else if (token === ",")
         continue
       else if (token === "(")
-        result.push(doParseDynamicArray(tokens, tryParseStaticTuple(tokens).throw(t)))
-      else if (token === "[")
-        result.push(doParseDynamicArray(tokens, tryParseStaticArray(tokens).throw(t)))
+        result.push(doParseArray(tokens, tryParseStaticTuple(tokens).throw(t)))
       else if (token === ")")
         return new Ok(new StaticTuple(result))
+      else if (token === "[")
+        return new Err(new Error(`Mismatched brackets`))
       else if (token === "]")
-        return new Err(new Error(`Mismatched parenthesis and brackets`))
+        return new Err(new Error(`Mismatched brackets`))
       else
-        result.push(doParseDynamicArray(tokens, token))
+        result.push(doParseArray(tokens, token))
     }
 
     return new Ok(new StaticTuple(result))
@@ -281,37 +279,10 @@ export function tryParseStaticTuple(tokens: string[]): Result<StaticTuple, Error
 class StaticArray {
 
   constructor(
-    readonly inner: any[]
+    readonly inner: any,
+    readonly length: number
   ) { }
 
-}
-
-
-export function tryParseStaticArray(tokens: string[]): Result<StaticArray, Error> {
-  return Result.unthrowSync(t => {
-    const result = new Array<any>()
-
-    while (tokens.length) {
-      const token = tokens.shift()!
-
-      if (!token)
-        continue
-      else if (token === ",")
-        continue
-      else if (token === "(")
-        result.push(doParseDynamicArray(tokens, tryParseStaticTuple(tokens).throw(t)))
-      else if (token === "[")
-        result.push(doParseDynamicArray(tokens, tryParseStaticArray(tokens).throw(t)))
-      else if (token === ")")
-        return new Err(new Error(`Mismatched parenthesis and brackets`))
-      else if (token === "]")
-        return new Ok(new StaticArray(result))
-      else
-        result.push(doParseDynamicArray(tokens, token))
-    }
-
-    return new Ok(new StaticArray(result))
-  })
 }
 
 class DynamicArray {
@@ -322,11 +293,18 @@ class DynamicArray {
 
 }
 
-export function doParseDynamicArray(tokens: string[], factory: any) {
+export function doParseArray(tokens: string[], factory: any) {
   if (tokens[0] === "[" && tokens[1] === "]") {
     tokens.shift()
     tokens.shift()
-    return new DynamicArray([factory])
+    return new DynamicArray(factory)
+  }
+
+  if (tokens[0] === "[" && tokens[2] === "]") {
+    tokens.shift()
+    const length = parseInt(tokens.shift()!)
+    tokens.shift()
+    return new StaticArray(factory, length)
   }
 
   return factory
@@ -335,7 +313,7 @@ export function doParseDynamicArray(tokens: string[], factory: any) {
 export function tryParseSignature(signature: string): Result<Factory[], Error> {
   const index = { current: 0 }
 
-  tryParseSignature2("withdraw(([address],uint256,uint8)[],bytes)").inspectErrSync(console.log)
+  tryParseSignature2("withdraw((address[5],uint256,uint8)[],bytes)").inspectErrSync(console.log)
 
   while (index.current < signature.length) {
     const char = signature[index.current++]
