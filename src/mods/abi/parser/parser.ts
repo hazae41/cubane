@@ -185,8 +185,110 @@ interface Ref<T> {
   current: T
 }
 
+export function tryParseSignature2(signature: string): Result<void, Error> {
+  return Result.unthrowSync(t => {
+    const tokens = signature.trim().split(/(\s+|,|\(|\)|\[|\])/g).filter(Boolean)
+    const results = tryParseTuple(tokens).throw(t)
+
+    console.log()
+    console.log()
+    console.log(signature)
+    console.log()
+    tryPrint("-", results)
+    console.log()
+    console.log()
+
+    return Ok.void()
+  })
+}
+
+export function tryPrint(prefix: string, results: any[]) {
+  for (const result of results) {
+    if (Array.isArray(result))
+      tryPrint(prefix + "-", result)
+    else
+      console.log(prefix, result)
+  }
+}
+
+export function tryParseTuple(tokens: string[]): Result<any[], Error> {
+  return Result.unthrowSync(t => {
+    const result = new Array<any>()
+
+    while (tokens.length) {
+      const token = tokens.shift()!
+
+      if (!token)
+        continue
+      else if (token === ",")
+        continue
+      else if (token === "(")
+        result.push(tryParseTuple(tokens).throw(t))
+      else if (token === "[")
+        result.push(tryParseArray(tokens).throw(t))
+      else if (token === ")")
+        return new Ok(result)
+      else if (token === "]")
+        return new Err(new Error(`Mismatched parenthesis and brackets`))
+      else {
+        if (tokens[0] === "[" && tokens[1] === "]") {
+          tokens.shift()
+          tokens.shift()
+          result.push(`${token}[]`)
+          continue
+        }
+
+        result.push(token)
+      }
+    }
+
+    return new Ok(result)
+  })
+}
+
+export function tryParseArray(tokens: string[]): Result<any[], Error> {
+  return Result.unthrowSync(t => {
+    const result = new Array<any>()
+
+    while (tokens.length) {
+      const token = tokens.shift()!
+
+      if (!token)
+        continue
+      else if (token === ",")
+        continue
+      else if (token === "(")
+        result.push(tryParseTuple(tokens).throw(t))
+      else if (token === "[")
+        result.push(tryParseArray(tokens).throw(t))
+      else if (token === ")")
+        return new Err(new Error(`Mismatched parenthesis and brackets`))
+      else if (token === "]")
+        return new Ok(result)
+      else {
+        if (tokens[0] === "[" && tokens[1] === "]") {
+          tokens.shift()
+          tokens.shift()
+          result.push(`${token}[]`)
+          continue
+        }
+
+        result.push(token)
+      }
+    }
+
+    return new Ok(result)
+  })
+}
+
+// export function tryParseVector(tokens: string[], result: any) {
+//   if(tokens)
+// }
+
 export function tryParseSignature(signature: string): Result<Factory[], Error> {
   const index = { current: 0 }
+
+  tryParseSignature2("withdraw((address,uint256,uint8)[],bytes)")
 
   while (index.current < signature.length) {
     const char = signature[index.current++]
