@@ -61,10 +61,10 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
         const mask = (BN_1 << 256n) - BN_1
         value = ((~value) & mask) + BN_1
 
-        return this.value.toString(16).padStart(32, "0")
+        return this.value.toString(16).padStart(64, "0")
       }
 
-      return this.value.toString(16).padStart(32, "0")
+      return this.value.toString(16).padStart(64, "0")
     }
 
     encodePacked() {

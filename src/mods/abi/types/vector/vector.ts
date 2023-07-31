@@ -85,7 +85,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
     }
 
     encode() {
-      let result = this.inner.length.toString(16).padStart(32, "0")
+      let result = this.inner.length.toString(16).padStart(64, "0")
 
       for (const instance of this.heads)
         result += instance.encode()

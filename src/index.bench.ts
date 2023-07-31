@@ -24,18 +24,19 @@ if (true) {
   const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
   const factory = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, DynamicBytes))
 
+  const abi = parseAbiParameters("bool x, bytes y")
+
   const bytes = Bytes.random(1024)
 
   const cubane = benchSync("cubane", () => {
     const encoder = factory.tryNew(selector, StaticBool.new(true), DynamicBytes.new(bytes)).unwrap()
-    const hex = encoder.encode()
-  }, { samples: 100000, warmup: true })
+    const hex = "0x" + encoder.encode()
+  }, { samples: 10000, warmup: true })
 
   const viem = benchSync("viem", () => {
-    const abi = parseAbiParameters("bool x, bytes y")
     const args = [true, bytesToHex(bytes)] as const
     const hex = bytesToHex(selector.value) + encodeAbiParameters(abi, args).slice(2)
-  }, { samples: 100000, warmup: true })
+  }, { samples: 10000, warmup: true })
 
   cubane.tableAndSummary(viem)
 }

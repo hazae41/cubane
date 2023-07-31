@@ -54,7 +54,7 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
     }
 
     encode() {
-      return Bytes.toHex(this.value).padStart(32, "0")
+      return Bytes.toHex(this.value).padStart(64, "0")
     }
 
     encodePacked() {
@@ -146,7 +146,7 @@ export class DynamicBytes<N extends number = number> {
   encode() {
     const size = 32 + (Math.ceil(this.value.length / 32) * 32)
 
-    const length = this.value.length.toString(16).padStart(32, "0")
+    const length = this.value.length.toString(16).padStart(64, "0")
     const value = Bytes.toHex(this.value).padEnd(size, "0")
 
     return length + value

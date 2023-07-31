@@ -53,7 +53,7 @@ export const createStaticUint = <N extends number = number>(bytes: N) => {
     }
 
     encode() {
-      return this.value.toString(16).padStart(32, "0")
+      return this.value.toString(16).padStart(64, "0")
     }
 
     encodePacked() {

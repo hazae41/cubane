@@ -22,7 +22,7 @@ export class StaticAddress {
   }
 
   encode() {
-    return this.value.slice(2).padStart(32, "0")
+    return this.value.slice(2).padStart(64, "0")
   }
 
   encodePacked() {

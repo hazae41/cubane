@@ -30,7 +30,7 @@ export class StaticBool {
   }
 
   encode() {
-    return this.encodePacked().padStart(32, "0")
+    return this.encodePacked().padStart(64, "0")
   }
 
   encodePacked() {
