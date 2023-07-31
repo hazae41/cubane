@@ -21,13 +21,13 @@ if (true) {
     const myStruct = MyStruct.new(StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"))
     const hex = encoder.new(selector, StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"), myStruct, DynamicBytes.new(bytes)).encode()
     const args = encoder.decode(new TextCursor(hex))
-  }, { samples: 1000, warmup: true })
+  }, { samples: 10000, warmup: true })
 
   const viem = benchSync("viem", () => {
     const hex = encodeAbiParameters(abi, [true, 123456789n, "hello world", { a: true, b: 123456789n, c: "hello world" }, bytesToHex(bytes)])
     const [a, b, c, d, e] = decodeAbiParameters(abi, hex)
     const e2 = hexToBytes(e)
-  }, { samples: 1000, warmup: true })
+  }, { samples: 10000, warmup: true })
 
   cubane.tableAndSummary(viem)
 }
