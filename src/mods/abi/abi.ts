@@ -7,7 +7,9 @@ import { FunctionSelector, FunctionSelectorAndArgumentsInstance, InvalidFunction
 
 export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
 
-export type Instance = MaybeDynamic<Writable<Error, Error>> & {
+export type Instance = MaybeDynamic<Writable<never, Error>> & {
+  readonly size: number
+
   encode(): string
   encodePacked(): string
 }

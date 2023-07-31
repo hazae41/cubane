@@ -33,6 +33,8 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
 
     static readonly bits = bytes * 8
 
+    readonly size = 32 as const
+
     private constructor(
       readonly value: Uint8Array & { readonly length: N }
     ) { }
@@ -61,8 +63,8 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
       return Bytes.toHex(this.value)
     }
 
-    trySize(): Result<number, never> {
-      return new Ok(32)
+    trySize(): Result<32, never> {
+      return new Ok(this.size)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
@@ -124,11 +126,12 @@ export class DynamicBytes<N extends number = number> {
   readonly #class = DynamicBytes
 
   private constructor(
-    readonly value: Uint8Array & { readonly length: N }
+    readonly value: Uint8Array & { readonly length: N },
+    readonly size: number
   ) { }
 
   static new<N extends number>(value: Uint8Array & { readonly length: N }) {
-    return new DynamicBytes(value)
+    return new DynamicBytes(value, 32 + (Math.ceil(value.length / 32) * 32))
   }
 
   get class() {
@@ -144,10 +147,8 @@ export class DynamicBytes<N extends number = number> {
   }
 
   encode() {
-    const size = 32 + (Math.ceil(this.value.length / 32) * 32)
-
     const length = this.value.length.toString(16).padStart(64, "0")
-    const value = Bytes.toHex(this.value).padEnd(size, "0")
+    const value = Bytes.toHex(this.value).padEnd(this.size, "0")
 
     return length + value
   }
@@ -160,17 +161,16 @@ export class DynamicBytes<N extends number = number> {
   }
 
   trySize(): Result<number, never> {
-    return new Ok(32 + (Math.ceil(this.value.length / 32) * 32))
+    return new Ok(this.size)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
       const length = Uint256.new(BigInt(this.value.length))
-      const size = 32 + (Math.ceil(this.value.length / 32) * 32)
 
       length.tryWrite(cursor).throw(t)
       cursor.tryWrite(this.value).throw(t)
-      cursor.fill(0, size - 32 - this.value.length)
+      cursor.fill(0, this.size - 32 - this.value.length)
 
       return Ok.void()
     })
@@ -184,7 +184,7 @@ export class DynamicBytes<N extends number = number> {
 
       cursor.offset += size - 32 - bytes.length
 
-      return new Ok(new DynamicBytes(bytes))
+      return new Ok(new DynamicBytes(bytes, size))
     })
   }
 

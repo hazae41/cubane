@@ -17,6 +17,8 @@ export class InvalidBoolValueError extends Error {
 export class StaticBool {
   readonly #class = StaticBool
 
+  readonly size = 32 as const
+
   private constructor(
     readonly value: boolean
   ) { }
@@ -37,8 +39,8 @@ export class StaticBool {
     return this.value ? "1" : "0"
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(32)
+  trySize(): Result<32, never> {
+    return new Ok(this.size)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {

@@ -6,6 +6,8 @@ import { Ok, Result } from "@hazae41/result";
 export class StaticAddress {
   readonly #class = StaticAddress
 
+  readonly size = 32 as const
+
   private constructor(
     /**
      * 0x-prefixed hex address
@@ -29,8 +31,8 @@ export class StaticAddress {
     return this.value.slice(2)
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(32)
+  trySize(): Result<32, never> {
+    return new Ok(this.size)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {

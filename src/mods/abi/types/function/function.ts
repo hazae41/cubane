@@ -22,6 +22,8 @@ export class InvalidFunctionSelector extends Error {
 export class FunctionSelector {
   readonly #class = FunctionSelector
 
+  readonly size = 4 as const
+
   private constructor(
     readonly value: Bytes<4>
   ) { }
@@ -42,8 +44,8 @@ export class FunctionSelector {
     return Bytes.toHex(this.value)
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(4)
+  trySize(): Result<4, never> {
+    return new Ok(this.size)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
@@ -85,6 +87,10 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       return this.#class
     }
 
+    get size() {
+      return this.func.size + this.args.size
+    }
+
     encode() {
       return this.func.encode() + this.args.encode()
     }
@@ -94,7 +100,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
     }
 
     trySize(): Result<number, never> {
-      return new Ok(this.func.trySize().get() + this.args.trySize().get())
+      return new Ok(this.func.size + this.args.size)
     }
 
     tryWrite(cursor: Cursor): Result<void, Error> {

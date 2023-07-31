@@ -35,6 +35,8 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
 
     static readonly bytes = bytes
 
+    readonly size = 32 as const
+
     private constructor(
       readonly value: bigint
     ) { }
@@ -79,8 +81,8 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
       return this.value.toString(16)
     }
 
-    trySize(): Result<number, never> {
-      return new Ok(32)
+    trySize(): Result<32, never> {
+      return new Ok(this.size)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {

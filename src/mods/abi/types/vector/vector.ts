@@ -51,7 +51,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
         const tails = new Array<Instance>()
 
         for (const instance of instances) {
-          const size = instance.trySize().throw(t)
+          const size = instance.size
 
           if (instance.dynamic) {
             const pointer = Uint256.new(BigInt(offset))
@@ -60,11 +60,11 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
             length += 32
 
             tails.push(instance)
-            length += size
-            offset += size
+            length += instance.size
+            offset += instance.size
           } else {
             heads.push(instance)
-            length += size
+            length += instance.size
           }
         }
 

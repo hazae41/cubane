@@ -20,6 +20,10 @@ export class DynamicString {
     return this.#class
   }
 
+  get size() {
+    return this.inner.size
+  }
+
   static get dynamic() {
     return true as const
   }
