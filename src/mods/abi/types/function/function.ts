@@ -1,11 +1,15 @@
-import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
+import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory } from "mods/abi/abi.js";
 import { DecodingError } from "mods/abi/errors/errors.js";
-import { DynamicTuple, createDynamicTuple } from "../tuple/tuple.js";
+import { DynamicTupleFactory, DynamicTupleInstance } from "../tuple/tuple.js";
+
+import type { Writable } from "@hazae41/binary";
+
+type Unuseds = Writable
 
 export class InvalidFunctionSelector extends Error {
   readonly #class = InvalidFunctionSelector
@@ -45,50 +49,52 @@ export class FunctionSelector {
 
 }
 
-export interface FunctionSelectorAndArguments<T extends readonly Factory[]> extends Writable<never, Error> {
-  readonly class: Factory<FunctionSelectorAndArguments<T>>
-  readonly func: FunctionSelector,
-  readonly args: DynamicTuple<T>
-}
+export type FunctionSelectorAndArgumentsInstance<T extends readonly Factory[] = Factory[]> =
+  Readable.ReadOutput<FunctionSelectorAndArgumentsFactory<T>>
 
-export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>(...factories: T) => class Class {
-  readonly #class = Class
+export type FunctionSelectorAndArgumentsFactory<T extends readonly Factory[] = Factory[]> =
+  ReturnType<typeof createFunctionSelectorAndArguments<T>> & { name: string }
 
-  static readonly Tuple = createDynamicTuple(...factories)
+export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>(args: DynamicTupleFactory<T>) => {
+  return class FunctionSelectorAndArguments {
+    readonly #class = FunctionSelectorAndArguments
 
-  constructor(
-    readonly func: FunctionSelector,
-    readonly args: DynamicTuple<T>
-  ) { }
+    static readonly args = args
 
-  static new(inner: FunctionSelector, ...instances: ReadOutputs<T>) {
-    return new Class(inner, Class.Tuple.new(...instances))
+    constructor(
+      readonly func: FunctionSelector,
+      readonly args: DynamicTupleInstance<T>
+    ) { }
+
+    static new(inner: FunctionSelector, ...instances: ReadOutputs<T>) {
+      return new FunctionSelectorAndArguments(inner, FunctionSelectorAndArguments.args.new(...instances))
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    trySize(): Result<number, never> {
+      return new Ok(this.func.trySize().get() + this.args.trySize().get())
+    }
+
+    tryWrite(cursor: Cursor): Result<void, Error> {
+      return Result.unthrowSync(t => {
+        this.func.tryWrite(cursor).throw(t)
+        this.args.tryWrite(cursor).throw(t)
+
+        return Ok.void()
+      })
+    }
+
+    static tryRead(cursor: Cursor): Result<FunctionSelectorAndArguments, DecodingError> {
+      return Result.unthrowSync(t => {
+        const func = FunctionSelector.tryRead(cursor).throw(t)
+        const args = FunctionSelectorAndArguments.args.tryRead(cursor).throw(t)
+
+        return new Ok(new FunctionSelectorAndArguments(func, args))
+      })
+    }
+
   }
-
-  get class() {
-    return this.#class
-  }
-
-  trySize(): Result<number, never> {
-    return new Ok(this.func.trySize().get() + this.args.trySize().get())
-  }
-
-  tryWrite(cursor: Cursor): Result<void, Error> {
-    return Result.unthrowSync(t => {
-      this.func.tryWrite(cursor).throw(t)
-      this.args.tryWrite(cursor).throw(t)
-
-      return Ok.void()
-    })
-  }
-
-  static tryRead(cursor: Cursor): Result<FunctionSelectorAndArguments<T>, DecodingError> {
-    return Result.unthrowSync(t => {
-      const func = FunctionSelector.tryRead(cursor).throw(t)
-      const args = Class.Tuple.tryRead(cursor).throw(t)
-
-      return new Ok(new Class(func, args))
-    })
-  }
-
 }

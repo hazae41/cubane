@@ -1,63 +1,81 @@
-import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
+import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
+import { Skeleton } from "libs/typescript/skeleton.js";
 import { Uint256 } from "../uint/uint.js";
 
-export interface StaticBytes<N extends number = number> extends Writable<never, BinaryWriteError> {
-  readonly value: Uint8Array
-  readonly bytes: N
+export type StaticBytesInstance<N extends number> =
+  Readable.ReadOutput<StaticBytesFactory<N>>
+
+export type StaticBytesFactory<N extends number> =
+  ReturnType<typeof createStaticBytes<N>> & { name: string }
+
+export namespace StaticBytes {
+  export const name = "StaticBytes"
+
+  export function isInstance<N extends number>(x: Skeleton<StaticBytesInstance<N>>): x is StaticBytesInstance<N> {
+    return x.name === name && x.class != null
+  }
+
+  export function isFactory<N extends number>(x: Skeleton<StaticBytesFactory<N>>): x is StaticBytesFactory<N> {
+    return x.name === name && x.new != null
+  }
+
 }
 
-export const createStaticBytes = <N extends number = number>(bytes: N) => class Class {
-  readonly #class = Class
+export const createStaticBytes = <N extends number = number>(bytes: N) => {
+  return class StaticBytes {
+    readonly #class = StaticBytes
+    readonly name = this.#class.name
 
-  static readonly bytes = bytes
+    static readonly bytes = bytes
 
-  static readonly bits = bytes * 8
+    static readonly bits = bytes * 8
 
-  private constructor(
-    readonly value: Uint8Array & { length: N }
-  ) { }
+    private constructor(
+      readonly value: Uint8Array & { length: N }
+    ) { }
 
-  static new(value: Uint8Array & { length: N }) {
-    return new Class(value)
+    static new(value: Uint8Array & { length: N }) {
+      return new StaticBytes(value)
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    trySize(): Result<number, never> {
+      return new Ok(32)
+    }
+
+    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
+      return Result.unthrowSync(t => {
+        cursor.tryWrite(this.value).throw(t)
+        cursor.fill(0, 32 - this.value.length)
+
+        return Ok.void()
+      })
+    }
+
+    static tryRead(cursor: Cursor): Result<StaticBytes, BinaryReadError> {
+      return Result.unthrowSync(t => {
+        const bytes = cursor.tryRead(StaticBytes.bytes).throw(t)
+
+        cursor.offset += 32 - StaticBytes.bytes
+
+        return new Ok(new StaticBytes(bytes))
+      })
+    }
+
   }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  trySize(): Result<number, never> {
-    return new Ok(32)
-  }
-
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWrite(this.value).throw(t)
-      cursor.fill(0, 32 - this.value.length)
-
-      return Ok.void()
-    })
-  }
-
-  static tryRead(cursor: Cursor): Result<StaticBytes<N>, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      const bytes = cursor.tryRead(Class.bytes).throw(t)
-
-      cursor.offset += 32 - Class.bytes
-
-      return new Ok(new Class(bytes))
-    })
-  }
-
 }
 
 export const Bytes1 = createStaticBytes(1)
@@ -96,8 +114,6 @@ export const Bytes32 = createStaticBytes(32)
 export class DynamicBytes<N extends number = number> {
   readonly #class = DynamicBytes
 
-  static readonly dynamic = true as const
-
   private constructor(
     readonly value: Uint8Array & { length: N }
   ) { }
@@ -108,6 +124,10 @@ export class DynamicBytes<N extends number = number> {
 
   get class() {
     return this.#class
+  }
+
+  static get dynamic() {
+    return true as const
   }
 
   get dynamic() {

@@ -1,91 +1,107 @@
-import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
+import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
-import { Factory } from "mods/abi/abi.js";
+import { Skeleton } from "libs/typescript/skeleton.js";
 
 const BN_0 = 0n
 const BN_1 = 1n
 
-export interface StaticInt<N extends number = number> extends Writable<never, BinaryWriteError> {
-  readonly class: Factory<StaticInt<N>>
-  readonly value: bigint
-  readonly bytes: N
+export type StaticIntInstance<N extends number> =
+  Readable.ReadOutput<StaticIntFactory<N>>
+
+export type StaticIntFactory<N extends number> =
+  ReturnType<typeof createStaticInt<N>> & { name: string }
+
+export namespace StaticInt {
+  export const name = "StaticInt"
+
+  export function isInstance<N extends number>(x: Skeleton<StaticIntInstance<N>>): x is StaticIntInstance<N> {
+    return x.name === name && x.class != null
+  }
+
+  export function isFactory<N extends number>(x: Skeleton<StaticIntFactory<N>>): x is StaticIntFactory<N> {
+    return x.name === name && x.new != null
+  }
+
 }
 
-export const createStaticInt = <N extends number = number>(bytes: N) => class Class {
-  readonly #class = Class
+export const createStaticInt = <N extends number = number>(bytes: N) => {
+  return class StaticInt {
+    readonly #class = StaticInt
+    readonly name = this.#class.name
 
-  static readonly bits = bytes * 8
+    static readonly bits = bytes * 8
 
-  static readonly bytes = bytes
+    static readonly bytes = bytes
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    private constructor(
+      readonly value: bigint
+    ) { }
 
-  static new(value: bigint) {
-    return new Class(value)
-  }
+    static new(value: bigint) {
+      return new StaticInt(value)
+    }
 
-  get class() {
-    return this.#class
-  }
+    get class() {
+      return this.#class
+    }
 
-  get bits() {
-    return this.#class.bits
-  }
+    get bits() {
+      return this.#class.bits
+    }
 
-  get bytes() {
-    return this.#class.bytes
-  }
+    get bytes() {
+      return this.#class.bytes
+    }
 
-  trySize(): Result<number, never> {
-    return new Ok(32)
-  }
+    trySize(): Result<number, never> {
+      return new Ok(32)
+    }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      if (this.value < BN_0) {
-        let value = -this.value
-        const mask = (BN_1 << 256n) - BN_1
-        value = ((~value) & mask) + BN_1
+    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
+      return Result.unthrowSync(t => {
+        if (this.value < BN_0) {
+          let value = -this.value
+          const mask = (BN_1 << 256n) - BN_1
+          value = ((~value) & mask) + BN_1
 
-        const bytes = Bytes.fromBigInt(value)
+          const bytes = Bytes.fromBigInt(value)
 
+          cursor.tryWrite(bytes).throw(t)
+
+          return Ok.void()
+        }
+
+        const bytes = Bytes.fromBigInt(this.value)
+
+        cursor.fill(0, 32 - bytes.length)
         cursor.tryWrite(bytes).throw(t)
 
         return Ok.void()
-      }
+      })
+    }
 
-      const bytes = Bytes.fromBigInt(this.value)
+    static tryRead(cursor: Cursor): Result<StaticInt, BinaryReadError> {
+      return Result.unthrowSync(t => {
+        cursor.offset += 32 - StaticInt.bytes
 
-      cursor.fill(0, 32 - bytes.length)
-      cursor.tryWrite(bytes).throw(t)
+        const bytes = cursor.tryRead(StaticInt.bytes).throw(t)
+        const value = Bytes.toBigInt(bytes)
 
-      return Ok.void()
-    })
-  }
+        const bits = BigInt(StaticInt.bits)
+        const mask = (BN_1 << bits) - BN_1
+        const masked = value & mask
 
-  static tryRead(cursor: Cursor): Result<StaticInt<N>, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      cursor.offset += 32 - Class.bytes
+        if (masked >> (bits - BN_1)) {
+          const signed = -(((~value) & mask) + BN_1)
 
-      const bytes = cursor.tryRead(Class.bytes).throw(t)
-      const value = Bytes.toBigInt(bytes)
+          return new Ok(new StaticInt(signed))
+        }
 
-      const bits = BigInt(Class.bits)
-      const mask = (BN_1 << bits) - BN_1
-      const masked = value & mask
-
-      if (masked >> (bits - BN_1)) {
-        const signed = -(((~value) & mask) + BN_1)
-
-        return new Ok(new Class(signed))
-      }
-
-      return new Ok(new Class(value))
-    })
+        return new Ok(new StaticInt(value))
+      })
+    }
   }
 }
 

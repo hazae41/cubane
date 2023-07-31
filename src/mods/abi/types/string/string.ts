@@ -7,8 +7,6 @@ import { DynamicBytes } from "../bytes/bytes.js";
 export class DynamicString {
   readonly #class = DynamicString
 
-  static readonly dynamic = true as const
-
   private constructor(
     readonly value: string,
     readonly inner: DynamicBytes
@@ -20,6 +18,10 @@ export class DynamicString {
 
   get class() {
     return this.#class
+  }
+
+  static get dynamic() {
+    return true as const
   }
 
   get dynamic() {

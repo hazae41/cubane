@@ -1,10 +1,16 @@
 import { Err, Ok, Result } from "@hazae41/result";
+import { DynamicTupleFactory, Factory, createDynamicArray, createDynamicTuple, createDynamicVector } from "../index.js";
 import { StaticAddress } from "../types/address/address.js";
 import { StaticBool } from "../types/bool/bool.js";
 import { DynamicBytes } from "../types/bytes/bytes.js";
 import { Int104, Int112, Int120, Int128, Int136, Int144, Int152, Int16, Int160, Int168, Int176, Int184, Int192, Int200, Int208, Int216, Int224, Int232, Int24, Int240, Int248, Int256, Int32, Int40, Int48, Int56, Int64, Int72, Int8, Int80, Int88, Int96 } from "../types/int/int.js";
 import { DynamicString } from "../types/string/string.js";
 import { Uint104, Uint112, Uint120, Uint128, Uint136, Uint144, Uint152, Uint16, Uint160, Uint168, Uint176, Uint184, Uint192, Uint200, Uint208, Uint216, Uint224, Uint232, Uint24, Uint240, Uint248, Uint256, Uint32, Uint40, Uint48, Uint56, Uint64, Uint72, Uint8, Uint80, Uint88, Uint96 } from "../types/uint/uint.js";
+
+import type { Writable } from "@hazae41/binary";
+import type { Cursor } from "@hazae41/cursor";
+
+type Unuseds = Writable | Cursor
 
 export class NameParseError extends Error {
   readonly #class = NameParseError
@@ -188,10 +194,14 @@ export const factoryByName: {
   int256: Int256,
 } as const
 
-export function tryParseSignature(signature: string): Result<void, Error> {
+export function tryParseSignature(signature: string): Result<[string, DynamicTupleFactory], Error> {
   return Result.unthrowSync(t => {
-    const tokens = signature.trim().split(/(\s+|,|\(|\)|\[|\])/g).filter(Boolean)
-    const results = tryParseStaticTuple(tokens).throw(t)
+    const [name, ...tokens] = signature.trim().split(/(\s+|,|\(|\)|\[|\])/g)
+
+    if (tokens.shift() !== "(")
+      return new Err(new Error(`Expected parenthesis`))
+
+    const args = tryParseArguments(tokens).throw(t)
 
     console.log()
     console.log()
@@ -199,55 +209,18 @@ export function tryParseSignature(signature: string): Result<void, Error> {
     console.log(signature)
     console.log()
 
-    tryPrint("", results.inner)
+    console.log(args)
 
     console.log()
     console.log()
 
-    return Ok.void()
+    return new Ok([name, args])
   })
 }
 
-export function tryPrint(prefix: string, object: any) {
-  if (object instanceof StaticTuple) {
-    console.log(prefix, "(")
-    tryPrint(prefix + "-", object.inner)
-    console.log(prefix, ")")
-    return
-  }
-
-  if (object instanceof StaticArray) {
-    console.log(prefix, "[")
-    tryPrint(prefix + "-", object.inner)
-    console.log(prefix + "-", object.length)
-    console.log(prefix, "]")
-    return
-  }
-
-  if (object instanceof DynamicArray) {
-    console.log(prefix, "[")
-    tryPrint(prefix + "-", object.inner)
-    console.log(prefix, "]")
-    return
-  }
-
-  if (!Array.isArray(object))
-    return console.log(prefix, object)
-  for (const element of object)
-    tryPrint(prefix + "-", element)
-}
-
-class StaticTuple {
-
-  constructor(
-    readonly inner: any[]
-  ) { }
-
-}
-
-export function tryParseStaticTuple(tokens: string[]): Result<StaticTuple, Error> {
+export function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory[]>, Error> {
   return Result.unthrowSync(t => {
-    const result = new Array<any>()
+    const factories = new Array<Factory>()
 
     while (tokens.length) {
       const token = tokens.shift()!
@@ -259,50 +232,33 @@ export function tryParseStaticTuple(tokens: string[]): Result<StaticTuple, Error
       else if (token === ",")
         continue
       else if (token === "(")
-        result.push(doParseArray(tokens, tryParseStaticTuple(tokens).throw(t)))
+        factories.push(doParseArrayOrVector(tokens, tryParseArguments(tokens).throw(t)))
       else if (token === ")")
-        return new Ok(new StaticTuple(result))
+        return new Ok(createDynamicTuple(...factories))
       else if (token === "[")
-        return new Err(new Error(`Mismatched brackets`))
+        return new Err(new Error(`Unexpected brackets`))
       else if (token === "]")
-        return new Err(new Error(`Mismatched brackets`))
+        return new Err(new Error(`Unexpected brackets`))
       else
-        result.push(doParseArray(tokens, token))
+        factories.push(doParseArrayOrVector(tokens, tryGetFactory(token).throw(t)))
     }
 
-    return new Ok(new StaticTuple(result))
+    return new Ok(createDynamicTuple(...factories))
   })
 }
 
-class StaticArray {
-
-  constructor(
-    readonly inner: any,
-    readonly length: number
-  ) { }
-
-}
-
-class DynamicArray {
-
-  constructor(
-    readonly inner: any[]
-  ) { }
-
-}
-
-export function doParseArray(tokens: string[], factory: any) {
+export function doParseArrayOrVector(tokens: string[], factory: Factory) {
   if (tokens[0] === "[" && tokens[1] === "]") {
     tokens.shift()
     tokens.shift()
-    return new DynamicArray(factory)
+    return createDynamicVector(factory)
   }
 
   if (tokens[0] === "[" && tokens[2] === "]") {
     tokens.shift()
     const length = parseInt(tokens.shift()!)
     tokens.shift()
-    return new StaticArray(factory, length)
+    return createDynamicArray(factory, length)
   }
 
   return factory

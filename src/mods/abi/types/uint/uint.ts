@@ -1,66 +1,82 @@
-import { BinaryReadError, BinaryWriteError, Writable } from "@hazae41/binary";
+import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
-import { Factory } from "mods/abi/abi.js";
+import { Skeleton } from "libs/typescript/skeleton.js";
 
-export interface StaticUint<N extends number = number> extends Writable<never, BinaryWriteError> {
-  readonly class: Factory<StaticUint<N>>
-  readonly value: bigint
-  readonly bytes: N
+export type StaticUintInstance<N extends number> =
+  Readable.ReadOutput<StaticUintFactory<N>>
+
+export type StaticUintFactory<N extends number> =
+  ReturnType<typeof createStaticUint<N>> & { name: string }
+
+export namespace StaticUint {
+  export const name = "StaticUint"
+
+  export function isInstance<N extends number>(x: Skeleton<StaticUintInstance<N>>): x is StaticUintInstance<N> {
+    return x.name === name && x.class != null
+  }
+
+  export function isFactory<N extends number>(x: Skeleton<StaticUintFactory<N>>): x is StaticUintFactory<N> {
+    return x.name === name && x.new != null
+  }
+
 }
 
-export const createStaticUint = <N extends number = number>(bytes: N) => class Class {
-  readonly #class = Class
+export const createStaticUint = <N extends number = number>(bytes: N) => {
+  return class StaticUint {
+    readonly #class = StaticUint
+    readonly name = this.#class.name
 
-  static readonly bits = bytes * 8
+    static readonly bits = bytes * 8
 
-  static readonly bytes = bytes
+    static readonly bytes = bytes
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    private constructor(
+      readonly value: bigint
+    ) { }
 
-  static new(value: bigint) {
-    return new Class(value)
-  }
+    static new(value: bigint) {
+      return new StaticUint(value)
+    }
 
-  get class() {
-    return this.#class
-  }
+    get class() {
+      return this.#class
+    }
 
-  get bits() {
-    return this.#class.bits
-  }
+    get bits() {
+      return this.#class.bits
+    }
 
-  get bytes() {
-    return this.#class.bytes
-  }
+    get bytes() {
+      return this.#class.bytes
+    }
 
-  trySize(): Result<number, never> {
-    return new Ok(32)
-  }
+    trySize(): Result<number, never> {
+      return new Ok(32)
+    }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      const bytes = Bytes.fromBigInt(this.value)
+    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
+      return Result.unthrowSync(t => {
+        const bytes = Bytes.fromBigInt(this.value)
 
-      cursor.fill(0, 32 - bytes.length)
-      cursor.tryWrite(bytes).throw(t)
+        cursor.fill(0, 32 - bytes.length)
+        cursor.tryWrite(bytes).throw(t)
 
-      return Ok.void()
-    })
-  }
+        return Ok.void()
+      })
+    }
 
-  static tryRead(cursor: Cursor): Result<StaticUint<N>, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      cursor.offset += 32 - Class.bytes
+    static tryRead(cursor: Cursor): Result<StaticUint, BinaryReadError> {
+      return Result.unthrowSync(t => {
+        cursor.offset += 32 - StaticUint.bytes
 
-      const bytes = cursor.tryRead(Class.bytes).throw(t)
-      const value = Bytes.toBigInt(bytes)
+        const bytes = cursor.tryRead(StaticUint.bytes).throw(t)
+        const value = Bytes.toBigInt(bytes)
 
-      return new Ok(new Class(value))
-    })
+        return new Ok(new StaticUint(value))
+      })
+    }
   }
 }
 
