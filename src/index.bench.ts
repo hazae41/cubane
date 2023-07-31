@@ -5,6 +5,9 @@ import { keccak_256 } from "@noble/hashes/sha3";
 import { DynamicBytes, FunctionSelector, StaticBool, createDynamicTuple, createFunctionSelectorAndArguments } from "mods/abi/index.js";
 import { bytesToHex, decodeAbiParameters, encodeAbiParameters, hexToBytes, parseAbiParameters } from "viem";
 
+/**
+ * Encode bytes to hex
+ */
 if (false) {
 
   const bytes = Bytes.random(1024)
@@ -20,6 +23,9 @@ if (false) {
   cubane.tableAndSummary(viem)
 }
 
+/**
+ * Encode bool and bytes with preparsed ABI
+ */
 if (true) {
   const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
   const factory = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, DynamicBytes))
@@ -31,16 +37,19 @@ if (true) {
   const cubane = benchSync("cubane", () => {
     const encoder = factory.tryNew(selector, StaticBool.new(true), DynamicBytes.new(bytes)).unwrap()
     const hex = "0x" + encoder.encode()
-  }, { samples: 10000, warmup: true })
+  }, { samples: 100000, warmup: true })
 
   const viem = benchSync("viem", () => {
     const args = [true, bytesToHex(bytes)] as const
     const hex = bytesToHex(selector.value) + encodeAbiParameters(abi, args).slice(2)
-  }, { samples: 10000, warmup: true })
+  }, { samples: 100000, warmup: true })
 
   cubane.tableAndSummary(viem)
 }
 
+/**
+ * Read bool and bytes
+ */
 if (false) {
   const hex = "0x240a58a20000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000030102030000000000000000000000000000000000000000000000000000000000"
 
