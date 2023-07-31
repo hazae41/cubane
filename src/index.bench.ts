@@ -9,7 +9,6 @@ import { bytesToHex, decodeAbiParameters, encodeAbiParameters, hexToBytes, parse
  * Encode bytes to hex
  */
 if (false) {
-
   const bytes = Bytes.random(1024)
 
   const cubane = benchSync("cubane", () => {
