@@ -7,13 +7,13 @@ import { Factory } from "mods/abi/abi.js";
 const BN_0 = 0n
 const BN_1 = 1n
 
-export interface Int<N extends number = number> extends Writable<never, BinaryWriteError> {
-  readonly class: Factory<Int<N>>
+export interface StaticInt<N extends number = number> extends Writable<never, BinaryWriteError> {
+  readonly class: Factory<StaticInt<N>>
   readonly value: bigint
   readonly bytes: N
 }
 
-export const createInt = <N extends number = number>(bytes: N) => class Class {
+export const createStaticInt = <N extends number = number>(bytes: N) => class Class {
   readonly #class = Class
 
   static readonly bits = bytes * 8
@@ -67,7 +67,7 @@ export const createInt = <N extends number = number>(bytes: N) => class Class {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<Int<N>, BinaryReadError> {
+  static tryRead(cursor: Cursor): Result<StaticInt<N>, BinaryReadError> {
     return Result.unthrowSync(t => {
       cursor.offset += 32 - Class.bytes
 
@@ -89,35 +89,35 @@ export const createInt = <N extends number = number>(bytes: N) => class Class {
   }
 }
 
-export const Int8 = createInt(1)
-export const Int16 = createInt(2)
-export const Int24 = createInt(3)
-export const Int32 = createInt(4)
-export const Int40 = createInt(5)
-export const Int48 = createInt(6)
-export const Int56 = createInt(7)
-export const Int64 = createInt(8)
-export const Int72 = createInt(9)
-export const Int80 = createInt(10)
-export const Int88 = createInt(11)
-export const Int96 = createInt(12)
-export const Int104 = createInt(13)
-export const Int112 = createInt(14)
-export const Int120 = createInt(15)
-export const Int128 = createInt(16)
-export const Int136 = createInt(17)
-export const Int144 = createInt(18)
-export const Int152 = createInt(19)
-export const Int160 = createInt(20)
-export const Int168 = createInt(21)
-export const Int176 = createInt(22)
-export const Int184 = createInt(23)
-export const Int192 = createInt(24)
-export const Int200 = createInt(25)
-export const Int208 = createInt(26)
-export const Int216 = createInt(27)
-export const Int224 = createInt(28)
-export const Int232 = createInt(29)
-export const Int240 = createInt(30)
-export const Int248 = createInt(31)
-export const Int256 = createInt(32)
+export const Int8 = createStaticInt(1)
+export const Int16 = createStaticInt(2)
+export const Int24 = createStaticInt(3)
+export const Int32 = createStaticInt(4)
+export const Int40 = createStaticInt(5)
+export const Int48 = createStaticInt(6)
+export const Int56 = createStaticInt(7)
+export const Int64 = createStaticInt(8)
+export const Int72 = createStaticInt(9)
+export const Int80 = createStaticInt(10)
+export const Int88 = createStaticInt(11)
+export const Int96 = createStaticInt(12)
+export const Int104 = createStaticInt(13)
+export const Int112 = createStaticInt(14)
+export const Int120 = createStaticInt(15)
+export const Int128 = createStaticInt(16)
+export const Int136 = createStaticInt(17)
+export const Int144 = createStaticInt(18)
+export const Int152 = createStaticInt(19)
+export const Int160 = createStaticInt(20)
+export const Int168 = createStaticInt(21)
+export const Int176 = createStaticInt(22)
+export const Int184 = createStaticInt(23)
+export const Int192 = createStaticInt(24)
+export const Int200 = createStaticInt(25)
+export const Int208 = createStaticInt(26)
+export const Int216 = createStaticInt(27)
+export const Int224 = createStaticInt(28)
+export const Int232 = createStaticInt(29)
+export const Int240 = createStaticInt(30)
+export const Int248 = createStaticInt(31)
+export const Int256 = createStaticInt(32)

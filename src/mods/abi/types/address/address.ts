@@ -3,8 +3,8 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 
-export class Address {
-  readonly #class = Address
+export class StaticAddress {
+  readonly #class = StaticAddress
 
   private constructor(
     /**
@@ -14,7 +14,7 @@ export class Address {
   ) { }
 
   static new(value: string) {
-    return new Address(value)
+    return new StaticAddress(value)
   }
 
   get class() {
@@ -37,14 +37,14 @@ export class Address {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<Address, BinaryReadError> {
+  static tryRead(cursor: Cursor): Result<StaticAddress, BinaryReadError> {
     return Result.unthrowSync(t => {
       cursor.offset += 32 - 20
 
       const bytes = cursor.tryRead(20).throw(t)
       const value = `0x${Bytes.toHex(bytes)}`
 
-      return new Ok(new Address(value))
+      return new Ok(new StaticAddress(value))
     })
   }
 

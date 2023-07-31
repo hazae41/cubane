@@ -14,15 +14,15 @@ export class InvalidBoolValueError extends Error {
 
 }
 
-export class Bool {
-  readonly #class = Bool
+export class StaticBool {
+  readonly #class = StaticBool
 
   private constructor(
     readonly value: boolean
   ) { }
 
   static new(value: boolean) {
-    return new Bool(value)
+    return new StaticBool(value)
   }
 
   get class() {
@@ -44,16 +44,16 @@ export class Bool {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<Bool, BinaryReadError | InvalidBoolValueError> {
+  static tryRead(cursor: Cursor): Result<StaticBool, BinaryReadError | InvalidBoolValueError> {
     return Result.unthrowSync(t => {
       cursor.offset += 31
 
       const byte = cursor.tryReadUint8().throw(t)
 
       if (byte === 0)
-        return new Ok(new Bool(false))
+        return new Ok(new StaticBool(false))
       if (byte === 1)
-        return new Ok(new Bool(true))
+        return new Ok(new StaticBool(true))
       return new Err(new InvalidBoolValueError(byte))
     })
   }

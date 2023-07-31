@@ -1,20 +1,17 @@
-import { Readable, Writable } from "@hazae41/binary";
+import { Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
+import { ReadOutputs } from "libs/readable/readable.js";
 import { DecodingError } from "mods/abi/errors/errors.js";
 import { Factory } from "../../abi.js";
 import { Uint256 } from "../uint/uint.js";
 
-export type ReadOutputs<T extends readonly Readable[]> = {
-  [Index in keyof T]: Readable.ReadOutput<T[Index]>
-}
-
-export interface StaticTuple<T extends readonly Factory[]> extends Writable<never, Error> {
-  readonly class: Factory<StaticTuple<T>>
+export interface DynamicTuple<T extends readonly Factory[]> extends Writable<never, Error> {
+  readonly class: Factory<DynamicTuple<T>>
   readonly inner: ReadOutputs<T>
 }
 
-export const createStaticTuple = <T extends readonly Factory[]>(...factories: T) => class Class {
+export const createDynamicTuple = <T extends readonly Factory[]>(...factories: T) => class Class {
   readonly #class = Class
 
   private constructor(
@@ -70,7 +67,7 @@ export const createStaticTuple = <T extends readonly Factory[]>(...factories: T)
     })
   }
 
-  static tryRead(cursor: Cursor): Result<StaticTuple<T>, DecodingError> {
+  static tryRead(cursor: Cursor): Result<DynamicTuple<T>, DecodingError> {
     return Result.unthrowSync(t => {
       const start = cursor.offset
 

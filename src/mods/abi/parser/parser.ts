@@ -1,6 +1,6 @@
 import { Err, Ok, Result } from "@hazae41/result";
-import { Address } from "../types/address/address.js";
-import { Bool } from "../types/bool/bool.js";
+import { StaticAddress } from "../types/address/address.js";
+import { StaticBool } from "../types/bool/bool.js";
 import { DynamicBytes } from "../types/bytes/bytes.js";
 import { Int104, Int112, Int120, Int128, Int136, Int144, Int152, Int16, Int160, Int168, Int176, Int184, Int192, Int200, Int208, Int216, Int224, Int232, Int24, Int240, Int248, Int256, Int32, Int40, Int48, Int56, Int64, Int72, Int8, Int80, Int88, Int96 } from "../types/int/int.js";
 import { DynamicString } from "../types/string/string.js";
@@ -45,8 +45,8 @@ export function tryGetFactory(name: string) {
 }
 
 export const factoryByName: {
-  bool: typeof Bool,
-  address: typeof Address,
+  bool: typeof StaticBool,
+  address: typeof StaticAddress,
   bytes: typeof DynamicBytes
   string: typeof DynamicString
 
@@ -116,8 +116,8 @@ export const factoryByName: {
   int248: typeof Int248,
   int256: typeof Int256,
 } = {
-  bool: Bool,
-  address: Address,
+  bool: StaticBool,
+  address: StaticAddress,
   bytes: DynamicBytes,
   string: DynamicString,
 
