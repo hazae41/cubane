@@ -4,7 +4,6 @@ import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory } from "mods/abi/abi.js";
-import { DecodingError } from "mods/abi/errors/errors.js";
 import { DynamicTupleFactory, DynamicTupleInstance } from "../tuple/tuple.js";
 
 import type { Writable } from "@hazae41/binary";
@@ -66,8 +65,12 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       readonly args: DynamicTupleInstance<T>
     ) { }
 
-    static new(inner: FunctionSelector, ...instances: ReadOutputs<T>) {
-      return new FunctionSelectorAndArguments(inner, FunctionSelectorAndArguments.args.new(...instances))
+    static tryNew(inner: FunctionSelector, ...instances: ReadOutputs<T>): Result<FunctionSelectorAndArguments, Error> {
+      return Result.unthrowSync(t => {
+        const args = FunctionSelectorAndArguments.args.tryNew(...instances).throw(t)
+
+        return new Ok(new FunctionSelectorAndArguments(inner, args))
+      })
     }
 
     get class() {
@@ -87,7 +90,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       })
     }
 
-    static tryRead(cursor: Cursor): Result<FunctionSelectorAndArguments, DecodingError> {
+    static tryRead(cursor: Cursor): Result<FunctionSelectorAndArguments, Error> {
       return Result.unthrowSync(t => {
         const func = FunctionSelector.tryRead(cursor).throw(t)
         const args = FunctionSelectorAndArguments.args.tryRead(cursor).throw(t)

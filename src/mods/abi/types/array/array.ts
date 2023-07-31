@@ -1,9 +1,7 @@
-import { Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
-import { Factory } from "mods/abi/abi.js";
-import { DecodingError } from "mods/abi/errors/errors.js";
+import { Factory, Instance, MaybeDynamic } from "mods/abi/abi.js";
 import { Uint256 } from "../uint/uint.js";
 
 import type { Readable } from "@hazae41/binary";
@@ -25,12 +23,12 @@ export namespace DynamicArray {
   }
 
   export function isFactory<T extends Factory, N extends number>(x: Skeleton<DynamicArrayFactory<T, N>>): x is DynamicArrayFactory<T, N> {
-    return x.name === name && x.new != null
+    return x.name === name && x.prototype != null
   }
 
 }
 
-export const createDynamicArray = <T extends Factory, N extends number>(inner: T, count: N) => {
+export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends number>(inner: T, count: N) => {
   return class DynamicArray {
     readonly #class = DynamicArray
     readonly name = this.#class.name
@@ -40,37 +38,39 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
 
     private constructor(
       readonly inner: ReadOutputs<T[]> & { length: N },
-      readonly heads: Writable<never, Error>[],
-      readonly tails: Writable<never, Error>[],
+      readonly heads: Instance[],
+      readonly tails: Instance[],
       readonly size: number,
     ) { }
 
-    static new(...instances: ReadOutputs<T[]> & { length: N }): DynamicArray {
-      let length = 0
-      let offset = instances.length * 32
+    static tryNew(...instances: MaybeDynamic<ReadOutputs<T[]>> & { length: N }): Result<DynamicArray, Error> {
+      return Result.unthrowSync(t => {
+        let length = 0
+        let offset = instances.length * 32
 
-      const heads = new Array<Writable<never, Error>>()
-      const tails = new Array<Writable<never, Error>>()
+        const heads = new Array<Instance>()
+        const tails = new Array<Instance>()
 
-      for (const instance of instances) {
-        const size = instance.trySize().get()
+        for (const instance of instances) {
+          const size = instance.trySize().throw(t)
 
-        if (instance.dynamic) {
-          const pointer = Uint256.new(BigInt(offset))
+          if (instance.dynamic) {
+            const pointer = Uint256.new(BigInt(offset))
 
-          heads.push(pointer)
-          length += 32
+            heads.push(pointer)
+            length += 32
 
-          tails.push(instance)
-          length += size
-          offset += size
-        } else {
-          heads.push(instance)
-          length += size
+            tails.push(instance)
+            length += size
+            offset += size
+          } else {
+            heads.push(instance)
+            length += size
+          }
         }
-      }
 
-      return new DynamicArray(instances, heads, tails, length)
+        return new Ok(new DynamicArray(instances, heads, tails, length))
+      })
     }
 
     get class() {
@@ -103,16 +103,16 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
       })
     }
 
-    static tryRead(cursor: Cursor): Result<DynamicArray, DecodingError> {
+    static tryRead(cursor: Cursor): Result<DynamicArray, Error> {
       return Result.unthrowSync(t => {
         const start = cursor.offset
 
         const subcursor = new Cursor(cursor.after)
 
-        const inner = new Array<Writable<never, Error>>()
+        const inner = new Array<Instance>()
 
-        const heads = new Array<Writable<never, Error>>()
-        const tails = new Array<Writable<never, Error>>()
+        const heads = new Array<Instance>()
+        const tails = new Array<Instance>()
 
         for (let i = 0; i < this.count; i++) {
           if (DynamicArray.inner.dynamic) {

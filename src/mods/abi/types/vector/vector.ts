@@ -1,9 +1,7 @@
-import { Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
-import { Factory } from "mods/abi/abi.js";
-import { DecodingError } from "mods/abi/errors/errors.js";
+import { Factory, Instance } from "mods/abi/abi.js";
 import { Uint256 } from "../uint/uint.js";
 
 import type { Readable } from "@hazae41/binary";
@@ -25,7 +23,7 @@ export namespace DynamicVector {
   }
 
   export function isFactory<T extends Factory = Factory>(x: Skeleton<DynamicVectorFactory<T>>): x is DynamicVectorFactory<T> {
-    return x.name === name && x.new != null
+    return x.name === name && x.prototype != null
   }
 
 }
@@ -39,37 +37,39 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
     private constructor(
       readonly inner: ReadOutputs<T[]>,
-      readonly heads: Writable<never, Error>[],
-      readonly tails: Writable<never, Error>[],
+      readonly heads: Instance[],
+      readonly tails: Instance[],
       readonly size: number,
     ) { }
 
-    static new(...instances: ReadOutputs<T[]>): DynamicVector {
-      let length = 0
-      let offset = instances.length * 32
+    static tryNew(...instances: ReadOutputs<T[]>): Result<DynamicVector, Error> {
+      return Result.unthrowSync(t => {
+        let length = 0
+        let offset = instances.length * 32
 
-      const heads = new Array<Writable<never, Error>>()
-      const tails = new Array<Writable<never, Error>>()
+        const heads = new Array<Instance>()
+        const tails = new Array<Instance>()
 
-      for (const instance of instances) {
-        const size = instance.trySize().get()
+        for (const instance of instances) {
+          const size = instance.trySize().throw(t)
 
-        if (instance.dynamic) {
-          const pointer = Uint256.new(BigInt(offset))
+          if (instance.dynamic) {
+            const pointer = Uint256.new(BigInt(offset))
 
-          heads.push(pointer)
-          length += 32
+            heads.push(pointer)
+            length += 32
 
-          tails.push(instance)
-          length += size
-          offset += size
-        } else {
-          heads.push(instance)
-          length += size
+            tails.push(instance)
+            length += size
+            offset += size
+          } else {
+            heads.push(instance)
+            length += size
+          }
         }
-      }
 
-      return new DynamicVector(instances, heads, tails, length)
+        return new Ok(new DynamicVector(instances, heads, tails, length))
+      })
     }
 
     get class() {
@@ -102,7 +102,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
       })
     }
 
-    static tryRead(cursor: Cursor): Result<DynamicVector, DecodingError> {
+    static tryRead(cursor: Cursor): Result<DynamicVector, Error> {
       return Result.unthrowSync(t => {
         const length = Uint256.tryRead(cursor).throw(t)
 
@@ -110,10 +110,10 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
         const subcursor = new Cursor(cursor.after)
 
-        const inner = new Array<Writable<never, Error>>()
+        const inner = new Array<Instance>()
 
-        const heads = new Array<Writable<never, Error>>()
-        const tails = new Array<Writable<never, Error>>()
+        const heads = new Array<Instance>()
+        const tails = new Array<Instance>()
 
         for (let i = 0; i < length.value; i++) {
           if (DynamicVector.inner.dynamic) {

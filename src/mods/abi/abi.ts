@@ -2,15 +2,14 @@ import { Readable, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Err, Ok, Result } from "@hazae41/result";
 import { keccak_256 } from "@noble/hashes/sha3";
-import { DecodingError } from "./errors/errors.js";
-import { createDynamicTuple } from "./index.js";
 import { tryParseSignature } from "./parser/parser.js";
 import { FunctionSelector, FunctionSelectorAndArgumentsInstance, InvalidFunctionSelector, createFunctionSelectorAndArguments } from "./types/function/function.js";
 
-export interface Instance extends Writable<never, Error> {
-  readonly class: Factory<this>
-  readonly dynamic?: boolean
-}
+export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
+
+export type Instance = MaybeDynamic<Writable<Error, Error>>
+
+export type Factory<Output extends Instance = Instance> = MaybeDynamic<Readable<Output, Error>>
 
 /**
  * Shorthand for writing some bytes
@@ -19,18 +18,15 @@ export interface Instance extends Writable<never, Error> {
  */
 export function tryEncode(signature: string, ...instances: Instance[]): Result<Uint8Array, Error> {
   return Result.unthrowSync(t => {
+    const [name, args] = tryParseSignature(signature).throw(t)
+
     const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
-    const args = createDynamicTuple(...[] as any)
-    const encoder = createFunctionSelectorAndArguments(args).new(selector, ...instances)
+
+    const encoder = createFunctionSelectorAndArguments(args).tryNew(selector, ...instances).throw(t)
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)
   })
-}
-
-export interface Factory<Output extends Instance = Instance> extends Readable<Output, DecodingError> {
-  readonly name: string
-  readonly dynamic?: boolean
 }
 
 /**
@@ -42,7 +38,9 @@ export interface Factory<Output extends Instance = Instance> extends Readable<Ou
 export function tryDecode(signature: string, bytes: Uint8Array): Result<FunctionSelectorAndArgumentsInstance, Error> {
   return Result.unthrowSync(t => {
     const [name, args] = tryParseSignature(signature).throw(t)
+
     const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
+
     const decoder = createFunctionSelectorAndArguments(args)
     const decoded = Readable.tryReadFromBytes(decoder, bytes).throw(t)
 

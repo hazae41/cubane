@@ -7,10 +7,10 @@ import { Int104, Int112, Int120, Int128, Int136, Int144, Int152, Int16, Int160, 
 import { DynamicString } from "../types/string/string.js";
 import { Uint104, Uint112, Uint120, Uint128, Uint136, Uint144, Uint152, Uint16, Uint160, Uint168, Uint176, Uint184, Uint192, Uint200, Uint208, Uint216, Uint224, Uint232, Uint24, Uint240, Uint248, Uint256, Uint32, Uint40, Uint48, Uint56, Uint64, Uint72, Uint8, Uint80, Uint88, Uint96 } from "../types/uint/uint.js";
 
-import type { Writable } from "@hazae41/binary";
+import type { Readable, Writable } from "@hazae41/binary";
 import type { Cursor } from "@hazae41/cursor";
 
-type Unuseds = Writable | Cursor
+type Unuseds = Readable | Writable | Cursor
 
 export class NameParseError extends Error {
   readonly #class = NameParseError
@@ -203,16 +203,8 @@ export function tryParseSignature(signature: string): Result<[string, DynamicTup
 
     const args = tryParseArguments(tokens).throw(t)
 
-    console.log()
-    console.log()
-
     console.log(signature)
-    console.log()
-
     console.log(args)
-
-    console.log()
-    console.log()
 
     return new Ok([name, args])
   })
@@ -225,14 +217,12 @@ export function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<
     while (tokens.length) {
       const token = tokens.shift()!
 
-      console.log(token)
-
       if (!token)
         continue
       else if (token === ",")
         continue
       else if (token === "(")
-        factories.push(doParseArrayOrVector(tokens, tryParseArguments(tokens).throw(t)))
+        factories.push(doParseArrayOrVectorOrSingle(tokens, tryParseArguments(tokens).throw(t)))
       else if (token === ")")
         return new Ok(createDynamicTuple(...factories))
       else if (token === "[")
@@ -240,14 +230,14 @@ export function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<
       else if (token === "]")
         return new Err(new Error(`Unexpected brackets`))
       else
-        factories.push(doParseArrayOrVector(tokens, tryGetFactory(token).throw(t)))
+        factories.push(doParseArrayOrVectorOrSingle(tokens, tryGetFactory(token).throw(t)))
     }
 
     return new Ok(createDynamicTuple(...factories))
   })
 }
 
-export function doParseArrayOrVector(tokens: string[], factory: Factory) {
+export function doParseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
   if (tokens[0] === "[" && tokens[1] === "]") {
     tokens.shift()
     tokens.shift()

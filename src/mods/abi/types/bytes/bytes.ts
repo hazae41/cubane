@@ -18,7 +18,7 @@ export namespace StaticBytes {
   }
 
   export function isFactory<N extends number>(x: Skeleton<StaticBytesFactory<N>>): x is StaticBytesFactory<N> {
-    return x.name === name && x.new != null
+    return x.name === name && x.prototype != null
   }
 
 }

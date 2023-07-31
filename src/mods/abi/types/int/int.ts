@@ -21,7 +21,7 @@ export namespace StaticInt {
   }
 
   export function isFactory<N extends number>(x: Skeleton<StaticIntFactory<N>>): x is StaticIntFactory<N> {
-    return x.name === name && x.new != null
+    return x.name === name && x.prototype != null
   }
 
 }
