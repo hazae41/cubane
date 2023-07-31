@@ -102,7 +102,6 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
 
     static decode(cursor: TextCursor) {
       const start = cursor.offset
-      console.log("start", start)
 
       const inner = new Array<Instance>()
 
@@ -115,8 +114,6 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
         if (factory.dynamic) {
           const pointer = Uint32.decode(cursor)
           heads.push(pointer)
-
-          console.log("pointer", pointer.value)
 
           subcursor.offset = start + (pointer.value * 2)
           const instance = factory.decode(subcursor)
