@@ -8,7 +8,7 @@ export type StaticBytesInstance<N extends number> =
   Readable.ReadOutput<StaticBytesFactory<N>>
 
 export type StaticBytesFactory<N extends number> =
-  ReturnType<typeof createStaticBytes<N>> & { name: string }
+  ReturnType<typeof createStaticBytes<N>> & { readonly name: string }
 
 export namespace StaticBytes {
   export const name = "StaticBytes"
@@ -33,10 +33,10 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
     static readonly bits = bytes * 8
 
     private constructor(
-      readonly value: Uint8Array & { length: N }
+      readonly value: Uint8Array & { readonly length: N }
     ) { }
 
-    static new(value: Uint8Array & { length: N }) {
+    static new(value: Uint8Array & { readonly length: N }) {
       return new StaticBytes(value)
     }
 
@@ -115,10 +115,10 @@ export class DynamicBytes<N extends number = number> {
   readonly #class = DynamicBytes
 
   private constructor(
-    readonly value: Uint8Array & { length: N }
+    readonly value: Uint8Array & { readonly length: N }
   ) { }
 
-  static new<N extends number>(value: Uint8Array & { length: N }) {
+  static new<N extends number>(value: Uint8Array & { readonly length: N }) {
     return new DynamicBytes(value)
   }
 

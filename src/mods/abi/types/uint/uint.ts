@@ -8,7 +8,7 @@ export type StaticUintInstance<N extends number> =
   Readable.ReadOutput<StaticUintFactory<N>>
 
 export type StaticUintFactory<N extends number> =
-  ReturnType<typeof createStaticUint<N>> & { name: string }
+  ReturnType<typeof createStaticUint<N>> & { readonly name: string }
 
 export namespace StaticUint {
   export const name = "StaticUint"

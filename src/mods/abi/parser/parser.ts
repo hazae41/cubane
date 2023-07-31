@@ -1,5 +1,4 @@
 import { Err, Ok, Result } from "@hazae41/result";
-import { DynamicTupleFactory, Factory, createDynamicArray, createDynamicTuple, createDynamicVector } from "../index.js";
 import { StaticAddress } from "../types/address/address.js";
 import { StaticBool } from "../types/bool/bool.js";
 import { DynamicBytes } from "../types/bytes/bytes.js";
@@ -9,6 +8,10 @@ import { Uint104, Uint112, Uint120, Uint128, Uint136, Uint144, Uint152, Uint16, 
 
 import type { Readable, Writable } from "@hazae41/binary";
 import type { Cursor } from "@hazae41/cursor";
+import { Factory } from "../abi.js";
+import { createDynamicArray } from "../types/array/array.js";
+import { DynamicTupleFactory, createDynamicTuple } from "../types/tuple/tuple.js";
+import { createDynamicVector } from "../types/vector/vector.js";
 
 type Unuseds = Readable | Writable | Cursor
 

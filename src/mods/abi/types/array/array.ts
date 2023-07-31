@@ -13,7 +13,7 @@ export type DynamicArrayInstance<T extends Factory, N extends number> =
   Readable.ReadOutput<DynamicArrayFactory<T, N>>
 
 export type DynamicArrayFactory<T extends Factory, N extends number> =
-  ReturnType<typeof createDynamicArray<T, N>> & { name: string }
+  ReturnType<typeof createDynamicArray<T, N>> & { readonly name: string }
 
 export namespace DynamicArray {
   export const name = "DynamicArray"
@@ -37,13 +37,13 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
     static readonly count = count
 
     private constructor(
-      readonly inner: ReadOutputs<T[]> & { length: N },
+      readonly inner: ReadOutputs<T[]> & { readonly length: N },
       readonly heads: Instance[],
       readonly tails: Instance[],
       readonly size: number,
     ) { }
 
-    static tryNew(...instances: MaybeDynamic<ReadOutputs<T[]>> & { length: N }): Result<DynamicArray, Error> {
+    static tryNew(...instances: MaybeDynamic<ReadOutputs<T[]>> & { readonly length: N }): Result<DynamicArray, Error> {
       return Result.unthrowSync(t => {
         let length = 0
         let offset = instances.length * 32
@@ -135,7 +135,7 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
 
         cursor.offset = start + size
 
-        return new Ok(new DynamicArray(inner as ReadOutputs<T[]> & { length: N }, heads, tails, size))
+        return new Ok(new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, size))
       })
     }
 

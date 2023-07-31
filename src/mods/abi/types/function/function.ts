@@ -52,7 +52,7 @@ export type FunctionSelectorAndArgumentsInstance<T extends readonly Factory[] = 
   Readable.ReadOutput<FunctionSelectorAndArgumentsFactory<T>>
 
 export type FunctionSelectorAndArgumentsFactory<T extends readonly Factory[] = Factory[]> =
-  ReturnType<typeof createFunctionSelectorAndArguments<T>> & { name: string }
+  ReturnType<typeof createFunctionSelectorAndArguments<T>> & { readonly name: string }
 
 export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>(args: DynamicTupleFactory<T>) => {
   return class FunctionSelectorAndArguments {

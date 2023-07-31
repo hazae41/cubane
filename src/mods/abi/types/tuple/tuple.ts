@@ -10,7 +10,7 @@ export type DynamicTupleInstance<T extends readonly Factory[] = Factory[]> =
   Readable.ReadOutput<DynamicTupleFactory<T>>
 
 export type DynamicTupleFactory<T extends readonly Factory[] = Factory[]> =
-  ReturnType<typeof createDynamicTuple<T>> & { name: string }
+  ReturnType<typeof createDynamicTuple<T>> & { readonly name: string }
 
 export namespace DynamicTuple {
   export const name = "DynamicTuple"

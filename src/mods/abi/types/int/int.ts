@@ -11,7 +11,7 @@ export type StaticIntInstance<N extends number> =
   Readable.ReadOutput<StaticIntFactory<N>>
 
 export type StaticIntFactory<N extends number> =
-  ReturnType<typeof createStaticInt<N>> & { name: string }
+  ReturnType<typeof createStaticInt<N>> & { readonly name: string }
 
 export namespace StaticInt {
   export const name = "StaticInt"

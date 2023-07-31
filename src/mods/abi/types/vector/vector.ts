@@ -13,7 +13,7 @@ export type DynamicVectorInstance<T extends Factory = Factory> =
   Readable.ReadOutput<DynamicVectorFactory<T>>
 
 export type DynamicVectorFactory<T extends Factory = Factory> =
-  ReturnType<typeof createDynamicVector<T>> & { name: string }
+  ReturnType<typeof createDynamicVector<T>> & { readonly name: string }
 
 export namespace DynamicVector {
   export const name = "DynamicVector"
