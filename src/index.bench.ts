@@ -28,19 +28,19 @@ if (false) {
 if (true) {
   const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
   const tuple = createDynamicTuple(StaticBool, Uint256, DynamicString)
-  const encoder = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, Uint256, DynamicString, tuple))
+  const encoder = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, Uint256, DynamicString, tuple, DynamicBytes))
 
-  const abi = parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d")
+  const abi = parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d, bytes e")
 
   const bytes = Bytes.random(1024)
 
   const cubane = benchSync("cubane", () => {
-    const hex = encoder.new(selector, StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"), tuple.new(StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"))).encode()
-  }, { samples: 1000, warmup: false })
+    const hex = encoder.new(selector, StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"), tuple.new(StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world")), DynamicBytes.new(bytes)).encode()
+  }, { samples: 100000, warmup: true })
 
   const viem = benchSync("viem", () => {
-    const hex = encodeAbiParameters(abi, [true, 123456789n, "hello world", { a: true, b: 123456789n, c: "hello world" }])
-  }, { samples: 1000, warmup: false })
+    const hex = encodeAbiParameters(abi, [true, 123456789n, "hello world", { a: true, b: 123456789n, c: "hello world" }, bytesToHex(bytes)])
+  }, { samples: 100000, warmup: true })
 
   cubane.tableAndSummary(viem)
 }
