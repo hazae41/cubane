@@ -93,6 +93,28 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
       return new Ok(this.size)
     }
 
+    tryEncodePacked() {
+      let result = ""
+
+      for (const instance of this.heads)
+        result += instance.tryEncodePacked()
+      for (const instance of this.tails)
+        result += instance.tryEncodePacked()
+
+      return new Ok(result)
+    }
+
+    tryEncode() {
+      let result = ""
+
+      for (const instance of this.heads)
+        result += instance.tryEncode()
+      for (const instance of this.tails)
+        result += instance.tryEncode()
+
+      return new Ok(result)
+    }
+
     tryWrite(cursor: Cursor): Result<void, Error> {
       return Result.unthrowSync(t => {
         for (const instance of this.heads)

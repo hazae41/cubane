@@ -25,6 +25,14 @@ export class StaticAddress {
     return new Ok(32)
   }
 
+  tryEncodePacked() {
+    return new Ok(this.value.slice(2))
+  }
+
+  tryEncode() {
+    return new Ok(this.value.slice(2).padStart(32, "0"))
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
       cursor.fill(0, 32 - 20)

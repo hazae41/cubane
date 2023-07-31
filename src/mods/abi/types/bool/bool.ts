@@ -33,6 +33,14 @@ export class StaticBool {
     return new Ok(32)
   }
 
+  tryEncodePacked() {
+    return new Ok(this.value ? "1" : "0")
+  }
+
+  tryEncode() {
+    return new Ok(this.tryEncodePacked().get().padStart(32, "0"))
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
       cursor.fill(0, 31)

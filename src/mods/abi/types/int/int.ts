@@ -59,6 +59,22 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
       return new Ok(32)
     }
 
+    tryEncodePacked() {
+      if (this.value < BN_0) {
+        let value = -this.value
+        const mask = (BN_1 << 256n) - BN_1
+        value = ((~value) & mask) + BN_1
+
+        return new Ok(this.value.toString(16))
+      }
+
+      return new Ok(this.value.toString(16))
+    }
+
+    tryEncode(): Result<string, never> {
+      return new Ok(this.tryEncodePacked().get().padStart(32, "0"))
+    }
+
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
       return Result.unthrowSync(t => {
         if (this.value < BN_0) {

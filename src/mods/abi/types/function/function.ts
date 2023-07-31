@@ -38,6 +38,14 @@ export class FunctionSelector {
     return new Ok(4)
   }
 
+  tryEncodePacked() {
+    return new Ok(Bytes.toHex(this.value))
+  }
+
+  tryEncode() {
+    return new Ok(Bytes.toHex(this.value))
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return cursor.tryWrite(this.value)
   }
@@ -79,6 +87,14 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
 
     trySize(): Result<number, never> {
       return new Ok(this.func.trySize().get() + this.args.trySize().get())
+    }
+
+    tryEncodePacked() {
+      return new Ok(this.func.tryEncodePacked().get() + this.args.tryEncodePacked().get())
+    }
+
+    tryEncode() {
+      return new Ok(this.func.tryEncode().get() + this.args.tryEncode().get())
     }
 
     tryWrite(cursor: Cursor): Result<void, Error> {

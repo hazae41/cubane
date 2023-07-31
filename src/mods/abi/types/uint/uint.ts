@@ -56,6 +56,14 @@ export const createStaticUint = <N extends number = number>(bytes: N) => {
       return new Ok(32)
     }
 
+    tryEncodePacked() {
+      return new Ok(this.value.toString(16))
+    }
+
+    tryEncode(): Result<string, never> {
+      return new Ok(this.value.toString(16).padStart(32, "0"))
+    }
+
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
       return Result.unthrowSync(t => {
         const bytes = Bytes.fromBigInt(this.value)

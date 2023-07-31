@@ -1,4 +1,5 @@
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
+import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { Skeleton } from "libs/typescript/skeleton.js";
@@ -136,6 +137,22 @@ export class DynamicBytes<N extends number = number> {
 
   trySize(): Result<number, never> {
     return new Ok(32 + (Math.ceil(this.value.length / 32) * 32))
+  }
+
+  tryEncodePacked() {
+    const length = Uint256.new(BigInt(this.value.length)).tryEncodePacked().get()
+    const value = Bytes.toHex(this.value)
+
+    return new Ok(length + value)
+  }
+
+  tryEncode() {
+    const size = 32 + (Math.ceil(this.value.length / 32) * 32)
+
+    const length = Uint256.new(BigInt(this.value.length)).tryEncode().get()
+    const value = Bytes.toHex(this.value).padEnd(size, "0")
+
+    return new Ok(length + value)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
