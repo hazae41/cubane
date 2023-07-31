@@ -44,7 +44,6 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
     ) { }
 
     static new(...instances: MaybeDynamic<ReadOutputs<T[]>> & { readonly length: N }) {
-
       let length = 0
       let offset = instances.length * 32
 

@@ -2,7 +2,7 @@ import { Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { benchSync } from "@hazae41/deimos";
 import { keccak_256 } from "@noble/hashes/sha3";
-import { DynamicBytes, FunctionSelector, StaticBool, createDynamicTuple, createFunctionSelectorAndArguments } from "mods/abi/index.js";
+import { DynamicBytes, DynamicString, FunctionSelector, StaticBool, Uint256, createDynamicTuple, createFunctionSelectorAndArguments } from "mods/abi/index.js";
 import { bytesToHex, decodeAbiParameters, encodeAbiParameters, hexToBytes, parseAbiParameters } from "viem";
 
 /**
@@ -27,19 +27,20 @@ if (false) {
  */
 if (true) {
   const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
-  const encoder = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, DynamicBytes))
+  const tuple = createDynamicTuple(StaticBool, Uint256, DynamicString)
+  const encoder = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, Uint256, DynamicString, tuple))
 
-  const abi = parseAbiParameters("bool x, bytes y")
+  const abi = parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d")
 
   const bytes = Bytes.random(1024)
 
   const cubane = benchSync("cubane", () => {
-    const hex = "0x" + encoder.new(selector, StaticBool.new(true), DynamicBytes.new(bytes)).encode()
-  }, { samples: 100000, warmup: true })
+    const hex = encoder.new(selector, StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"), tuple.new(StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"))).encode()
+  }, { samples: 1000, warmup: false })
 
   const viem = benchSync("viem", () => {
-    const hex = bytesToHex(selector.value) + encodeAbiParameters(abi, [true, bytesToHex(bytes)]).slice(2)
-  }, { samples: 100000, warmup: true })
+    const hex = encodeAbiParameters(abi, [true, 123456789n, "hello world", { a: true, b: 123456789n, c: "hello world" }])
+  }, { samples: 1000, warmup: false })
 
   cubane.tableAndSummary(viem)
 }

@@ -69,6 +69,14 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
       return this.#class
     }
 
+    static get dynamic() {
+      return true as const
+    }
+
+    get dynamic() {
+      return this.#class.dynamic
+    }
+
     encode() {
       let result = ""
 
