@@ -206,9 +206,6 @@ export function tryParseSignature(signature: string): Result<[string, DynamicTup
 
     const args = tryParseArguments(tokens).throw(t)
 
-    console.log(signature)
-    console.log(args)
-
     return new Ok([name, args])
   })
 }

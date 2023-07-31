@@ -1,7 +1,11 @@
+import resolve from "@rollup/plugin-node-resolve";
 import ts from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import externals from "rollup-plugin-node-externals";
 
+/**
+ * @type {import("rollup").RollupOptions[]}
+ */
 export const config = [
   {
     input: "./src/index.ts",
@@ -45,6 +49,18 @@ export const config = [
       entryFileNames: "[name].mjs"
     }],
     plugins: [externals({ devDeps: true }), ts()],
+  },
+  {
+    input: "./src/index.bench.ts",
+    output: [{
+      dir: "./dist/bench",
+      format: "esm",
+      exports: "named",
+      preserveModules: false,
+      sourcemap: true,
+      entryFileNames: "[name].mjs",
+    }],
+    plugins: [resolve(), ts()],
   },
 ]
 
