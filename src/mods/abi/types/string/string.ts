@@ -2,6 +2,7 @@ import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Result } from "@hazae41/result";
+import { TextCursor } from "libs/cursor/cursor.js";
 import { DynamicBytes } from "../bytes/bytes.js";
 
 export class DynamicString {
@@ -40,6 +41,18 @@ export class DynamicString {
     return this.inner.encodePacked()
   }
 
+  static decode(cursor: TextCursor) {
+    const inner = DynamicBytes.decode(cursor)
+
+    return new DynamicString(Bytes.toUtf8(inner.value), inner)
+  }
+
+  static decodePacked(cursor: TextCursor) {
+    const inner = DynamicBytes.decodePacked(cursor)
+
+    return new DynamicString(Bytes.toUtf8(inner.value), inner)
+  }
+
   trySize(): Result<number, never> {
     return this.inner.trySize()
   }
@@ -49,7 +62,7 @@ export class DynamicString {
   }
 
   static tryRead(cursor: Cursor): Result<DynamicString, BinaryReadError> {
-    return DynamicBytes.tryRead(cursor).mapSync(x => new DynamicString(Bytes.toUtf8(x.value), DynamicBytes.new(x.value)))
+    return DynamicBytes.tryRead(cursor).mapSync(x => new DynamicString(Bytes.toUtf8(x.value), x))
   }
 
 }

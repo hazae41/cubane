@@ -4,7 +4,7 @@ import { assert, test } from "@hazae41/phobos";
 import { Uint256, Uint32 } from "./uint.js";
 
 test("uint32", async ({ message, test }) => {
-  const value = 123n
+  const value = 123
   const abi = Uint32.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 

@@ -2,6 +2,7 @@ import { Readable, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Err, Ok, Result } from "@hazae41/result";
 import { keccak_256 } from "@noble/hashes/sha3";
+import { TextCursor } from "libs/cursor/cursor.js";
 import { tryParseSignature } from "./parser/parser.js";
 import { FunctionSelector, FunctionSelectorAndArgumentsInstance, InvalidFunctionSelector, createFunctionSelectorAndArguments } from "./types/function/function.js";
 
@@ -14,7 +15,9 @@ export type Instance = MaybeDynamic<Writable<never, Error>> & {
   encodePacked(): string
 }
 
-export type Factory<T extends Instance = Instance> = MaybeDynamic<Readable<T, Error>>
+export type Factory<T extends Instance = Instance> = MaybeDynamic<Readable<T, Error>> & {
+  decode(cursor: TextCursor): Instance
+}
 
 /**
  * Shorthand for writing some bytes

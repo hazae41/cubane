@@ -1,9 +1,37 @@
-import { Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { benchSync } from "@hazae41/deimos";
 import { keccak_256 } from "@noble/hashes/sha3";
+import { TextCursor } from "libs/cursor/cursor.js";
 import { DynamicBytes, DynamicString, FunctionSelector, StaticBool, Uint256, createDynamicTuple, createFunctionSelectorAndArguments } from "mods/abi/index.js";
 import { bytesToHex, decodeAbiParameters, encodeAbiParameters, hexToBytes, parseAbiParameters } from "viem";
+
+if (false) {
+  const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut venenatis pharetra ligula, non molestie mauris fringilla nec. Aliquam erat volutpat. Quisque sit amet purus bibendum purus gravida pellentesque at et quam. Sed ut lorem enim. Nam in euismod urna. Maecenas mauris odio, vehicula nec dui in, tempor venenatis justo. Nam ex mauris, maximus ut fermentum at, placerat at justo. Ut euismod sagittis mollis. Praesent tempor vitae ex sit amet egestas. Nulla tincidunt tincidunt sem, in faucibus orci sagittis non. Aenean cursus placerat elit at dapibus."
+
+  const slice = benchSync("slice", async () => {
+    const ab = text.slice(410, 410 + 2)
+
+    let lol: boolean
+
+    if (ab === "00")
+      lol = true
+    else
+      lol = false
+  }, { samples: 100000, warmup: true })
+
+  const slice2 = benchSync("chars", async () => {
+    const ab = text.slice(410).slice(2)
+
+    let lol: boolean
+
+    if (ab === "00")
+      lol = true
+    else
+      lol = false
+  }, { samples: 100000, warmup: true })
+
+  slice.tableAndSummary(slice2)
+}
 
 /**
  * Encode bytes to hex
@@ -25,7 +53,7 @@ if (false) {
 /**
  * Encode bool and bytes with preparsed ABI
  */
-if (true) {
+if (false) {
   const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
   const tuple = createDynamicTuple(StaticBool, Uint256, DynamicString)
   const encoder = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, Uint256, DynamicString, tuple, DynamicBytes))
@@ -48,19 +76,19 @@ if (true) {
 /**
  * Read bool and bytes
  */
-if (false) {
+if (true) {
   const hex = "0x240a58a20000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000030102030000000000000000000000000000000000000000000000000000000000"
 
+  const factory = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, DynamicBytes))
+  const abi = parseAbiParameters("bool x, bytes y")
+
   const viem = benchSync("viem", () => {
-    const abi = parseAbiParameters("bool x, bytes y")
     const [bool, bytesHex] = decodeAbiParameters(abi, `0x${hex.slice(10)}`)
     const bytes = hexToBytes(bytesHex)
   }, { samples: 1000, warmup: true })
 
-  const factory = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, DynamicBytes))
-
   const cubane = benchSync("cubane", () => {
-    const args = Readable.tryReadFromBytes(factory, Bytes.fromHex(hex.slice(2))).unwrap()
+    const args = factory.decode(new TextCursor(hex.slice(2)))
   }, { samples: 1000, warmup: true })
 
   cubane.tableAndSummary(viem)

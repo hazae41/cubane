@@ -1,18 +1,7 @@
 import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
-import { Err, Ok, Result } from "@hazae41/result";
-
-export class InvalidBoolValueError extends Error {
-  readonly #class = InvalidBoolValueError
-  readonly name = this.#class.name
-
-  constructor(
-    readonly byte: number
-  ) {
-    super(`Invalid Bool value ${byte}`)
-  }
-
-}
+import { Ok, Result } from "@hazae41/result";
+import { TextCursor } from "libs/cursor/cursor.js";
 
 export class StaticBool {
   readonly #class = StaticBool
@@ -39,6 +28,20 @@ export class StaticBool {
     return this.value ? "1" : "0"
   }
 
+  static decode(cursor: TextCursor) {
+    cursor.offset += 62
+
+    if (cursor.read(2) === "00")
+      return new StaticBool(false)
+    return new StaticBool(true)
+  }
+
+  static decodePacked(cursor: TextCursor) {
+    if (cursor.read(2) === "00")
+      return new StaticBool(false)
+    return new StaticBool(true)
+  }
+
   trySize(): Result<32, never> {
     return new Ok(this.size)
   }
@@ -54,7 +57,7 @@ export class StaticBool {
     })
   }
 
-  static tryRead(cursor: Cursor): Result<StaticBool, BinaryReadError | InvalidBoolValueError> {
+  static tryRead(cursor: Cursor): Result<StaticBool, BinaryReadError> {
     return Result.unthrowSync(t => {
       cursor.offset += 31
 
@@ -62,9 +65,7 @@ export class StaticBool {
 
       if (byte === 0)
         return new Ok(new StaticBool(false))
-      if (byte === 1)
-        return new Ok(new StaticBool(true))
-      return new Err(new InvalidBoolValueError(byte))
+      return new Ok(new StaticBool(true))
     })
   }
 

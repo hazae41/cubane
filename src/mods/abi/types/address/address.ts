@@ -2,6 +2,7 @@ import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
+import { TextCursor } from "libs/cursor/cursor.js";
 
 export class StaticAddress {
   readonly #class = StaticAddress
@@ -29,6 +30,16 @@ export class StaticAddress {
 
   encodePacked() {
     return this.value.slice(2)
+  }
+
+  static decode(cursor: TextCursor) {
+    cursor.offset += 24
+
+    return new StaticAddress("0x" + cursor.read(40))
+  }
+
+  static decodePacked(cursor: TextCursor) {
+    return new StaticAddress("0x" + cursor.read(40))
   }
 
   trySize(): Result<32, never> {

@@ -1,7 +1,8 @@
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
+import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
+import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 
 const BN_0 = 0n
@@ -32,6 +33,7 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
     readonly name = this.#class.name
 
     static readonly bits = bytes * 8
+    static readonly bitsn = BigInt(this.bits)
 
     static readonly bytes = bytes
 
@@ -81,6 +83,21 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
       return this.value.toString(16)
     }
 
+    static decode(cursor: TextCursor) {
+      const value = BigInt("0x" + cursor.read(64))
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+      const masked = value & mask
+
+      if (masked >> (this.bitsn - BN_1))
+        return new StaticInt(-(((~value) & mask) + BN_1))
+      return new StaticInt(value)
+    }
+
+    static decodePacked(cursor: TextCursor) {
+      throw Panic.from(new Unimplemented())
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
     }
@@ -115,16 +132,11 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
         const bytes = cursor.tryRead(StaticInt.bytes).throw(t)
         const value = Bytes.toBigInt(bytes)
 
-        const bits = BigInt(StaticInt.bits)
-        const mask = (BN_1 << bits) - BN_1
+        const mask = (BN_1 << this.bitsn) - BN_1
         const masked = value & mask
 
-        if (masked >> (bits - BN_1)) {
-          const signed = -(((~value) & mask) + BN_1)
-
-          return new Ok(new StaticInt(signed))
-        }
-
+        if (masked >> (this.bitsn - BN_1))
+          return new Ok(new StaticInt(-(((~value) & mask) + BN_1)))
         return new Ok(new StaticInt(value))
       })
     }

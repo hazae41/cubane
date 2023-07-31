@@ -1,10 +1,11 @@
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
+import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory, Instance } from "mods/abi/abi.js";
-import { Uint256 } from "../uint/uint.js";
+import { Uint256, Uint32 } from "../uint/uint.js";
 
 import type { Readable } from "@hazae41/binary";
+import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 
 type Unuseds = Readable
@@ -100,6 +101,46 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
         result += instance.encodePacked()
 
       return result
+    }
+
+    static decode(cursor: TextCursor) {
+      const length = Uint32.decode(cursor)
+
+      const start = cursor.offset
+
+      const inner = new Array<Instance>()
+
+      const heads = new Array<Instance>()
+      const tails = new Array<Instance>()
+
+      const subcursor = new TextCursor(cursor.text)
+
+      for (let i = 0; i < length.value; i++) {
+        if (DynamicVector.inner.dynamic) {
+          const pointer = Uint32.decode(cursor)
+          heads.push(pointer)
+
+          subcursor.offset = start + (pointer.value * 2)
+          const instance = DynamicVector.inner.decode(subcursor)
+
+          inner.push(instance)
+          tails.push(instance)
+        } else {
+          const instance = DynamicVector.inner.decode(cursor)
+          inner.push(instance)
+          heads.push(instance)
+        }
+      }
+
+      const nibbles = Math.max(cursor.offset - start, subcursor.offset)
+
+      cursor.offset = start + nibbles
+
+      return new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, nibbles / 2)
+    }
+
+    static decodePacked(cursor: TextCursor) {
+      throw Panic.from(new Unimplemented())
     }
 
     trySize(): Result<number, never> {

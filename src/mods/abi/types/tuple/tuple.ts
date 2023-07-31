@@ -1,10 +1,11 @@
 import { Readable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
+import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
+import { TextCursor } from "libs/cursor/cursor.js";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Factory, Instance, MaybeDynamic } from "mods/abi/index.js";
-import { Uint256 } from "../uint/uint.js";
+import { Uint256, Uint32 } from "../uint/uint.js";
 
 export type DynamicTupleInstance<T extends readonly Factory[] = Factory[]> =
   Readable.ReadOutput<DynamicTupleFactory<T>>
@@ -99,6 +100,44 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
       return result
     }
 
+    static decode(cursor: TextCursor) {
+      const start = cursor.offset
+
+      const inner = new Array<Instance>()
+
+      const heads = new Array<Instance>()
+      const tails = new Array<Instance>()
+
+      const subcursor = new TextCursor(cursor.text)
+
+      for (const factory of DynamicTuple.inner) {
+        if (factory.dynamic) {
+          const pointer = Uint32.decode(cursor)
+          heads.push(pointer)
+
+          subcursor.offset = start + (pointer.value * 2)
+          const instance = factory.decode(subcursor)
+
+          inner.push(instance)
+          tails.push(instance)
+        } else {
+          const instance = factory.decode(cursor)
+          inner.push(instance)
+          heads.push(instance)
+        }
+      }
+
+      const nibbles = Math.max(cursor.offset - start, subcursor.offset)
+
+      cursor.offset = start + nibbles
+
+      return new DynamicTuple(inner as ReadOutputs<T>, heads, tails, nibbles / 2)
+    }
+
+    static decodePacked(cursor: TextCursor) {
+      throw Panic.from(new Unimplemented())
+    }
+
     trySize(): Result<number, never> {
       return new Ok(this.size)
     }
@@ -117,12 +156,12 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
       return Result.unthrowSync(t => {
         const start = cursor.offset
 
-        const subcursor = new Cursor(cursor.after)
-
         const inner = new Array<Instance>()
 
         const heads = new Array<Instance>()
         const tails = new Array<Instance>()
+
+        const subcursor = new Cursor(cursor.after)
 
         for (const factory of DynamicTuple.inner) {
           if (factory.dynamic) {

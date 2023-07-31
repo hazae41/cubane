@@ -2,6 +2,7 @@ import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
+import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Uint256 } from "../uint/uint.js";
 
@@ -30,6 +31,7 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
     readonly name = this.#class.name
 
     static readonly bytes = bytes
+    static readonly nibbles = bytes * 2
 
     static readonly bits = bytes * 8
 
@@ -61,6 +63,24 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
 
     encodePacked() {
       return Bytes.toHex(this.value)
+    }
+
+    static decode(cursor: TextCursor) {
+      const end = cursor.offset + 64
+
+      const text = cursor.read(StaticBytes.nibbles)
+      const value = Bytes.fromHex(text) as Bytes<N>
+
+      cursor.offset += end
+
+      return new StaticBytes(value)
+    }
+
+    static decodePacked(cursor: TextCursor) {
+      const text = cursor.read(StaticBytes.nibbles)
+      const value = Bytes.fromHex(text) as Bytes<N>
+
+      return new StaticBytes(value)
     }
 
     trySize(): Result<32, never> {
@@ -158,6 +178,24 @@ export class DynamicBytes<N extends number = number> {
     const value = Bytes.toHex(this.value)
 
     return length + value
+  }
+
+  static decode(cursor: TextCursor) {
+    const length = parseInt(cursor.read(64), 16)
+    const value = Bytes.fromHex(cursor.read(length * 2))
+    const size = 32 + (Math.ceil(length / 32) * 32)
+
+    cursor.offset += size - 32 - length
+
+    return new DynamicBytes(value, size)
+  }
+
+  static decodePacked(cursor: TextCursor) {
+    const length = parseInt(cursor.read(64), 16)
+    const value = Bytes.fromHex(cursor.read(length * 2))
+    const size = 32 + (Math.ceil(length / 32) * 32)
+
+    return new DynamicBytes(value, size)
   }
 
   trySize(): Result<number, never> {

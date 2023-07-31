@@ -1,12 +1,13 @@
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
+import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory } from "mods/abi/abi.js";
 import { DynamicTupleFactory, DynamicTupleInstance } from "../tuple/tuple.js";
 
 import type { Writable } from "@hazae41/binary";
+import { TextCursor } from "libs/cursor/cursor.js";
 
 type Unuseds = Writable
 
@@ -42,6 +43,14 @@ export class FunctionSelector {
 
   encodePacked() {
     return Bytes.toHex(this.value)
+  }
+
+  static decode(cursor: TextCursor) {
+    return new FunctionSelector(Bytes.fromHex(cursor.read(8)) as Bytes<4>)
+  }
+
+  static decodePacked(cursor: TextCursor) {
+    return new FunctionSelector(Bytes.fromHex(cursor.read(8)) as Bytes<4>)
   }
 
   trySize(): Result<4, never> {
@@ -94,6 +103,17 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
 
     encodePacked() {
       return this.func.encodePacked() + this.args.encodePacked()
+    }
+
+    static decode(cursor: TextCursor) {
+      const func = FunctionSelector.decode(cursor)
+      const args = FunctionSelectorAndArguments.args.decode(cursor)
+
+      return new FunctionSelectorAndArguments(func, args)
+    }
+
+    static decodePacked(cursor: TextCursor) {
+      throw Panic.from(new Unimplemented())
     }
 
     trySize(): Result<number, never> {
