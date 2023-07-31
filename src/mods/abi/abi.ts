@@ -9,7 +9,7 @@ export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
 
 export type Instance = MaybeDynamic<Writable<Error, Error>>
 
-export type Factory<Output extends Instance = Instance> = MaybeDynamic<Readable<Output, Error>>
+export type Factory<T extends Instance = Instance> = MaybeDynamic<Readable<T, Error>>
 
 /**
  * Shorthand for writing some bytes
