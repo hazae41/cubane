@@ -132,9 +132,9 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
         }
       }
 
-      const nibbles = Math.max(cursor.offset - start, subcursor.offset)
+      cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      cursor.offset = start + nibbles
+      const nibbles = (cursor.offset - start)
 
       return new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, nibbles / 2)
     }

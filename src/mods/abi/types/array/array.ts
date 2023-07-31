@@ -135,9 +135,9 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
         }
       }
 
-      const nibbles = Math.max(cursor.offset - start, subcursor.offset)
+      cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      cursor.offset = start + nibbles
+      const nibbles = (cursor.offset - start)
 
       return new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, nibbles / 2)
     }

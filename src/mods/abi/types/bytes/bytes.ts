@@ -185,7 +185,7 @@ export class DynamicBytes<N extends number = number> {
     const value = Bytes.fromHex(cursor.read(length * 2))
     const size = 32 + (Math.ceil(length / 32) * 32)
 
-    cursor.offset += size - 32 - length
+    cursor.offset += size - 32 - (length * 2)
 
     return new DynamicBytes(value, size)
   }
