@@ -29,16 +29,16 @@ export class StaticBool {
     return this.#class
   }
 
+  encode() {
+    return this.encodePacked().padStart(32, "0")
+  }
+
+  encodePacked() {
+    return this.value ? "1" : "0"
+  }
+
   trySize(): Result<number, never> {
     return new Ok(32)
-  }
-
-  tryEncodePacked() {
-    return new Ok(this.value ? "1" : "0")
-  }
-
-  tryEncode() {
-    return new Ok(this.tryEncodePacked().get().padStart(32, "0"))
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {

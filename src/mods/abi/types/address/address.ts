@@ -21,16 +21,16 @@ export class StaticAddress {
     return this.#class
   }
 
+  encode() {
+    return this.value.slice(2).padStart(32, "0")
+  }
+
+  encodePacked() {
+    return this.value.slice(2)
+  }
+
   trySize(): Result<number, never> {
     return new Ok(32)
-  }
-
-  tryEncodePacked() {
-    return new Ok(this.value.slice(2))
-  }
-
-  tryEncode() {
-    return new Ok(this.value.slice(2).padStart(32, "0"))
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {

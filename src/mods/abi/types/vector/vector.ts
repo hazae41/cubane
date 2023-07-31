@@ -84,34 +84,30 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
       return this.#class.dynamic
     }
 
+    encode() {
+      let result = this.inner.length.toString(16).padStart(32, "0")
+
+      for (const instance of this.heads)
+        result += instance.encode()
+      for (const instance of this.tails)
+        result += instance.encode()
+
+      return result
+    }
+
+    encodePacked() {
+      let result = this.inner.length.toString(16)
+
+      for (const instance of this.heads)
+        result += instance.encodePacked()
+      for (const instance of this.tails)
+        result += instance.encodePacked()
+
+      return result
+    }
+
     trySize(): Result<number, never> {
       return new Ok(32 + this.size)
-    }
-
-    tryEncodePacked() {
-      const length = Uint256.new(BigInt(this.inner.length))
-
-      let result = length.tryEncodePacked().get()
-
-      for (const instance of this.heads)
-        result += instance.tryEncodePacked()
-      for (const instance of this.tails)
-        result += instance.tryEncodePacked()
-
-      return new Ok(result)
-    }
-
-    tryEncode() {
-      const length = Uint256.new(BigInt(this.inner.length))
-
-      let result = length.tryEncode().get()
-
-      for (const instance of this.heads)
-        result += instance.tryEncode()
-      for (const instance of this.tails)
-        result += instance.tryEncode()
-
-      return new Ok(result)
     }
 
     tryWrite(cursor: Cursor): Result<void, Error> {

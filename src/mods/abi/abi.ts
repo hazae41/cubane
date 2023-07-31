@@ -8,8 +8,8 @@ import { FunctionSelector, FunctionSelectorAndArgumentsInstance, InvalidFunction
 export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
 
 export type Instance = MaybeDynamic<Writable<Error, Error>> & {
-  tryEncode(): Result<string, never>
-  tryEncodePacked(): Result<string, never>
+  encode(): string
+  encodePacked(): string
 }
 
 export type Factory<T extends Instance = Instance> = MaybeDynamic<Readable<T, Error>>

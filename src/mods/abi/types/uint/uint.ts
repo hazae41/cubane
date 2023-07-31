@@ -52,16 +52,16 @@ export const createStaticUint = <N extends number = number>(bytes: N) => {
       return this.#class.bytes
     }
 
+    encode() {
+      return this.value.toString(16).padStart(32, "0")
+    }
+
+    encodePacked() {
+      return this.value.toString(16)
+    }
+
     trySize(): Result<number, never> {
       return new Ok(32)
-    }
-
-    tryEncodePacked() {
-      return new Ok(this.value.toString(16))
-    }
-
-    tryEncode(): Result<string, never> {
-      return new Ok(this.value.toString(16).padStart(32, "0"))
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {

@@ -53,6 +53,14 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
       return this.#class.bytes
     }
 
+    encode() {
+      return Bytes.toHex(this.value).padStart(32, "0")
+    }
+
+    encodePacked() {
+      return Bytes.toHex(this.value)
+    }
+
     trySize(): Result<number, never> {
       return new Ok(32)
     }
@@ -135,24 +143,24 @@ export class DynamicBytes<N extends number = number> {
     return this.#class.dynamic
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(32 + (Math.ceil(this.value.length / 32) * 32))
-  }
-
-  tryEncodePacked() {
-    const length = Uint256.new(BigInt(this.value.length)).tryEncodePacked().get()
-    const value = Bytes.toHex(this.value)
-
-    return new Ok(length + value)
-  }
-
-  tryEncode() {
+  encode() {
     const size = 32 + (Math.ceil(this.value.length / 32) * 32)
 
-    const length = Uint256.new(BigInt(this.value.length)).tryEncode().get()
+    const length = this.value.length.toString(16).padStart(32, "0")
     const value = Bytes.toHex(this.value).padEnd(size, "0")
 
-    return new Ok(length + value)
+    return length + value
+  }
+
+  encodePacked() {
+    const length = this.value.length.toString(16)
+    const value = Bytes.toHex(this.value)
+
+    return length + value
+  }
+
+  trySize(): Result<number, never> {
+    return new Ok(32 + (Math.ceil(this.value.length / 32) * 32))
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {

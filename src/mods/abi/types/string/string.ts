@@ -28,16 +28,16 @@ export class DynamicString {
     return this.#class.dynamic
   }
 
+  encode() {
+    return this.inner.encode()
+  }
+
+  encodePacked() {
+    return this.inner.encodePacked()
+  }
+
   trySize(): Result<number, never> {
     return this.inner.trySize()
-  }
-
-  tryEncode(): Result<string, never> {
-    return this.inner.tryEncode()
-  }
-
-  tryEncodePacked(): Result<string, never> {
-    return this.inner.tryEncodePacked()
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
