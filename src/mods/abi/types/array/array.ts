@@ -43,32 +43,31 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
       readonly size: number,
     ) { }
 
-    static tryNew(...instances: MaybeDynamic<ReadOutputs<T[]>> & { readonly length: N }): Result<DynamicArray, Error> {
-      return Result.unthrowSync(t => {
-        let length = 0
-        let offset = instances.length * 32
+    static new(...instances: MaybeDynamic<ReadOutputs<T[]>> & { readonly length: N }) {
 
-        const heads = new Array<Instance>()
-        const tails = new Array<Instance>()
+      let length = 0
+      let offset = instances.length * 32
 
-        for (const instance of instances) {
-          if (instance.dynamic) {
-            const pointer = Uint256.new(BigInt(offset))
+      const heads = new Array<Instance>()
+      const tails = new Array<Instance>()
 
-            heads.push(pointer)
-            length += 32
+      for (const instance of instances) {
+        if (instance.dynamic) {
+          const pointer = Uint256.new(BigInt(offset))
 
-            tails.push(instance)
-            length += instance.size
-            offset += instance.size
-          } else {
-            heads.push(instance)
-            length += instance.size
-          }
+          heads.push(pointer)
+          length += 32
+
+          tails.push(instance)
+          length += instance.size
+          offset += instance.size
+        } else {
+          heads.push(instance)
+          length += instance.size
         }
+      }
 
-        return new Ok(new DynamicArray(instances, heads, tails, length))
-      })
+      return new DynamicArray(instances, heads, tails, length)
     }
 
     get class() {

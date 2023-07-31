@@ -75,12 +75,9 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       readonly args: DynamicTupleInstance<T>
     ) { }
 
-    static tryNew(inner: FunctionSelector, ...instances: ReadOutputs<T>): Result<FunctionSelectorAndArguments, Error> {
-      return Result.unthrowSync(t => {
-        const args = FunctionSelectorAndArguments.args.tryNew(...instances).throw(t)
-
-        return new Ok(new FunctionSelectorAndArguments(inner, args))
-      })
+    static new(inner: FunctionSelector, ...instances: ReadOutputs<T>) {
+      const args = FunctionSelectorAndArguments.args.new(...instances)
+      return new FunctionSelectorAndArguments(inner, args)
     }
 
     get class() {

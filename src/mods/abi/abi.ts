@@ -27,7 +27,7 @@ export function tryEncode(signature: string, ...instances: Instance[]): Result<U
 
     const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
 
-    const encoder = createFunctionSelectorAndArguments(args).tryNew(selector, ...instances).throw(t)
+    const encoder = createFunctionSelectorAndArguments(args).new(selector, ...instances)
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)

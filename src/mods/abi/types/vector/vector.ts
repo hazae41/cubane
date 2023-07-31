@@ -42,34 +42,30 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
       readonly size: number,
     ) { }
 
-    static tryNew(...instances: ReadOutputs<T[]>): Result<DynamicVector, Error> {
-      return Result.unthrowSync(t => {
-        let length = 0
-        let offset = instances.length * 32
+    static new(...instances: ReadOutputs<T[]>) {
+      let length = 0
+      let offset = instances.length * 32
 
-        const heads = new Array<Instance>()
-        const tails = new Array<Instance>()
+      const heads = new Array<Instance>()
+      const tails = new Array<Instance>()
 
-        for (const instance of instances) {
-          const size = instance.size
+      for (const instance of instances) {
+        if (instance.dynamic) {
+          const pointer = Uint256.new(BigInt(offset))
 
-          if (instance.dynamic) {
-            const pointer = Uint256.new(BigInt(offset))
+          heads.push(pointer)
+          length += 32
 
-            heads.push(pointer)
-            length += 32
-
-            tails.push(instance)
-            length += instance.size
-            offset += instance.size
-          } else {
-            heads.push(instance)
-            length += instance.size
-          }
+          tails.push(instance)
+          length += instance.size
+          offset += instance.size
+        } else {
+          heads.push(instance)
+          length += instance.size
         }
+      }
 
-        return new Ok(new DynamicVector(instances, heads, tails, length))
-      })
+      return new DynamicVector(instances, heads, tails, length)
     }
 
     get class() {

@@ -20,7 +20,7 @@ export namespace DynamicTuple {
   }
 
   export function isFactory<T extends readonly Factory[]>(x: Skeleton<DynamicTupleFactory<T>>): x is DynamicTupleFactory<T> {
-    return x.name === name && x.tryNew != null
+    return x.name === name && x.new != null
   }
 
 }
@@ -39,32 +39,30 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
       readonly size: number,
     ) { }
 
-    static tryNew(...instances: ReadOutputs<T>): Result<DynamicTuple, Error> {
-      return Result.unthrowSync(t => {
-        let length = 0
-        let offset = instances.length * 32
+    static new(...instances: ReadOutputs<T>) {
+      let length = 0
+      let offset = instances.length * 32
 
-        const heads = new Array<Instance>()
-        const tails = new Array<Instance>()
+      const heads = new Array<Instance>()
+      const tails = new Array<Instance>()
 
-        for (const instance of instances) {
-          if (instance.dynamic) {
-            const pointer = Uint256.new(BigInt(offset))
+      for (const instance of instances) {
+        if (instance.dynamic) {
+          const pointer = Uint256.new(BigInt(offset))
 
-            heads.push(pointer)
-            length += 32
+          heads.push(pointer)
+          length += 32
 
-            tails.push(instance)
-            length += instance.size
-            offset += instance.size
-          } else {
-            heads.push(instance)
-            length += instance.size
-          }
+          tails.push(instance)
+          length += instance.size
+          offset += instance.size
+        } else {
+          heads.push(instance)
+          length += instance.size
         }
+      }
 
-        return new Ok(new DynamicTuple(instances, heads, tails, length))
-      })
+      return new DynamicTuple(instances, heads, tails, length)
     }
 
     get class() {
