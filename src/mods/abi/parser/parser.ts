@@ -199,7 +199,7 @@ export const factoryByName: {
 
 export function tryParseSignature(signature: string): Result<[string, DynamicTupleFactory], Error> {
   return Result.unthrowSync(t => {
-    const [name, ...tokens] = signature.trim().split(/(\s+|,|\(|\)|\[|\])/g)
+    const [name, ...tokens] = signature.trim().split(/(,|\(|\)|\[|\])/g).filter(Boolean)
 
     if (tokens.shift() !== "(")
       return new Err(new Error(`Expected parenthesis`))

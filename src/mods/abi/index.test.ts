@@ -3,16 +3,15 @@ export * from "./types/index.test.js";
 import { Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { test } from "@hazae41/phobos";
-import { tryDecode } from "./index.js";
-import { tryParseSignature } from "./parser/parser.js";
+import { DynamicBytes, DynamicString, StaticBool, Uint256, tryDecode, tryEncode, tryReadFromBytes } from "./index.js";
 import { StaticAddress } from "./types/address/address.js";
-import { createDynamicArray } from "./types/array/array.js";
-import { createDynamicTuple } from "./types/tuple/tuple.js";
+import { DynamicArray, createDynamicArray } from "./types/array/array.js";
+import { DynamicTuple, createDynamicTuple } from "./types/tuple/tuple.js";
 import { createDynamicVector } from "./types/vector/vector.js";
 
 test("test", async () => {
   const abi = "f71870b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000007b000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000"
-  const decoded = tryDecode("test(bool,string,uint256)", Bytes.fromHexSafe(abi)).unwrap()
+  const decoded = tryReadFromBytes("test(bool,string,uint256)", Bytes.fromHexSafe(abi)).unwrap()
   console.log(decoded)
 })
 
@@ -29,5 +28,25 @@ test("test", async () => {
 })
 
 test("test", async () => {
-  tryParseSignature("deposit_and_stake(address,address,address,uint256,address[5],uint256[5],uint256,bool,address)").unwrap()
+  const signature = "f(bool,uint256,(string,address[3])[],bytes)"
+
+  const hex = tryEncode(signature,
+    StaticBool.new(true),
+    Uint256.new(123456789n),
+    DynamicTuple.any.new(
+      DynamicString.new("hello world"),
+      DynamicArray.any.new(
+        StaticAddress.new("0x..."),
+        StaticAddress.new("0x..."),
+        StaticAddress.new("0x...")
+      )
+    ),
+    DynamicBytes.new(new Uint8Array([1, 2, 3]))
+  ).unwrap()
+
+  console.log(hex)
+
+  const funcAndArgs = tryDecode(signature, hex).unwrap()
+
+  console.log(funcAndArgs.args.inner)
 })

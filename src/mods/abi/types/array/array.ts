@@ -10,25 +10,6 @@ import { Skeleton } from "libs/typescript/skeleton.js";
 
 type Unuseds = Readable
 
-export type DynamicArrayInstance<T extends Factory, N extends number> =
-  Readable.ReadOutput<DynamicArrayFactory<T, N>>
-
-export type DynamicArrayFactory<T extends Factory, N extends number> =
-  ReturnType<typeof createDynamicArray<T, N>> & { readonly name: string }
-
-export namespace DynamicArray {
-  export const name = "DynamicArray"
-
-  export function isInstance<T extends Factory, N extends number>(x: Skeleton<DynamicArrayInstance<T, N>>): x is DynamicArrayInstance<T, N> {
-    return x.name === name && x.class != null
-  }
-
-  export function isFactory<T extends Factory, N extends number>(x: Skeleton<DynamicArrayFactory<T, N>>): x is DynamicArrayFactory<T, N> {
-    return x.name === name && x.prototype != null
-  }
-
-}
-
 export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends number>(inner: T, count: N) => {
   return class DynamicArray {
     readonly #class = DynamicArray
@@ -193,4 +174,25 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
     }
 
   }
+}
+
+export type DynamicArrayInstance<T extends Factory, N extends number> =
+  Readable.ReadOutput<DynamicArrayFactory<T, N>>
+
+export type DynamicArrayFactory<T extends Factory, N extends number> =
+  ReturnType<typeof createDynamicArray<T, N>> & { readonly name: string }
+
+export namespace DynamicArray {
+  export const name = "DynamicArray"
+
+  export const any = createDynamicArray(undefined as any, 0 as any)
+
+  export function isInstance<T extends Factory, N extends number>(x: Skeleton<DynamicArrayInstance<T, N>>): x is DynamicArrayInstance<T, N> {
+    return x.name === name && x.class != null
+  }
+
+  export function isFactory<T extends Factory, N extends number>(x: Skeleton<DynamicArrayFactory<T, N>>): x is DynamicArrayFactory<T, N> {
+    return x.name === name && x.prototype != null
+  }
+
 }
