@@ -47,12 +47,6 @@ export class DynamicString {
     return new DynamicString(Bytes.toUtf8(inner.value), inner)
   }
 
-  static decodePacked(cursor: TextCursor) {
-    const inner = DynamicBytes.decodePacked(cursor)
-
-    return new DynamicString(Bytes.toUtf8(inner.value), inner)
-  }
-
   trySize(): Result<number, never> {
     return this.inner.trySize()
   }

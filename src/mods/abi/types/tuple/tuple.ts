@@ -1,11 +1,11 @@
 import { Readable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
+import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Factory, Instance, MaybeDynamic } from "mods/abi/index.js";
-import { Uint256, Uint32 } from "../uint/uint.js";
+import { Uint32 } from "../uint/uint.js";
 
 export type DynamicTupleInstance<T extends readonly Factory[] = Factory[]> =
   Readable.ReadOutput<DynamicTupleFactory<T>>
@@ -134,10 +134,6 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
       return new DynamicTuple(inner as ReadOutputs<T>, heads, tails, nibbles / 2)
     }
 
-    static decodePacked(cursor: TextCursor) {
-      throw Panic.from(new Unimplemented())
-    }
-
     trySize(): Result<number, never> {
       return new Ok(this.size)
     }
@@ -165,7 +161,7 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
 
         for (const factory of DynamicTuple.inner) {
           if (factory.dynamic) {
-            const pointer = Uint256.tryRead(cursor).throw(t)
+            const pointer = Uint32.tryRead(cursor).throw(t)
             heads.push(pointer)
 
             subcursor.offset = Number(pointer.value)

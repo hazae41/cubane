@@ -4,7 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
-import { Uint256, Uint32 } from "../uint/uint.js";
+import { Uint32 } from "../uint/uint.js";
 
 export type StaticBytesInstance<N extends number> =
   Readable.ReadOutput<StaticBytesFactory<N>>
@@ -72,13 +72,6 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
       const value = Bytes.fromHex(text) as Bytes<N>
 
       cursor.offset += end
-
-      return new StaticBytes(value)
-    }
-
-    static decodePacked(cursor: TextCursor) {
-      const text = cursor.read(StaticBytes.nibbles)
-      const value = Bytes.fromHex(text) as Bytes<N>
 
       return new StaticBytes(value)
     }
@@ -181,21 +174,13 @@ export class DynamicBytes<N extends number = number> {
   }
 
   static decode(cursor: TextCursor) {
-    const length = parseInt(cursor.read(64), 16)
-    const value = Bytes.fromHex(cursor.read(length * 2))
-    const size = 32 + (Math.ceil(length / 32) * 32)
+    const length = Uint32.decode(cursor).value * 2
+    const value = Bytes.fromHex(cursor.read(length))
+    const size = 64 + (Math.ceil(length / 64) * 64)
 
-    cursor.offset += size - 32 - (length * 2)
+    cursor.offset += size - 64 - length
 
-    return new DynamicBytes(value, size)
-  }
-
-  static decodePacked(cursor: TextCursor) {
-    const length = parseInt(cursor.read(64), 16)
-    const value = Bytes.fromHex(cursor.read(length * 2))
-    const size = 32 + (Math.ceil(length / 32) * 32)
-
-    return new DynamicBytes(value, size)
+    return new DynamicBytes(value, size / 2)
   }
 
   trySize(): Result<number, never> {
@@ -216,8 +201,8 @@ export class DynamicBytes<N extends number = number> {
 
   static tryRead(cursor: Cursor): Result<DynamicBytes<number>, BinaryReadError> {
     return Result.unthrowSync(t => {
-      const length = Uint256.tryRead(cursor).throw(t)
-      const bytes = cursor.tryRead(Number(length.value)).throw(t)
+      const length = Uint32.tryRead(cursor).throw(t)
+      const bytes = cursor.tryRead(length.value).throw(t)
       const size = 32 + (Math.ceil(bytes.length / 32) * 32)
 
       cursor.offset += size - 32 - bytes.length

@@ -1,8 +1,8 @@
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
+import { Ok, Result } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory, Instance } from "mods/abi/abi.js";
-import { Uint256, Uint32 } from "../uint/uint.js";
+import { Uint32 } from "../uint/uint.js";
 
 import type { Readable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
@@ -139,10 +139,6 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
       return new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, nibbles / 2)
     }
 
-    static decodePacked(cursor: TextCursor) {
-      throw Panic.from(new Unimplemented())
-    }
-
     trySize(): Result<number, never> {
       return new Ok(32 + this.size)
     }
@@ -163,7 +159,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
     static tryRead(cursor: Cursor): Result<DynamicVector, Error> {
       return Result.unthrowSync(t => {
-        const length = Uint256.tryRead(cursor).throw(t)
+        const length = Uint32.tryRead(cursor).throw(t)
 
         const start = cursor.offset
 
@@ -176,7 +172,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
         for (let i = 0; i < length.value; i++) {
           if (DynamicVector.inner.dynamic) {
-            const pointer = Uint256.tryRead(cursor).throw(t)
+            const pointer = Uint32.tryRead(cursor).throw(t)
             heads.push(pointer)
 
             subcursor.offset = Number(pointer.value)

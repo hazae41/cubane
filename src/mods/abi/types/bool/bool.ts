@@ -36,12 +36,6 @@ export class StaticBool {
     return new StaticBool(true)
   }
 
-  static decodePacked(cursor: TextCursor) {
-    if (cursor.read(2) === "00")
-      return new StaticBool(false)
-    return new StaticBool(true)
-  }
-
   trySize(): Result<32, never> {
     return new Ok(this.size)
   }

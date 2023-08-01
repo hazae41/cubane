@@ -1,7 +1,7 @@
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
+import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 
@@ -65,10 +65,6 @@ export const createStaticUint = <N extends number = number>(bytes: N) => {
 
     static decode(cursor: TextCursor) {
       return new StaticUint(BigInt("0x" + cursor.read(64)))
-    }
-
-    static decodePacked(cursor: TextCursor) {
-      throw Panic.from(new Unimplemented())
     }
 
     trySize(): Result<32, never> {
@@ -165,10 +161,6 @@ export class Uint32 {
     const value = parseInt(cursor.read(8), 16)
 
     return new Uint32(value)
-  }
-
-  static decodePacked(cursor: TextCursor) {
-    throw Panic.from(new Unimplemented())
   }
 
   trySize(): Result<32, never> {

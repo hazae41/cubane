@@ -1,7 +1,7 @@
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
+import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 
@@ -92,10 +92,6 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
       if (masked >> (this.bitsn - BN_1))
         return new StaticInt(-(((~value) & mask) + BN_1))
       return new StaticInt(value)
-    }
-
-    static decodePacked(cursor: TextCursor) {
-      throw Panic.from(new Unimplemented())
     }
 
     trySize(): Result<32, never> {

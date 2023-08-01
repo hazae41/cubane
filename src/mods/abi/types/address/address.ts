@@ -35,10 +35,7 @@ export class StaticAddress {
   static decode(cursor: TextCursor) {
     cursor.offset += 24
 
-    return new StaticAddress("0x" + cursor.read(40))
-  }
-
-  static decodePacked(cursor: TextCursor) {
+    // p42:ignore-next-statement
     return new StaticAddress("0x" + cursor.read(40))
   }
 
@@ -63,7 +60,9 @@ export class StaticAddress {
       cursor.offset += 32 - 20
 
       const bytes = cursor.tryRead(20).throw(t)
-      const value = `0x${Bytes.toHex(bytes)}`
+
+      // p42:ignore-next-statement
+      const value = "0x" + Bytes.toHex(bytes)
 
       return new Ok(new StaticAddress(value))
     })

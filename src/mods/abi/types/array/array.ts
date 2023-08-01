@@ -1,8 +1,8 @@
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Panic, Result, Unimplemented } from "@hazae41/result";
+import { Ok, Result } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory, Instance, MaybeDynamic } from "mods/abi/abi.js";
-import { Uint256, Uint32 } from "../uint/uint.js";
+import { Uint32 } from "../uint/uint.js";
 
 import type { Readable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
@@ -142,10 +142,6 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
       return new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, nibbles / 2)
     }
 
-    static decodePacked(cursor: TextCursor) {
-      throw Panic.from(new Unimplemented())
-    }
-
     trySize(): Result<number, never> {
       return new Ok(this.size)
     }
@@ -173,7 +169,7 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
 
         for (let i = 0; i < this.count; i++) {
           if (DynamicArray.inner.dynamic) {
-            const pointer = Uint256.tryRead(cursor).throw(t)
+            const pointer = Uint32.tryRead(cursor).throw(t)
             heads.push(pointer)
 
             subcursor.offset = Number(pointer.value)
