@@ -66,12 +66,10 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
     }
 
     static decode(cursor: TextCursor) {
-      const end = cursor.offset + 64
-
       const text = cursor.read(StaticBytes.nibbles)
       const value = Bytes.fromHex(text) as Bytes<N>
 
-      cursor.offset += end
+      cursor.offset += 64 - StaticBytes.nibbles
 
       return new StaticBytes(value)
     }

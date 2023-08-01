@@ -61,11 +61,10 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
 
     encode() {
       if (this.value < BN_0) {
-        let value = -this.value
         const mask = (BN_1 << 256n) - BN_1
-        value = ((~value) & mask) + BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
 
-        return this.value.toString(16).padStart(64, "0")
+        return value.toString(16).padStart(64, "0")
       }
 
       return this.value.toString(16).padStart(64, "0")
@@ -73,23 +72,22 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
 
     encodePacked() {
       if (this.value < BN_0) {
-        let value = -this.value
         const mask = (BN_1 << 256n) - BN_1
-        value = ((~value) & mask) + BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
 
-        return this.value.toString(16)
+        return value.toString(16)
       }
 
       return this.value.toString(16)
     }
 
     static decode(cursor: TextCursor) {
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      // p42:ignore-next-statement
       const value = BigInt("0x" + cursor.read(64))
 
-      const mask = (BN_1 << this.bitsn) - BN_1
-      const masked = value & mask
-
-      if (masked >> (this.bitsn - BN_1))
+      if ((value & mask) >> (this.bitsn - BN_1))
         return new StaticInt(-(((~value) & mask) + BN_1))
       return new StaticInt(value)
     }
@@ -101,9 +99,8 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
       return Result.unthrowSync(t => {
         if (this.value < BN_0) {
-          let value = -this.value
           const mask = (BN_1 << 256n) - BN_1
-          value = ((~value) & mask) + BN_1
+          const value = ((~(-this.value)) & mask) + BN_1
 
           const bytes = Bytes.fromBigInt(value)
 
@@ -125,13 +122,12 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
       return Result.unthrowSync(t => {
         cursor.offset += 32 - StaticInt.bytes
 
+        const mask = (BN_1 << this.bitsn) - BN_1
+
         const bytes = cursor.tryRead(StaticInt.bytes).throw(t)
         const value = Bytes.toBigInt(bytes)
 
-        const mask = (BN_1 << this.bitsn) - BN_1
-        const masked = value & mask
-
-        if (masked >> (this.bitsn - BN_1))
+        if ((value & mask) >> (this.bitsn - BN_1))
           return new Ok(new StaticInt(-(((~value) & mask) + BN_1)))
         return new Ok(new StaticInt(value))
       })
