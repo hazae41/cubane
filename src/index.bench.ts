@@ -1,5 +1,6 @@
 import { Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
+import { Cursor } from "@hazae41/cursor";
 import { benchSync } from "@hazae41/deimos";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { ethers } from "ethers";
@@ -7,10 +8,26 @@ import { DynamicBytes, DynamicString, FunctionSelector, StaticBool, Uint256, cre
 import { bytesToHex, encodeAbiParameters, parseAbiParameters } from "viem";
 import { eth, utils } from "web3";
 
+const bytes = new Uint8Array([0, 0, 0, 1])
+
+const uint32 = benchSync("uint32", () => {
+  const cursor = new Cursor(bytes)
+  cursor.offset = 0
+  const x = cursor.tryGetUint32().unwrap()
+})
+
+const uint8 = benchSync("uint8", () => {
+  const cursor = new Cursor(bytes)
+  cursor.offset = 3
+  const x = cursor.tryGetUint8().unwrap()
+})
+
+uint32.tableAndSummary(uint8)
+
 /**
  * Encode bool and bytes with preparsed ABI
  */
-if (true) {
+if (false) {
   const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
 
   const MyStruct = createDynamicTuple(StaticBool, Uint256, DynamicString)
