@@ -59,7 +59,6 @@ test("1024", async ({ message, test }) => {
 
 test("set theoretical representation of three", async ({ message, test }) => {
   const three = Rlp.from([[], [[]], [[], [[]]]])
-  // const three = RlpList.from([RlpList.from([]), RlpList.from([RlpList.from([])]), RlpList.from([RlpList.from([]), RlpList.from([RlpList.from([])])])])
   const bytes = Writable.tryWriteToBytes(three).unwrap()
 
   console.log(message, [...bytes].map(it => "0x" + Bytes.toHex(new Uint8Array([it]))))
