@@ -50,5 +50,5 @@ test("test", async () => {
 
   const funcAndArgs = tryDecode(signature, hex).unwrap() as any
 
-  console.log(funcAndArgs.args.inner)
+  console.log(funcAndArgs.args.inner[2].inner[0].inner[1])
 })
