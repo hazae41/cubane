@@ -4,7 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
-import { Uint256 } from "../uint/uint.js";
+import { Uint256, Uint32 } from "../uint/uint.js";
 
 export type StaticBytesInstance<N extends number> =
   Readable.ReadOutput<StaticBytesFactory<N>>
@@ -204,7 +204,7 @@ export class DynamicBytes<N extends number = number> {
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      const length = Uint256.new(BigInt(this.value.length))
+      const length = Uint32.new(this.value.length)
 
       length.tryWrite(cursor).throw(t)
       cursor.tryWrite(this.value).throw(t)

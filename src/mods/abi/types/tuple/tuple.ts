@@ -49,7 +49,7 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
 
       for (const instance of instances) {
         if (instance.dynamic) {
-          const pointer = Uint256.new(BigInt(offset))
+          const pointer = Uint32.new(offset)
 
           heads.push(pointer)
           length += 32

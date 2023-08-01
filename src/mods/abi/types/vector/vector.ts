@@ -52,7 +52,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
       for (const instance of instances) {
         if (instance.dynamic) {
-          const pointer = Uint256.new(BigInt(offset))
+          const pointer = Uint32.new(offset)
 
           heads.push(pointer)
           length += 32
@@ -149,7 +149,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
     tryWrite(cursor: Cursor): Result<void, Error> {
       return Result.unthrowSync(t => {
-        const length = Uint256.new(BigInt(this.inner.length))
+        const length = Uint32.new(this.inner.length)
 
         length.tryWrite(cursor).throw(t)
 

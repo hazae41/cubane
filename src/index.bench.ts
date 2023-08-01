@@ -15,7 +15,7 @@ if (true) {
 
   const abi = parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d, bytes e")
 
-  const bytes = Bytes.random(1024)
+  const bytes = Bytes.random(128)
 
   const cubane = benchSync("cubane", () => {
     const myStruct = MyStruct.new(StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"))

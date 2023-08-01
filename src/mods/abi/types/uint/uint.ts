@@ -162,7 +162,9 @@ export class Uint32 {
   static decode(cursor: TextCursor) {
     cursor.offset += 64 - 8
 
-    return new Uint32(parseInt(cursor.read(8), 16))
+    const value = parseInt(cursor.read(8), 16)
+
+    return new Uint32(value)
   }
 
   static decodePacked(cursor: TextCursor) {

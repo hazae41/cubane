@@ -53,7 +53,7 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
 
       for (const instance of instances) {
         if (instance.dynamic) {
-          const pointer = Uint256.new(BigInt(offset))
+          const pointer = Uint32.new(offset)
 
           heads.push(pointer)
           length += 32
