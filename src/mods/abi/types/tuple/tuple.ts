@@ -7,25 +7,6 @@ import { Skeleton } from "libs/typescript/skeleton.js";
 import { Factory, Instance, MaybeDynamic } from "mods/abi/index.js";
 import { Uint32 } from "../uint/uint.js";
 
-export type DynamicTupleInstance<T extends readonly Factory[] = Factory[]> =
-  Readable.ReadOutput<DynamicTupleFactory<T>>
-
-export type DynamicTupleFactory<T extends readonly Factory[] = Factory[]> =
-  ReturnType<typeof createDynamicTuple<T>> & { readonly name: string }
-
-export namespace DynamicTuple {
-  export const name = "DynamicTuple"
-
-  export function isInstance<T extends readonly Factory[]>(x: Skeleton<DynamicTupleInstance<T>>): x is DynamicTupleInstance<T> {
-    return x.name === name && x.class != null
-  }
-
-  export function isFactory<T extends readonly Factory[]>(x: Skeleton<DynamicTupleFactory<T>>): x is DynamicTupleFactory<T> {
-    return x.name === name && x.new != null
-  }
-
-}
-
 export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(...inner: T) => {
   return class DynamicTuple {
     readonly #class = DynamicTuple
@@ -185,4 +166,25 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
     }
 
   }
+}
+
+export type DynamicTupleInstance<T extends readonly Factory[] = Factory[]> =
+  Readable.ReadOutput<DynamicTupleFactory<T>>
+
+export type DynamicTupleFactory<T extends readonly Factory[] = Factory[]> =
+  ReturnType<typeof createDynamicTuple<T>> & { readonly name: string }
+
+export namespace DynamicTuple {
+  export const name = "DynamicTuple"
+
+  export const any = createDynamicTuple<any>()
+
+  export function isInstance<T extends readonly Factory[]>(x: Skeleton<DynamicTupleInstance<T>>): x is DynamicTupleInstance<T> {
+    return x.name === name && x.class != null
+  }
+
+  export function isFactory<T extends readonly Factory[]>(x: Skeleton<DynamicTupleFactory<T>>): x is DynamicTupleFactory<T> {
+    return x.name === name && x.new != null
+  }
+
 }

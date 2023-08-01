@@ -5,28 +5,28 @@ import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 
-export type BigUintInstance<N extends number> =
-  Readable.ReadOutput<BigUintFactory<N>>
+export type StaticBigUintInstance<N extends number> =
+  Readable.ReadOutput<StaticBigUintFactory<N>>
 
-export type BigUintFactory<N extends number> =
-  ReturnType<typeof createBigUint<N>> & { readonly name: string }
+export type StaticBigUintFactory<N extends number> =
+  ReturnType<typeof createStaticBigUint<N>> & { readonly name: string }
 
-export namespace BigUint {
-  export const name = "BigUint"
+export namespace StaticBigUint {
+  export const name = "StaticBigUint"
 
-  export function isInstance<N extends number>(x: Skeleton<BigUintInstance<N>>): x is BigUintInstance<N> {
+  export function isInstance<N extends number>(x: Skeleton<StaticBigUintInstance<N>>): x is StaticBigUintInstance<N> {
     return x.name === name && x.class != null
   }
 
-  export function isFactory<N extends number>(x: Skeleton<BigUintFactory<N>>): x is BigUintFactory<N> {
+  export function isFactory<N extends number>(x: Skeleton<StaticBigUintFactory<N>>): x is StaticBigUintFactory<N> {
     return x.name === name && x.prototype != null
   }
 
 }
 
-export const createBigUint = <N extends number = number>(bytes: N) => {
-  return class BigUint {
-    readonly #class = BigUint
+export const createStaticBigUint = <N extends number = number>(bytes: N) => {
+  return class StaticBigUint {
+    readonly #class = StaticBigUint
     readonly name = this.#class.name
 
     static readonly bytes = bytes
@@ -40,7 +40,7 @@ export const createBigUint = <N extends number = number>(bytes: N) => {
     ) { }
 
     static new(value: bigint) {
-      return new BigUint(value)
+      return new StaticBigUint(value)
     }
 
     get class() {
@@ -64,12 +64,12 @@ export const createBigUint = <N extends number = number>(bytes: N) => {
     }
 
     static decode(cursor: TextCursor) {
-      cursor.offset += 64 - BigUint.nibbles
+      cursor.offset += 64 - StaticBigUint.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(BigUint.nibbles))
+      const value = BigInt("0x" + cursor.read(StaticBigUint.nibbles))
 
-      return new BigUint(value)
+      return new StaticBigUint(value)
     }
 
     trySize(): Result<32, never> {
@@ -87,41 +87,41 @@ export const createBigUint = <N extends number = number>(bytes: N) => {
       })
     }
 
-    static tryRead(cursor: Cursor): Result<BigUint, BinaryReadError> {
+    static tryRead(cursor: Cursor): Result<StaticBigUint, BinaryReadError> {
       return Result.unthrowSync(t => {
-        cursor.offset += 32 - BigUint.bytes
+        cursor.offset += 32 - StaticBigUint.bytes
 
-        const bytes = cursor.tryRead(BigUint.bytes).throw(t)
+        const bytes = cursor.tryRead(StaticBigUint.bytes).throw(t)
         const value = Bytes.toBigInt(bytes)
 
-        return new Ok(new BigUint(value))
+        return new Ok(new StaticBigUint(value))
       })
     }
   }
 }
 
-export type UintInstance<N extends number> =
-  Readable.ReadOutput<UintFactory<N>>
+export type StaticUintInstance<N extends number> =
+  Readable.ReadOutput<StaticUintFactory<N>>
 
-export type UintFactory<N extends number> =
-  ReturnType<typeof createUint<N>> & { readonly name: string }
+export type StaticUintFactory<N extends number> =
+  ReturnType<typeof createStaticUint<N>> & { readonly name: string }
 
-export namespace Uint {
-  export const name = "Uint"
+export namespace StaticUint {
+  export const name = "StaticUint"
 
-  export function isInstance<N extends number>(x: Skeleton<UintInstance<N>>): x is UintInstance<N> {
+  export function isInstance<N extends number>(x: Skeleton<StaticUintInstance<N>>): x is StaticUintInstance<N> {
     return x.name === name && x.class != null
   }
 
-  export function isFactory<N extends number>(x: Skeleton<UintFactory<N>>): x is UintFactory<N> {
+  export function isFactory<N extends number>(x: Skeleton<StaticUintFactory<N>>): x is StaticUintFactory<N> {
     return x.name === name && x.prototype != null
   }
 
 }
 
-export const createUint = <N extends number = number>(bytes: N) => {
-  return class Uint {
-    readonly #class = Uint
+export const createStaticUint = <N extends number = number>(bytes: N) => {
+  return class StaticUint {
+    readonly #class = StaticUint
     readonly name = this.#class.name
 
     static readonly bytes = bytes
@@ -134,7 +134,7 @@ export const createUint = <N extends number = number>(bytes: N) => {
     ) { }
 
     static new(value: number) {
-      return new Uint(value)
+      return new StaticUint(value)
     }
 
     get class() {
@@ -162,7 +162,7 @@ export const createUint = <N extends number = number>(bytes: N) => {
 
       const value = parseInt(cursor.read(8), 16)
 
-      return new Uint(value)
+      return new StaticUint(value)
     }
 
     trySize(): Result<32, never> {
@@ -178,47 +178,47 @@ export const createUint = <N extends number = number>(bytes: N) => {
       })
     }
 
-    static tryRead(cursor: Cursor): Result<Uint, BinaryReadError> {
+    static tryRead(cursor: Cursor): Result<StaticUint, BinaryReadError> {
       return Result.unthrowSync(t => {
         cursor.offset += 32 - 4
 
         const value = cursor.tryReadUint32().throw(t)
 
-        return new Ok(new Uint(value))
+        return new Ok(new StaticUint(value))
       })
     }
   }
 }
 
-export const Uint8 = createUint(1)
-export const Uint16 = createUint(2)
-export const Uint24 = createUint(3)
-export const Uint32 = createUint(4)
-export const Uint40 = createBigUint(5)
-export const Uint48 = createBigUint(6)
-export const Uint56 = createBigUint(7)
-export const Uint64 = createBigUint(8)
-export const Uint72 = createBigUint(9)
-export const Uint80 = createBigUint(10)
-export const Uint88 = createBigUint(11)
-export const Uint96 = createBigUint(12)
-export const Uint104 = createBigUint(13)
-export const Uint112 = createBigUint(14)
-export const Uint120 = createBigUint(15)
-export const Uint128 = createBigUint(16)
-export const Uint136 = createBigUint(17)
-export const Uint144 = createBigUint(18)
-export const Uint152 = createBigUint(19)
-export const Uint160 = createBigUint(20)
-export const Uint168 = createBigUint(21)
-export const Uint176 = createBigUint(22)
-export const Uint184 = createBigUint(23)
-export const Uint192 = createBigUint(24)
-export const Uint200 = createBigUint(25)
-export const Uint208 = createBigUint(26)
-export const Uint216 = createBigUint(27)
-export const Uint224 = createBigUint(28)
-export const Uint232 = createBigUint(29)
-export const Uint240 = createBigUint(30)
-export const Uint248 = createBigUint(31)
-export const Uint256 = createBigUint(32)
+export const Uint8 = createStaticUint(1)
+export const Uint16 = createStaticUint(2)
+export const Uint24 = createStaticUint(3)
+export const Uint32 = createStaticUint(4)
+export const Uint40 = createStaticBigUint(5)
+export const Uint48 = createStaticBigUint(6)
+export const Uint56 = createStaticBigUint(7)
+export const Uint64 = createStaticBigUint(8)
+export const Uint72 = createStaticBigUint(9)
+export const Uint80 = createStaticBigUint(10)
+export const Uint88 = createStaticBigUint(11)
+export const Uint96 = createStaticBigUint(12)
+export const Uint104 = createStaticBigUint(13)
+export const Uint112 = createStaticBigUint(14)
+export const Uint120 = createStaticBigUint(15)
+export const Uint128 = createStaticBigUint(16)
+export const Uint136 = createStaticBigUint(17)
+export const Uint144 = createStaticBigUint(18)
+export const Uint152 = createStaticBigUint(19)
+export const Uint160 = createStaticBigUint(20)
+export const Uint168 = createStaticBigUint(21)
+export const Uint176 = createStaticBigUint(22)
+export const Uint184 = createStaticBigUint(23)
+export const Uint192 = createStaticBigUint(24)
+export const Uint200 = createStaticBigUint(25)
+export const Uint208 = createStaticBigUint(26)
+export const Uint216 = createStaticBigUint(27)
+export const Uint224 = createStaticBigUint(28)
+export const Uint232 = createStaticBigUint(29)
+export const Uint240 = createStaticBigUint(30)
+export const Uint248 = createStaticBigUint(31)
+export const Uint256 = createStaticBigUint(32)

@@ -8,28 +8,28 @@ import { Skeleton } from "libs/typescript/skeleton.js";
 const BN_0 = 0n
 const BN_1 = 1n
 
-export type StaticIntInstance<N extends number> =
-  Readable.ReadOutput<StaticIntFactory<N>>
+export type StaticBigIntInstance<N extends number> =
+  Readable.ReadOutput<StaticBigIntFactory<N>>
 
-export type StaticIntFactory<N extends number> =
-  ReturnType<typeof createStaticInt<N>> & { readonly name: string }
+export type StaticBigIntFactory<N extends number> =
+  ReturnType<typeof createStaticBigInt<N>> & { readonly name: string }
 
-export namespace StaticInt {
-  export const name = "StaticInt"
+export namespace StaticBigInt {
+  export const name = "StaticBigInt"
 
-  export function isInstance<N extends number>(x: Skeleton<StaticIntInstance<N>>): x is StaticIntInstance<N> {
+  export function isInstance<N extends number>(x: Skeleton<StaticBigIntInstance<N>>): x is StaticBigIntInstance<N> {
     return x.name === name && x.class != null
   }
 
-  export function isFactory<N extends number>(x: Skeleton<StaticIntFactory<N>>): x is StaticIntFactory<N> {
+  export function isFactory<N extends number>(x: Skeleton<StaticBigIntFactory<N>>): x is StaticBigIntFactory<N> {
     return x.name === name && x.prototype != null
   }
 
 }
 
-export const createStaticInt = <N extends number = number>(bytes: N) => {
-  return class StaticInt {
-    readonly #class = StaticInt
+export const createStaticBigInt = <N extends number = number>(bytes: N) => {
+  return class StaticBigInt {
+    readonly #class = StaticBigInt
     readonly name = this.#class.name
 
     static readonly bits = bytes * 8
@@ -44,7 +44,7 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
     ) { }
 
     static new(value: bigint) {
-      return new StaticInt(value)
+      return new StaticBigInt(value)
     }
 
     get class() {
@@ -88,8 +88,8 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
       const value = BigInt("0x" + cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
-        return new StaticInt(-(((~value) & mask) + BN_1))
-      return new StaticInt(value)
+        return new StaticBigInt(-(((~value) & mask) + BN_1))
+      return new StaticBigInt(value)
     }
 
     trySize(): Result<32, never> {
@@ -118,52 +118,52 @@ export const createStaticInt = <N extends number = number>(bytes: N) => {
       })
     }
 
-    static tryRead(cursor: Cursor): Result<StaticInt, BinaryReadError> {
+    static tryRead(cursor: Cursor): Result<StaticBigInt, BinaryReadError> {
       return Result.unthrowSync(t => {
-        cursor.offset += 32 - StaticInt.bytes
+        cursor.offset += 32 - StaticBigInt.bytes
 
         const mask = (BN_1 << this.bitsn) - BN_1
 
-        const bytes = cursor.tryRead(StaticInt.bytes).throw(t)
+        const bytes = cursor.tryRead(StaticBigInt.bytes).throw(t)
         const value = Bytes.toBigInt(bytes)
 
         if ((value & mask) >> (this.bitsn - BN_1))
-          return new Ok(new StaticInt(-(((~value) & mask) + BN_1)))
-        return new Ok(new StaticInt(value))
+          return new Ok(new StaticBigInt(-(((~value) & mask) + BN_1)))
+        return new Ok(new StaticBigInt(value))
       })
     }
   }
 }
 
-export const Int8 = createStaticInt(1)
-export const Int16 = createStaticInt(2)
-export const Int24 = createStaticInt(3)
-export const Int32 = createStaticInt(4)
-export const Int40 = createStaticInt(5)
-export const Int48 = createStaticInt(6)
-export const Int56 = createStaticInt(7)
-export const Int64 = createStaticInt(8)
-export const Int72 = createStaticInt(9)
-export const Int80 = createStaticInt(10)
-export const Int88 = createStaticInt(11)
-export const Int96 = createStaticInt(12)
-export const Int104 = createStaticInt(13)
-export const Int112 = createStaticInt(14)
-export const Int120 = createStaticInt(15)
-export const Int128 = createStaticInt(16)
-export const Int136 = createStaticInt(17)
-export const Int144 = createStaticInt(18)
-export const Int152 = createStaticInt(19)
-export const Int160 = createStaticInt(20)
-export const Int168 = createStaticInt(21)
-export const Int176 = createStaticInt(22)
-export const Int184 = createStaticInt(23)
-export const Int192 = createStaticInt(24)
-export const Int200 = createStaticInt(25)
-export const Int208 = createStaticInt(26)
-export const Int216 = createStaticInt(27)
-export const Int224 = createStaticInt(28)
-export const Int232 = createStaticInt(29)
-export const Int240 = createStaticInt(30)
-export const Int248 = createStaticInt(31)
-export const Int256 = createStaticInt(32)
+export const Int8 = createStaticBigInt(1)
+export const Int16 = createStaticBigInt(2)
+export const Int24 = createStaticBigInt(3)
+export const Int32 = createStaticBigInt(4)
+export const Int40 = createStaticBigInt(5)
+export const Int48 = createStaticBigInt(6)
+export const Int56 = createStaticBigInt(7)
+export const Int64 = createStaticBigInt(8)
+export const Int72 = createStaticBigInt(9)
+export const Int80 = createStaticBigInt(10)
+export const Int88 = createStaticBigInt(11)
+export const Int96 = createStaticBigInt(12)
+export const Int104 = createStaticBigInt(13)
+export const Int112 = createStaticBigInt(14)
+export const Int120 = createStaticBigInt(15)
+export const Int128 = createStaticBigInt(16)
+export const Int136 = createStaticBigInt(17)
+export const Int144 = createStaticBigInt(18)
+export const Int152 = createStaticBigInt(19)
+export const Int160 = createStaticBigInt(20)
+export const Int168 = createStaticBigInt(21)
+export const Int176 = createStaticBigInt(22)
+export const Int184 = createStaticBigInt(23)
+export const Int192 = createStaticBigInt(24)
+export const Int200 = createStaticBigInt(25)
+export const Int208 = createStaticBigInt(26)
+export const Int216 = createStaticBigInt(27)
+export const Int224 = createStaticBigInt(28)
+export const Int232 = createStaticBigInt(29)
+export const Int240 = createStaticBigInt(30)
+export const Int248 = createStaticBigInt(31)
+export const Int256 = createStaticBigInt(32)
