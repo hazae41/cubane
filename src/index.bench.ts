@@ -30,7 +30,7 @@ if (false) {
 }
 
 /**
- * Encode bool and bytes with preparsed ABI
+ * Encode various types with preparsed ABI
  */
 if (false) {
   const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
