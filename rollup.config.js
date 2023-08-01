@@ -1,3 +1,5 @@
+import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import ts from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
@@ -55,12 +57,12 @@ export const config = [
     output: [{
       dir: "./dist/bench",
       format: "esm",
-      exports: "named",
+      exports: "auto",
       preserveModules: false,
       sourcemap: true,
       entryFileNames: "[name].mjs",
     }],
-    plugins: [resolve(), ts()],
+    plugins: [commonjs(), json(), resolve(), ts()],
   },
 ]
 
