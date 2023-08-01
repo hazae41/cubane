@@ -10,25 +10,6 @@ import { Skeleton } from "libs/typescript/skeleton.js";
 
 type Unuseds = Readable
 
-export type DynamicVectorInstance<T extends Factory = Factory> =
-  Readable.ReadOutput<DynamicVectorFactory<T>>
-
-export type DynamicVectorFactory<T extends Factory = Factory> =
-  ReturnType<typeof createDynamicVector<T>> & { readonly name: string }
-
-export namespace DynamicVector {
-  export const name = "DynamicVector"
-
-  export function isInstance<T extends Factory = Factory>(x: Skeleton<DynamicVectorInstance<T>>): x is DynamicVectorInstance<T> {
-    return x.name === name && x.class != null
-  }
-
-  export function isFactory<T extends Factory = Factory>(x: Skeleton<DynamicVectorFactory<T>>): x is DynamicVectorFactory<T> {
-    return x.name === name && x.prototype != null
-  }
-
-}
-
 export const createDynamicVector = <T extends Factory>(inner: T) => {
   return class DynamicVector {
     readonly #class = DynamicVector
@@ -44,7 +25,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
     ) { }
 
     static new(...instances: ReadOutputs<T[]>) {
-      let length = 0
+      let length = 32
       let offset = instances.length * 32
 
       const heads = new Array<Instance>()
@@ -104,6 +85,8 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
     }
 
     static decode(cursor: TextCursor) {
+      const zero = cursor.offset
+
       const length = Uint32.decode(cursor)
 
       const start = cursor.offset
@@ -134,9 +117,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      const nibbles = (cursor.offset - start)
-
-      return new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, nibbles / 2)
+      return new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, (cursor.offset - zero) / 2)
     }
 
     trySize(): Result<number, never> {
@@ -159,11 +140,13 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
     static tryRead(cursor: Cursor): Result<DynamicVector, Error> {
       return Result.unthrowSync(t => {
+        const zero = cursor.offset
+
         const length = Uint32.tryRead(cursor).throw(t)
 
         const start = cursor.offset
 
-        const subcursor = new Cursor(cursor.after)
+        const subcursor = new Cursor(cursor.bytes)
 
         const inner = new Array<Instance>()
 
@@ -175,7 +158,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
             const pointer = Uint32.tryRead(cursor).throw(t)
             heads.push(pointer)
 
-            subcursor.offset = Number(pointer.value)
+            subcursor.offset = start + pointer.value
             const instance = DynamicVector.inner.tryRead(subcursor).throw(t)
 
             inner.push(instance)
@@ -187,13 +170,32 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
           }
         }
 
-        const size = Math.max(cursor.offset - start, subcursor.offset)
+        cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-        cursor.offset = start + size
-
-        return new Ok(new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, size))
+        return new Ok(new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, cursor.offset - zero))
       })
     }
 
   }
+}
+
+export type DynamicVectorInstance<T extends Factory = Factory> =
+  Readable.ReadOutput<DynamicVectorFactory<T>>
+
+export type DynamicVectorFactory<T extends Factory = Factory> =
+  ReturnType<typeof createDynamicVector<T>> & { readonly name: string }
+
+export namespace DynamicVector {
+  export const name = "DynamicVector"
+
+  export const any = createDynamicVector(undefined as any)
+
+  export function isInstance<T extends Factory = Factory>(x: Skeleton<DynamicVectorInstance<T>>): x is DynamicVectorInstance<T> {
+    return x.name === name && x.class != null
+  }
+
+  export function isFactory<T extends Factory = Factory>(x: Skeleton<DynamicVectorFactory<T>>): x is DynamicVectorFactory<T> {
+    return x.name === name && x.prototype != null
+  }
+
 }

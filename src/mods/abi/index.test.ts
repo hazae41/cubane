@@ -7,7 +7,7 @@ import { DynamicBytes, DynamicString, StaticBool, Uint256, tryDecode, tryEncode,
 import { StaticAddress } from "./types/address/address.js";
 import { DynamicArray, createDynamicArray } from "./types/array/array.js";
 import { DynamicTuple, createDynamicTuple } from "./types/tuple/tuple.js";
-import { createDynamicVector } from "./types/vector/vector.js";
+import { DynamicVector, createDynamicVector } from "./types/vector/vector.js";
 
 test("test", async () => {
   const abi = "f71870b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000007b000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000"
@@ -33,20 +33,22 @@ test("test", async () => {
   const hex = tryEncode(signature,
     StaticBool.new(true),
     Uint256.new(123456789n),
-    DynamicTuple.any.new(
-      DynamicString.new("hello world"),
-      DynamicArray.any.new(
-        StaticAddress.new("0x..."),
-        StaticAddress.new("0x..."),
-        StaticAddress.new("0x...")
-      )
+    DynamicVector.any.new(
+      DynamicTuple.any.new(
+        DynamicString.new("hello world"),
+        DynamicArray.any.new(
+          StaticAddress.new("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"),
+          StaticAddress.new("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"),
+          StaticAddress.new("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045")
+        )
+      ),
     ),
     DynamicBytes.new(new Uint8Array([1, 2, 3]))
   ).unwrap()
 
   console.log(hex)
 
-  const funcAndArgs = tryDecode(signature, hex).unwrap()
+  const funcAndArgs = tryDecode(signature, hex).unwrap() as any
 
   console.log(funcAndArgs.args.inner)
 })

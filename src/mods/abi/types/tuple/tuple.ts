@@ -82,6 +82,7 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
     }
 
     static decode(cursor: TextCursor) {
+      const zero = cursor.offset
       const start = cursor.offset
 
       const inner = new Array<Instance>()
@@ -110,9 +111,7 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      const nibbles = (cursor.offset - start)
-
-      return new DynamicTuple(inner as ReadOutputs<T>, heads, tails, nibbles / 2)
+      return new DynamicTuple(inner as ReadOutputs<T>, heads, tails, (cursor.offset - zero) / 2)
     }
 
     trySize(): Result<number, never> {
@@ -131,6 +130,7 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
 
     static tryRead(cursor: Cursor): Result<DynamicTuple, Error> {
       return Result.unthrowSync(t => {
+        const zero = cursor.offset
         const start = cursor.offset
 
         const inner = new Array<Instance>()
@@ -138,14 +138,14 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
         const heads = new Array<Instance>()
         const tails = new Array<Instance>()
 
-        const subcursor = new Cursor(cursor.after)
+        const subcursor = new Cursor(cursor.bytes)
 
         for (const factory of DynamicTuple.inner) {
           if (factory.dynamic) {
             const pointer = Uint32.tryRead(cursor).throw(t)
             heads.push(pointer)
 
-            subcursor.offset = Number(pointer.value)
+            subcursor.offset = start + pointer.value
             const instance = factory.tryRead(subcursor).throw(t)
 
             inner.push(instance)
@@ -157,11 +157,9 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
           }
         }
 
-        const size = Math.max(cursor.offset - start, subcursor.offset)
+        cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-        cursor.offset = start + size
-
-        return new Ok(new DynamicTuple(inner as ReadOutputs<T>, heads, tails, size))
+        return new Ok(new DynamicTuple(inner as ReadOutputs<T>, heads, tails, cursor.offset - zero))
       })
     }
 

@@ -90,6 +90,7 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
     }
 
     static decode(cursor: TextCursor) {
+      const zero = cursor.offset
       const start = cursor.offset
 
       const inner = new Array<Instance>()
@@ -118,9 +119,7 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      const nibbles = (cursor.offset - start)
-
-      return new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, nibbles / 2)
+      return new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
     }
 
     trySize(): Result<number, never> {
@@ -139,9 +138,10 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
 
     static tryRead(cursor: Cursor): Result<DynamicArray, Error> {
       return Result.unthrowSync(t => {
+        const zero = cursor.offset
         const start = cursor.offset
 
-        const subcursor = new Cursor(cursor.after)
+        const subcursor = new Cursor(cursor.bytes)
 
         const inner = new Array<Instance>()
 
@@ -153,7 +153,7 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
             const pointer = Uint32.tryRead(cursor).throw(t)
             heads.push(pointer)
 
-            subcursor.offset = Number(pointer.value)
+            subcursor.offset = start + pointer.value
             const instance = DynamicArray.inner.tryRead(subcursor).throw(t)
 
             inner.push(instance)
@@ -165,11 +165,9 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
           }
         }
 
-        const size = Math.max(cursor.offset - start, subcursor.offset)
+        cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-        cursor.offset = start + size
-
-        return new Ok(new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, size))
+        return new Ok(new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero))
       })
     }
 
