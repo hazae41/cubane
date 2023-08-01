@@ -1,6 +1,7 @@
 import { Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { test } from "@hazae41/phobos";
+import { Rlp } from "index.js";
 import { RlpList } from "./types/list.js";
 import { RlpString } from "./types/string.js";
 
@@ -57,9 +58,16 @@ test("1024", async ({ message, test }) => {
 })
 
 test("set theoretical representation of three", async ({ message, test }) => {
-  // const three = Rlp.from([[], [[]], [[], [[]]]])
-  const three = RlpList.from([RlpList.from([]), RlpList.from([RlpList.from([])]), RlpList.from([RlpList.from([]), RlpList.from([RlpList.from([])])])])
+  const three = Rlp.from([[], [[]], [[], [[]]]])
+  // const three = RlpList.from([RlpList.from([]), RlpList.from([RlpList.from([])]), RlpList.from([RlpList.from([]), RlpList.from([RlpList.from([])])])])
   const bytes = Writable.tryWriteToBytes(three).unwrap()
+
+  console.log(message, [...bytes].map(it => "0x" + Bytes.toHex(new Uint8Array([it]))))
+})
+
+test("Lorem ipsum", async ({ message, test }) => {
+  const lorem = RlpString.from(Bytes.fromUtf8("Lorem ipsum dolor sit amet, consectetur adipisicing elit"))
+  const bytes = Writable.tryWriteToBytes(lorem).unwrap()
 
   console.log(message, [...bytes].map(it => "0x" + Bytes.toHex(new Uint8Array([it]))))
 })

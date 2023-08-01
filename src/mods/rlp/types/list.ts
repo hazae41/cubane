@@ -5,22 +5,18 @@ import { RlpType } from "../rlp.js";
 
 class RlpList55 {
 
-  private constructor(
+  constructor(
     readonly value: RlpType[],
-    readonly size: number
+    readonly length: number
   ) { }
 
-  static new(value: RlpType[], size: number) {
-    return new RlpList55(value, 1 + size)
-  }
-
   trySize(): Result<number, never> {
-    return new Ok(this.size)
+    return new Ok(1 + this.length)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xc0 + this.value.length).throw(t)
+      cursor.tryWriteUint8(0xc0 + this.length).throw(t)
 
       for (const element of this.value)
         element.tryWrite(cursor).throw(t)
@@ -33,23 +29,19 @@ class RlpList55 {
 
 class RlpListUint8 {
 
-  private constructor(
+  constructor(
     readonly value: RlpType[],
-    readonly size: number
+    readonly length: number
   ) { }
 
-  static new(value: RlpType[], size: number) {
-    return new RlpListUint8(value, 1 + 1 + size)
-  }
-
   trySize(): Result<number, never> {
-    return new Ok(this.size)
+    return new Ok(1 + 1 + this.length)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
       cursor.tryWriteUint8(0xc0 + 1).throw(t)
-      cursor.tryWriteUint8(this.value.length).throw(t)
+      cursor.tryWriteUint8(this.length).throw(t)
 
       for (const element of this.value)
         element.tryWrite(cursor).throw(t)
@@ -62,23 +54,19 @@ class RlpListUint8 {
 
 class RlpListUint16 {
 
-  private constructor(
+  constructor(
     readonly value: RlpType[],
-    readonly size: number
+    readonly length: number
   ) { }
 
-  static new(value: RlpType[], size: number) {
-    return new RlpListUint16(value, 1 + 2 + size)
-  }
-
   trySize(): Result<number, never> {
-    return new Ok(this.size)
+    return new Ok(1 + 2 + this.length)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
       cursor.tryWriteUint8(0xc0 + 2).throw(t)
-      cursor.tryWriteUint16(this.value.length).throw(t)
+      cursor.tryWriteUint16(this.length).throw(t)
 
       for (const element of this.value)
         element.tryWrite(cursor).throw(t)
@@ -91,23 +79,19 @@ class RlpListUint16 {
 
 class RlpListUint32 {
 
-  private constructor(
+  constructor(
     readonly value: RlpType[],
-    readonly size: number
+    readonly length: number
   ) { }
 
-  static new(value: RlpType[], size: number) {
-    return new RlpListUint32(value, 1 + 4 + size)
-  }
-
   trySize(): Result<number, never> {
-    return new Ok(this.size)
+    return new Ok(1 + 4 + this.length)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
       cursor.tryWriteUint8(0xc0 + 4).throw(t)
-      cursor.tryWriteUint32(this.value.length).throw(t)
+      cursor.tryWriteUint32(this.length).throw(t)
 
       for (const element of this.value)
         element.tryWrite(cursor).throw(t)
@@ -130,12 +114,12 @@ export namespace RlpList {
     const size = value.reduce((a, b) => a + b.trySize().get(), 0)
 
     if (size < 56)
-      return RlpList55.new(value, size)
+      return new RlpList55(value, size)
     if (value.length < 256)
-      return RlpListUint8.new(value, size)
+      return new RlpListUint8(value, size)
     if (value.length < 65_536)
-      return RlpListUint16.new(value, size)
-    return RlpListUint32.new(value, size)
+      return new RlpListUint16(value, size)
+    return new RlpListUint32(value, size)
   }
 
 }
