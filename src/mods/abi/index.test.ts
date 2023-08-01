@@ -46,8 +46,6 @@ test("test", async () => {
     DynamicBytes.new(new Uint8Array([1, 2, 3]))
   ).unwrap()
 
-  console.log(hex)
-
   const funcAndArgs = tryDecode(signature, hex).unwrap() as any
 
   console.log(funcAndArgs.args.inner[2].inner[0].inner[1])
