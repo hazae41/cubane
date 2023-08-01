@@ -8,21 +8,26 @@ import { DynamicBytes, DynamicString, FunctionSelector, StaticBool, Uint256, cre
 import { bytesToHex, encodeAbiParameters, parseAbiParameters } from "viem";
 import { eth, utils } from "web3";
 
-const bytes = new Uint8Array([0, 0, 0, 1])
+/**
+ * Is uint32 faster than uint8? Yes, slightly (at least on Node)
+ */
+if (false) {
+  const bytes = new Uint8Array([0, 0, 0, 1])
 
-const uint32 = benchSync("uint32", () => {
-  const cursor = new Cursor(bytes)
-  cursor.offset = 0
-  const x = cursor.tryGetUint32().unwrap()
-})
+  const uint32 = benchSync("uint32", () => {
+    const cursor = new Cursor(bytes)
+    cursor.offset = 0
+    const x = cursor.tryGetUint32().unwrap()
+  })
 
-const uint8 = benchSync("uint8", () => {
-  const cursor = new Cursor(bytes)
-  cursor.offset = 3
-  const x = cursor.tryGetUint8().unwrap()
-})
+  const uint8 = benchSync("uint8", () => {
+    const cursor = new Cursor(bytes)
+    cursor.offset = 3
+    const x = cursor.tryGetUint8().unwrap()
+  })
 
-uint32.tableAndSummary(uint8)
+  uint32.tableAndSummary(uint8)
+}
 
 /**
  * Encode bool and bytes with preparsed ABI
