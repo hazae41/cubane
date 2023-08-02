@@ -2,9 +2,8 @@ import { Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { benchSync } from "@hazae41/deimos";
-import { keccak_256 } from "@noble/hashes/sha3";
 import { ethers } from "ethers";
-import { DynamicBytes, DynamicString, FunctionSelector, StaticBool, Uint256, createDynamicTuple, createFunctionSelectorAndArguments } from "mods/abi/index.js";
+import { FunctionSignature } from "mods/abi/signature/signature.js";
 import { bytesToHex, encodeAbiParameters, parseAbiParameters } from "viem";
 import { eth, utils } from "web3";
 
@@ -33,10 +32,7 @@ if (false) {
  * Encode various types with preparsed ABI
  */
 if (true) {
-  const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
-
-  const MyStruct = createDynamicTuple(StaticBool, Uint256, DynamicString)
-  const factory = createFunctionSelectorAndArguments(createDynamicTuple(StaticBool, Uint256, DynamicString, MyStruct, DynamicBytes))
+  const factory = FunctionSignature.tryParse("f(bool,bytes)").unwrap()
 
   const viemAbi = parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d, bytes e")
   const ethersAbi = ["bool a", "uint256 b", "string c", "tuple(bool a, uint256 b, string c) d", "bytes e"]
@@ -47,7 +43,7 @@ if (true) {
   const options = { samples: 10000, warmup: true } as const
 
   const benchCubaneHex = benchSync("cubane (hex)", ({ message }) => {
-    const instance = factory.from([selector, [true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]])
+    const instance = factory.inner.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random])
     const hex = instance.encode()
     // console.log(message, hex)
     // const args = factory.decode(new TextCursor(hex))
@@ -55,7 +51,7 @@ if (true) {
   }, options)
 
   const benchCubaneBytes = benchSync("cubane (bytes)", ({ message }) => {
-    const instance = factory.from([selector, [true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]])
+    const instance = factory.inner.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random])
     const bytes = Writable.tryWriteToBytes(instance).unwrap()
     // const hex = Bytes.toHex(bytes)
     // console.log(message, hex)

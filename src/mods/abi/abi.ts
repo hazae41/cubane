@@ -1,11 +1,9 @@
 import { Readable, Writable } from "@hazae41/binary";
-import { Bytes } from "@hazae41/bytes";
-import { Err, Ok, Result } from "@hazae41/result";
-import { keccak_256 } from "@noble/hashes/sha3";
+import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/hex.js";
 import { FunctionSignature } from "./signature/signature.js";
-import { FunctionSelector, FunctionSelectorAndArgumentsInstance, InvalidFunctionSelector, createFunctionSelectorAndArguments } from "./types/function/function.js";
+import { FunctionSelectorAndArgumentsInstance } from "./types/function/function.js";
 
 export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
 
@@ -41,13 +39,8 @@ export namespace Factory {
  * @returns 
  */
 export function tryEncode<T extends readonly Factory[]>(signature: FunctionSignature<T>, ...values: Factory.Primitives<T>): Result<ZeroHexString, Error> {
-  return Result.unthrowSync(t => {
-    const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
-    const encoder = createFunctionSelectorAndArguments(signature.inner.args).from([selector, values])
-
-    // p42:ignore-next-statement
-    return new Ok("0x" + encoder.encode() as ZeroHexString)
-  })
+  // p42:ignore-next-statement
+  return new Ok("0x" + signature.inner.from(values).encode() as ZeroHexString)
 }
 
 /**
@@ -57,15 +50,7 @@ export function tryEncode<T extends readonly Factory[]>(signature: FunctionSigna
  * @returns 
  */
 export function tryDecode<T extends readonly Factory[]>(signature: FunctionSignature<T>, hex: ZeroHexString): Result<FunctionSelectorAndArgumentsInstance<T>, Error> {
-  return Result.unthrowSync(t => {
-    const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
-    const decoded = createFunctionSelectorAndArguments(signature.inner.args).decode(new TextCursor(hex.slice(2)))
-
-    if (!Bytes.equals(selector.value, decoded.func.value))
-      return new Err(new InvalidFunctionSelector())
-
-    return new Ok(decoded)
-  })
+  return signature.inner.tryDecode(new TextCursor(hex.slice(2)))
 }
 
 /**
@@ -74,13 +59,7 @@ export function tryDecode<T extends readonly Factory[]>(signature: FunctionSigna
  * @returns 
  */
 export function tryWriteToBytes<T extends readonly Factory[]>(signature: FunctionSignature<T>, ...values: Factory.Primitives<T>): Result<Uint8Array, Error> {
-  return Result.unthrowSync(t => {
-    const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
-    const encoder = createFunctionSelectorAndArguments(signature.inner.args).from([selector, values])
-    const bytes = Writable.tryWriteToBytes(encoder).throw(t)
-
-    return new Ok(bytes)
-  })
+  return Writable.tryWriteToBytes(signature.inner.from(values))
 }
 
 /**
@@ -90,14 +69,5 @@ export function tryWriteToBytes<T extends readonly Factory[]>(signature: Functio
  * @returns 
  */
 export function tryReadFromBytes<T extends readonly Factory[]>(signature: FunctionSignature<T>, bytes: Uint8Array): Result<FunctionSelectorAndArgumentsInstance<T>, Error> {
-  return Result.unthrowSync(t => {
-    const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
-    const decoder = createFunctionSelectorAndArguments(signature.inner.args)
-    const decoded = Readable.tryReadFromBytes(decoder, bytes).throw(t)
-
-    if (!Bytes.equals(selector.value, decoded.func.value))
-      return new Err(new InvalidFunctionSelector())
-
-    return new Ok(decoded)
-  })
+  return Readable.tryReadFromBytes(signature.inner, bytes)
 }

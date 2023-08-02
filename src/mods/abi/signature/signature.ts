@@ -1,18 +1,28 @@
+import { Bytes } from "@hazae41/bytes";
 import { Err, Ok, Result } from "@hazae41/result";
+import { keccak_256 } from "@noble/hashes/sha3";
 import { Factory } from "../abi.js";
 import { tryGetFactory } from "../parser/parser.js";
 import { createDynamicArray } from "../types/array/array.js";
-import { FunctionSelectorAndArgumentsFactory, createFunctionSelectorAndArguments } from "../types/function/function.js";
+import { FunctionSelector, FunctionSelectorAndArgumentsFactory, createFunctionSelectorAndArguments } from "../types/function/function.js";
 import { DynamicTupleFactory, createDynamicTuple } from "../types/tuple/tuple.js";
 import { createDynamicVector } from "../types/vector/vector.js";
 
 export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
 
-  constructor(
-    readonly raw: string,
+  private constructor(
     readonly name: string,
+    readonly signature: string,
     readonly inner: FunctionSelectorAndArgumentsFactory<T>,
   ) { }
+
+  static new<T extends readonly Factory[]>(name: string, signature: string, inner: FunctionSelectorAndArgumentsFactory<T>) {
+    return new FunctionSignature(name, signature, inner)
+  }
+
+  codegen() {
+    return `export const ${this.name} = Cubane.Abi.FunctionSignature.new("${this.name}","${this.signature}",${this.inner.codegen()})`
+  }
 
   static tryParse(signature: string): Result<FunctionSignature, Error> {
     return Result.unthrowSync(t => {
@@ -21,10 +31,12 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
       if (tokens.shift() !== "(")
         return new Err(new Error(`Expected parenthesis`))
 
+      const func = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
       const args = this.#tryParseArguments(tokens).throw(t)
-      const inner = createFunctionSelectorAndArguments(args)
 
-      return new Ok(new FunctionSignature(signature, name, inner))
+      const inner = createFunctionSelectorAndArguments(func, args)
+
+      return new Ok(new FunctionSignature(name, signature, inner))
     })
   }
 

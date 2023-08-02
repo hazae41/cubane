@@ -1,7 +1,7 @@
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
+import { Err, Ok, Result } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory } from "mods/abi/abi.js";
 import { DynamicTupleFactory, DynamicTupleInstance } from "../tuple/tuple.js";
@@ -26,19 +26,23 @@ export class FunctionSelector {
   readonly size = 4 as const
 
   private constructor(
-    readonly value: Bytes<4>
+    readonly value: Uint8Array & { readonly length: 4 }
   ) { }
 
-  static new(value: Bytes<4>) {
+  static new(value: Uint8Array & { readonly length: 4 }) {
     return new FunctionSelector(value)
   }
 
-  static from(value: Bytes<4>) {
-    return new FunctionSelector(value)
+  static from(values: [number, number, number, number]) {
+    return new FunctionSelector(new Uint8Array(values) as Uint8Array & { readonly length: 4 })
   }
 
   static codegen() {
     return `Cubane.Abi.FunctionSelector`
+  }
+
+  codegen() {
+    return `Cubane.Abi.FunctionSelector.from([${this.value}])`
   }
 
   get class() {
@@ -77,34 +81,37 @@ export type FunctionSelectorAndArgumentsInstance<T extends readonly Factory[] = 
 export type FunctionSelectorAndArgumentsFactory<T extends readonly Factory[] = Factory[]> =
   ReturnType<typeof createFunctionSelectorAndArguments<T>> & { readonly name: string }
 
-export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>(args: DynamicTupleFactory<T>) => {
+export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>(func: FunctionSelector, args: DynamicTupleFactory<T>) => {
   return class FunctionSelectorAndArguments {
     readonly #class = FunctionSelectorAndArguments
 
+    static readonly func = func
     static readonly args = args
 
     constructor(
-      readonly func: FunctionSelector,
       readonly args: DynamicTupleInstance<T>
     ) { }
 
-    static new(inner: FunctionSelector, instances: ReadOutputs<T>) {
+    static new(instances: ReadOutputs<T>) {
       const args = FunctionSelectorAndArguments.args.new(instances)
-      return new FunctionSelectorAndArguments(inner, args)
+      return new FunctionSelectorAndArguments(args)
     }
 
-    static from(x: [inner: FunctionSelector, instances: Factory.Primitives<T>]) {
-      const [inner, instances] = x
-      const args = FunctionSelectorAndArguments.args.from(instances)
-      return new FunctionSelectorAndArguments(inner, args)
+    static from(values: Factory.Primitives<T>) {
+      const args = FunctionSelectorAndArguments.args.from(values)
+      return new FunctionSelectorAndArguments(args)
     }
 
     static codegen() {
-      return `Cubane.Abi.createFunctionSelectorAndArguments(${args.codegen()})`
+      return `Cubane.Abi.createFunctionSelectorAndArguments(${func.codegen()},${args.codegen()})`
     }
 
     get class() {
       return this.#class
+    }
+
+    get func() {
+      return this.#class.func
     }
 
     get size() {
@@ -119,11 +126,18 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       return this.func.encodePacked() + this.args.encodePacked()
     }
 
-    static decode(cursor: TextCursor) {
+    static tryDecode(cursor: TextCursor) {
       const func = FunctionSelector.decode(cursor)
       const args = FunctionSelectorAndArguments.args.decode(cursor)
 
-      return new FunctionSelectorAndArguments(func, args)
+      if (!Bytes.equals(func.value, this.func.value))
+        return new Err(new Error(`Invalid function selector`))
+
+      return new Ok(new FunctionSelectorAndArguments(args))
+    }
+
+    static decode(cursor: TextCursor) {
+      return this.tryDecode(cursor).unwrap()
     }
 
     trySize(): Result<number, never> {
@@ -132,7 +146,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
 
     tryWrite(cursor: Cursor): Result<void, Error> {
       return Result.unthrowSync(t => {
-        this.func.tryWrite(cursor).throw(t)
+        this.#class.func.tryWrite(cursor).throw(t)
         this.args.tryWrite(cursor).throw(t)
 
         return Ok.void()
@@ -144,7 +158,10 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
         const func = FunctionSelector.tryRead(cursor).throw(t)
         const args = FunctionSelectorAndArguments.args.tryRead(cursor).throw(t)
 
-        return new Ok(new FunctionSelectorAndArguments(func, args))
+        if (!Bytes.equals(func.value, this.func.value))
+          return new Err(new Error(`Invalid function selector`))
+
+        return new Ok(new FunctionSelectorAndArguments(args))
       })
     }
 
