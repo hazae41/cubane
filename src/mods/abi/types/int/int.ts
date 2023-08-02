@@ -51,6 +51,10 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
       return new StaticBigInt(value)
     }
 
+    static codegen() {
+      return `Cubane.Abi.createStaticBigInt(${bytes})`
+    }
+
     get class() {
       return this.#class
     }

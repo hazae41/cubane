@@ -20,6 +20,10 @@ export class StaticBool {
     return new StaticBool(value)
   }
 
+  static codegen() {
+    return `Cubane.Abi.StaticBool`
+  }
+
   get class() {
     return this.#class
   }

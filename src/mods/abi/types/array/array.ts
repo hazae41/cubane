@@ -57,7 +57,11 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
       for (let i = 0; i < DynamicArray.count; i++)
         result[i] = DynamicArray.inner.from(primitives[i])
 
-      return DynamicArray.new(result as ReadOutputs<T[]> & { readonly length: N })
+      return DynamicArray.new(result as any as ReadOutputs<T[]> & { readonly length: N })
+    }
+
+    static codegen() {
+      return `Cubane.Abi.createDynamicArray(${this.inner.codegen()},${this.count})`
     }
 
     get class() {
@@ -128,7 +132,7 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
+      return new DynamicArray(inner as any as ReadOutputs<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
     }
 
     trySize(): Result<number, never> {
@@ -176,7 +180,7 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
 
         cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-        return new Ok(new DynamicArray(inner as ReadOutputs<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero))
+        return new Ok(new DynamicArray(inner as any as ReadOutputs<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero))
       })
     }
 

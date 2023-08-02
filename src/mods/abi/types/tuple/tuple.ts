@@ -56,6 +56,10 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
       return DynamicTuple.new(result as ReadOutputs<T>)
     }
 
+    static codegen() {
+      return `Cubane.Abi.createDynamicTuple(${this.inner.map(it => it.codegen()).join(",")})`
+    }
+
     get class() {
       return this.#class
     }

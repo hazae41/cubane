@@ -19,6 +19,8 @@ export type Instance = MaybeDynamic<Writable<never, Error>> & {
 export type Factory<T extends Instance = Instance, P = unknown> = MaybeDynamic<Readable<T, Error>> & {
   from(primitive: P): Instance
 
+  codegen(): string
+
   decode(cursor: TextCursor): Instance
 }
 
@@ -27,7 +29,7 @@ export namespace Factory {
   export type Primitive<T> = T extends Factory<any, infer P> ? P : never
 
   export type Primitives<T extends readonly Factory[]> = {
-    [Index in keyof T]: Primitive<T[Index]>
+    readonly [Index in keyof T]: Primitive<T[Index]>
   }
 
 }
@@ -41,7 +43,7 @@ export namespace Factory {
 export function tryEncode<T extends readonly Factory[]>(signature: FunctionSignature<T>, ...values: Factory.Primitives<T>): Result<ZeroHexString, Error> {
   return Result.unthrowSync(t => {
     const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
-    const encoder = createFunctionSelectorAndArguments(signature.args).from([selector, values])
+    const encoder = createFunctionSelectorAndArguments(signature.inner.args).from([selector, values])
 
     // p42:ignore-next-statement
     return new Ok("0x" + encoder.encode() as ZeroHexString)
@@ -57,7 +59,7 @@ export function tryEncode<T extends readonly Factory[]>(signature: FunctionSigna
 export function tryDecode<T extends readonly Factory[]>(signature: FunctionSignature<T>, hex: ZeroHexString): Result<FunctionSelectorAndArgumentsInstance<T>, Error> {
   return Result.unthrowSync(t => {
     const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
-    const decoded = createFunctionSelectorAndArguments(signature.args).decode(new TextCursor(hex.slice(2)))
+    const decoded = createFunctionSelectorAndArguments(signature.inner.args).decode(new TextCursor(hex.slice(2)))
 
     if (!Bytes.equals(selector.value, decoded.func.value))
       return new Err(new InvalidFunctionSelector())
@@ -74,8 +76,7 @@ export function tryDecode<T extends readonly Factory[]>(signature: FunctionSigna
 export function tryWriteToBytes<T extends readonly Factory[]>(signature: FunctionSignature<T>, ...values: Factory.Primitives<T>): Result<Uint8Array, Error> {
   return Result.unthrowSync(t => {
     const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
-
-    const encoder = createFunctionSelectorAndArguments(signature.args).from([selector, values])
+    const encoder = createFunctionSelectorAndArguments(signature.inner.args).from([selector, values])
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)
@@ -91,8 +92,7 @@ export function tryWriteToBytes<T extends readonly Factory[]>(signature: Functio
 export function tryReadFromBytes<T extends readonly Factory[]>(signature: FunctionSignature<T>, bytes: Uint8Array): Result<FunctionSelectorAndArgumentsInstance<T>, Error> {
   return Result.unthrowSync(t => {
     const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
-
-    const decoder = createFunctionSelectorAndArguments(signature.args)
+    const decoder = createFunctionSelectorAndArguments(signature.inner.args)
     const decoded = Readable.tryReadFromBytes(decoder, bytes).throw(t)
 
     if (!Bytes.equals(selector.value, decoded.func.value))

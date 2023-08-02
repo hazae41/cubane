@@ -51,12 +51,16 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
     }
 
     static from(primitives: Factory.Primitives<T[]>) {
-      const result = new Array(primitives.length)
+      const result = new Array<Instance>(primitives.length)
 
       for (let i = 0; i < primitives.length; i++)
         result[i] = DynamicVector.inner.from(primitives[i])
 
-      return DynamicVector.new(result as ReadOutputs<T[]>)
+      return DynamicVector.new(result as any as ReadOutputs<T[]>)
+    }
+
+    static codegen() {
+      return `Cubane.Abi.createDynamicVector(${this.inner.codegen()})`
     }
 
     get class() {
@@ -126,7 +130,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, (cursor.offset - zero) / 2)
+      return new DynamicVector(inner as any as ReadOutputs<T[]>, heads, tails, (cursor.offset - zero) / 2)
     }
 
     trySize(): Result<number, never> {
@@ -181,7 +185,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
         cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-        return new Ok(new DynamicVector(inner as ReadOutputs<T[]>, heads, tails, cursor.offset - zero))
+        return new Ok(new DynamicVector(inner as any as ReadOutputs<T[]>, heads, tails, cursor.offset - zero))
       })
     }
 

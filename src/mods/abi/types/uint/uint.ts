@@ -47,6 +47,10 @@ export const createStaticBigUint = <N extends number = number>(bytes: N) => {
       return new StaticBigUint(value)
     }
 
+    static codegen() {
+      return `Cubane.Abi.createStaticBigUint(${bytes})`
+    }
+
     get class() {
       return this.#class
     }
@@ -143,6 +147,10 @@ export const createStaticUint = <N extends number = number>(bytes: N) => {
 
     static from(value: number) {
       return new StaticUint(value)
+    }
+
+    static codegen() {
+      return `Cubane.Abi.createStaticUint(${bytes})`
     }
 
     get class() {

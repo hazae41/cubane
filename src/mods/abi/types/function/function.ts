@@ -37,6 +37,10 @@ export class FunctionSelector {
     return new FunctionSelector(value)
   }
 
+  static codegen() {
+    return `Cubane.Abi.FunctionSelector`
+  }
+
   get class() {
     return this.#class
   }
@@ -93,6 +97,10 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       const [inner, instances] = x
       const args = FunctionSelectorAndArguments.args.from(instances)
       return new FunctionSelectorAndArguments(inner, args)
+    }
+
+    static codegen() {
+      return `Cubane.Abi.createFunctionSelectorAndArguments(${args.codegen()})`
     }
 
     get class() {

@@ -2,6 +2,7 @@ import { Err, Ok, Result } from "@hazae41/result";
 import { Factory } from "../abi.js";
 import { tryGetFactory } from "../parser/parser.js";
 import { createDynamicArray } from "../types/array/array.js";
+import { FunctionSelectorAndArgumentsFactory, createFunctionSelectorAndArguments } from "../types/function/function.js";
 import { DynamicTupleFactory, createDynamicTuple } from "../types/tuple/tuple.js";
 import { createDynamicVector } from "../types/vector/vector.js";
 
@@ -10,7 +11,7 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
   constructor(
     readonly raw: string,
     readonly name: string,
-    readonly args: DynamicTupleFactory<T>,
+    readonly inner: FunctionSelectorAndArgumentsFactory<T>,
   ) { }
 
   static tryParse(signature: string): Result<FunctionSignature, Error> {
@@ -21,8 +22,9 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
         return new Err(new Error(`Expected parenthesis`))
 
       const args = this.#tryParseArguments(tokens).throw(t)
+      const inner = createFunctionSelectorAndArguments(args)
 
-      return new Ok(new FunctionSignature(signature, name, args))
+      return new Ok(new FunctionSignature(signature, name, inner))
     })
   }
 

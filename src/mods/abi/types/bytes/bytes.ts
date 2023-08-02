@@ -45,6 +45,10 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
       return new StaticBytes(value)
     }
 
+    static codegen() {
+      return `Cubane.Abi.createStaticBytes(${bytes})`
+    }
+
     get class() {
       return this.#class
     }
@@ -147,6 +151,10 @@ export class DynamicBytes<N extends number = number> {
 
   static from<N extends number>(value: Uint8Array & { readonly length: N }) {
     return new DynamicBytes(value, 32 + (Math.ceil(value.length / 32) * 32))
+  }
+
+  static codegen() {
+    return `Cubane.Abi.DynamicBytes`
   }
 
   get class() {
