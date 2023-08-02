@@ -1,4 +1,4 @@
-import { Err, Ok, Result } from "@hazae41/result";
+import { Err, Ok } from "@hazae41/result";
 import { StaticAddress } from "../types/address/address.js";
 import { StaticBool } from "../types/bool/bool.js";
 import { DynamicBytes } from "../types/bytes/bytes.js";
@@ -8,48 +8,15 @@ import { Uint104, Uint112, Uint120, Uint128, Uint136, Uint144, Uint152, Uint16, 
 
 import type { Readable, Writable } from "@hazae41/binary";
 import type { Cursor } from "@hazae41/cursor";
-import { Factory } from "../abi.js";
-import { createDynamicArray } from "../types/array/array.js";
-import { DynamicTupleFactory, createDynamicTuple } from "../types/tuple/tuple.js";
-import { createDynamicVector } from "../types/vector/vector.js";
 
 type Unuseds = Readable | Writable | Cursor
-
-export class NameParseError extends Error {
-  readonly #class = NameParseError
-  readonly name = this.#class.name
-
-  constructor() {
-    super(`Could not parse name`)
-  }
-
-}
-
-export class NamesParseError extends Error {
-  readonly #class = NamesParseError
-  readonly name = this.#class.name
-
-  constructor() {
-    super(`Could not parse names`)
-  }
-
-}
-
-export class SignatureParseError extends Error {
-  readonly #class = SignatureParseError
-  readonly name = this.#class.name
-
-  constructor() {
-    super(`Could not parse signature`)
-  }
-
-}
 
 export function tryGetFactory(name: string) {
   const factory = (factoryByName as any)[name]
 
   if (factory != null)
     return new Ok(factory)
+
   return new Err(new Error(`Unknown type ${name}`))
 }
 
@@ -196,60 +163,3 @@ export const factoryByName: {
   int248: Int248,
   int256: Int256,
 } as const
-
-export function tryParseSignature(signature: string): Result<[string, DynamicTupleFactory], Error> {
-  return Result.unthrowSync(t => {
-    const [name, ...tokens] = signature.trim().split(/(,|\(|\)|\[|\])/g).filter(Boolean)
-
-    if (tokens.shift() !== "(")
-      return new Err(new Error(`Expected parenthesis`))
-
-    const args = tryParseArguments(tokens).throw(t)
-
-    return new Ok([name, args])
-  })
-}
-
-export function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory[]>, Error> {
-  return Result.unthrowSync(t => {
-    const factories = new Array<Factory>()
-
-    while (tokens.length) {
-      const token = tokens.shift()!
-
-      if (!token)
-        continue
-      else if (token === ",")
-        continue
-      else if (token === "(")
-        factories.push(doParseArrayOrVectorOrSingle(tokens, tryParseArguments(tokens).throw(t)))
-      else if (token === ")")
-        return new Ok(createDynamicTuple(...factories))
-      else if (token === "[")
-        return new Err(new Error(`Unexpected brackets`))
-      else if (token === "]")
-        return new Err(new Error(`Unexpected brackets`))
-      else
-        factories.push(doParseArrayOrVectorOrSingle(tokens, tryGetFactory(token).throw(t)))
-    }
-
-    return new Ok(createDynamicTuple(...factories))
-  })
-}
-
-export function doParseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
-  if (tokens[0] === "[" && tokens[1] === "]") {
-    tokens.shift()
-    tokens.shift()
-    return createDynamicVector(factory)
-  }
-
-  if (tokens[0] === "[" && tokens[2] === "]") {
-    tokens.shift()
-    const length = parseInt(tokens.shift()!)
-    tokens.shift()
-    return createDynamicArray(factory, length)
-  }
-
-  return factory
-}

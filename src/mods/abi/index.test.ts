@@ -4,6 +4,7 @@ import { Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { test } from "@hazae41/phobos";
 import { tryDecode, tryEncode, tryReadFromBytes } from "./index.js";
+import { FunctionSignature } from "./signature/signature.js";
 import { StaticAddress } from "./types/address/address.js";
 import { createDynamicArray } from "./types/array/array.js";
 import { createDynamicTuple } from "./types/tuple/tuple.js";
@@ -11,7 +12,8 @@ import { createDynamicVector } from "./types/vector/vector.js";
 
 test("test", async () => {
   const abi = "f71870b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000007b000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000"
-  const decoded = tryReadFromBytes("test(bool,string,uint256)", Bytes.fromHexSafe(abi)).unwrap()
+  const signature = FunctionSignature.tryParse("test(bool,string,uint256)").unwrap()
+  const decoded = tryReadFromBytes(signature, Bytes.fromHexSafe(abi)).unwrap()
   console.log(decoded)
 })
 
@@ -28,9 +30,9 @@ test("test", async () => {
 })
 
 test("test", async () => {
-  const signature = "f(bool,uint256,(string,address[3])[],bytes)"
+  const signature = FunctionSignature.tryParse("f(bool,uint256,(string,address[3])[],bytes)").unwrap()
 
-  const hex = tryEncode("f(bool,uint256,(string,address[3])[],bytes)",
+  const hex = tryEncode(signature,
     true,
     123456789n,
     [
@@ -46,7 +48,7 @@ test("test", async () => {
     new Uint8Array([1, 2, 3])
   ).unwrap()
 
-  const funcAndArgs = tryDecode(signature, hex).unwrap() as any
+  const funcAndArgs = tryDecode(signature, hex).unwrap()
 
-  console.log(funcAndArgs.args.inner[2].inner[0].inner[1])
+  console.log(funcAndArgs.args.inner[2])
 })

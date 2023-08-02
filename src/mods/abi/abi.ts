@@ -4,7 +4,7 @@ import { Err, Ok, Result } from "@hazae41/result";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/hex.js";
-import { tryParseSignature } from "./parser/parser.js";
+import { FunctionSignature } from "./signature/signature.js";
 import { FunctionSelector, FunctionSelectorAndArgumentsInstance, InvalidFunctionSelector, createFunctionSelectorAndArguments } from "./types/function/function.js";
 
 export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
@@ -38,12 +38,10 @@ export namespace Factory {
  * @param values 
  * @returns 
  */
-export function tryEncode(signature: string, ...values: unknown[]): Result<ZeroHexString, Error> {
+export function tryEncode<T extends readonly Factory[]>(signature: FunctionSignature<T>, ...values: Factory.Primitives<T>): Result<ZeroHexString, Error> {
   return Result.unthrowSync(t => {
-    const [name, args] = tryParseSignature(signature).throw(t)
-
-    const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
-    const encoder = createFunctionSelectorAndArguments(args).from([selector, values])
+    const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
+    const encoder = createFunctionSelectorAndArguments(signature.args).from([selector, values])
 
     // p42:ignore-next-statement
     return new Ok("0x" + encoder.encode() as ZeroHexString)
@@ -56,12 +54,10 @@ export function tryEncode(signature: string, ...values: unknown[]): Result<ZeroH
  * @param hex 
  * @returns 
  */
-export function tryDecode(signature: string, hex: ZeroHexString): Result<FunctionSelectorAndArgumentsInstance, Error> {
+export function tryDecode<T extends readonly Factory[]>(signature: FunctionSignature<T>, hex: ZeroHexString): Result<FunctionSelectorAndArgumentsInstance<T>, Error> {
   return Result.unthrowSync(t => {
-    const [name, args] = tryParseSignature(signature).throw(t)
-
-    const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
-    const decoded = createFunctionSelectorAndArguments(args).decode(new TextCursor(hex.slice(2)))
+    const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
+    const decoded = createFunctionSelectorAndArguments(signature.args).decode(new TextCursor(hex.slice(2)))
 
     if (!Bytes.equals(selector.value, decoded.func.value))
       return new Err(new InvalidFunctionSelector())
@@ -75,13 +71,11 @@ export function tryDecode(signature: string, hex: ZeroHexString): Result<Functio
  * @param values 
  * @returns 
  */
-export function tryWriteToBytes(signature: string, ...values: unknown[]): Result<Uint8Array, Error> {
+export function tryWriteToBytes<T extends readonly Factory[]>(signature: FunctionSignature<T>, ...values: Factory.Primitives<T>): Result<Uint8Array, Error> {
   return Result.unthrowSync(t => {
-    const [name, args] = tryParseSignature(signature).throw(t)
+    const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
 
-    const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
-
-    const encoder = createFunctionSelectorAndArguments(args).from([selector, values])
+    const encoder = createFunctionSelectorAndArguments(signature.args).from([selector, values])
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)
@@ -94,13 +88,11 @@ export function tryWriteToBytes(signature: string, ...values: unknown[]): Result
  * @param types 
  * @returns 
  */
-export function tryReadFromBytes(signature: string, bytes: Uint8Array): Result<FunctionSelectorAndArgumentsInstance, Error> {
+export function tryReadFromBytes<T extends readonly Factory[]>(signature: FunctionSignature<T>, bytes: Uint8Array): Result<FunctionSelectorAndArgumentsInstance<T>, Error> {
   return Result.unthrowSync(t => {
-    const [name, args] = tryParseSignature(signature).throw(t)
+    const selector = FunctionSelector.new(keccak_256(signature.raw).slice(0, 4) as Bytes<4>)
 
-    const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
-
-    const decoder = createFunctionSelectorAndArguments(args)
+    const decoder = createFunctionSelectorAndArguments(signature.args)
     const decoded = Readable.tryReadFromBytes(decoder, bytes).throw(t)
 
     if (!Bytes.equals(selector.value, decoded.func.value))
