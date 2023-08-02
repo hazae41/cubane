@@ -12,7 +12,7 @@ Next-gen Ethereum library for TypeScript
 - Zero-copy RLP coding
 - Human-readable code
 - Bottom-up abstractions
-- High-performance codegens
+- High-performance codegen
 
 ## Usage
 
