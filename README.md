@@ -37,6 +37,9 @@ const hex = tryEncode("f(bool,uint256,(string,address[3])[],bytes)",
 ### Rlp
 
 ```tsx
-const three = Rlp.from([[], [[]], [[], [[]]]])
-const bytes = Writable.tryWriteToBytes(three).unwrap()
+const cat = RlpString.from(Bytes.fromUtf8("cat"))
+const dog = RlpString.from(Bytes.fromUtf8("dog"))
+const catAndDog = RlpList.from([cat, dog])
+
+const bytes = Writable.tryWriteToBytes(catAndDog).unwrap()
 ```
