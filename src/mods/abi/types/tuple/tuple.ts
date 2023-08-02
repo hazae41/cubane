@@ -4,7 +4,7 @@ import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
-import { Factory, Instance } from "mods/abi/index.js";
+import { Factory, Instance } from "mods/abi/abi.js";
 import { Uint32 } from "../uint/uint.js";
 
 export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) => {
