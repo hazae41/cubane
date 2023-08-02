@@ -9,6 +9,7 @@ Next-gen Ethereum library for TypeScript
 - Minimal dependencies
 - Rust-like patterns
 - Zero-copy ABI coding
+- Zero-copy RLP coding
 - Human-readable code
 - Bottom-up abstractions
 
