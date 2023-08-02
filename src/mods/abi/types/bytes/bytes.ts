@@ -145,6 +145,10 @@ export class DynamicBytes<N extends number = number> {
     return new DynamicBytes(value, 32 + (Math.ceil(value.length / 32) * 32))
   }
 
+  static from<N extends number>(value: Uint8Array & { readonly length: N }) {
+    return new DynamicBytes(value, 32 + (Math.ceil(value.length / 32) * 32))
+  }
+
   get class() {
     return this.#class
   }

@@ -3,10 +3,9 @@ import { Bytes } from "@hazae41/bytes";
 import { Err, Ok, Result } from "@hazae41/result";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { ZeroHexString } from "mods/types/hex.js";
 import { tryParseSignature } from "./parser/parser.js";
 import { FunctionSelector, FunctionSelectorAndArgumentsInstance, InvalidFunctionSelector, createFunctionSelectorAndArguments } from "./types/function/function.js";
-
-export type ZeroHexString = `0x${string}`
 
 export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
 
@@ -17,22 +16,34 @@ export type Instance = MaybeDynamic<Writable<never, Error>> & {
   encodePacked(): string
 }
 
-export type Factory<T extends Instance = Instance> = MaybeDynamic<Readable<T, Error>> & {
+export type Factory<T extends Instance = Instance, P = unknown> = MaybeDynamic<Readable<T, Error>> & {
+  from(primitive: P): Instance
+
   decode(cursor: TextCursor): Instance
+}
+
+export namespace Factory {
+
+  export type Primitive<T> = T extends Factory<any, infer P> ? P : never
+
+  export type Primitives<T extends readonly Factory[]> = {
+    [Index in keyof T]: Primitive<T[Index]>
+  }
+
 }
 
 /**
  * Shorthand for writing to 0x-prefix hex string
  * @param signature 
- * @param instances 
+ * @param values 
  * @returns 
  */
-export function tryEncode(signature: string, ...instances: Instance[]): Result<ZeroHexString, Error> {
+export function tryEncode(signature: string, ...values: unknown[]): Result<ZeroHexString, Error> {
   return Result.unthrowSync(t => {
     const [name, args] = tryParseSignature(signature).throw(t)
 
     const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
-    const encoder = createFunctionSelectorAndArguments(args).new(selector, ...instances)
+    const encoder = createFunctionSelectorAndArguments(args).from([selector, values])
 
     // p42:ignore-next-statement
     return new Ok("0x" + encoder.encode() as ZeroHexString)
@@ -61,16 +72,16 @@ export function tryDecode(signature: string, hex: ZeroHexString): Result<Functio
 
 /**
  * Shorthand for writing some bytes
- * @param instances 
+ * @param values 
  * @returns 
  */
-export function tryWriteToBytes(signature: string, ...instances: Instance[]): Result<Uint8Array, Error> {
+export function tryWriteToBytes(signature: string, ...values: unknown[]): Result<Uint8Array, Error> {
   return Result.unthrowSync(t => {
     const [name, args] = tryParseSignature(signature).throw(t)
 
     const selector = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
 
-    const encoder = createFunctionSelectorAndArguments(args).new(selector, ...instances)
+    const encoder = createFunctionSelectorAndArguments(args).from([selector, values])
     const bytes = Writable.tryWriteToBytes(encoder).throw(t)
 
     return new Ok(bytes)

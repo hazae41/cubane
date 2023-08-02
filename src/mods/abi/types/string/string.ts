@@ -17,6 +17,10 @@ export class DynamicString {
     return new DynamicString(value, DynamicBytes.new(Bytes.fromUtf8(value)))
   }
 
+  static from(value: string) {
+    return new DynamicString(value, DynamicBytes.new(Bytes.fromUtf8(value)))
+  }
+
   get class() {
     return this.#class
   }

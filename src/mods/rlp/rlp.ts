@@ -1,4 +1,5 @@
-import { RlpList, RlpString } from "./index.js"
+import { RlpList } from "./types/list.js"
+import { RlpString } from "./types/string.js"
 
 export type RlpType =
   | RlpString

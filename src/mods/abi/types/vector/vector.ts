@@ -24,7 +24,7 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
       readonly size: number,
     ) { }
 
-    static new(...instances: ReadOutputs<T[]>) {
+    static new(instances: ReadOutputs<T[]>) {
       let length = 32
       let offset = instances.length * 32
 
@@ -48,6 +48,15 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
       }
 
       return new DynamicVector(instances, heads, tails, length)
+    }
+
+    static from(primitives: Factory.Primitives<T[]>) {
+      const result = new Array(primitives.length)
+
+      for (let i = 0; i < primitives.length; i++)
+        result[i] = DynamicVector.inner.from(primitives[i])
+
+      return DynamicVector.new(result as ReadOutputs<T[]>)
     }
 
     get class() {

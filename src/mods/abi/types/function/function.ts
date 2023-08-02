@@ -33,6 +33,10 @@ export class FunctionSelector {
     return new FunctionSelector(value)
   }
 
+  static from(value: Bytes<4>) {
+    return new FunctionSelector(value)
+  }
+
   get class() {
     return this.#class
   }
@@ -80,8 +84,14 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       readonly args: DynamicTupleInstance<T>
     ) { }
 
-    static new(inner: FunctionSelector, ...instances: ReadOutputs<T>) {
-      const args = FunctionSelectorAndArguments.args.new(...instances)
+    static new(inner: FunctionSelector, instances: ReadOutputs<T>) {
+      const args = FunctionSelectorAndArguments.args.new(instances)
+      return new FunctionSelectorAndArguments(inner, args)
+    }
+
+    static from(x: [inner: FunctionSelector, instances: Factory.Primitives<T>]) {
+      const [inner, instances] = x
+      const args = FunctionSelectorAndArguments.args.from(instances)
       return new FunctionSelectorAndArguments(inner, args)
     }
 

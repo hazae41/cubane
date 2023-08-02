@@ -3,6 +3,7 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { ZeroHexString } from "mods/types/hex.js";
 
 export class StaticAddress {
   readonly #class = StaticAddress
@@ -10,13 +11,14 @@ export class StaticAddress {
   readonly size = 32 as const
 
   private constructor(
-    /**
-     * 0x-prefixed hex address
-     */
-    readonly value: string
+    readonly value: ZeroHexString
   ) { }
 
-  static new(value: string) {
+  static new(value: ZeroHexString) {
+    return new StaticAddress(value)
+  }
+
+  static from(value: ZeroHexString) {
     return new StaticAddress(value)
   }
 
@@ -36,7 +38,9 @@ export class StaticAddress {
     cursor.offset += 24
 
     // p42:ignore-next-statement
-    return new StaticAddress("0x" + cursor.read(40))
+    const value = "0x" + cursor.read(40)
+
+    return new StaticAddress(value as ZeroHexString)
   }
 
   trySize(): Result<32, never> {
@@ -64,7 +68,7 @@ export class StaticAddress {
       // p42:ignore-next-statement
       const value = "0x" + Bytes.toHex(bytes)
 
-      return new Ok(new StaticAddress(value))
+      return new Ok(new StaticAddress(value as ZeroHexString))
     })
   }
 

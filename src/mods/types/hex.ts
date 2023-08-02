@@ -1,0 +1,1 @@
+export type ZeroHexString = `0x${string}`

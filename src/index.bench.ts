@@ -32,7 +32,7 @@ if (false) {
 /**
  * Encode various types with preparsed ABI
  */
-if (false) {
+if (true) {
   const selector = FunctionSelector.new(keccak_256("f(bool,bytes)").slice(0, 4) as Bytes<4>)
 
   const MyStruct = createDynamicTuple(StaticBool, Uint256, DynamicString)
@@ -47,8 +47,7 @@ if (false) {
   const options = { samples: 10000, warmup: true } as const
 
   const benchCubaneHex = benchSync("cubane (hex)", ({ message }) => {
-    const myStruct = MyStruct.new(StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"))
-    const instance = factory.new(selector, StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"), myStruct, DynamicBytes.new(random))
+    const instance = factory.from([selector, [true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]])
     const hex = instance.encode()
     // console.log(message, hex)
     // const args = factory.decode(new TextCursor(hex))
@@ -56,8 +55,7 @@ if (false) {
   }, options)
 
   const benchCubaneBytes = benchSync("cubane (bytes)", ({ message }) => {
-    const myStruct = MyStruct.new(StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"))
-    const instance = factory.new(selector, StaticBool.new(true), Uint256.new(123456789n), DynamicString.new("hello world"), myStruct, DynamicBytes.new(random))
+    const instance = factory.from([selector, [true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]])
     const bytes = Writable.tryWriteToBytes(instance).unwrap()
     // const hex = Bytes.toHex(bytes)
     // console.log(message, hex)

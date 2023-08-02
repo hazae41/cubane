@@ -4,10 +4,10 @@ import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ReadOutputs } from "libs/readable/readable.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
-import { Factory, Instance, MaybeDynamic } from "mods/abi/index.js";
+import { Factory, Instance } from "mods/abi/index.js";
 import { Uint32 } from "../uint/uint.js";
 
-export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(...inner: T) => {
+export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) => {
   return class DynamicTuple {
     readonly #class = DynamicTuple
     readonly name = this.#class.name
@@ -21,7 +21,7 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
       readonly size: number,
     ) { }
 
-    static new(...instances: ReadOutputs<T>) {
+    static new(instances: ReadOutputs<T>) {
       let length = 0
       let offset = instances.length * 32
 
@@ -45,6 +45,15 @@ export const createDynamicTuple = <T extends readonly MaybeDynamic<Factory>[]>(.
       }
 
       return new DynamicTuple(instances, heads, tails, length)
+    }
+
+    static from(primitives: Factory.Primitives<T>) {
+      const result = new Array(DynamicTuple.inner.length)
+
+      for (let i = 0; i < DynamicTuple.inner.length; i++)
+        result[i] = DynamicTuple.inner[i].from(primitives[i])
+
+      return DynamicTuple.new(result as ReadOutputs<T>)
     }
 
     get class() {

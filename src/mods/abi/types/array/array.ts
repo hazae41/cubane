@@ -1,7 +1,7 @@
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { ReadOutputs } from "libs/readable/readable.js";
-import { Factory, Instance, MaybeDynamic } from "mods/abi/abi.js";
+import { Factory, Instance } from "mods/abi/abi.js";
 import { Uint32 } from "../uint/uint.js";
 
 import type { Readable } from "@hazae41/binary";
@@ -10,7 +10,7 @@ import { Skeleton } from "libs/typescript/skeleton.js";
 
 type Unuseds = Readable
 
-export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends number>(inner: T, count: N) => {
+export const createDynamicArray = <T extends Factory, N extends number>(inner: T, count: N) => {
   return class DynamicArray {
     readonly #class = DynamicArray
     readonly name = this.#class.name
@@ -25,7 +25,7 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
       readonly size: number,
     ) { }
 
-    static new(...instances: MaybeDynamic<ReadOutputs<T[]>> & { readonly length: N }) {
+    static new(instances: ReadOutputs<T[]> & { readonly length: N }) {
       let length = 0
       let offset = instances.length * 32
 
@@ -49,6 +49,15 @@ export const createDynamicArray = <T extends MaybeDynamic<Factory>, N extends nu
       }
 
       return new DynamicArray(instances, heads, tails, length)
+    }
+
+    static from(primitives: Factory.Primitives<T[]> & { readonly length: N }) {
+      const result = new Array(DynamicArray.count)
+
+      for (let i = 0; i < DynamicArray.count; i++)
+        result[i] = DynamicArray.inner.from(primitives[i])
+
+      return DynamicArray.new(result as ReadOutputs<T[]> & { readonly length: N })
     }
 
     get class() {

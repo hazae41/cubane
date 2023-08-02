@@ -43,6 +43,10 @@ export const createStaticBigUint = <N extends number = number>(bytes: N) => {
       return new StaticBigUint(value)
     }
 
+    static from(value: bigint) {
+      return new StaticBigUint(value)
+    }
+
     get class() {
       return this.#class
     }
@@ -134,6 +138,10 @@ export const createStaticUint = <N extends number = number>(bytes: N) => {
     ) { }
 
     static new(value: number) {
+      return new StaticUint(value)
+    }
+
+    static from(value: number) {
       return new StaticUint(value)
     }
 

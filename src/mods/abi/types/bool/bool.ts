@@ -16,6 +16,10 @@ export class StaticBool {
     return new StaticBool(value)
   }
 
+  static from(value: boolean) {
+    return new StaticBool(value)
+  }
+
   get class() {
     return this.#class
   }
