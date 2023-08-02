@@ -20,10 +20,6 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
     return new FunctionSignature(name, signature, inner)
   }
 
-  codegen() {
-    return `export const ${this.name} = Cubane.Abi.FunctionSignature.new("${this.name}","${this.signature}",${this.inner.codegen()})`
-  }
-
   static tryParse(signature: string): Result<FunctionSignature, Error> {
     return Result.unthrowSync(t => {
       const [name, ...tokens] = signature.trim().split(/(,|\(|\)|\[|\])/g).filter(Boolean)
@@ -82,6 +78,10 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
     }
 
     return factory
+  }
+
+  codegen() {
+    return `export const ${this.name} = Cubane.Abi.FunctionSignature.new("${this.name}","${this.signature}",${this.inner.codegen()})`
   }
 
 }

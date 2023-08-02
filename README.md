@@ -12,30 +12,47 @@ Next-gen Ethereum library for TypeScript
 - Zero-copy RLP coding
 - Human-readable code
 - Bottom-up abstractions
+- High-performance codegens
 
 ## Usage
 
-### Abi
+### Abi to Hex (runtime)
+
+Parse the function from its signature
 
 ```tsx
-const hex = tryEncode("f(bool,uint256,(string,address[3])[],bytes)",
-  true,
-  123456789n,
-  [
-    [
-      "hello world",
-      [
-        "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
-        "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
-        "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
-      ]
-    ],
-  ],
-  new Uint8Array([1, 2, 3])
-).unwrap()
+const signature = FunctionSignature.tryParse("f(bool,uint256,string)").unwrap()
 ```
 
-### Rlp
+Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
+
+```tsx
+const hex = tryEncode(signature, true, 123456789n, "hello world").unwrap()
+// 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
+```
+
+### Abi to Hex (codegen)
+
+Generate the function from its signature
+
+```tsx
+> console.log(FunctionSignature.tryParse("f(bool,uint256,string)").unwrap().codegen())
+```
+
+Paste it in a file `f.abi.ts`
+
+```tsx
+export const f = /*generated code*/
+```
+
+Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
+
+```tsx
+const hex = tryEncode(f, true, 123456789n, "hello world").unwrap()
+// 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
+```
+
+### Rlp to Bytes
 
 ```tsx
 const cat = RlpString.from(Bytes.fromUtf8("cat"))

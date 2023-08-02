@@ -136,10 +136,6 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       return new Ok(new FunctionSelectorAndArguments(args))
     }
 
-    static decode(cursor: TextCursor) {
-      return this.tryDecode(cursor).unwrap()
-    }
-
     trySize(): Result<number, never> {
       return new Ok(this.func.size + this.args.size)
     }
