@@ -33,3 +33,10 @@ const hex = tryEncode("f(bool,uint256,(string,address[3])[],bytes)",
   new Uint8Array([1, 2, 3])
 ).unwrap()
 ```
+
+### Rlp
+
+```tsx
+const three = Rlp.from([[], [[]], [[], [[]]]])
+const bytes = Writable.tryWriteToBytes(three).unwrap()
+```
