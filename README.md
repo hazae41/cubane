@@ -2,6 +2,12 @@
 
 Next-gen Ethereum library for TypeScript
 
+```bash
+npm i @hazae41/cubane
+```
+
+[**Node Package 📦**](https://www.npmjs.com/package/@hazae41/cubane)
+
 ## Features
 
 ### Current features
