@@ -55,10 +55,9 @@
     }
   },
   "keywords": [
-    "asn1",
-    "x509",
-    "der",
-    "ber",
+    "ethereum",
+    "abi",
+    "rlp",
     "buffer",
     "encoding",
     "encoder",
