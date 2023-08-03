@@ -5,8 +5,10 @@ import { Rlp } from "index.js";
 await test("dog", async ({ message, test }) => {
   const dog = Bytes.fromUtf8("dog")
   const bytes = Rlp.tryWriteToBytes(dog).unwrap()
+  const value = Rlp.tryReadFromBytes(bytes).unwrap()
 
   console.log(message, [...bytes].map(it => "0x" + Bytes.toHex(new Uint8Array([it]))))
+  console.log(message, Bytes.toUtf8(value as Uint8Array))
 })
 
 await test("cat and dog", async ({ message, test }) => {
@@ -81,5 +83,5 @@ await test("Lorem ipsum", async ({ message, test }) => {
   const value = Rlp.tryReadFromBytes(bytes).unwrap()
 
   console.log(message, [...bytes].map(it => "0x" + Bytes.toHex(new Uint8Array([it]))))
-  console.log(message, value)
+  console.log(message, Bytes.toUtf8(value as Uint8Array))
 })
