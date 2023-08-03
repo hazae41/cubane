@@ -35,7 +35,7 @@ export class RlpList55 {
 
   static tryRead(cursor: Cursor): Result<RlpList55, Error> {
     return Result.unthrowSync(t => {
-      const length = 0xc0 - cursor.tryReadUint8().throw(t)
+      const length = cursor.tryReadUint8().throw(t) - 0xc0
 
       const value = new Array(length)
 

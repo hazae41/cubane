@@ -59,7 +59,7 @@ export class RlpString55 {
 
   static tryRead(cursor: Cursor): Result<RlpString55, BinaryReadError> {
     return Result.unthrowSync(t => {
-      const length = 0x80 - cursor.tryReadUint8().throw(t)
+      const length = cursor.tryReadUint8().throw(t) - 0x80
       const value = cursor.tryRead(length).throw(t)
 
       return new Ok(new RlpString55(value))
