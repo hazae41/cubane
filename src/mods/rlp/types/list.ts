@@ -37,10 +37,11 @@ export class RlpList55 {
     return Result.unthrowSync(t => {
       const length = cursor.tryReadUint8().throw(t) - 0xc0
 
-      const value = new Array(length)
+      const start = cursor.offset
+      const value = new Array<RlpType>()
 
-      for (let i = 0; i < length; i++)
-        value[i] = tryRead(cursor).throw(t)
+      while (cursor.offset - start < length)
+        value.push(tryRead(cursor).throw(t))
 
       return new Ok(new RlpList55(value, length))
     })
@@ -84,10 +85,11 @@ export class RlpListUint8 {
       const first = cursor.tryReadUint8().throw(t)
       const length = cursor.tryReadUint8().throw(t)
 
-      const value = new Array(length)
+      const start = cursor.offset
+      const value = new Array<RlpType>()
 
-      for (let i = 0; i < length; i++)
-        value[i] = tryRead(cursor).throw(t)
+      while (cursor.offset - start < length)
+        value.push(tryRead(cursor).throw(t))
 
       return new Ok(new RlpListUint8(value, length))
     })
@@ -131,10 +133,11 @@ export class RlpListUint16 {
       const first = cursor.tryReadUint8().throw(t)
       const length = cursor.tryReadUint16().throw(t)
 
-      const value = new Array(length)
+      const start = cursor.offset
+      const value = new Array<RlpType>()
 
-      for (let i = 0; i < length; i++)
-        value[i] = tryRead(cursor).throw(t)
+      while (cursor.offset - start < length)
+        value.push(tryRead(cursor).throw(t))
 
       return new Ok(new RlpListUint16(value, length))
     })
@@ -178,10 +181,11 @@ export class RlpListUint24 {
       const first = cursor.tryReadUint8().throw(t)
       const length = cursor.tryReadUint24().throw(t)
 
-      const value = new Array(length)
+      const start = cursor.offset
+      const value = new Array<RlpType>()
 
-      for (let i = 0; i < length; i++)
-        value[i] = tryRead(cursor).throw(t)
+      while (cursor.offset - start < length)
+        value.push(tryRead(cursor).throw(t))
 
       return new Ok(new RlpListUint24(value, length))
     })
@@ -225,10 +229,11 @@ export class RlpListUint32 {
       const first = cursor.tryReadUint8().throw(t)
       const length = cursor.tryReadUint32().throw(t)
 
-      const value = new Array(length)
+      const start = cursor.offset
+      const value = new Array<RlpType>()
 
-      for (let i = 0; i < length; i++)
-        value[i] = tryRead(cursor).throw(t)
+      while (cursor.offset - start < length)
+        value.push(tryRead(cursor).throw(t))
 
       return new Ok(new RlpListUint32(value, length))
     })
