@@ -4,7 +4,8 @@ import { Cursor } from "@hazae41/cursor";
 import { benchSync } from "@hazae41/deimos";
 import { ethers } from "ethers";
 import { FunctionSignature } from "mods/abi/signature/signature.js";
-import { bytesToHex, encodeAbiParameters, parseAbiParameters } from "viem";
+import { RlpString } from "mods/rlp/index.js";
+import { bytesToHex, encodeAbiParameters, hexToBytes, parseAbiParameters, toRlp } from "viem";
 import { eth, utils } from "web3";
 
 /**
@@ -31,7 +32,7 @@ if (false) {
 /**
  * Encode various types with preparsed ABI
  */
-if (true) {
+if (false) {
   const factory = FunctionSignature.tryParse("f(bool,bytes)").unwrap()
 
   const viemAbi = parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d, bytes e")
@@ -81,4 +82,29 @@ if (true) {
 
   benchCubaneHex.summary(benchViem, benchEthers, benchWeb3)
   benchCubaneBytes.summary(benchViem, benchEthers, benchWeb3)
+}
+
+/**
+ * RLP encoding
+ */
+if (true) {
+
+  const random = Bytes.random(4096)
+
+  const options = { samples: 5000, warmup: true } as const
+
+  const benchCubaneBytes = benchSync("cubane (bytes)", () => {
+    const bytes = Writable.tryWriteToBytes(RlpString.from(random)).unwrap()
+  }, options)
+
+  const benchViem = benchSync("viem", () => {
+    const bytes = hexToBytes(toRlp(random))
+  }, options)
+
+  const benchEthers = benchSync("ethers", () => {
+    const bytes = ethers.getBytes(ethers.encodeRlp(ethers.hexlify(random)))
+  }, options)
+
+  benchCubaneBytes.table(benchViem, benchEthers)
+  benchCubaneBytes.summary(benchViem, benchEthers)
 }
