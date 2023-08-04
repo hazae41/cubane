@@ -1,5 +1,6 @@
 import { Bytes } from "@hazae41/bytes"
 import { keccak_256 } from "@noble/hashes/sha3"
+import { bytesByName, intByName, uintByName } from "mods/abi/index.js"
 
 export interface TypedData {
   readonly types: TypedDataTypes
@@ -41,7 +42,16 @@ export function encodeType(types: TypedDataTypes, name: string) {
   return Bytes.fromUtf8(`${name}(${types[name].map(({ name, type }) => `${type} ${name}`)})`)
 }
 
-export function encodeData() {
+export function encodeData(types: TypedDataTypes, name: string, struct: {}) {
 
 }
 
+const factoryByName = {
+  ...uintByName,
+  ...intByName,
+  ...bytesByName
+} as const
+
+export function encodeVariable(type: string, value: unknown) {
+  const factory = (factoryByName as any)[type]
+}
