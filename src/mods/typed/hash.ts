@@ -1,5 +1,6 @@
 import { Bytes } from "@hazae41/bytes"
 import { keccak_256 } from "@noble/hashes/sha3"
+import { Records } from "libs/records/records.js"
 import { bytesByName, intByName, uintByName } from "mods/abi/index.js"
 
 export interface TypedData {
@@ -53,5 +54,5 @@ const factoryByName = {
 } as const
 
 export function encodeVariable(type: string, value: unknown) {
-  const factory = (factoryByName as any)[type]
+  const factory = Records.tryResolve(factoryByName, type).unwrap()
 }

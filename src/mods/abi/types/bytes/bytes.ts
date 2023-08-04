@@ -45,6 +45,10 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
       return new StaticBytes(value)
     }
 
+    static from(value: Uint8Array & { readonly length: N }) {
+      return new StaticBytes(value)
+    }
+
     static codegen() {
       return `Cubane.Abi.createStaticBytes(${bytes})`
     }

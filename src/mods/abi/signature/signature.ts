@@ -1,14 +1,30 @@
 import { Bytes } from "@hazae41/bytes";
 import { Err, Ok, Result } from "@hazae41/result";
 import { keccak_256 } from "@noble/hashes/sha3";
+import { Records } from "libs/records/records.js";
 import { Factory } from "../abi.js";
-import { tryGetFactory } from "../parser/parser.js";
+import { StaticAddress } from "../types/address/address.js";
 import { createDynamicArray } from "../types/array/array.js";
+import { StaticBool } from "../types/bool/bool.js";
+import { DynamicBytes, bytesByName } from "../types/bytes/bytes.js";
 import { FunctionSelector, FunctionSelectorAndArgumentsFactory, createFunctionSelectorAndArguments } from "../types/function/function.js";
+import { intByName } from "../types/int/int.js";
+import { DynamicString } from "../types/string/string.js";
 import { DynamicTupleFactory, createDynamicTuple } from "../types/tuple/tuple.js";
+import { uintByName } from "../types/uint/uint.js";
 import { createDynamicVector } from "../types/vector/vector.js";
 
 export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
+
+  static readonly factoryByName = {
+    ...uintByName,
+    ...intByName,
+    ...bytesByName,
+    bool: StaticBool,
+    address: StaticAddress,
+    bytes: DynamicBytes,
+    string: DynamicString,
+  } as const
 
   private constructor(
     readonly name: string,
@@ -56,7 +72,7 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
         else if (token === "]")
           return new Err(new Error(`Unexpected brackets`))
         else
-          factories.push(this.#doParseArrayOrVectorOrSingle(tokens, tryGetFactory(token).throw(t)))
+          factories.push(this.#doParseArrayOrVectorOrSingle(tokens, Records.tryResolve(FunctionSignature.factoryByName, token).throw(t)))
       }
 
       return new Ok(createDynamicTuple(...factories))
