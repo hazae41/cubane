@@ -66,7 +66,7 @@ export class DynamicString {
   }
 
   /**
-   * Zero-copy read as UTF-8
+   * Zero-copy read as bytes and as UTF-8
    * @param cursor 
    * @returns 
    */
