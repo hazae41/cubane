@@ -1,14 +1,15 @@
 import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Result } from "@hazae41/result";
+import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { DynamicBytes } from "../bytes/bytes.js";
+import { Uint32 } from "../index.js";
 
 export class DynamicString {
   readonly #class = DynamicString
 
-  private constructor(
+  constructor(
     readonly value: string,
     readonly inner: DynamicBytes
   ) { }
@@ -51,8 +52,9 @@ export class DynamicString {
 
   static decode(cursor: TextCursor) {
     const inner = DynamicBytes.decode(cursor)
+    const value = Bytes.toUtf8(inner.value)
 
-    return new DynamicString(Bytes.toUtf8(inner.value), inner)
+    return new DynamicString(value, inner)
   }
 
   trySize(): Result<number, never> {
@@ -63,8 +65,24 @@ export class DynamicString {
     return this.inner.tryWrite(cursor)
   }
 
+  /**
+   * Zero-copy read as UTF-8
+   * @param cursor 
+   * @returns 
+   */
   static tryRead(cursor: Cursor): Result<DynamicString, BinaryReadError> {
-    return DynamicBytes.tryRead(cursor).mapSync(x => new DynamicString(Bytes.toUtf8(x.value), x))
+    return Result.unthrowSync(t => {
+      const length = Uint32.tryRead(cursor).throw(t)
+      const bytes = cursor.tryGet(length.value).throw(t)
+      const value = cursor.tryReadUtf8(length.value).throw(t)
+      const size = 32 + (Math.ceil(length.value / 32) * 32)
+
+      cursor.offset += size - 32 - length.value
+
+      const inner = new DynamicBytes(bytes, size)
+
+      return new Ok(new DynamicString(value, inner))
+    })
   }
 
 }

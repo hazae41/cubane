@@ -140,7 +140,7 @@ export const Bytes32 = createStaticBytes(32)
 export class DynamicBytes<N extends number = number> {
   readonly #class = DynamicBytes
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array & { readonly length: N },
     readonly size: number
   ) { }
