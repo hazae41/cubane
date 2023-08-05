@@ -8,15 +8,20 @@ import { createDynamicArray } from "../types/array/array.js";
 import { StaticBool } from "../types/bool/bool.js";
 import { DynamicBytes, bytesByName } from "../types/bytes/bytes.js";
 import { FunctionSelector, FunctionSelectorAndArgumentsFactory, createFunctionSelectorAndArguments } from "../types/function/function.js";
-import { intByName } from "../types/int/int.js";
+import { IntByName, intByName } from "../types/int/int.js";
 import { DynamicString } from "../types/string/string.js";
 import { DynamicTupleFactory, createDynamicTuple } from "../types/tuple/tuple.js";
-import { uintByName } from "../types/uint/uint.js";
+import { UintByName, uintByName } from "../types/uint/uint.js";
 import { createDynamicVector } from "../types/vector/vector.js";
 
 export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
 
-  static readonly factoryByName = {
+  static readonly factoryByName: UintByName & IntByName & {
+    bool: typeof StaticBool,
+    address: typeof StaticAddress,
+    bytes: typeof DynamicBytes,
+    string: typeof DynamicString,
+  } = {
     ...uintByName,
     ...intByName,
     ...bytesByName,
