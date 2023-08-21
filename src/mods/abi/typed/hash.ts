@@ -1,4 +1,3 @@
-
 export interface TypedData {
   readonly types: TypedDataTypes
   readonly primaryType: string
