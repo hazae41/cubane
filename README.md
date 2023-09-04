@@ -23,15 +23,21 @@ npm i @hazae41/cubane
 
 ## Setup
 
+### Symbol.dispose
+
 You may need to polyfill `Symbol.dispose`
 
 ```tsx
 import "@hazae41/symbol-dispose-polyfill"
 ```
 
-You must choose an implementation for some algorithms
+See https://github.com/hazae41/symbol-dispose-polyfill for more
 
-### Base16
+### Algorithms
+
+You must bring your own implementation for some algorithms
+
+#### Base16
 
 Alocer includes a fast WebAssembly port of Base16
 
@@ -40,10 +46,12 @@ import { Alocer } from "@hazae41/alocer";
 import { Base16 } from "@hazae41/base16";
 
 await Alocer.initBundledOnce()
-Base16.set(Base16.fromAlocer(Alocer))
+Base16.set(Base16.fromBufferOrAlocer(Alocer))
 ```
 
-### Keccak256
+See https://github.com/hazae41/base16 for more
+
+#### Keccak256
 
 Morax includes a fast WebAssembly port of Keccak256
 
@@ -54,6 +62,8 @@ import { Keccak256 } from "@hazae41/keccak256";
 await Morax.initBundledOnce()
 Keccak256.set(Keccak256.fromMorax(Morax))
 ```
+
+See https://github.com/hazae41/keccak256 for more
 
 ## Usage
 

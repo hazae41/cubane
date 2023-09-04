@@ -16,7 +16,7 @@ import * as viem from "viem";
 // import * as web3 from "web3";
 
 await Alocer.initBundledOnce()
-Base16.set(Base16.fromAlocer(Alocer))
+Base16.set(Base16.fromBufferOrAlocer(Alocer))
 
 await Morax.initBundledOnce()
 Keccak256.set(Keccak256.fromMorax(Morax))
