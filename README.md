@@ -19,6 +19,41 @@ npm i @hazae41/cubane
 - Human-readable code
 - Bottom-up abstractions
 - High-performance codegen
+- Bring your own algorithms
+
+## Setup
+
+You may need to polyfill `Symbol.dispose`
+
+```tsx
+import "@hazae41/symbol-dispose-polyfill"
+```
+
+You must choose an implementation for some algorithms
+
+### Base16
+
+Alocer includes a fast WebAssembly port of Base16
+
+```tsx
+import { Alocer } from "@hazae41/alocer";
+import { Base16 } from "@hazae41/base16";
+
+await Alocer.initBundledOnce()
+Base16.set(Base16.fromAlocer(Alocer))
+```
+
+### Keccak256
+
+Morax includes a fast WebAssembly port of Keccak256
+
+```tsx
+import { Morax } from "@hazae41/morax";
+import { Keccak256 } from "@hazae41/keccak256";
+
+await Morax.initBundledOnce()
+Keccak256.set(Keccak256.fromMorax(Morax))
+```
 
 ## Usage
 
