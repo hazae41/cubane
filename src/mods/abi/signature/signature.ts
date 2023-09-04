@@ -1,6 +1,6 @@
 import { Bytes } from "@hazae41/bytes";
+import { Keccak256 } from "@hazae41/keccak256";
 import { Err, Ok, Result } from "@hazae41/result";
-import { keccak_256 } from "@noble/hashes/sha3";
 import { Records } from "libs/records/records.js";
 import { Factory } from "../abi.js";
 import { StaticAddress } from "../types/address/address.js";
@@ -48,7 +48,9 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
       if (tokens.shift() !== "(")
         return new Err(new Error(`Expected parenthesis`))
 
-      const func = FunctionSelector.new(keccak_256(signature).slice(0, 4) as Bytes<4>)
+
+      using hash = Keccak256.get().tryHash(Bytes.fromUtf8(signature)).throw(t)
+      const func = FunctionSelector.new(hash.bytes.slice(0, 4) as Bytes<4>)
       const args = this.#tryParseArguments(tokens).throw(t)
 
       const inner = createFunctionSelectorAndArguments(func, args)

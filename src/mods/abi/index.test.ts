@@ -1,7 +1,10 @@
 export * from "./types/index.test.js";
 
+import { Alocer } from "@hazae41/alocer";
+import { Base16 } from "@hazae41/base16";
 import { Readable } from "@hazae41/binary";
-import { Bytes } from "@hazae41/bytes";
+import { Keccak256 } from "@hazae41/keccak256";
+import { Morax } from "@hazae41/morax";
 import { test } from "@hazae41/phobos";
 import { Cubane } from "index.js";
 import { tryDecode, tryEncode, tryReadFromBytes } from "./index.js";
@@ -11,22 +14,31 @@ import { createDynamicArray } from "./types/array/array.js";
 import { createDynamicTuple } from "./types/tuple/tuple.js";
 import { createDynamicVector } from "./types/vector/vector.js";
 
+await Alocer.initBundledOnce()
+Base16.set(Base16.fromAlocer(Alocer))
+
+await Morax.initBundledOnce()
+Keccak256.set(Keccak256.fromMorax(Morax))
+
 test("test", async () => {
   const abi = "f71870b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000007b000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000"
   const signature = FunctionSignature.tryParse("test(bool,string,uint256)").unwrap()
-  const decoded = tryReadFromBytes(signature, Bytes.fromHexSafe(abi)).unwrap()
+  const bytes = Base16.get().tryPadStartAndDecode(abi).unwrap().copy()
+  const decoded = tryReadFromBytes(signature, bytes).unwrap()
   console.log(decoded)
 })
 
 test("test", async () => {
   const abi = "000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000076a65814b6e0fa5a3598ef6503fa1d990ec0e61a000000000000000000000000d66832ff9d808b32adfe0136a0381054f3600185"
-  const decoded = Readable.tryReadFromBytes(createDynamicArray(StaticAddress, 3), Bytes.fromHexSafe(abi)).unwrap()
+  const bytes = Base16.get().tryPadStartAndDecode(abi).unwrap().copy()
+  const decoded = Readable.tryReadFromBytes(createDynamicArray(StaticAddress, 3), bytes).unwrap()
   console.log(decoded)
 })
 
 test("test", async () => {
   const abi = "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000076a65814b6e0fa5a3598ef6503fa1d990ec0e61a000000000000000000000000d66832ff9d808b32adfe0136a0381054f3600185"
-  const decoded = Readable.tryReadFromBytes(createDynamicTuple(createDynamicVector(StaticAddress)), Bytes.fromHexSafe(abi)).unwrap()
+  const bytes = Base16.get().tryPadStartAndDecode(abi).unwrap().copy()
+  const decoded = Readable.tryReadFromBytes(createDynamicTuple(createDynamicVector(StaticAddress)), bytes).unwrap()
   console.log(decoded.inner)
 })
 

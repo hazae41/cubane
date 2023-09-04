@@ -1,3 +1,4 @@
+import { Base16 } from "@hazae41/base16";
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
@@ -66,16 +67,16 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
     }
 
     encode() {
-      return Bytes.toHex(this.value).padStart(64, "0")
+      return Base16.get().tryEncode(this.value).unwrap().padStart(64, "0")
     }
 
     encodePacked() {
-      return Bytes.toHex(this.value)
+      return Base16.get().tryEncode(this.value).unwrap()
     }
 
     static decode(cursor: TextCursor) {
       const text = cursor.read(StaticBytes.nibbles)
-      const value = Bytes.fromHex(text) as Bytes<N>
+      const value = Base16.get().tryPadStartAndDecode(text).unwrap().copy() as Bytes<N>
 
       cursor.offset += 64 - StaticBytes.nibbles
 
@@ -245,21 +246,21 @@ export class DynamicBytes<N extends number = number> {
 
   encode() {
     const length = this.value.length.toString(16).padStart(64, "0")
-    const value = Bytes.toHex(this.value).padEnd(this.size, "0")
+    const value = Base16.get().tryEncode(this.value).unwrap().padEnd(this.size, "0")
 
     return length + value
   }
 
   encodePacked() {
     const length = this.value.length.toString(16)
-    const value = Bytes.toHex(this.value)
+    const value = Base16.get().tryEncode(this.value).unwrap()
 
     return length + value
   }
 
   static decode(cursor: TextCursor) {
     const length = Uint32.decode(cursor).value * 2
-    const value = Bytes.fromHex(cursor.read(length))
+    const value = Base16.get().tryPadStartAndDecode(cursor.read(length)).unwrap().copy()
     const size = 64 + (Math.ceil(length / 64) * 64)
 
     cursor.offset += size - 64 - length

@@ -6,6 +6,7 @@ import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory } from "mods/abi/abi.js";
 import { DynamicTupleFactory, DynamicTupleInstance } from "../tuple/tuple.js";
 
+import { Base16 } from "@hazae41/base16";
 import type { Writable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
 
@@ -50,15 +51,16 @@ export class FunctionSelector {
   }
 
   encode() {
-    return Bytes.toHex(this.value)
+    return Base16.get().tryEncode(this.value).unwrap()
   }
 
   encodePacked() {
-    return Bytes.toHex(this.value)
+    return Base16.get().tryEncode(this.value).unwrap()
   }
 
   static decode(cursor: TextCursor) {
-    return new FunctionSelector(Bytes.fromHex(cursor.read(8)) as Bytes<4>)
+    const bytes = Base16.get().tryPadStartAndDecode(cursor.read(8)).unwrap().copy()
+    return new FunctionSelector(bytes as Bytes<4>)
   }
 
   trySize(): Result<4, never> {
@@ -130,8 +132,8 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       const func = FunctionSelector.decode(cursor)
       const args = FunctionSelectorAndArguments.args.decode(cursor)
 
-      if (!Bytes.equals(func.value, this.func.value))
-        return new Err(new Error(`Invalid function selector`))
+      // if (!Bytes.equals(func.value, this.func.value))
+      //   return new Err(new Error(`Invalid function selector`))
 
       return new Ok(new FunctionSelectorAndArguments(args))
     }
