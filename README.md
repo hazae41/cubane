@@ -35,23 +35,9 @@ See https://github.com/hazae41/symbol-dispose-polyfill for more
 
 ### Algorithms
 
-You must bring your own implementation for some algorithms
+You can bring your own implementation for some algorithms
 
-#### Base16
-
-Alocer includes a fast WebAssembly port of Base16
-
-```tsx
-import { Alocer } from "@hazae41/alocer";
-import { Base16 } from "@hazae41/base16";
-
-await Alocer.initBundledOnce()
-Base16.set(Base16.fromBufferOrAlocer(Alocer))
-```
-
-See https://github.com/hazae41/base16 for more
-
-#### Keccak256
+#### Keccak256 (mandatory)
 
 Morax includes a fast WebAssembly port of Keccak256
 
@@ -64,6 +50,20 @@ Keccak256.set(Keccak256.fromMorax(Morax))
 ```
 
 See https://github.com/hazae41/keccak256 for more
+
+#### Base16 (optional)
+
+Alocer includes a fast WebAssembly port of Base16
+
+```tsx
+import { Alocer } from "@hazae41/alocer";
+import { Base16 } from "@hazae41/base16";
+
+await Alocer.initBundledOnce()
+Base16.set(Base16.fromBufferOrAlocer(Alocer))
+```
+
+See https://github.com/hazae41/base16 for more
 
 ## Usage
 
