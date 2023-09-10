@@ -59,8 +59,10 @@ export class FunctionSelector {
   }
 
   static decode(cursor: TextCursor) {
-    const bytes = Base16.get().tryPadStartAndDecode(cursor.read(8)).unwrap().copy()
-    return new FunctionSelector(bytes as Bytes<4>)
+    const unsized = Base16.get().tryPadStartAndDecode(cursor.read(8)).unwrap().copyAndDispose()
+    const sized = Bytes.tryCast(unsized, 4).unwrap()
+
+    return new FunctionSelector(sized)
   }
 
   trySize(): Result<4, never> {

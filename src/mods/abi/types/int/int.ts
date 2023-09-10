@@ -1,7 +1,8 @@
+import { Base16 } from "@hazae41/base16";
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
-import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
+import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 
@@ -104,36 +105,36 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
       return new Ok(this.size)
     }
 
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
+    tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.CodingError> {
       return Result.unthrowSync(t => {
         if (this.value < BN_0) {
           const mask = (BN_1 << 256n) - BN_1
           const value = ((~(-this.value)) & mask) + BN_1
 
-          const bytes = Bytes.fromBigInt(value)
+          using slice = BigInts.tryExport(value).throw(t)
 
-          cursor.tryWrite(bytes).throw(t)
+          cursor.tryWrite(slice.bytes).throw(t)
 
           return Ok.void()
         }
 
-        const bytes = Bytes.fromBigInt(this.value)
+        using slice = BigInts.tryExport(this.value).throw(t)
 
-        cursor.fill(0, 32 - bytes.length)
-        cursor.tryWrite(bytes).throw(t)
+        cursor.fill(0, 32 - slice.bytes.length)
+        cursor.tryWrite(slice.bytes).throw(t)
 
         return Ok.void()
       })
     }
 
-    static tryRead(cursor: Cursor): Result<StaticBigInt, BinaryReadError> {
+    static tryRead(cursor: Cursor): Result<StaticBigInt, BinaryReadError | Base16.CodingError> {
       return Result.unthrowSync(t => {
         cursor.offset += 32 - StaticBigInt.bytes
 
         const mask = (BN_1 << this.bitsn) - BN_1
 
         const bytes = cursor.tryRead(StaticBigInt.bytes).throw(t)
-        const value = Bytes.toBigInt(bytes)
+        const value = BigInts.tryImport(bytes).throw(t)
 
         if ((value & mask) >> (this.bitsn - BN_1))
           return new Ok(new StaticBigInt(-(((~value) & mask) + BN_1)))

@@ -98,7 +98,8 @@ export class RlpStringUint8 {
 
   static tryRead(cursor: Cursor): Result<RlpStringUint8, BinaryReadError> {
     return Result.unthrowSync(t => {
-      const first = cursor.tryReadUint8().throw(t)
+      cursor.offset++
+
       const length = cursor.tryReadUint8().throw(t)
       const value = cursor.tryRead(length).throw(t)
 
@@ -138,7 +139,8 @@ export class RlpStringUint16 {
 
   static tryRead(cursor: Cursor): Result<RlpStringUint16, BinaryReadError> {
     return Result.unthrowSync(t => {
-      const first = cursor.tryReadUint8().throw(t)
+      cursor.offset++
+
       const length = cursor.tryReadUint16().throw(t)
       const value = cursor.tryRead(length).throw(t)
 
@@ -178,7 +180,8 @@ export class RlpStringUint24 {
 
   static tryRead(cursor: Cursor): Result<RlpStringUint24, BinaryReadError> {
     return Result.unthrowSync(t => {
-      const first = cursor.tryReadUint8().throw(t)
+      cursor.offset++
+
       const length = cursor.tryReadUint24().throw(t)
       const value = cursor.tryRead(length).throw(t)
 
@@ -218,7 +221,8 @@ export class RlpStringUint32 {
 
   static tryRead(cursor: Cursor): Result<RlpStringUint32, BinaryReadError> {
     return Result.unthrowSync(t => {
-      const first = cursor.tryReadUint8().throw(t)
+      cursor.offset++
+
       const length = cursor.tryReadUint32().throw(t)
       const value = cursor.tryRead(length).throw(t)
 

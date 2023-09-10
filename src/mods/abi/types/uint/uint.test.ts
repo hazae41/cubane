@@ -5,6 +5,7 @@ import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Morax } from "@hazae41/morax";
 import { assert, test } from "@hazae41/phobos";
+import { BigInts } from "libs/bigint/bigint.js";
 import { Uint256, Uint32 } from "./uint.js";
 
 await Alocer.initBundledOnce()
@@ -30,7 +31,7 @@ test("uint32", async ({ message, test }) => {
 })
 
 test("uint256", async ({ message, test }) => {
-  const value = Bytes.toBigInt(Bytes.random(32))
+  const value = BigInts.tryImport(Bytes.random(32)).unwrap()
   const abi = Uint256.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 

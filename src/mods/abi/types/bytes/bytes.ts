@@ -76,11 +76,13 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
 
     static decode(cursor: TextCursor) {
       const text = cursor.read(StaticBytes.nibbles)
-      const value = Base16.get().tryPadStartAndDecode(text).unwrap().copy() as Bytes<N>
+
+      const unsized = Base16.get().tryPadStartAndDecode(text).unwrap().copyAndDispose()
+      const sized = Bytes.tryCast(unsized, StaticBytes.bytes).unwrap()
 
       cursor.offset += 64 - StaticBytes.nibbles
 
-      return new StaticBytes(value)
+      return new StaticBytes(sized)
     }
 
     trySize(): Result<32, never> {
@@ -260,7 +262,7 @@ export class DynamicBytes<N extends number = number> {
 
   static decode(cursor: TextCursor) {
     const length = Uint32.decode(cursor).value * 2
-    const value = Base16.get().tryPadStartAndDecode(cursor.read(length)).unwrap().copy()
+    const value = Base16.get().tryPadStartAndDecode(cursor.read(length)).unwrap().copyAndDispose()
     const size = 64 + (Math.ceil(length / 64) * 64)
 
     cursor.offset += size - 64 - length

@@ -5,6 +5,7 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { Morax } from "@hazae41/morax";
 import { test } from "@hazae41/phobos";
 import { Rlp } from "index.js";
+import { BigInts } from "libs/bigint/bigint.js";
 
 await Alocer.initBundledOnce()
 Base16.set(Base16.fromAlocer(Alocer))
@@ -74,7 +75,7 @@ await test("15", async ({ message, test }) => {
 })
 
 await test("1024", async ({ message, test }) => {
-  const string = Bytes.fromBigInt(BigInt(1024))
+  const string = BigInts.tryExport(BigInt(1024)).unwrap().copyAndDispose()
   const bytes = Rlp.tryWriteToBytes(string).unwrap()
   const value = Rlp.tryReadFromBytes(bytes).unwrap()
 

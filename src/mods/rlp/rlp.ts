@@ -63,6 +63,6 @@ export function tryRead(cursor: Cursor): Result<RlpType, Error> {
       return RlpListUint32.tryRead(cursor)
     if (first < 256)
       return new Err(new Error(`List too long`))
-    return new Err(new Error(`Unknown RLP type`))
+    return new Err(new Error(`Unknown RLP type ${first}`))
   })
 }

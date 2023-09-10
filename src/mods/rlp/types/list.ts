@@ -70,7 +70,7 @@ export class RlpListUint8 {
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xc0 + 1).throw(t)
+      cursor.tryWriteUint8(0xf7 + 1).throw(t)
       cursor.tryWriteUint8(this.length).throw(t)
 
       for (const element of this.value)
@@ -82,7 +82,8 @@ export class RlpListUint8 {
 
   static tryRead(cursor: Cursor): Result<RlpListUint8, Error> {
     return Result.unthrowSync(t => {
-      const first = cursor.tryReadUint8().throw(t)
+      cursor.offset++
+
       const length = cursor.tryReadUint8().throw(t)
 
       const start = cursor.offset
@@ -118,7 +119,7 @@ export class RlpListUint16 {
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xc0 + 2).throw(t)
+      cursor.tryWriteUint8(0xf7 + 2).throw(t)
       cursor.tryWriteUint16(this.length).throw(t)
 
       for (const element of this.value)
@@ -130,7 +131,8 @@ export class RlpListUint16 {
 
   static tryRead(cursor: Cursor): Result<RlpListUint16, Error> {
     return Result.unthrowSync(t => {
-      const first = cursor.tryReadUint8().throw(t)
+      cursor.offset++
+
       const length = cursor.tryReadUint16().throw(t)
 
       const start = cursor.offset
@@ -166,7 +168,7 @@ export class RlpListUint24 {
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xc0 + 3).throw(t)
+      cursor.tryWriteUint8(0xf7 + 3).throw(t)
       cursor.tryWriteUint24(this.length).throw(t)
 
       for (const element of this.value)
@@ -178,7 +180,8 @@ export class RlpListUint24 {
 
   static tryRead(cursor: Cursor): Result<RlpListUint24, Error> {
     return Result.unthrowSync(t => {
-      const first = cursor.tryReadUint8().throw(t)
+      cursor.offset++
+
       const length = cursor.tryReadUint24().throw(t)
 
       const start = cursor.offset
@@ -214,7 +217,7 @@ export class RlpListUint32 {
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xc0 + 4).throw(t)
+      cursor.tryWriteUint8(0xf7 + 4).throw(t)
       cursor.tryWriteUint32(this.length).throw(t)
 
       for (const element of this.value)
@@ -226,7 +229,8 @@ export class RlpListUint32 {
 
   static tryRead(cursor: Cursor): Result<RlpListUint32, Error> {
     return Result.unthrowSync(t => {
-      const first = cursor.tryReadUint8().throw(t)
+      cursor.offset++
+
       const length = cursor.tryReadUint32().throw(t)
 
       const start = cursor.offset

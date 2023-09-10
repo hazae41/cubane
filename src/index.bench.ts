@@ -100,11 +100,10 @@ if (false) {
 /**
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
-if (true) {
-
+if (false) {
   const abi = FunctionSignature.tryParse("f(bool,uint256,string,address)").unwrap()
 
-  const tx = ethers.Transaction.from({
+  const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
     data: tryEncode(abi, true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").unwrap(),
@@ -115,32 +114,88 @@ if (true) {
     nonce: 1,
   }).unsignedSerialized.slice(2)
 
-  const txb = Base16.get().tryPadStartAndDecode(tx).unwrap().copy()
-  const rlp = Rlp.tryReadFromBytes(txb).unwrap()
+  const tx = Base16.get().tryPadStartAndDecode(txhex).unwrap().copyAndDispose()
 
-  // const random = crypto.getRandomValues(new Uint8Array(4096))
+  const rlp = Rlp.tryReadFromBytes(tx).unwrap() as Uint8Array[]
+  // const rlp = crypto.getRandomValues(new Uint8Array(4096))
 
-  const rlphex = (rlp as Uint8Array[]).map(ethers.hexlify) as ZeroHexString[]
-  // const rlphex = ethers.hexlify(random)
+  // const rlphex = ethers.hexlify(rlp) as ZeroHexString
+  // const rlphex = rlp.map(x => ethers.hexlify(x)) as ZeroHexString[]
 
   const options = { samples: 10000, warmup: true } as const
 
-  const benchCubaneBytes = benchSync("cubane (bytes)", () => {
+  console.log("Benching RLP bytes->hex")
+
+  const benchCubaneBytes = benchSync("cubane", () => {
     const bytes = Rlp.tryWriteToBytes(rlp).unwrap()
     const hex = Base16.get().tryEncode(bytes).unwrap()
     // const bytes2 = Base16.get().tryPadStartAndDecode(hex).unwrap()
-    // const random2 = RlpStringUint16.tryRead(new Cursor(bytes2.bytes)).unwrap()
+    // const rlp2 = Rlp.tryRead(new Cursor(bytes2.bytes))
     // bytes2[Symbol.dispose]()
   }, options)
 
   const benchViem = benchSync("viem", () => {
-    const bytes = viem.toRlp(rlphex)
-    // const random2 = viem.fromRlp(bytes, "hex")
+    const hex = viem.toRlp(rlp, "hex")
+    // const rlp2 = viem.fromRlp(hex, "hex")
   }, options)
 
   const benchEthers = benchSync("ethers", () => {
+    // const rlphex = ethers.hexlify(rlp)
+    const rlphex = rlp.map(x => ethers.hexlify(x))
     const hex = ethers.encodeRlp(rlphex)
-    // const random2 = ethers.decodeRlp(hex) as string
+    // const rlp2 = (ethers.decodeRlp(hex) as ZeroHexString[]).map(x => ethers.getBytes(x))
+    // const rlp2 = ethers.getBytes(ethers.decodeRlp(hex) as ZeroHexString)
+  }, options)
+
+  benchCubaneBytes.table(benchViem, benchEthers)
+  benchCubaneBytes.summary(benchViem, benchEthers)
+}
+
+/**
+ * RLP encoding a transaction with various pre-ABI-encoded types
+ */
+if (true) {
+  const abi = FunctionSignature.tryParse("f(bool,uint256,string,address)").unwrap()
+
+  const txhex = ethers.Transaction.from({
+    type: 0,
+    value: 1n * (10n ** 18n),
+    data: tryEncode(abi, true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").unwrap(),
+    gasLimit: 1n * (10n ** 18n),
+    gasPrice: 1n * (10n ** 18n),
+    to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+    chainId: 1n,
+    nonce: 1,
+  }).unsignedSerialized.slice(2)
+
+  const tx = Base16.get().tryPadStartAndDecode(txhex).unwrap().copyAndDispose()
+
+  const rlp = Rlp.tryReadFromBytes(tx).unwrap() as Uint8Array[]
+  // const rlp = crypto.getRandomValues(new Uint8Array(4096))
+
+  // const rlphex = ethers.hexlify(rlp) as ZeroHexString
+  const rlphex = rlp.map(x => ethers.hexlify(x)) as ZeroHexString[]
+
+  const options = { samples: 10000, warmup: true } as const
+
+  console.log("Benching RLP bytes->bytes")
+
+  const benchCubaneBytes = benchSync("cubane", () => {
+    const bytes = Rlp.tryWriteToBytes(rlp).unwrap()
+    // const rlp2 = Rlp.tryRead(new Cursor(bytes))
+  }, options)
+
+  const benchViem = benchSync("viem", () => {
+    const bytes = viem.toRlp(rlp, "bytes")
+    // const rlp2 = viem.fromRlp(bytes, "bytes")
+  }, options)
+
+  const benchEthers = benchSync("ethers", () => {
+    // const rlphex = ethers.hexlify(rlp)
+    const rlphex = rlp.map(x => ethers.hexlify(x))
+    const bytes = ethers.getBytes(ethers.encodeRlp(rlphex))
+    // const rlp2 = (ethers.decodeRlp(bytes) as ZeroHexString[]).map(x => ethers.getBytes(x))
+    // const rlp2 = ethers.getBytes(ethers.decodeRlp(bytes) as ZeroHexString)
   }, options)
 
   benchCubaneBytes.table(benchViem, benchEthers)

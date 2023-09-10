@@ -1,7 +1,8 @@
+import { Base16 } from "@hazae41/base16";
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
-import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
+import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 
@@ -84,23 +85,23 @@ export const createStaticBigUint = <N extends number = number>(bytes: N) => {
       return new Ok(this.size)
     }
 
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
+    tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.CodingError> {
       return Result.unthrowSync(t => {
-        const bytes = Bytes.fromBigInt(this.value)
+        using slice = BigInts.tryExport(this.value).throw(t)
 
-        cursor.fill(0, 32 - bytes.length)
-        cursor.tryWrite(bytes).throw(t)
+        cursor.fill(0, 32 - slice.bytes.length)
+        cursor.tryWrite(slice.bytes).throw(t)
 
         return Ok.void()
       })
     }
 
-    static tryRead(cursor: Cursor): Result<StaticBigUint, BinaryReadError> {
+    static tryRead(cursor: Cursor): Result<StaticBigUint, BinaryReadError | Base16.CodingError> {
       return Result.unthrowSync(t => {
         cursor.offset += 32 - StaticBigUint.bytes
 
         const bytes = cursor.tryRead(StaticBigUint.bytes).throw(t)
-        const value = Bytes.toBigInt(bytes)
+        const value = BigInts.tryImport(bytes).throw(t)
 
         return new Ok(new StaticBigUint(value))
       })
