@@ -9,7 +9,7 @@ import { benchSync } from "@hazae41/deimos";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Morax } from "@hazae41/morax";
 import { ethers } from "ethers";
-import { Rlp, ZeroHexString } from "index.js";
+import { Rlp } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature, tryEncode } from "mods/abi/index.js";
 import * as viem from "viem";
@@ -155,12 +155,12 @@ if (false) {
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
 if (true) {
-  const abi = FunctionSignature.tryParse("f(bool,uint256,string,address)").unwrap()
+  const abi = FunctionSignature.tryParse("f(bool,uint256,string,address,bytes)").unwrap()
 
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: tryEncode(abi, true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").unwrap(),
+    data: tryEncode(abi, true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.tryRandom(1024).unwrap()).unwrap(),
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
@@ -174,7 +174,7 @@ if (true) {
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
 
   // const rlphex = ethers.hexlify(rlp) as ZeroHexString
-  const rlphex = rlp.map(x => ethers.hexlify(x)) as ZeroHexString[]
+  // const rlphex = rlp.map(x => ethers.hexlify(x)) as ZeroHexString[]
 
   const options = { samples: 10000, warmup: true } as const
 
