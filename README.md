@@ -112,3 +112,14 @@ const catAndDog = RlpList.from([cat, dog])
 
 const bytes = Writable.tryWriteToBytes(catAndDog).unwrap()
 ```
+
+### Rlp to Hex
+
+```tsx
+const cat = RlpString.from(Bytes.fromUtf8("cat"))
+const dog = RlpString.from(Bytes.fromUtf8("dog"))
+const catAndDog = RlpList.from([cat, dog])
+
+const bytes = Writable.tryWriteToBytes(catAndDog).unwrap()
+const hex = "0x" + Base16.get().tryEncode(bytes).unwrap()
+```
