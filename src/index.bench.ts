@@ -1,13 +1,11 @@
 import "@hazae41/symbol-dispose-polyfill";
 
-import { Alocer } from "@hazae41/alocer";
 import { Base16 } from "@hazae41/base16";
 import { Readable, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { benchSync } from "@hazae41/deimos";
 import { Keccak256 } from "@hazae41/keccak256";
-import { Morax } from "@hazae41/morax";
 import { ethers } from "ethers";
 import { Rlp } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
@@ -15,11 +13,8 @@ import { FunctionSignature, tryEncode } from "mods/abi/index.js";
 import * as viem from "viem";
 // import * as web3 from "web3";
 
-await Alocer.initBundledOnce()
-Base16.set(Base16.fromBufferOrAlocer(Alocer))
-
-await Morax.initBundledOnce()
-Keccak256.set(Keccak256.fromMorax(Morax))
+Base16.set(await Base16.fromBufferOrAlocer())
+Keccak256.set(await Keccak256.fromMorax())
 
 /**
  * Is uint32 faster than uint8? Yes, slightly (at least on Node)

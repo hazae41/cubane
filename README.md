@@ -41,12 +41,14 @@ You can bring your own implementation for some algorithms
 
 Morax includes a fast WebAssembly port of Keccak256
 
-```tsx
-import { Morax } from "@hazae41/morax";
-import { Keccak256 } from "@hazae41/keccak256";
+```bash
+npm i @hazae41/morax
+```
 
-await Morax.initBundledOnce()
-Keccak256.set(Keccak256.fromMorax(Morax))
+```typescript
+import { Keccak256 } from "@hazae41/keccak256"
+
+Keccak256.set(await Keccak256.fromMorax())
 ```
 
 See https://github.com/hazae41/keccak256 for more
@@ -55,12 +57,14 @@ See https://github.com/hazae41/keccak256 for more
 
 Alocer includes a fast WebAssembly port of Base16
 
-```tsx
-import { Alocer } from "@hazae41/alocer";
-import { Base16 } from "@hazae41/base16";
+```bash
+npm i @hazae41/alocer
+```
 
-await Alocer.initBundledOnce()
-Base16.set(Base16.fromBufferOrAlocer(Alocer))
+```typescript
+import { Base16 } from "@hazae41/base16"
+
+Base16.set(await Base16.fromBufferOrAlocer())
 ```
 
 See https://github.com/hazae41/base16 for more

@@ -1,10 +1,8 @@
 export * from "./types/index.test.js";
 
-import { Alocer } from "@hazae41/alocer";
 import { Base16 } from "@hazae41/base16";
 import { Readable } from "@hazae41/binary";
 import { Keccak256 } from "@hazae41/keccak256";
-import { Morax } from "@hazae41/morax";
 import { test } from "@hazae41/phobos";
 import { Cubane } from "index.js";
 import { tryDecode, tryEncode, tryReadFromBytes } from "./index.js";
@@ -14,11 +12,8 @@ import { createDynamicArray } from "./types/array/array.js";
 import { createDynamicTuple } from "./types/tuple/tuple.js";
 import { createDynamicVector } from "./types/vector/vector.js";
 
-await Alocer.initBundledOnce()
-Base16.set(Base16.fromAlocer(Alocer))
-
-await Morax.initBundledOnce()
-Keccak256.set(Keccak256.fromMorax(Morax))
+Base16.set(await Base16.fromBufferOrAlocer())
+Keccak256.set(await Keccak256.fromMorax())
 
 test("test", async () => {
   const abi = "f71870b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000007b000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000"

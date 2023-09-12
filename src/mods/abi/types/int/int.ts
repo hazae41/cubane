@@ -105,7 +105,7 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
       return new Ok(this.size)
     }
 
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.CodingError> {
+    tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
       return Result.unthrowSync(t => {
         if (this.value < BN_0) {
           const mask = (BN_1 << 256n) - BN_1
@@ -127,7 +127,7 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
       })
     }
 
-    static tryRead(cursor: Cursor): Result<StaticBigInt, BinaryReadError | Base16.CodingError> {
+    static tryRead(cursor: Cursor): Result<StaticBigInt, BinaryReadError | Base16.AnyError> {
       return Result.unthrowSync(t => {
         cursor.offset += 32 - StaticBigInt.bytes
 

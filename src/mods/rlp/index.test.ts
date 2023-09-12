@@ -1,17 +1,12 @@
-import { Alocer } from "@hazae41/alocer";
 import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
-import { Morax } from "@hazae41/morax";
 import { test } from "@hazae41/phobos";
 import { Rlp } from "index.js";
 import { BigInts } from "libs/bigint/bigint.js";
 
-await Alocer.initBundledOnce()
-Base16.set(Base16.fromAlocer(Alocer))
-
-await Morax.initBundledOnce()
-Keccak256.set(Keccak256.fromMorax(Morax))
+Base16.set(await Base16.fromBufferOrAlocer())
+Keccak256.set(await Keccak256.fromMorax())
 
 function hexlify(bytes: Uint8Array) {
   return Base16.get().tryEncode(bytes).unwrap()

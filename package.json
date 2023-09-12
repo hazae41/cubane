@@ -23,17 +23,17 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "@hazae41/base16": "^1.0.8",
+    "@hazae41/base16": "^1.0.9",
     "@hazae41/binary": "^1.3.1",
     "@hazae41/bytes": "^1.2.2",
     "@hazae41/cursor": "^1.1.26",
-    "@hazae41/keccak256": "^1.0.2",
-    "@hazae41/result": "^1.1.3"
+    "@hazae41/keccak256": "^1.0.3",
+    "@hazae41/result": "^1.1.4"
   },
   "devDependencies": {
     "@hazae41/alocer": "^1.0.1",
     "@hazae41/deimos": "^1.0.6",
-    "@hazae41/morax": "^1.1.1",
+    "@hazae41/morax": "^1.1.2",
     "@hazae41/phobos": "^1.0.10",
     "@hazae41/symbol-dispose-polyfill": "^1.0.2",
     "@rollup/plugin-commonjs": "^25.0.4",
@@ -48,7 +48,7 @@
     "rollup-plugin-node-externals": "^6.1.1",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "viem": "^1.10.8",
+    "viem": "^1.10.9",
     "web3": "^4.1.1"
   },
   "exports": {

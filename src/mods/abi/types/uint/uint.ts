@@ -85,7 +85,7 @@ export const createStaticBigUint = <N extends number = number>(bytes: N) => {
       return new Ok(this.size)
     }
 
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.CodingError> {
+    tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
       return Result.unthrowSync(t => {
         using slice = BigInts.tryExport(this.value).throw(t)
 
@@ -96,7 +96,7 @@ export const createStaticBigUint = <N extends number = number>(bytes: N) => {
       })
     }
 
-    static tryRead(cursor: Cursor): Result<StaticBigUint, BinaryReadError | Base16.CodingError> {
+    static tryRead(cursor: Cursor): Result<StaticBigUint, BinaryReadError | Base16.AnyError> {
       return Result.unthrowSync(t => {
         cursor.offset += 32 - StaticBigUint.bytes
 
