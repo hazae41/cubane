@@ -7,9 +7,9 @@ import { Cursor } from "@hazae41/cursor";
 import { benchSync } from "@hazae41/deimos";
 import { Keccak256 } from "@hazae41/keccak256";
 import { ethers } from "ethers";
-import { Rlp } from "index.js";
+import { Rlp, ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { FunctionSignature, tryEncode } from "mods/abi/index.js";
+import { FunctionSignature } from "mods/abi/index.js";
 import * as viem from "viem";
 // import * as web3 from "web3";
 
@@ -52,18 +52,18 @@ if (false) {
   const options = { samples: 10000, warmup: true } as const
 
   const benchCubaneHex = benchSync("cubane (hex)", ({ message }) => {
-    const hex = factory.inner.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]).encodeOrThrow()
+    const hex = factory.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]).encodeOrThrow()
     // console.log(message, hex)
-    const args = factory.inner.decodeOrThrow(new TextCursor(hex))
+    const args = factory.args.decodeOrThrow(new TextCursor(hex))
     // console.log(args.args.inner)
   }, options)
 
   const benchCubaneBytes = benchSync("cubane (bytes)", ({ message }) => {
-    const instance = factory.inner.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random])
+    const instance = factory.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random])
     const bytes = Writable.tryWriteToBytes(instance).unwrap()
     // const hex = hexlify(bytes)
     // console.log(message, hex)
-    const args = Readable.tryReadFromBytes(factory.inner, bytes).unwrap()
+    const args = Readable.tryReadFromBytes(factory.args, bytes).unwrap()
     // console.log(args.args.inner)
   }, options)
 
@@ -101,7 +101,7 @@ if (false) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: tryEncode(abi, true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").unwrap(),
+    data: ZeroHexString.from(abi.args.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").encodeOrThrow()),
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
@@ -155,7 +155,7 @@ if (true) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: tryEncode(abi, true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.tryRandom(1024).unwrap()).unwrap(),
+    data: ZeroHexString.from(abi.args.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.tryRandom(1024).unwrap()).encodeOrThrow()),
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",

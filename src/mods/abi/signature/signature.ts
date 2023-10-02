@@ -1,22 +1,25 @@
+import { Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
+import { Cursor } from "@hazae41/cursor";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Err, Ok, Result } from "@hazae41/result";
+import { ReadOutputs } from "libs/readable/readable.js";
 import { Records } from "libs/records/records.js";
 import { Factory } from "../abi.js";
 import { StaticAddress } from "../types/address/address.js";
 import { createDynamicArray } from "../types/array/array.js";
 import { StaticBool } from "../types/bool/bool.js";
 import { DynamicBytes, bytesByName } from "../types/bytes/bytes.js";
-import { FunctionSelector, FunctionSelectorAndArgumentsFactory, createFunctionSelectorAndArguments } from "../types/function/function.js";
+import { FunctionSelector, FunctionSelectorAndArgumentsFactory, FunctionSelectorAndArgumentsInstance, createFunctionSelectorAndArguments } from "../types/function/function.js";
 import { IntByName, intByName } from "../types/int/int.js";
 import { DynamicString } from "../types/string/string.js";
 import { DynamicTupleFactory, createDynamicTuple } from "../types/tuple/tuple.js";
 import { UintByName, uintByName } from "../types/uint/uint.js";
 import { createDynamicVector } from "../types/vector/vector.js";
 
-export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
+export namespace FunctionSignature {
 
-  static readonly factoryByName: UintByName & IntByName & {
+  export const factoryByName: UintByName & IntByName & {
     bool: typeof StaticBool,
     address: typeof StaticAddress,
     bytes: typeof DynamicBytes,
@@ -31,35 +34,28 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
     string: DynamicString,
   } as const
 
-  private constructor(
-    readonly name: string,
-    readonly signature: string,
-    readonly inner: FunctionSelectorAndArgumentsFactory<T>,
-  ) { }
-
-  static new<T extends readonly Factory[]>(name: string, signature: string, inner: FunctionSelectorAndArgumentsFactory<T>) {
-    return new FunctionSignature(name, signature, inner)
+  export function create<T extends readonly Factory[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
+    return createFunctionSignature(name, args)
   }
 
-  static tryParse(signature: string): Result<FunctionSignature, Error> {
+  export function tryParse(signature: string): Result<FunctionSignatureFactory, Error> {
     return Result.unthrowSync(t => {
       const [name, ...tokens] = signature.trim().split(/(,|\(|\)|\[|\])/g).filter(Boolean)
 
       if (tokens.shift() !== "(")
         return new Err(new Error(`Expected parenthesis`))
 
-
       using hash = Keccak256.get().tryHash(Bytes.fromUtf8(signature)).throw(t)
       const func = FunctionSelector.new(hash.bytes.slice(0, 4) as Bytes<4>)
-      const args = this.#tryParseArguments(tokens).throw(t)
+      const args = tryParseArguments(tokens).throw(t)
 
       const inner = createFunctionSelectorAndArguments(func, args)
 
-      return new Ok(new FunctionSignature(name, signature, inner))
+      return new Ok(createFunctionSignature(name, inner))
     })
   }
 
-  static #tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory[]>, Error> {
+  function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory[]>, Error> {
     return Result.unthrowSync(t => {
       const factories = new Array<Factory>()
 
@@ -71,7 +67,7 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
         else if (token === ",")
           continue
         else if (token === "(")
-          factories.push(this.#doParseArrayOrVectorOrSingle(tokens, this.#tryParseArguments(tokens).throw(t)))
+          factories.push(doParseArrayOrVectorOrSingle(tokens, tryParseArguments(tokens).throw(t)))
         else if (token === ")")
           return new Ok(createDynamicTuple(...factories))
         else if (token === "[")
@@ -79,14 +75,14 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
         else if (token === "]")
           return new Err(new Error(`Unexpected brackets`))
         else
-          factories.push(this.#doParseArrayOrVectorOrSingle(tokens, Records.tryResolve(FunctionSignature.factoryByName, token).throw(t)))
+          factories.push(doParseArrayOrVectorOrSingle(tokens, Records.tryResolve(FunctionSignature.factoryByName, token).throw(t)))
       }
 
       return new Ok(createDynamicTuple(...factories))
     })
   }
 
-  static #doParseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
+  function doParseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
     if (tokens[0] === "[" && tokens[1] === "]") {
       tokens.shift()
       tokens.shift()
@@ -103,8 +99,50 @@ export class FunctionSignature<T extends readonly Factory[] = Factory[]> {
     return factory
   }
 
-  codegen() {
-    return `export const ${this.name} = Cubane.Abi.FunctionSignature.new("${this.name}","${this.signature}",${this.inner.codegen()})`
-  }
+}
 
+export type FunctionSignatureInstance<T extends readonly Factory[] = Factory[]> =
+  Readable.ReadOutput<FunctionSignatureFactory<T>>
+
+export type FunctionSignatureFactory<T extends readonly Factory[] = Factory[]> =
+  ReturnType<typeof createFunctionSignature<T>> & { readonly name: string }
+
+export function createFunctionSignature<T extends readonly Factory[] = Factory[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
+  return class FunctionSignature {
+    readonly #class = FunctionSignature
+
+    static readonly name = name
+    static readonly args = args
+
+    constructor(
+      readonly args: FunctionSelectorAndArgumentsInstance<T>
+    ) { }
+
+    static new(instances: ReadOutputs<T>) {
+      const args = FunctionSignature.args.new(instances)
+      return new FunctionSignature(args)
+    }
+
+    static from(...primitives: Factory.Primitives<T>) {
+      const args = FunctionSignature.args.from(...primitives)
+      return new FunctionSignature(args)
+    }
+
+    static codegen() {
+      return `Cubane.Abi.createFunctionSignature("${name}",${args.codegen()})`
+    }
+
+    trySize(): Result<number, never> {
+      return this.args.trySize()
+    }
+
+    tryWrite(cursor: Cursor): Result<void, Error> {
+      return this.args.tryWrite(cursor)
+    }
+
+    static tryRead(cursor: Cursor) {
+      return args.tryRead(cursor)
+    }
+
+  }
 }

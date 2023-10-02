@@ -101,8 +101,8 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       return new FunctionSelectorAndArguments(args)
     }
 
-    static from(values: Factory.Primitives<T>) {
-      const args = FunctionSelectorAndArguments.args.from(values)
+    static from(...primitives: Factory.Primitives<T>) {
+      const args = FunctionSelectorAndArguments.args.from(primitives)
       return new FunctionSelectorAndArguments(args)
     }
 
