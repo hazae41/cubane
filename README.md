@@ -82,7 +82,7 @@ const signature = FunctionSignature.tryParse("f(bool,uint256,string)").unwrap()
 Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
 
 ```tsx
-const hex = tryEncode(signature, true, 123456789n, "hello world").unwrap()
+const hex = tryEncode(signature.args.from(true, 123456789n, "hello world")).unwrap()
 // 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 
@@ -103,7 +103,7 @@ export const f = /*generated code*/
 Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
 
 ```tsx
-const hex = tryEncode(f, true, 123456789n, "hello world").unwrap()
+const hex = tryEncode(f.args.from(true, 123456789n, "hello world")).unwrap()
 // 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 

@@ -6,6 +6,7 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { test } from "@hazae41/phobos";
 import { Cubane, ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { tryDecode, tryEncode } from "./abi.js";
 import { FunctionSignature } from "./signature/signature.js";
 import { StaticAddress } from "./types/address/address.js";
 import { createDynamicArray } from "./types/array/array.js";
@@ -69,6 +70,6 @@ console.log(`export const ${signature.name} = ${signature.codegen()}`)
  */
 export const f = Cubane.Abi.createFunctionSignature("f", Cubane.Abi.createFunctionSelectorAndArguments(Cubane.Abi.FunctionSelector.from([196, 183, 30, 19]), Cubane.Abi.createDynamicTuple(Cubane.Abi.StaticBool, Cubane.Abi.createStaticBigUint(32), Cubane.Abi.DynamicString)))
 
-const hex = ZeroHexString.from(f.args.from(true, 123456789n, "hello world").encodeOrThrow())
-
-console.log(hex)
+const hex = tryEncode(f.args.from(true, 123456789n, "hello world"))
+const args = tryDecode(f.args, hex.unwrap()).unwrap()
+console.log(hex.unwrap())
