@@ -1,5 +1,5 @@
 import { Readable, Writable } from "@hazae41/binary";
-import { Ok, Result } from "@hazae41/result";
+import { Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/hex.js";
 import { FunctionSignature } from "./signature/signature.js";
@@ -10,8 +10,8 @@ export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
 export type Instance = MaybeDynamic<Writable<never, Error>> & {
   readonly size: number
 
-  encode(): string
-  encodePacked(): string
+  encodeOrThrow(): string
+  encodePackedOrThrow(): string
 }
 
 export type Factory<T extends Instance = Instance, P = unknown> = MaybeDynamic<Readable<T, Error>> & {
@@ -19,7 +19,7 @@ export type Factory<T extends Instance = Instance, P = unknown> = MaybeDynamic<R
 
   codegen(): string
 
-  decode(cursor: TextCursor): Instance
+  decodeOrThrow(cursor: TextCursor): Instance
 }
 
 export namespace Factory {
@@ -40,7 +40,7 @@ export namespace Factory {
  */
 export function tryEncode<T extends readonly Factory[]>(signature: FunctionSignature<T>, ...values: Factory.Primitives<T>): Result<ZeroHexString, Error> {
   // p42:ignore-next-statement
-  return new Ok("0x" + signature.inner.from(values).encode() as ZeroHexString)
+  return Result.runAndDoubleWrapSync(() => "0x" + signature.inner.from(values).encodeOrThrow() as ZeroHexString)
 }
 
 /**
@@ -50,7 +50,7 @@ export function tryEncode<T extends readonly Factory[]>(signature: FunctionSigna
  * @returns 
  */
 export function tryDecode<T extends readonly Factory[]>(signature: FunctionSignature<T>, hex: ZeroHexString): Result<FunctionSelectorAndArgumentsInstance<T>, Error> {
-  return signature.inner.tryDecode(new TextCursor(hex.slice(2)))
+  return Result.runAndDoubleWrapSync(() => signature.inner.decodeOrThrow(new TextCursor(hex.slice(2))))
 }
 
 /**

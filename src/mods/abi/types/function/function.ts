@@ -50,15 +50,15 @@ export class FunctionSelector {
     return this.#class
   }
 
-  encode() {
+  encodeOrThrow() {
     return Base16.get().tryEncode(this.value).unwrap()
   }
 
-  encodePacked() {
+  encodePackedOrThrow() {
     return Base16.get().tryEncode(this.value).unwrap()
   }
 
-  static decode(cursor: TextCursor) {
+  static decodeOrThrow(cursor: TextCursor) {
     const unsized = Base16.get().tryPadStartAndDecode(cursor.read(8)).unwrap().copyAndDispose()
     const sized = Bytes.tryCast(unsized, 4).unwrap()
 
@@ -122,22 +122,22 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       return this.func.size + this.args.size
     }
 
-    encode() {
-      return this.func.encode() + this.args.encode()
+    encodeOrThrow() {
+      return this.func.encodeOrThrow() + this.args.encodeOrThrow()
     }
 
-    encodePacked() {
-      return this.func.encodePacked() + this.args.encodePacked()
+    encodePackedOrThrow() {
+      return this.func.encodePackedOrThrow() + this.args.encodePackedOrThrow()
     }
 
-    static tryDecode(cursor: TextCursor) {
-      const func = FunctionSelector.decode(cursor)
-      const args = FunctionSelectorAndArguments.args.decode(cursor)
+    static decodeOrThrow(cursor: TextCursor) {
+      const func = FunctionSelector.decodeOrThrow(cursor)
+      const args = FunctionSelectorAndArguments.args.decodeOrThrow(cursor)
 
-      // if (!Bytes.equals(func.value, this.func.value))
-      //   return new Err(new Error(`Invalid function selector`))
+      if (!Bytes.equals(func.value, this.func.value))
+        throw new Error(`Invalid function selector`)
 
-      return new Ok(new FunctionSelectorAndArguments(args))
+      return new FunctionSelectorAndArguments(args)
     }
 
     trySize(): Result<number, never> {

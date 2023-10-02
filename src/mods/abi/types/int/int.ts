@@ -68,7 +68,7 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
       return this.#class.bytes
     }
 
-    encode() {
+    encodeOrThrow() {
       if (this.value < BN_0) {
         const mask = (BN_1 << 256n) - BN_1
         const value = ((~(-this.value)) & mask) + BN_1
@@ -79,7 +79,7 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
       return this.value.toString(16).padStart(64, "0")
     }
 
-    encodePacked() {
+    encodePackedOrThrow() {
       if (this.value < BN_0) {
         const mask = (BN_1 << 256n) - BN_1
         const value = ((~(-this.value)) & mask) + BN_1
@@ -90,7 +90,7 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
       return this.value.toString(16)
     }
 
-    static decode(cursor: TextCursor) {
+    static decodeOrThrow(cursor: TextCursor) {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement

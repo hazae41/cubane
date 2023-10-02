@@ -52,9 +52,9 @@ if (false) {
   const options = { samples: 10000, warmup: true } as const
 
   const benchCubaneHex = benchSync("cubane (hex)", ({ message }) => {
-    const hex = factory.inner.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]).encode()
+    const hex = factory.inner.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]).encodeOrThrow()
     // console.log(message, hex)
-    const args = factory.inner.tryDecode(new TextCursor(hex)).unwrap()
+    const args = factory.inner.decodeOrThrow(new TextCursor(hex))
     // console.log(args.args.inner)
   }, options)
 

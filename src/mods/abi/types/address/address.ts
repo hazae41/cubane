@@ -29,15 +29,15 @@ export class StaticAddress {
     return this.#class
   }
 
-  encode() {
+  encodeOrThrow() {
     return this.value.slice(2).padStart(64, "0")
   }
 
-  encodePacked() {
+  encodePackedOrThrow() {
     return this.value.slice(2)
   }
 
-  static decode(cursor: TextCursor) {
+  static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 24
 
     // p42:ignore-next-statement

@@ -66,15 +66,15 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
       return this.#class.bytes
     }
 
-    encode() {
+    encodeOrThrow() {
       return Base16.get().tryEncode(this.value).unwrap().padStart(64, "0")
     }
 
-    encodePacked() {
+    encodePackedOrThrow() {
       return Base16.get().tryEncode(this.value).unwrap()
     }
 
-    static decode(cursor: TextCursor) {
+    static decodeOrThrow(cursor: TextCursor) {
       const text = cursor.read(StaticBytes.nibbles)
 
       const unsized = Base16.get().tryPadStartAndDecode(text).unwrap().copyAndDispose()
@@ -246,22 +246,22 @@ export class DynamicBytes<N extends number = number> {
     return this.#class.dynamic
   }
 
-  encode() {
+  encodeOrThrow() {
     const length = this.value.length.toString(16).padStart(64, "0")
     const value = Base16.get().tryEncode(this.value).unwrap().padEnd(this.size, "0")
 
     return length + value
   }
 
-  encodePacked() {
+  encodePackedOrThrow() {
     const length = this.value.length.toString(16)
     const value = Base16.get().tryEncode(this.value).unwrap()
 
     return length + value
   }
 
-  static decode(cursor: TextCursor) {
-    const length = Uint32.decode(cursor).value * 2
+  static decodeOrThrow(cursor: TextCursor) {
+    const length = Uint32.decodeOrThrow(cursor).value * 2
     const value = Base16.get().tryPadStartAndDecode(cursor.read(length)).unwrap().copyAndDispose()
     const size = 64 + (Math.ceil(length / 64) * 64)
 

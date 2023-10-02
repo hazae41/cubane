@@ -4,7 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { DynamicBytes } from "../bytes/bytes.js";
-import { Uint32 } from "../index.js";
+import { Uint32 } from "../uint/uint.js";
 
 export class DynamicString {
   readonly #class = DynamicString
@@ -42,16 +42,16 @@ export class DynamicString {
     return this.#class.dynamic
   }
 
-  encode() {
-    return this.inner.encode()
+  encodeOrThrow() {
+    return this.inner.encodeOrThrow()
   }
 
-  encodePacked() {
-    return this.inner.encodePacked()
+  encodePackedOrThrow() {
+    return this.inner.encodePackedOrThrow()
   }
 
-  static decode(cursor: TextCursor) {
-    const inner = DynamicBytes.decode(cursor)
+  static decodeOrThrow(cursor: TextCursor) {
+    const inner = DynamicBytes.decodeOrThrow(cursor)
     const value = Bytes.toUtf8(inner.value)
 
     return new DynamicString(value, inner)

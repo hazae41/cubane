@@ -72,29 +72,29 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
       return this.#class.dynamic
     }
 
-    encode() {
+    encodeOrThrow() {
       let result = ""
 
       for (const instance of this.heads)
-        result += instance.encode()
+        result += instance.encodeOrThrow()
       for (const instance of this.tails)
-        result += instance.encode()
+        result += instance.encodeOrThrow()
 
       return result
     }
 
-    encodePacked() {
+    encodePackedOrThrow() {
       let result = ""
 
       for (const instance of this.heads)
-        result += instance.encodePacked()
+        result += instance.encodePackedOrThrow()
       for (const instance of this.tails)
-        result += instance.encodePacked()
+        result += instance.encodePackedOrThrow()
 
       return result
     }
 
-    static decode(cursor: TextCursor) {
+    static decodeOrThrow(cursor: TextCursor) {
       const zero = cursor.offset
       const start = cursor.offset
 
@@ -107,16 +107,16 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
 
       for (const factory of DynamicTuple.inner) {
         if (factory.dynamic) {
-          const pointer = Uint32.decode(cursor)
+          const pointer = Uint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
           subcursor.offset = start + (pointer.value * 2)
-          const instance = factory.decode(subcursor)
+          const instance = factory.decodeOrThrow(subcursor)
 
           inner.push(instance)
           tails.push(instance)
         } else {
-          const instance = factory.decode(cursor)
+          const instance = factory.decodeOrThrow(cursor)
           inner.push(instance)
           heads.push(instance)
         }

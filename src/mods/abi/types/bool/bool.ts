@@ -28,15 +28,15 @@ export class StaticBool {
     return this.#class
   }
 
-  encode() {
-    return this.encodePacked().padStart(64, "0")
+  encodeOrThrow() {
+    return this.encodePackedOrThrow().padStart(64, "0")
   }
 
-  encodePacked() {
+  encodePackedOrThrow() {
     return this.value ? "1" : "0"
   }
 
-  static decode(cursor: TextCursor) {
+  static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 62
 
     if (cursor.read(2) === "00")

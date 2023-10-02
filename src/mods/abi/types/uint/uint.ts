@@ -64,15 +64,15 @@ export const createStaticBigUint = <N extends number = number>(bytes: N) => {
       return this.#class.bytes
     }
 
-    encode() {
+    encodeOrThrow() {
       return this.value.toString(16).padStart(64, "0")
     }
 
-    encodePacked() {
+    encodePackedOrThrow() {
       return this.value.toString(16)
     }
 
-    static decode(cursor: TextCursor) {
+    static decodeOrThrow(cursor: TextCursor) {
       cursor.offset += 64 - StaticBigUint.nibbles
 
       // p42:ignore-next-statement
@@ -166,15 +166,15 @@ export const createStaticUint = <N extends number = number>(bytes: N) => {
       return this.#class.bytes
     }
 
-    encode() {
+    encodeOrThrow() {
       return this.value.toString(16).padStart(64, "0")
     }
 
-    encodePacked() {
+    encodePackedOrThrow() {
       return this.value.toString(16)
     }
 
-    static decode(cursor: TextCursor) {
+    static decodeOrThrow(cursor: TextCursor) {
       cursor.offset += 64 - 8
 
       const value = parseInt(cursor.read(8), 16)

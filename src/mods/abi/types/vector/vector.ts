@@ -75,32 +75,32 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
       return this.#class.dynamic
     }
 
-    encode() {
+    encodeOrThrow() {
       let result = this.inner.length.toString(16).padStart(64, "0")
 
       for (const instance of this.heads)
-        result += instance.encode()
+        result += instance.encodeOrThrow()
       for (const instance of this.tails)
-        result += instance.encode()
+        result += instance.encodeOrThrow()
 
       return result
     }
 
-    encodePacked() {
+    encodePackedOrThrow() {
       let result = this.inner.length.toString(16)
 
       for (const instance of this.heads)
-        result += instance.encodePacked()
+        result += instance.encodePackedOrThrow()
       for (const instance of this.tails)
-        result += instance.encodePacked()
+        result += instance.encodePackedOrThrow()
 
       return result
     }
 
-    static decode(cursor: TextCursor) {
+    static decodeOrThrow(cursor: TextCursor) {
       const zero = cursor.offset
 
-      const length = Uint32.decode(cursor)
+      const length = Uint32.decodeOrThrow(cursor)
 
       const start = cursor.offset
 
@@ -113,16 +113,16 @@ export const createDynamicVector = <T extends Factory>(inner: T) => {
 
       for (let i = 0; i < length.value; i++) {
         if (DynamicVector.inner.dynamic) {
-          const pointer = Uint32.decode(cursor)
+          const pointer = Uint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
           subcursor.offset = start + (pointer.value * 2)
-          const instance = DynamicVector.inner.decode(subcursor)
+          const instance = DynamicVector.inner.decodeOrThrow(subcursor)
 
           inner.push(instance)
           tails.push(instance)
         } else {
-          const instance = DynamicVector.inner.decode(cursor)
+          const instance = DynamicVector.inner.decodeOrThrow(cursor)
           inner.push(instance)
           heads.push(instance)
         }
