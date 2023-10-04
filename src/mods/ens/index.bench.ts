@@ -16,14 +16,14 @@ function namehash(name: string) {
 
 const selfResult = benchSync("cubane", () => {
   tryNamehash("hello.world.eth")
-}, { samples: 100000, warmup: true })
+}, { samples: 10000, warmup: true })
 
 const viemResult = benchSync("viem", () => {
   viem.namehash("hello.world.eth")
-}, { samples: 100000, warmup: true })
+}, { samples: 10000, warmup: true })
 
 const ensResult = benchSync("ens", () => {
   ens.hash("hello.world.eth")
-}, { samples: 100000, warmup: true })
+}, { samples: 10000, warmup: true })
 
 selfResult.tableAndSummary(viemResult, ensResult)
