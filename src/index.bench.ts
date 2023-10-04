@@ -1,5 +1,7 @@
 import "@hazae41/symbol-dispose-polyfill";
 
+export * from "./mods/index.bench.js";
+
 import { Base16 } from "@hazae41/base16";
 import { Readable, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
@@ -149,7 +151,7 @@ if (false) {
 /**
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
-if (true) {
+if (false) {
   const abi = FunctionSignature.tryParse("f(bool,uint256,string,address,bytes)").unwrap()
 
   const txhex = ethers.Transaction.from({
