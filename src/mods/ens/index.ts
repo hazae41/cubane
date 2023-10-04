@@ -19,7 +19,7 @@ class Slot<T extends Disposable> implements Disposable {
 
 export function namehash(name: string): ZeroHexString {
   if (name.length === 0)
-    return "0x".padEnd(2 + 32, "0") as ZeroHexString
+    return "0x".padEnd(2 + 64, "0") as ZeroHexString
 
   const uts46 = Uts46.toUnicode(name, { useStd3ASCII: true })
   const labels = uts46.split('.').reverse()
