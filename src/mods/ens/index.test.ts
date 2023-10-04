@@ -1,10 +1,14 @@
 import { Base16 } from "@hazae41/base16";
 import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test } from "@hazae41/phobos";
-import { namehash } from "./index.js";
+import { tryNamehash } from "./index.js";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
+
+function namehash(name: string) {
+  return "0x" + Base16.get().tryEncode(tryNamehash(name).unwrap()).unwrap()
+}
 
 test("ens", async () => {
   assert(namehash("") === "0x0000000000000000000000000000000000000000000000000000000000000000")
