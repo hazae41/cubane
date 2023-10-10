@@ -98,7 +98,7 @@ if (false) {
 /**
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
-if (false) {
+if (true) {
   const abi = FunctionSignature.tryParse("f(bool,uint256,string,address)").unwrap()
 
   const txhex = ethers.Transaction.from({
@@ -124,8 +124,10 @@ if (false) {
 
   console.log("Benching RLP bytes->hex")
 
+  const rlpStruct = Rlp.fromPrimitive(rlp)
+
   const benchCubaneBytes = benchSync("cubane", () => {
-    const bytes = new Box(new Copied(Rlp.tryWriteToBytes(rlp).unwrap()))
+    const bytes = new Box(new Copied(Writable.tryWriteToBytes(rlpStruct).unwrap()))
     const hex = Base16.get().tryEncode(bytes).unwrap()
     // const bytes2 = Base16.get().tryPadStartAndDecode(hex).unwrap()
     // const rlp2 = Rlp.tryRead(new Cursor(bytes2.bytes))
@@ -152,7 +154,7 @@ if (false) {
 /**
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
-if (false) {
+if (true) {
   const abi = FunctionSignature.tryParse("f(bool,uint256,string,address,bytes)").unwrap()
 
   const txhex = ethers.Transaction.from({
@@ -178,8 +180,10 @@ if (false) {
 
   console.log("Benching RLP bytes->bytes")
 
+  const rlpStruct = Rlp.fromPrimitive(rlp)
+
   const benchCubaneBytes = benchSync("cubane", () => {
-    const bytes = Rlp.tryWriteToBytes(rlp).unwrap()
+    const bytes = Writable.tryWriteToBytes(rlpStruct).unwrap()
     // const rlp2 = Rlp.tryRead(new Cursor(bytes))
   }, options)
 
