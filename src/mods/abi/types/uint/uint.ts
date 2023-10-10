@@ -102,7 +102,8 @@ export const createStaticBigUint = <N extends number = number>(bytes: N) => {
         cursor.offset += 32 - StaticBigUint.bytes
 
         const bytes = cursor.tryRead(StaticBigUint.bytes).throw(t)
-        const value = BigInts.tryImport(new Box(new Copied(bytes))).throw(t)
+        const box = new Box(new Copied(bytes))
+        const value = BigInts.tryImport(box).throw(t)
 
         return new Ok(new StaticBigUint(value))
       })

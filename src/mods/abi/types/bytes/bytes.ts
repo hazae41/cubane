@@ -68,11 +68,14 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
     }
 
     encodeOrThrow() {
-      return Base16.get().tryEncode(new Box(new Copied(this.value))).unwrap().padStart(64, "0")
+      const box = new Box(new Copied(this.value))
+      const hex = Base16.get().tryEncode(box).unwrap()
+      return hex.padStart(64, "0")
     }
 
     encodePackedOrThrow() {
-      return Base16.get().tryEncode(new Box(new Copied(this.value))).unwrap()
+      const box = new Box(new Copied(this.value))
+      return Base16.get().tryEncode(box).unwrap()
     }
 
     static decodeOrThrow(cursor: TextCursor) {
@@ -249,14 +252,16 @@ export class DynamicBytes<N extends number = number> {
 
   encodeOrThrow() {
     const length = this.value.length.toString(16).padStart(64, "0")
-    const value = Base16.get().tryEncode(new Box(new Copied(this.value))).unwrap().padEnd(this.size, "0")
+    const box = new Box(new Copied(this.value))
+    const value = Base16.get().tryEncode(box).unwrap().padEnd(this.size, "0")
 
     return length + value
   }
 
   encodePackedOrThrow() {
     const length = this.value.length.toString(16)
-    const value = Base16.get().tryEncode(new Box(new Copied(this.value))).unwrap()
+    const box = new Box(new Copied(this.value))
+    const value = Base16.get().tryEncode(box).unwrap()
 
     return length + value
   }

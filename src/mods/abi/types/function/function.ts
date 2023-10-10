@@ -52,11 +52,13 @@ export class FunctionSelector {
   }
 
   encodeOrThrow() {
-    return Base16.get().tryEncode(new Box(new Copied(this.value))).unwrap()
+    const box = new Box(new Copied(this.value))
+    return Base16.get().tryEncode(box).unwrap()
   }
 
   encodePackedOrThrow() {
-    return Base16.get().tryEncode(new Box(new Copied(this.value))).unwrap()
+    const box = new Box(new Copied(this.value))
+    return Base16.get().tryEncode(box).unwrap()
   }
 
   static decodeOrThrow(cursor: TextCursor) {

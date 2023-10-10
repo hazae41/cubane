@@ -135,7 +135,8 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
         const mask = (BN_1 << this.bitsn) - BN_1
 
         const bytes = cursor.tryRead(StaticBigInt.bytes).throw(t)
-        const value = BigInts.tryImport(new Box(new Copied(bytes))).throw(t)
+        const box = new Box(new Copied(bytes))
+        const value = BigInts.tryImport(box).throw(t)
 
         if ((value & mask) >> (this.bitsn - BN_1))
           return new Ok(new StaticBigInt(-(((~value) & mask) + BN_1)))
