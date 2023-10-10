@@ -1,4 +1,5 @@
 import { Base16 } from "@hazae41/base16";
+import { Box, Copied } from "@hazae41/box";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
@@ -67,9 +68,10 @@ export class StaticAddress {
       cursor.offset += 32 - 20
 
       const bytes = cursor.tryRead(20).throw(t)
+      const box = new Box(new Copied(bytes))
 
       // p42:ignore-next-statement
-      const value = "0x" + Base16.get().tryEncode(bytes).throw(t)
+      const value = "0x" + Base16.get().tryEncode(box).throw(t)
 
       return new Ok(new StaticAddress(value as ZeroHexString))
     })

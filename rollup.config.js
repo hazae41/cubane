@@ -62,7 +62,7 @@ export const config = [
       sourcemap: true,
       entryFileNames: "[name].mjs",
     }],
-    plugins: [commonjs(), json(), resolve(), ts()],
+    plugins: [commonjs(), json(), resolve({ preferBuiltins: true }), ts()],
   },
 ]
 

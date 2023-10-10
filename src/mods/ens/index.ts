@@ -1,6 +1,6 @@
-import { Box } from "@hazae41/box"
+import { Box, Copiable, Copied } from "@hazae41/box"
 import { Bytes } from "@hazae41/bytes"
-import { Copiable, Copied, Keccak256 } from "@hazae41/keccak256"
+import { Keccak256 } from "@hazae41/keccak256"
 import { Ok, Result } from "@hazae41/result"
 import * as Uts46 from "idna-uts46-hx"
 
@@ -28,12 +28,14 @@ export function tryNamehash(name: string): Result<Uint8Array, Error> {
 
     for (const label of labels) {
       using previous = node.inner.unwrap()
-      using hashed = Keccak256.get().tryHash(Bytes.fromUtf8(label)).unwrap()
 
-      const concat = Bytes.concat([previous.bytes, hashed.bytes])
-      node.inner = new Box(Keccak256.get().tryHash(concat).unwrap())
+      const prehash = new Box(new Copied(Bytes.fromUtf8(label)))
+      using posthash = Keccak256.get().tryHash(prehash).unwrap()
+
+      const concat = new Box(new Copied(Bytes.concat([previous.bytes, posthash.bytes])))
+      node.inner = new Box(Keccak256.get().tryHash(concat).throw(t))
     }
 
-    return new Ok(node.inner.unwrap().copyAndDispose())
+    return new Ok(node.inner.unwrap().copyAndDispose().bytes)
   })
 }

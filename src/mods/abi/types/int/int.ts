@@ -1,5 +1,6 @@
 import { Base16 } from "@hazae41/base16";
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
+import { Box, Copied } from "@hazae41/box";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { BigInts } from "libs/bigint/bigint.js";
@@ -134,7 +135,7 @@ export const createStaticBigInt = <N extends number = number>(bytes: N) => {
         const mask = (BN_1 << this.bitsn) - BN_1
 
         const bytes = cursor.tryRead(StaticBigInt.bytes).throw(t)
-        const value = BigInts.tryImport(bytes).throw(t)
+        const value = BigInts.tryImport(new Box(new Copied(bytes))).throw(t)
 
         if ((value & mask) >> (this.bitsn - BN_1))
           return new Ok(new StaticBigInt(-(((~value) & mask) + BN_1)))

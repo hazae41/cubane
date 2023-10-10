@@ -1,4 +1,5 @@
 import { Readable } from "@hazae41/binary";
+import { Box, Copied } from "@hazae41/box";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Keccak256 } from "@hazae41/keccak256";
@@ -45,7 +46,8 @@ export namespace FunctionSignature {
       if (tokens.shift() !== "(")
         return new Err(new Error(`Expected parenthesis`))
 
-      using hash = Keccak256.get().tryHash(Bytes.fromUtf8(signature)).throw(t)
+      const bytes = new Box(new Copied(Bytes.fromUtf8(signature)))
+      using hash = Keccak256.get().tryHash(bytes).throw(t)
       const func = FunctionSelector.new(hash.bytes.slice(0, 4) as Bytes<4>)
       const args = tryParseArguments(tokens).throw(t)
 

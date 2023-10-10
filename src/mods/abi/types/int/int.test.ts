@@ -1,5 +1,6 @@
 import { Base16 } from "@hazae41/base16";
 import { Readable, Writable } from "@hazae41/binary";
+import { Box, Copied } from "@hazae41/box";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test } from "@hazae41/phobos";
@@ -15,7 +16,7 @@ test("int32", async ({ message, test }) => {
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   console.log(message, value)
-  console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  console.log(message, Base16.get().tryEncode(new Box(new Copied(bytes))).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(Int32, bytes).unwrap()
   const value2 = abi2.value
@@ -26,12 +27,13 @@ test("int32", async ({ message, test }) => {
 })
 
 test("int256", async ({ message, test }) => {
-  const value = BigInts.tryImport(Bytes.tryRandom(31).unwrap()).unwrap() * (Math.random() > 0.5 ? 1n : -1n)
+  const random = new Box(new Copied(Bytes.tryRandom(31).unwrap()))
+  const value = BigInts.tryImport(random).unwrap() * (Math.random() > 0.5 ? 1n : -1n)
   const abi = Int256.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   console.log(message, value)
-  console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  console.log(message, Base16.get().tryEncode(new Box(new Copied(bytes))).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(Int256, bytes).unwrap()
   const value2 = abi2.value
