@@ -11,21 +11,23 @@ import { Box, Copied } from "@hazae41/box";
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
-function namehash(name: string) {
-  const namehash = new Box(new Copied(tryNamehash(name).unwrap()))
-  return "0x" + Base16.get().tryEncode(namehash).unwrap()
+if (false) {
+  function namehash(name: string) {
+    const namehash = new Box(new Copied(tryNamehash(name).unwrap()))
+    return "0x" + Base16.get().tryEncode(namehash).unwrap()
+  }
+
+  const selfResult = benchSync("cubane", () => {
+    tryNamehash("hello.world.eth")
+  }, { samples: 10000, warmup: true })
+
+  const viemResult = benchSync("viem", () => {
+    viem.namehash("hello.world.eth")
+  }, { samples: 10000, warmup: true })
+
+  const ensResult = benchSync("ens", () => {
+    ens.hash("hello.world.eth")
+  }, { samples: 10000, warmup: true })
+
+  selfResult.tableAndSummary(viemResult, ensResult)
 }
-
-const selfResult = benchSync("cubane", () => {
-  tryNamehash("hello.world.eth")
-}, { samples: 10000, warmup: true })
-
-const viemResult = benchSync("viem", () => {
-  viem.namehash("hello.world.eth")
-}, { samples: 10000, warmup: true })
-
-const ensResult = benchSync("ens", () => {
-  ens.hash("hello.world.eth")
-}, { samples: 10000, warmup: true })
-
-selfResult.tableAndSummary(viemResult, ensResult)

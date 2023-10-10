@@ -20,7 +20,7 @@ Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
 /**
- * Is uint32 faster than uint8? Yes, slightly (at least on Node)
+ * Is uint32 faster than uint8?
  */
 if (false) {
   const bytes = Bytes.random(128)
@@ -55,14 +55,14 @@ if (false) {
   const options = { samples: 10000, warmup: true } as const
 
   const benchCubaneHex = benchSync("cubane (hex)", ({ message }) => {
-    const hex = factory.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]).encodeOrThrow()
+    const hex = factory.args.from(true, 123456789n, "hello world", [true, 123456789n, "hello world"], random).encodeOrThrow()
     // console.log(message, hex)
     const args = factory.args.decodeOrThrow(new TextCursor(hex))
     // console.log(args.args.inner)
   }, options)
 
   const benchCubaneBytes = benchSync("cubane (bytes)", ({ message }) => {
-    const instance = factory.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random])
+    const instance = factory.args.from(true, 123456789n, "hello world", [true, 123456789n, "hello world"], random)
     const bytes = Writable.tryWriteToBytes(instance).unwrap()
     // const hex = hexlify(bytes)
     // console.log(message, hex)
