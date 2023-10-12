@@ -1,5 +1,5 @@
 import { Base16 } from "@hazae41/base16";
-import { Box, Copiable } from "@hazae41/box";
+import { BytesOrCopiable, Copiable } from "@hazae41/box";
 import { Result } from "@hazae41/result";
 
 export namespace BigInts {
@@ -8,7 +8,7 @@ export namespace BigInts {
     return Base16.get().tryPadStartAndDecode(value.toString(16))
   }
 
-  export function tryImport(bytes: Box<Copiable>): Result<bigint, Base16.EncodingError> {
+  export function tryImport(bytes: BytesOrCopiable): Result<bigint, Base16.EncodingError> {
     return Base16.get().tryEncode(bytes).mapSync(x => BigInt("0x" + x))
   }
 

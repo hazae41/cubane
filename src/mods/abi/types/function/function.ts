@@ -8,7 +8,6 @@ import { DynamicTupleFactory, DynamicTupleInstance } from "../tuple/tuple.js";
 
 import { Base16 } from "@hazae41/base16";
 import type { Writable } from "@hazae41/binary";
-import { Box, Copied } from "@hazae41/box";
 import { TextCursor } from "libs/cursor/cursor.js";
 
 type Unuseds = Writable
@@ -52,17 +51,15 @@ export class FunctionSelector {
   }
 
   encodeOrThrow() {
-    const box = new Box(new Copied(this.value))
-    return Base16.get().tryEncode(box).unwrap()
+    return Base16.get().tryEncode(this.value).unwrap()
   }
 
   encodePackedOrThrow() {
-    const box = new Box(new Copied(this.value))
-    return Base16.get().tryEncode(box).unwrap()
+    return Base16.get().tryEncode(this.value).unwrap()
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const unsized = Base16.get().tryPadStartAndDecode(cursor.read(8)).unwrap().copyAndDispose().bytes
+    const unsized = Base16.get().tryPadStartAndDecode(cursor.read(8)).unwrap().copyAndDispose()
     const sized = Bytes.tryCast(unsized, 4).unwrap()
 
     return new FunctionSelector(sized)

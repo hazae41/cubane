@@ -1,5 +1,4 @@
 import { Base16 } from "@hazae41/base16";
-import { Box, Copied } from "@hazae41/box";
 import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test } from "@hazae41/phobos";
 import { tryNamehash } from "./index.js";
@@ -8,8 +7,7 @@ Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
 function namehash(name: string) {
-  const namehash = new Box(new Copied(tryNamehash(name).unwrap()))
-  return "0x" + Base16.get().tryEncode(namehash).unwrap()
+  return "0x" + Base16.get().tryEncode(tryNamehash(name).unwrap()).unwrap()
 }
 
 test("ens", async () => {

@@ -1,5 +1,4 @@
 import { Base16 } from "@hazae41/base16";
-import { Box, Copied } from "@hazae41/box";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { test } from "@hazae41/phobos";
@@ -10,7 +9,7 @@ Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
 function hexlify(bytes: Uint8Array) {
-  return Base16.get().tryEncode(new Box(new Copied(bytes))).unwrap()
+  return Base16.get().tryEncode(bytes).unwrap()
 }
 
 await test("dog", async ({ message, test }) => {
@@ -71,7 +70,7 @@ await test("15", async ({ message, test }) => {
 })
 
 await test("1024", async ({ message, test }) => {
-  const string = BigInts.tryExport(BigInt(1024)).unwrap().copyAndDispose().bytes
+  const string = BigInts.tryExport(BigInt(1024)).unwrap().copyAndDispose()
   const bytes = Rlp.tryWriteToBytes(string).unwrap()
   const value = Rlp.tryReadFromBytes(bytes).unwrap()
 

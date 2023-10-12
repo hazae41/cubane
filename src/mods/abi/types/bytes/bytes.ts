@@ -1,6 +1,5 @@
 import { Base16 } from "@hazae41/base16";
 import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
-import { Box, Copied } from "@hazae41/box";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
@@ -68,20 +67,18 @@ export const createStaticBytes = <N extends number = number>(bytes: N) => {
     }
 
     encodeOrThrow() {
-      const box = new Box(new Copied(this.value))
-      const hex = Base16.get().tryEncode(box).unwrap()
+      const hex = Base16.get().tryEncode(this.value).unwrap()
       return hex.padStart(64, "0")
     }
 
     encodePackedOrThrow() {
-      const box = new Box(new Copied(this.value))
-      return Base16.get().tryEncode(box).unwrap()
+      return Base16.get().tryEncode(this.value).unwrap()
     }
 
     static decodeOrThrow(cursor: TextCursor) {
       const text = cursor.read(StaticBytes.nibbles)
 
-      const unsized = Base16.get().tryPadStartAndDecode(text).unwrap().copyAndDispose().bytes
+      const unsized = Base16.get().tryPadStartAndDecode(text).unwrap().copyAndDispose()
       const sized = Bytes.tryCast(unsized, StaticBytes.bytes).unwrap()
 
       cursor.offset += 64 - StaticBytes.nibbles
@@ -252,23 +249,21 @@ export class DynamicBytes<N extends number = number> {
 
   encodeOrThrow() {
     const length = this.value.length.toString(16).padStart(64, "0")
-    const box = new Box(new Copied(this.value))
-    const value = Base16.get().tryEncode(box).unwrap().padEnd(this.size, "0")
+    const value = Base16.get().tryEncode(this.value).unwrap().padEnd(this.size, "0")
 
     return length + value
   }
 
   encodePackedOrThrow() {
     const length = this.value.length.toString(16)
-    const box = new Box(new Copied(this.value))
-    const value = Base16.get().tryEncode(box).unwrap()
+    const value = Base16.get().tryEncode(this.value).unwrap()
 
     return length + value
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     const length = Uint32.decodeOrThrow(cursor).value * 2
-    const value = Base16.get().tryPadStartAndDecode(cursor.read(length)).unwrap().copyAndDispose().bytes
+    const value = Base16.get().tryPadStartAndDecode(cursor.read(length)).unwrap().copyAndDispose()
     const size = 64 + (Math.ceil(length / 64) * 64)
 
     cursor.offset += size - 64 - length

@@ -4,7 +4,6 @@ export * from "./mods/index.bench.js";
 
 import { Base16 } from "@hazae41/base16";
 import { Readable, Writable } from "@hazae41/binary";
-import { Box, Copied } from "@hazae41/box";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { benchSync } from "@hazae41/deimos";
@@ -112,7 +111,7 @@ if (true) {
     nonce: 1,
   }).unsignedSerialized.slice(2)
 
-  const tx = Base16.get().tryPadStartAndDecode(txhex).unwrap().copyAndDispose().bytes
+  const tx = Base16.get().tryPadStartAndDecode(txhex).unwrap().copyAndDispose()
 
   const rlp = Rlp.tryReadFromBytes(tx).unwrap() as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
@@ -127,7 +126,7 @@ if (true) {
   const rlpStruct = Rlp.fromPrimitive(rlp)
 
   const benchCubaneBytes = benchSync("cubane", () => {
-    const bytes = new Box(new Copied(Writable.tryWriteToBytes(rlpStruct).unwrap()))
+    const bytes = Writable.tryWriteToBytes(rlpStruct).unwrap()
     const hex = Base16.get().tryEncode(bytes).unwrap()
     // const bytes2 = Base16.get().tryPadStartAndDecode(hex).unwrap()
     // const rlp2 = Rlp.tryRead(new Cursor(bytes2.bytes))
@@ -168,7 +167,7 @@ if (true) {
     nonce: 1,
   }).unsignedSerialized.slice(2)
 
-  const tx = Base16.get().tryPadStartAndDecode(txhex).unwrap().copyAndDispose().bytes
+  const tx = Base16.get().tryPadStartAndDecode(txhex).unwrap().copyAndDispose()
 
   const rlp = Rlp.tryReadFromBytes(tx).unwrap() as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))

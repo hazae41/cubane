@@ -6,14 +6,13 @@ import { tryNamehash } from "./index.js";
 
 // @ts-ignore
 import * as ens from "@ensdomains/eth-ens-namehash";
-import { Box, Copied } from "@hazae41/box";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
 if (false) {
   function namehash(name: string) {
-    const namehash = new Box(new Copied(tryNamehash(name).unwrap()))
+    const namehash = tryNamehash(name).unwrap()
     return "0x" + Base16.get().tryEncode(namehash).unwrap()
   }
 
