@@ -38,6 +38,10 @@ export namespace FunctionSignature {
     return createFunctionSignature(name, args)
   }
 
+  export function $parse$(signature: string): FunctionSignatureFactory {
+    return tryParse(signature).unwrap().codegen() as any
+  }
+
   export function tryParse(signature: string): Result<FunctionSignatureFactory, Error> {
     return Result.unthrowSync(t => {
       const [name, ...tokens] = signature.trim().split(/(,|\(|\)|\[|\])/g).filter(Boolean)

@@ -45,6 +45,8 @@ Morax includes a fast WebAssembly port of Keccak256
 npm i @hazae41/morax
 ```
 
+`keccak256.ts`
+
 ```typescript
 import { Keccak256 } from "@hazae41/keccak256"
 
@@ -60,6 +62,8 @@ Alocer includes a fast WebAssembly port of Base16
 ```bash
 npm i @hazae41/alocer
 ```
+
+`base16.ts`
 
 ```typescript
 import { Base16 } from "@hazae41/base16"
@@ -86,9 +90,43 @@ const hex = tryEncode(signature.args.from(true, 123456789n, "hello world")).unwr
 // 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 
-### Abi to Hex (codegen)
+### Abi to Hex (macro)
 
-Generate the function from its signature
+Cubane provides Saumon macros to generate typed ABI functions
+
+`f.abi.macro.ts`
+
+```tsx
+import "@hazae41/symbol-dispose-polyfill"
+import { Cubane } from "@hazae41/cubane"
+
+/**
+ * Your Keccak256 adapter code
+ */
+import "./keccak256.js"
+
+export const f = Cubane.Abi.FunctionSignature.$parse$("f(bool,uint256,string)")
+```
+
+```bash
+saumon build ./f.abi.macro.ts
+```
+
+`main.ts`
+
+```tsx
+import { f } from "./f.abi.ts"
+
+/**
+ * f is fully typed as (bool,uint256,string)
+ */
+const hex = tryEncode(f.args.from(true, 123456789n, "hello world")).unwrap()
+// 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
+```
+
+### Abi to Hex (manual)
+
+You can generate the function from its signature
 
 ```tsx
 > console.log(FunctionSignature.tryParse("f(bool,uint256,string)").unwrap().codegen())
