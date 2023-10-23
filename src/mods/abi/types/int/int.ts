@@ -1,10 +1,9 @@
 import { Base16 } from "@hazae41/base16";
-  import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
+  import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
   import { Cursor } from "@hazae41/cursor";
   import { Ok, Result } from "@hazae41/result";
   import { BigInts } from "libs/bigint/bigint.js";
   import { TextCursor } from "libs/cursor/cursor.js";
-  import { Skeleton } from "libs/typescript/skeleton.js";
   
   const BN_0 = 0n
   const BN_1 = 1n

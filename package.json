@@ -31,7 +31,7 @@
     "@hazae41/cursor": "^1.1.26",
     "@hazae41/keccak256": "^1.0.5",
     "@hazae41/result": "^1.1.8",
-    "idna-uts46-hx": "^5.1.0"
+    "idna-uts46-hx": "^5.1.1"
   },
   "devDependencies": {
     "@ensdomains/eth-ens-namehash": "^2.0.15",
@@ -39,22 +39,22 @@
     "@hazae41/deimos": "^1.0.6",
     "@hazae41/morax": "^1.1.4",
     "@hazae41/phobos": "^1.0.10",
-    "@hazae41/saumon": "^0.0.6",
+    "@hazae41/saumon": "^0.0.7",
     "@hazae41/symbol-dispose-polyfill": "^1.0.2",
-    "@rollup/plugin-commonjs": "^25.0.5",
+    "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.5",
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.8.7",
     "ethers": "^6.8.0",
     "rimraf": "^5.0.5",
-    "rollup": "^4.0.2",
+    "rollup": "^4.1.4",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-node-externals": "^6.1.2",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "viem": "^1.16.4",
-    "web3": "^4.1.2"
+    "viem": "^1.16.6",
+    "web3": "^4.2.0"
   },
   "exports": {
     ".": {
