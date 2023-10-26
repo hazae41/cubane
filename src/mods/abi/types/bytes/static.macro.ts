@@ -9,7 +9,7 @@ function $pre$() {
 
 $pre$()
 
-function $createStaticBytes$<N extends number = number>(bytes: N) {
+function $createStaticBytes$(bytes: number) {
   const bits = bytes * 8
   const nibbles = bytes * 2
 

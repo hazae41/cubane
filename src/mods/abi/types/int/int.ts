@@ -12,10 +12,9 @@ export class Int8 {
     readonly #class = Int8
     readonly name = this.#class.name
 
-    static readonly bits = 8
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 1
+    static readonly bits = 8
+    static readonly bitsn = BigInt(8)
 
     readonly size = 32 as const
 
@@ -125,10 +124,9 @@ export class Int16 {
     readonly #class = Int16
     readonly name = this.#class.name
 
-    static readonly bits = 16
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 2
+    static readonly bits = 16
+    static readonly bitsn = BigInt(16)
 
     readonly size = 32 as const
 
@@ -238,10 +236,9 @@ export class Int24 {
     readonly #class = Int24
     readonly name = this.#class.name
 
-    static readonly bits = 24
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 3
+    static readonly bits = 24
+    static readonly bitsn = BigInt(24)
 
     readonly size = 32 as const
 
@@ -351,10 +348,9 @@ export class Int32 {
     readonly #class = Int32
     readonly name = this.#class.name
 
-    static readonly bits = 32
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 4
+    static readonly bits = 32
+    static readonly bitsn = BigInt(32)
 
     readonly size = 32 as const
 
@@ -464,10 +460,9 @@ export class Int40 {
     readonly #class = Int40
     readonly name = this.#class.name
 
-    static readonly bits = 40
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 5
+    static readonly bits = 40
+    static readonly bitsn = BigInt(40)
 
     readonly size = 32 as const
 
@@ -577,10 +572,9 @@ export class Int48 {
     readonly #class = Int48
     readonly name = this.#class.name
 
-    static readonly bits = 48
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 6
+    static readonly bits = 48
+    static readonly bitsn = BigInt(48)
 
     readonly size = 32 as const
 
@@ -690,10 +684,9 @@ export class Int56 {
     readonly #class = Int56
     readonly name = this.#class.name
 
-    static readonly bits = 56
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 7
+    static readonly bits = 56
+    static readonly bitsn = BigInt(56)
 
     readonly size = 32 as const
 
@@ -803,10 +796,9 @@ export class Int64 {
     readonly #class = Int64
     readonly name = this.#class.name
 
-    static readonly bits = 64
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 8
+    static readonly bits = 64
+    static readonly bitsn = BigInt(64)
 
     readonly size = 32 as const
 
@@ -916,10 +908,9 @@ export class Int72 {
     readonly #class = Int72
     readonly name = this.#class.name
 
-    static readonly bits = 72
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 9
+    static readonly bits = 72
+    static readonly bitsn = BigInt(72)
 
     readonly size = 32 as const
 
@@ -1029,10 +1020,9 @@ export class Int80 {
     readonly #class = Int80
     readonly name = this.#class.name
 
-    static readonly bits = 80
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 10
+    static readonly bits = 80
+    static readonly bitsn = BigInt(80)
 
     readonly size = 32 as const
 
@@ -1142,10 +1132,9 @@ export class Int88 {
     readonly #class = Int88
     readonly name = this.#class.name
 
-    static readonly bits = 88
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 11
+    static readonly bits = 88
+    static readonly bitsn = BigInt(88)
 
     readonly size = 32 as const
 
@@ -1255,10 +1244,9 @@ export class Int96 {
     readonly #class = Int96
     readonly name = this.#class.name
 
-    static readonly bits = 96
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 12
+    static readonly bits = 96
+    static readonly bitsn = BigInt(96)
 
     readonly size = 32 as const
 
@@ -1368,10 +1356,9 @@ export class Int104 {
     readonly #class = Int104
     readonly name = this.#class.name
 
-    static readonly bits = 104
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 13
+    static readonly bits = 104
+    static readonly bitsn = BigInt(104)
 
     readonly size = 32 as const
 
@@ -1481,10 +1468,9 @@ export class Int112 {
     readonly #class = Int112
     readonly name = this.#class.name
 
-    static readonly bits = 112
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 14
+    static readonly bits = 112
+    static readonly bitsn = BigInt(112)
 
     readonly size = 32 as const
 
@@ -1594,10 +1580,9 @@ export class Int120 {
     readonly #class = Int120
     readonly name = this.#class.name
 
-    static readonly bits = 120
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 15
+    static readonly bits = 120
+    static readonly bitsn = BigInt(120)
 
     readonly size = 32 as const
 
@@ -1707,10 +1692,9 @@ export class Int128 {
     readonly #class = Int128
     readonly name = this.#class.name
 
-    static readonly bits = 128
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 16
+    static readonly bits = 128
+    static readonly bitsn = BigInt(128)
 
     readonly size = 32 as const
 
@@ -1820,10 +1804,9 @@ export class Int136 {
     readonly #class = Int136
     readonly name = this.#class.name
 
-    static readonly bits = 136
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 17
+    static readonly bits = 136
+    static readonly bitsn = BigInt(136)
 
     readonly size = 32 as const
 
@@ -1933,10 +1916,9 @@ export class Int144 {
     readonly #class = Int144
     readonly name = this.#class.name
 
-    static readonly bits = 144
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 18
+    static readonly bits = 144
+    static readonly bitsn = BigInt(144)
 
     readonly size = 32 as const
 
@@ -2046,10 +2028,9 @@ export class Int152 {
     readonly #class = Int152
     readonly name = this.#class.name
 
-    static readonly bits = 152
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 19
+    static readonly bits = 152
+    static readonly bitsn = BigInt(152)
 
     readonly size = 32 as const
 
@@ -2159,10 +2140,9 @@ export class Int160 {
     readonly #class = Int160
     readonly name = this.#class.name
 
-    static readonly bits = 160
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 20
+    static readonly bits = 160
+    static readonly bitsn = BigInt(160)
 
     readonly size = 32 as const
 
@@ -2272,10 +2252,9 @@ export class Int168 {
     readonly #class = Int168
     readonly name = this.#class.name
 
-    static readonly bits = 168
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 21
+    static readonly bits = 168
+    static readonly bitsn = BigInt(168)
 
     readonly size = 32 as const
 
@@ -2385,10 +2364,9 @@ export class Int176 {
     readonly #class = Int176
     readonly name = this.#class.name
 
-    static readonly bits = 176
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 22
+    static readonly bits = 176
+    static readonly bitsn = BigInt(176)
 
     readonly size = 32 as const
 
@@ -2498,10 +2476,9 @@ export class Int184 {
     readonly #class = Int184
     readonly name = this.#class.name
 
-    static readonly bits = 184
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 23
+    static readonly bits = 184
+    static readonly bitsn = BigInt(184)
 
     readonly size = 32 as const
 
@@ -2611,10 +2588,9 @@ export class Int192 {
     readonly #class = Int192
     readonly name = this.#class.name
 
-    static readonly bits = 192
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 24
+    static readonly bits = 192
+    static readonly bitsn = BigInt(192)
 
     readonly size = 32 as const
 
@@ -2724,10 +2700,9 @@ export class Int200 {
     readonly #class = Int200
     readonly name = this.#class.name
 
-    static readonly bits = 200
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 25
+    static readonly bits = 200
+    static readonly bitsn = BigInt(200)
 
     readonly size = 32 as const
 
@@ -2837,10 +2812,9 @@ export class Int208 {
     readonly #class = Int208
     readonly name = this.#class.name
 
-    static readonly bits = 208
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 26
+    static readonly bits = 208
+    static readonly bitsn = BigInt(208)
 
     readonly size = 32 as const
 
@@ -2950,10 +2924,9 @@ export class Int216 {
     readonly #class = Int216
     readonly name = this.#class.name
 
-    static readonly bits = 216
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 27
+    static readonly bits = 216
+    static readonly bitsn = BigInt(216)
 
     readonly size = 32 as const
 
@@ -3063,10 +3036,9 @@ export class Int224 {
     readonly #class = Int224
     readonly name = this.#class.name
 
-    static readonly bits = 224
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 28
+    static readonly bits = 224
+    static readonly bitsn = BigInt(224)
 
     readonly size = 32 as const
 
@@ -3176,10 +3148,9 @@ export class Int232 {
     readonly #class = Int232
     readonly name = this.#class.name
 
-    static readonly bits = 232
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 29
+    static readonly bits = 232
+    static readonly bitsn = BigInt(232)
 
     readonly size = 32 as const
 
@@ -3289,10 +3260,9 @@ export class Int240 {
     readonly #class = Int240
     readonly name = this.#class.name
 
-    static readonly bits = 240
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 30
+    static readonly bits = 240
+    static readonly bitsn = BigInt(240)
 
     readonly size = 32 as const
 
@@ -3402,10 +3372,9 @@ export class Int248 {
     readonly #class = Int248
     readonly name = this.#class.name
 
-    static readonly bits = 248
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 31
+    static readonly bits = 248
+    static readonly bitsn = BigInt(248)
 
     readonly size = 32 as const
 
@@ -3515,10 +3484,9 @@ export class Int256 {
     readonly #class = Int256
     readonly name = this.#class.name
 
-    static readonly bits = 256
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = 32
+    static readonly bits = 256
+    static readonly bitsn = BigInt(256)
 
     readonly size = 32 as const
 
