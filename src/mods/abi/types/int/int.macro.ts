@@ -19,10 +19,9 @@ function $createStaticBigInt$(bytes: number) {
     readonly #class = Int${bits}
     readonly name = this.#class.name
 
-    static readonly bits = ${bits}
-    static readonly bitsn = BigInt(this.bits)
-
     static readonly bytes = ${bytes}
+    static readonly bits = ${bits}
+    static readonly bitsn = BigInt(${bits})
 
     readonly size = 32 as const
 

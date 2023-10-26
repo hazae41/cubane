@@ -3,7 +3,7 @@ import { Readable, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test } from "@hazae41/phobos";
-import { DynamicBytes } from "./bytes.js";
+import { DynamicBytes } from "./dynamic.js";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
