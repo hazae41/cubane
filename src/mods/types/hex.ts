@@ -4,10 +4,14 @@ export type ZeroHexString = `0x${string}`
 
 export namespace ZeroHexString {
 
-  export function from(maybeZeroHex: string): ZeroHexString {
-    if (is(maybeZeroHex))
-      return maybeZeroHex
-    return `0x${maybeZeroHex}`
+  export function from(zeroHexable: string | number | bigint): ZeroHexString {
+    if (typeof zeroHexable === "number")
+      return `0x${zeroHexable.toString(16)}`
+    if (typeof zeroHexable === "bigint")
+      return `0x${zeroHexable.toString(16)}`
+    if (is(zeroHexable))
+      return zeroHexable
+    return `0x${zeroHexable}`
   }
 
   export function is(maybeZeroHex: string): maybeZeroHex is ZeroHexString {
