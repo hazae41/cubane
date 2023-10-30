@@ -4,9 +4,10 @@ export type ZeroHexString = `0x${string}`
 
 export namespace ZeroHexString {
 
-  export function from(rawHex: string) {
-    // p42:ignore-next-statement
-    return ("0x" + rawHex) as ZeroHexString
+  export function from(maybeZeroHex: string): ZeroHexString {
+    if (is(maybeZeroHex))
+      return maybeZeroHex
+    return `0x${maybeZeroHex}`
   }
 
   export function is(maybeZeroHex: string): maybeZeroHex is ZeroHexString {
