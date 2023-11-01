@@ -3,29 +3,40 @@ import { Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/hex.js";
 
-export type MaybeDynamic<T> = T & { readonly dynamic?: boolean }
+export interface Instance<P> extends Writable<never, Error> {
+  readonly dynamic?: boolean
 
-export type Instance = MaybeDynamic<Writable<never, Error>> & {
   readonly size: number
 
+  into(): P
+
   encodeOrThrow(): string
+
   encodePackedOrThrow(): string
 }
 
-export type Factory<T extends Instance = Instance, P = unknown> = MaybeDynamic<Readable<T, Error>> & {
-  from(primitive: P): Instance
+export interface Factory<P, I extends Instance<P>> extends Readable<I, Error> {
+  readonly dynamic?: boolean
+
+  from(primitive: P): I
 
   codegen(): string
 
-  decodeOrThrow(cursor: TextCursor): Instance
+  decodeOrThrow(cursor: TextCursor): Instance<P>
 }
 
 export namespace Factory {
 
-  export type Primitive<T> = T extends Factory<any, infer P> ? P : never
+  export type Primitive<T> = T extends Factory<infer P, any> ? P : never
 
-  export type Primitives<T extends readonly Factory[]> = {
+  export type Primitives<T extends readonly Factory<any, any>[]> = {
     readonly [Index in keyof T]: Primitive<T[Index]>
+  }
+
+  export type Instance<T> = T extends Factory<any, infer T> ? T : never
+
+  export type Instances<T extends readonly Factory<any, any>[]> = {
+    readonly [Index in keyof T]: Instance<T[Index]>
   }
 
 }

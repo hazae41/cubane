@@ -2,12 +2,11 @@ import { Readable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { ReadOutputs } from "libs/readable/readable.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Factory, Instance } from "mods/abi/abi.js";
 import { Uint32 } from "../uint/uint.js";
 
-export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) => {
+export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...inner: T) => {
   return class DynamicTuple {
     readonly #class = DynamicTuple
     readonly name = this.#class.name
@@ -15,18 +14,18 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
     static readonly inner = inner
 
     private constructor(
-      readonly inner: ReadOutputs<T>,
-      readonly heads: Instance[],
-      readonly tails: Instance[],
+      readonly inner: Factory.Instances<T>,
+      readonly heads: Instance<any>[],
+      readonly tails: Instance<any>[],
       readonly size: number,
     ) { }
 
-    static new(instances: ReadOutputs<T>) {
+    static new(instances: Factory.Instances<T>) {
       let length = 0
       let offset = instances.length * 32
 
-      const heads = new Array<Instance>()
-      const tails = new Array<Instance>()
+      const heads = new Array<Instance<any>>()
+      const tails = new Array<Instance<any>>()
 
       for (const instance of instances) {
         if (instance.dynamic) {
@@ -53,7 +52,11 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
       for (let i = 0; i < DynamicTuple.inner.length; i++)
         result[i] = DynamicTuple.inner[i].from(primitives[i])
 
-      return DynamicTuple.new(result as ReadOutputs<T>)
+      return DynamicTuple.new(result as Factory.Instances<T>)
+    }
+
+    into() {
+      return this.inner.map(it => it.into()) as Factory.Primitives<T>
     }
 
     static codegen() {
@@ -98,10 +101,10 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
       const zero = cursor.offset
       const start = cursor.offset
 
-      const inner = new Array<Instance>()
+      const inner = new Array<Instance<any>>()
 
-      const heads = new Array<Instance>()
-      const tails = new Array<Instance>()
+      const heads = new Array<Instance<any>>()
+      const tails = new Array<Instance<any>>()
 
       const subcursor = new TextCursor(cursor.text)
 
@@ -124,7 +127,7 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new DynamicTuple(inner as ReadOutputs<T>, heads, tails, (cursor.offset - zero) / 2)
+      return new DynamicTuple(inner as Factory.Instances<T>, heads, tails, (cursor.offset - zero) / 2)
     }
 
     trySize(): Result<number, never> {
@@ -146,10 +149,10 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
         const zero = cursor.offset
         const start = cursor.offset
 
-        const inner = new Array<Instance>()
+        const inner = new Array<Instance<any>>()
 
-        const heads = new Array<Instance>()
-        const tails = new Array<Instance>()
+        const heads = new Array<Instance<any>>()
+        const tails = new Array<Instance<any>>()
 
         const subcursor = new Cursor(cursor.bytes)
 
@@ -172,17 +175,17 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...inner: T) =>
 
         cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-        return new Ok(new DynamicTuple(inner as ReadOutputs<T>, heads, tails, cursor.offset - zero))
+        return new Ok(new DynamicTuple(inner as Factory.Instances<T>, heads, tails, cursor.offset - zero))
       })
     }
 
   }
 }
 
-export type DynamicTupleInstance<T extends readonly Factory[] = Factory[]> =
+export type DynamicTupleInstance<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
   Readable.ReadOutput<DynamicTupleFactory<T>>
 
-export type DynamicTupleFactory<T extends readonly Factory[] = Factory[]> =
+export type DynamicTupleFactory<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
   ReturnType<typeof createDynamicTuple<T>> & { readonly name: string }
 
 export namespace DynamicTuple {
@@ -190,11 +193,11 @@ export namespace DynamicTuple {
 
   export const any = createDynamicTuple<any>()
 
-  export function isInstance<T extends readonly Factory[]>(x: Skeleton<DynamicTupleInstance<T>>): x is DynamicTupleInstance<T> {
+  export function isInstance<T extends readonly Factory<any, any>[]>(x: Skeleton<DynamicTupleInstance<T>>): x is DynamicTupleInstance<T> {
     return x.name === name && x.class != null
   }
 
-  export function isFactory<T extends readonly Factory[]>(x: Skeleton<DynamicTupleFactory<T>>): x is DynamicTupleFactory<T> {
+  export function isFactory<T extends readonly Factory<any, any>[]>(x: Skeleton<DynamicTupleFactory<T>>): x is DynamicTupleFactory<T> {
     return x.name === name && x.new != null
   }
 

@@ -21,6 +21,10 @@ export class StaticAddress {
     return new StaticAddress(value)
   }
 
+  into() {
+    return this.value
+  }
+
   static codegen() {
     return `Cubane.Abi.StaticAddress`
   }

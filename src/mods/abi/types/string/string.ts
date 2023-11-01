@@ -22,6 +22,10 @@ export class DynamicString {
     return new DynamicString(value, DynamicBytes.new(Bytes.fromUtf8(value)))
   }
 
+  into() {
+    return this.value
+  }
+
   static codegen() {
     return `Cubane.Abi.DynamicString`
   }

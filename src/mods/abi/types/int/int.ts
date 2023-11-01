@@ -30,6 +30,10 @@ export class Int8 {
       return new Int8(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int8`
     }
@@ -140,6 +144,10 @@ export class Int16 {
 
     static from(value: bigint) {
       return new Int16(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -254,6 +262,10 @@ export class Int24 {
       return new Int24(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int24`
     }
@@ -364,6 +376,10 @@ export class Int32 {
 
     static from(value: bigint) {
       return new Int32(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -478,6 +494,10 @@ export class Int40 {
       return new Int40(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int40`
     }
@@ -588,6 +608,10 @@ export class Int48 {
 
     static from(value: bigint) {
       return new Int48(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -702,6 +726,10 @@ export class Int56 {
       return new Int56(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int56`
     }
@@ -812,6 +840,10 @@ export class Int64 {
 
     static from(value: bigint) {
       return new Int64(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -926,6 +958,10 @@ export class Int72 {
       return new Int72(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int72`
     }
@@ -1036,6 +1072,10 @@ export class Int80 {
 
     static from(value: bigint) {
       return new Int80(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1150,6 +1190,10 @@ export class Int88 {
       return new Int88(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int88`
     }
@@ -1260,6 +1304,10 @@ export class Int96 {
 
     static from(value: bigint) {
       return new Int96(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1374,6 +1422,10 @@ export class Int104 {
       return new Int104(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int104`
     }
@@ -1484,6 +1536,10 @@ export class Int112 {
 
     static from(value: bigint) {
       return new Int112(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1598,6 +1654,10 @@ export class Int120 {
       return new Int120(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int120`
     }
@@ -1708,6 +1768,10 @@ export class Int128 {
 
     static from(value: bigint) {
       return new Int128(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1822,6 +1886,10 @@ export class Int136 {
       return new Int136(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int136`
     }
@@ -1932,6 +2000,10 @@ export class Int144 {
 
     static from(value: bigint) {
       return new Int144(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -2046,6 +2118,10 @@ export class Int152 {
       return new Int152(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int152`
     }
@@ -2156,6 +2232,10 @@ export class Int160 {
 
     static from(value: bigint) {
       return new Int160(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -2270,6 +2350,10 @@ export class Int168 {
       return new Int168(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int168`
     }
@@ -2380,6 +2464,10 @@ export class Int176 {
 
     static from(value: bigint) {
       return new Int176(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -2494,6 +2582,10 @@ export class Int184 {
       return new Int184(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int184`
     }
@@ -2604,6 +2696,10 @@ export class Int192 {
 
     static from(value: bigint) {
       return new Int192(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -2718,6 +2814,10 @@ export class Int200 {
       return new Int200(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int200`
     }
@@ -2828,6 +2928,10 @@ export class Int208 {
 
     static from(value: bigint) {
       return new Int208(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -2942,6 +3046,10 @@ export class Int216 {
       return new Int216(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int216`
     }
@@ -3052,6 +3160,10 @@ export class Int224 {
 
     static from(value: bigint) {
       return new Int224(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -3166,6 +3278,10 @@ export class Int232 {
       return new Int232(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int232`
     }
@@ -3276,6 +3392,10 @@ export class Int240 {
 
     static from(value: bigint) {
       return new Int240(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -3390,6 +3510,10 @@ export class Int248 {
       return new Int248(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Int248`
     }
@@ -3500,6 +3624,10 @@ export class Int256 {
 
     static from(value: bigint) {
       return new Int256(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {

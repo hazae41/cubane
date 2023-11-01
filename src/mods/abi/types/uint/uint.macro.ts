@@ -35,6 +35,10 @@ function $createStaticBigUint$(bytes: number) {
       return new Uint${bits}(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return \`Cubane.Abi.Uint${bits}\`
     }
@@ -118,6 +122,10 @@ function $createStaticUint$(bytes: number) {
 
   static from(value: number) {
     return new Uint${bits}(value)
+  }
+
+  into() {
+    return this.value
   }
 
   static codegen() {

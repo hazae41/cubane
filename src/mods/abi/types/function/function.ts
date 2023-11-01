@@ -2,7 +2,6 @@ import { BinaryReadError, BinaryWriteError, Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Err, Ok, Result } from "@hazae41/result";
-import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory } from "mods/abi/abi.js";
 import { DynamicTupleFactory, DynamicTupleInstance } from "../tuple/tuple.js";
 
@@ -79,13 +78,13 @@ export class FunctionSelector {
 
 }
 
-export type FunctionSelectorAndArgumentsInstance<T extends readonly Factory[] = Factory[]> =
+export type FunctionSelectorAndArgumentsInstance<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
   Readable.ReadOutput<FunctionSelectorAndArgumentsFactory<T>>
 
-export type FunctionSelectorAndArgumentsFactory<T extends readonly Factory[] = Factory[]> =
+export type FunctionSelectorAndArgumentsFactory<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
   ReturnType<typeof createFunctionSelectorAndArguments<T>> & { readonly name: string }
 
-export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>(func: FunctionSelector, args: DynamicTupleFactory<T>) => {
+export const createFunctionSelectorAndArguments = <T extends readonly Factory<any, any>[]>(func: FunctionSelector, args: DynamicTupleFactory<T>) => {
   return class FunctionSelectorAndArguments {
     readonly #class = FunctionSelectorAndArguments
 
@@ -96,7 +95,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       readonly args: DynamicTupleInstance<T>
     ) { }
 
-    static new(instances: ReadOutputs<T>) {
+    static new(instances: Factory.Instances<T>) {
       const args = FunctionSelectorAndArguments.args.new(instances)
       return new FunctionSelectorAndArguments(args)
     }
@@ -104,6 +103,10 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
     static from(...primitives: Factory.Primitives<T>) {
       const args = FunctionSelectorAndArguments.args.from(primitives)
       return new FunctionSelectorAndArguments(args)
+    }
+
+    into() {
+      return this.args.into()
     }
 
     static codegen() {

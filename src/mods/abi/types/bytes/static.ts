@@ -27,6 +27,10 @@ export class Bytes1 {
       return new Bytes1(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes1`
     }
@@ -107,6 +111,10 @@ export class Bytes2 {
 
     static from(value: Uint8Array & { readonly length: 2 }) {
       return new Bytes2(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -191,6 +199,10 @@ export class Bytes3 {
       return new Bytes3(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes3`
     }
@@ -271,6 +283,10 @@ export class Bytes4 {
 
     static from(value: Uint8Array & { readonly length: 4 }) {
       return new Bytes4(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -355,6 +371,10 @@ export class Bytes5 {
       return new Bytes5(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes5`
     }
@@ -435,6 +455,10 @@ export class Bytes6 {
 
     static from(value: Uint8Array & { readonly length: 6 }) {
       return new Bytes6(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -519,6 +543,10 @@ export class Bytes7 {
       return new Bytes7(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes7`
     }
@@ -599,6 +627,10 @@ export class Bytes8 {
 
     static from(value: Uint8Array & { readonly length: 8 }) {
       return new Bytes8(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -683,6 +715,10 @@ export class Bytes9 {
       return new Bytes9(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes9`
     }
@@ -763,6 +799,10 @@ export class Bytes10 {
 
     static from(value: Uint8Array & { readonly length: 10 }) {
       return new Bytes10(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -847,6 +887,10 @@ export class Bytes11 {
       return new Bytes11(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes11`
     }
@@ -927,6 +971,10 @@ export class Bytes12 {
 
     static from(value: Uint8Array & { readonly length: 12 }) {
       return new Bytes12(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1011,6 +1059,10 @@ export class Bytes13 {
       return new Bytes13(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes13`
     }
@@ -1091,6 +1143,10 @@ export class Bytes14 {
 
     static from(value: Uint8Array & { readonly length: 14 }) {
       return new Bytes14(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1175,6 +1231,10 @@ export class Bytes15 {
       return new Bytes15(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes15`
     }
@@ -1255,6 +1315,10 @@ export class Bytes16 {
 
     static from(value: Uint8Array & { readonly length: 16 }) {
       return new Bytes16(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1339,6 +1403,10 @@ export class Bytes17 {
       return new Bytes17(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes17`
     }
@@ -1419,6 +1487,10 @@ export class Bytes18 {
 
     static from(value: Uint8Array & { readonly length: 18 }) {
       return new Bytes18(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1503,6 +1575,10 @@ export class Bytes19 {
       return new Bytes19(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes19`
     }
@@ -1583,6 +1659,10 @@ export class Bytes20 {
 
     static from(value: Uint8Array & { readonly length: 20 }) {
       return new Bytes20(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1667,6 +1747,10 @@ export class Bytes21 {
       return new Bytes21(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes21`
     }
@@ -1747,6 +1831,10 @@ export class Bytes22 {
 
     static from(value: Uint8Array & { readonly length: 22 }) {
       return new Bytes22(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1831,6 +1919,10 @@ export class Bytes23 {
       return new Bytes23(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes23`
     }
@@ -1911,6 +2003,10 @@ export class Bytes24 {
 
     static from(value: Uint8Array & { readonly length: 24 }) {
       return new Bytes24(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -1995,6 +2091,10 @@ export class Bytes25 {
       return new Bytes25(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes25`
     }
@@ -2075,6 +2175,10 @@ export class Bytes26 {
 
     static from(value: Uint8Array & { readonly length: 26 }) {
       return new Bytes26(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -2159,6 +2263,10 @@ export class Bytes27 {
       return new Bytes27(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes27`
     }
@@ -2239,6 +2347,10 @@ export class Bytes28 {
 
     static from(value: Uint8Array & { readonly length: 28 }) {
       return new Bytes28(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -2323,6 +2435,10 @@ export class Bytes29 {
       return new Bytes29(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes29`
     }
@@ -2403,6 +2519,10 @@ export class Bytes30 {
 
     static from(value: Uint8Array & { readonly length: 30 }) {
       return new Bytes30(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {
@@ -2487,6 +2607,10 @@ export class Bytes31 {
       return new Bytes31(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return `Cubane.Abi.Bytes31`
     }
@@ -2567,6 +2691,10 @@ export class Bytes32 {
 
     static from(value: Uint8Array & { readonly length: 32 }) {
       return new Bytes32(value)
+    }
+
+    into() {
+      return this.value
     }
 
     static codegen() {

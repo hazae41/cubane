@@ -35,6 +35,10 @@ function $createStaticBytes$(bytes: number) {
       return new Bytes${bytes}(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return \`Cubane.Abi.Bytes${bytes}\`
     }

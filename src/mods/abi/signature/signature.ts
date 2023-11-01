@@ -3,7 +3,6 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Err, Ok, Result } from "@hazae41/result";
-import { ReadOutputs } from "libs/readable/readable.js";
 import { Records } from "libs/records/records.js";
 import { Factory } from "../abi.js";
 import { StaticAddress } from "../types/address/address.js";
@@ -35,7 +34,7 @@ export namespace FunctionSignature {
     string: DynamicString,
   } as const
 
-  export function create<T extends readonly Factory[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
+  export function create<T extends readonly Factory<any, any>[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
     return createFunctionSignature(name, args)
   }
 
@@ -61,9 +60,9 @@ export namespace FunctionSignature {
     })
   }
 
-  function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory[]>, Error> {
+  function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory<any, any>[]>, Error> {
     return Result.unthrowSync(t => {
-      const factories = new Array<Factory>()
+      const factories = new Array<Factory<any, any>>()
 
       while (tokens.length) {
         const token = tokens.shift()!
@@ -88,7 +87,7 @@ export namespace FunctionSignature {
     })
   }
 
-  function doParseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
+  function doParseArrayOrVectorOrSingle<T extends Factory<any, any>>(tokens: string[], factory: T) {
     if (tokens[0] === "[" && tokens[1] === "]") {
       tokens.shift()
       tokens.shift()
@@ -107,13 +106,13 @@ export namespace FunctionSignature {
 
 }
 
-export type FunctionSignatureInstance<T extends readonly Factory[] = Factory[]> =
+export type FunctionSignatureInstance<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
   Readable.ReadOutput<FunctionSignatureFactory<T>>
 
-export type FunctionSignatureFactory<T extends readonly Factory[] = Factory[]> =
+export type FunctionSignatureFactory<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
   ReturnType<typeof createFunctionSignature<T>> & { readonly name: string }
 
-export function createFunctionSignature<T extends readonly Factory[] = Factory[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
+export function createFunctionSignature<T extends readonly Factory<any, any>[] = Factory<any, any>[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
   return class FunctionSignature {
     readonly #class = FunctionSignature
 
@@ -124,7 +123,7 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
       readonly args: FunctionSelectorAndArgumentsInstance<T>
     ) { }
 
-    static new(instances: ReadOutputs<T>) {
+    static new(instances: Factory.Instances<T>) {
       const args = FunctionSignature.args.new(instances)
       return new FunctionSignature(args)
     }

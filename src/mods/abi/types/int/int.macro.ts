@@ -37,6 +37,10 @@ function $createStaticBigInt$(bytes: number) {
       return new Int${bits}(value)
     }
 
+    into() {
+      return this.value
+    }
+
     static codegen() {
       return \`Cubane.Abi.Int${bits}\`
     }

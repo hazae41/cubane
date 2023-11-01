@@ -1,6 +1,5 @@
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
-import { ReadOutputs } from "libs/readable/readable.js";
 import { Factory, Instance } from "mods/abi/abi.js";
 import { Uint32 } from "../uint/uint.js";
 
@@ -10,7 +9,7 @@ import { Skeleton } from "libs/typescript/skeleton.js";
 
 type Unuseds = Readable
 
-export const createDynamicArray = <T extends Factory, N extends number>(inner: T, count: N) => {
+export const createDynamicArray = <T extends Factory<any, any>, N extends number>(inner: T, count: N) => {
   return class DynamicArray {
     readonly #class = DynamicArray
     readonly name = this.#class.name
@@ -19,18 +18,18 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
     static readonly count = count
 
     private constructor(
-      readonly inner: ReadOutputs<T[]> & { readonly length: N },
-      readonly heads: Instance[],
-      readonly tails: Instance[],
+      readonly inner: Factory.Instances<T[]> & { readonly length: N },
+      readonly heads: Instance<any>[],
+      readonly tails: Instance<any>[],
       readonly size: number,
     ) { }
 
-    static new(instances: ReadOutputs<T[]> & { readonly length: N }) {
+    static new(instances: Factory.Instances<T[]> & { readonly length: N }) {
       let length = 0
       let offset = instances.length * 32
 
-      const heads = new Array<Instance>()
-      const tails = new Array<Instance>()
+      const heads = new Array<Instance<any>>()
+      const tails = new Array<Instance<any>>()
 
       for (const instance of instances) {
         if (instance.dynamic) {
@@ -57,7 +56,11 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
       for (let i = 0; i < DynamicArray.count; i++)
         result[i] = DynamicArray.inner.from(primitives[i])
 
-      return DynamicArray.new(result as any as ReadOutputs<T[]> & { readonly length: N })
+      return DynamicArray.new(result as any as Factory.Instances<T[]> & { readonly length: N })
+    }
+
+    into() {
+      return this.inner.map(instance => instance.into()) as any as Factory.Primitives<T[]> & { readonly length: N }
     }
 
     static codegen() {
@@ -106,10 +109,10 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
       const zero = cursor.offset
       const start = cursor.offset
 
-      const inner = new Array<Instance>()
+      const inner = new Array<Instance<any>>()
 
-      const heads = new Array<Instance>()
-      const tails = new Array<Instance>()
+      const heads = new Array<Instance<any>>()
+      const tails = new Array<Instance<any>>()
 
       const subcursor = new TextCursor(cursor.text)
 
@@ -132,7 +135,7 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new DynamicArray(inner as any as ReadOutputs<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
+      return new DynamicArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
     }
 
     trySize(): Result<number, never> {
@@ -156,10 +159,10 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
 
         const subcursor = new Cursor(cursor.bytes)
 
-        const inner = new Array<Instance>()
+        const inner = new Array<Instance<any>>()
 
-        const heads = new Array<Instance>()
-        const tails = new Array<Instance>()
+        const heads = new Array<Instance<any>>()
+        const tails = new Array<Instance<any>>()
 
         for (let i = 0; i < this.count; i++) {
           if (DynamicArray.inner.dynamic) {
@@ -180,17 +183,17 @@ export const createDynamicArray = <T extends Factory, N extends number>(inner: T
 
         cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-        return new Ok(new DynamicArray(inner as any as ReadOutputs<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero))
+        return new Ok(new DynamicArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero))
       })
     }
 
   }
 }
 
-export type DynamicArrayInstance<T extends Factory, N extends number> =
+export type DynamicArrayInstance<T extends Factory<any, any>, N extends number> =
   Readable.ReadOutput<DynamicArrayFactory<T, N>>
 
-export type DynamicArrayFactory<T extends Factory, N extends number> =
+export type DynamicArrayFactory<T extends Factory<any, any>, N extends number> =
   ReturnType<typeof createDynamicArray<T, N>> & { readonly name: string }
 
 export namespace DynamicArray {
@@ -198,11 +201,11 @@ export namespace DynamicArray {
 
   export const any = createDynamicArray(undefined as any, 0 as any)
 
-  export function isInstance<T extends Factory, N extends number>(x: Skeleton<DynamicArrayInstance<T, N>>): x is DynamicArrayInstance<T, N> {
+  export function isInstance<T extends Factory<any, any>, N extends number>(x: Skeleton<DynamicArrayInstance<T, N>>): x is DynamicArrayInstance<T, N> {
     return x.name === name && x.class != null
   }
 
-  export function isFactory<T extends Factory, N extends number>(x: Skeleton<DynamicArrayFactory<T, N>>): x is DynamicArrayFactory<T, N> {
+  export function isFactory<T extends Factory<any, any>, N extends number>(x: Skeleton<DynamicArrayFactory<T, N>>): x is DynamicArrayFactory<T, N> {
     return x.name === name && x.prototype != null
   }
 

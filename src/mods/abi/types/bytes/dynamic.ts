@@ -21,6 +21,10 @@ export class DynamicBytes<N extends number = number> {
     return new DynamicBytes(value, 32 + (Math.ceil(value.length / 32) * 32))
   }
 
+  into() {
+    return this.value
+  }
+
   static codegen() {
     return `Cubane.Abi.DynamicBytes`
   }
