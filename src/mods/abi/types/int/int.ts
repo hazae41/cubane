@@ -76,7 +76,7 @@ export class Int8 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int8(-(((~value) & mask) + BN_1))
@@ -192,7 +192,7 @@ export class Int16 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int16(-(((~value) & mask) + BN_1))
@@ -308,7 +308,7 @@ export class Int24 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int24(-(((~value) & mask) + BN_1))
@@ -424,7 +424,7 @@ export class Int32 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int32(-(((~value) & mask) + BN_1))
@@ -540,7 +540,7 @@ export class Int40 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int40(-(((~value) & mask) + BN_1))
@@ -656,7 +656,7 @@ export class Int48 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int48(-(((~value) & mask) + BN_1))
@@ -772,7 +772,7 @@ export class Int56 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int56(-(((~value) & mask) + BN_1))
@@ -888,7 +888,7 @@ export class Int64 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int64(-(((~value) & mask) + BN_1))
@@ -1004,7 +1004,7 @@ export class Int72 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int72(-(((~value) & mask) + BN_1))
@@ -1120,7 +1120,7 @@ export class Int80 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int80(-(((~value) & mask) + BN_1))
@@ -1236,7 +1236,7 @@ export class Int88 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int88(-(((~value) & mask) + BN_1))
@@ -1352,7 +1352,7 @@ export class Int96 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int96(-(((~value) & mask) + BN_1))
@@ -1468,7 +1468,7 @@ export class Int104 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int104(-(((~value) & mask) + BN_1))
@@ -1584,7 +1584,7 @@ export class Int112 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int112(-(((~value) & mask) + BN_1))
@@ -1700,7 +1700,7 @@ export class Int120 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int120(-(((~value) & mask) + BN_1))
@@ -1816,7 +1816,7 @@ export class Int128 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int128(-(((~value) & mask) + BN_1))
@@ -1932,7 +1932,7 @@ export class Int136 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int136(-(((~value) & mask) + BN_1))
@@ -2048,7 +2048,7 @@ export class Int144 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int144(-(((~value) & mask) + BN_1))
@@ -2164,7 +2164,7 @@ export class Int152 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int152(-(((~value) & mask) + BN_1))
@@ -2280,7 +2280,7 @@ export class Int160 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int160(-(((~value) & mask) + BN_1))
@@ -2396,7 +2396,7 @@ export class Int168 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int168(-(((~value) & mask) + BN_1))
@@ -2512,7 +2512,7 @@ export class Int176 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int176(-(((~value) & mask) + BN_1))
@@ -2628,7 +2628,7 @@ export class Int184 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int184(-(((~value) & mask) + BN_1))
@@ -2744,7 +2744,7 @@ export class Int192 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int192(-(((~value) & mask) + BN_1))
@@ -2860,7 +2860,7 @@ export class Int200 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int200(-(((~value) & mask) + BN_1))
@@ -2976,7 +2976,7 @@ export class Int208 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int208(-(((~value) & mask) + BN_1))
@@ -3092,7 +3092,7 @@ export class Int216 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int216(-(((~value) & mask) + BN_1))
@@ -3208,7 +3208,7 @@ export class Int224 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int224(-(((~value) & mask) + BN_1))
@@ -3324,7 +3324,7 @@ export class Int232 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int232(-(((~value) & mask) + BN_1))
@@ -3440,7 +3440,7 @@ export class Int240 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int240(-(((~value) & mask) + BN_1))
@@ -3556,7 +3556,7 @@ export class Int248 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int248(-(((~value) & mask) + BN_1))
@@ -3672,7 +3672,7 @@ export class Int256 {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.read(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int256(-(((~value) & mask) + BN_1))

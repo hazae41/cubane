@@ -67,7 +67,7 @@ function $createStaticBigUint$(bytes: number) {
       cursor.offset += 64 - Uint${bits}.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint${bits}.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint${bits}.nibbles))
 
       return new Uint${bits}(value)
     }

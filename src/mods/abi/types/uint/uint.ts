@@ -379,7 +379,7 @@ export class Uint40 {
       cursor.offset += 64 - Uint40.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint40.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint40.nibbles))
 
       return new Uint40(value)
     }
@@ -464,7 +464,7 @@ export class Uint48 {
       cursor.offset += 64 - Uint48.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint48.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint48.nibbles))
 
       return new Uint48(value)
     }
@@ -549,7 +549,7 @@ export class Uint56 {
       cursor.offset += 64 - Uint56.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint56.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint56.nibbles))
 
       return new Uint56(value)
     }
@@ -634,7 +634,7 @@ export class Uint64 {
       cursor.offset += 64 - Uint64.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint64.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint64.nibbles))
 
       return new Uint64(value)
     }
@@ -719,7 +719,7 @@ export class Uint72 {
       cursor.offset += 64 - Uint72.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint72.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint72.nibbles))
 
       return new Uint72(value)
     }
@@ -804,7 +804,7 @@ export class Uint80 {
       cursor.offset += 64 - Uint80.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint80.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint80.nibbles))
 
       return new Uint80(value)
     }
@@ -889,7 +889,7 @@ export class Uint88 {
       cursor.offset += 64 - Uint88.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint88.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint88.nibbles))
 
       return new Uint88(value)
     }
@@ -974,7 +974,7 @@ export class Uint96 {
       cursor.offset += 64 - Uint96.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint96.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint96.nibbles))
 
       return new Uint96(value)
     }
@@ -1059,7 +1059,7 @@ export class Uint104 {
       cursor.offset += 64 - Uint104.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint104.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint104.nibbles))
 
       return new Uint104(value)
     }
@@ -1144,7 +1144,7 @@ export class Uint112 {
       cursor.offset += 64 - Uint112.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint112.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint112.nibbles))
 
       return new Uint112(value)
     }
@@ -1229,7 +1229,7 @@ export class Uint120 {
       cursor.offset += 64 - Uint120.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint120.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint120.nibbles))
 
       return new Uint120(value)
     }
@@ -1314,7 +1314,7 @@ export class Uint128 {
       cursor.offset += 64 - Uint128.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint128.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint128.nibbles))
 
       return new Uint128(value)
     }
@@ -1399,7 +1399,7 @@ export class Uint136 {
       cursor.offset += 64 - Uint136.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint136.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint136.nibbles))
 
       return new Uint136(value)
     }
@@ -1484,7 +1484,7 @@ export class Uint144 {
       cursor.offset += 64 - Uint144.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint144.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint144.nibbles))
 
       return new Uint144(value)
     }
@@ -1569,7 +1569,7 @@ export class Uint152 {
       cursor.offset += 64 - Uint152.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint152.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint152.nibbles))
 
       return new Uint152(value)
     }
@@ -1654,7 +1654,7 @@ export class Uint160 {
       cursor.offset += 64 - Uint160.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint160.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint160.nibbles))
 
       return new Uint160(value)
     }
@@ -1739,7 +1739,7 @@ export class Uint168 {
       cursor.offset += 64 - Uint168.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint168.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint168.nibbles))
 
       return new Uint168(value)
     }
@@ -1824,7 +1824,7 @@ export class Uint176 {
       cursor.offset += 64 - Uint176.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint176.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint176.nibbles))
 
       return new Uint176(value)
     }
@@ -1909,7 +1909,7 @@ export class Uint184 {
       cursor.offset += 64 - Uint184.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint184.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint184.nibbles))
 
       return new Uint184(value)
     }
@@ -1994,7 +1994,7 @@ export class Uint192 {
       cursor.offset += 64 - Uint192.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint192.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint192.nibbles))
 
       return new Uint192(value)
     }
@@ -2079,7 +2079,7 @@ export class Uint200 {
       cursor.offset += 64 - Uint200.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint200.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint200.nibbles))
 
       return new Uint200(value)
     }
@@ -2164,7 +2164,7 @@ export class Uint208 {
       cursor.offset += 64 - Uint208.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint208.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint208.nibbles))
 
       return new Uint208(value)
     }
@@ -2249,7 +2249,7 @@ export class Uint216 {
       cursor.offset += 64 - Uint216.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint216.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint216.nibbles))
 
       return new Uint216(value)
     }
@@ -2334,7 +2334,7 @@ export class Uint224 {
       cursor.offset += 64 - Uint224.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint224.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint224.nibbles))
 
       return new Uint224(value)
     }
@@ -2419,7 +2419,7 @@ export class Uint232 {
       cursor.offset += 64 - Uint232.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint232.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint232.nibbles))
 
       return new Uint232(value)
     }
@@ -2504,7 +2504,7 @@ export class Uint240 {
       cursor.offset += 64 - Uint240.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint240.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint240.nibbles))
 
       return new Uint240(value)
     }
@@ -2589,7 +2589,7 @@ export class Uint248 {
       cursor.offset += 64 - Uint248.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint248.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint248.nibbles))
 
       return new Uint248(value)
     }
@@ -2674,7 +2674,7 @@ export class Uint256 {
       cursor.offset += 64 - Uint256.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInt("0x" + cursor.read(Uint256.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.read(Uint256.nibbles))
 
       return new Uint256(value)
     }

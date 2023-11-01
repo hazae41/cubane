@@ -4,12 +4,16 @@ import { Result } from "@hazae41/result";
 
 export namespace BigInts {
 
+  export function decodeRawHexSafe(rawHex: string): bigint {
+    return rawHex.length ? BigInt("0x" + rawHex) : 0n
+  }
+
   export function tryExport(value: bigint): Result<Copiable, Base16.DecodingError> {
     return Base16.get().tryPadStartAndDecode(value.toString(16))
   }
 
   export function tryImport(bytes: BytesOrCopiable): Result<bigint, Base16.EncodingError> {
-    return Base16.get().tryEncode(bytes).mapSync(x => BigInt("0x" + x))
+    return Base16.get().tryEncode(bytes).mapSync(decodeRawHexSafe)
   }
 
 }
