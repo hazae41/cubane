@@ -58,7 +58,7 @@ export function tryDecode<T>(decodable: Decodable<T>, hex: ZeroHexString): Resul
     const cursor = new TextCursor(hex.slice(2))
     const decoded = decodable.decodeOrThrow(cursor)
 
-    if (cursor.remaining)
+    if (cursor.remaining > 32)
       throw new Error(`Underflow`)
 
     return decoded
