@@ -57,7 +57,7 @@ export class DynamicBytes<N extends number = number> {
 
   static decodeOrThrow(cursor: TextCursor) {
     const length = Uint32.decodeOrThrow(cursor).value * 2
-    const value = Base16.get().tryPadStartAndDecode(cursor.read(length)).unwrap().copyAndDispose()
+    const value = Base16.get().tryPadStartAndDecode(cursor.readOrThrow(length)).unwrap().copyAndDispose()
     const size = 64 + (Math.ceil(length / 64) * 64)
 
     cursor.offset += size - 64 - length

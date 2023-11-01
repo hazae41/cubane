@@ -6,7 +6,13 @@ export class TextCursor {
     readonly text: string,
   ) { }
 
-  read(length: number) {
+  get remaining() {
+    return this.text.length - this.offset
+  }
+
+  readOrThrow(length: number) {
+    if (length > this.remaining)
+      throw new Error(`Overflow`)
     return this.text.slice(this.offset, this.offset += length)
   }
 

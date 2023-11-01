@@ -43,7 +43,7 @@ export class StaticBool {
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 62
 
-    if (cursor.read(2) === "00")
+    if (cursor.readOrThrow(2) === "00")
       return new StaticBool(false)
     return new StaticBool(true)
   }

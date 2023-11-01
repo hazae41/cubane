@@ -54,5 +54,13 @@ export interface Decodable<T> {
 }
 
 export function tryDecode<T>(decodable: Decodable<T>, hex: ZeroHexString): Result<T, Error> {
-  return Result.runAndDoubleWrapSync(() => decodable.decodeOrThrow(new TextCursor(hex.slice(2))))
+  return Result.runAndDoubleWrapSync(() => {
+    const cursor = new TextCursor(hex.slice(2))
+    const decoded = decodable.decodeOrThrow(cursor)
+
+    if (cursor.remaining)
+      throw new Error(`Underflow`)
+
+    return decoded
+  })
 }

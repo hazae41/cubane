@@ -45,7 +45,7 @@ export class StaticAddress {
     cursor.offset += 24
 
     // p42:ignore-next-statement
-    const value = "0x" + cursor.read(40)
+    const value = "0x" + cursor.readOrThrow(40)
 
     return new StaticAddress(value as ZeroHexString)
   }
