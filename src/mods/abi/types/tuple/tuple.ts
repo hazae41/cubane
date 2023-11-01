@@ -68,11 +68,11 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
     }
 
     static get dynamic() {
-      return true as const
+      return DynamicTuple.inner.some(it => it.dynamic)
     }
 
     get dynamic() {
-      return this.#class.dynamic
+      return this.inner.some(it => it.dynamic)
     }
 
     encodeOrThrow() {
