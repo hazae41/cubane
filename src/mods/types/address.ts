@@ -12,7 +12,7 @@ export type Address = StrictZeroHexString & { length: 42 } & { __isAddress: true
 
 export namespace Address {
 
-  export function from(addressable: string | number | bigint): Nullable<Address> {
+  export function from(addressable: string | number | bigint | Uint8Array): Nullable<Address> {
     const strictZeroHex = StrictZeroHexString.from(addressable)
 
     if (strictZeroHex == null)

@@ -1,3 +1,4 @@
+import { Base16 } from "@hazae41/base16"
 import { Nullable } from "@hazae41/option"
 
 /**
@@ -7,11 +8,13 @@ export type ZeroHexString = `0x${string}`
 
 export namespace ZeroHexString {
 
-  export function from(zeroHexable: string | number | bigint): ZeroHexString {
+  export function from(zeroHexable: string | number | bigint | Uint8Array): ZeroHexString {
     if (typeof zeroHexable === "number")
       return `0x${zeroHexable.toString(16)}`
     if (typeof zeroHexable === "bigint")
       return `0x${zeroHexable.toString(16)}`
+    if (zeroHexable instanceof Uint8Array)
+      return `0x${Base16.get().tryEncode(zeroHexable).unwrap()}`
 
     if (is(zeroHexable))
       return zeroHexable
@@ -32,11 +35,13 @@ export type StrictZeroHexString = ZeroHexString & { __isStrictZeroHexString: tru
 
 export namespace StrictZeroHexString {
 
-  export function from(strictZeroHexable: string | number | bigint): Nullable<StrictZeroHexString> {
+  export function from(strictZeroHexable: string | number | bigint | Uint8Array): Nullable<StrictZeroHexString> {
     if (typeof strictZeroHexable === "number")
       return `0x${strictZeroHexable.toString(16)}` as StrictZeroHexString
     if (typeof strictZeroHexable === "bigint")
       return `0x${strictZeroHexable.toString(16)}` as StrictZeroHexString
+    if (strictZeroHexable instanceof Uint8Array)
+      return `0x${Base16.get().tryEncode(strictZeroHexable).unwrap()}` as StrictZeroHexString
 
     if (is(strictZeroHexable))
       return strictZeroHexable
