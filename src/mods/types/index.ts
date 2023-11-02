@@ -1,2 +1,3 @@
-export * from "./address.js";
-export * from "./zerohex.js";
+export * from "./address/index.js";
+export * from "./zerohex/index.js";
+

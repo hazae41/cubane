@@ -3,7 +3,7 @@ import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "@hazae41/option";
 import { Err, Ok, Result } from "@hazae41/result";
-import { StrictZeroHexString } from "./zerohex.js";
+import { StrictZeroHexString } from "../zerohex/index.js";
 
 /**
  * A "0x"-prefixed and checksumed valid hex string of length 42
