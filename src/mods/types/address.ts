@@ -57,8 +57,8 @@ export namespace Address {
     const upperCase = rawHex.toUpperCase()
 
     const bytes = Bytes.fromUtf8(lowerCase)
-    using hashed = Keccak256.get().tryHash(bytes).unwrap()
-    const hashed2 = Base16.get().tryEncode(hashed.bytes).unwrap()
+    using hashed = Keccak256.get().hashOrThrow(bytes)
+    const hashed2 = Base16.get().encodeOrThrow(hashed.bytes)
 
     let address = "0x"
 

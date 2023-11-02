@@ -111,7 +111,7 @@ if (true) {
     nonce: 1,
   }).unsignedSerialized.slice(2)
 
-  const tx = Base16.get().tryPadStartAndDecode(txhex).unwrap().copyAndDispose()
+  const tx = Base16.get().padStartAndDecodeOrThrow(txhex).copyAndDispose()
 
   const rlp = Rlp.tryReadFromBytes(tx).unwrap() as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
@@ -127,8 +127,8 @@ if (true) {
 
   const benchCubaneBytes = benchSync("cubane", () => {
     const bytes = Writable.tryWriteToBytes(rlpStruct).unwrap()
-    const hex = Base16.get().tryEncode(bytes).unwrap()
-    // const bytes2 = Base16.get().tryPadStartAndDecode(hex).unwrap()
+    const hex = Base16.get().encodeOrThrow(bytes)
+    // const bytes2 = Base16.get().padStartAndDecodeOrThrow(hex)
     // const rlp2 = Rlp.tryRead(new Cursor(bytes2.bytes))
     // bytes2[Symbol.dispose]()
   }, options)
@@ -167,7 +167,7 @@ if (true) {
     nonce: 1,
   }).unsignedSerialized.slice(2)
 
-  const tx = Base16.get().tryPadStartAndDecode(txhex).unwrap().copyAndDispose()
+  const tx = Base16.get().padStartAndDecodeOrThrow(txhex).copyAndDispose()
 
   const rlp = Rlp.tryReadFromBytes(tx).unwrap() as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))

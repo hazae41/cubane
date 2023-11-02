@@ -67,7 +67,7 @@ function $createStaticBigUint$(bytes: number) {
       cursor.offset += 64 - Uint${bits}.nibbles
 
       // p42:ignore-next-statement
-      const value = BigInts.decodeRawHexSafe(cursor.read(Uint${bits}.nibbles))
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint${bits}.nibbles))
 
       return new Uint${bits}(value)
     }
@@ -155,7 +155,7 @@ function $createStaticUint$(bytes: number) {
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - 8
 
-    const value = parseInt(cursor.read(8), 16)
+    const value = parseInt(cursor.readOrThrow(8), 16)
 
     return new Uint${bits}(value)
   }

@@ -50,15 +50,15 @@ export class FunctionSelector {
   }
 
   encodeOrThrow() {
-    return Base16.get().tryEncode(this.value).unwrap()
+    return Base16.get().encodeOrThrow(this.value)
   }
 
   encodePackedOrThrow() {
-    return Base16.get().tryEncode(this.value).unwrap()
+    return Base16.get().encodeOrThrow(this.value)
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const unsized = Base16.get().tryPadStartAndDecode(cursor.readOrThrow(8)).unwrap().copyAndDispose()
+    const unsized = Base16.get().padStartAndDecodeOrThrow(cursor.readOrThrow(8)).copyAndDispose()
     const sized = Bytes.tryCast(unsized, 4).unwrap()
 
     return new FunctionSelector(sized)

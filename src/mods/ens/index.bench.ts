@@ -13,7 +13,7 @@ Keccak256.set(await Keccak256.fromMorax())
 if (false) {
   function namehash(name: string) {
     const namehash = tryNamehash(name).unwrap()
-    return "0x" + Base16.get().tryEncode(namehash).unwrap()
+    return "0x" + Base16.get().encodeOrThrow(namehash)
   }
 
   const selfResult = benchSync("cubane", () => {

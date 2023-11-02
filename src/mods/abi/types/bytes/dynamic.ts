@@ -43,21 +43,21 @@ export class DynamicBytes<N extends number = number> {
 
   encodeOrThrow() {
     const length = this.value.length.toString(16).padStart(64, "0")
-    const value = Base16.get().tryEncode(this.value).unwrap().padEnd(this.size, "0")
+    const value = Base16.get().encodeOrThrow(this.value).padEnd(this.size, "0")
 
     return length + value
   }
 
   encodePackedOrThrow() {
     const length = this.value.length.toString(16)
-    const value = Base16.get().tryEncode(this.value).unwrap()
+    const value = Base16.get().encodeOrThrow(this.value)
 
     return length + value
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     const length = Uint32.decodeOrThrow(cursor).value * 2
-    const value = Base16.get().tryPadStartAndDecode(cursor.readOrThrow(length)).unwrap().copyAndDispose()
+    const value = Base16.get().padEndAndDecodeOrThrow(cursor.readOrThrow(length)).copyAndDispose()
     const size = 64 + (Math.ceil(length / 64) * 64)
 
     cursor.offset += size - 64 - length

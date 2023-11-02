@@ -83,7 +83,7 @@ function $createStaticBigInt$(bytes: number) {
       const mask = (BN_1 << this.bitsn) - BN_1
 
       // p42:ignore-next-statement
-      const value = BigInts.decodeRawHexSafe(cursor.read(64))
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(64))
 
       if ((value & mask) >> (this.bitsn - BN_1))
         return new Int${bits}(-(((~value) & mask) + BN_1))

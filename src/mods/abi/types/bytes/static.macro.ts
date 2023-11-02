@@ -65,9 +65,9 @@ function $createStaticBytes$(bytes: number) {
     }
 
     static decodeOrThrow(cursor: TextCursor) {
-      const text = cursor.read(Bytes${bytes}.nibbles)
+      const text = cursor.readOrThrow(Bytes${bytes}.nibbles)
 
-      const unsized = Base16.get().tryPadStartAndDecode(text).unwrap().copyAndDispose()
+      const unsized = Base16.get().padStartAndDecodeOrThrow(text).copyAndDispose()
       const sized = Bytes.tryCast(unsized, Bytes${bytes}.bytes).unwrap()
 
       cursor.offset += 64 - Bytes${bytes}.nibbles

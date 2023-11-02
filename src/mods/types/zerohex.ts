@@ -14,7 +14,7 @@ export namespace ZeroHexString {
     if (typeof zeroHexable === "bigint")
       return `0x${zeroHexable.toString(16)}`
     if (zeroHexable instanceof Uint8Array)
-      return `0x${Base16.get().tryEncode(zeroHexable).unwrap()}`
+      return `0x${Base16.get().encodeOrThrow(zeroHexable)}`
 
     if (is(zeroHexable))
       return zeroHexable
@@ -41,7 +41,7 @@ export namespace StrictZeroHexString {
     if (typeof strictZeroHexable === "bigint")
       return `0x${strictZeroHexable.toString(16)}` as StrictZeroHexString
     if (strictZeroHexable instanceof Uint8Array)
-      return `0x${Base16.get().tryEncode(strictZeroHexable).unwrap()}` as StrictZeroHexString
+      return `0x${Base16.get().encodeOrThrow(strictZeroHexable)}` as StrictZeroHexString
 
     if (is(strictZeroHexable))
       return strictZeroHexable

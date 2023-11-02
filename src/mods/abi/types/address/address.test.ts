@@ -13,7 +13,7 @@ test("address", async ({ message, test }) => {
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   console.log(message, value)
-  console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  console.log(message, Base16.get().encodeOrThrow(bytes))
 
   const abi2 = Readable.tryReadFromBytes(StaticAddress, bytes).unwrap()
   const value2 = abi2.value
