@@ -1,3 +1,4 @@
+import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "@hazae41/option";
@@ -10,6 +11,27 @@ import { StrictZeroHexString } from "../zerohex/index.js";
 export type Address = StrictZeroHexString & { length: 42 } & { __isAddress: true }
 
 export namespace Address {
+
+  /**
+   * Format address as "0xXXXX...XXXX" for UI display
+   * @param address 
+   * @returns 
+   */
+  export function format(address: Address) {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`
+  }
+
+  /**
+   * Compute address from uncompressed public key
+   * @param uncompressedPublicKey 
+   * @returns 
+   */
+  export function compute(uncompressedPublicKey: Uint8Array) {
+    using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.slice(1))
+    const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
+
+    return checksum2(rawLowerCase as any)
+  }
 
   export function from(addressable: string | number | bigint | Uint8Array): Nullable<Address> {
     const strictZeroHex = StrictZeroHexString.from(addressable)
@@ -49,9 +71,7 @@ export namespace Address {
     return maybeAddress === checksum(maybeAddress)
   }
 
-  export function checksum(strictZeroHex: StrictZeroHexString & { length: 42 }): Address {
-    const rawHex = strictZeroHex.slice(2)
-
+  function checksum2(rawHex: string & { length: 40 }) {
     const lowerCase = rawHex.toLowerCase()
     const upperCase = rawHex.toUpperCase()
 
@@ -73,6 +93,10 @@ export namespace Address {
     }
 
     return address as Address
+  }
+
+  export function checksum(strictZeroHex: StrictZeroHexString & { length: 42 }): Address {
+    return checksum2(strictZeroHex.slice(2) as any)
   }
 
   export namespace String {
