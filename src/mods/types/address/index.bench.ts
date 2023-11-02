@@ -11,19 +11,20 @@ Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
 if (true) {
-  const address = "0x8C8D7C46219D9205f056f28fee5950aD564d7465"
+  const address = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+  const options = { samples: 10_000, warmup: true }
 
   const selfResult = benchSync("cubane", () => {
     Address.from(address)
-  }, { samples: 10000, warmup: true })
+  }, options)
 
   const viemResult = benchSync("viem", () => {
     viem.getAddress(address)
-  }, { samples: 10000, warmup: true })
+  }, options)
 
-  const ensResult = benchSync("ens", () => {
+  const ensResult = benchSync("ethers", () => {
     ethers.getAddress(address)
-  }, { samples: 10000, warmup: true })
+  }, options)
 
   selfResult.tableAndSummary(viemResult, ensResult)
 }
