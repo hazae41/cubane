@@ -50,7 +50,7 @@ export const config = [
       sourcemap: true,
       entryFileNames: "[name].mjs"
     }],
-    plugins: [externals({ devDeps: true }), ts()],
+    plugins: [commonjs(), json(), resolve({ preferBuiltins: true }), ts()],
   },
   {
     input: "./src/index.bench.ts",

@@ -2,7 +2,7 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { ZeroHexString } from "mods/types/hex.js";
+import { ZeroHexString } from "mods/types/zerohex.js";
 
 export class StaticAddress {
   readonly #class = StaticAddress

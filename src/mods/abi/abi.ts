@@ -1,7 +1,7 @@
 import { Readable, Writable } from "@hazae41/binary";
 import { Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { ZeroHexString } from "mods/types/hex.js";
+import { ZeroHexString } from "mods/types/zerohex.js";
 
 export interface Instance<P> extends Writable<never, Error> {
   readonly dynamic?: boolean

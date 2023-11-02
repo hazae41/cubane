@@ -19,7 +19,7 @@
   "scripts": {
     "macro": "saumon build -r ./src",
     "build": "rimraf dist && rollup -c",
-    "test": "node ./dist/test/index.test.mjs",
+    "test": "node ./dist/test/src/index.test.mjs",
     "bench": "node ./dist/bench/index.bench.mjs",
     "prepare": "npm run build"
   },
@@ -30,6 +30,7 @@
     "@hazae41/bytes": "^1.2.3",
     "@hazae41/cursor": "^1.1.26",
     "@hazae41/keccak256": "^1.0.5",
+    "@hazae41/option": "^1.0.26",
     "@hazae41/result": "^1.1.8",
     "idna-uts46-hx": "^5.1.1"
   },

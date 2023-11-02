@@ -1,1 +1,2 @@
-export * from "./hex.js";
+export * from "./address.js";
+export * from "./zerohex.js";
