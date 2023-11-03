@@ -75,8 +75,17 @@ function $createStaticBytes$(bytes: number) {
       return new Bytes${bytes}(sized)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      cursor.writeOrThrow(this.value)
+      cursor.fillOrThrow(0, 32 - this.value.length)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
@@ -86,6 +95,12 @@ function $createStaticBytes$(bytes: number) {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      const bytes = cursor.readOrThrow(Bytes${bytes}.bytes)
+      cursor.offset += 32 - Bytes${bytes}.bytes
+      return new Bytes${bytes}(bytes)
     }
 
     static tryRead(cursor: Cursor): Result<Bytes${bytes}, BinaryReadError> {

@@ -90,8 +90,30 @@ function $createStaticBigInt$(bytes: number) {
       return new Int${bits}(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -114,6 +136,19 @@ function $createStaticBigInt$(bytes: number) {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int${bits}.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int${bits}.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int${bits}(-(((~value) & mask) + BN_1))
+      return new Int${bits}(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int${bits}, BinaryReadError | Base16.AnyError> {

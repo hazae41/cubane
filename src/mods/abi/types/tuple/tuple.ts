@@ -130,8 +130,19 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
       return new DynamicTuple(inner as Factory.Instances<T>, heads, tails, (cursor.offset - zero) / 2)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<number, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      for (const instance of this.heads)
+        instance.writeOrThrow(cursor)
+      for (const instance of this.tails)
+        instance.writeOrThrow(cursor)
     }
 
     tryWrite(cursor: Cursor): Result<void, Error> {
@@ -142,6 +153,39 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
           instance.tryWrite(cursor).throw(t)
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      const zero = cursor.offset
+      const start = cursor.offset
+
+      const inner = new Array<Instance<any>>()
+
+      const heads = new Array<Instance<any>>()
+      const tails = new Array<Instance<any>>()
+
+      const subcursor = new Cursor(cursor.bytes)
+
+      for (const factory of DynamicTuple.inner) {
+        if (factory.dynamic) {
+          const pointer = Uint32.readOrThrow(cursor)
+          heads.push(pointer)
+
+          subcursor.offset = start + pointer.value
+          const instance = factory.readOrThrow(subcursor)
+
+          inner.push(instance)
+          tails.push(instance)
+        } else {
+          const instance = factory.readOrThrow(cursor)
+          inner.push(instance)
+          heads.push(instance)
+        }
+      }
+
+      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+
+      return new DynamicTuple(inner as Factory.Instances<T>, heads, tails, cursor.offset - zero)
     }
 
     static tryRead(cursor: Cursor): Result<DynamicTuple, Error> {

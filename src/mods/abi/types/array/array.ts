@@ -138,8 +138,19 @@ export const createDynamicArray = <T extends Factory<any, any>, N extends number
       return new DynamicArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<number, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      for (const instance of this.heads)
+        instance.writeOrThrow(cursor)
+      for (const instance of this.tails)
+        instance.writeOrThrow(cursor)
     }
 
     tryWrite(cursor: Cursor): Result<void, Error> {
@@ -150,6 +161,39 @@ export const createDynamicArray = <T extends Factory<any, any>, N extends number
           instance.tryWrite(cursor).throw(t)
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      const zero = cursor.offset
+      const start = cursor.offset
+
+      const subcursor = new Cursor(cursor.bytes)
+
+      const inner = new Array<Instance<any>>()
+
+      const heads = new Array<Instance<any>>()
+      const tails = new Array<Instance<any>>()
+
+      for (let i = 0; i < this.count; i++) {
+        if (DynamicArray.inner.dynamic) {
+          const pointer = Uint32.readOrThrow(cursor)
+          heads.push(pointer)
+
+          subcursor.offset = start + pointer.value
+          const instance = DynamicArray.inner.readOrThrow(subcursor)
+
+          inner.push(instance)
+          tails.push(instance)
+        } else {
+          const instance = DynamicArray.inner.readOrThrow(cursor)
+          inner.push(instance)
+          heads.push(instance)
+        }
+      }
+
+      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+
+      return new DynamicArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero)
     }
 
     static tryRead(cursor: Cursor): Result<DynamicArray, Error> {

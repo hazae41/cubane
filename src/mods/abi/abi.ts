@@ -1,4 +1,5 @@
 import { Readable, Writable } from "@hazae41/binary";
+import { Cursor } from "@hazae41/cursor";
 import { Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
@@ -11,8 +12,9 @@ export interface Instance<P> extends Writable<never, Error> {
   into(): P
 
   encodeOrThrow(): string
-
   encodePackedOrThrow(): string
+  sizeOrThrow(): number
+  writeOrThrow(cursor: Cursor): void
 }
 
 export interface Factory<P, I extends Instance<P>> extends Readable<I, Error> {
@@ -23,6 +25,7 @@ export interface Factory<P, I extends Instance<P>> extends Readable<I, Error> {
   codegen(): string
 
   decodeOrThrow(cursor: TextCursor): Instance<P>
+  readOrThrow(cursor: Cursor): Instance<P>
 }
 
 export namespace Factory {

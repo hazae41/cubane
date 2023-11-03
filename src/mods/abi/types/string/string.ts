@@ -61,12 +61,33 @@ export class DynamicString {
     return new DynamicString(value, inner)
   }
 
+  sizeOrThrow() {
+    return this.inner.sizeOrThrow()
+  }
+
   trySize(): Result<number, never> {
     return this.inner.trySize()
   }
 
+  writeOrThrow(cursor: Cursor) {
+    this.inner.writeOrThrow(cursor)
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return this.inner.tryWrite(cursor)
+  }
+
+  static readOrThrow(cursor: Cursor): DynamicString {
+    const length = Uint32.readOrThrow(cursor)
+    const bytes = cursor.getOrThrow(length.value)
+    const value = cursor.readUtf8OrThrow(length.value)
+    const size = 32 + (Math.ceil(length.value / 32) * 32)
+
+    cursor.offset += size - 32 - length.value
+
+    const inner = new DynamicBytes(bytes, size)
+
+    return new DynamicString(value, inner)
   }
 
   /**

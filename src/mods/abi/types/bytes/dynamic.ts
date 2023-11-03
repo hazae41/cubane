@@ -65,8 +65,20 @@ export class DynamicBytes<N extends number = number> {
     return new DynamicBytes(value, size / 2)
   }
 
+  sizeOrThrow() {
+    return this.size
+  }
+
   trySize(): Result<number, never> {
     return new Ok(this.size)
+  }
+
+  writeOrThrow(cursor: Cursor) {
+    const length = Uint32.new(this.value.length)
+
+    length.writeOrThrow(cursor)
+    cursor.writeOrThrow(this.value)
+    cursor.fillOrThrow(0, this.size - 32 - this.value.length)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
@@ -79,6 +91,16 @@ export class DynamicBytes<N extends number = number> {
 
       return Ok.void()
     })
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    const length = Uint32.readOrThrow(cursor)
+    const bytes = cursor.readOrThrow(length.value)
+    const size = 32 + (Math.ceil(bytes.length / 32) * 32)
+
+    cursor.offset += size - 32 - bytes.length
+
+    return new DynamicBytes(bytes, size)
   }
 
   static tryRead(cursor: Cursor): Result<DynamicBytes<number>, BinaryReadError> {

@@ -48,8 +48,19 @@ export class StaticBool {
     return new StaticBool(true)
   }
 
+  sizeOrThrow() {
+    return this.size
+  }
+
   trySize(): Result<32, never> {
     return new Ok(this.size)
+  }
+
+  writeOrThrow(cursor: Cursor) {
+    cursor.fillOrThrow(0, 31)
+
+    const byte = this.value ? 1 : 0
+    cursor.writeUint8OrThrow(byte)
   }
 
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
@@ -61,6 +72,16 @@ export class StaticBool {
 
       return Ok.void()
     })
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 31
+
+    const byte = cursor.readUint8OrThrow()
+
+    if (byte === 0)
+      return new StaticBool(false)
+    return new StaticBool(true)
   }
 
   static tryRead(cursor: Cursor): Result<StaticBool, BinaryReadError> {

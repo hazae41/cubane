@@ -72,8 +72,19 @@ function $createStaticBigUint$(bytes: number) {
       return new Uint${bits}(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -85,6 +96,15 @@ function $createStaticBigUint$(bytes: number) {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint${bits}.bytes
+
+      const bytes = cursor.readOrThrow(Uint${bits}.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint${bits}(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint${bits}, BinaryReadError | Base16.AnyError> {
@@ -160,17 +180,34 @@ function $createStaticUint$(bytes: number) {
     return new Uint${bits}(value)
   }
 
+  sizeOrThrow() {
+    return this.size
+  }
+
   trySize(): Result<32, never> {
     return new Ok(this.size)
   }
 
+  writeOrThrow(cursor: Cursor) {
+    cursor.fillOrThrow(0, 32 - 4)
+    cursor.writeUint32OrThrow(this.value)
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.fill(0, 32 - 4)
+      cursor.tryFill(0, 32 - 4).throw(t)
       cursor.tryWriteUint32(this.value).throw(t)
 
       return Ok.void()
     })
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 32 - 4
+
+    const value = cursor.readUint32OrThrow()
+
+    return new Uint${bits}(value)
   }
 
   static tryRead(cursor: Cursor): Result<Uint${bits}, BinaryReadError> {

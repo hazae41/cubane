@@ -71,6 +71,10 @@ export namespace Address {
     return maybeAddress === checksum(maybeAddress)
   }
 
+  export function checksum(strictZeroHex: StrictZeroHexString & { length: 42 }): Address {
+    return checksum2(strictZeroHex.slice(2) as any)
+  }
+
   function checksum2(rawHex: string & { length: 40 }) {
     const lowerCase = rawHex.toLowerCase()
     const upperCase = rawHex.toUpperCase()
@@ -93,10 +97,6 @@ export namespace Address {
     }
 
     return address as Address
-  }
-
-  export function checksum(strictZeroHex: StrictZeroHexString & { length: 42 }): Address {
-    return checksum2(strictZeroHex.slice(2) as any)
   }
 
   export namespace String {

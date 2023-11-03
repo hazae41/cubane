@@ -136,8 +136,23 @@ export const createDynamicVector = <T extends Factory<any, any>>(inner: T) => {
       return new DynamicVector(inner as any as Factory.Instances<T[]>, heads, tails, (cursor.offset - zero) / 2)
     }
 
+    sizeOrThrow() {
+      return 32 + this.size
+    }
+
     trySize(): Result<number, never> {
       return new Ok(32 + this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      const length = Uint32.new(this.inner.length)
+
+      length.writeOrThrow(cursor)
+
+      for (const instance of this.heads)
+        instance.writeOrThrow(cursor)
+      for (const instance of this.tails)
+        instance.writeOrThrow(cursor)
     }
 
     tryWrite(cursor: Cursor): Result<void, Error> {
@@ -152,6 +167,42 @@ export const createDynamicVector = <T extends Factory<any, any>>(inner: T) => {
           instance.tryWrite(cursor).throw(t)
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      const zero = cursor.offset
+
+      const length = Uint32.readOrThrow(cursor)
+
+      const start = cursor.offset
+
+      const subcursor = new Cursor(cursor.bytes)
+
+      const inner = new Array<Instance<any>>()
+
+      const heads = new Array<Instance<any>>()
+      const tails = new Array<Instance<any>>()
+
+      for (let i = 0; i < length.value; i++) {
+        if (DynamicVector.inner.dynamic) {
+          const pointer = Uint32.readOrThrow(cursor)
+          heads.push(pointer)
+
+          subcursor.offset = start + pointer.value
+          const instance = DynamicVector.inner.readOrThrow(subcursor)
+
+          inner.push(instance)
+          tails.push(instance)
+        } else {
+          const instance = DynamicVector.inner.readOrThrow(cursor)
+          inner.push(instance)
+          heads.push(instance)
+        }
+      }
+
+      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+
+      return new DynamicVector(inner as any as Factory.Instances<T[]>, heads, tails, cursor.offset - zero)
     }
 
     static tryRead(cursor: Cursor): Result<DynamicVector, Error> {

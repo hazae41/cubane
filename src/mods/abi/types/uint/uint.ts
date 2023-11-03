@@ -62,17 +62,34 @@ export class Uint8 {
     return new Uint8(value)
   }
 
+  sizeOrThrow() {
+    return this.size
+  }
+
   trySize(): Result<32, never> {
     return new Ok(this.size)
   }
 
+  writeOrThrow(cursor: Cursor) {
+    cursor.fillOrThrow(0, 32 - 4)
+    cursor.writeUint32OrThrow(this.value)
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.fill(0, 32 - 4)
+      cursor.tryFill(0, 32 - 4).throw(t)
       cursor.tryWriteUint32(this.value).throw(t)
 
       return Ok.void()
     })
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 32 - 4
+
+    const value = cursor.readUint32OrThrow()
+
+    return new Uint8(value)
   }
 
   static tryRead(cursor: Cursor): Result<Uint8, BinaryReadError> {
@@ -142,17 +159,34 @@ export class Uint16 {
     return new Uint16(value)
   }
 
+  sizeOrThrow() {
+    return this.size
+  }
+
   trySize(): Result<32, never> {
     return new Ok(this.size)
   }
 
+  writeOrThrow(cursor: Cursor) {
+    cursor.fillOrThrow(0, 32 - 4)
+    cursor.writeUint32OrThrow(this.value)
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.fill(0, 32 - 4)
+      cursor.tryFill(0, 32 - 4).throw(t)
       cursor.tryWriteUint32(this.value).throw(t)
 
       return Ok.void()
     })
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 32 - 4
+
+    const value = cursor.readUint32OrThrow()
+
+    return new Uint16(value)
   }
 
   static tryRead(cursor: Cursor): Result<Uint16, BinaryReadError> {
@@ -222,17 +256,34 @@ export class Uint24 {
     return new Uint24(value)
   }
 
+  sizeOrThrow() {
+    return this.size
+  }
+
   trySize(): Result<32, never> {
     return new Ok(this.size)
   }
 
+  writeOrThrow(cursor: Cursor) {
+    cursor.fillOrThrow(0, 32 - 4)
+    cursor.writeUint32OrThrow(this.value)
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.fill(0, 32 - 4)
+      cursor.tryFill(0, 32 - 4).throw(t)
       cursor.tryWriteUint32(this.value).throw(t)
 
       return Ok.void()
     })
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 32 - 4
+
+    const value = cursor.readUint32OrThrow()
+
+    return new Uint24(value)
   }
 
   static tryRead(cursor: Cursor): Result<Uint24, BinaryReadError> {
@@ -302,17 +353,34 @@ export class Uint32 {
     return new Uint32(value)
   }
 
+  sizeOrThrow() {
+    return this.size
+  }
+
   trySize(): Result<32, never> {
     return new Ok(this.size)
   }
 
+  writeOrThrow(cursor: Cursor) {
+    cursor.fillOrThrow(0, 32 - 4)
+    cursor.writeUint32OrThrow(this.value)
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return Result.unthrowSync(t => {
-      cursor.fill(0, 32 - 4)
+      cursor.tryFill(0, 32 - 4).throw(t)
       cursor.tryWriteUint32(this.value).throw(t)
 
       return Ok.void()
     })
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 32 - 4
+
+    const value = cursor.readUint32OrThrow()
+
+    return new Uint32(value)
   }
 
   static tryRead(cursor: Cursor): Result<Uint32, BinaryReadError> {
@@ -384,8 +452,19 @@ export class Uint40 {
       return new Uint40(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -397,6 +476,15 @@ export class Uint40 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint40.bytes
+
+      const bytes = cursor.readOrThrow(Uint40.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint40(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint40, BinaryReadError | Base16.AnyError> {
@@ -469,8 +557,19 @@ export class Uint48 {
       return new Uint48(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -482,6 +581,15 @@ export class Uint48 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint48.bytes
+
+      const bytes = cursor.readOrThrow(Uint48.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint48(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint48, BinaryReadError | Base16.AnyError> {
@@ -554,8 +662,19 @@ export class Uint56 {
       return new Uint56(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -567,6 +686,15 @@ export class Uint56 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint56.bytes
+
+      const bytes = cursor.readOrThrow(Uint56.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint56(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint56, BinaryReadError | Base16.AnyError> {
@@ -639,8 +767,19 @@ export class Uint64 {
       return new Uint64(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -652,6 +791,15 @@ export class Uint64 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint64.bytes
+
+      const bytes = cursor.readOrThrow(Uint64.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint64(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint64, BinaryReadError | Base16.AnyError> {
@@ -724,8 +872,19 @@ export class Uint72 {
       return new Uint72(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -737,6 +896,15 @@ export class Uint72 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint72.bytes
+
+      const bytes = cursor.readOrThrow(Uint72.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint72(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint72, BinaryReadError | Base16.AnyError> {
@@ -809,8 +977,19 @@ export class Uint80 {
       return new Uint80(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -822,6 +1001,15 @@ export class Uint80 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint80.bytes
+
+      const bytes = cursor.readOrThrow(Uint80.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint80(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint80, BinaryReadError | Base16.AnyError> {
@@ -894,8 +1082,19 @@ export class Uint88 {
       return new Uint88(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -907,6 +1106,15 @@ export class Uint88 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint88.bytes
+
+      const bytes = cursor.readOrThrow(Uint88.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint88(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint88, BinaryReadError | Base16.AnyError> {
@@ -979,8 +1187,19 @@ export class Uint96 {
       return new Uint96(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -992,6 +1211,15 @@ export class Uint96 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint96.bytes
+
+      const bytes = cursor.readOrThrow(Uint96.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint96(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint96, BinaryReadError | Base16.AnyError> {
@@ -1064,8 +1292,19 @@ export class Uint104 {
       return new Uint104(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1077,6 +1316,15 @@ export class Uint104 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint104.bytes
+
+      const bytes = cursor.readOrThrow(Uint104.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint104(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint104, BinaryReadError | Base16.AnyError> {
@@ -1149,8 +1397,19 @@ export class Uint112 {
       return new Uint112(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1162,6 +1421,15 @@ export class Uint112 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint112.bytes
+
+      const bytes = cursor.readOrThrow(Uint112.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint112(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint112, BinaryReadError | Base16.AnyError> {
@@ -1234,8 +1502,19 @@ export class Uint120 {
       return new Uint120(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1247,6 +1526,15 @@ export class Uint120 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint120.bytes
+
+      const bytes = cursor.readOrThrow(Uint120.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint120(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint120, BinaryReadError | Base16.AnyError> {
@@ -1319,8 +1607,19 @@ export class Uint128 {
       return new Uint128(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1332,6 +1631,15 @@ export class Uint128 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint128.bytes
+
+      const bytes = cursor.readOrThrow(Uint128.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint128(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint128, BinaryReadError | Base16.AnyError> {
@@ -1404,8 +1712,19 @@ export class Uint136 {
       return new Uint136(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1417,6 +1736,15 @@ export class Uint136 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint136.bytes
+
+      const bytes = cursor.readOrThrow(Uint136.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint136(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint136, BinaryReadError | Base16.AnyError> {
@@ -1489,8 +1817,19 @@ export class Uint144 {
       return new Uint144(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1502,6 +1841,15 @@ export class Uint144 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint144.bytes
+
+      const bytes = cursor.readOrThrow(Uint144.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint144(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint144, BinaryReadError | Base16.AnyError> {
@@ -1574,8 +1922,19 @@ export class Uint152 {
       return new Uint152(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1587,6 +1946,15 @@ export class Uint152 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint152.bytes
+
+      const bytes = cursor.readOrThrow(Uint152.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint152(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint152, BinaryReadError | Base16.AnyError> {
@@ -1659,8 +2027,19 @@ export class Uint160 {
       return new Uint160(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1672,6 +2051,15 @@ export class Uint160 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint160.bytes
+
+      const bytes = cursor.readOrThrow(Uint160.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint160(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint160, BinaryReadError | Base16.AnyError> {
@@ -1744,8 +2132,19 @@ export class Uint168 {
       return new Uint168(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1757,6 +2156,15 @@ export class Uint168 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint168.bytes
+
+      const bytes = cursor.readOrThrow(Uint168.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint168(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint168, BinaryReadError | Base16.AnyError> {
@@ -1829,8 +2237,19 @@ export class Uint176 {
       return new Uint176(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1842,6 +2261,15 @@ export class Uint176 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint176.bytes
+
+      const bytes = cursor.readOrThrow(Uint176.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint176(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint176, BinaryReadError | Base16.AnyError> {
@@ -1914,8 +2342,19 @@ export class Uint184 {
       return new Uint184(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1927,6 +2366,15 @@ export class Uint184 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint184.bytes
+
+      const bytes = cursor.readOrThrow(Uint184.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint184(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint184, BinaryReadError | Base16.AnyError> {
@@ -1999,8 +2447,19 @@ export class Uint192 {
       return new Uint192(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2012,6 +2471,15 @@ export class Uint192 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint192.bytes
+
+      const bytes = cursor.readOrThrow(Uint192.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint192(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint192, BinaryReadError | Base16.AnyError> {
@@ -2084,8 +2552,19 @@ export class Uint200 {
       return new Uint200(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2097,6 +2576,15 @@ export class Uint200 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint200.bytes
+
+      const bytes = cursor.readOrThrow(Uint200.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint200(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint200, BinaryReadError | Base16.AnyError> {
@@ -2169,8 +2657,19 @@ export class Uint208 {
       return new Uint208(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2182,6 +2681,15 @@ export class Uint208 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint208.bytes
+
+      const bytes = cursor.readOrThrow(Uint208.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint208(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint208, BinaryReadError | Base16.AnyError> {
@@ -2254,8 +2762,19 @@ export class Uint216 {
       return new Uint216(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2267,6 +2786,15 @@ export class Uint216 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint216.bytes
+
+      const bytes = cursor.readOrThrow(Uint216.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint216(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint216, BinaryReadError | Base16.AnyError> {
@@ -2339,8 +2867,19 @@ export class Uint224 {
       return new Uint224(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2352,6 +2891,15 @@ export class Uint224 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint224.bytes
+
+      const bytes = cursor.readOrThrow(Uint224.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint224(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint224, BinaryReadError | Base16.AnyError> {
@@ -2424,8 +2972,19 @@ export class Uint232 {
       return new Uint232(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2437,6 +2996,15 @@ export class Uint232 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint232.bytes
+
+      const bytes = cursor.readOrThrow(Uint232.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint232(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint232, BinaryReadError | Base16.AnyError> {
@@ -2509,8 +3077,19 @@ export class Uint240 {
       return new Uint240(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2522,6 +3101,15 @@ export class Uint240 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint240.bytes
+
+      const bytes = cursor.readOrThrow(Uint240.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint240(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint240, BinaryReadError | Base16.AnyError> {
@@ -2594,8 +3182,19 @@ export class Uint248 {
       return new Uint248(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2607,6 +3206,15 @@ export class Uint248 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint248.bytes
+
+      const bytes = cursor.readOrThrow(Uint248.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint248(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint248, BinaryReadError | Base16.AnyError> {
@@ -2679,8 +3287,19 @@ export class Uint256 {
       return new Uint256(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2692,6 +3311,15 @@ export class Uint256 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint256.bytes
+
+      const bytes = cursor.readOrThrow(Uint256.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint256(value)
     }
 
     static tryRead(cursor: Cursor): Result<Uint256, BinaryReadError | Base16.AnyError> {

@@ -5,4 +5,3 @@ export * from "./function/function.test.js";
 export * from "./int/int.test.js";
 export * from "./string/string.test.js";
 export * from "./uint/uint.test.js";
-

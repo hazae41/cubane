@@ -83,8 +83,30 @@ export class Int8 {
       return new Int8(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -107,6 +129,19 @@ export class Int8 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int8.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int8.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int8(-(((~value) & mask) + BN_1))
+      return new Int8(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int8, BinaryReadError | Base16.AnyError> {
@@ -199,8 +234,30 @@ export class Int16 {
       return new Int16(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -223,6 +280,19 @@ export class Int16 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int16.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int16.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int16(-(((~value) & mask) + BN_1))
+      return new Int16(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int16, BinaryReadError | Base16.AnyError> {
@@ -315,8 +385,30 @@ export class Int24 {
       return new Int24(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -339,6 +431,19 @@ export class Int24 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int24.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int24.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int24(-(((~value) & mask) + BN_1))
+      return new Int24(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int24, BinaryReadError | Base16.AnyError> {
@@ -431,8 +536,30 @@ export class Int32 {
       return new Int32(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -455,6 +582,19 @@ export class Int32 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int32.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int32.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int32(-(((~value) & mask) + BN_1))
+      return new Int32(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int32, BinaryReadError | Base16.AnyError> {
@@ -547,8 +687,30 @@ export class Int40 {
       return new Int40(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -571,6 +733,19 @@ export class Int40 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int40.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int40.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int40(-(((~value) & mask) + BN_1))
+      return new Int40(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int40, BinaryReadError | Base16.AnyError> {
@@ -663,8 +838,30 @@ export class Int48 {
       return new Int48(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -687,6 +884,19 @@ export class Int48 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int48.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int48.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int48(-(((~value) & mask) + BN_1))
+      return new Int48(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int48, BinaryReadError | Base16.AnyError> {
@@ -779,8 +989,30 @@ export class Int56 {
       return new Int56(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -803,6 +1035,19 @@ export class Int56 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int56.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int56.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int56(-(((~value) & mask) + BN_1))
+      return new Int56(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int56, BinaryReadError | Base16.AnyError> {
@@ -895,8 +1140,30 @@ export class Int64 {
       return new Int64(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -919,6 +1186,19 @@ export class Int64 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int64.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int64.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int64(-(((~value) & mask) + BN_1))
+      return new Int64(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int64, BinaryReadError | Base16.AnyError> {
@@ -1011,8 +1291,30 @@ export class Int72 {
       return new Int72(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1035,6 +1337,19 @@ export class Int72 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int72.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int72.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int72(-(((~value) & mask) + BN_1))
+      return new Int72(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int72, BinaryReadError | Base16.AnyError> {
@@ -1127,8 +1442,30 @@ export class Int80 {
       return new Int80(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1151,6 +1488,19 @@ export class Int80 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int80.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int80.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int80(-(((~value) & mask) + BN_1))
+      return new Int80(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int80, BinaryReadError | Base16.AnyError> {
@@ -1243,8 +1593,30 @@ export class Int88 {
       return new Int88(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1267,6 +1639,19 @@ export class Int88 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int88.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int88.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int88(-(((~value) & mask) + BN_1))
+      return new Int88(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int88, BinaryReadError | Base16.AnyError> {
@@ -1359,8 +1744,30 @@ export class Int96 {
       return new Int96(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1383,6 +1790,19 @@ export class Int96 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int96.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int96.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int96(-(((~value) & mask) + BN_1))
+      return new Int96(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int96, BinaryReadError | Base16.AnyError> {
@@ -1475,8 +1895,30 @@ export class Int104 {
       return new Int104(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1499,6 +1941,19 @@ export class Int104 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int104.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int104.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int104(-(((~value) & mask) + BN_1))
+      return new Int104(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int104, BinaryReadError | Base16.AnyError> {
@@ -1591,8 +2046,30 @@ export class Int112 {
       return new Int112(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1615,6 +2092,19 @@ export class Int112 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int112.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int112.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int112(-(((~value) & mask) + BN_1))
+      return new Int112(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int112, BinaryReadError | Base16.AnyError> {
@@ -1707,8 +2197,30 @@ export class Int120 {
       return new Int120(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1731,6 +2243,19 @@ export class Int120 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int120.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int120.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int120(-(((~value) & mask) + BN_1))
+      return new Int120(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int120, BinaryReadError | Base16.AnyError> {
@@ -1823,8 +2348,30 @@ export class Int128 {
       return new Int128(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1847,6 +2394,19 @@ export class Int128 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int128.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int128.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int128(-(((~value) & mask) + BN_1))
+      return new Int128(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int128, BinaryReadError | Base16.AnyError> {
@@ -1939,8 +2499,30 @@ export class Int136 {
       return new Int136(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -1963,6 +2545,19 @@ export class Int136 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int136.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int136.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int136(-(((~value) & mask) + BN_1))
+      return new Int136(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int136, BinaryReadError | Base16.AnyError> {
@@ -2055,8 +2650,30 @@ export class Int144 {
       return new Int144(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2079,6 +2696,19 @@ export class Int144 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int144.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int144.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int144(-(((~value) & mask) + BN_1))
+      return new Int144(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int144, BinaryReadError | Base16.AnyError> {
@@ -2171,8 +2801,30 @@ export class Int152 {
       return new Int152(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2195,6 +2847,19 @@ export class Int152 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int152.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int152.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int152(-(((~value) & mask) + BN_1))
+      return new Int152(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int152, BinaryReadError | Base16.AnyError> {
@@ -2287,8 +2952,30 @@ export class Int160 {
       return new Int160(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2311,6 +2998,19 @@ export class Int160 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int160.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int160.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int160(-(((~value) & mask) + BN_1))
+      return new Int160(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int160, BinaryReadError | Base16.AnyError> {
@@ -2403,8 +3103,30 @@ export class Int168 {
       return new Int168(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2427,6 +3149,19 @@ export class Int168 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int168.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int168.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int168(-(((~value) & mask) + BN_1))
+      return new Int168(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int168, BinaryReadError | Base16.AnyError> {
@@ -2519,8 +3254,30 @@ export class Int176 {
       return new Int176(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2543,6 +3300,19 @@ export class Int176 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int176.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int176.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int176(-(((~value) & mask) + BN_1))
+      return new Int176(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int176, BinaryReadError | Base16.AnyError> {
@@ -2635,8 +3405,30 @@ export class Int184 {
       return new Int184(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2659,6 +3451,19 @@ export class Int184 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int184.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int184.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int184(-(((~value) & mask) + BN_1))
+      return new Int184(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int184, BinaryReadError | Base16.AnyError> {
@@ -2751,8 +3556,30 @@ export class Int192 {
       return new Int192(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2775,6 +3602,19 @@ export class Int192 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int192.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int192.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int192(-(((~value) & mask) + BN_1))
+      return new Int192(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int192, BinaryReadError | Base16.AnyError> {
@@ -2867,8 +3707,30 @@ export class Int200 {
       return new Int200(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -2891,6 +3753,19 @@ export class Int200 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int200.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int200.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int200(-(((~value) & mask) + BN_1))
+      return new Int200(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int200, BinaryReadError | Base16.AnyError> {
@@ -2983,8 +3858,30 @@ export class Int208 {
       return new Int208(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -3007,6 +3904,19 @@ export class Int208 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int208.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int208.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int208(-(((~value) & mask) + BN_1))
+      return new Int208(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int208, BinaryReadError | Base16.AnyError> {
@@ -3099,8 +4009,30 @@ export class Int216 {
       return new Int216(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -3123,6 +4055,19 @@ export class Int216 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int216.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int216.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int216(-(((~value) & mask) + BN_1))
+      return new Int216(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int216, BinaryReadError | Base16.AnyError> {
@@ -3215,8 +4160,30 @@ export class Int224 {
       return new Int224(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -3239,6 +4206,19 @@ export class Int224 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int224.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int224.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int224(-(((~value) & mask) + BN_1))
+      return new Int224(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int224, BinaryReadError | Base16.AnyError> {
@@ -3331,8 +4311,30 @@ export class Int232 {
       return new Int232(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -3355,6 +4357,19 @@ export class Int232 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int232.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int232.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int232(-(((~value) & mask) + BN_1))
+      return new Int232(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int232, BinaryReadError | Base16.AnyError> {
@@ -3447,8 +4462,30 @@ export class Int240 {
       return new Int240(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -3471,6 +4508,19 @@ export class Int240 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int240.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int240.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int240(-(((~value) & mask) + BN_1))
+      return new Int240(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int240, BinaryReadError | Base16.AnyError> {
@@ -3563,8 +4613,30 @@ export class Int248 {
       return new Int248(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -3587,6 +4659,19 @@ export class Int248 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int248.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int248.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int248(-(((~value) & mask) + BN_1))
+      return new Int248(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int248, BinaryReadError | Base16.AnyError> {
@@ -3679,8 +4764,30 @@ export class Int256 {
       return new Int256(value)
     }
 
+    sizeOrThrow() {
+      return this.size
+    }
+
     trySize(): Result<32, never> {
       return new Ok(this.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      if (this.value < BN_0) {
+        const mask = (BN_1 << 256n) - BN_1
+        const value = ((~(-this.value)) & mask) + BN_1
+
+        using slice = BigInts.exportOrThrow(value)
+
+        cursor.writeOrThrow(slice.bytes)
+
+        return Ok.void()
+      }
+
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
     }
 
     tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
@@ -3703,6 +4810,19 @@ export class Int256 {
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Int256.bytes
+
+      const mask = (BN_1 << this.bitsn) - BN_1
+
+      const bytes = cursor.readOrThrow(Int256.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      if ((value & mask) >> (this.bitsn - BN_1))
+        return new Int256(-(((~value) & mask) + BN_1))
+      return new Int256(value)
     }
 
     static tryRead(cursor: Cursor): Result<Int256, BinaryReadError | Base16.AnyError> {

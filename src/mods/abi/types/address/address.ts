@@ -50,8 +50,20 @@ export class StaticAddress {
     return new StaticAddress(value as ZeroHexString)
   }
 
+  sizeOrThrow() {
+    return this.size
+  }
+
   trySize(): Result<32, never> {
     return new Ok(this.size)
+  }
+
+  writeOrThrow(cursor: Cursor) {
+    cursor.fill(0, 32 - 20)
+
+    const hex = this.value.slice(2)
+    using slice = Base16.get().padStartAndDecodeOrThrow(hex)
+    cursor.writeOrThrow(slice.bytes)
   }
 
   tryWrite(cursor: Cursor): Result<void, Error> {
@@ -64,6 +76,17 @@ export class StaticAddress {
 
       return Ok.void()
     })
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 32 - 20
+
+    const bytes = cursor.readOrThrow(20)
+
+    // p42:ignore-next-statement
+    const value = "0x" + Base16.get().encodeOrThrow(bytes)
+
+    return new StaticAddress(value as ZeroHexString)
   }
 
   static tryRead(cursor: Cursor): Result<StaticAddress, Error> {

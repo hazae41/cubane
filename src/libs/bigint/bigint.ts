@@ -8,8 +8,16 @@ export namespace BigInts {
     return rawHex.length ? BigInt("0x" + rawHex) : 0n
   }
 
+  export function exportOrThrow(value: bigint): Copiable {
+    return Base16.get().padStartAndDecodeOrThrow(value.toString(16))
+  }
+
   export function tryExport(value: bigint): Result<Copiable, Base16.DecodingError> {
     return Base16.get().tryPadStartAndDecode(value.toString(16))
+  }
+
+  export function importOrThrow(bytes: BytesOrCopiable): bigint {
+    return decodeRawHexSafe(Base16.get().encodeOrThrow(bytes))
   }
 
   export function tryImport(bytes: BytesOrCopiable): Result<bigint, Base16.EncodingError> {

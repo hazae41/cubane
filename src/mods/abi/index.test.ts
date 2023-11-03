@@ -1,3 +1,4 @@
+export * from "./typed/index.test.js";
 export * from "./types/index.test.js";
 
 import { Base16 } from "@hazae41/base16";

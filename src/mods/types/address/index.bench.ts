@@ -10,7 +10,7 @@ import { Address } from "./index.js";
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
-if (true) {
+if (false) {
   const address = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
   const options = { samples: 10_000, warmup: true }
 

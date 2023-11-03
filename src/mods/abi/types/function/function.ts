@@ -58,18 +58,29 @@ export class FunctionSelector {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const unsized = Base16.get().padStartAndDecodeOrThrow(cursor.readOrThrow(8)).copyAndDispose()
-    const sized = Bytes.tryCast(unsized, 4).unwrap()
+    const bytes = Base16.get().padStartAndDecodeOrThrow(cursor.readOrThrow(8)).copyAndDispose()
 
-    return new FunctionSelector(sized)
+    return new FunctionSelector(bytes as Uint8Array & { length: 4 })
+  }
+
+  sizeOrThrow() {
+    return this.size
   }
 
   trySize(): Result<4, never> {
     return new Ok(this.size)
   }
 
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeOrThrow(this.value)
+  }
+
   tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
     return cursor.tryWrite(this.value)
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    return cursor.readOrThrow(4)
   }
 
   static tryRead(cursor: Cursor): Result<FunctionSelector, BinaryReadError> {
@@ -143,8 +154,17 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory<an
       return new FunctionSelectorAndArguments(args)
     }
 
+    sizeOrThrow() {
+      return this.func.size + this.args.size
+    }
+
     trySize(): Result<number, never> {
       return new Ok(this.func.size + this.args.size)
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      this.func.writeOrThrow(cursor)
+      this.args.writeOrThrow(cursor)
     }
 
     tryWrite(cursor: Cursor): Result<void, Error> {
@@ -154,6 +174,16 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory<an
 
         return Ok.void()
       })
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      const func = FunctionSelector.readOrThrow(cursor)
+      const args = FunctionSelectorAndArguments.args.readOrThrow(cursor)
+
+      if (!Bytes.equals(func, this.func.value))
+        throw new Error(`Invalid function selector`)
+
+      return new FunctionSelectorAndArguments(args)
     }
 
     static tryRead(cursor: Cursor): Result<FunctionSelectorAndArguments, Error> {
