@@ -8,18 +8,20 @@ export type ZeroHexString = `0x${string}`
 
 export namespace ZeroHexString {
 
-  export function from(zeroHexable: string | number | bigint | Uint8Array): ZeroHexString {
-    if (typeof zeroHexable === "number")
-      return `0x${zeroHexable.toString(16)}`
-    if (typeof zeroHexable === "bigint")
-      return `0x${zeroHexable.toString(16)}`
-    if (zeroHexable instanceof Uint8Array)
-      return `0x${Base16.get().encodeOrThrow(zeroHexable)}`
+  export type From = string | number | bigint | Uint8Array
 
-    if (is(zeroHexable))
-      return zeroHexable
+  export function from(fromable: From): ZeroHexString {
+    if (typeof fromable === "number")
+      return `0x${fromable.toString(16)}`
+    if (typeof fromable === "bigint")
+      return `0x${fromable.toString(16)}`
+    if (fromable instanceof Uint8Array)
+      return `0x${Base16.get().encodeOrThrow(fromable)}`
 
-    return `0x${zeroHexable}`
+    if (is(fromable))
+      return fromable
+
+    return `0x${fromable}`
   }
 
   export function is(maybeZeroHex: string): maybeZeroHex is ZeroHexString {
@@ -35,18 +37,20 @@ export type StrictZeroHexString = ZeroHexString & { __isStrictZeroHexString: tru
 
 export namespace StrictZeroHexString {
 
-  export function from(strictZeroHexable: string | number | bigint | Uint8Array): Nullable<StrictZeroHexString> {
-    if (typeof strictZeroHexable === "number")
-      return `0x${strictZeroHexable.toString(16)}` as StrictZeroHexString
-    if (typeof strictZeroHexable === "bigint")
-      return `0x${strictZeroHexable.toString(16)}` as StrictZeroHexString
-    if (strictZeroHexable instanceof Uint8Array)
-      return `0x${Base16.get().encodeOrThrow(strictZeroHexable)}` as StrictZeroHexString
+  export type From = string | number | bigint | Uint8Array
 
-    if (is(strictZeroHexable))
-      return strictZeroHexable
+  export function from(fromable: From): Nullable<StrictZeroHexString> {
+    if (typeof fromable === "number")
+      return `0x${fromable.toString(16)}` as StrictZeroHexString
+    if (typeof fromable === "bigint")
+      return `0x${fromable.toString(16)}` as StrictZeroHexString
+    if (fromable instanceof Uint8Array)
+      return `0x${Base16.get().encodeOrThrow(fromable)}` as StrictZeroHexString
 
-    const zeroHex = `0x${strictZeroHexable}`
+    if (is(fromable))
+      return fromable
+
+    const zeroHex = `0x${fromable}`
 
     if (is(zeroHex))
       return zeroHex

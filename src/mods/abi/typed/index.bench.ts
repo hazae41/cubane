@@ -5,7 +5,7 @@ import * as viem from "viem";
 
 // @ts-ignore
 import { ethers } from "ethers";
-import { TypedData } from "./hash.js";
+import { TypedData } from "./index.js";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
@@ -92,7 +92,7 @@ if (true) {
   const options = { samples: 10_000, warmup: true }
 
   const selfResult = benchSync("cubane", () => {
-    TypedData.hash(typedData)
+    TypedData.hashOrThrow(typedData)
   }, options)
 
   const viemResult = benchSync("viem", () => {

@@ -33,8 +33,10 @@ export namespace Address {
     return checksum2(rawLowerCase as any)
   }
 
-  export function from(addressable: string | number | bigint | Uint8Array): Nullable<Address> {
-    const strictZeroHex = StrictZeroHexString.from(addressable)
+  export type From = string | number | bigint | Uint8Array
+
+  export function from(fromable: From): Nullable<Address> {
+    const strictZeroHex = StrictZeroHexString.from(fromable)
 
     if (strictZeroHex == null)
       return undefined

@@ -16,7 +16,7 @@ test("address", async ({ message, test }) => {
   console.log(message, Base16.get().encodeOrThrow(bytes))
 
   const abi2 = Readable.tryReadFromBytes(StaticAddress, bytes).unwrap()
-  const value2 = abi2.value
+  const value2 = abi2.into()
 
   console.log(message, value2)
 

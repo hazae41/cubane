@@ -10,19 +10,32 @@ export class StaticAddress {
   readonly size = 32 as const
 
   private constructor(
-    readonly value: ZeroHexString
+    /**
+     * Dynamic type conversion
+     */
+    readonly value: ZeroHexString.From
   ) { }
 
-  static new(value: ZeroHexString) {
+  /**
+   * For best performances, use bytes to encode into bytes, others if you encode into string
+   * @param value 
+   * @returns 
+   */
+  static new(value: ZeroHexString.From) {
     return new StaticAddress(value)
   }
 
-  static from(value: ZeroHexString) {
+  /**
+   * For best performances, use bytes to encode into bytes, others if you encode into string
+   * @param value 
+   * @returns 
+   */
+  static from(value: ZeroHexString.From) {
     return new StaticAddress(value)
   }
 
   into() {
-    return this.value
+    return ZeroHexString.from(this.value)
   }
 
   static codegen() {
@@ -34,20 +47,35 @@ export class StaticAddress {
   }
 
   encodeOrThrow() {
-    return this.value.slice(2).padStart(64, "0")
+    if (typeof this.value === "number")
+      return this.value.toString(16).padStart(64, "0")
+    if (typeof this.value === "bigint")
+      return this.value.toString(16).padStart(64, "0")
+    if (this.value instanceof Uint8Array)
+      return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+    if (ZeroHexString.is(this.value))
+      return this.value.slice(2).padStart(64, "0")
+    return this.value.padStart(64, "0")
   }
 
   encodePackedOrThrow() {
-    return this.value.slice(2)
+    if (typeof this.value === "number")
+      return this.value.toString(16)
+    if (typeof this.value === "bigint")
+      return this.value.toString(16)
+    if (this.value instanceof Uint8Array)
+      return Base16.get().encodeOrThrow(this.value)
+    if (ZeroHexString.is(this.value))
+      return this.value.slice(2)
+    return this.value
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 24
 
-    // p42:ignore-next-statement
-    const value = "0x" + cursor.readOrThrow(40)
+    const value = cursor.readOrThrow(40)
 
-    return new StaticAddress(value as ZeroHexString)
+    return new StaticAddress(value)
   }
 
   sizeOrThrow() {
@@ -61,7 +89,12 @@ export class StaticAddress {
   writeOrThrow(cursor: Cursor) {
     cursor.fill(0, 32 - 20)
 
-    const hex = this.value.slice(2)
+    if (this.value instanceof Uint8Array) {
+      cursor.writeOrThrow(this.value)
+      return
+    }
+
+    const hex = this.encodePackedOrThrow()
     using slice = Base16.get().padStartAndDecodeOrThrow(hex)
     cursor.writeOrThrow(slice.bytes)
   }
@@ -70,7 +103,12 @@ export class StaticAddress {
     return Result.unthrowSync(t => {
       cursor.fill(0, 32 - 20)
 
-      const hex = this.value.slice(2)
+      if (this.value instanceof Uint8Array) {
+        cursor.tryWrite(this.value).throw(t)
+        return Ok.void()
+      }
+
+      const hex = this.encodePackedOrThrow()
       using slice = Base16.get().tryPadStartAndDecode(hex).throw(t)
       cursor.tryWrite(slice.bytes).throw(t)
 
@@ -83,10 +121,7 @@ export class StaticAddress {
 
     const bytes = cursor.readOrThrow(20)
 
-    // p42:ignore-next-statement
-    const value = "0x" + Base16.get().encodeOrThrow(bytes)
-
-    return new StaticAddress(value as ZeroHexString)
+    return new StaticAddress(bytes)
   }
 
   static tryRead(cursor: Cursor): Result<StaticAddress, Error> {
@@ -95,10 +130,7 @@ export class StaticAddress {
 
       const bytes = cursor.tryRead(20).throw(t)
 
-      // p42:ignore-next-statement
-      const value = "0x" + Base16.get().tryEncode(bytes).throw(t)
-
-      return new Ok(new StaticAddress(value as ZeroHexString))
+      return new Ok(new StaticAddress(bytes))
     })
   }
 
