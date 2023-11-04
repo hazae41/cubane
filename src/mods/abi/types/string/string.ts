@@ -6,6 +6,9 @@ import { TextCursor } from "libs/cursor/cursor.js";
 import { DynamicBytes } from "../bytes/dynamic.js";
 import { Uint32 } from "../uint/uint.js";
 
+// export type DynamicString = 
+// | 
+
 export class DynamicString {
   readonly #class = DynamicString
 

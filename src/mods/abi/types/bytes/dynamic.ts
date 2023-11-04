@@ -1,23 +1,28 @@
 import { Base16 } from "@hazae41/base16";
 import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
+import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Uint32 } from "../uint/uint.js";
 
+export namespace DynamicBytes {
+  export type From<N extends number = number> = Bytes<N>
+}
+
 export class DynamicBytes<N extends number = number> {
   readonly #class = DynamicBytes
 
   constructor(
-    readonly value: Uint8Array & { readonly length: N },
+    readonly value: DynamicBytes.From<N>,
     readonly size: number
   ) { }
 
-  static new<N extends number>(value: Uint8Array & { readonly length: N }) {
+  static new<N extends number>(value: DynamicBytes.From<N>) {
     return new DynamicBytes(value, 32 + (Math.ceil(value.length / 32) * 32))
   }
 
-  static from<N extends number>(value: Uint8Array & { readonly length: N }) {
+  static from<N extends number>(value: DynamicBytes.From<N>) {
     return new DynamicBytes(value, 32 + (Math.ceil(value.length / 32) * 32))
   }
 

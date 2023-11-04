@@ -22,7 +22,7 @@ export namespace Address {
     if (!/^0x[0-9a-fA-F]{40}$/.test(zeroHex))
       return undefined
 
-    return checksum(zeroHex as any)
+    return checksum(zeroHex.slice(2))
   }
 
   export function tryFrom(fromable: From): Result<Address, Error> {
@@ -93,7 +93,7 @@ export namespace Address {
     using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.subarray(1))
     const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
 
-    return checksum(rawLowerCase as any)
+    return checksum(rawLowerCase)
   }
 
 }
