@@ -12,13 +12,13 @@ test("bool true", async ({ message, test }) => {
   const abi = StaticBool.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
-  console.log(message, value)
-  console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  // console.log(message, value)
+  // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(StaticBool, bytes).unwrap()
   const value2 = abi2.value
 
-  console.log(message, value2)
+  // console.log(message, value2)
 
   assert(value === value2)
 })
@@ -28,13 +28,13 @@ test("bool false", async ({ message, test }) => {
   const abi = StaticBool.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
-  console.log(message, value)
-  console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  // console.log(message, value)
+  // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(StaticBool, bytes).unwrap()
   const value2 = abi2.value
 
-  console.log(message, value2)
+  // console.log(message, value2)
 
   assert(value === value2)
 })

@@ -13,13 +13,13 @@ test("bytes", async ({ message, test }) => {
   const abi = DynamicBytes.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
-  console.log(message, value)
-  console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  // console.log(message, value)
+  // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(DynamicBytes, bytes).unwrap()
   const value2 = abi2.value
 
-  console.log(message, value2)
+  // console.log(message, value2)
 
   assert(Bytes.equals2(value, value2))
 })

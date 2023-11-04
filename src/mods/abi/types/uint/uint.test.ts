@@ -14,13 +14,13 @@ test("uint32", async ({ message, test }) => {
   const abi = Uint32.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
-  console.log(message, value)
-  console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  // console.log(message, value)
+  // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(Uint32, bytes).unwrap()
   const value2 = abi2.value
 
-  console.log(message, value2)
+  // console.log(message, value2)
 
   assert(value === value2)
 })
@@ -31,13 +31,13 @@ test("uint256", async ({ message, test }) => {
   const abi = Uint256.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
-  console.log(message, value)
-  console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  // console.log(message, value)
+  // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(Uint256, bytes).unwrap()
   const value2 = abi2.value
 
-  console.log(message, value2)
+  // console.log(message, value2)
 
   assert(value === value2)
 })

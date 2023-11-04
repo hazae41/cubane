@@ -21,21 +21,21 @@ test("test", async () => {
   const signature = FunctionSignature.tryParse("test(bool,string,uint256)").unwrap()
   const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
   const decoded = Readable.tryReadFromBytes(signature.args, bytes).unwrap()
-  console.log(decoded)
+  // console.log(decoded)
 })
 
 test("test", async () => {
   const abi = "000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000076a65814b6e0fa5a3598ef6503fa1d990ec0e61a000000000000000000000000d66832ff9d808b32adfe0136a0381054f3600185"
   const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
   const decoded = Readable.tryReadFromBytes(createDynamicArray(StaticAddress, 3), bytes).unwrap()
-  console.log(decoded)
+  // console.log(decoded)
 })
 
 test("test", async () => {
   const abi = "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000076a65814b6e0fa5a3598ef6503fa1d990ec0e61a000000000000000000000000d66832ff9d808b32adfe0136a0381054f3600185"
   const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
   const decoded = Readable.tryReadFromBytes(createDynamicTuple(createDynamicVector(StaticAddress)), bytes).unwrap()
-  console.log(decoded.inner)
+  // console.log(decoded.inner)
 })
 
 test("runtime encode then decode", async () => {
@@ -59,5 +59,5 @@ test("runtime encode then decode", async () => {
 
   const funcAndArgs = signature.args.decodeOrThrow(new TextCursor(hex.slice(2)))
 
-  console.log(funcAndArgs.args.inner[2])
+  // console.log(funcAndArgs.args.inner[2])
 })
