@@ -3,51 +3,30 @@ import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "@hazae41/option";
 import { Err, Ok, Result } from "@hazae41/result";
-import { StrictZeroHexString } from "../zerohex/index.js";
+import { ZeroHexString } from "../index.js";
 
 /**
- * A "0x"-prefixed and checksumed valid hex string of length 42
+ * A "0x"-prefixed and checksummed valid hex string of length 42
  */
-export type Address = StrictZeroHexString & { length: 42 } & { __isAddress: true }
+export type Address = ZeroHexString & { length: 42 } & { __isAddress: true }
 
 export namespace Address {
-
-  /**
-   * Format address as "0xXXXX...XXXX" for UI display
-   * @param address 
-   * @returns 
-   */
-  export function format(address: Address) {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`
-  }
-
-  /**
-   * Compute address from uncompressed public key
-   * @param uncompressedPublicKey 
-   * @returns 
-   */
-  export function compute(uncompressedPublicKey: Uint8Array) {
-    using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.slice(1))
-    const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
-
-    return checksum2(rawLowerCase as any)
-  }
 
   export type From = string | number | bigint | Uint8Array
 
   export function from(fromable: From): Nullable<Address> {
-    const strictZeroHex = StrictZeroHexString.from(fromable)
+    const zeroHex = ZeroHexString.from(fromable)
 
-    if (strictZeroHex == null)
+    if (zeroHex == null)
       return undefined
-    if (strictZeroHex.length !== 42)
+    if (!/^0x[0-9a-fA-F]{40}$/.test(zeroHex))
       return undefined
 
-    return checksum(strictZeroHex as any)
+    return checksum(zeroHex as any)
   }
 
-  export function tryFrom(addressable: string | number | bigint): Result<Address, Error> {
-    const address = from(addressable)
+  export function tryFrom(fromable: From): Result<Address, Error> {
+    const address = from(fromable)
 
     if (address == null)
       return new Err(new Error(`Could not convert to Address`))
@@ -55,8 +34,8 @@ export namespace Address {
     return new Ok(address)
   }
 
-  export function fromOrThrow(addressable: string | number | bigint): Address {
-    const address = from(addressable)
+  export function fromOrThrow(fromable: From): Address {
+    const address = from(fromable)
 
     if (address == null)
       throw new Error(`Could not convert to Address`)
@@ -64,20 +43,13 @@ export namespace Address {
     return address
   }
 
-  /**
-   * Guard against "0x"-prefixed and valid hex string of length 42
-   * @param maybeAddress 
-   * @returns 
-   */
-  export function is(maybeAddress: StrictZeroHexString & { length: 42 }): maybeAddress is Address {
-    return maybeAddress === checksum(maybeAddress)
+  export function is(maybeAddress: string): maybeAddress is Address {
+    if (!/^0x[0-9a-fA-F]{40}$/.test(maybeAddress))
+      return false
+    return maybeAddress === checksum(maybeAddress.slice(2))
   }
 
-  export function checksum(strictZeroHex: StrictZeroHexString & { length: 42 }): Address {
-    return checksum2(strictZeroHex.slice(2) as any)
-  }
-
-  function checksum2(rawHex: string & { length: 40 }) {
+  function checksum(rawHex: string) {
     const lowerCase = rawHex.toLowerCase()
     const upperCase = rawHex.toUpperCase()
 
@@ -101,21 +73,27 @@ export namespace Address {
     return address as Address
   }
 
-  export namespace String {
+  export type Formatted = `0x${string}...${string}`
 
-    /**
-     * Guard against string
-     * @param maybeAddress 
-     * @returns 
-     */
-    export function is(maybeAddress: string) {
-      if (!StrictZeroHexString.is(maybeAddress))
-        return false
-      if (maybeAddress.length !== 42)
-        return false
-      return Address.is(maybeAddress as any)
-    }
+  /**
+   * Format address as "0xFFFF...FFFF" for UI display
+   * @param address 
+   * @returns 
+   */
+  export function format(address: Address): Formatted {
+    return `0x${address.slice(2, 6)}...${address.slice(-4)}`
+  }
 
+  /**
+   * Compute address from uncompressed public key
+   * @param uncompressedPublicKey 
+   * @returns 
+   */
+  export function compute(uncompressedPublicKey: Uint8Array) {
+    using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.subarray(1))
+    const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
+
+    return checksum(rawLowerCase as any)
   }
 
 }

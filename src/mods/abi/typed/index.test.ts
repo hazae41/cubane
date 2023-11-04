@@ -136,5 +136,5 @@ test("Mail", async ({ test }) => {
   } as const
 
   assert(viem.hashTypedData(typedDatas.basic) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.basic))))
-  // assert(viem.hashTypedData(typedDatas.complex) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.complex))))
+  assert(viem.hashTypedData(typedDatas.complex) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.complex))))
 })

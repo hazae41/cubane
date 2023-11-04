@@ -1,3 +1,4 @@
+import { Base16 } from "@hazae41/base16"
 import { Copiable } from "@hazae41/box"
 import { Bytes } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
@@ -36,72 +37,7 @@ export interface EIP712Domain {
   readonly verifyingContract: string
 }
 
-export namespace TypedDataTypes {
-
-  export const EIP712Domain = [
-    { name: 'name', type: 'string' },
-    { name: 'version', type: 'string' },
-    { name: 'chainId', type: 'uint256' },
-    { name: 'verifyingContract', type: 'address' },
-  ] as const
-
-  export function sizeOrThrow(vars: readonly TypedDataVariable[]) {
-    let length = 0
-
-    for (const _ of vars)
-      length += 32
-
-    return length
-  }
-
-  function resolveOrThrow(types: TypedDataTypes, type: string, imports = new Set<string>()) {
-    for (const variable of types[type]) {
-      const { type } = variable
-
-      if (types[type] == null)
-        continue
-
-      /**
-       * Save the size before adding the type
-       */
-      const size = imports.size
-
-      imports.add(type)
-
-      /**
-       * Add didn't change the size, so the type was already imported
-       */
-      if (imports.size === size)
-        continue
-
-      resolveOrThrow(types, type, imports)
-    }
-
-    return imports
-  }
-
-  export function encodeOrThrow(types: TypedDataTypes, type: string) {
-    const imports = resolveOrThrow(types, type)
-    const primary = encodeSingleOrThrow(types, type)
-
-    if (imports.size === 0)
-      return Bytes.fromUtf8(primary)
-
-    let encoded = primary
-
-    for (const type of [...imports].sort())
-      encoded += encodeSingleOrThrow(types, type)
-
-    return Bytes.fromUtf8(encoded)
-  }
-
-  function encodeSingleOrThrow(types: TypedDataTypes, type: string) {
-    return `${type}(${types[type].map(({ name, type }) => `${type} ${name}`)})`
-  }
-
-}
-
-export namespace TypedDataStruct {
+export namespace TypedData {
 
   const factoryByName: UintByName & IntByName & {
     bool: typeof StaticBool,
@@ -114,77 +50,181 @@ export namespace TypedDataStruct {
     address: StaticAddress,
   } as const
 
-  export function hashOrThrow(types: TypedDataTypes, type: string, struct: TypedDataStruct, typeSizeCache: Map<string, number> = new Map(), typeHashCache: Map<string, Uint8Array> = new Map()) {
-    let typeSize: number
+  export const EIP712Domain = [
+    { name: 'name', type: 'string' },
+    { name: 'version', type: 'string' },
+    { name: 'chainId', type: 'uint256' },
+    { name: 'verifyingContract', type: 'address' },
+  ] as const
 
-    const typeSizeCached = typeSizeCache.get(type)
+  function sizeStructOrThrow(types: TypedDataTypes, type: string) {
+    let length = 0
 
-    if (typeSizeCached != null) {
-      typeSize = typeSizeCached
-    } else {
-      typeSize = TypedDataTypes.sizeOrThrow(types[type])
-      typeSizeCache.set(type, typeSize)
+    for (const _ of types[type])
+      length += 32
+
+    return length
+  }
+
+  function sizeStructWithCacheOrThrow(types: TypedDataTypes, type: string, cache: Map<string, number>) {
+    const cached = cache.get(type)
+
+    if (cached != null)
+      return cached
+
+    const sized = sizeStructOrThrow(types, type)
+    cache.set(type, sized)
+    return sized
+  }
+
+  function sizeAnyWithCacheOrThrow(types: TypedDataTypes, type: string, cache: Map<string, number>) {
+    if (types[type] != null)
+      return sizeStructWithCacheOrThrow(types, type, cache)
+    return 32
+  }
+
+
+  function resolveTypeOrThrow(types: TypedDataTypes, type: string, imports = new Set<string>()) {
+    for (const variable of types[type]) {
+      const { type } = variable
+
+      let realtype = type
+
+      if (type.endsWith("]")) {
+        const [subtype] = type.split("[")
+        realtype = subtype
+        continue
+      }
+
+      if (types[realtype] == null)
+        continue
+
+      /**
+       * Save the size before adding the type
+       */
+      const size = imports.size
+
+      imports.add(realtype)
+
+      /**
+       * Add didn't change the size, so the type was already imported
+       */
+      if (imports.size === size)
+        continue
+
+      resolveTypeOrThrow(types, realtype, imports)
     }
+
+    return imports
+  }
+
+  function encodeTypeOrThrow(types: TypedDataTypes, type: string) {
+    const imports = resolveTypeOrThrow(types, type)
+    const primary = `${type}(${types[type].map(({ name, type }) => `${type} ${name}`)})`
+
+    if (imports.size === 0)
+      return Bytes.fromUtf8(primary)
+
+    let encoded = primary
+
+    for (const type of [...imports].sort())
+      encoded += `${type}(${types[type].map(({ name, type }) => `${type} ${name}`)})`
+
+    return Bytes.fromUtf8(encoded)
+  }
+
+  export function encodeTypeWithCacheOrThrow(types: TypedDataTypes, type: string, cache: Map<string, Uint8Array>) {
+    const cached = cache.get(type)
+
+    if (cached != null)
+      return cached
+
+    const bytes = encodeTypeOrThrow(types, type)
+    const hashed = Keccak256.get().hashOrThrow(bytes).copyAndDispose()
+    cache.set(type, hashed)
+    return hashed
+  }
+
+  export function encodeDataOrThrow(types: TypedDataTypes, type: string, value: unknown, cursor: Cursor, typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {
+    /**
+     * Struct
+     */
+    if (types[type] != null) {
+      const struct = value as TypedDataStruct
+      using hashed = hashStructOrThrow(types, type, struct, typeSizeCache, typeHashCache)
+      cursor.writeOrThrow(hashed.bytes)
+      return
+    }
+
+    /**
+     * Array
+     */
+    if (type.endsWith("]")) {
+      const [subtype] = type.split("[")
+      const array = value as readonly unknown[]
+      using hash = hashArrayOrThrow(types, subtype, array, typeSizeCache, typeHashCache)
+      cursor.writeOrThrow(hash.bytes)
+      return
+    }
+
+    if (type === "string") {
+      const bytes = Bytes.fromUtf8(value as string)
+      using hash = Keccak256.get().hashOrThrow(bytes)
+      cursor.writeOrThrow(hash.bytes)
+      return
+    }
+
+    if (type === "bytes") {
+      const bytes = typeof value === "string"
+        ? Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose()
+        : value as Uint8Array
+      using hash = Keccak256.get().hashOrThrow(bytes)
+      cursor.writeOrThrow(hash.bytes)
+      return
+    }
+
+    const factory = Records.resolveOrThrow(factoryByName, type) as any
+    factory.from(value).writeOrThrow(cursor)
+  }
+
+  export function hashArrayOrThrow(types: TypedDataTypes, type: string, array: readonly unknown[], typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {
+    const typeSize = sizeAnyWithCacheOrThrow(types, type, typeSizeCache)
+
+    const bytes = new Uint8Array(typeSize * array.length)
+    const cursor = new Cursor(bytes)
+
+    for (const value of array)
+      encodeDataOrThrow(types, type, value, cursor, typeSizeCache, typeHashCache)
+
+    return Keccak256.get().hashOrThrow(bytes)
+  }
+
+  export function hashStructOrThrow(types: TypedDataTypes, type: string, struct: TypedDataStruct, typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {
+    const typeSize = sizeStructWithCacheOrThrow(types, type, typeSizeCache)
+    const typeHash = encodeTypeWithCacheOrThrow(types, type, typeHashCache)
 
     const bytes = new Uint8Array(32 + typeSize)
     const cursor = new Cursor(bytes)
-
-    const typeHashCached = typeHashCache.get(type)
-
-    if (typeHashCached != null) {
-      cursor.writeOrThrow(typeHashCached)
-    } else {
-      const typeBytes = TypedDataTypes.encodeOrThrow(types, type)
-      const typeHash = Keccak256.get().hashOrThrow(typeBytes).copyAndDispose()
-      typeHashCache.set(type, typeHash)
-      cursor.writeOrThrow(typeHash)
-    }
+    cursor.writeOrThrow(typeHash)
 
     for (const variable of types[type]) {
       const { name, type } = variable
       const value = struct[name]
 
-      if (types[type] != null) {
-        using hashed = hashOrThrow(types, type, value as any, typeSizeCache, typeHashCache)
-        cursor.writeOrThrow(hashed.bytes)
-        continue
-      }
-
-      if (type === "string") {
-        const bytes = Bytes.fromUtf8(value as string)
-        using hash = Keccak256.get().hashOrThrow(bytes)
-        cursor.writeOrThrow(hash.bytes)
-        continue
-      }
-
-      if (type === "bytes") {
-        const bytes = value as Uint8Array
-        using hash = Keccak256.get().hashOrThrow(bytes)
-        cursor.writeOrThrow(hash.bytes)
-        continue
-      }
-
-      const factory = Records.resolveOrThrow(factoryByName, type) as any
-      factory.from(value).writeOrThrow(cursor)
-
-      continue
+      encodeDataOrThrow(types, type, value, cursor, typeSizeCache, typeHashCache)
     }
 
     return Keccak256.get().hashOrThrow(bytes)
   }
 
-}
-
-export namespace TypedData {
-
   export function encodeOrThrow(data: TypedData) {
     const { types, primaryType, domain, message } = data
 
     if (types["EIP712Domain"] == null)
-      (types as any)["EIP712Domain"] = TypedDataTypes.EIP712Domain;
+      (types as any)["EIP712Domain"] = EIP712Domain
 
-    using domainHash = TypedDataStruct.hashOrThrow(types, "EIP712Domain", domain)
-    using messageHash = TypedDataStruct.hashOrThrow(types, primaryType, message)
+    using domainHash = hashStructOrThrow(types, "EIP712Domain", domain)
+    using messageHash = hashStructOrThrow(types, primaryType, message)
 
     const bytes = new Uint8Array(2 + domainHash.bytes.length + messageHash.bytes.length)
     const cursor = new Cursor(bytes)
