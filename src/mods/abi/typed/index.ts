@@ -14,8 +14,11 @@ export interface TypedData {
 }
 
 export interface TypedDataTypes {
-  readonly [x: string]: readonly TypedDataVariable[]
+  readonly [x: string]: TypedDataType
 }
+
+export type TypedDataType =
+  readonly TypedDataVariable[]
 
 export interface TypedDataVariable {
   readonly name: string
@@ -42,23 +45,17 @@ export namespace TypedDataTypes {
     { name: 'verifyingContract', type: 'address' },
   ] as const
 
-  export function sizeOrThrow(types: TypedDataTypes, name: string) {
+  export function sizeOrThrow(vars: readonly TypedDataVariable[]) {
     let length = 0
 
-    for (const _ of types[name])
+    for (const _ of vars)
       length += 32
 
     return length
   }
 
-  export function resolveOrThrow(types: TypedDataTypes, name: string) {
-    const imports = new Set<string>()
-    resolveAllOrThrow(types, name, imports)
-    return imports
-  }
-
-  function resolveAllOrThrow(types: TypedDataTypes, name: string, imports: Set<string>) {
-    for (const variable of types[name]) {
+  function resolveOrThrow(types: TypedDataTypes, type: string, imports = new Set<string>()) {
+    for (const variable of types[type]) {
       const { type } = variable
 
       if (types[type] == null)
@@ -77,27 +74,29 @@ export namespace TypedDataTypes {
       if (imports.size === size)
         continue
 
-      resolveAllOrThrow(types, type, imports)
+      resolveOrThrow(types, type, imports)
     }
+
+    return imports
   }
 
-  export function encodeOrThrow(types: TypedDataTypes, name: string) {
-    const imports = resolveOrThrow(types, name)
-    const primary = simpleEncodeOrThrow(types, name)
+  export function encodeOrThrow(types: TypedDataTypes, type: string) {
+    const imports = resolveOrThrow(types, type)
+    const primary = encodeSingleOrThrow(types, type)
 
     if (imports.size === 0)
       return Bytes.fromUtf8(primary)
 
     let encoded = primary
 
-    for (const name of [...imports].sort())
-      encoded += simpleEncodeOrThrow(types, name)
+    for (const type of [...imports].sort())
+      encoded += encodeSingleOrThrow(types, type)
 
     return Bytes.fromUtf8(encoded)
   }
 
-  function simpleEncodeOrThrow(types: TypedDataTypes, name: string) {
-    return `${name}(${types[name].map(({ name, type }) => `${type} ${name}`)})`
+  function encodeSingleOrThrow(types: TypedDataTypes, type: string) {
+    return `${type}(${types[type].map(({ name, type }) => `${type} ${name}`)})`
   }
 
 }
@@ -115,26 +114,38 @@ export namespace TypedDataStruct {
     address: StaticAddress,
   } as const
 
-  export function hashOrThrow(types: TypedDataTypes, name: string, struct: TypedDataStruct) {
-    if (types[name] == null && name === "EIP712Domain")
-      (types as any)[name] = TypedDataTypes.EIP712Domain
+  export function hashOrThrow(types: TypedDataTypes, type: string, struct: TypedDataStruct, typeSizeCache: Map<string, number> = new Map(), typeHashCache: Map<string, Uint8Array> = new Map()) {
+    let typeSize: number
 
-    const length = TypedDataTypes.sizeOrThrow(types, name)
+    const typeSizeCached = typeSizeCache.get(type)
 
-    const bytes = new Uint8Array(32 + length)
+    if (typeSizeCached != null) {
+      typeSize = typeSizeCached
+    } else {
+      typeSize = TypedDataTypes.sizeOrThrow(types[type])
+      typeSizeCache.set(type, typeSize)
+    }
+
+    const bytes = new Uint8Array(32 + typeSize)
     const cursor = new Cursor(bytes)
 
-    // TODO: memoize typeHash
-    const typeBytes = TypedDataTypes.encodeOrThrow(types, name)
-    using typeHash = Keccak256.get().hashOrThrow(typeBytes)
-    cursor.writeOrThrow(typeHash.bytes)
+    const typeHashCached = typeHashCache.get(type)
 
-    for (const variable of types[name]) {
+    if (typeHashCached != null) {
+      cursor.writeOrThrow(typeHashCached)
+    } else {
+      const typeBytes = TypedDataTypes.encodeOrThrow(types, type)
+      const typeHash = Keccak256.get().hashOrThrow(typeBytes).copyAndDispose()
+      typeHashCache.set(type, typeHash)
+      cursor.writeOrThrow(typeHash)
+    }
+
+    for (const variable of types[type]) {
       const { name, type } = variable
       const value = struct[name]
 
       if (types[type] != null) {
-        using hashed = hashOrThrow(types, type, value as any)
+        using hashed = hashOrThrow(types, type, value as any, typeSizeCache, typeHashCache)
         cursor.writeOrThrow(hashed.bytes)
         continue
       }
@@ -168,6 +179,9 @@ export namespace TypedData {
 
   export function encodeOrThrow(data: TypedData) {
     const { types, primaryType, domain, message } = data
+
+    if (types["EIP712Domain"] == null)
+      (types as any)["EIP712Domain"] = TypedDataTypes.EIP712Domain;
 
     using domainHash = TypedDataStruct.hashOrThrow(types, "EIP712Domain", domain)
     using messageHash = TypedDataStruct.hashOrThrow(types, primaryType, message)
