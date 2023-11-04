@@ -37,6 +37,9 @@ export interface EIP712Domain {
   readonly verifyingContract: string
 }
 
+/**
+ * a.k.a. signTypedData_v4 / EIP-712
+ */
 export namespace TypedData {
 
   const factoryByName: UintByName & IntByName & {
