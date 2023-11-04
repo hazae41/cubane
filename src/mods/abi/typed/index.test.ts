@@ -4,6 +4,7 @@ import { assert, test } from "@hazae41/phobos";
 import { ZeroHexString } from "index.js";
 import * as viem from "viem";
 import { TypedData } from "./index.js";
+import data from "./test.json";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
@@ -137,4 +138,8 @@ test("Mail", async ({ test }) => {
 
   assert(viem.hashTypedData(typedDatas.basic) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.basic))))
   assert(viem.hashTypedData(typedDatas.complex) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.complex))))
+
+  for (const d of data) {
+    assert(viem.hashTypedData(d as any) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(d))))
+  }
 })

@@ -3,6 +3,7 @@ import { Copiable } from "@hazae41/box"
 import { Bytes } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
 import { Keccak256 } from "@hazae41/keccak256"
+import { Nullable } from "@hazae41/option"
 import { Result } from "@hazae41/result"
 import { Records } from "libs/records/records.js"
 import { IntByName, StaticAddress, StaticBool, UintByName, bytesByName, intByName, uintByName } from "../index.js"
@@ -15,7 +16,7 @@ export interface TypedData {
 }
 
 export interface TypedDataTypes {
-  readonly [x: string]: TypedDataType
+  readonly [x: string]: Nullable<TypedDataType>
 }
 
 export type TypedDataType =
@@ -63,7 +64,7 @@ export namespace TypedData {
   function sizeStructOrThrow(types: TypedDataTypes, type: string) {
     let length = 0
 
-    for (const _ of types[type])
+    for (const _ of types[type]!)
       length += 32
 
     return length
@@ -88,7 +89,7 @@ export namespace TypedData {
 
 
   function resolveTypeOrThrow(types: TypedDataTypes, type: string, imports = new Set<string>()) {
-    for (const variable of types[type]) {
+    for (const variable of types[type]!) {
       const { type } = variable
 
       let realtype = type
@@ -123,7 +124,7 @@ export namespace TypedData {
 
   function encodeTypeOrThrow(types: TypedDataTypes, type: string) {
     const imports = resolveTypeOrThrow(types, type)
-    const primary = `${type}(${types[type].map(({ name, type }) => `${type} ${name}`)})`
+    const primary = `${type}(${types[type]!.map(({ name, type }) => `${type} ${name}`)})`
 
     if (imports.size === 0)
       return Bytes.fromUtf8(primary)
@@ -131,7 +132,7 @@ export namespace TypedData {
     let encoded = primary
 
     for (const type of [...imports].sort())
-      encoded += `${type}(${types[type].map(({ name, type }) => `${type} ${name}`)})`
+      encoded += `${type}(${types[type]!.map(({ name, type }) => `${type} ${name}`)})`
 
     return Bytes.fromUtf8(encoded)
   }
@@ -210,7 +211,7 @@ export namespace TypedData {
     const cursor = new Cursor(bytes)
     cursor.writeOrThrow(typeHash)
 
-    for (const variable of types[type]) {
+    for (const variable of types[type]!) {
       const { name, type } = variable
       const value = struct[name]
 
