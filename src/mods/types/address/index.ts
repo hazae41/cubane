@@ -8,11 +8,11 @@ import { ZeroHexString } from "../index.js";
 /**
  * A "0x"-prefixed and checksummed valid hex string of length 42
  */
-export type Address = ZeroHexString & { length: 42 } & { __isAddress: true }
+export type Address = ZeroHexString<42> & { readonly __isAddress: true }
 
 export namespace Address {
 
-  export type From = string | number | bigint | Uint8Array
+  export type From = string | bigint | Uint8Array
 
   export function from(fromable: From): Nullable<Address> {
     const zeroHex = ZeroHexString.from(fromable)

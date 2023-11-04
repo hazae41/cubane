@@ -4,6 +4,10 @@ import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
 
+export namespace StaticAddress {
+  export type From = string | bigint | Uint8Array
+}
+
 export class StaticAddress {
   readonly #class = StaticAddress
 
@@ -13,7 +17,7 @@ export class StaticAddress {
     /**
      * Dynamic type conversion
      */
-    readonly value: ZeroHexString.From
+    readonly value: StaticAddress.From
   ) { }
 
   /**
@@ -21,7 +25,7 @@ export class StaticAddress {
    * @param value 
    * @returns 
    */
-  static new(value: ZeroHexString.From) {
+  static new(value: StaticAddress.From) {
     return new StaticAddress(value)
   }
 
@@ -30,7 +34,7 @@ export class StaticAddress {
    * @param value 
    * @returns 
    */
-  static from(value: ZeroHexString.From) {
+  static from(value: StaticAddress.From) {
     return new StaticAddress(value)
   }
 
@@ -47,8 +51,6 @@ export class StaticAddress {
   }
 
   encodeOrThrow() {
-    if (typeof this.value === "number")
-      return this.value.toString(16).padStart(64, "0")
     if (typeof this.value === "bigint")
       return this.value.toString(16).padStart(64, "0")
     if (this.value instanceof Uint8Array)
@@ -59,8 +61,6 @@ export class StaticAddress {
   }
 
   encodePackedOrThrow() {
-    if (typeof this.value === "number")
-      return this.value.toString(16)
     if (typeof this.value === "bigint")
       return this.value.toString(16)
     if (this.value instanceof Uint8Array)

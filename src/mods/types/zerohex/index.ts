@@ -1,9 +1,11 @@
 import { Base16 } from "@hazae41/base16"
 
 /**
- * A "0x"-prefixed string
+ * A "0x"-prefixed string with static length
  */
-export type ZeroHexString = `0x${string}`
+export type ZeroHexString<N = number> = number extends N
+  ? `0x${string}`
+  : `0x${string}` & { readonly length: N }
 
 export namespace ZeroHexString {
 
