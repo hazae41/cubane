@@ -10,7 +10,7 @@ Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
 function hexlify(bytes: Uint8Array) {
-  return Base16.get().tryEncode(bytes)
+  return Base16.get().encodeOrThrow(bytes)
 }
 
 await test("dog", async ({ message, test }) => {

@@ -23,7 +23,7 @@ export function toPrimitive(value: RlpType): BytesOrBytesArray {
 }
 
 export function readOrThrow(cursor: Cursor) {
-  const first = cursor.readUint8OrThrow()
+  const first = cursor.getUint8OrThrow()
 
   if (first < 0x80)
     return RlpString1.readOrThrow(cursor)
