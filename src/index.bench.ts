@@ -113,7 +113,7 @@ if (false) {
 
   const tx = Base16.get().padStartAndDecodeOrThrow(txhex).copyAndDispose()
 
-  const rlp = Rlp.tryReadFromBytes(tx).unwrap() as Uint8Array[]
+  const rlp = Rlp.toPrimitive(Readable.readFromBytesOrThrow(Rlp, tx)) as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
 
   // const rlphex = ethers.hexlify(rlp) as ZeroHexString
@@ -159,7 +159,7 @@ if (false) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: ZeroHexString.from(abi.args.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.tryRandom(1024).unwrap()).encodeOrThrow()),
+    data: ZeroHexString.from(abi.args.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.random(1024)).encodeOrThrow()),
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
@@ -169,7 +169,7 @@ if (false) {
 
   const tx = Base16.get().padStartAndDecodeOrThrow(txhex).copyAndDispose()
 
-  const rlp = Rlp.tryReadFromBytes(tx).unwrap() as Uint8Array[]
+  const rlp = Rlp.toPrimitive(Readable.readFromBytesOrThrow(Rlp, tx)) as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
 
   // const rlphex = ethers.hexlify(rlp) as ZeroHexString

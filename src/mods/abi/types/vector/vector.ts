@@ -1,5 +1,4 @@
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
 import { Factory, Instance } from "mods/abi/abi.js";
 import { Uint32 } from "../uint/uint.js";
 
@@ -140,10 +139,6 @@ export const createDynamicVector = <T extends Factory<any, any>>(inner: T) => {
       return 32 + this.size
     }
 
-    trySize(): Result<number, never> {
-      return new Ok(32 + this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       const length = Uint32.new(this.inner.length)
 
@@ -153,20 +148,6 @@ export const createDynamicVector = <T extends Factory<any, any>>(inner: T) => {
         instance.writeOrThrow(cursor)
       for (const instance of this.tails)
         instance.writeOrThrow(cursor)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, Error> {
-      return Result.unthrowSync(t => {
-        const length = Uint32.new(this.inner.length)
-
-        length.tryWrite(cursor).throw(t)
-
-        for (const instance of this.heads)
-          instance.tryWrite(cursor).throw(t)
-        for (const instance of this.tails)
-          instance.tryWrite(cursor).throw(t)
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
@@ -205,49 +186,11 @@ export const createDynamicVector = <T extends Factory<any, any>>(inner: T) => {
       return new DynamicVector(inner as any as Factory.Instances<T[]>, heads, tails, cursor.offset - zero)
     }
 
-    static tryRead(cursor: Cursor): Result<DynamicVector, Error> {
-      return Result.unthrowSync(t => {
-        const zero = cursor.offset
-
-        const length = Uint32.tryRead(cursor).throw(t)
-
-        const start = cursor.offset
-
-        const subcursor = new Cursor(cursor.bytes)
-
-        const inner = new Array<Instance<any>>()
-
-        const heads = new Array<Instance<any>>()
-        const tails = new Array<Instance<any>>()
-
-        for (let i = 0; i < length.value; i++) {
-          if (DynamicVector.inner.dynamic) {
-            const pointer = Uint32.tryRead(cursor).throw(t)
-            heads.push(pointer)
-
-            subcursor.offset = start + pointer.value
-            const instance = DynamicVector.inner.tryRead(subcursor).throw(t)
-
-            inner.push(instance)
-            tails.push(instance)
-          } else {
-            const instance = DynamicVector.inner.tryRead(cursor).throw(t)
-            inner.push(instance)
-            heads.push(instance)
-          }
-        }
-
-        cursor.offset = Math.max(cursor.offset, subcursor.offset)
-
-        return new Ok(new DynamicVector(inner as any as Factory.Instances<T[]>, heads, tails, cursor.offset - zero))
-      })
-    }
-
   }
 }
 
 export type DynamicVectorInstance<T extends Factory<any, any> = Factory<any, any>> =
-  Readable.ReadOutput<DynamicVectorFactory<T>>
+  Readable.Output<DynamicVectorFactory<T>>
 
 export type DynamicVectorFactory<T extends Factory<any, any> = Factory<any, any>> =
   ReturnType<typeof createDynamicVector<T>> & { readonly name: string }

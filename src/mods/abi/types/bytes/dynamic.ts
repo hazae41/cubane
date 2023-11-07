@@ -1,8 +1,6 @@
 import { Base16 } from "@hazae41/base16";
-import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Uint32 } from "../uint/uint.js";
 
@@ -74,28 +72,12 @@ export class DynamicBytes<N extends number = number> {
     return this.size
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(this.size)
-  }
-
   writeOrThrow(cursor: Cursor) {
     const length = Uint32.new(this.value.length)
 
     length.writeOrThrow(cursor)
     cursor.writeOrThrow(this.value)
     cursor.fillOrThrow(0, this.size - 32 - this.value.length)
-  }
-
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      const length = Uint32.new(this.value.length)
-
-      length.tryWrite(cursor).throw(t)
-      cursor.tryWrite(this.value).throw(t)
-      cursor.fill(0, this.size - 32 - this.value.length)
-
-      return Ok.void()
-    })
   }
 
   static readOrThrow(cursor: Cursor) {
@@ -106,18 +88,6 @@ export class DynamicBytes<N extends number = number> {
     cursor.offset += size - 32 - bytes.length
 
     return new DynamicBytes(bytes, size)
-  }
-
-  static tryRead(cursor: Cursor): Result<DynamicBytes<number>, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      const length = Uint32.tryRead(cursor).throw(t)
-      const bytes = cursor.tryRead(length.value).throw(t)
-      const size = 32 + (Math.ceil(bytes.length / 32) * 32)
-
-      cursor.offset += size - 32 - bytes.length
-
-      return new Ok(new DynamicBytes(bytes, size))
-    })
   }
 
 }

@@ -107,7 +107,7 @@ export namespace FunctionSignature {
 }
 
 export type FunctionSignatureInstance<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
-  Readable.ReadOutput<FunctionSignatureFactory<T>>
+  Readable.Output<FunctionSignatureFactory<T>>
 
 export type FunctionSignatureFactory<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
   ReturnType<typeof createFunctionSignature<T>> & { readonly name: string }
@@ -137,16 +137,16 @@ export function createFunctionSignature<T extends readonly Factory<any, any>[] =
       return `Cubane.Abi.createFunctionSignature("${name}",${args.codegen()})`
     }
 
-    trySize(): Result<number, never> {
-      return this.args.trySize()
+    sizeOrThrow() {
+      return this.args.sizeOrThrow()
     }
 
-    tryWrite(cursor: Cursor): Result<void, Error> {
-      return this.args.tryWrite(cursor)
+    writeOrThrow(cursor: Cursor) {
+      return this.args.writeOrThrow(cursor)
     }
 
-    static tryRead(cursor: Cursor) {
-      return args.tryRead(cursor)
+    static readOrThrow(cursor: Cursor) {
+      return args.readOrThrow(cursor)
     }
 
   }

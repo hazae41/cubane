@@ -1,5 +1,4 @@
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
 import { Factory, Instance } from "mods/abi/abi.js";
 import { Uint32 } from "../uint/uint.js";
 
@@ -142,25 +141,11 @@ export const createDynamicArray = <T extends Factory<any, any>, N extends number
       return this.size
     }
 
-    trySize(): Result<number, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       for (const instance of this.heads)
         instance.writeOrThrow(cursor)
       for (const instance of this.tails)
         instance.writeOrThrow(cursor)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, Error> {
-      return Result.unthrowSync(t => {
-        for (const instance of this.heads)
-          instance.tryWrite(cursor).throw(t)
-        for (const instance of this.tails)
-          instance.tryWrite(cursor).throw(t)
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
@@ -196,46 +181,11 @@ export const createDynamicArray = <T extends Factory<any, any>, N extends number
       return new DynamicArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero)
     }
 
-    static tryRead(cursor: Cursor): Result<DynamicArray, Error> {
-      return Result.unthrowSync(t => {
-        const zero = cursor.offset
-        const start = cursor.offset
-
-        const subcursor = new Cursor(cursor.bytes)
-
-        const inner = new Array<Instance<any>>()
-
-        const heads = new Array<Instance<any>>()
-        const tails = new Array<Instance<any>>()
-
-        for (let i = 0; i < this.count; i++) {
-          if (DynamicArray.inner.dynamic) {
-            const pointer = Uint32.tryRead(cursor).throw(t)
-            heads.push(pointer)
-
-            subcursor.offset = start + pointer.value
-            const instance = DynamicArray.inner.tryRead(subcursor).throw(t)
-
-            inner.push(instance)
-            tails.push(instance)
-          } else {
-            const instance = DynamicArray.inner.tryRead(cursor).throw(t)
-            inner.push(instance)
-            heads.push(instance)
-          }
-        }
-
-        cursor.offset = Math.max(cursor.offset, subcursor.offset)
-
-        return new Ok(new DynamicArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero))
-      })
-    }
-
   }
 }
 
 export type DynamicArrayInstance<T extends Factory<any, any>, N extends number> =
-  Readable.ReadOutput<DynamicArrayFactory<T, N>>
+  Readable.Output<DynamicArrayFactory<T, N>>
 
 export type DynamicArrayFactory<T extends Factory<any, any>, N extends number> =
   ReturnType<typeof createDynamicArray<T, N>> & { readonly name: string }

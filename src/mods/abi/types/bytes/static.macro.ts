@@ -1,9 +1,7 @@
 function $pre$() {
   return `import { Base16 } from "@hazae41/base16";
-  import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
   import { Bytes } from "@hazae41/bytes";
   import { Cursor } from "@hazae41/cursor";
-  import { Ok, Result } from "@hazae41/result";
   import { TextCursor } from "libs/cursor/cursor.js";`
 }
 
@@ -79,38 +77,15 @@ function $createStaticBytes$(bytes: number) {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes${bytes}.bytes)
       cursor.offset += 32 - Bytes${bytes}.bytes
       return new Bytes${bytes}(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes${bytes}, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes${bytes}.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes${bytes}.bytes
-
-        return new Ok(new Bytes${bytes}(bytes))
-      })
     }
 
   }`

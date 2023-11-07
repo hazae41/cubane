@@ -9,7 +9,7 @@ Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
 test("bytes", async ({ message, test }) => {
-  const value = Bytes.tryRandom(123).unwrap()
+  const value = Bytes.random(123)
   const abi = DynamicBytes.new(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 

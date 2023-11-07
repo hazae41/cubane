@@ -1,8 +1,6 @@
 import { Base16 } from "@hazae41/base16";
-  import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
   import { Bytes } from "@hazae41/bytes";
   import { Cursor } from "@hazae41/cursor";
-  import { Ok, Result } from "@hazae41/result";
   import { TextCursor } from "libs/cursor/cursor.js";
 
 export class Bytes1 {
@@ -71,38 +69,15 @@ export class Bytes1 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes1.bytes)
       cursor.offset += 32 - Bytes1.bytes
       return new Bytes1(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes1, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes1.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes1.bytes
-
-        return new Ok(new Bytes1(bytes))
-      })
     }
 
   }
@@ -172,38 +147,15 @@ export class Bytes2 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes2.bytes)
       cursor.offset += 32 - Bytes2.bytes
       return new Bytes2(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes2, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes2.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes2.bytes
-
-        return new Ok(new Bytes2(bytes))
-      })
     }
 
   }
@@ -273,38 +225,15 @@ export class Bytes3 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes3.bytes)
       cursor.offset += 32 - Bytes3.bytes
       return new Bytes3(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes3, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes3.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes3.bytes
-
-        return new Ok(new Bytes3(bytes))
-      })
     }
 
   }
@@ -374,38 +303,15 @@ export class Bytes4 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes4.bytes)
       cursor.offset += 32 - Bytes4.bytes
       return new Bytes4(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes4, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes4.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes4.bytes
-
-        return new Ok(new Bytes4(bytes))
-      })
     }
 
   }
@@ -475,38 +381,15 @@ export class Bytes5 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes5.bytes)
       cursor.offset += 32 - Bytes5.bytes
       return new Bytes5(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes5, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes5.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes5.bytes
-
-        return new Ok(new Bytes5(bytes))
-      })
     }
 
   }
@@ -576,38 +459,15 @@ export class Bytes6 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes6.bytes)
       cursor.offset += 32 - Bytes6.bytes
       return new Bytes6(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes6, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes6.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes6.bytes
-
-        return new Ok(new Bytes6(bytes))
-      })
     }
 
   }
@@ -677,38 +537,15 @@ export class Bytes7 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes7.bytes)
       cursor.offset += 32 - Bytes7.bytes
       return new Bytes7(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes7, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes7.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes7.bytes
-
-        return new Ok(new Bytes7(bytes))
-      })
     }
 
   }
@@ -778,38 +615,15 @@ export class Bytes8 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes8.bytes)
       cursor.offset += 32 - Bytes8.bytes
       return new Bytes8(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes8, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes8.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes8.bytes
-
-        return new Ok(new Bytes8(bytes))
-      })
     }
 
   }
@@ -879,38 +693,15 @@ export class Bytes9 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes9.bytes)
       cursor.offset += 32 - Bytes9.bytes
       return new Bytes9(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes9, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes9.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes9.bytes
-
-        return new Ok(new Bytes9(bytes))
-      })
     }
 
   }
@@ -980,38 +771,15 @@ export class Bytes10 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes10.bytes)
       cursor.offset += 32 - Bytes10.bytes
       return new Bytes10(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes10, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes10.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes10.bytes
-
-        return new Ok(new Bytes10(bytes))
-      })
     }
 
   }
@@ -1081,38 +849,15 @@ export class Bytes11 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes11.bytes)
       cursor.offset += 32 - Bytes11.bytes
       return new Bytes11(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes11, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes11.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes11.bytes
-
-        return new Ok(new Bytes11(bytes))
-      })
     }
 
   }
@@ -1182,38 +927,15 @@ export class Bytes12 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes12.bytes)
       cursor.offset += 32 - Bytes12.bytes
       return new Bytes12(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes12, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes12.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes12.bytes
-
-        return new Ok(new Bytes12(bytes))
-      })
     }
 
   }
@@ -1283,38 +1005,15 @@ export class Bytes13 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes13.bytes)
       cursor.offset += 32 - Bytes13.bytes
       return new Bytes13(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes13, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes13.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes13.bytes
-
-        return new Ok(new Bytes13(bytes))
-      })
     }
 
   }
@@ -1384,38 +1083,15 @@ export class Bytes14 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes14.bytes)
       cursor.offset += 32 - Bytes14.bytes
       return new Bytes14(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes14, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes14.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes14.bytes
-
-        return new Ok(new Bytes14(bytes))
-      })
     }
 
   }
@@ -1485,38 +1161,15 @@ export class Bytes15 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes15.bytes)
       cursor.offset += 32 - Bytes15.bytes
       return new Bytes15(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes15, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes15.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes15.bytes
-
-        return new Ok(new Bytes15(bytes))
-      })
     }
 
   }
@@ -1586,38 +1239,15 @@ export class Bytes16 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes16.bytes)
       cursor.offset += 32 - Bytes16.bytes
       return new Bytes16(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes16, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes16.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes16.bytes
-
-        return new Ok(new Bytes16(bytes))
-      })
     }
 
   }
@@ -1687,38 +1317,15 @@ export class Bytes17 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes17.bytes)
       cursor.offset += 32 - Bytes17.bytes
       return new Bytes17(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes17, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes17.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes17.bytes
-
-        return new Ok(new Bytes17(bytes))
-      })
     }
 
   }
@@ -1788,38 +1395,15 @@ export class Bytes18 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes18.bytes)
       cursor.offset += 32 - Bytes18.bytes
       return new Bytes18(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes18, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes18.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes18.bytes
-
-        return new Ok(new Bytes18(bytes))
-      })
     }
 
   }
@@ -1889,38 +1473,15 @@ export class Bytes19 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes19.bytes)
       cursor.offset += 32 - Bytes19.bytes
       return new Bytes19(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes19, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes19.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes19.bytes
-
-        return new Ok(new Bytes19(bytes))
-      })
     }
 
   }
@@ -1990,38 +1551,15 @@ export class Bytes20 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes20.bytes)
       cursor.offset += 32 - Bytes20.bytes
       return new Bytes20(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes20, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes20.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes20.bytes
-
-        return new Ok(new Bytes20(bytes))
-      })
     }
 
   }
@@ -2091,38 +1629,15 @@ export class Bytes21 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes21.bytes)
       cursor.offset += 32 - Bytes21.bytes
       return new Bytes21(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes21, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes21.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes21.bytes
-
-        return new Ok(new Bytes21(bytes))
-      })
     }
 
   }
@@ -2192,38 +1707,15 @@ export class Bytes22 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes22.bytes)
       cursor.offset += 32 - Bytes22.bytes
       return new Bytes22(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes22, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes22.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes22.bytes
-
-        return new Ok(new Bytes22(bytes))
-      })
     }
 
   }
@@ -2293,38 +1785,15 @@ export class Bytes23 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes23.bytes)
       cursor.offset += 32 - Bytes23.bytes
       return new Bytes23(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes23, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes23.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes23.bytes
-
-        return new Ok(new Bytes23(bytes))
-      })
     }
 
   }
@@ -2394,38 +1863,15 @@ export class Bytes24 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes24.bytes)
       cursor.offset += 32 - Bytes24.bytes
       return new Bytes24(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes24, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes24.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes24.bytes
-
-        return new Ok(new Bytes24(bytes))
-      })
     }
 
   }
@@ -2495,38 +1941,15 @@ export class Bytes25 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes25.bytes)
       cursor.offset += 32 - Bytes25.bytes
       return new Bytes25(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes25, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes25.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes25.bytes
-
-        return new Ok(new Bytes25(bytes))
-      })
     }
 
   }
@@ -2596,38 +2019,15 @@ export class Bytes26 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes26.bytes)
       cursor.offset += 32 - Bytes26.bytes
       return new Bytes26(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes26, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes26.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes26.bytes
-
-        return new Ok(new Bytes26(bytes))
-      })
     }
 
   }
@@ -2697,38 +2097,15 @@ export class Bytes27 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes27.bytes)
       cursor.offset += 32 - Bytes27.bytes
       return new Bytes27(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes27, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes27.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes27.bytes
-
-        return new Ok(new Bytes27(bytes))
-      })
     }
 
   }
@@ -2798,38 +2175,15 @@ export class Bytes28 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes28.bytes)
       cursor.offset += 32 - Bytes28.bytes
       return new Bytes28(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes28, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes28.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes28.bytes
-
-        return new Ok(new Bytes28(bytes))
-      })
     }
 
   }
@@ -2899,38 +2253,15 @@ export class Bytes29 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes29.bytes)
       cursor.offset += 32 - Bytes29.bytes
       return new Bytes29(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes29, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes29.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes29.bytes
-
-        return new Ok(new Bytes29(bytes))
-      })
     }
 
   }
@@ -3000,38 +2331,15 @@ export class Bytes30 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes30.bytes)
       cursor.offset += 32 - Bytes30.bytes
       return new Bytes30(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes30, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes30.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes30.bytes
-
-        return new Ok(new Bytes30(bytes))
-      })
     }
 
   }
@@ -3101,38 +2409,15 @@ export class Bytes31 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes31.bytes)
       cursor.offset += 32 - Bytes31.bytes
       return new Bytes31(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes31, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes31.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes31.bytes
-
-        return new Ok(new Bytes31(bytes))
-      })
     }
 
   }
@@ -3202,38 +2487,15 @@ export class Bytes32 {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       cursor.writeOrThrow(this.value)
       cursor.fillOrThrow(0, 32 - this.value.length)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-      return Result.unthrowSync(t => {
-        cursor.tryWrite(this.value).throw(t)
-        cursor.fill(0, 32 - this.value.length)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
       const bytes = cursor.readOrThrow(Bytes32.bytes)
       cursor.offset += 32 - Bytes32.bytes
       return new Bytes32(bytes)
-    }
-
-    static tryRead(cursor: Cursor): Result<Bytes32, BinaryReadError> {
-      return Result.unthrowSync(t => {
-        const bytes = cursor.tryRead(Bytes32.bytes).throw(t)
-
-        cursor.offset += 32 - Bytes32.bytes
-
-        return new Ok(new Bytes32(bytes))
-      })
     }
 
   }

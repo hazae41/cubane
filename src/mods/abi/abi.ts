@@ -4,7 +4,7 @@ import { Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
 
-export interface Instance<P> extends Writable<never, Error> {
+export interface Instance<P> extends Writable {
   readonly dynamic?: boolean
 
   readonly size: number
@@ -17,15 +17,15 @@ export interface Instance<P> extends Writable<never, Error> {
   writeOrThrow(cursor: Cursor): void
 }
 
-export interface Factory<P, I extends Instance<P>> extends Readable<I, Error> {
+export interface Factory<P, I extends Instance<P>> extends Readable<I> {
   readonly dynamic?: boolean
 
   from(primitive: P): I
 
   codegen(): string
 
-  decodeOrThrow(cursor: TextCursor): Instance<P>
-  readOrThrow(cursor: Cursor): Instance<P>
+  decodeOrThrow(cursor: TextCursor): I
+  readOrThrow(cursor: Cursor): I
 }
 
 export namespace Factory {

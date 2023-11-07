@@ -1,8 +1,5 @@
 function $pre$() {
-  return `import { Base16 } from "@hazae41/base16";
-  import { BinaryReadError, BinaryWriteError } from "@hazae41/binary";
-  import { Cursor } from "@hazae41/cursor";
-  import { Ok, Result } from "@hazae41/result";
+  return `import { Cursor } from "@hazae41/cursor";
   import { BigInts } from "libs/bigint/bigint.js";
   import { TextCursor } from "libs/cursor/cursor.js";
   
@@ -94,10 +91,6 @@ function $createStaticBigInt$(bytes: number) {
       return this.size
     }
 
-    trySize(): Result<32, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       if (this.value < BN_0) {
         const mask = (BN_1 << 256n) - BN_1
@@ -107,35 +100,13 @@ function $createStaticBigInt$(bytes: number) {
 
         cursor.writeOrThrow(slice.bytes)
 
-        return Ok.void()
+        return
       }
 
       using slice = BigInts.exportOrThrow(this.value)
 
       cursor.fillOrThrow(0, 32 - slice.bytes.length)
       cursor.writeOrThrow(slice.bytes)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, BinaryWriteError | Base16.AnyError> {
-      return Result.unthrowSync(t => {
-        if (this.value < BN_0) {
-          const mask = (BN_1 << 256n) - BN_1
-          const value = ((~(-this.value)) & mask) + BN_1
-
-          using slice = BigInts.tryExport(value).throw(t)
-
-          cursor.tryWrite(slice.bytes).throw(t)
-
-          return Ok.void()
-        }
-
-        using slice = BigInts.tryExport(this.value).throw(t)
-
-        cursor.fill(0, 32 - slice.bytes.length)
-        cursor.tryWrite(slice.bytes).throw(t)
-
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
@@ -151,20 +122,6 @@ function $createStaticBigInt$(bytes: number) {
       return new Int${bits}(value)
     }
 
-    static tryRead(cursor: Cursor): Result<Int${bits}, BinaryReadError | Base16.AnyError> {
-      return Result.unthrowSync(t => {
-        cursor.offset += 32 - Int${bits}.bytes
-
-        const mask = (BN_1 << this.bitsn) - BN_1
-
-        const bytes = cursor.tryRead(Int${bits}.bytes).throw(t)
-        const value = BigInts.tryImport(bytes).throw(t)
-
-        if ((value & mask) >> (this.bitsn - BN_1))
-          return new Ok(new Int${bits}(-(((~value) & mask) + BN_1)))
-        return new Ok(new Int${bits}(value))
-      })
-    }
   }`
 }
 

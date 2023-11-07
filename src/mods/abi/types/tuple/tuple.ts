@@ -1,6 +1,5 @@
 import { Readable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Factory, Instance } from "mods/abi/abi.js";
@@ -134,25 +133,11 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
       return this.size
     }
 
-    trySize(): Result<number, never> {
-      return new Ok(this.size)
-    }
-
     writeOrThrow(cursor: Cursor) {
       for (const instance of this.heads)
         instance.writeOrThrow(cursor)
       for (const instance of this.tails)
         instance.writeOrThrow(cursor)
-    }
-
-    tryWrite(cursor: Cursor): Result<void, Error> {
-      return Result.unthrowSync(t => {
-        for (const instance of this.heads)
-          instance.tryWrite(cursor).throw(t)
-        for (const instance of this.tails)
-          instance.tryWrite(cursor).throw(t)
-        return Ok.void()
-      })
     }
 
     static readOrThrow(cursor: Cursor) {
@@ -188,46 +173,11 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
       return new DynamicTuple(inner as Factory.Instances<T>, heads, tails, cursor.offset - zero)
     }
 
-    static tryRead(cursor: Cursor): Result<DynamicTuple, Error> {
-      return Result.unthrowSync(t => {
-        const zero = cursor.offset
-        const start = cursor.offset
-
-        const inner = new Array<Instance<any>>()
-
-        const heads = new Array<Instance<any>>()
-        const tails = new Array<Instance<any>>()
-
-        const subcursor = new Cursor(cursor.bytes)
-
-        for (const factory of DynamicTuple.inner) {
-          if (factory.dynamic) {
-            const pointer = Uint32.tryRead(cursor).throw(t)
-            heads.push(pointer)
-
-            subcursor.offset = start + pointer.value
-            const instance = factory.tryRead(subcursor).throw(t)
-
-            inner.push(instance)
-            tails.push(instance)
-          } else {
-            const instance = factory.tryRead(cursor).throw(t)
-            inner.push(instance)
-            heads.push(instance)
-          }
-        }
-
-        cursor.offset = Math.max(cursor.offset, subcursor.offset)
-
-        return new Ok(new DynamicTuple(inner as Factory.Instances<T>, heads, tails, cursor.offset - zero))
-      })
-    }
-
   }
 }
 
 export type DynamicTupleInstance<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
-  Readable.ReadOutput<DynamicTupleFactory<T>>
+  Readable.Output<DynamicTupleFactory<T>>
 
 export type DynamicTupleFactory<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
   ReturnType<typeof createDynamicTuple<T>> & { readonly name: string }
