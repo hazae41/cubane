@@ -1,7 +1,5 @@
-import { BinaryWriteError } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
-import { Ok, Result } from "@hazae41/result";
-import { RlpType, tryRead } from "../rlp.js";
+import { RlpType, readOrThrow } from "../rlp.js";
 
 export class RlpList55 {
 
@@ -18,33 +16,29 @@ export class RlpList55 {
     return false
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + this.length)
+  sizeOrThrow(): number {
+    return 1 + this.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xc0 + this.length).throw(t)
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xc0 + this.length)
 
-      for (const element of this.value)
-        element.tryWrite(cursor).throw(t)
+    for (const element of this.value)
+      element.writeOrThrow(cursor)
 
-      return Ok.void()
-    })
+    return
   }
 
-  static tryRead(cursor: Cursor): Result<RlpList55, Error> {
-    return Result.unthrowSync(t => {
-      const length = cursor.tryReadUint8().throw(t) - 0xc0
+  static readOrThrow(cursor: Cursor) {
+    const length = cursor.readUint8OrThrow() - 0xc0
 
-      const start = cursor.offset
-      const value = new Array<RlpType>()
+    const start = cursor.offset
+    const value = new Array<RlpType>()
 
-      while (cursor.offset - start < length)
-        value.push(tryRead(cursor).throw(t))
+    while (cursor.offset - start < length)
+      value.push(readOrThrow(cursor))
 
-      return new Ok(new RlpList55(value, length))
-    })
+    return new RlpList55(value, length)
   }
 
 }
@@ -64,36 +58,32 @@ export class RlpListUint8 {
     return false
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + 1 + this.length)
+  sizeOrThrow(): number {
+    return 1 + 1 + this.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xf7 + 1).throw(t)
-      cursor.tryWriteUint8(this.length).throw(t)
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xf7 + 1)
+    cursor.writeUint8OrThrow(this.length)
 
-      for (const element of this.value)
-        element.tryWrite(cursor).throw(t)
+    for (const element of this.value)
+      element.writeOrThrow(cursor)
 
-      return Ok.void()
-    })
+    return
   }
 
-  static tryRead(cursor: Cursor): Result<RlpListUint8, Error> {
-    return Result.unthrowSync(t => {
-      cursor.offset++
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset++
 
-      const length = cursor.tryReadUint8().throw(t)
+    const length = cursor.readUint8OrThrow()
 
-      const start = cursor.offset
-      const value = new Array<RlpType>()
+    const start = cursor.offset
+    const value = new Array<RlpType>()
 
-      while (cursor.offset - start < length)
-        value.push(tryRead(cursor).throw(t))
+    while (cursor.offset - start < length)
+      value.push(readOrThrow(cursor))
 
-      return new Ok(new RlpListUint8(value, length))
-    })
+    return new RlpListUint8(value, length)
   }
 
 }
@@ -113,36 +103,32 @@ export class RlpListUint16 {
     return false
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + 2 + this.length)
+  sizeOrThrow(): number {
+    return 1 + 2 + this.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xf7 + 2).throw(t)
-      cursor.tryWriteUint16(this.length).throw(t)
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xf7 + 2)
+    cursor.writeUint16OrThrow(this.length)
 
-      for (const element of this.value)
-        element.tryWrite(cursor).throw(t)
+    for (const element of this.value)
+      element.writeOrThrow(cursor)
 
-      return Ok.void()
-    })
+    return
   }
 
-  static tryRead(cursor: Cursor): Result<RlpListUint16, Error> {
-    return Result.unthrowSync(t => {
-      cursor.offset++
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset++
 
-      const length = cursor.tryReadUint16().throw(t)
+    const length = cursor.readUint16OrThrow()
 
-      const start = cursor.offset
-      const value = new Array<RlpType>()
+    const start = cursor.offset
+    const value = new Array<RlpType>()
 
-      while (cursor.offset - start < length)
-        value.push(tryRead(cursor).throw(t))
+    while (cursor.offset - start < length)
+      value.push(readOrThrow(cursor))
 
-      return new Ok(new RlpListUint16(value, length))
-    })
+    return new RlpListUint16(value, length)
   }
 
 }
@@ -162,36 +148,32 @@ export class RlpListUint24 {
     return false
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + 3 + this.length)
+  sizeOrThrow(): number {
+    return 1 + 3 + this.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xf7 + 3).throw(t)
-      cursor.tryWriteUint24(this.length).throw(t)
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xf7 + 3)
+    cursor.writeUint24OrThrow(this.length)
 
-      for (const element of this.value)
-        element.tryWrite(cursor).throw(t)
+    for (const element of this.value)
+      element.writeOrThrow(cursor)
 
-      return Ok.void()
-    })
+    return
   }
 
-  static tryRead(cursor: Cursor): Result<RlpListUint24, Error> {
-    return Result.unthrowSync(t => {
-      cursor.offset++
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset++
 
-      const length = cursor.tryReadUint24().throw(t)
+    const length = cursor.readUint24OrThrow()
 
-      const start = cursor.offset
-      const value = new Array<RlpType>()
+    const start = cursor.offset
+    const value = new Array<RlpType>()
 
-      while (cursor.offset - start < length)
-        value.push(tryRead(cursor).throw(t))
+    while (cursor.offset - start < length)
+      value.push(readOrThrow(cursor))
 
-      return new Ok(new RlpListUint24(value, length))
-    })
+    return new RlpListUint24(value, length)
   }
 
 }
@@ -211,36 +193,32 @@ export class RlpListUint32 {
     return false
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + 4 + this.length)
+  sizeOrThrow(): number {
+    return 1 + 4 + this.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xf7 + 4).throw(t)
-      cursor.tryWriteUint32(this.length).throw(t)
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xf7 + 4)
+    cursor.writeUint32OrThrow(this.length)
 
-      for (const element of this.value)
-        element.tryWrite(cursor).throw(t)
+    for (const element of this.value)
+      element.writeOrThrow(cursor)
 
-      return Ok.void()
-    })
+    return
   }
 
-  static tryRead(cursor: Cursor): Result<RlpListUint32, Error> {
-    return Result.unthrowSync(t => {
-      cursor.offset++
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset++
 
-      const length = cursor.tryReadUint32().throw(t)
+    const length = cursor.readUint32OrThrow()
 
-      const start = cursor.offset
-      const value = new Array<RlpType>()
+    const start = cursor.offset
+    const value = new Array<RlpType>()
 
-      while (cursor.offset - start < length)
-        value.push(tryRead(cursor).throw(t))
+    while (cursor.offset - start < length)
+      value.push(readOrThrow(cursor))
 
-      return new Ok(new RlpListUint32(value, length))
-    })
+    return new RlpListUint32(value, length)
   }
 
 }
@@ -255,7 +233,7 @@ export type RlpList =
 export namespace RlpList {
 
   export function from(value: RlpType[]) {
-    const size = value.reduce((a, b) => a + b.trySize().get(), 0)
+    const size = value.reduce((a, b) => a + b.sizeOrThrow(), 0)
 
     if (size < 56)
       return new RlpList55(value, size)

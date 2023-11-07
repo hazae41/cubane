@@ -25,9 +25,9 @@
   },
   "dependencies": {
     "@hazae41/base16": "^1.0.16",
-    "@hazae41/binary": "^1.3.1",
+    "@hazae41/binary": "^1.3.2",
     "@hazae41/box": "^1.0.11",
-    "@hazae41/bytes": "^1.2.3",
+    "@hazae41/bytes": "^1.2.6",
     "@hazae41/cursor": "^1.2.1",
     "@hazae41/keccak256": "^1.0.8",
     "@hazae41/option": "^1.0.26",
@@ -51,12 +51,12 @@
     "ethereumjs-util": "^7.1.5",
     "ethers": "^6.8.1",
     "rimraf": "^5.0.5",
-    "rollup": "^4.2.0",
+    "rollup": "^4.3.0",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-node-externals": "^6.1.2",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "viem": "^1.18.4",
+    "viem": "^1.18.8",
     "web3": "^4.2.2"
   },
   "exports": {

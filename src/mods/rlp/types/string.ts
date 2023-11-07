@@ -1,6 +1,4 @@
-import { BinaryReadError, BinaryWriteError } from "@hazae41/binary"
 import { Cursor } from "@hazae41/cursor"
-import { Ok, Result } from "@hazae41/result"
 
 export class RlpString1 {
 
@@ -16,16 +14,19 @@ export class RlpString1 {
     return true
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1)
+  sizeOrThrow(): number {
+    return 1
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return cursor.tryWrite(this.value)
+  writeOrThrow(cursor: Cursor): void {
+    cursor.writeOrThrow(this.value)
   }
 
-  static tryRead(cursor: Cursor): Result<RlpString1, BinaryReadError> {
-    return cursor.tryRead(1).mapSync(x => new RlpString1(x))
+  static readOrThrow(cursor: Cursor) {
+    const content = cursor.readOrThrow(1)
+    const bytes = new Uint8Array(content)
+
+    return new RlpString1(bytes)
   }
 
 }
@@ -44,26 +45,21 @@ export class RlpString55 {
     return true
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + this.value.length)
+  sizeOrThrow(): number {
+    return 1 + this.value.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0x80 + this.value.length).throw(t)
-      cursor.tryWrite(this.value).throw(t)
-
-      return Ok.void()
-    })
+  writeOrThrow(cursor: Cursor): void {
+    cursor.writeUint8OrThrow(0x80 + this.value.length)
+    cursor.writeOrThrow(this.value)
   }
 
-  static tryRead(cursor: Cursor): Result<RlpString55, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      const length = cursor.tryReadUint8().throw(t) - 0x80
-      const value = cursor.tryRead(length).throw(t)
+  static readOrThrow(cursor: Cursor) {
+    const length = cursor.readUint8OrThrow() - 0x80
+    const value = cursor.readOrThrow(length)
+    const bytes = new Uint8Array(value)
 
-      return new Ok(new RlpString55(value))
-    })
+    return new RlpString55(bytes)
   }
 
 }
@@ -82,29 +78,24 @@ export class RlpStringUint8 {
     return true
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + 1 + this.value.length)
+  sizeOrThrow(): number {
+    return 1 + 1 + this.value.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xb7 + 1).throw(t)
-      cursor.tryWriteUint8(this.value.length).throw(t)
-      cursor.tryWrite(this.value).throw(t)
-
-      return Ok.void()
-    })
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xb7 + 1)
+    cursor.writeUint8OrThrow(this.value.length)
+    cursor.writeOrThrow(this.value)
   }
 
-  static tryRead(cursor: Cursor): Result<RlpStringUint8, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      cursor.offset++
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset++
 
-      const length = cursor.tryReadUint8().throw(t)
-      const value = cursor.tryRead(length).throw(t)
+    const length = cursor.readUint8OrThrow()
+    const value = cursor.readOrThrow(length)
+    const bytes = new Uint8Array(value)
 
-      return new Ok(new RlpStringUint8(value))
-    })
+    return new RlpStringUint8(bytes)
   }
 
 }
@@ -123,29 +114,24 @@ export class RlpStringUint16 {
     return true
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + 2 + this.value.length)
+  sizeOrThrow() {
+    return 1 + 2 + this.value.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xb7 + 2).throw(t)
-      cursor.tryWriteUint16(this.value.length).throw(t)
-      cursor.tryWrite(this.value).throw(t)
-
-      return Ok.void()
-    })
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xb7 + 2)
+    cursor.writeUint16OrThrow(this.value.length)
+    cursor.writeOrThrow(this.value)
   }
 
-  static tryRead(cursor: Cursor): Result<RlpStringUint16, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      cursor.offset++
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset++
 
-      const length = cursor.tryReadUint16().throw(t)
-      const value = cursor.tryRead(length).throw(t)
+    const length = cursor.readUint8OrThrow()
+    const value = cursor.readOrThrow(length)
+    const bytes = new Uint8Array(value)
 
-      return new Ok(new RlpStringUint16(value))
-    })
+    return new RlpStringUint16(bytes)
   }
 
 }
@@ -164,29 +150,24 @@ export class RlpStringUint24 {
     return true
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + 3 + this.value.length)
+  sizeOrThrow() {
+    return 1 + 3 + this.value.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xb7 + 3).throw(t)
-      cursor.tryWriteUint24(this.value.length).throw(t)
-      cursor.tryWrite(this.value).throw(t)
-
-      return Ok.void()
-    })
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xb7 + 3)
+    cursor.writeUint24OrThrow(this.value.length)
+    cursor.writeOrThrow(this.value)
   }
 
-  static tryRead(cursor: Cursor): Result<RlpStringUint24, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      cursor.offset++
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset++
 
-      const length = cursor.tryReadUint24().throw(t)
-      const value = cursor.tryRead(length).throw(t)
+    const length = cursor.readUint24OrThrow()
+    const value = cursor.readOrThrow(length)
+    const bytes = new Uint8Array(value)
 
-      return new Ok(new RlpStringUint24(value))
-    })
+    return new RlpStringUint24(bytes)
   }
 
 }
@@ -205,29 +186,24 @@ export class RlpStringUint32 {
     return true
   }
 
-  trySize(): Result<number, never> {
-    return new Ok(1 + 4 + this.value.length)
+  sizeOrThrow() {
+    return 1 + 4 + this.value.length
   }
 
-  tryWrite(cursor: Cursor): Result<void, BinaryWriteError> {
-    return Result.unthrowSync(t => {
-      cursor.tryWriteUint8(0xb7 + 4).throw(t)
-      cursor.tryWriteUint32(this.value.length).throw(t)
-      cursor.tryWrite(this.value).throw(t)
-
-      return Ok.void()
-    })
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(0xb7 + 4)
+    cursor.writeUint32OrThrow(this.value.length)
+    cursor.writeOrThrow(this.value)
   }
 
-  static tryRead(cursor: Cursor): Result<RlpStringUint32, BinaryReadError> {
-    return Result.unthrowSync(t => {
-      cursor.offset++
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset++
 
-      const length = cursor.tryReadUint32().throw(t)
-      const value = cursor.tryRead(length).throw(t)
+    const length = cursor.readUint32OrThrow()
+    const value = cursor.readOrThrow(length)
+    const bytes = new Uint8Array(value)
 
-      return new Ok(new RlpStringUint32(value))
-    })
+    return new RlpStringUint32(bytes)
   }
 
 }
