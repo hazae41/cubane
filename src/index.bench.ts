@@ -153,7 +153,7 @@ if (false) {
 /**
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
-if (false) {
+if (true) {
   const abi = FunctionSignature.tryParse("f(bool,uint256,string,address,bytes)").unwrap()
 
   const txhex = ethers.Transaction.from({

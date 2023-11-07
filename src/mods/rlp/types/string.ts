@@ -127,7 +127,7 @@ export class RlpStringUint16 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset++
 
-    const length = cursor.readUint8OrThrow()
+    const length = cursor.readUint16OrThrow()
     const value = cursor.readOrThrow(length)
     const bytes = new Uint8Array(value)
 

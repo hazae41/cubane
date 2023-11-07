@@ -105,19 +105,3 @@ if (false) {
 
   selfResult.tableAndSummary(viemResult, ensResult)
 }
-
-const one = benchSync("alloc", () => {
-  const x = new Uint8Array(16 * 4096)
-})
-
-const two = benchSync("unsafe", () => {
-  const x = Buffer.allocUnsafe(16 * 4096).fill(0)
-})
-
-const three = benchSync("unsafe2", () => {
-  const x = Buffer.allocUnsafeSlow(16 * 4096).fill(0)
-})
-
-one.tableAndSummary(two, three)
-two.summary(one, three)
-three.summary(one, two)
