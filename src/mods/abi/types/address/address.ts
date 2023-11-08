@@ -1,30 +1,26 @@
 import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
+import { Address, RawHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { RawHexString } from "mods/types/rawhex/index.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
 
 export type StaticAddress =
-  | RawHexStaticAddress
-  | BytesStaticAddress
   | ZeroHexStaticAddress
+  | BytesStaticAddress
 
 export namespace StaticAddress {
   export const dynamic = false
   export const size = 32
 
   export type From =
-    | RawHexStaticAddress.From
-    | BytesStaticAddress.From
     | ZeroHexStaticAddress.From
+    | BytesStaticAddress.From
 
   export function create(value: StaticAddress.From) {
     if (value instanceof Uint8Array)
-      return new BytesStaticAddress(value)
-    if (ZeroHexString.is(value))
-      return ZeroHexStaticAddress.create(value)
-    return new RawHexStaticAddress(value)
+      return BytesStaticAddress.create(value)
+    return ZeroHexStaticAddress.create(value)
   }
 
   export function from(value: StaticAddress.From) {
@@ -36,7 +32,7 @@ export namespace StaticAddress {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return RawHexStaticAddress.decodeOrThrow(cursor)
+    return ZeroHexStaticAddress.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -71,7 +67,7 @@ export class BytesStaticAddress {
   }
 
   intoOrThrow() {
-    return this.value
+    return Address.checksum(this.encodePackedOrThrow())
   }
 
   get class() {
@@ -106,12 +102,12 @@ export class BytesStaticAddress {
 
 }
 
-export namespace RawHexStaticAddress {
-  export type From = RawHexString<40>
+export namespace ZeroHexStaticAddress {
+  export type From = ZeroHexString<42>
 }
 
-export class RawHexStaticAddress {
-  readonly #class = RawHexStaticAddress
+export class ZeroHexStaticAddress {
+  readonly #class = ZeroHexStaticAddress
 
   static readonly dynamic = false
   static readonly size = 32
@@ -120,19 +116,19 @@ export class RawHexStaticAddress {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: RawHexStaticAddress.From
+    readonly value: RawHexString<40>
   ) { }
 
-  static create(value: RawHexStaticAddress.From) {
-    return new RawHexStaticAddress(value)
+  static create(value: ZeroHexStaticAddress.From) {
+    return new ZeroHexStaticAddress(value.slice(2) as RawHexString<40>)
   }
 
-  static from(value: RawHexStaticAddress.From) {
-    return RawHexStaticAddress.create(value)
+  static from(value: ZeroHexStaticAddress.From) {
+    return ZeroHexStaticAddress.create(value)
   }
 
   intoOrThrow() {
-    return this.value
+    return Address.checksum(this.value)
   }
 
   get class() {
@@ -152,7 +148,7 @@ export class RawHexStaticAddress {
 
     const value = cursor.readOrThrow(40)
 
-    return new RawHexStaticAddress(value)
+    return new ZeroHexStaticAddress(value)
   }
 
   sizeOrThrow() {
@@ -162,62 +158,9 @@ export class RawHexStaticAddress {
   writeOrThrow(cursor: Cursor) {
     cursor.fillOrThrow(0, 32 - 20)
 
-    const raw = this.value
-    using slice = Base16.get().padStartAndDecodeOrThrow(raw)
+    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+
     cursor.writeOrThrow(slice.bytes)
-  }
-
-}
-
-export namespace ZeroHexStaticAddress {
-  export type From = ZeroHexString<42>
-}
-
-export class ZeroHexStaticAddress {
-  readonly #class = ZeroHexStaticAddress
-
-  static readonly dynamic = false
-  static readonly size = 32
-
-  readonly dynamic = this.#class.dynamic
-  readonly size = this.#class.size
-
-  constructor(
-    readonly inner: RawHexStaticAddress
-  ) { }
-
-  static create(value: ZeroHexStaticAddress.From) {
-    const raw = value.slice(2) as RawHexString<40>
-    const inner = new RawHexStaticAddress(raw)
-    return new ZeroHexStaticAddress(inner)
-  }
-
-  static from(value: ZeroHexStaticAddress.From) {
-    return ZeroHexStaticAddress.create(value)
-  }
-
-  intoOrThrow() {
-    return ZeroHexString.from(this.inner.intoOrThrow())
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  encodeOrThrow() {
-    return this.inner.encodeOrThrow()
-  }
-
-  encodePackedOrThrow() {
-    return this.inner.encodePackedOrThrow()
-  }
-
-  sizeOrThrow() {
-    return this.inner.sizeOrThrow()
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    this.inner.writeOrThrow(cursor)
   }
 
 }

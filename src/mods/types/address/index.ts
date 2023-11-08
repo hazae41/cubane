@@ -49,7 +49,7 @@ export namespace Address {
     return maybeAddress === checksum(maybeAddress.slice(2))
   }
 
-  function checksum(rawHex: string) {
+  export function checksum(rawHex: string) {
     const lowerCase = rawHex.toLowerCase()
     const upperCase = rawHex.toUpperCase()
 
