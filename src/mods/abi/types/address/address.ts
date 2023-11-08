@@ -197,7 +197,7 @@ export class ZeroHexStaticAddress {
   }
 
   intoOrThrow() {
-    return this.inner.intoOrThrow()
+    return ZeroHexString.from(this.inner.intoOrThrow())
   }
 
   get class() {
