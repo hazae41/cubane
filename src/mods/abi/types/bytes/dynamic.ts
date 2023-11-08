@@ -7,7 +7,6 @@ import { Uint32 } from "../uint/uint.js";
 
 export type DynamicBytes =
   | BytesDynamicBytes
-  | RawHexDynamicBytes
   | ZeroHexDynamicBytes
 
 export namespace DynamicBytes {
@@ -15,7 +14,6 @@ export namespace DynamicBytes {
 
   export type From =
     | BytesDynamicBytes.From
-    | RawHexDynamicBytes.From
     | ZeroHexDynamicBytes.From
 
   export function create(value: DynamicBytes.From) {
@@ -23,7 +21,7 @@ export namespace DynamicBytes {
       return BytesDynamicBytes.create(value)
     if (ZeroHexString.is(value))
       return ZeroHexDynamicBytes.create(value)
-    return RawHexDynamicBytes.create(value)
+    return ZeroHexDynamicBytes.create(value)
   }
 
   export function from(value: DynamicBytes.From) {
@@ -35,7 +33,7 @@ export namespace DynamicBytes {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return RawHexDynamicBytes.decodeOrThrow(cursor)
+    return ZeroHexDynamicBytes.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -145,11 +143,11 @@ export class BytesDynamicBytes {
 
 }
 
-export namespace RawHexDynamicBytes {
-  export type From = RawHexString
+export namespace ZeroHexDynamicBytes {
+  export type From = ZeroHexString
 }
 
-export class RawHexDynamicBytes {
+export class ZeroHexDynamicBytes {
   readonly #class = BytesDynamicBytes
 
   static readonly dynamic = true
@@ -157,15 +155,15 @@ export class RawHexDynamicBytes {
   readonly dynamic = this.#class.dynamic
 
   constructor(
-    readonly value: RawHexDynamicBytes.From
+    readonly value: RawHexString
   ) { }
 
-  static create(value: RawHexDynamicBytes.From) {
-    return new RawHexDynamicBytes(value)
+  static create(value: ZeroHexDynamicBytes.From) {
+    return new ZeroHexDynamicBytes(value.slice(2))
   }
 
-  static from(value: RawHexDynamicBytes.From) {
-    return new RawHexDynamicBytes(value)
+  static from(value: ZeroHexDynamicBytes.From) {
+    return ZeroHexDynamicBytes.create(value)
   }
 
   intoOrThrow() {
@@ -211,7 +209,7 @@ export class RawHexDynamicBytes {
     const padded2 = Math.ceil(length2 / 64) * 64
     cursor.offset += padded2 - length2
 
-    return new RawHexDynamicBytes(value)
+    return new ZeroHexDynamicBytes(value)
   }
 
   sizeOrThrow() {
@@ -245,67 +243,7 @@ export class RawHexDynamicBytes {
     const padded1 = Math.ceil(length1 / 32) * 32
     cursor.offset += padded1 - length1
 
-    return new RawHexDynamicBytes(value)
-  }
-
-}
-
-export namespace ZeroHexDynamicBytes {
-  export type From = ZeroHexString
-}
-
-export class ZeroHexDynamicBytes {
-  readonly #class = BytesDynamicBytes
-
-  static readonly dynamic = true
-
-  readonly dynamic = this.#class.dynamic
-
-  constructor(
-    readonly inner: RawHexDynamicBytes
-  ) { }
-
-  static create(value: ZeroHexDynamicBytes.From) {
-    const raw = value.slice(2) as RawHexString
-    const inner = new RawHexDynamicBytes(raw)
-
-    return new ZeroHexDynamicBytes(inner)
-  }
-
-  static from(value: ZeroHexDynamicBytes.From) {
-    return ZeroHexDynamicBytes.create(value)
-  }
-
-  intoOrThrow() {
-    return this.inner.intoOrThrow()
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  encodeOrThrow() {
-    return this.inner.encodeOrThrow()
-  }
-
-  encodePackedOrThrow() {
-    return this.inner.encodePackedOrThrow()
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexDynamicBytes(RawHexDynamicBytes.decodeOrThrow(cursor))
-  }
-
-  sizeOrThrow() {
-    return this.inner.sizeOrThrow()
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    this.inner.writeOrThrow(cursor)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    return new ZeroHexDynamicBytes(RawHexDynamicBytes.readOrThrow(cursor))
+    return new ZeroHexDynamicBytes(value)
   }
 
 }

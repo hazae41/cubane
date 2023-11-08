@@ -1,8 +1,7 @@
-import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { Uint32 } from "../uint/uint.js";
+import { BytesDynamicBytes } from "../index.js";
 
 export type DynamicString =
   | BytesDynamicString
@@ -51,11 +50,11 @@ export class BytesDynamicString {
   readonly dynamic = this.#class.dynamic
 
   constructor(
-    readonly value: BytesDynamicString.From
+    readonly inner: BytesDynamicBytes
   ) { }
 
   static create(value: BytesDynamicString.From) {
-    return new BytesDynamicString(value)
+    return new BytesDynamicString(BytesDynamicBytes.create(value))
   }
 
   static from(value: BytesDynamicString.From) {
@@ -63,7 +62,7 @@ export class BytesDynamicString {
   }
 
   intoOrThrow() {
-    return this.value
+    return Bytes.toUtf8(this.inner.intoOrThrow())
   }
 
   static codegen() {
@@ -75,67 +74,27 @@ export class BytesDynamicString {
   }
 
   encodeOrThrow() {
-    const length1 = this.value.length
-    const length2 = length1 * 2
-
-    const head = Uint32.new(length1).encodeOrThrow()
-
-    const padded2 = Math.ceil(length2 / 64) * 64
-    const body = Base16.get().encodeOrThrow(this.value).padEnd(padded2, "0")
-
-    return head + body
+    return this.inner.encodeOrThrow()
   }
 
   encodePackedOrThrow() {
-    const length1 = this.value.length
-
-    const head = Uint32.new(length1).encodePackedOrThrow()
-    const body = Base16.get().encodeOrThrow(this.value)
-
-    return head + body
+    return this.inner.encodePackedOrThrow()
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const length1 = Uint32.decodeOrThrow(cursor).value
-    const length2 = length1 * 2
-
-    const content = cursor.readOrThrow(length2)
-
-    const value = Base16.get().padEndAndDecodeOrThrow(content).copyAndDispose()
-
-    const padded2 = Math.ceil(length2 / 64) * 64
-    cursor.offset += padded2 - length2
-
-    return new BytesDynamicString(value)
+    return new BytesDynamicString(BytesDynamicBytes.decodeOrThrow(cursor))
   }
 
   sizeOrThrow() {
-    const length1 = this.value.length
-    const padded1 = Math.ceil(length1 / 32) * 32
-
-    return 32 + padded1
+    return this.inner.sizeOrThrow()
   }
 
   writeOrThrow(cursor: Cursor) {
-    const length1 = this.value.length
-
-    Uint32.new(length1).writeOrThrow(cursor)
-    cursor.writeOrThrow(this.value)
-
-    const padded1 = Math.ceil(length1 / 32) * 32
-    cursor.fillOrThrow(0, padded1 - length1)
+    return this.inner.writeOrThrow(cursor)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const length1 = Uint32.readOrThrow(cursor).value
-
-    const content = cursor.readOrThrow(length1)
-    const bytes = new Uint8Array(content)
-
-    const padded1 = Math.ceil(length1 / 32) * 32
-    cursor.offset += padded1 - length1
-
-    return new BytesDynamicString(bytes)
+    return new BytesDynamicString(BytesDynamicBytes.readOrThrow(cursor))
   }
 
 }
@@ -145,19 +104,19 @@ export namespace StringDynamicString {
 }
 
 export class StringDynamicString {
-  readonly #class = BytesDynamicString
+  readonly #class = StringDynamicString
 
   static readonly dynamic = true
 
   readonly dynamic = this.#class.dynamic
 
   constructor(
-    readonly inner: BytesDynamicString
+    readonly inner: BytesDynamicBytes
   ) { }
 
   static create(value: StringDynamicString.From) {
     const bytes = Bytes.fromUtf8(value)
-    const inner = BytesDynamicString.create(bytes)
+    const inner = BytesDynamicBytes.create(bytes)
 
     return new StringDynamicString(inner)
   }
@@ -187,7 +146,7 @@ export class StringDynamicString {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new StringDynamicString(BytesDynamicString.decodeOrThrow(cursor))
+    return new StringDynamicString(BytesDynamicBytes.decodeOrThrow(cursor))
   }
 
   sizeOrThrow() {
@@ -199,7 +158,7 @@ export class StringDynamicString {
   }
 
   static readOrThrow(cursor: Cursor) {
-    return new StringDynamicString(BytesDynamicString.readOrThrow(cursor))
+    return new StringDynamicString(BytesDynamicBytes.readOrThrow(cursor))
   }
 
 }
