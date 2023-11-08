@@ -103,8 +103,8 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory<an
       return new FunctionSelectorAndArguments(args)
     }
 
-    into() {
-      return this.args.into()
+    intoOrThrow() {
+      return this.args.intoOrThrow()
     }
 
     static codegen() {

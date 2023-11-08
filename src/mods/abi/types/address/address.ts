@@ -1,17 +1,19 @@
 import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
+import { Address } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { RawHexString } from "mods/types/rawhex/index.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
 
 export type StaticAddress =
-  | RawStaticAddress
+  | RawHexStaticAddress
   | BytesStaticAddress
   | ZeroHexStaticAddress
 
 export namespace StaticAddress {
   export type From =
-    | RawStaticAddress.From
+    | RawHexStaticAddress.From
     | BytesStaticAddress.From
     | ZeroHexStaticAddress.From
 
@@ -19,12 +21,12 @@ export namespace StaticAddress {
     if (value instanceof Uint8Array)
       return new BytesStaticAddress(value)
     if (ZeroHexString.is(value))
-      return new ZeroHexStaticAddress(value)
-    return new RawStaticAddress(value)
+      return ZeroHexStaticAddress.create(value)
+    return new RawHexStaticAddress(value)
   }
 
   export function from(value: StaticAddress.From) {
-    return create(value)
+    return StaticAddress.create(value)
   }
 
   export function codegen() {
@@ -32,82 +34,11 @@ export namespace StaticAddress {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 24
-
-    const value = cursor.readOrThrow(40)
-
-    return new RawStaticAddress(value as RawStaticAddress.From)
+    return RawHexStaticAddress.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - 20
-
-    const bytes = cursor.readOrThrow(20)
-
-    return new BytesStaticAddress(bytes)
-  }
-
-}
-
-export namespace RawStaticAddress {
-  export type From = string & { readonly length: 40 }
-}
-
-export class RawStaticAddress {
-  readonly #class = RawStaticAddress
-
-  readonly size = 32 as const
-
-  constructor(
-    readonly value: RawStaticAddress.From
-  ) { }
-
-  static new(value: RawStaticAddress.From) {
-    return new RawStaticAddress(value)
-  }
-
-  static from(value: RawStaticAddress.From) {
-    return new RawStaticAddress(value)
-  }
-
-  into() {
-    return ZeroHexString.from(this.value)
-  }
-
-  static codegen() {
-    return `Cubane.Abi.StaticAddress`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  encodeOrThrow() {
-    return this.value.padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value as string
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 24
-
-    const value = cursor.readOrThrow(40)
-
-    return new RawStaticAddress(value as RawStaticAddress.From)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - 20)
-
-    const hex = this.encodePackedOrThrow()
-    using slice = Base16.get().padStartAndDecodeOrThrow(hex)
-    cursor.writeOrThrow(slice.bytes)
+    return BytesStaticAddress.readOrThrow(cursor)
   }
 
 }
@@ -125,16 +56,16 @@ export class BytesStaticAddress {
     readonly value: BytesStaticAddress.From
   ) { }
 
-  static new(value: BytesStaticAddress.From) {
+  static create(value: BytesStaticAddress.From) {
     return new BytesStaticAddress(value)
   }
 
   static from(value: BytesStaticAddress.From) {
-    return new BytesStaticAddress(value)
+    return BytesStaticAddress.create(value)
   }
 
-  into() {
-    return ZeroHexString.from(this.value)
+  intoOrThrow() {
+    return Address.fromOrThrow(this.value)
   }
 
   get class() {
@@ -158,6 +89,74 @@ export class BytesStaticAddress {
     cursor.writeOrThrow(this.value)
   }
 
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 32 - 20
+
+    const content = cursor.readOrThrow(20)
+    const bytes = Bytes.from(content)
+
+    return new BytesStaticAddress(bytes)
+  }
+
+}
+
+export namespace RawHexStaticAddress {
+  export type From = RawHexString<40>
+}
+
+export class RawHexStaticAddress {
+  readonly #class = RawHexStaticAddress
+
+  readonly size = 32 as const
+
+  constructor(
+    readonly value: RawHexStaticAddress.From
+  ) { }
+
+  static create(value: RawHexStaticAddress.From) {
+    return new RawHexStaticAddress(value)
+  }
+
+  static from(value: RawHexStaticAddress.From) {
+    return RawHexStaticAddress.create(value)
+  }
+
+  intoOrThrow() {
+    return Address.fromOrThrow(this.value)
+  }
+
+  get class() {
+    return this.#class
+  }
+
+  encodeOrThrow() {
+    return this.value.padStart(64, "0")
+  }
+
+  encodePackedOrThrow() {
+    return this.value
+  }
+
+  static decodeOrThrow(cursor: TextCursor) {
+    cursor.offset += 24
+
+    const value = cursor.readOrThrow(40)
+
+    return new RawHexStaticAddress(value)
+  }
+
+  sizeOrThrow() {
+    return this.size
+  }
+
+  writeOrThrow(cursor: Cursor) {
+    cursor.fillOrThrow(0, 32 - 20)
+
+    const raw = this.value
+    using slice = Base16.get().padStartAndDecodeOrThrow(raw)
+    cursor.writeOrThrow(slice.bytes)
+  }
+
 }
 
 export namespace ZeroHexStaticAddress {
@@ -170,19 +169,21 @@ export class ZeroHexStaticAddress {
   readonly size = 32 as const
 
   constructor(
-    readonly value: ZeroHexStaticAddress.From
+    readonly inner: RawHexStaticAddress
   ) { }
 
-  static new(value: ZeroHexStaticAddress.From) {
-    return new ZeroHexStaticAddress(value)
+  static create(value: ZeroHexStaticAddress.From) {
+    const raw = value.slice(2) as RawHexString<40>
+    const inner = new RawHexStaticAddress(raw)
+    return new ZeroHexStaticAddress(inner)
   }
 
   static from(value: ZeroHexStaticAddress.From) {
-    return new ZeroHexStaticAddress(value)
+    return ZeroHexStaticAddress.create(value)
   }
 
-  into() {
-    return this.value
+  intoOrThrow() {
+    return this.inner.intoOrThrow()
   }
 
   get class() {
@@ -190,23 +191,19 @@ export class ZeroHexStaticAddress {
   }
 
   encodeOrThrow() {
-    return this.value.slice(2).padStart(64, "0")
+    return this.inner.encodeOrThrow()
   }
 
   encodePackedOrThrow() {
-    return this.value.slice(2)
+    return this.inner.encodePackedOrThrow()
   }
 
   sizeOrThrow() {
-    return this.size
+    return this.inner.sizeOrThrow()
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - 20)
-
-    const hex = this.encodePackedOrThrow()
-    using slice = Base16.get().padStartAndDecodeOrThrow(hex)
-    cursor.writeOrThrow(slice.bytes)
+    this.inner.writeOrThrow(cursor)
   }
 
 }

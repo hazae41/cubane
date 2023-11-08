@@ -1,7 +1,7 @@
 import { Base16 } from "@hazae41/base16"
 
 /**
- * A "0x"-prefixed string with static length
+ * Does not check if the string is a valid hex string
  */
 export type ZeroHexString<N extends number = number> = number extends N
   ? `0x${string}`

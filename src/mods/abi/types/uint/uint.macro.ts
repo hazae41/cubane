@@ -32,7 +32,7 @@ function $createStaticBigUint$(bytes: number) {
       return new Uint${bits}(value)
     }
 
-    into() {
+    intoOrThrow() {
       return this.value
     }
 
@@ -116,7 +116,7 @@ function $createStaticUint$(bytes: number) {
     return new Uint${bits}(value)
   }
 
-  into() {
+  intoOrThrow() {
     return this.value
   }
 

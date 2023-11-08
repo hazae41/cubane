@@ -57,8 +57,8 @@ export const createDynamicVector = <T extends Factory<any, any>>(inner: T) => {
       return DynamicVector.new(result as any as Factory.Instances<T[]>)
     }
 
-    into() {
-      return this.inner.map(it => it.into()) as Factory.Primitives<T[]>
+    intoOrThrow() {
+      return this.inner.map(it => it.intoOrThrow()) as Factory.Primitives<T[]>
     }
 
     static codegen() {

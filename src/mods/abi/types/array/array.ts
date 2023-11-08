@@ -58,8 +58,8 @@ export const createDynamicArray = <T extends Factory<any, any>, N extends number
       return DynamicArray.new(result as any as Factory.Instances<T[]> & { readonly length: N })
     }
 
-    into() {
-      return this.inner.map(instance => instance.into()) as any as Factory.Primitives<T[]> & { readonly length: N }
+    intoOrThrow() {
+      return this.inner.map(instance => instance.intoOrThrow()) as any as Factory.Primitives<T[]> & { readonly length: N }
     }
 
     static codegen() {

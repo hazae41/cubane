@@ -14,7 +14,7 @@ test("address", async ({ message, test }) => {
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   const abi2 = Readable.tryReadFromBytes(StaticAddress, bytes).unwrap()
-  const value2 = abi2.into()
+  const value2 = abi2.intoOrThrow()
 
   assert(value.toLowerCase() === value2.toLowerCase())
 })

@@ -9,7 +9,7 @@ export interface Instance<P> extends Writable {
 
   readonly size: number
 
-  into(): P
+  intoOrThrow(): P
 
   encodeOrThrow(): string
   encodePackedOrThrow(): string

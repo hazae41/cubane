@@ -23,7 +23,7 @@ export class DynamicString {
     return new DynamicString(value, DynamicBytes.new(Bytes.fromUtf8(value)))
   }
 
-  into() {
+  intoOrThrow() {
     return this.value
   }
 

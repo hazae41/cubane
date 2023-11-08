@@ -18,7 +18,7 @@ export class StaticBool {
     return new StaticBool(value)
   }
 
-  into() {
+  intoOrThrow() {
     return this.value
   }
 

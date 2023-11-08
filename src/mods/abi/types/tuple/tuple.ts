@@ -54,8 +54,8 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
       return DynamicTuple.new(result as Factory.Instances<T>)
     }
 
-    into() {
-      return this.inner.map(it => it.into()) as Factory.Primitives<T>
+    intoOrThrow() {
+      return this.inner.map(it => it.intoOrThrow()) as Factory.Primitives<T>
     }
 
     static codegen() {

@@ -34,7 +34,7 @@ function $createStaticBigInt$(bytes: number) {
       return new Int${bits}(value)
     }
 
-    into() {
+    intoOrThrow() {
       return this.value
     }
 

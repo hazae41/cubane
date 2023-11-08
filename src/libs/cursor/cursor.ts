@@ -1,3 +1,5 @@
+import { RawHexString } from "index.js"
+
 export class TextCursor {
 
   offset = 0
@@ -10,10 +12,10 @@ export class TextCursor {
     return this.text.length - this.offset
   }
 
-  readOrThrow(length: number) {
+  readOrThrow<N extends number>(length: N): RawHexString<N> {
     if (length > this.remaining)
       throw new Error(`Overflow`)
-    return this.text.slice(this.offset, this.offset += length)
+    return this.text.slice(this.offset, this.offset += length) as RawHexString<N>
   }
 
 }

@@ -33,7 +33,7 @@ function $createStaticBytes$(bytes: number) {
       return new Bytes${bytes}(value)
     }
 
-    into() {
+    intoOrThrow() {
       return this.value
     }
 
