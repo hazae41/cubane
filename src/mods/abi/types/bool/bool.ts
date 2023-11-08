@@ -10,7 +10,7 @@ export class StaticBool {
     readonly value: boolean
   ) { }
 
-  static new(value: boolean) {
+  static create(value: boolean) {
     return new StaticBool(value)
   }
 

@@ -51,7 +51,7 @@ export namespace FunctionSignature {
 
       const bytes = Bytes.fromUtf8(signature)
       using hash = Keccak256.get().tryHash(bytes).throw(t)
-      const func = FunctionSelector.new(hash.bytes.slice(0, 4) as Bytes<4>)
+      const func = FunctionSelector.create(hash.bytes.slice(0, 4) as Bytes<4>)
       const args = tryParseArguments(tokens).throw(t)
 
       const inner = createFunctionSelectorAndArguments(func, args)
@@ -123,7 +123,7 @@ export function createFunctionSignature<T extends readonly Factory<any, any>[] =
       readonly args: FunctionSelectorAndArgumentsInstance<T>
     ) { }
 
-    static new(instances: Factory.Instances<T>) {
+    static create(instances: Factory.Instances<T>) {
       const args = FunctionSignature.args.new(instances)
       return new FunctionSignature(args)
     }

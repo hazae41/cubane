@@ -53,7 +53,7 @@ export class BytesDynamicBytes {
     readonly value: BytesDynamicBytes.From
   ) { }
 
-  static new(value: BytesDynamicBytes.From) {
+  static create(value: BytesDynamicBytes.From) {
     return new BytesDynamicBytes(value)
   }
 
@@ -156,7 +156,7 @@ export class RawHexDynamicBytes {
     readonly value: RawHexDynamicBytes.From
   ) { }
 
-  static new(value: RawHexDynamicBytes.From) {
+  static create(value: RawHexDynamicBytes.From) {
     return new RawHexDynamicBytes(value)
   }
 
@@ -242,7 +242,6 @@ export class RawHexDynamicBytes {
     const length1 = Uint32.readOrThrow(cursor).value
 
     const bytes = cursor.readOrThrow(length1)
-
     const value = Base16.get().encodeOrThrow(bytes)
 
     const padded1 = Math.ceil(length1 / 32) * 32

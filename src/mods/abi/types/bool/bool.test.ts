@@ -9,7 +9,7 @@ Keccak256.set(await Keccak256.fromMorax())
 
 test("bool true", async ({ message, test }) => {
   const value = true
-  const abi = StaticBool.new(value)
+  const abi = StaticBool.create(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   // console.log(message, value)
@@ -25,7 +25,7 @@ test("bool true", async ({ message, test }) => {
 
 test("bool false", async ({ message, test }) => {
   const value = false
-  const abi = StaticBool.new(value)
+  const abi = StaticBool.create(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   // console.log(message, value)

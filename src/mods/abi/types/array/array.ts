@@ -23,7 +23,7 @@ export const createDynamicArray = <T extends Factory<any, any>, N extends number
       readonly size: number,
     ) { }
 
-    static new(instances: Factory.Instances<T[]> & { readonly length: N }) {
+    static create(instances: Factory.Instances<T[]> & { readonly length: N }) {
       let length = 0
       let offset = instances.length * 32
 
@@ -55,7 +55,7 @@ export const createDynamicArray = <T extends Factory<any, any>, N extends number
       for (let i = 0; i < DynamicArray.count; i++)
         result[i] = DynamicArray.inner.from(primitives[i])
 
-      return DynamicArray.new(result as any as Factory.Instances<T[]> & { readonly length: N })
+      return DynamicArray.create(result as any as Factory.Instances<T[]> & { readonly length: N })
     }
 
     intoOrThrow() {

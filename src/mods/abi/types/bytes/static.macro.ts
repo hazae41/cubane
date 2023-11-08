@@ -22,15 +22,15 @@ function $createStaticBytes$(bytes: number) {
     readonly size = 32 as const
 
     private constructor(
-      readonly value: Uint8Array & { readonly length: ${bytes} }
+      readonly value: Bytes<${bytes}>
     ) { }
 
-    static new(value: Uint8Array & { readonly length: ${bytes} }) {
+    static create(value: Bytes<${bytes}>) {
       return new Bytes${bytes}(value)
     }
 
-    static from(value: Uint8Array & { readonly length: ${bytes} }) {
-      return new Bytes${bytes}(value)
+    static from(value: Bytes<${bytes}>) {
+      return Bytes${bytes}.create(value)
     }
 
     intoOrThrow() {
@@ -83,8 +83,11 @@ function $createStaticBytes$(bytes: number) {
     }
 
     static readOrThrow(cursor: Cursor) {
-      const bytes = cursor.readOrThrow(Bytes${bytes}.bytes)
+      const content = cursor.readOrThrow(Bytes${bytes}.bytes)
+      const bytes = Bytes.from(content)
+
       cursor.offset += 32 - Bytes${bytes}.bytes
+      
       return new Bytes${bytes}(bytes)
     }
 

@@ -25,15 +25,15 @@ export class FunctionSelector {
   readonly size = 4 as const
 
   private constructor(
-    readonly value: Uint8Array & { readonly length: 4 }
+    readonly value: Bytes<4>
   ) { }
 
-  static new(value: Uint8Array & { readonly length: 4 }) {
+  static create(value: Bytes<4>) {
     return new FunctionSelector(value)
   }
 
   static from(values: [number, number, number, number]) {
-    return new FunctionSelector(new Uint8Array(values) as Uint8Array & { readonly length: 4 })
+    return new FunctionSelector(new Uint8Array(values) as Bytes<4>)
   }
 
   static codegen() {
@@ -57,9 +57,10 @@ export class FunctionSelector {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const bytes = Base16.get().padStartAndDecodeOrThrow(cursor.readOrThrow(8)).copyAndDispose()
+    const content = cursor.readOrThrow(8)
+    const bytes = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    return new FunctionSelector(bytes as Uint8Array & { length: 4 })
+    return new FunctionSelector(bytes as Bytes<4>)
   }
 
   sizeOrThrow() {
@@ -71,7 +72,10 @@ export class FunctionSelector {
   }
 
   static readOrThrow(cursor: Cursor) {
-    return cursor.readOrThrow(4)
+    const content = cursor.readOrThrow(4)
+    const bytes = Bytes.from(content)
+
+    return new FunctionSelector(bytes)
   }
 
 }
@@ -154,7 +158,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory<an
       const func = FunctionSelector.readOrThrow(cursor)
       const args = FunctionSelectorAndArguments.args.readOrThrow(cursor)
 
-      if (!Bytes.equals(func, this.func.value))
+      if (!Bytes.equals(func.value, this.func.value))
         throw new Error(`Invalid function selector`)
 
       return new FunctionSelectorAndArguments(args)
