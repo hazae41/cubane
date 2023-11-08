@@ -11,6 +11,8 @@ export type DynamicBytes =
   | ZeroHexDynamicBytes
 
 export namespace DynamicBytes {
+  export const dynamic = true
+
   export type From =
     | BytesDynamicBytes.From
     | RawHexDynamicBytes.From

@@ -9,6 +9,8 @@ export type DynamicString =
   | StringDynamicString
 
 export namespace DynamicString {
+  export const dynamic = true
+
   export type From =
     | BytesDynamicString.From
     | StringDynamicString.From
@@ -131,6 +133,7 @@ export class BytesDynamicString {
 
   static readOrThrow(cursor: Cursor) {
     const length1 = Uint32.readOrThrow(cursor).value
+
     const content = cursor.readOrThrow(length1)
     const bytes = new Uint8Array(content)
 

@@ -11,6 +11,8 @@ export type StaticAddress =
   | ZeroHexStaticAddress
 
 export namespace StaticAddress {
+  export const dynamic = false
+
   export type From =
     | RawHexStaticAddress.From
     | BytesStaticAddress.From
