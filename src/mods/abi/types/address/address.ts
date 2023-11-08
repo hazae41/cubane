@@ -1,7 +1,6 @@
 import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Address } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { RawHexString } from "mods/types/rawhex/index.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
@@ -65,7 +64,7 @@ export class BytesStaticAddress {
   }
 
   intoOrThrow() {
-    return Address.fromOrThrow(this.value)
+    return this.value
   }
 
   get class() {
@@ -122,7 +121,7 @@ export class RawHexStaticAddress {
   }
 
   intoOrThrow() {
-    return Address.fromOrThrow(this.value)
+    return this.value
   }
 
   get class() {

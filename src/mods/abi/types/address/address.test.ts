@@ -10,11 +10,12 @@ Keccak256.set(await Keccak256.fromMorax())
 
 test("address", async ({ message, test }) => {
   const value = Address.fromOrThrow("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045")
+
   const abi = StaticAddress.from(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   const abi2 = Readable.tryReadFromBytes(StaticAddress, bytes).unwrap()
-  const value2 = abi2.intoOrThrow()
+  const value2 = Address.fromOrThrow(abi2.intoOrThrow())
 
   assert(value.toLowerCase() === value2.toLowerCase())
 })

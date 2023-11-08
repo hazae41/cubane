@@ -18,10 +18,10 @@ export namespace DynamicBytes {
 
   export function create(value: DynamicBytes.From) {
     if (value instanceof Uint8Array)
-      return new BytesDynamicBytes(value)
+      return BytesDynamicBytes.create(value)
     if (ZeroHexString.is(value))
       return ZeroHexDynamicBytes.create(value)
-    return new RawHexDynamicBytes(value)
+    return RawHexDynamicBytes.create(value)
   }
 
   export function from(value: DynamicBytes.From) {
@@ -58,7 +58,7 @@ export class BytesDynamicBytes {
   }
 
   static from(value: BytesDynamicBytes.From) {
-    return new BytesDynamicBytes(value)
+    return BytesDynamicBytes.create(value)
   }
 
   intoOrThrow() {
@@ -167,7 +167,7 @@ export class RawHexDynamicBytes {
   }
 
   intoOrThrow() {
-    return ZeroHexString.from(this.value)
+    return this.value
   }
 
   static codegen() {
