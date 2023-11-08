@@ -113,32 +113,34 @@ export type FunctionSignatureInstance<T extends readonly Factory[] = Factory[]> 
 export type FunctionSignatureFactory<T extends readonly Factory[] = Factory[]> =
   ReturnType<typeof createFunctionSignature<T>> & { readonly name: string }
 
-export function createFunctionSignature<T extends readonly Factory[] = Factory[]>($name: string, $args: FunctionSelectorAndArgumentsFactory<T>) {
+export function createFunctionSignature<T extends readonly Factory[] = Factory[]>($name: string, $funcAndArgs: FunctionSelectorAndArgumentsFactory<T>) {
   return class FunctionSignature {
     readonly #class = FunctionSignature
 
     static readonly name = $name
-    static readonly args = $args
+    static readonly funcAndArgs = $funcAndArgs
 
     readonly name = this.#class.name
-    readonly args = this.#class.args
+    readonly funcAndArgs = this.#class.funcAndArgs
 
     constructor(
       readonly inner: FunctionSelectorAndArgumentsInstance<T>
     ) { }
 
-    static create(instances: Factory.Instances<T>) {
-      const args = FunctionSignature.args.new(instances)
+    static create(...instances: Factory.Instances<T>) {
+      const args = FunctionSignature.funcAndArgs.new(...instances)
+
       return new FunctionSignature(args)
     }
 
     static from(...primitives: Factory.Primitives<T>) {
-      const args = FunctionSignature.args.from(...primitives)
+      const args = FunctionSignature.funcAndArgs.from(...primitives)
+
       return new FunctionSignature(args)
     }
 
     static codegen() {
-      return `Cubane.Abi.createFunctionSignature("${$name}",${$args.codegen()})`
+      return `Cubane.Abi.createFunctionSignature("${$name}",${$funcAndArgs.codegen()})`
     }
 
     encodeOrThrow() {
@@ -150,7 +152,7 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
     }
 
     static decodeOrThrow(cursor: TextCursor) {
-      return $args.decodeOrThrow(cursor)
+      return $funcAndArgs.decodeOrThrow(cursor)
     }
 
     sizeOrThrow() {
@@ -162,7 +164,7 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
     }
 
     static readOrThrow(cursor: Cursor) {
-      return $args.readOrThrow(cursor)
+      return $funcAndArgs.readOrThrow(cursor)
     }
 
   }

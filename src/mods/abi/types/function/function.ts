@@ -100,13 +100,15 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       readonly inner: DynamicTupleInstance<T>
     ) { }
 
-    static new(instances: Factory.Instances<T>) {
+    static new(...instances: Factory.Instances<T>) {
       const args = FunctionSelectorAndArguments.args.new(instances)
+
       return new FunctionSelectorAndArguments(args)
     }
 
     static from(...primitives: Factory.Primitives<T>) {
       const args = FunctionSelectorAndArguments.args.from(primitives)
+
       return new FunctionSelectorAndArguments(args)
     }
 

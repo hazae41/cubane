@@ -25,7 +25,20 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...$types: T) =
 
     static new(instances: Factory.Instances<T>) {
       let length = 0
-      let offset = instances.length * 32
+      let offset = 0
+
+      for (const instance of instances) {
+        if (instance.dynamic)
+          /**
+           * Pointer
+           */
+          offset += 32
+        else
+          /**
+           * As-is
+           */
+          offset += instance.sizeOrThrow()
+      }
 
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
@@ -40,7 +53,6 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...$types: T) =
           length += 32
 
           tails.push(instance)
-
           length += size
           offset += size
         } else {

@@ -30,7 +30,20 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
 
     static create(instances: Factory.Instances<T[]> & { readonly length: N }) {
       let length = 0
-      let offset = instances.length * 32
+      let offset = 0
+
+      for (const instance of instances) {
+        if (instance.dynamic)
+          /**
+           * Pointer
+           */
+          offset += 32
+        else
+          /**
+           * As-is
+           */
+          offset += instance.sizeOrThrow()
+      }
 
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()

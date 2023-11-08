@@ -20,7 +20,7 @@ test("test", async () => {
   const abi = "f71870b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000007b000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000"
   const signature = FunctionSignature.tryParse("test(bool,string,uint256)").unwrap()
   const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
-  const decoded = Readable.tryReadFromBytes(signature.args, bytes).unwrap()
+  const decoded = Readable.tryReadFromBytes(signature.funcAndArgs, bytes).unwrap()
   // console.log(decoded)
 })
 
@@ -41,8 +41,6 @@ test("test", async () => {
 test("runtime encode then decode", async () => {
   const signature = FunctionSignature.tryParse("f(bool,uint256,(string,address[3])[],bytes)").unwrap()
 
-  console.log(signature)
-
   const hex = ZeroHexString.from(signature.from(
     true,
     123456789n,
@@ -59,9 +57,5 @@ test("runtime encode then decode", async () => {
     new Uint8Array([1, 2, 3])
   ).encodeOrThrow())
 
-  console.log(hex)
-
-  const funcAndArgs = signature.decodeOrThrow(new TextCursor(hex.slice(2)))
-
-  // console.log(funcAndArgs.args.inner[2])
+  signature.decodeOrThrow(new TextCursor(hex.slice(2)))
 })

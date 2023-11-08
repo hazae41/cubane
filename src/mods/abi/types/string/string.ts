@@ -111,7 +111,6 @@ export class BytesDynamicString {
 
   sizeOrThrow() {
     const length1 = this.value.length
-
     const padded1 = Math.ceil(length1 / 32) * 32
 
     return 32 + padded1

@@ -27,8 +27,21 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     ) { }
 
     static new(instances: Factory.Instances<T[]>) {
-      let length = 32
-      let offset = instances.length * 32
+      let length = 0
+      let offset = 0
+
+      for (const instance of instances) {
+        if (instance.dynamic)
+          /**
+           * Pointer
+           */
+          offset += 32
+        else
+          /**
+           * As-is
+           */
+          offset += instance.sizeOrThrow()
+      }
 
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
@@ -51,7 +64,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
         }
       }
 
-      return new DynamicVector(instances, heads, tails, length)
+      return new DynamicVector(instances, heads, tails, 32 + length)
     }
 
     static from(primitives: Factory.Primitives<T[]>) {
