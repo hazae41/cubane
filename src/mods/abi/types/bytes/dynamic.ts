@@ -119,7 +119,9 @@ export class BytesDynamicBytes {
   sizeOrThrow() {
     const length1 = this.value.length
 
-    return 32 + (Math.ceil(length1 / 32) * 32)
+    const padded1 = Math.ceil(length1 / 32) * 32
+
+    return 32 + padded1
   }
 
   writeOrThrow(cursor: Cursor) {
@@ -222,7 +224,9 @@ export class RawHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    return 32 + (Math.ceil(length1 / 32) * 32)
+    const padded1 = Math.ceil(length1 / 32) * 32
+
+    return 32 + padded1
   }
 
   writeOrThrow(cursor: Cursor) {
