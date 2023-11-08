@@ -1,6 +1,6 @@
 import { Cursor } from "@hazae41/cursor";
-import { BigInts } from "libs/bigint/bigint.js";
-import { TextCursor } from "libs/cursor/cursor.js";
+  import { BigInts } from "libs/bigint/bigint.js";
+  import { TextCursor } from "libs/cursor/cursor.js";
 
 export class Uint8 {
   readonly #class = Uint8
@@ -9,7 +9,11 @@ export class Uint8 {
   static readonly bytes = 1
   static readonly bits = 8
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   private constructor(
     readonly value: number
@@ -84,7 +88,11 @@ export class Uint16 {
   static readonly bytes = 2
   static readonly bits = 16
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   private constructor(
     readonly value: number
@@ -159,7 +167,11 @@ export class Uint24 {
   static readonly bytes = 3
   static readonly bits = 24
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   private constructor(
     readonly value: number
@@ -234,7 +246,11 @@ export class Uint32 {
   static readonly bytes = 4
   static readonly bits = 32
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   private constructor(
     readonly value: number
@@ -303,2312 +319,2424 @@ export class Uint32 {
 
 }
 export class Uint40 {
-  readonly #class = Uint40
-  readonly name = this.#class.name
+    readonly #class = Uint40
+    readonly name = this.#class.name
 
-  static readonly bytes = 5
-  static readonly bits = 40
-  static readonly nibbles = 10
+    static readonly bytes = 5
+    static readonly bits = 40
+    static readonly nibbles = 10
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint40(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint40(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint40(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint40`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint40.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint40.nibbles))
+
+      return new Uint40(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint40.bytes
+
+      const bytes = cursor.readOrThrow(Uint40.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint40(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint40(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint40`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint40.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint40.nibbles))
-
-    return new Uint40(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint40.bytes
-
-    const bytes = cursor.readOrThrow(Uint40.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint40(value)
-  }
-
-}
 export class Uint48 {
-  readonly #class = Uint48
-  readonly name = this.#class.name
+    readonly #class = Uint48
+    readonly name = this.#class.name
 
-  static readonly bytes = 6
-  static readonly bits = 48
-  static readonly nibbles = 12
+    static readonly bytes = 6
+    static readonly bits = 48
+    static readonly nibbles = 12
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint48(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint48(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint48(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint48`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint48.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint48.nibbles))
+
+      return new Uint48(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint48.bytes
+
+      const bytes = cursor.readOrThrow(Uint48.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint48(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint48(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint48`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint48.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint48.nibbles))
-
-    return new Uint48(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint48.bytes
-
-    const bytes = cursor.readOrThrow(Uint48.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint48(value)
-  }
-
-}
 export class Uint56 {
-  readonly #class = Uint56
-  readonly name = this.#class.name
+    readonly #class = Uint56
+    readonly name = this.#class.name
 
-  static readonly bytes = 7
-  static readonly bits = 56
-  static readonly nibbles = 14
+    static readonly bytes = 7
+    static readonly bits = 56
+    static readonly nibbles = 14
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint56(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint56(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint56(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint56`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint56.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint56.nibbles))
+
+      return new Uint56(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint56.bytes
+
+      const bytes = cursor.readOrThrow(Uint56.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint56(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint56(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint56`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint56.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint56.nibbles))
-
-    return new Uint56(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint56.bytes
-
-    const bytes = cursor.readOrThrow(Uint56.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint56(value)
-  }
-
-}
 export class Uint64 {
-  readonly #class = Uint64
-  readonly name = this.#class.name
+    readonly #class = Uint64
+    readonly name = this.#class.name
 
-  static readonly bytes = 8
-  static readonly bits = 64
-  static readonly nibbles = 16
+    static readonly bytes = 8
+    static readonly bits = 64
+    static readonly nibbles = 16
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint64(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint64(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint64(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint64`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint64.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint64.nibbles))
+
+      return new Uint64(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint64.bytes
+
+      const bytes = cursor.readOrThrow(Uint64.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint64(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint64(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint64`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint64.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint64.nibbles))
-
-    return new Uint64(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint64.bytes
-
-    const bytes = cursor.readOrThrow(Uint64.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint64(value)
-  }
-
-}
 export class Uint72 {
-  readonly #class = Uint72
-  readonly name = this.#class.name
+    readonly #class = Uint72
+    readonly name = this.#class.name
 
-  static readonly bytes = 9
-  static readonly bits = 72
-  static readonly nibbles = 18
+    static readonly bytes = 9
+    static readonly bits = 72
+    static readonly nibbles = 18
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint72(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint72(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint72(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint72`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint72.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint72.nibbles))
+
+      return new Uint72(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint72.bytes
+
+      const bytes = cursor.readOrThrow(Uint72.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint72(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint72(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint72`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint72.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint72.nibbles))
-
-    return new Uint72(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint72.bytes
-
-    const bytes = cursor.readOrThrow(Uint72.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint72(value)
-  }
-
-}
 export class Uint80 {
-  readonly #class = Uint80
-  readonly name = this.#class.name
+    readonly #class = Uint80
+    readonly name = this.#class.name
 
-  static readonly bytes = 10
-  static readonly bits = 80
-  static readonly nibbles = 20
+    static readonly bytes = 10
+    static readonly bits = 80
+    static readonly nibbles = 20
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint80(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint80(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint80(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint80`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint80.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint80.nibbles))
+
+      return new Uint80(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint80.bytes
+
+      const bytes = cursor.readOrThrow(Uint80.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint80(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint80(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint80`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint80.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint80.nibbles))
-
-    return new Uint80(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint80.bytes
-
-    const bytes = cursor.readOrThrow(Uint80.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint80(value)
-  }
-
-}
 export class Uint88 {
-  readonly #class = Uint88
-  readonly name = this.#class.name
+    readonly #class = Uint88
+    readonly name = this.#class.name
 
-  static readonly bytes = 11
-  static readonly bits = 88
-  static readonly nibbles = 22
+    static readonly bytes = 11
+    static readonly bits = 88
+    static readonly nibbles = 22
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint88(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint88(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint88(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint88`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint88.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint88.nibbles))
+
+      return new Uint88(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint88.bytes
+
+      const bytes = cursor.readOrThrow(Uint88.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint88(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint88(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint88`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint88.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint88.nibbles))
-
-    return new Uint88(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint88.bytes
-
-    const bytes = cursor.readOrThrow(Uint88.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint88(value)
-  }
-
-}
 export class Uint96 {
-  readonly #class = Uint96
-  readonly name = this.#class.name
+    readonly #class = Uint96
+    readonly name = this.#class.name
 
-  static readonly bytes = 12
-  static readonly bits = 96
-  static readonly nibbles = 24
+    static readonly bytes = 12
+    static readonly bits = 96
+    static readonly nibbles = 24
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint96(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint96(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint96(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint96`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint96.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint96.nibbles))
+
+      return new Uint96(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint96.bytes
+
+      const bytes = cursor.readOrThrow(Uint96.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint96(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint96(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint96`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint96.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint96.nibbles))
-
-    return new Uint96(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint96.bytes
-
-    const bytes = cursor.readOrThrow(Uint96.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint96(value)
-  }
-
-}
 export class Uint104 {
-  readonly #class = Uint104
-  readonly name = this.#class.name
+    readonly #class = Uint104
+    readonly name = this.#class.name
 
-  static readonly bytes = 13
-  static readonly bits = 104
-  static readonly nibbles = 26
+    static readonly bytes = 13
+    static readonly bits = 104
+    static readonly nibbles = 26
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint104(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint104(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint104(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint104`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint104.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint104.nibbles))
+
+      return new Uint104(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint104.bytes
+
+      const bytes = cursor.readOrThrow(Uint104.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint104(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint104(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint104`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint104.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint104.nibbles))
-
-    return new Uint104(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint104.bytes
-
-    const bytes = cursor.readOrThrow(Uint104.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint104(value)
-  }
-
-}
 export class Uint112 {
-  readonly #class = Uint112
-  readonly name = this.#class.name
+    readonly #class = Uint112
+    readonly name = this.#class.name
 
-  static readonly bytes = 14
-  static readonly bits = 112
-  static readonly nibbles = 28
+    static readonly bytes = 14
+    static readonly bits = 112
+    static readonly nibbles = 28
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint112(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint112(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint112(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint112`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint112.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint112.nibbles))
+
+      return new Uint112(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint112.bytes
+
+      const bytes = cursor.readOrThrow(Uint112.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint112(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint112(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint112`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint112.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint112.nibbles))
-
-    return new Uint112(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint112.bytes
-
-    const bytes = cursor.readOrThrow(Uint112.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint112(value)
-  }
-
-}
 export class Uint120 {
-  readonly #class = Uint120
-  readonly name = this.#class.name
+    readonly #class = Uint120
+    readonly name = this.#class.name
 
-  static readonly bytes = 15
-  static readonly bits = 120
-  static readonly nibbles = 30
+    static readonly bytes = 15
+    static readonly bits = 120
+    static readonly nibbles = 30
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint120(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint120(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint120(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint120`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint120.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint120.nibbles))
+
+      return new Uint120(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint120.bytes
+
+      const bytes = cursor.readOrThrow(Uint120.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint120(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint120(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint120`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint120.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint120.nibbles))
-
-    return new Uint120(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint120.bytes
-
-    const bytes = cursor.readOrThrow(Uint120.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint120(value)
-  }
-
-}
 export class Uint128 {
-  readonly #class = Uint128
-  readonly name = this.#class.name
+    readonly #class = Uint128
+    readonly name = this.#class.name
 
-  static readonly bytes = 16
-  static readonly bits = 128
-  static readonly nibbles = 32
+    static readonly bytes = 16
+    static readonly bits = 128
+    static readonly nibbles = 32
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint128(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint128(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint128(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint128`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint128.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint128.nibbles))
+
+      return new Uint128(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint128.bytes
+
+      const bytes = cursor.readOrThrow(Uint128.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint128(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint128(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint128`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint128.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint128.nibbles))
-
-    return new Uint128(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint128.bytes
-
-    const bytes = cursor.readOrThrow(Uint128.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint128(value)
-  }
-
-}
 export class Uint136 {
-  readonly #class = Uint136
-  readonly name = this.#class.name
+    readonly #class = Uint136
+    readonly name = this.#class.name
 
-  static readonly bytes = 17
-  static readonly bits = 136
-  static readonly nibbles = 34
+    static readonly bytes = 17
+    static readonly bits = 136
+    static readonly nibbles = 34
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint136(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint136(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint136(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint136`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint136.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint136.nibbles))
+
+      return new Uint136(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint136.bytes
+
+      const bytes = cursor.readOrThrow(Uint136.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint136(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint136(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint136`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint136.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint136.nibbles))
-
-    return new Uint136(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint136.bytes
-
-    const bytes = cursor.readOrThrow(Uint136.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint136(value)
-  }
-
-}
 export class Uint144 {
-  readonly #class = Uint144
-  readonly name = this.#class.name
+    readonly #class = Uint144
+    readonly name = this.#class.name
 
-  static readonly bytes = 18
-  static readonly bits = 144
-  static readonly nibbles = 36
+    static readonly bytes = 18
+    static readonly bits = 144
+    static readonly nibbles = 36
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint144(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint144(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint144(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint144`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint144.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint144.nibbles))
+
+      return new Uint144(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint144.bytes
+
+      const bytes = cursor.readOrThrow(Uint144.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint144(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint144(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint144`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint144.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint144.nibbles))
-
-    return new Uint144(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint144.bytes
-
-    const bytes = cursor.readOrThrow(Uint144.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint144(value)
-  }
-
-}
 export class Uint152 {
-  readonly #class = Uint152
-  readonly name = this.#class.name
+    readonly #class = Uint152
+    readonly name = this.#class.name
 
-  static readonly bytes = 19
-  static readonly bits = 152
-  static readonly nibbles = 38
+    static readonly bytes = 19
+    static readonly bits = 152
+    static readonly nibbles = 38
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint152(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint152(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint152(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint152`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint152.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint152.nibbles))
+
+      return new Uint152(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint152.bytes
+
+      const bytes = cursor.readOrThrow(Uint152.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint152(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint152(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint152`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint152.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint152.nibbles))
-
-    return new Uint152(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint152.bytes
-
-    const bytes = cursor.readOrThrow(Uint152.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint152(value)
-  }
-
-}
 export class Uint160 {
-  readonly #class = Uint160
-  readonly name = this.#class.name
+    readonly #class = Uint160
+    readonly name = this.#class.name
 
-  static readonly bytes = 20
-  static readonly bits = 160
-  static readonly nibbles = 40
+    static readonly bytes = 20
+    static readonly bits = 160
+    static readonly nibbles = 40
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint160(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint160(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint160(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint160`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint160.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint160.nibbles))
+
+      return new Uint160(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint160.bytes
+
+      const bytes = cursor.readOrThrow(Uint160.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint160(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint160(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint160`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint160.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint160.nibbles))
-
-    return new Uint160(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint160.bytes
-
-    const bytes = cursor.readOrThrow(Uint160.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint160(value)
-  }
-
-}
 export class Uint168 {
-  readonly #class = Uint168
-  readonly name = this.#class.name
+    readonly #class = Uint168
+    readonly name = this.#class.name
 
-  static readonly bytes = 21
-  static readonly bits = 168
-  static readonly nibbles = 42
+    static readonly bytes = 21
+    static readonly bits = 168
+    static readonly nibbles = 42
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint168(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint168(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint168(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint168`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint168.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint168.nibbles))
+
+      return new Uint168(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint168.bytes
+
+      const bytes = cursor.readOrThrow(Uint168.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint168(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint168(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint168`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint168.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint168.nibbles))
-
-    return new Uint168(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint168.bytes
-
-    const bytes = cursor.readOrThrow(Uint168.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint168(value)
-  }
-
-}
 export class Uint176 {
-  readonly #class = Uint176
-  readonly name = this.#class.name
+    readonly #class = Uint176
+    readonly name = this.#class.name
 
-  static readonly bytes = 22
-  static readonly bits = 176
-  static readonly nibbles = 44
+    static readonly bytes = 22
+    static readonly bits = 176
+    static readonly nibbles = 44
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint176(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint176(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint176(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint176`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint176.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint176.nibbles))
+
+      return new Uint176(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint176.bytes
+
+      const bytes = cursor.readOrThrow(Uint176.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint176(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint176(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint176`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint176.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint176.nibbles))
-
-    return new Uint176(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint176.bytes
-
-    const bytes = cursor.readOrThrow(Uint176.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint176(value)
-  }
-
-}
 export class Uint184 {
-  readonly #class = Uint184
-  readonly name = this.#class.name
+    readonly #class = Uint184
+    readonly name = this.#class.name
 
-  static readonly bytes = 23
-  static readonly bits = 184
-  static readonly nibbles = 46
+    static readonly bytes = 23
+    static readonly bits = 184
+    static readonly nibbles = 46
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint184(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint184(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint184(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint184`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint184.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint184.nibbles))
+
+      return new Uint184(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint184.bytes
+
+      const bytes = cursor.readOrThrow(Uint184.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint184(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint184(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint184`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint184.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint184.nibbles))
-
-    return new Uint184(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint184.bytes
-
-    const bytes = cursor.readOrThrow(Uint184.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint184(value)
-  }
-
-}
 export class Uint192 {
-  readonly #class = Uint192
-  readonly name = this.#class.name
+    readonly #class = Uint192
+    readonly name = this.#class.name
 
-  static readonly bytes = 24
-  static readonly bits = 192
-  static readonly nibbles = 48
+    static readonly bytes = 24
+    static readonly bits = 192
+    static readonly nibbles = 48
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint192(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint192(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint192(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint192`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint192.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint192.nibbles))
+
+      return new Uint192(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint192.bytes
+
+      const bytes = cursor.readOrThrow(Uint192.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint192(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint192(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint192`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint192.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint192.nibbles))
-
-    return new Uint192(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint192.bytes
-
-    const bytes = cursor.readOrThrow(Uint192.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint192(value)
-  }
-
-}
 export class Uint200 {
-  readonly #class = Uint200
-  readonly name = this.#class.name
+    readonly #class = Uint200
+    readonly name = this.#class.name
 
-  static readonly bytes = 25
-  static readonly bits = 200
-  static readonly nibbles = 50
+    static readonly bytes = 25
+    static readonly bits = 200
+    static readonly nibbles = 50
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint200(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint200(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint200(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint200`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint200.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint200.nibbles))
+
+      return new Uint200(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint200.bytes
+
+      const bytes = cursor.readOrThrow(Uint200.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint200(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint200(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint200`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint200.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint200.nibbles))
-
-    return new Uint200(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint200.bytes
-
-    const bytes = cursor.readOrThrow(Uint200.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint200(value)
-  }
-
-}
 export class Uint208 {
-  readonly #class = Uint208
-  readonly name = this.#class.name
+    readonly #class = Uint208
+    readonly name = this.#class.name
 
-  static readonly bytes = 26
-  static readonly bits = 208
-  static readonly nibbles = 52
+    static readonly bytes = 26
+    static readonly bits = 208
+    static readonly nibbles = 52
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint208(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint208(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint208(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint208`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint208.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint208.nibbles))
+
+      return new Uint208(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint208.bytes
+
+      const bytes = cursor.readOrThrow(Uint208.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint208(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint208(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint208`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint208.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint208.nibbles))
-
-    return new Uint208(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint208.bytes
-
-    const bytes = cursor.readOrThrow(Uint208.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint208(value)
-  }
-
-}
 export class Uint216 {
-  readonly #class = Uint216
-  readonly name = this.#class.name
+    readonly #class = Uint216
+    readonly name = this.#class.name
 
-  static readonly bytes = 27
-  static readonly bits = 216
-  static readonly nibbles = 54
+    static readonly bytes = 27
+    static readonly bits = 216
+    static readonly nibbles = 54
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint216(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint216(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint216(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint216`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint216.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint216.nibbles))
+
+      return new Uint216(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint216.bytes
+
+      const bytes = cursor.readOrThrow(Uint216.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint216(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint216(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint216`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint216.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint216.nibbles))
-
-    return new Uint216(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint216.bytes
-
-    const bytes = cursor.readOrThrow(Uint216.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint216(value)
-  }
-
-}
 export class Uint224 {
-  readonly #class = Uint224
-  readonly name = this.#class.name
+    readonly #class = Uint224
+    readonly name = this.#class.name
 
-  static readonly bytes = 28
-  static readonly bits = 224
-  static readonly nibbles = 56
+    static readonly bytes = 28
+    static readonly bits = 224
+    static readonly nibbles = 56
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint224(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint224(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint224(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint224`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint224.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint224.nibbles))
+
+      return new Uint224(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint224.bytes
+
+      const bytes = cursor.readOrThrow(Uint224.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint224(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint224(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint224`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint224.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint224.nibbles))
-
-    return new Uint224(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint224.bytes
-
-    const bytes = cursor.readOrThrow(Uint224.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint224(value)
-  }
-
-}
 export class Uint232 {
-  readonly #class = Uint232
-  readonly name = this.#class.name
+    readonly #class = Uint232
+    readonly name = this.#class.name
 
-  static readonly bytes = 29
-  static readonly bits = 232
-  static readonly nibbles = 58
+    static readonly bytes = 29
+    static readonly bits = 232
+    static readonly nibbles = 58
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint232(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint232(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint232(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint232`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint232.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint232.nibbles))
+
+      return new Uint232(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint232.bytes
+
+      const bytes = cursor.readOrThrow(Uint232.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint232(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint232(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint232`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint232.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint232.nibbles))
-
-    return new Uint232(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint232.bytes
-
-    const bytes = cursor.readOrThrow(Uint232.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint232(value)
-  }
-
-}
 export class Uint240 {
-  readonly #class = Uint240
-  readonly name = this.#class.name
+    readonly #class = Uint240
+    readonly name = this.#class.name
 
-  static readonly bytes = 30
-  static readonly bits = 240
-  static readonly nibbles = 60
+    static readonly bytes = 30
+    static readonly bits = 240
+    static readonly nibbles = 60
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint240(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint240(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint240(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint240`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint240.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint240.nibbles))
+
+      return new Uint240(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint240.bytes
+
+      const bytes = cursor.readOrThrow(Uint240.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint240(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint240(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint240`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint240.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint240.nibbles))
-
-    return new Uint240(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint240.bytes
-
-    const bytes = cursor.readOrThrow(Uint240.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint240(value)
-  }
-
-}
 export class Uint248 {
-  readonly #class = Uint248
-  readonly name = this.#class.name
+    readonly #class = Uint248
+    readonly name = this.#class.name
 
-  static readonly bytes = 31
-  static readonly bits = 248
-  static readonly nibbles = 62
+    static readonly bytes = 31
+    static readonly bits = 248
+    static readonly nibbles = 62
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint248(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint248(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint248(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint248`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint248.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint248.nibbles))
+
+      return new Uint248(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint248.bytes
+
+      const bytes = cursor.readOrThrow(Uint248.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint248(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint248(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint248`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint248.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint248.nibbles))
-
-    return new Uint248(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint248.bytes
-
-    const bytes = cursor.readOrThrow(Uint248.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint248(value)
-  }
-
-}
 export class Uint256 {
-  readonly #class = Uint256
-  readonly name = this.#class.name
+    readonly #class = Uint256
+    readonly name = this.#class.name
 
-  static readonly bytes = 32
-  static readonly bits = 256
-  static readonly nibbles = 64
+    static readonly bytes = 32
+    static readonly bits = 256
+    static readonly nibbles = 64
 
-  readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
 
-  private constructor(
-    readonly value: bigint
-  ) { }
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
-  static new(value: bigint) {
-    return new Uint256(value)
+    private constructor(
+      readonly value: bigint
+    ) { }
+
+    static new(value: bigint) {
+      return new Uint256(value)
+    }
+
+    static from(value: bigint) {
+      return new Uint256(value)
+    }
+
+    intoOrThrow() {
+      return this.value
+    }
+
+    static codegen() {
+      return `Cubane.Abi.Uint256`
+    }
+
+    get class() {
+      return this.#class
+    }
+
+    get bits() {
+      return this.#class.bits
+    }
+
+    get bytes() {
+      return this.#class.bytes
+    }
+
+    encodeOrThrow() {
+      return this.value.toString(16).padStart(64, "0")
+    }
+
+    encodePackedOrThrow() {
+      return this.value.toString(16)
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      cursor.offset += 64 - Uint256.nibbles
+
+      // p42:ignore-next-statement
+      const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint256.nibbles))
+
+      return new Uint256(value)
+    }
+
+    sizeOrThrow() {
+      return this.size
+    }
+
+    writeOrThrow(cursor: Cursor) {
+      using slice = BigInts.exportOrThrow(this.value)
+
+      cursor.fillOrThrow(0, 32 - slice.bytes.length)
+      cursor.writeOrThrow(slice.bytes)
+    }
+
+    static readOrThrow(cursor: Cursor) {
+      cursor.offset += 32 - Uint256.bytes
+
+      const bytes = cursor.readOrThrow(Uint256.bytes)
+      const value = BigInts.importOrThrow(bytes)
+
+      return new Uint256(value)
+    }
+
   }
-
-  static from(value: bigint) {
-    return new Uint256(value)
-  }
-
-  intoOrThrow() {
-    return this.value
-  }
-
-  static codegen() {
-    return `Cubane.Abi.Uint256`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  get bits() {
-    return this.#class.bits
-  }
-
-  get bytes() {
-    return this.#class.bytes
-  }
-
-  encodeOrThrow() {
-    return this.value.toString(16).padStart(64, "0")
-  }
-
-  encodePackedOrThrow() {
-    return this.value.toString(16)
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - Uint256.nibbles
-
-    // p42:ignore-next-statement
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(Uint256.nibbles))
-
-    return new Uint256(value)
-  }
-
-  sizeOrThrow() {
-    return this.size
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    using slice = BigInts.exportOrThrow(this.value)
-
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - Uint256.bytes
-
-    const bytes = cursor.readOrThrow(Uint256.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    return new Uint256(value)
-  }
-
-}
 
 export type UintByName = {
-  uint8: typeof Uint8,
-  uint16: typeof Uint16,
-  uint24: typeof Uint24,
-  uint32: typeof Uint32,
-  uint40: typeof Uint40,
-  uint48: typeof Uint48,
-  uint56: typeof Uint56,
-  uint64: typeof Uint64,
-  uint72: typeof Uint72,
-  uint80: typeof Uint80,
-  uint88: typeof Uint88,
-  uint96: typeof Uint96,
-  uint104: typeof Uint104,
-  uint112: typeof Uint112,
-  uint120: typeof Uint120,
-  uint128: typeof Uint128,
-  uint136: typeof Uint136,
-  uint144: typeof Uint144,
-  uint152: typeof Uint152,
-  uint160: typeof Uint160,
-  uint168: typeof Uint168,
-  uint176: typeof Uint176,
-  uint184: typeof Uint184,
-  uint192: typeof Uint192,
-  uint200: typeof Uint200,
-  uint208: typeof Uint208,
-  uint216: typeof Uint216,
-  uint224: typeof Uint224,
-  uint232: typeof Uint232,
-  uint240: typeof Uint240,
-  uint248: typeof Uint248,
-  uint256: typeof Uint256,
-}
-
-export const uintByName: UintByName = {
-  uint8: Uint8,
-  uint16: Uint16,
-  uint24: Uint24,
-  uint32: Uint32,
-  uint40: Uint40,
-  uint48: Uint48,
-  uint56: Uint56,
-  uint64: Uint64,
-  uint72: Uint72,
-  uint80: Uint80,
-  uint88: Uint88,
-  uint96: Uint96,
-  uint104: Uint104,
-  uint112: Uint112,
-  uint120: Uint120,
-  uint128: Uint128,
-  uint136: Uint136,
-  uint144: Uint144,
-  uint152: Uint152,
-  uint160: Uint160,
-  uint168: Uint168,
-  uint176: Uint176,
-  uint184: Uint184,
-  uint192: Uint192,
-  uint200: Uint200,
-  uint208: Uint208,
-  uint216: Uint216,
-  uint224: Uint224,
-  uint232: Uint232,
-  uint240: Uint240,
-  uint248: Uint248,
-  uint256: Uint256,
-} as const
+    uint8: typeof Uint8,
+    uint16: typeof Uint16,
+    uint24: typeof Uint24,
+    uint32: typeof Uint32,
+    uint40: typeof Uint40,
+    uint48: typeof Uint48,
+    uint56: typeof Uint56,
+    uint64: typeof Uint64,
+    uint72: typeof Uint72,
+    uint80: typeof Uint80,
+    uint88: typeof Uint88,
+    uint96: typeof Uint96,
+    uint104: typeof Uint104,
+    uint112: typeof Uint112,
+    uint120: typeof Uint120,
+    uint128: typeof Uint128,
+    uint136: typeof Uint136,
+    uint144: typeof Uint144,
+    uint152: typeof Uint152,
+    uint160: typeof Uint160,
+    uint168: typeof Uint168,
+    uint176: typeof Uint176,
+    uint184: typeof Uint184,
+    uint192: typeof Uint192,
+    uint200: typeof Uint200,
+    uint208: typeof Uint208,
+    uint216: typeof Uint216,
+    uint224: typeof Uint224,
+    uint232: typeof Uint232,
+    uint240: typeof Uint240,
+    uint248: typeof Uint248,
+    uint256: typeof Uint256,
+  }
+  
+  export const uintByName: UintByName = {
+    uint8: Uint8,
+    uint16: Uint16,
+    uint24: Uint24,
+    uint32: Uint32,
+    uint40: Uint40,
+    uint48: Uint48,
+    uint56: Uint56,
+    uint64: Uint64,
+    uint72: Uint72,
+    uint80: Uint80,
+    uint88: Uint88,
+    uint96: Uint96,
+    uint104: Uint104,
+    uint112: Uint112,
+    uint120: Uint120,
+    uint128: Uint128,
+    uint136: Uint136,
+    uint144: Uint144,
+    uint152: Uint152,
+    uint160: Uint160,
+    uint168: Uint168,
+    uint176: Uint176,
+    uint184: Uint184,
+    uint192: Uint192,
+    uint200: Uint200,
+    uint208: Uint208,
+    uint216: Uint216,
+    uint224: Uint224,
+    uint232: Uint232,
+    uint240: Uint240,
+    uint248: Uint248,
+    uint256: Uint256,
+  } as const

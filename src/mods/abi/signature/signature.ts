@@ -34,7 +34,7 @@ export namespace FunctionSignature {
     string: DynamicString,
   } as const
 
-  export function create<T extends readonly Factory<any, any>[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
+  export function create<T extends readonly Factory[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
     return createFunctionSignature(name, args)
   }
 
@@ -60,9 +60,9 @@ export namespace FunctionSignature {
     })
   }
 
-  function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory<any, any>[]>, Error> {
+  function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory[]>, Error> {
     return Result.unthrowSync(t => {
-      const factories = new Array<Factory<any, any>>()
+      const factories = new Array<Factory>()
 
       while (tokens.length) {
         const token = tokens.shift()!
@@ -87,7 +87,7 @@ export namespace FunctionSignature {
     })
   }
 
-  function doParseArrayOrVectorOrSingle<T extends Factory<any, any>>(tokens: string[], factory: T) {
+  function doParseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
     if (tokens[0] === "[" && tokens[1] === "]") {
       tokens.shift()
       tokens.shift()
@@ -106,21 +106,24 @@ export namespace FunctionSignature {
 
 }
 
-export type FunctionSignatureInstance<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
+export type FunctionSignatureInstance<T extends readonly Factory[] = Factory[]> =
   Readable.Output<FunctionSignatureFactory<T>>
 
-export type FunctionSignatureFactory<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
+export type FunctionSignatureFactory<T extends readonly Factory[] = Factory[]> =
   ReturnType<typeof createFunctionSignature<T>> & { readonly name: string }
 
-export function createFunctionSignature<T extends readonly Factory<any, any>[] = Factory<any, any>[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
+export function createFunctionSignature<T extends readonly Factory[] = Factory[]>($name: string, $args: FunctionSelectorAndArgumentsFactory<T>) {
   return class FunctionSignature {
     readonly #class = FunctionSignature
 
-    static readonly name = name
-    static readonly args = args
+    static readonly name = $name
+    static readonly args = $args
+
+    readonly name = this.#class.name
+    readonly args = this.#class.args
 
     constructor(
-      readonly args: FunctionSelectorAndArgumentsInstance<T>
+      readonly inner: FunctionSelectorAndArgumentsInstance<T>
     ) { }
 
     static create(instances: Factory.Instances<T>) {
@@ -134,19 +137,19 @@ export function createFunctionSignature<T extends readonly Factory<any, any>[] =
     }
 
     static codegen() {
-      return `Cubane.Abi.createFunctionSignature("${name}",${args.codegen()})`
+      return `Cubane.Abi.createFunctionSignature("${$name}",${$args.codegen()})`
     }
 
     sizeOrThrow() {
-      return this.args.sizeOrThrow()
+      return this.inner.sizeOrThrow()
     }
 
     writeOrThrow(cursor: Cursor) {
-      return this.args.writeOrThrow(cursor)
+      return this.inner.writeOrThrow(cursor)
     }
 
     static readOrThrow(cursor: Cursor) {
-      return args.readOrThrow(cursor)
+      return $args.readOrThrow(cursor)
     }
 
   }

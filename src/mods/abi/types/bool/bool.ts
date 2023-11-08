@@ -4,7 +4,11 @@ import { TextCursor } from "libs/cursor/cursor.js";
 export class StaticBool {
   readonly #class = StaticBool
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   private constructor(
     readonly value: boolean

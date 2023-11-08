@@ -22,7 +22,7 @@ export class InvalidFunctionSelector extends Error {
 export class FunctionSelector {
   readonly #class = FunctionSelector
 
-  readonly size = 4 as const
+  readonly size = 4
 
   private constructor(
     readonly value: Bytes<4>
@@ -80,21 +80,24 @@ export class FunctionSelector {
 
 }
 
-export type FunctionSelectorAndArgumentsInstance<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
+export type FunctionSelectorAndArgumentsInstance<T extends readonly Factory[] = Factory[]> =
   Readable.Output<FunctionSelectorAndArgumentsFactory<T>>
 
-export type FunctionSelectorAndArgumentsFactory<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
+export type FunctionSelectorAndArgumentsFactory<T extends readonly Factory[] = Factory[]> =
   ReturnType<typeof createFunctionSelectorAndArguments<T>> & { readonly name: string }
 
-export const createFunctionSelectorAndArguments = <T extends readonly Factory<any, any>[]>(func: FunctionSelector, args: DynamicTupleFactory<T>) => {
+export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>($func: FunctionSelector, $args: DynamicTupleFactory<T>) => {
   return class FunctionSelectorAndArguments {
     readonly #class = FunctionSelectorAndArguments
 
-    static readonly func = func
-    static readonly args = args
+    static readonly func = $func
+    static readonly args = $args
+
+    readonly func = this.#class.func
+    readonly args = this.#class.args
 
     constructor(
-      readonly args: DynamicTupleInstance<T>
+      readonly inner: DynamicTupleInstance<T>
     ) { }
 
     static new(instances: Factory.Instances<T>) {
@@ -108,31 +111,23 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory<an
     }
 
     intoOrThrow() {
-      return this.args.intoOrThrow()
+      return this.inner.intoOrThrow()
     }
 
     static codegen() {
-      return `Cubane.Abi.createFunctionSelectorAndArguments(${func.codegen()},${args.codegen()})`
+      return `Cubane.Abi.createFunctionSelectorAndArguments(${$func.codegen()},${$args.codegen()})`
     }
 
     get class() {
       return this.#class
     }
 
-    get func() {
-      return this.#class.func
-    }
-
-    get size() {
-      return this.func.size + this.args.size
-    }
-
     encodeOrThrow() {
-      return this.func.encodeOrThrow() + this.args.encodeOrThrow()
+      return this.func.encodeOrThrow() + this.inner.encodeOrThrow()
     }
 
     encodePackedOrThrow() {
-      return this.func.encodePackedOrThrow() + this.args.encodePackedOrThrow()
+      return this.func.encodePackedOrThrow() + this.inner.encodePackedOrThrow()
     }
 
     static decodeOrThrow(cursor: TextCursor) {
@@ -146,12 +141,12 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory<an
     }
 
     sizeOrThrow() {
-      return this.func.size + this.args.size
+      return this.func.sizeOrThrow() + this.inner.sizeOrThrow()
     }
 
     writeOrThrow(cursor: Cursor) {
       this.func.writeOrThrow(cursor)
-      this.args.writeOrThrow(cursor)
+      this.inner.writeOrThrow(cursor)
     }
 
     static readOrThrow(cursor: Cursor) {

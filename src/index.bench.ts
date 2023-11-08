@@ -42,7 +42,7 @@ if (false) {
 /**
  * Encode various types with preparsed ABI
  */
-if (false) {
+if (true) {
   const factory = FunctionSignature.tryParse("f(bool,uint256,string,(bool,uint256,string),bytes)").unwrap()
 
   const viemAbi = viem.parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d, bytes e")
@@ -62,10 +62,10 @@ if (false) {
 
   const benchCubaneBytes = benchSync("cubane (bytes)", ({ message }) => {
     const instance = factory.args.from(true, 123456789n, "hello world", [true, 123456789n, "hello world"], random)
-    const bytes = Writable.tryWriteToBytes(instance).unwrap()
+    const bytes = Writable.writeToBytesOrThrow(instance)
     // const hex = hexlify(bytes)
     // console.log(message, hex)
-    const args = Readable.tryReadFromBytes(factory.args, bytes).unwrap()
+    const args = Readable.readFromBytesOrThrow(factory.args, bytes)
     // console.log(args.args.inner)
   }, options)
 
@@ -153,7 +153,7 @@ if (false) {
 /**
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
-if (true) {
+if (false) {
   const abi = FunctionSignature.tryParse("f(bool,uint256,string,address,bytes)").unwrap()
 
   const txhex = ethers.Transaction.from({

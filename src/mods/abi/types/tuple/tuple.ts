@@ -5,12 +5,16 @@ import { Skeleton } from "libs/typescript/skeleton.js";
 import { Factory, Instance } from "mods/abi/abi.js";
 import { Uint32 } from "../uint/uint.js";
 
-export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...inner: T) => {
+export const createDynamicTuple = <T extends readonly Factory[]>(...$types: T) => {
   return class DynamicTuple {
     readonly #class = DynamicTuple
     readonly name = this.#class.name
 
-    static readonly inner = inner
+    static readonly types = $types
+    static readonly dynamic = $types.some(it => it.dynamic)
+
+    readonly types = this.#class.types
+    readonly dynamic = this.#class.dynamic
 
     private constructor(
       readonly inner: Factory.Instances<T>,
@@ -27,6 +31,8 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
       const tails = new Array<Instance<any>>()
 
       for (const instance of instances) {
+        const size = instance.sizeOrThrow()
+
         if (instance.dynamic) {
           const pointer = Uint32.new(offset)
 
@@ -34,11 +40,12 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
           length += 32
 
           tails.push(instance)
-          length += instance.size
-          offset += instance.size
+
+          length += size
+          offset += size
         } else {
           heads.push(instance)
-          length += instance.size
+          length += size
         }
       }
 
@@ -46,10 +53,10 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
     }
 
     static from(primitives: Factory.Primitives<T>) {
-      const result = new Array(DynamicTuple.inner.length)
+      const result = new Array(DynamicTuple.types.length)
 
-      for (let i = 0; i < DynamicTuple.inner.length; i++)
-        result[i] = DynamicTuple.inner[i].from(primitives[i])
+      for (let i = 0; i < DynamicTuple.types.length; i++)
+        result[i] = DynamicTuple.types[i].from(primitives[i])
 
       return DynamicTuple.new(result as Factory.Instances<T>)
     }
@@ -59,19 +66,11 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
     }
 
     static codegen() {
-      return `Cubane.Abi.createDynamicTuple(${this.inner.map(it => it.codegen()).join(",")})`
+      return `Cubane.Abi.createDynamicTuple(${this.types.map(it => it.codegen()).join(",")})`
     }
 
     get class() {
       return this.#class
-    }
-
-    static get dynamic() {
-      return DynamicTuple.inner.some(it => it.dynamic)
-    }
-
-    get dynamic() {
-      return this.inner.some(it => it.dynamic)
     }
 
     encodeOrThrow() {
@@ -107,7 +106,7 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
 
       const subcursor = new TextCursor(cursor.text)
 
-      for (const factory of DynamicTuple.inner) {
+      for (const factory of DynamicTuple.types) {
         if (factory.dynamic) {
           const pointer = Uint32.decodeOrThrow(cursor)
           heads.push(pointer)
@@ -151,7 +150,7 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
 
       const subcursor = new Cursor(cursor.bytes)
 
-      for (const factory of DynamicTuple.inner) {
+      for (const factory of DynamicTuple.types) {
         if (factory.dynamic) {
           const pointer = Uint32.readOrThrow(cursor)
           heads.push(pointer)
@@ -176,10 +175,10 @@ export const createDynamicTuple = <T extends readonly Factory<any, any>[]>(...in
   }
 }
 
-export type DynamicTupleInstance<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
+export type DynamicTupleInstance<T extends readonly Factory[] = Factory[]> =
   Readable.Output<DynamicTupleFactory<T>>
 
-export type DynamicTupleFactory<T extends readonly Factory<any, any>[] = Factory<any, any>[]> =
+export type DynamicTupleFactory<T extends readonly Factory[] = Factory[]> =
   ReturnType<typeof createDynamicTuple<T>> & { readonly name: string }
 
 export namespace DynamicTuple {
@@ -187,11 +186,11 @@ export namespace DynamicTuple {
 
   export const any = createDynamicTuple<any>()
 
-  export function isInstance<T extends readonly Factory<any, any>[]>(x: Skeleton<DynamicTupleInstance<T>>): x is DynamicTupleInstance<T> {
+  export function isInstance<T extends readonly Factory[]>(x: Skeleton<DynamicTupleInstance<T>>): x is DynamicTupleInstance<T> {
     return x.name === name && x.class != null
   }
 
-  export function isFactory<T extends readonly Factory<any, any>[]>(x: Skeleton<DynamicTupleFactory<T>>): x is DynamicTupleFactory<T> {
+  export function isFactory<T extends readonly Factory[]>(x: Skeleton<DynamicTupleFactory<T>>): x is DynamicTupleFactory<T> {
     return x.name === name && x.new != null
   }
 

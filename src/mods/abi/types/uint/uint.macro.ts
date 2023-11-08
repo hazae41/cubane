@@ -18,7 +18,11 @@ function $createStaticBigUint$(bytes: number) {
     static readonly bits = ${bits}
     static readonly nibbles = ${nibbles}
 
-    readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
+
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
     private constructor(
       readonly value: bigint
@@ -102,7 +106,11 @@ function $createStaticUint$(bytes: number) {
   static readonly bytes = ${bytes}
   static readonly bits = ${bits}
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   private constructor(
     readonly value: number

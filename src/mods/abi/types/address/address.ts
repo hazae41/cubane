@@ -12,6 +12,7 @@ export type StaticAddress =
 
 export namespace StaticAddress {
   export const dynamic = false
+  export const size = 32
 
   export type From =
     | RawHexStaticAddress.From
@@ -51,7 +52,11 @@ export namespace BytesStaticAddress {
 export class BytesStaticAddress {
   readonly #class = BytesStaticAddress
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   constructor(
     readonly value: BytesStaticAddress.From
@@ -108,7 +113,11 @@ export namespace RawHexStaticAddress {
 export class RawHexStaticAddress {
   readonly #class = RawHexStaticAddress
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   constructor(
     readonly value: RawHexStaticAddress.From
@@ -167,7 +176,11 @@ export namespace ZeroHexStaticAddress {
 export class ZeroHexStaticAddress {
   readonly #class = ZeroHexStaticAddress
 
-  readonly size = 32 as const
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
 
   constructor(
     readonly inner: RawHexStaticAddress

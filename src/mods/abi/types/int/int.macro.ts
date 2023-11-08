@@ -20,7 +20,11 @@ function $createStaticBigInt$(bytes: number) {
     static readonly bits = ${bits}
     static readonly bitsn = BigInt(${bits})
 
-    readonly size = 32 as const
+    static readonly dynamic = false
+    static readonly size = 32
+
+    readonly dynamic = this.#class.dynamic
+    readonly size = this.#class.size
 
     private constructor(
       readonly value: bigint

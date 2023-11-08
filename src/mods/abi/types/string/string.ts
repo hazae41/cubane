@@ -46,6 +46,10 @@ export namespace BytesDynamicString {
 export class BytesDynamicString {
   readonly #class = BytesDynamicString
 
+  static readonly dynamic = true
+
+  readonly dynamic = this.#class.dynamic
+
   constructor(
     readonly value: BytesDynamicString.From
   ) { }
@@ -68,14 +72,6 @@ export class BytesDynamicString {
 
   get class() {
     return this.#class
-  }
-
-  static get dynamic() {
-    return true as const
-  }
-
-  get dynamic() {
-    return this.#class.dynamic
   }
 
   encodeOrThrow() {
@@ -152,6 +148,10 @@ export namespace StringDynamicString {
 export class StringDynamicString {
   readonly #class = BytesDynamicString
 
+  static readonly dynamic = true
+
+  readonly dynamic = this.#class.dynamic
+
   constructor(
     readonly inner: BytesDynamicString
   ) { }
@@ -177,14 +177,6 @@ export class StringDynamicString {
 
   get class() {
     return this.#class
-  }
-
-  static get dynamic() {
-    return true as const
-  }
-
-  get dynamic() {
-    return this.#class.dynamic
   }
 
   encodeOrThrow() {

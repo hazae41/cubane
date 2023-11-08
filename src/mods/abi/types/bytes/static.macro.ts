@@ -15,11 +15,11 @@ function $createStaticBytes$(bytes: number) {
     readonly #class = Bytes${bytes}
     readonly name = this.#class.name
 
-    static readonly bytes = ${bytes} as const
-    static readonly nibbles = ${nibbles} as const
-    static readonly bits = ${bits} as const
+    static readonly bytes = ${bytes}
+    static readonly nibbles = ${nibbles}
+    static readonly bits = ${bits}
 
-    readonly size = 32 as const
+    readonly size = 32
 
     private constructor(
       readonly value: Bytes<${bytes}>

@@ -51,6 +51,10 @@ export namespace BytesDynamicBytes {
 export class BytesDynamicBytes {
   readonly #class = BytesDynamicBytes
 
+  static readonly dynamic = true
+
+  readonly dynamic = this.#class.dynamic
+
   constructor(
     readonly value: BytesDynamicBytes.From
   ) { }
@@ -73,14 +77,6 @@ export class BytesDynamicBytes {
 
   get class() {
     return this.#class
-  }
-
-  static get dynamic() {
-    return true as const
-  }
-
-  get dynamic() {
-    return this.#class.dynamic
   }
 
   encodeOrThrow() {
@@ -156,6 +152,10 @@ export namespace RawHexDynamicBytes {
 export class RawHexDynamicBytes {
   readonly #class = BytesDynamicBytes
 
+  static readonly dynamic = true
+
+  readonly dynamic = this.#class.dynamic
+
   constructor(
     readonly value: RawHexDynamicBytes.From
   ) { }
@@ -178,14 +178,6 @@ export class RawHexDynamicBytes {
 
   get class() {
     return this.#class
-  }
-
-  static get dynamic() {
-    return true as const
-  }
-
-  get dynamic() {
-    return this.#class.dynamic
   }
 
   encodeOrThrow() {
@@ -265,6 +257,10 @@ export namespace ZeroHexDynamicBytes {
 export class ZeroHexDynamicBytes {
   readonly #class = BytesDynamicBytes
 
+  static readonly dynamic = true
+
+  readonly dynamic = this.#class.dynamic
+
   constructor(
     readonly inner: RawHexDynamicBytes
   ) { }
@@ -286,14 +282,6 @@ export class ZeroHexDynamicBytes {
 
   get class() {
     return this.#class
-  }
-
-  static get dynamic() {
-    return true as const
-  }
-
-  get dynamic() {
-    return this.#class.dynamic
   }
 
   encodeOrThrow() {
