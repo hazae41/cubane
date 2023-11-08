@@ -1,6 +1,10 @@
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 
+export namespace StaticBool {
+  export type From = boolean
+}
+
 export class StaticBool {
   readonly #class = StaticBool
 
