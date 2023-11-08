@@ -184,8 +184,6 @@ export type DynamicTupleFactory<T extends readonly Factory[] = Factory[]> =
 export namespace DynamicTuple {
   export const name = "DynamicTuple"
 
-  export const any = createDynamicTuple<any>()
-
   export function isInstance<T extends readonly Factory[]>(x: Skeleton<DynamicTupleInstance<T>>): x is DynamicTupleInstance<T> {
     return x.name === name && x.class != null
   }

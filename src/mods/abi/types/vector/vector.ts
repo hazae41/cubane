@@ -196,8 +196,6 @@ export type DynamicVectorFactory<T extends Factory = Factory> =
 export namespace DynamicVector {
   export const name = "DynamicVector"
 
-  export const any = createDynamicVector(undefined as any)
-
   export function isInstance<T extends Factory = Factory>(x: Skeleton<DynamicVectorInstance<T>>): x is DynamicVectorInstance<T> {
     return x.name === name && x.class != null
   }

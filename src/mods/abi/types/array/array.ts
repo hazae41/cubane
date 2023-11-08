@@ -188,8 +188,6 @@ export type DynamicArrayFactory<T extends Factory, N extends number> =
 export namespace DynamicArray {
   export const name = "DynamicArray"
 
-  export const any = createDynamicArray(undefined as any, 0 as any)
-
   export function isInstance<T extends Factory, N extends number>(x: Skeleton<DynamicArrayInstance<T, N>>): x is DynamicArrayInstance<T, N> {
     return x.name === name && x.class != null
   }

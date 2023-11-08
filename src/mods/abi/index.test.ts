@@ -41,7 +41,9 @@ test("test", async () => {
 test("runtime encode then decode", async () => {
   const signature = FunctionSignature.tryParse("f(bool,uint256,(string,address[3])[],bytes)").unwrap()
 
-  const hex = ZeroHexString.from(signature.args.from(
+  console.log(signature)
+
+  const hex = ZeroHexString.from(signature.from(
     true,
     123456789n,
     [
@@ -57,7 +59,9 @@ test("runtime encode then decode", async () => {
     new Uint8Array([1, 2, 3])
   ).encodeOrThrow())
 
-  const funcAndArgs = signature.args.decodeOrThrow(new TextCursor(hex.slice(2)))
+  console.log(hex)
+
+  const funcAndArgs = signature.decodeOrThrow(new TextCursor(hex.slice(2)))
 
   // console.log(funcAndArgs.args.inner[2])
 })

@@ -3,6 +3,7 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Err, Ok, Result } from "@hazae41/result";
+import { TextCursor } from "libs/cursor/cursor.js";
 import { Records } from "libs/records/records.js";
 import { Factory } from "../abi.js";
 import { StaticAddress } from "../types/address/address.js";
@@ -138,6 +139,18 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
 
     static codegen() {
       return `Cubane.Abi.createFunctionSignature("${$name}",${$args.codegen()})`
+    }
+
+    encodeOrThrow() {
+      return this.inner.encodeOrThrow()
+    }
+
+    encodePackedOrThrow() {
+      return this.inner.encodePackedOrThrow()
+    }
+
+    static decodeOrThrow(cursor: TextCursor) {
+      return $args.decodeOrThrow(cursor)
     }
 
     sizeOrThrow() {
