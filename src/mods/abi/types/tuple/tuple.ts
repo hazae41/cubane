@@ -1,4 +1,3 @@
-import { Readable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
@@ -190,7 +189,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
 }
 
 export type TupleInstance<T extends readonly Factory[] = Factory[]> =
-  Readable.Output<TupleFactory<T>>
+  Factory.Instance<TupleFactory<T>>
 
 export type TupleFactory<T extends readonly Factory[] = Factory[]> =
   ReturnType<typeof createTuple<T>> & { readonly name: string }

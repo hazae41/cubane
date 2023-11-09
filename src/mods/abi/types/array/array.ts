@@ -1,7 +1,6 @@
 import { Cursor } from "@hazae41/cursor";
 import { Factory, Instance } from "mods/abi/abi.js";
 
-import type { Readable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Uint32 } from "../uint/uint.js";
@@ -193,7 +192,7 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
 }
 
 export type ArrayInstance<T extends Factory, N extends number> =
-  Readable.Output<ArrayFactory<T, N>>
+  Factory.Instance<ArrayFactory<T, N>>
 
 export type ArrayFactory<T extends Factory, N extends number> =
   ReturnType<typeof createArray<T, N>> & { readonly name: string }

@@ -1,7 +1,6 @@
 import { Cursor } from "@hazae41/cursor";
 import { Factory, Instance } from "mods/abi/abi.js";
 
-import type { Readable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Uint32 } from "../uint/uint.js";
@@ -201,7 +200,7 @@ export const createVector = <T extends Factory>($type: T) => {
 }
 
 export type VectorInstance<T extends Factory = Factory> =
-  Readable.Output<VectorFactory<T>>
+  Factory.Instance<VectorFactory<T>>
 
 export type VectorFactory<T extends Factory = Factory> =
   ReturnType<typeof createVector<T>> & { readonly name: string }
