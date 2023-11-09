@@ -4,6 +4,8 @@ import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Bytes } from "@hazae41/bytes";
 import { Base16 } from "@hazae41/base16";
+import { ZeroHexString } from "mods/types/zerohex/index.js";
+import { RawHexString } from "mods/types/rawhex/index.js";
   
 const BN_0 = 0n
 const BN_1 = 1n`
@@ -16,8 +18,7 @@ function $createStaticBigInt$(bytes: number) {
   const bits = bytes * 8
 
   return `export type StaticInt${bits} =
-  | BigIntStaticInt${bits}
-  | NumberStaticInt${bits}
+  | ZeroHexStaticInt${bits}
   | BytesStaticInt${bits}
 
 export namespace StaticInt${bits} {
@@ -25,16 +26,29 @@ export namespace StaticInt${bits} {
   export const size = 32
 
   export type From = 
-    | BigIntStaticInt${bits}.From
-    | NumberStaticInt${bits}.From
+    | ZeroHexStaticInt${bits}.From
     | BytesStaticInt${bits}.From
 
   export function create(value: StaticInt${bits}.From) {
-    if (typeof value === "bigint")
-      return BigIntStaticInt${bits}.create(value)
-    if (typeof value === "number")
-      return NumberStaticInt${bits}.create(value)
-    return BytesStaticInt${bits}.create(value)
+    if (value instanceof Uint8Array)
+      return BytesStaticInt${bits}.create(value)
+    return ZeroHexStaticInt${bits}.create(value)
+  }
+
+  export function from(value: StaticInt${bits}.From) {
+    return StaticInt${bits}.create(value)
+  }
+
+  export function codegen() {
+    return \`Cubane.Abi.Int${bits}\`
+  }
+
+  export function decodeOrThrow(cursor: TextCursor) {
+    return ZeroHexStaticInt${bits}.decodeOrThrow(cursor)
+  }
+
+  export function readOrThrow(cursor: Cursor) {
+    return BytesStaticInt${bits}.readOrThrow(cursor)
   }
 
 }
@@ -72,11 +86,11 @@ export class BytesStaticInt${bits} {
   }
 
   intoOrThrow() {
-    return this.value
+    return new ZeroHexStaticInt${bits}(this.encodePackedOrThrow()).intoOrThrow()
   }
 
   static codegen() {
-    return \`Cubane.Abi.StaticInt${bits}\`
+    return \`Cubane.Abi.Int${bits}\`
   }
 
   get class() {
@@ -120,12 +134,15 @@ export class BytesStaticInt${bits} {
 
 }
 
-export namespace BigIntStaticInt${bits} {
-  export type From = bigint
+export namespace ZeroHexStaticInt${bits} {
+  export type From =
+    | ZeroHexString
+    | bigint
+    | number
 }
 
-export class BigIntStaticInt${bits} {
-  readonly #class = BigIntStaticInt${bits}
+export class ZeroHexStaticInt${bits} {
+  readonly #class = ZeroHexStaticInt${bits}
   readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
@@ -140,24 +157,48 @@ export class BigIntStaticInt${bits} {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
-    readonly value: BigIntStaticInt${bits}.From
+  constructor(
+    readonly value: RawHexString
   ) { }
 
-  static create(value: BigIntStaticInt${bits}.From) {
-    return new BigIntStaticInt${bits}(value)
+  static #fromBigInt(value: bigint) {
+    if (value >= BN_0) 
+      return new ZeroHexStaticInt${bits}(value.toString(16))
+
+    const mask = (BN_1 << 256n) - BN_1
+    const value2 = ((~(-value)) & mask) + BN_1
+
+    return new ZeroHexStaticInt${bits}(value2.toString(16))
   }
 
-  static from(value: BigIntStaticInt${bits}.From) {
-    return BigIntStaticInt${bits}.create(value)
+  toBigInt() {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  static create(value: ZeroHexStaticInt${bits}.From) {
+    if (typeof value === "bigint")
+      return ZeroHexStaticInt${bits}.#fromBigInt(value)
+    if (typeof value === "number")
+      return ZeroHexStaticInt${bits}.#fromBigInt(BigInt(value))
+    return new ZeroHexStaticInt${bits}(value.slice(2))
+  }
+
+  static from(value: ZeroHexStaticInt${bits}.From) {
+    return ZeroHexStaticInt${bits}.create(value)
   }
 
   intoOrThrow() {
-    return this.value
+    return this.toBigInt()
   }
 
   static codegen() {
-    return \`Cubane.Abi.StaticInt${bits}\`
+    return \`Cubane.Abi.Int${bits}\`
   }
 
   get class() {
@@ -165,35 +206,15 @@ export class BigIntStaticInt${bits} {
   }
 
   encodeOrThrow() {
-    if (this.value < BN_0) {
-      const mask = (BN_1 << 256n) - BN_1
-      const value = ((~(-this.value)) & mask) + BN_1
-
-      return value.toString(16).padStart(64, "0")
-    }
-
-    return this.value.toString(16).padStart(64, "0")
+    return this.value.padStart(64, "0")
   }
 
   encodePackedOrThrow() {
-    if (this.value < BN_0) {
-      const mask = (BN_1 << 256n) - BN_1
-      const value = ((~(-this.value)) & mask) + BN_1
-
-      return value.toString(16)
-    }
-
-    return this.value.toString(16)
+    return this.value
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const mask = (BN_1 << this.bitsn) - BN_1
-
-    const value = BigInts.decodeRawHexSafe(cursor.readOrThrow(64))
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return new BigIntStaticInt${bits}(-(((~value) & mask) + BN_1))
-    return new BigIntStaticInt${bits}(value)
+    return new ZeroHexStaticInt${bits}(cursor.readOrThrow(64))
   }
 
   sizeOrThrow() {
@@ -201,104 +222,19 @@ export class BigIntStaticInt${bits} {
   }
 
   writeOrThrow(cursor: Cursor) {
-    if (this.value < BN_0) {
-      const mask = (BN_1 << 256n) - BN_1
-      const value = ((~(-this.value)) & mask) + BN_1
-
-      using slice = BigInts.exportOrThrow(value)
-
-      cursor.writeOrThrow(slice.bytes)
-
-      return
-    }
-
-    using slice = BigInts.exportOrThrow(this.value)
+    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - BigIntStaticInt${bits}.bytes
+    cursor.offset += 32 - ZeroHexStaticInt${bits}.bytes
 
-    const mask = (BN_1 << this.bitsn) - BN_1
+    const content = cursor.readOrThrow(ZeroHexStaticInt${bits}.bytes)
+    const value = Base16.get().encodeOrThrow(content)
 
-    const bytes = cursor.readOrThrow(BigIntStaticInt${bits}.bytes)
-    const value = BigInts.importOrThrow(bytes)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return new BigIntStaticInt${bits}(-(((~value) & mask) + BN_1))
-    return new BigIntStaticInt${bits}(value)
-  }
-
-}
-
-export namespace NumberStaticInt${bits} {
-  export type From = number
-}
-
-export class NumberStaticInt${bits} {
-  readonly #class = NumberStaticInt${bits}
-  readonly name = this.#class.name
-
-  static readonly bytes = ${bytes}
-  static readonly bits = ${bits}
-  static readonly dynamic = false
-  static readonly size = 32
-
-  readonly bits = this.#class.bits
-  readonly bytes = this.#class.bytes
-  readonly dynamic = this.#class.dynamic
-  readonly size = this.#class.size
-
-  private constructor(
-    readonly inner: BigIntStaticInt${bits}
-  ) { }
-
-  static create(value: NumberStaticInt${bits}.From) {
-    const inner = BigIntStaticInt${bits}.create(BigInt(value))
-
-    return new NumberStaticInt${bits}(inner)
-  }
-
-  static from(value: NumberStaticInt${bits}.From) {
-    return NumberStaticInt${bits}.create(value)
-  }
-
-  intoOrThrow() {
-    return Number(this.inner.value)
-  }
-
-  static codegen() {
-    return \`Cubane.Abi.StaticInt${bits}\`
-  }
-
-  get class() {
-    return this.#class
-  }
-
-  encodeOrThrow() {
-    return this.inner.encodeOrThrow()
-  }
-
-  encodePackedOrThrow() {
-    return this.inner.encodePackedOrThrow()
-  }
-
-  static decodeOrThrow(cursor: TextCursor) {
-    return new NumberStaticInt${bits}(BigIntStaticInt${bits}.decodeOrThrow(cursor))
-  }
-
-  sizeOrThrow() {
-    return this.inner.sizeOrThrow()
-  }
-
-  writeOrThrow(cursor: Cursor) {
-    this.inner.writeOrThrow(cursor)
-  }
-
-  static readOrThrow(cursor: Cursor) {
-    return new NumberStaticInt${bits}(BigIntStaticInt${bits}.readOrThrow(cursor))
+    return new ZeroHexStaticInt${bits}(value)
   }
 
 }`

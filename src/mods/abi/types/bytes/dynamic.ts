@@ -19,8 +19,6 @@ export namespace DynamicBytes {
   export function create(value: DynamicBytes.From) {
     if (value instanceof Uint8Array)
       return BytesDynamicBytes.create(value)
-    if (ZeroHexString.is(value))
-      return ZeroHexDynamicBytes.create(value)
     return ZeroHexDynamicBytes.create(value)
   }
 
