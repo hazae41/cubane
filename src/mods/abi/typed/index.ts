@@ -86,24 +86,15 @@ export namespace TypedData {
     return sized
   }
 
-  function sizeAnyWithCacheOrThrow(types: TypedDataTypes, type: string, cache: Map<string, number>) {
-    if (types[type] != null)
-      return sizeStructWithCacheOrThrow(types, type, cache)
-    return 32
-  }
-
   function resolveTypeOrThrow(types: TypedDataTypes, type: string, imports = new Set<string>()) {
     for (const variable of types[type]!) {
       const { type } = variable
 
-      let realtype = type
+      const bracket = type.indexOf("[")
 
-      if (type.endsWith("]")) {
-        const index = type.lastIndexOf("[")
-        const subtype = type.slice(0, index)
-        realtype = subtype
-        continue
-      }
+      const realtype = bracket !== -1
+        ? type.slice(0, bracket)
+        : type
 
       if (types[realtype] == null)
         continue
@@ -154,7 +145,7 @@ export namespace TypedData {
     return hashed
   }
 
-  export function encodeDataOrThrow(types: TypedDataTypes, type: string, value: unknown, cursor: Cursor, typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {
+  export function encodeFieldOrThrow(types: TypedDataTypes, type: string, value: unknown, cursor: Cursor, typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {
     /**
      * Struct
      */
@@ -215,13 +206,11 @@ export namespace TypedData {
   }
 
   export function hashArrayOrThrow(types: TypedDataTypes, type: string, array: readonly unknown[], typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {
-    const typeSize = sizeAnyWithCacheOrThrow(types, type, typeSizeCache)
-
-    const bytes = new Uint8Array(typeSize * array.length)
+    const bytes = new Uint8Array(32 * array.length)
     const cursor = new Cursor(bytes)
 
     for (const value of array)
-      encodeDataOrThrow(types, type, value, cursor, typeSizeCache, typeHashCache)
+      encodeFieldOrThrow(types, type, value, cursor, typeSizeCache, typeHashCache)
 
     return Keccak256.get().hashOrThrow(bytes)
   }
@@ -238,11 +227,12 @@ export namespace TypedData {
       const { name, type } = variable
       const value = struct[name]
 
-      encodeDataOrThrow(types, type, value, cursor, typeSizeCache, typeHashCache)
+      encodeFieldOrThrow(types, type, value, cursor, typeSizeCache, typeHashCache)
     }
 
     return Keccak256.get().hashOrThrow(bytes)
   }
+
 
   export function encodeOrThrow(data: TypedData) {
     const { types, primaryType, domain, message } = data
