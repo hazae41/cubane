@@ -51,7 +51,7 @@ export namespace StaticUint8 {
 }
 
 export namespace BytesStaticUint8 {
-  export type From = Bytes<1>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint8 {
@@ -71,7 +71,7 @@ export class BytesStaticUint8 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint8.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -116,7 +116,7 @@ export class BytesStaticUint8 {
     const content = cursor.readOrThrow(BytesStaticUint8.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint8(value as Bytes<1>)
+    return new BytesStaticUint8(value)
   }
 
   sizeOrThrow() {
@@ -285,7 +285,7 @@ export namespace StaticUint16 {
 }
 
 export namespace BytesStaticUint16 {
-  export type From = Bytes<2>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint16 {
@@ -305,7 +305,7 @@ export class BytesStaticUint16 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint16.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -350,7 +350,7 @@ export class BytesStaticUint16 {
     const content = cursor.readOrThrow(BytesStaticUint16.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint16(value as Bytes<2>)
+    return new BytesStaticUint16(value)
   }
 
   sizeOrThrow() {
@@ -519,7 +519,7 @@ export namespace StaticUint24 {
 }
 
 export namespace BytesStaticUint24 {
-  export type From = Bytes<3>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint24 {
@@ -539,7 +539,7 @@ export class BytesStaticUint24 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint24.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -584,7 +584,7 @@ export class BytesStaticUint24 {
     const content = cursor.readOrThrow(BytesStaticUint24.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint24(value as Bytes<3>)
+    return new BytesStaticUint24(value)
   }
 
   sizeOrThrow() {
@@ -753,7 +753,7 @@ export namespace StaticUint32 {
 }
 
 export namespace BytesStaticUint32 {
-  export type From = Bytes<4>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint32 {
@@ -773,7 +773,7 @@ export class BytesStaticUint32 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint32.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -818,7 +818,7 @@ export class BytesStaticUint32 {
     const content = cursor.readOrThrow(BytesStaticUint32.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint32(value as Bytes<4>)
+    return new BytesStaticUint32(value)
   }
 
   sizeOrThrow() {
@@ -987,7 +987,7 @@ export namespace StaticUint40 {
 }
 
 export namespace BytesStaticUint40 {
-  export type From = Bytes<5>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint40 {
@@ -1007,7 +1007,7 @@ export class BytesStaticUint40 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint40.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -1052,7 +1052,7 @@ export class BytesStaticUint40 {
     const content = cursor.readOrThrow(BytesStaticUint40.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint40(value as Bytes<5>)
+    return new BytesStaticUint40(value)
   }
 
   sizeOrThrow() {
@@ -1221,7 +1221,7 @@ export namespace StaticUint48 {
 }
 
 export namespace BytesStaticUint48 {
-  export type From = Bytes<6>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint48 {
@@ -1241,7 +1241,7 @@ export class BytesStaticUint48 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint48.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -1286,7 +1286,7 @@ export class BytesStaticUint48 {
     const content = cursor.readOrThrow(BytesStaticUint48.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint48(value as Bytes<6>)
+    return new BytesStaticUint48(value)
   }
 
   sizeOrThrow() {
@@ -1455,7 +1455,7 @@ export namespace StaticUint56 {
 }
 
 export namespace BytesStaticUint56 {
-  export type From = Bytes<7>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint56 {
@@ -1475,7 +1475,7 @@ export class BytesStaticUint56 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint56.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -1520,7 +1520,7 @@ export class BytesStaticUint56 {
     const content = cursor.readOrThrow(BytesStaticUint56.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint56(value as Bytes<7>)
+    return new BytesStaticUint56(value)
   }
 
   sizeOrThrow() {
@@ -1689,7 +1689,7 @@ export namespace StaticUint64 {
 }
 
 export namespace BytesStaticUint64 {
-  export type From = Bytes<8>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint64 {
@@ -1709,7 +1709,7 @@ export class BytesStaticUint64 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint64.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -1754,7 +1754,7 @@ export class BytesStaticUint64 {
     const content = cursor.readOrThrow(BytesStaticUint64.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint64(value as Bytes<8>)
+    return new BytesStaticUint64(value)
   }
 
   sizeOrThrow() {
@@ -1923,7 +1923,7 @@ export namespace StaticUint72 {
 }
 
 export namespace BytesStaticUint72 {
-  export type From = Bytes<9>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint72 {
@@ -1943,7 +1943,7 @@ export class BytesStaticUint72 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint72.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -1988,7 +1988,7 @@ export class BytesStaticUint72 {
     const content = cursor.readOrThrow(BytesStaticUint72.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint72(value as Bytes<9>)
+    return new BytesStaticUint72(value)
   }
 
   sizeOrThrow() {
@@ -2157,7 +2157,7 @@ export namespace StaticUint80 {
 }
 
 export namespace BytesStaticUint80 {
-  export type From = Bytes<10>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint80 {
@@ -2177,7 +2177,7 @@ export class BytesStaticUint80 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint80.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -2222,7 +2222,7 @@ export class BytesStaticUint80 {
     const content = cursor.readOrThrow(BytesStaticUint80.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint80(value as Bytes<10>)
+    return new BytesStaticUint80(value)
   }
 
   sizeOrThrow() {
@@ -2391,7 +2391,7 @@ export namespace StaticUint88 {
 }
 
 export namespace BytesStaticUint88 {
-  export type From = Bytes<11>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint88 {
@@ -2411,7 +2411,7 @@ export class BytesStaticUint88 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint88.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -2456,7 +2456,7 @@ export class BytesStaticUint88 {
     const content = cursor.readOrThrow(BytesStaticUint88.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint88(value as Bytes<11>)
+    return new BytesStaticUint88(value)
   }
 
   sizeOrThrow() {
@@ -2625,7 +2625,7 @@ export namespace StaticUint96 {
 }
 
 export namespace BytesStaticUint96 {
-  export type From = Bytes<12>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint96 {
@@ -2645,7 +2645,7 @@ export class BytesStaticUint96 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint96.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -2690,7 +2690,7 @@ export class BytesStaticUint96 {
     const content = cursor.readOrThrow(BytesStaticUint96.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint96(value as Bytes<12>)
+    return new BytesStaticUint96(value)
   }
 
   sizeOrThrow() {
@@ -2859,7 +2859,7 @@ export namespace StaticUint104 {
 }
 
 export namespace BytesStaticUint104 {
-  export type From = Bytes<13>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint104 {
@@ -2879,7 +2879,7 @@ export class BytesStaticUint104 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint104.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -2924,7 +2924,7 @@ export class BytesStaticUint104 {
     const content = cursor.readOrThrow(BytesStaticUint104.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint104(value as Bytes<13>)
+    return new BytesStaticUint104(value)
   }
 
   sizeOrThrow() {
@@ -3093,7 +3093,7 @@ export namespace StaticUint112 {
 }
 
 export namespace BytesStaticUint112 {
-  export type From = Bytes<14>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint112 {
@@ -3113,7 +3113,7 @@ export class BytesStaticUint112 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint112.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -3158,7 +3158,7 @@ export class BytesStaticUint112 {
     const content = cursor.readOrThrow(BytesStaticUint112.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint112(value as Bytes<14>)
+    return new BytesStaticUint112(value)
   }
 
   sizeOrThrow() {
@@ -3327,7 +3327,7 @@ export namespace StaticUint120 {
 }
 
 export namespace BytesStaticUint120 {
-  export type From = Bytes<15>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint120 {
@@ -3347,7 +3347,7 @@ export class BytesStaticUint120 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint120.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -3392,7 +3392,7 @@ export class BytesStaticUint120 {
     const content = cursor.readOrThrow(BytesStaticUint120.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint120(value as Bytes<15>)
+    return new BytesStaticUint120(value)
   }
 
   sizeOrThrow() {
@@ -3561,7 +3561,7 @@ export namespace StaticUint128 {
 }
 
 export namespace BytesStaticUint128 {
-  export type From = Bytes<16>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint128 {
@@ -3581,7 +3581,7 @@ export class BytesStaticUint128 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint128.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -3626,7 +3626,7 @@ export class BytesStaticUint128 {
     const content = cursor.readOrThrow(BytesStaticUint128.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint128(value as Bytes<16>)
+    return new BytesStaticUint128(value)
   }
 
   sizeOrThrow() {
@@ -3795,7 +3795,7 @@ export namespace StaticUint136 {
 }
 
 export namespace BytesStaticUint136 {
-  export type From = Bytes<17>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint136 {
@@ -3815,7 +3815,7 @@ export class BytesStaticUint136 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint136.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -3860,7 +3860,7 @@ export class BytesStaticUint136 {
     const content = cursor.readOrThrow(BytesStaticUint136.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint136(value as Bytes<17>)
+    return new BytesStaticUint136(value)
   }
 
   sizeOrThrow() {
@@ -4029,7 +4029,7 @@ export namespace StaticUint144 {
 }
 
 export namespace BytesStaticUint144 {
-  export type From = Bytes<18>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint144 {
@@ -4049,7 +4049,7 @@ export class BytesStaticUint144 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint144.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -4094,7 +4094,7 @@ export class BytesStaticUint144 {
     const content = cursor.readOrThrow(BytesStaticUint144.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint144(value as Bytes<18>)
+    return new BytesStaticUint144(value)
   }
 
   sizeOrThrow() {
@@ -4263,7 +4263,7 @@ export namespace StaticUint152 {
 }
 
 export namespace BytesStaticUint152 {
-  export type From = Bytes<19>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint152 {
@@ -4283,7 +4283,7 @@ export class BytesStaticUint152 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint152.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -4328,7 +4328,7 @@ export class BytesStaticUint152 {
     const content = cursor.readOrThrow(BytesStaticUint152.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint152(value as Bytes<19>)
+    return new BytesStaticUint152(value)
   }
 
   sizeOrThrow() {
@@ -4497,7 +4497,7 @@ export namespace StaticUint160 {
 }
 
 export namespace BytesStaticUint160 {
-  export type From = Bytes<20>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint160 {
@@ -4517,7 +4517,7 @@ export class BytesStaticUint160 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint160.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -4562,7 +4562,7 @@ export class BytesStaticUint160 {
     const content = cursor.readOrThrow(BytesStaticUint160.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint160(value as Bytes<20>)
+    return new BytesStaticUint160(value)
   }
 
   sizeOrThrow() {
@@ -4731,7 +4731,7 @@ export namespace StaticUint168 {
 }
 
 export namespace BytesStaticUint168 {
-  export type From = Bytes<21>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint168 {
@@ -4751,7 +4751,7 @@ export class BytesStaticUint168 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint168.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -4796,7 +4796,7 @@ export class BytesStaticUint168 {
     const content = cursor.readOrThrow(BytesStaticUint168.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint168(value as Bytes<21>)
+    return new BytesStaticUint168(value)
   }
 
   sizeOrThrow() {
@@ -4965,7 +4965,7 @@ export namespace StaticUint176 {
 }
 
 export namespace BytesStaticUint176 {
-  export type From = Bytes<22>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint176 {
@@ -4985,7 +4985,7 @@ export class BytesStaticUint176 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint176.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -5030,7 +5030,7 @@ export class BytesStaticUint176 {
     const content = cursor.readOrThrow(BytesStaticUint176.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint176(value as Bytes<22>)
+    return new BytesStaticUint176(value)
   }
 
   sizeOrThrow() {
@@ -5199,7 +5199,7 @@ export namespace StaticUint184 {
 }
 
 export namespace BytesStaticUint184 {
-  export type From = Bytes<23>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint184 {
@@ -5219,7 +5219,7 @@ export class BytesStaticUint184 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint184.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -5264,7 +5264,7 @@ export class BytesStaticUint184 {
     const content = cursor.readOrThrow(BytesStaticUint184.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint184(value as Bytes<23>)
+    return new BytesStaticUint184(value)
   }
 
   sizeOrThrow() {
@@ -5433,7 +5433,7 @@ export namespace StaticUint192 {
 }
 
 export namespace BytesStaticUint192 {
-  export type From = Bytes<24>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint192 {
@@ -5453,7 +5453,7 @@ export class BytesStaticUint192 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint192.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -5498,7 +5498,7 @@ export class BytesStaticUint192 {
     const content = cursor.readOrThrow(BytesStaticUint192.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint192(value as Bytes<24>)
+    return new BytesStaticUint192(value)
   }
 
   sizeOrThrow() {
@@ -5667,7 +5667,7 @@ export namespace StaticUint200 {
 }
 
 export namespace BytesStaticUint200 {
-  export type From = Bytes<25>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint200 {
@@ -5687,7 +5687,7 @@ export class BytesStaticUint200 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint200.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -5732,7 +5732,7 @@ export class BytesStaticUint200 {
     const content = cursor.readOrThrow(BytesStaticUint200.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint200(value as Bytes<25>)
+    return new BytesStaticUint200(value)
   }
 
   sizeOrThrow() {
@@ -5901,7 +5901,7 @@ export namespace StaticUint208 {
 }
 
 export namespace BytesStaticUint208 {
-  export type From = Bytes<26>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint208 {
@@ -5921,7 +5921,7 @@ export class BytesStaticUint208 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint208.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -5966,7 +5966,7 @@ export class BytesStaticUint208 {
     const content = cursor.readOrThrow(BytesStaticUint208.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint208(value as Bytes<26>)
+    return new BytesStaticUint208(value)
   }
 
   sizeOrThrow() {
@@ -6135,7 +6135,7 @@ export namespace StaticUint216 {
 }
 
 export namespace BytesStaticUint216 {
-  export type From = Bytes<27>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint216 {
@@ -6155,7 +6155,7 @@ export class BytesStaticUint216 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint216.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -6200,7 +6200,7 @@ export class BytesStaticUint216 {
     const content = cursor.readOrThrow(BytesStaticUint216.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint216(value as Bytes<27>)
+    return new BytesStaticUint216(value)
   }
 
   sizeOrThrow() {
@@ -6369,7 +6369,7 @@ export namespace StaticUint224 {
 }
 
 export namespace BytesStaticUint224 {
-  export type From = Bytes<28>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint224 {
@@ -6389,7 +6389,7 @@ export class BytesStaticUint224 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint224.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -6434,7 +6434,7 @@ export class BytesStaticUint224 {
     const content = cursor.readOrThrow(BytesStaticUint224.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint224(value as Bytes<28>)
+    return new BytesStaticUint224(value)
   }
 
   sizeOrThrow() {
@@ -6603,7 +6603,7 @@ export namespace StaticUint232 {
 }
 
 export namespace BytesStaticUint232 {
-  export type From = Bytes<29>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint232 {
@@ -6623,7 +6623,7 @@ export class BytesStaticUint232 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint232.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -6668,7 +6668,7 @@ export class BytesStaticUint232 {
     const content = cursor.readOrThrow(BytesStaticUint232.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint232(value as Bytes<29>)
+    return new BytesStaticUint232(value)
   }
 
   sizeOrThrow() {
@@ -6837,7 +6837,7 @@ export namespace StaticUint240 {
 }
 
 export namespace BytesStaticUint240 {
-  export type From = Bytes<30>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint240 {
@@ -6857,7 +6857,7 @@ export class BytesStaticUint240 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint240.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -6902,7 +6902,7 @@ export class BytesStaticUint240 {
     const content = cursor.readOrThrow(BytesStaticUint240.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint240(value as Bytes<30>)
+    return new BytesStaticUint240(value)
   }
 
   sizeOrThrow() {
@@ -7071,7 +7071,7 @@ export namespace StaticUint248 {
 }
 
 export namespace BytesStaticUint248 {
-  export type From = Bytes<31>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint248 {
@@ -7091,7 +7091,7 @@ export class BytesStaticUint248 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint248.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -7136,7 +7136,7 @@ export class BytesStaticUint248 {
     const content = cursor.readOrThrow(BytesStaticUint248.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint248(value as Bytes<31>)
+    return new BytesStaticUint248(value)
   }
 
   sizeOrThrow() {
@@ -7305,7 +7305,7 @@ export namespace StaticUint256 {
 }
 
 export namespace BytesStaticUint256 {
-  export type From = Bytes<32>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint256 {
@@ -7325,7 +7325,7 @@ export class BytesStaticUint256 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint256.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -7370,7 +7370,7 @@ export class BytesStaticUint256 {
     const content = cursor.readOrThrow(BytesStaticUint256.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint256(value as Bytes<32>)
+    return new BytesStaticUint256(value)
   }
 
   sizeOrThrow() {

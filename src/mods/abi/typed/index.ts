@@ -9,14 +9,15 @@ import { Records } from "libs/records/records.js"
 import { Factory } from "../abi.js"
 import { StaticAddress } from "../types/address/address.js"
 import { StaticBool } from "../types/bool/bool.js"
-import { bytesByName } from "../types/bytes/index.js"
+import { StaticBytes32, bytesByName } from "../types/bytes/index.js"
 import { intByName } from "../types/int/int.js"
-import { uintByName } from "../types/uint/uint.js"
+import { DynamicString } from "../types/string/string.js"
+import { StaticUint256, uintByName } from "../types/uint/uint.js"
 
 export interface TypedData {
   readonly types: TypedDataTypes
   readonly primaryType: string
-  readonly domain: TypedDataStruct
+  readonly domain: EIP712Domain
   readonly message: TypedDataStruct
 }
 
@@ -36,11 +37,12 @@ export interface TypedDataStruct {
   readonly [x: string]: unknown
 }
 
-export interface EIP712Domain {
-  readonly name: string
-  readonly version: string
-  readonly chainId: number
-  readonly verifyingContract: string
+export interface EIP712Domain extends TypedDataStruct {
+  readonly name?: DynamicString.From
+  readonly version?: DynamicString.From
+  readonly chainId?: StaticUint256.From
+  readonly verifyingContract?: StaticAddress.From
+  readonly salt?: StaticBytes32.From
 }
 
 /**
@@ -243,7 +245,7 @@ export namespace TypedData {
     const { types, primaryType, domain, message } = data
 
     if (types["EIP712Domain"] == null)
-      (types as any)["EIP712Domain"] = EIP712Domain
+      (types as any)["EIP712Domain"] = EIP712Domain.filter(({ name }) => domain[name] != null)
 
     using domainHash = hashStructOrThrow(types, "EIP712Domain", domain)
     using messageHash = hashStructOrThrow(types, primaryType, message)

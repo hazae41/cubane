@@ -50,7 +50,7 @@ export namespace StaticBytes${bytes} {
 }
 
 export namespace BytesStaticBytes${bytes} {
-  export type From = Bytes<${bytes}>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes${bytes} {
@@ -70,7 +70,7 @@ export class BytesStaticBytes${bytes} {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes${bytes}.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes${bytes}.From) {
@@ -107,7 +107,7 @@ export class BytesStaticBytes${bytes} {
 
     cursor.offset += 64 - BytesStaticBytes${bytes}.nibbles
 
-    return new BytesStaticBytes${bytes}(value as Bytes<${bytes}>)
+    return new BytesStaticBytes${bytes}(value)
   }
 
   sizeOrThrow() {
@@ -131,7 +131,7 @@ export class BytesStaticBytes${bytes} {
 }
 
 export namespace ZeroHexStaticBytes${bytes} {
-  export type From = ZeroHexString<${2 + nibbles}>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes${bytes} {
@@ -151,11 +151,11 @@ export class ZeroHexStaticBytes${bytes} {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<${nibbles}>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes${bytes}.From) {
-    return new ZeroHexStaticBytes${bytes}(value.slice(2) as RawHexString<${nibbles}>)
+    return new ZeroHexStaticBytes${bytes}(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes${bytes}.From) {
@@ -207,7 +207,7 @@ export class ZeroHexStaticBytes${bytes} {
 
     cursor.offset += 32 - ZeroHexStaticBytes${bytes}.bytes
     
-    return new ZeroHexStaticBytes${bytes}(value as RawHexString<${nibbles}>)
+    return new ZeroHexStaticBytes${bytes}(value)
   }
 
 }`

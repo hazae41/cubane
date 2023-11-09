@@ -59,7 +59,7 @@ export namespace StaticUint${bits} {
 }
 
 export namespace BytesStaticUint${bits} {
-  export type From = Bytes<${bytes}>
+  export type From = Uint8Array
 }
 
 export class BytesStaticUint${bits} {
@@ -79,7 +79,7 @@ export class BytesStaticUint${bits} {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticUint${bits}.From
+    readonly value: Uint8Array
   ) { }
 
   toNumber() {
@@ -124,7 +124,7 @@ export class BytesStaticUint${bits} {
     const content = cursor.readOrThrow(BytesStaticUint${bits}.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint${bits}(value as Bytes<${bytes}>)
+    return new BytesStaticUint${bits}(value)
   }
 
   sizeOrThrow() {

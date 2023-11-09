@@ -42,7 +42,7 @@ export namespace StaticBytes1 {
 }
 
 export namespace BytesStaticBytes1 {
-  export type From = Bytes<1>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes1 {
@@ -62,7 +62,7 @@ export class BytesStaticBytes1 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes1.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes1.From) {
@@ -99,7 +99,7 @@ export class BytesStaticBytes1 {
 
     cursor.offset += 64 - BytesStaticBytes1.nibbles
 
-    return new BytesStaticBytes1(value as Bytes<1>)
+    return new BytesStaticBytes1(value)
   }
 
   sizeOrThrow() {
@@ -123,7 +123,7 @@ export class BytesStaticBytes1 {
 }
 
 export namespace ZeroHexStaticBytes1 {
-  export type From = ZeroHexString<4>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes1 {
@@ -143,11 +143,11 @@ export class ZeroHexStaticBytes1 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<2>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes1.From) {
-    return new ZeroHexStaticBytes1(value.slice(2) as RawHexString<2>)
+    return new ZeroHexStaticBytes1(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes1.From) {
@@ -199,7 +199,7 @@ export class ZeroHexStaticBytes1 {
 
     cursor.offset += 32 - ZeroHexStaticBytes1.bytes
     
-    return new ZeroHexStaticBytes1(value as RawHexString<2>)
+    return new ZeroHexStaticBytes1(value)
   }
 
 }
@@ -241,7 +241,7 @@ export namespace StaticBytes2 {
 }
 
 export namespace BytesStaticBytes2 {
-  export type From = Bytes<2>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes2 {
@@ -261,7 +261,7 @@ export class BytesStaticBytes2 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes2.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes2.From) {
@@ -298,7 +298,7 @@ export class BytesStaticBytes2 {
 
     cursor.offset += 64 - BytesStaticBytes2.nibbles
 
-    return new BytesStaticBytes2(value as Bytes<2>)
+    return new BytesStaticBytes2(value)
   }
 
   sizeOrThrow() {
@@ -322,7 +322,7 @@ export class BytesStaticBytes2 {
 }
 
 export namespace ZeroHexStaticBytes2 {
-  export type From = ZeroHexString<6>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes2 {
@@ -342,11 +342,11 @@ export class ZeroHexStaticBytes2 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<4>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes2.From) {
-    return new ZeroHexStaticBytes2(value.slice(2) as RawHexString<4>)
+    return new ZeroHexStaticBytes2(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes2.From) {
@@ -398,7 +398,7 @@ export class ZeroHexStaticBytes2 {
 
     cursor.offset += 32 - ZeroHexStaticBytes2.bytes
     
-    return new ZeroHexStaticBytes2(value as RawHexString<4>)
+    return new ZeroHexStaticBytes2(value)
   }
 
 }
@@ -440,7 +440,7 @@ export namespace StaticBytes3 {
 }
 
 export namespace BytesStaticBytes3 {
-  export type From = Bytes<3>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes3 {
@@ -460,7 +460,7 @@ export class BytesStaticBytes3 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes3.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes3.From) {
@@ -497,7 +497,7 @@ export class BytesStaticBytes3 {
 
     cursor.offset += 64 - BytesStaticBytes3.nibbles
 
-    return new BytesStaticBytes3(value as Bytes<3>)
+    return new BytesStaticBytes3(value)
   }
 
   sizeOrThrow() {
@@ -521,7 +521,7 @@ export class BytesStaticBytes3 {
 }
 
 export namespace ZeroHexStaticBytes3 {
-  export type From = ZeroHexString<8>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes3 {
@@ -541,11 +541,11 @@ export class ZeroHexStaticBytes3 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<6>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes3.From) {
-    return new ZeroHexStaticBytes3(value.slice(2) as RawHexString<6>)
+    return new ZeroHexStaticBytes3(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes3.From) {
@@ -597,7 +597,7 @@ export class ZeroHexStaticBytes3 {
 
     cursor.offset += 32 - ZeroHexStaticBytes3.bytes
     
-    return new ZeroHexStaticBytes3(value as RawHexString<6>)
+    return new ZeroHexStaticBytes3(value)
   }
 
 }
@@ -639,7 +639,7 @@ export namespace StaticBytes4 {
 }
 
 export namespace BytesStaticBytes4 {
-  export type From = Bytes<4>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes4 {
@@ -659,7 +659,7 @@ export class BytesStaticBytes4 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes4.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes4.From) {
@@ -696,7 +696,7 @@ export class BytesStaticBytes4 {
 
     cursor.offset += 64 - BytesStaticBytes4.nibbles
 
-    return new BytesStaticBytes4(value as Bytes<4>)
+    return new BytesStaticBytes4(value)
   }
 
   sizeOrThrow() {
@@ -720,7 +720,7 @@ export class BytesStaticBytes4 {
 }
 
 export namespace ZeroHexStaticBytes4 {
-  export type From = ZeroHexString<10>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes4 {
@@ -740,11 +740,11 @@ export class ZeroHexStaticBytes4 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<8>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes4.From) {
-    return new ZeroHexStaticBytes4(value.slice(2) as RawHexString<8>)
+    return new ZeroHexStaticBytes4(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes4.From) {
@@ -796,7 +796,7 @@ export class ZeroHexStaticBytes4 {
 
     cursor.offset += 32 - ZeroHexStaticBytes4.bytes
     
-    return new ZeroHexStaticBytes4(value as RawHexString<8>)
+    return new ZeroHexStaticBytes4(value)
   }
 
 }
@@ -838,7 +838,7 @@ export namespace StaticBytes5 {
 }
 
 export namespace BytesStaticBytes5 {
-  export type From = Bytes<5>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes5 {
@@ -858,7 +858,7 @@ export class BytesStaticBytes5 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes5.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes5.From) {
@@ -895,7 +895,7 @@ export class BytesStaticBytes5 {
 
     cursor.offset += 64 - BytesStaticBytes5.nibbles
 
-    return new BytesStaticBytes5(value as Bytes<5>)
+    return new BytesStaticBytes5(value)
   }
 
   sizeOrThrow() {
@@ -919,7 +919,7 @@ export class BytesStaticBytes5 {
 }
 
 export namespace ZeroHexStaticBytes5 {
-  export type From = ZeroHexString<12>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes5 {
@@ -939,11 +939,11 @@ export class ZeroHexStaticBytes5 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<10>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes5.From) {
-    return new ZeroHexStaticBytes5(value.slice(2) as RawHexString<10>)
+    return new ZeroHexStaticBytes5(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes5.From) {
@@ -995,7 +995,7 @@ export class ZeroHexStaticBytes5 {
 
     cursor.offset += 32 - ZeroHexStaticBytes5.bytes
     
-    return new ZeroHexStaticBytes5(value as RawHexString<10>)
+    return new ZeroHexStaticBytes5(value)
   }
 
 }
@@ -1037,7 +1037,7 @@ export namespace StaticBytes6 {
 }
 
 export namespace BytesStaticBytes6 {
-  export type From = Bytes<6>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes6 {
@@ -1057,7 +1057,7 @@ export class BytesStaticBytes6 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes6.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes6.From) {
@@ -1094,7 +1094,7 @@ export class BytesStaticBytes6 {
 
     cursor.offset += 64 - BytesStaticBytes6.nibbles
 
-    return new BytesStaticBytes6(value as Bytes<6>)
+    return new BytesStaticBytes6(value)
   }
 
   sizeOrThrow() {
@@ -1118,7 +1118,7 @@ export class BytesStaticBytes6 {
 }
 
 export namespace ZeroHexStaticBytes6 {
-  export type From = ZeroHexString<14>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes6 {
@@ -1138,11 +1138,11 @@ export class ZeroHexStaticBytes6 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<12>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes6.From) {
-    return new ZeroHexStaticBytes6(value.slice(2) as RawHexString<12>)
+    return new ZeroHexStaticBytes6(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes6.From) {
@@ -1194,7 +1194,7 @@ export class ZeroHexStaticBytes6 {
 
     cursor.offset += 32 - ZeroHexStaticBytes6.bytes
     
-    return new ZeroHexStaticBytes6(value as RawHexString<12>)
+    return new ZeroHexStaticBytes6(value)
   }
 
 }
@@ -1236,7 +1236,7 @@ export namespace StaticBytes7 {
 }
 
 export namespace BytesStaticBytes7 {
-  export type From = Bytes<7>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes7 {
@@ -1256,7 +1256,7 @@ export class BytesStaticBytes7 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes7.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes7.From) {
@@ -1293,7 +1293,7 @@ export class BytesStaticBytes7 {
 
     cursor.offset += 64 - BytesStaticBytes7.nibbles
 
-    return new BytesStaticBytes7(value as Bytes<7>)
+    return new BytesStaticBytes7(value)
   }
 
   sizeOrThrow() {
@@ -1317,7 +1317,7 @@ export class BytesStaticBytes7 {
 }
 
 export namespace ZeroHexStaticBytes7 {
-  export type From = ZeroHexString<16>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes7 {
@@ -1337,11 +1337,11 @@ export class ZeroHexStaticBytes7 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<14>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes7.From) {
-    return new ZeroHexStaticBytes7(value.slice(2) as RawHexString<14>)
+    return new ZeroHexStaticBytes7(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes7.From) {
@@ -1393,7 +1393,7 @@ export class ZeroHexStaticBytes7 {
 
     cursor.offset += 32 - ZeroHexStaticBytes7.bytes
     
-    return new ZeroHexStaticBytes7(value as RawHexString<14>)
+    return new ZeroHexStaticBytes7(value)
   }
 
 }
@@ -1435,7 +1435,7 @@ export namespace StaticBytes8 {
 }
 
 export namespace BytesStaticBytes8 {
-  export type From = Bytes<8>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes8 {
@@ -1455,7 +1455,7 @@ export class BytesStaticBytes8 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes8.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes8.From) {
@@ -1492,7 +1492,7 @@ export class BytesStaticBytes8 {
 
     cursor.offset += 64 - BytesStaticBytes8.nibbles
 
-    return new BytesStaticBytes8(value as Bytes<8>)
+    return new BytesStaticBytes8(value)
   }
 
   sizeOrThrow() {
@@ -1516,7 +1516,7 @@ export class BytesStaticBytes8 {
 }
 
 export namespace ZeroHexStaticBytes8 {
-  export type From = ZeroHexString<18>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes8 {
@@ -1536,11 +1536,11 @@ export class ZeroHexStaticBytes8 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<16>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes8.From) {
-    return new ZeroHexStaticBytes8(value.slice(2) as RawHexString<16>)
+    return new ZeroHexStaticBytes8(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes8.From) {
@@ -1592,7 +1592,7 @@ export class ZeroHexStaticBytes8 {
 
     cursor.offset += 32 - ZeroHexStaticBytes8.bytes
     
-    return new ZeroHexStaticBytes8(value as RawHexString<16>)
+    return new ZeroHexStaticBytes8(value)
   }
 
 }
@@ -1634,7 +1634,7 @@ export namespace StaticBytes9 {
 }
 
 export namespace BytesStaticBytes9 {
-  export type From = Bytes<9>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes9 {
@@ -1654,7 +1654,7 @@ export class BytesStaticBytes9 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes9.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes9.From) {
@@ -1691,7 +1691,7 @@ export class BytesStaticBytes9 {
 
     cursor.offset += 64 - BytesStaticBytes9.nibbles
 
-    return new BytesStaticBytes9(value as Bytes<9>)
+    return new BytesStaticBytes9(value)
   }
 
   sizeOrThrow() {
@@ -1715,7 +1715,7 @@ export class BytesStaticBytes9 {
 }
 
 export namespace ZeroHexStaticBytes9 {
-  export type From = ZeroHexString<20>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes9 {
@@ -1735,11 +1735,11 @@ export class ZeroHexStaticBytes9 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<18>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes9.From) {
-    return new ZeroHexStaticBytes9(value.slice(2) as RawHexString<18>)
+    return new ZeroHexStaticBytes9(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes9.From) {
@@ -1791,7 +1791,7 @@ export class ZeroHexStaticBytes9 {
 
     cursor.offset += 32 - ZeroHexStaticBytes9.bytes
     
-    return new ZeroHexStaticBytes9(value as RawHexString<18>)
+    return new ZeroHexStaticBytes9(value)
   }
 
 }
@@ -1833,7 +1833,7 @@ export namespace StaticBytes10 {
 }
 
 export namespace BytesStaticBytes10 {
-  export type From = Bytes<10>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes10 {
@@ -1853,7 +1853,7 @@ export class BytesStaticBytes10 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes10.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes10.From) {
@@ -1890,7 +1890,7 @@ export class BytesStaticBytes10 {
 
     cursor.offset += 64 - BytesStaticBytes10.nibbles
 
-    return new BytesStaticBytes10(value as Bytes<10>)
+    return new BytesStaticBytes10(value)
   }
 
   sizeOrThrow() {
@@ -1914,7 +1914,7 @@ export class BytesStaticBytes10 {
 }
 
 export namespace ZeroHexStaticBytes10 {
-  export type From = ZeroHexString<22>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes10 {
@@ -1934,11 +1934,11 @@ export class ZeroHexStaticBytes10 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<20>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes10.From) {
-    return new ZeroHexStaticBytes10(value.slice(2) as RawHexString<20>)
+    return new ZeroHexStaticBytes10(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes10.From) {
@@ -1990,7 +1990,7 @@ export class ZeroHexStaticBytes10 {
 
     cursor.offset += 32 - ZeroHexStaticBytes10.bytes
     
-    return new ZeroHexStaticBytes10(value as RawHexString<20>)
+    return new ZeroHexStaticBytes10(value)
   }
 
 }
@@ -2032,7 +2032,7 @@ export namespace StaticBytes11 {
 }
 
 export namespace BytesStaticBytes11 {
-  export type From = Bytes<11>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes11 {
@@ -2052,7 +2052,7 @@ export class BytesStaticBytes11 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes11.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes11.From) {
@@ -2089,7 +2089,7 @@ export class BytesStaticBytes11 {
 
     cursor.offset += 64 - BytesStaticBytes11.nibbles
 
-    return new BytesStaticBytes11(value as Bytes<11>)
+    return new BytesStaticBytes11(value)
   }
 
   sizeOrThrow() {
@@ -2113,7 +2113,7 @@ export class BytesStaticBytes11 {
 }
 
 export namespace ZeroHexStaticBytes11 {
-  export type From = ZeroHexString<24>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes11 {
@@ -2133,11 +2133,11 @@ export class ZeroHexStaticBytes11 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<22>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes11.From) {
-    return new ZeroHexStaticBytes11(value.slice(2) as RawHexString<22>)
+    return new ZeroHexStaticBytes11(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes11.From) {
@@ -2189,7 +2189,7 @@ export class ZeroHexStaticBytes11 {
 
     cursor.offset += 32 - ZeroHexStaticBytes11.bytes
     
-    return new ZeroHexStaticBytes11(value as RawHexString<22>)
+    return new ZeroHexStaticBytes11(value)
   }
 
 }
@@ -2231,7 +2231,7 @@ export namespace StaticBytes12 {
 }
 
 export namespace BytesStaticBytes12 {
-  export type From = Bytes<12>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes12 {
@@ -2251,7 +2251,7 @@ export class BytesStaticBytes12 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes12.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes12.From) {
@@ -2288,7 +2288,7 @@ export class BytesStaticBytes12 {
 
     cursor.offset += 64 - BytesStaticBytes12.nibbles
 
-    return new BytesStaticBytes12(value as Bytes<12>)
+    return new BytesStaticBytes12(value)
   }
 
   sizeOrThrow() {
@@ -2312,7 +2312,7 @@ export class BytesStaticBytes12 {
 }
 
 export namespace ZeroHexStaticBytes12 {
-  export type From = ZeroHexString<26>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes12 {
@@ -2332,11 +2332,11 @@ export class ZeroHexStaticBytes12 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<24>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes12.From) {
-    return new ZeroHexStaticBytes12(value.slice(2) as RawHexString<24>)
+    return new ZeroHexStaticBytes12(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes12.From) {
@@ -2388,7 +2388,7 @@ export class ZeroHexStaticBytes12 {
 
     cursor.offset += 32 - ZeroHexStaticBytes12.bytes
     
-    return new ZeroHexStaticBytes12(value as RawHexString<24>)
+    return new ZeroHexStaticBytes12(value)
   }
 
 }
@@ -2430,7 +2430,7 @@ export namespace StaticBytes13 {
 }
 
 export namespace BytesStaticBytes13 {
-  export type From = Bytes<13>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes13 {
@@ -2450,7 +2450,7 @@ export class BytesStaticBytes13 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes13.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes13.From) {
@@ -2487,7 +2487,7 @@ export class BytesStaticBytes13 {
 
     cursor.offset += 64 - BytesStaticBytes13.nibbles
 
-    return new BytesStaticBytes13(value as Bytes<13>)
+    return new BytesStaticBytes13(value)
   }
 
   sizeOrThrow() {
@@ -2511,7 +2511,7 @@ export class BytesStaticBytes13 {
 }
 
 export namespace ZeroHexStaticBytes13 {
-  export type From = ZeroHexString<28>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes13 {
@@ -2531,11 +2531,11 @@ export class ZeroHexStaticBytes13 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<26>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes13.From) {
-    return new ZeroHexStaticBytes13(value.slice(2) as RawHexString<26>)
+    return new ZeroHexStaticBytes13(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes13.From) {
@@ -2587,7 +2587,7 @@ export class ZeroHexStaticBytes13 {
 
     cursor.offset += 32 - ZeroHexStaticBytes13.bytes
     
-    return new ZeroHexStaticBytes13(value as RawHexString<26>)
+    return new ZeroHexStaticBytes13(value)
   }
 
 }
@@ -2629,7 +2629,7 @@ export namespace StaticBytes14 {
 }
 
 export namespace BytesStaticBytes14 {
-  export type From = Bytes<14>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes14 {
@@ -2649,7 +2649,7 @@ export class BytesStaticBytes14 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes14.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes14.From) {
@@ -2686,7 +2686,7 @@ export class BytesStaticBytes14 {
 
     cursor.offset += 64 - BytesStaticBytes14.nibbles
 
-    return new BytesStaticBytes14(value as Bytes<14>)
+    return new BytesStaticBytes14(value)
   }
 
   sizeOrThrow() {
@@ -2710,7 +2710,7 @@ export class BytesStaticBytes14 {
 }
 
 export namespace ZeroHexStaticBytes14 {
-  export type From = ZeroHexString<30>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes14 {
@@ -2730,11 +2730,11 @@ export class ZeroHexStaticBytes14 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<28>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes14.From) {
-    return new ZeroHexStaticBytes14(value.slice(2) as RawHexString<28>)
+    return new ZeroHexStaticBytes14(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes14.From) {
@@ -2786,7 +2786,7 @@ export class ZeroHexStaticBytes14 {
 
     cursor.offset += 32 - ZeroHexStaticBytes14.bytes
     
-    return new ZeroHexStaticBytes14(value as RawHexString<28>)
+    return new ZeroHexStaticBytes14(value)
   }
 
 }
@@ -2828,7 +2828,7 @@ export namespace StaticBytes15 {
 }
 
 export namespace BytesStaticBytes15 {
-  export type From = Bytes<15>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes15 {
@@ -2848,7 +2848,7 @@ export class BytesStaticBytes15 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes15.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes15.From) {
@@ -2885,7 +2885,7 @@ export class BytesStaticBytes15 {
 
     cursor.offset += 64 - BytesStaticBytes15.nibbles
 
-    return new BytesStaticBytes15(value as Bytes<15>)
+    return new BytesStaticBytes15(value)
   }
 
   sizeOrThrow() {
@@ -2909,7 +2909,7 @@ export class BytesStaticBytes15 {
 }
 
 export namespace ZeroHexStaticBytes15 {
-  export type From = ZeroHexString<32>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes15 {
@@ -2929,11 +2929,11 @@ export class ZeroHexStaticBytes15 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<30>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes15.From) {
-    return new ZeroHexStaticBytes15(value.slice(2) as RawHexString<30>)
+    return new ZeroHexStaticBytes15(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes15.From) {
@@ -2985,7 +2985,7 @@ export class ZeroHexStaticBytes15 {
 
     cursor.offset += 32 - ZeroHexStaticBytes15.bytes
     
-    return new ZeroHexStaticBytes15(value as RawHexString<30>)
+    return new ZeroHexStaticBytes15(value)
   }
 
 }
@@ -3027,7 +3027,7 @@ export namespace StaticBytes16 {
 }
 
 export namespace BytesStaticBytes16 {
-  export type From = Bytes<16>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes16 {
@@ -3047,7 +3047,7 @@ export class BytesStaticBytes16 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes16.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes16.From) {
@@ -3084,7 +3084,7 @@ export class BytesStaticBytes16 {
 
     cursor.offset += 64 - BytesStaticBytes16.nibbles
 
-    return new BytesStaticBytes16(value as Bytes<16>)
+    return new BytesStaticBytes16(value)
   }
 
   sizeOrThrow() {
@@ -3108,7 +3108,7 @@ export class BytesStaticBytes16 {
 }
 
 export namespace ZeroHexStaticBytes16 {
-  export type From = ZeroHexString<34>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes16 {
@@ -3128,11 +3128,11 @@ export class ZeroHexStaticBytes16 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<32>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes16.From) {
-    return new ZeroHexStaticBytes16(value.slice(2) as RawHexString<32>)
+    return new ZeroHexStaticBytes16(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes16.From) {
@@ -3184,7 +3184,7 @@ export class ZeroHexStaticBytes16 {
 
     cursor.offset += 32 - ZeroHexStaticBytes16.bytes
     
-    return new ZeroHexStaticBytes16(value as RawHexString<32>)
+    return new ZeroHexStaticBytes16(value)
   }
 
 }
@@ -3226,7 +3226,7 @@ export namespace StaticBytes17 {
 }
 
 export namespace BytesStaticBytes17 {
-  export type From = Bytes<17>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes17 {
@@ -3246,7 +3246,7 @@ export class BytesStaticBytes17 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes17.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes17.From) {
@@ -3283,7 +3283,7 @@ export class BytesStaticBytes17 {
 
     cursor.offset += 64 - BytesStaticBytes17.nibbles
 
-    return new BytesStaticBytes17(value as Bytes<17>)
+    return new BytesStaticBytes17(value)
   }
 
   sizeOrThrow() {
@@ -3307,7 +3307,7 @@ export class BytesStaticBytes17 {
 }
 
 export namespace ZeroHexStaticBytes17 {
-  export type From = ZeroHexString<36>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes17 {
@@ -3327,11 +3327,11 @@ export class ZeroHexStaticBytes17 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<34>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes17.From) {
-    return new ZeroHexStaticBytes17(value.slice(2) as RawHexString<34>)
+    return new ZeroHexStaticBytes17(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes17.From) {
@@ -3383,7 +3383,7 @@ export class ZeroHexStaticBytes17 {
 
     cursor.offset += 32 - ZeroHexStaticBytes17.bytes
     
-    return new ZeroHexStaticBytes17(value as RawHexString<34>)
+    return new ZeroHexStaticBytes17(value)
   }
 
 }
@@ -3425,7 +3425,7 @@ export namespace StaticBytes18 {
 }
 
 export namespace BytesStaticBytes18 {
-  export type From = Bytes<18>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes18 {
@@ -3445,7 +3445,7 @@ export class BytesStaticBytes18 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes18.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes18.From) {
@@ -3482,7 +3482,7 @@ export class BytesStaticBytes18 {
 
     cursor.offset += 64 - BytesStaticBytes18.nibbles
 
-    return new BytesStaticBytes18(value as Bytes<18>)
+    return new BytesStaticBytes18(value)
   }
 
   sizeOrThrow() {
@@ -3506,7 +3506,7 @@ export class BytesStaticBytes18 {
 }
 
 export namespace ZeroHexStaticBytes18 {
-  export type From = ZeroHexString<38>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes18 {
@@ -3526,11 +3526,11 @@ export class ZeroHexStaticBytes18 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<36>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes18.From) {
-    return new ZeroHexStaticBytes18(value.slice(2) as RawHexString<36>)
+    return new ZeroHexStaticBytes18(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes18.From) {
@@ -3582,7 +3582,7 @@ export class ZeroHexStaticBytes18 {
 
     cursor.offset += 32 - ZeroHexStaticBytes18.bytes
     
-    return new ZeroHexStaticBytes18(value as RawHexString<36>)
+    return new ZeroHexStaticBytes18(value)
   }
 
 }
@@ -3624,7 +3624,7 @@ export namespace StaticBytes19 {
 }
 
 export namespace BytesStaticBytes19 {
-  export type From = Bytes<19>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes19 {
@@ -3644,7 +3644,7 @@ export class BytesStaticBytes19 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes19.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes19.From) {
@@ -3681,7 +3681,7 @@ export class BytesStaticBytes19 {
 
     cursor.offset += 64 - BytesStaticBytes19.nibbles
 
-    return new BytesStaticBytes19(value as Bytes<19>)
+    return new BytesStaticBytes19(value)
   }
 
   sizeOrThrow() {
@@ -3705,7 +3705,7 @@ export class BytesStaticBytes19 {
 }
 
 export namespace ZeroHexStaticBytes19 {
-  export type From = ZeroHexString<40>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes19 {
@@ -3725,11 +3725,11 @@ export class ZeroHexStaticBytes19 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<38>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes19.From) {
-    return new ZeroHexStaticBytes19(value.slice(2) as RawHexString<38>)
+    return new ZeroHexStaticBytes19(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes19.From) {
@@ -3781,7 +3781,7 @@ export class ZeroHexStaticBytes19 {
 
     cursor.offset += 32 - ZeroHexStaticBytes19.bytes
     
-    return new ZeroHexStaticBytes19(value as RawHexString<38>)
+    return new ZeroHexStaticBytes19(value)
   }
 
 }
@@ -3823,7 +3823,7 @@ export namespace StaticBytes20 {
 }
 
 export namespace BytesStaticBytes20 {
-  export type From = Bytes<20>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes20 {
@@ -3843,7 +3843,7 @@ export class BytesStaticBytes20 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes20.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes20.From) {
@@ -3880,7 +3880,7 @@ export class BytesStaticBytes20 {
 
     cursor.offset += 64 - BytesStaticBytes20.nibbles
 
-    return new BytesStaticBytes20(value as Bytes<20>)
+    return new BytesStaticBytes20(value)
   }
 
   sizeOrThrow() {
@@ -3904,7 +3904,7 @@ export class BytesStaticBytes20 {
 }
 
 export namespace ZeroHexStaticBytes20 {
-  export type From = ZeroHexString<42>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes20 {
@@ -3924,11 +3924,11 @@ export class ZeroHexStaticBytes20 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<40>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes20.From) {
-    return new ZeroHexStaticBytes20(value.slice(2) as RawHexString<40>)
+    return new ZeroHexStaticBytes20(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes20.From) {
@@ -3980,7 +3980,7 @@ export class ZeroHexStaticBytes20 {
 
     cursor.offset += 32 - ZeroHexStaticBytes20.bytes
     
-    return new ZeroHexStaticBytes20(value as RawHexString<40>)
+    return new ZeroHexStaticBytes20(value)
   }
 
 }
@@ -4022,7 +4022,7 @@ export namespace StaticBytes21 {
 }
 
 export namespace BytesStaticBytes21 {
-  export type From = Bytes<21>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes21 {
@@ -4042,7 +4042,7 @@ export class BytesStaticBytes21 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes21.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes21.From) {
@@ -4079,7 +4079,7 @@ export class BytesStaticBytes21 {
 
     cursor.offset += 64 - BytesStaticBytes21.nibbles
 
-    return new BytesStaticBytes21(value as Bytes<21>)
+    return new BytesStaticBytes21(value)
   }
 
   sizeOrThrow() {
@@ -4103,7 +4103,7 @@ export class BytesStaticBytes21 {
 }
 
 export namespace ZeroHexStaticBytes21 {
-  export type From = ZeroHexString<44>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes21 {
@@ -4123,11 +4123,11 @@ export class ZeroHexStaticBytes21 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<42>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes21.From) {
-    return new ZeroHexStaticBytes21(value.slice(2) as RawHexString<42>)
+    return new ZeroHexStaticBytes21(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes21.From) {
@@ -4179,7 +4179,7 @@ export class ZeroHexStaticBytes21 {
 
     cursor.offset += 32 - ZeroHexStaticBytes21.bytes
     
-    return new ZeroHexStaticBytes21(value as RawHexString<42>)
+    return new ZeroHexStaticBytes21(value)
   }
 
 }
@@ -4221,7 +4221,7 @@ export namespace StaticBytes22 {
 }
 
 export namespace BytesStaticBytes22 {
-  export type From = Bytes<22>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes22 {
@@ -4241,7 +4241,7 @@ export class BytesStaticBytes22 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes22.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes22.From) {
@@ -4278,7 +4278,7 @@ export class BytesStaticBytes22 {
 
     cursor.offset += 64 - BytesStaticBytes22.nibbles
 
-    return new BytesStaticBytes22(value as Bytes<22>)
+    return new BytesStaticBytes22(value)
   }
 
   sizeOrThrow() {
@@ -4302,7 +4302,7 @@ export class BytesStaticBytes22 {
 }
 
 export namespace ZeroHexStaticBytes22 {
-  export type From = ZeroHexString<46>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes22 {
@@ -4322,11 +4322,11 @@ export class ZeroHexStaticBytes22 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<44>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes22.From) {
-    return new ZeroHexStaticBytes22(value.slice(2) as RawHexString<44>)
+    return new ZeroHexStaticBytes22(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes22.From) {
@@ -4378,7 +4378,7 @@ export class ZeroHexStaticBytes22 {
 
     cursor.offset += 32 - ZeroHexStaticBytes22.bytes
     
-    return new ZeroHexStaticBytes22(value as RawHexString<44>)
+    return new ZeroHexStaticBytes22(value)
   }
 
 }
@@ -4420,7 +4420,7 @@ export namespace StaticBytes23 {
 }
 
 export namespace BytesStaticBytes23 {
-  export type From = Bytes<23>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes23 {
@@ -4440,7 +4440,7 @@ export class BytesStaticBytes23 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes23.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes23.From) {
@@ -4477,7 +4477,7 @@ export class BytesStaticBytes23 {
 
     cursor.offset += 64 - BytesStaticBytes23.nibbles
 
-    return new BytesStaticBytes23(value as Bytes<23>)
+    return new BytesStaticBytes23(value)
   }
 
   sizeOrThrow() {
@@ -4501,7 +4501,7 @@ export class BytesStaticBytes23 {
 }
 
 export namespace ZeroHexStaticBytes23 {
-  export type From = ZeroHexString<48>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes23 {
@@ -4521,11 +4521,11 @@ export class ZeroHexStaticBytes23 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<46>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes23.From) {
-    return new ZeroHexStaticBytes23(value.slice(2) as RawHexString<46>)
+    return new ZeroHexStaticBytes23(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes23.From) {
@@ -4577,7 +4577,7 @@ export class ZeroHexStaticBytes23 {
 
     cursor.offset += 32 - ZeroHexStaticBytes23.bytes
     
-    return new ZeroHexStaticBytes23(value as RawHexString<46>)
+    return new ZeroHexStaticBytes23(value)
   }
 
 }
@@ -4619,7 +4619,7 @@ export namespace StaticBytes24 {
 }
 
 export namespace BytesStaticBytes24 {
-  export type From = Bytes<24>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes24 {
@@ -4639,7 +4639,7 @@ export class BytesStaticBytes24 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes24.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes24.From) {
@@ -4676,7 +4676,7 @@ export class BytesStaticBytes24 {
 
     cursor.offset += 64 - BytesStaticBytes24.nibbles
 
-    return new BytesStaticBytes24(value as Bytes<24>)
+    return new BytesStaticBytes24(value)
   }
 
   sizeOrThrow() {
@@ -4700,7 +4700,7 @@ export class BytesStaticBytes24 {
 }
 
 export namespace ZeroHexStaticBytes24 {
-  export type From = ZeroHexString<50>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes24 {
@@ -4720,11 +4720,11 @@ export class ZeroHexStaticBytes24 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<48>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes24.From) {
-    return new ZeroHexStaticBytes24(value.slice(2) as RawHexString<48>)
+    return new ZeroHexStaticBytes24(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes24.From) {
@@ -4776,7 +4776,7 @@ export class ZeroHexStaticBytes24 {
 
     cursor.offset += 32 - ZeroHexStaticBytes24.bytes
     
-    return new ZeroHexStaticBytes24(value as RawHexString<48>)
+    return new ZeroHexStaticBytes24(value)
   }
 
 }
@@ -4818,7 +4818,7 @@ export namespace StaticBytes25 {
 }
 
 export namespace BytesStaticBytes25 {
-  export type From = Bytes<25>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes25 {
@@ -4838,7 +4838,7 @@ export class BytesStaticBytes25 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes25.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes25.From) {
@@ -4875,7 +4875,7 @@ export class BytesStaticBytes25 {
 
     cursor.offset += 64 - BytesStaticBytes25.nibbles
 
-    return new BytesStaticBytes25(value as Bytes<25>)
+    return new BytesStaticBytes25(value)
   }
 
   sizeOrThrow() {
@@ -4899,7 +4899,7 @@ export class BytesStaticBytes25 {
 }
 
 export namespace ZeroHexStaticBytes25 {
-  export type From = ZeroHexString<52>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes25 {
@@ -4919,11 +4919,11 @@ export class ZeroHexStaticBytes25 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<50>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes25.From) {
-    return new ZeroHexStaticBytes25(value.slice(2) as RawHexString<50>)
+    return new ZeroHexStaticBytes25(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes25.From) {
@@ -4975,7 +4975,7 @@ export class ZeroHexStaticBytes25 {
 
     cursor.offset += 32 - ZeroHexStaticBytes25.bytes
     
-    return new ZeroHexStaticBytes25(value as RawHexString<50>)
+    return new ZeroHexStaticBytes25(value)
   }
 
 }
@@ -5017,7 +5017,7 @@ export namespace StaticBytes26 {
 }
 
 export namespace BytesStaticBytes26 {
-  export type From = Bytes<26>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes26 {
@@ -5037,7 +5037,7 @@ export class BytesStaticBytes26 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes26.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes26.From) {
@@ -5074,7 +5074,7 @@ export class BytesStaticBytes26 {
 
     cursor.offset += 64 - BytesStaticBytes26.nibbles
 
-    return new BytesStaticBytes26(value as Bytes<26>)
+    return new BytesStaticBytes26(value)
   }
 
   sizeOrThrow() {
@@ -5098,7 +5098,7 @@ export class BytesStaticBytes26 {
 }
 
 export namespace ZeroHexStaticBytes26 {
-  export type From = ZeroHexString<54>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes26 {
@@ -5118,11 +5118,11 @@ export class ZeroHexStaticBytes26 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<52>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes26.From) {
-    return new ZeroHexStaticBytes26(value.slice(2) as RawHexString<52>)
+    return new ZeroHexStaticBytes26(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes26.From) {
@@ -5174,7 +5174,7 @@ export class ZeroHexStaticBytes26 {
 
     cursor.offset += 32 - ZeroHexStaticBytes26.bytes
     
-    return new ZeroHexStaticBytes26(value as RawHexString<52>)
+    return new ZeroHexStaticBytes26(value)
   }
 
 }
@@ -5216,7 +5216,7 @@ export namespace StaticBytes27 {
 }
 
 export namespace BytesStaticBytes27 {
-  export type From = Bytes<27>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes27 {
@@ -5236,7 +5236,7 @@ export class BytesStaticBytes27 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes27.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes27.From) {
@@ -5273,7 +5273,7 @@ export class BytesStaticBytes27 {
 
     cursor.offset += 64 - BytesStaticBytes27.nibbles
 
-    return new BytesStaticBytes27(value as Bytes<27>)
+    return new BytesStaticBytes27(value)
   }
 
   sizeOrThrow() {
@@ -5297,7 +5297,7 @@ export class BytesStaticBytes27 {
 }
 
 export namespace ZeroHexStaticBytes27 {
-  export type From = ZeroHexString<56>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes27 {
@@ -5317,11 +5317,11 @@ export class ZeroHexStaticBytes27 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<54>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes27.From) {
-    return new ZeroHexStaticBytes27(value.slice(2) as RawHexString<54>)
+    return new ZeroHexStaticBytes27(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes27.From) {
@@ -5373,7 +5373,7 @@ export class ZeroHexStaticBytes27 {
 
     cursor.offset += 32 - ZeroHexStaticBytes27.bytes
     
-    return new ZeroHexStaticBytes27(value as RawHexString<54>)
+    return new ZeroHexStaticBytes27(value)
   }
 
 }
@@ -5415,7 +5415,7 @@ export namespace StaticBytes28 {
 }
 
 export namespace BytesStaticBytes28 {
-  export type From = Bytes<28>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes28 {
@@ -5435,7 +5435,7 @@ export class BytesStaticBytes28 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes28.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes28.From) {
@@ -5472,7 +5472,7 @@ export class BytesStaticBytes28 {
 
     cursor.offset += 64 - BytesStaticBytes28.nibbles
 
-    return new BytesStaticBytes28(value as Bytes<28>)
+    return new BytesStaticBytes28(value)
   }
 
   sizeOrThrow() {
@@ -5496,7 +5496,7 @@ export class BytesStaticBytes28 {
 }
 
 export namespace ZeroHexStaticBytes28 {
-  export type From = ZeroHexString<58>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes28 {
@@ -5516,11 +5516,11 @@ export class ZeroHexStaticBytes28 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<56>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes28.From) {
-    return new ZeroHexStaticBytes28(value.slice(2) as RawHexString<56>)
+    return new ZeroHexStaticBytes28(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes28.From) {
@@ -5572,7 +5572,7 @@ export class ZeroHexStaticBytes28 {
 
     cursor.offset += 32 - ZeroHexStaticBytes28.bytes
     
-    return new ZeroHexStaticBytes28(value as RawHexString<56>)
+    return new ZeroHexStaticBytes28(value)
   }
 
 }
@@ -5614,7 +5614,7 @@ export namespace StaticBytes29 {
 }
 
 export namespace BytesStaticBytes29 {
-  export type From = Bytes<29>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes29 {
@@ -5634,7 +5634,7 @@ export class BytesStaticBytes29 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes29.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes29.From) {
@@ -5671,7 +5671,7 @@ export class BytesStaticBytes29 {
 
     cursor.offset += 64 - BytesStaticBytes29.nibbles
 
-    return new BytesStaticBytes29(value as Bytes<29>)
+    return new BytesStaticBytes29(value)
   }
 
   sizeOrThrow() {
@@ -5695,7 +5695,7 @@ export class BytesStaticBytes29 {
 }
 
 export namespace ZeroHexStaticBytes29 {
-  export type From = ZeroHexString<60>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes29 {
@@ -5715,11 +5715,11 @@ export class ZeroHexStaticBytes29 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<58>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes29.From) {
-    return new ZeroHexStaticBytes29(value.slice(2) as RawHexString<58>)
+    return new ZeroHexStaticBytes29(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes29.From) {
@@ -5771,7 +5771,7 @@ export class ZeroHexStaticBytes29 {
 
     cursor.offset += 32 - ZeroHexStaticBytes29.bytes
     
-    return new ZeroHexStaticBytes29(value as RawHexString<58>)
+    return new ZeroHexStaticBytes29(value)
   }
 
 }
@@ -5813,7 +5813,7 @@ export namespace StaticBytes30 {
 }
 
 export namespace BytesStaticBytes30 {
-  export type From = Bytes<30>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes30 {
@@ -5833,7 +5833,7 @@ export class BytesStaticBytes30 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes30.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes30.From) {
@@ -5870,7 +5870,7 @@ export class BytesStaticBytes30 {
 
     cursor.offset += 64 - BytesStaticBytes30.nibbles
 
-    return new BytesStaticBytes30(value as Bytes<30>)
+    return new BytesStaticBytes30(value)
   }
 
   sizeOrThrow() {
@@ -5894,7 +5894,7 @@ export class BytesStaticBytes30 {
 }
 
 export namespace ZeroHexStaticBytes30 {
-  export type From = ZeroHexString<62>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes30 {
@@ -5914,11 +5914,11 @@ export class ZeroHexStaticBytes30 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<60>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes30.From) {
-    return new ZeroHexStaticBytes30(value.slice(2) as RawHexString<60>)
+    return new ZeroHexStaticBytes30(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes30.From) {
@@ -5970,7 +5970,7 @@ export class ZeroHexStaticBytes30 {
 
     cursor.offset += 32 - ZeroHexStaticBytes30.bytes
     
-    return new ZeroHexStaticBytes30(value as RawHexString<60>)
+    return new ZeroHexStaticBytes30(value)
   }
 
 }
@@ -6012,7 +6012,7 @@ export namespace StaticBytes31 {
 }
 
 export namespace BytesStaticBytes31 {
-  export type From = Bytes<31>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes31 {
@@ -6032,7 +6032,7 @@ export class BytesStaticBytes31 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes31.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes31.From) {
@@ -6069,7 +6069,7 @@ export class BytesStaticBytes31 {
 
     cursor.offset += 64 - BytesStaticBytes31.nibbles
 
-    return new BytesStaticBytes31(value as Bytes<31>)
+    return new BytesStaticBytes31(value)
   }
 
   sizeOrThrow() {
@@ -6093,7 +6093,7 @@ export class BytesStaticBytes31 {
 }
 
 export namespace ZeroHexStaticBytes31 {
-  export type From = ZeroHexString<64>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes31 {
@@ -6113,11 +6113,11 @@ export class ZeroHexStaticBytes31 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<62>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes31.From) {
-    return new ZeroHexStaticBytes31(value.slice(2) as RawHexString<62>)
+    return new ZeroHexStaticBytes31(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes31.From) {
@@ -6169,7 +6169,7 @@ export class ZeroHexStaticBytes31 {
 
     cursor.offset += 32 - ZeroHexStaticBytes31.bytes
     
-    return new ZeroHexStaticBytes31(value as RawHexString<62>)
+    return new ZeroHexStaticBytes31(value)
   }
 
 }
@@ -6211,7 +6211,7 @@ export namespace StaticBytes32 {
 }
 
 export namespace BytesStaticBytes32 {
-  export type From = Bytes<32>
+  export type From = Uint8Array
 }
 
 export class BytesStaticBytes32 {
@@ -6231,7 +6231,7 @@ export class BytesStaticBytes32 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: BytesStaticBytes32.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticBytes32.From) {
@@ -6268,7 +6268,7 @@ export class BytesStaticBytes32 {
 
     cursor.offset += 64 - BytesStaticBytes32.nibbles
 
-    return new BytesStaticBytes32(value as Bytes<32>)
+    return new BytesStaticBytes32(value)
   }
 
   sizeOrThrow() {
@@ -6292,7 +6292,7 @@ export class BytesStaticBytes32 {
 }
 
 export namespace ZeroHexStaticBytes32 {
-  export type From = ZeroHexString<66>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticBytes32 {
@@ -6312,11 +6312,11 @@ export class ZeroHexStaticBytes32 {
   readonly size = this.#class.size
 
   private constructor(
-    readonly value: RawHexString<64>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticBytes32.From) {
-    return new ZeroHexStaticBytes32(value.slice(2) as RawHexString<64>)
+    return new ZeroHexStaticBytes32(value.slice(2))
   }
 
   static from(value: ZeroHexStaticBytes32.From) {
@@ -6368,7 +6368,7 @@ export class ZeroHexStaticBytes32 {
 
     cursor.offset += 32 - ZeroHexStaticBytes32.bytes
     
-    return new ZeroHexStaticBytes32(value as RawHexString<64>)
+    return new ZeroHexStaticBytes32(value)
   }
 
 }

@@ -1,8 +1,10 @@
 import { Base16 } from "@hazae41/base16";
 import { Keccak256 } from "@hazae41/keccak256";
-import { test } from "@hazae41/phobos";
-import { Cubane } from "index.js";
+import { assert, test } from "@hazae41/phobos";
+import { ZeroHexString } from "index.js";
 import * as viem from "viem";
+import { TypedData } from "./index.js";
+import data from "./test.json";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
@@ -134,14 +136,13 @@ test("Mail", async ({ test }) => {
     },
   } as const
 
-  console.log(viem.encodeAbiParameters([{ type: "uint256" }], [1n]))
-  console.log(Cubane.Abi.StaticUint256.create(1n).encodeOrThrow())
+  assert(viem.hashTypedData(typedData) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedData))))
+  assert(viem.hashTypedData(typedDatas.basic) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.basic))))
+  assert(viem.hashTypedData(typedDatas.complex) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.complex))))
 
-  // assert(viem.hashTypedData(typedData) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedData))))
-  // assert(viem.hashTypedData(typedDatas.basic) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.basic))))
-  // assert(viem.hashTypedData(typedDatas.complex) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.complex))))
-
-  // for (const d of data) {
-  //   assert(viem.hashTypedData(d as any) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(d))))
-  // }
+  for (let i = 0; i < data.length; i++) {
+    const d = data[i]
+    console.log(i)
+    assert(viem.hashTypedData(d as any) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(d))))
+  }
 })

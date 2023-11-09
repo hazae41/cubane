@@ -43,7 +43,7 @@ export namespace StaticAddress {
 }
 
 export namespace BytesStaticAddress {
-  export type From = Bytes<20>
+  export type From = Uint8Array
 }
 
 export class BytesStaticAddress {
@@ -56,7 +56,7 @@ export class BytesStaticAddress {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: BytesStaticAddress.From
+    readonly value: Uint8Array
   ) { }
 
   static create(value: BytesStaticAddress.From) {
@@ -104,7 +104,7 @@ export class BytesStaticAddress {
 }
 
 export namespace ZeroHexStaticAddress {
-  export type From = ZeroHexString<42>
+  export type From = ZeroHexString
 }
 
 export class ZeroHexStaticAddress {
@@ -117,11 +117,11 @@ export class ZeroHexStaticAddress {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: RawHexString<40>
+    readonly value: RawHexString
   ) { }
 
   static create(value: ZeroHexStaticAddress.From) {
-    return new ZeroHexStaticAddress(value.slice(2) as RawHexString<40>)
+    return new ZeroHexStaticAddress(value.slice(2))
   }
 
   static from(value: ZeroHexStaticAddress.From) {
