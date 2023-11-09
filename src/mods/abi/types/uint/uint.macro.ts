@@ -14,11 +14,14 @@ function $createUint$(bytes: number) {
   const nibbles = bytes * 2
   const bits = bytes * 8
 
+  const numberable = bits <= 32
+
   return `export { AbiUint${bits} as Uint${bits} }
   
 export type AbiUint${bits} =
   | ZeroHexAbiUint${bits}
   | BytesAbiUint${bits}
+  ${numberable ? `| NumberAbiUint${bits}` : ``}
 
 export namespace AbiUint${bits} {
   export const dynamic = false
@@ -27,10 +30,15 @@ export namespace AbiUint${bits} {
   export type From = 
     | ZeroHexAbiUint${bits}.From
     | BytesAbiUint${bits}.From
+    ${numberable ? `| NumberAbiUint${bits}.From` : ``}
 
   export function create(value: AbiUint${bits}.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint${bits}.create(value)
+    ${numberable ? `if (typeof value === "number")
+      return NumberAbiUint${bits}.create(value)` : ``}
+    ${numberable ? `if (typeof value === "bigint")
+      return NumberAbiUint${bits}.create(Number(value))` : ``}
     return ZeroHexAbiUint${bits}.create(value)
   }
 
@@ -39,11 +47,15 @@ export namespace AbiUint${bits} {
   }
 
   export function fromNumber(value: number) {
-    return ZeroHexAbiUint${bits}.fromNumber(value)
+    ${numberable
+      ? `return NumberAbiUint${bits}.fromNumber(value)`
+      : `return ZeroHexAbiUint${bits}.fromNumber(value)`}
   }
 
   export function fromBigInt(value: bigint) {
-    return ZeroHexAbiUint${bits}.fromBigInt(value)
+    ${numberable
+      ? `return NumberAbiUint${bits}.fromBigInt(value)`
+      : `return ZeroHexAbiUint${bits}.fromBigInt(value)`}
   }
 
   export function codegen() {
@@ -149,6 +161,102 @@ export class BytesAbiUint${bits} {
 
 }
 
+${numberable ? `export namespace NumberAbiUint${bits} {
+  export type From = number
+}
+
+export class NumberAbiUint${bits} {
+  readonly #class = NumberAbiUint${bits}
+  readonly name = this.#class.name
+
+  static readonly bytes = ${bytes}
+  static readonly nibbles = ${nibbles}
+  static readonly bits = ${bits}
+  static readonly dynamic = false
+  static readonly size = 32
+
+  readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
+  readonly dynamic = this.#class.dynamic
+  readonly size = this.#class.size
+
+  private constructor(
+    readonly value: number
+  ) { }
+
+  toNumber() {
+    return this.value
+  }
+
+  toBigInt() {
+    return BigInt(this.value)
+  }
+
+  static fromNumber(value: number) {
+    return new NumberAbiUint${bits}(value)
+  }
+
+  static fromBigInt(value: bigint) {
+    return new NumberAbiUint${bits}(Number(value))
+  }
+
+  static create(value: NumberAbiUint${bits}.From) {
+    return new NumberAbiUint${bits}(value)
+  }
+
+  static from(value: NumberAbiUint${bits}.From) {
+    return NumberAbiUint${bits}.create(value)
+  }
+
+  intoOrThrow() {
+    return BigInt(this.value)
+  }
+
+  static codegen() {
+    return \`Abi.Int${bits}\`
+  }
+
+  get class() {
+    return this.#class
+  }
+
+  encodeOrThrow() {
+    return this.value.toString(16).padStart(64, "0")
+  }
+
+  encodePackedOrThrow() {
+    return this.value.toString(16)
+  }
+
+  static decodeOrThrow(cursor: TextCursor) {
+    cursor.offset += 64 - NumberAbiUint${bits}.nibbles
+
+    const content = cursor.readOrThrow(NumberAbiUint${bits}.nibbles)
+    const value = parseInt(content, 16)
+    
+    return new NumberAbiUint${bits}(value)
+  }
+
+  sizeOrThrow() {
+    return this.size
+  }
+
+  writeOrThrow(cursor: Cursor) {
+    cursor.fillOrThrow(0, 32 - 4)
+    cursor.writeUint32OrThrow(this.value)
+  }
+
+  static readOrThrow(cursor: Cursor) {
+    cursor.offset += 32 - 4
+
+    const value = cursor.readUint32OrThrow()
+
+    return new NumberAbiUint${bits}(value)
+  }
+
+}` : ``}
+
 export namespace ZeroHexAbiUint${bits} {
   export type From =
     | ZeroHexString
@@ -186,7 +294,7 @@ export class ZeroHexAbiUint${bits} {
   }
 
   toNumber() {
-    return this.value.length ? Number("0x" + this.value) : 0
+    return this.value.length ? parseInt(this.value, 16) : 0
   }
 
   toBigInt() {
