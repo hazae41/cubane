@@ -31,7 +31,7 @@ test("Mail", async ({ test }) => {
     domain: {
       name: 'Ether Mail',
       version: '1',
-      chainId: 1,
+      chainId: 1n,
       verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
     },
     message: {
@@ -135,6 +135,7 @@ test("Mail", async ({ test }) => {
     },
   } as const
 
+  assert(viem.hashTypedData(typedData) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedData))))
   assert(viem.hashTypedData(typedDatas.basic) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.basic))))
   assert(viem.hashTypedData(typedDatas.complex) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.complex))))
 

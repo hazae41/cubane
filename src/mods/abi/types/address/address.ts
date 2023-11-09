@@ -1,8 +1,9 @@
 import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
-import { Address, RawHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { Address } from "mods/types/address/index.js";
+import { RawHexString } from "mods/types/rawhex/index.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
 
 export type StaticAddress =

@@ -6,7 +6,12 @@ import { Keccak256 } from "@hazae41/keccak256"
 import { Nullable } from "@hazae41/option"
 import { Result } from "@hazae41/result"
 import { Records } from "libs/records/records.js"
-import { IntByName, StaticAddress, StaticBool, UintByName, bytesByName, intByName, uintByName } from "../index.js"
+import { Factory } from "../abi.js"
+import { StaticAddress } from "../types/address/address.js"
+import { StaticBool } from "../types/bool/bool.js"
+import { bytesByName } from "../types/bytes/index.js"
+import { intByName } from "../types/int/int.js"
+import { uintByName } from "../types/uint/uint.js"
 
 export interface TypedData {
   readonly types: TypedDataTypes
@@ -43,16 +48,13 @@ export interface EIP712Domain {
  */
 export namespace TypedData {
 
-  const factoryByName: UintByName & IntByName & {
-    bool: typeof StaticBool,
-    address: typeof StaticAddress,
-  } = {
+  const factoryByName: Record<string, Factory> = {
     ...uintByName,
     ...intByName,
     ...bytesByName,
     bool: StaticBool,
     address: StaticAddress,
-  } as const
+  }
 
   export const EIP712Domain = [
     { name: 'name', type: 'string' },
@@ -86,7 +88,6 @@ export namespace TypedData {
       return sizeStructWithCacheOrThrow(types, type, cache)
     return 32
   }
-
 
   function resolveTypeOrThrow(types: TypedDataTypes, type: string, imports = new Set<string>()) {
     for (const variable of types[type]!) {
@@ -172,23 +173,40 @@ export namespace TypedData {
     }
 
     if (type === "string") {
-      const bytes = Bytes.fromUtf8(value as string)
-      using hash = Keccak256.get().hashOrThrow(bytes)
-      cursor.writeOrThrow(hash.bytes)
-      return
+      if (value instanceof Uint8Array) {
+        using hash = Keccak256.get().hashOrThrow(value)
+        cursor.writeOrThrow(hash.bytes)
+        return
+      }
+
+      if (typeof value === "string") {
+        const bytes = Bytes.fromUtf8(value as string)
+        using hash = Keccak256.get().hashOrThrow(bytes)
+        cursor.writeOrThrow(hash.bytes)
+        return
+      }
+
+      throw new Error(`Could not encode string`)
     }
 
     if (type === "bytes") {
-      const bytes = typeof value === "string"
-        ? Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose()
-        : value as Uint8Array
-      using hash = Keccak256.get().hashOrThrow(bytes)
-      cursor.writeOrThrow(hash.bytes)
-      return
+      if (value instanceof Uint8Array) {
+        using hash = Keccak256.get().hashOrThrow(value)
+        cursor.writeOrThrow(hash.bytes)
+        return
+      }
+
+      if (typeof value === "string") {
+        using slice = Base16.get().padStartAndDecodeOrThrow(value.slice(2))
+        using hash = Keccak256.get().hashOrThrow(slice.bytes)
+        cursor.writeOrThrow(hash.bytes)
+        return
+      }
+
+      throw new Error(`Could not encode bytes`)
     }
 
-    const factory = Records.resolveOrThrow(factoryByName, type) as any
-    factory.from(value).writeOrThrow(cursor)
+    Records.resolveOrThrow(factoryByName, type).from(value).writeOrThrow(cursor)
   }
 
   export function hashArrayOrThrow(types: TypedDataTypes, type: string, array: readonly unknown[], typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {

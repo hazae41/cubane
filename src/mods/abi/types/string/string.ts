@@ -1,7 +1,7 @@
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesDynamicBytes } from "../index.js";
+import { BytesDynamicBytes } from "../bytes/dynamic.js";
 
 export namespace DynamicString {
   export type From = Bytes | string
