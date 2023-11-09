@@ -10,60 +10,62 @@ import { RawHexString } from "mods/types/rawhex/index.js";`
 
 $pre$()
 
-function $createStaticUint$(bytes: number) {
+function $createUint$(bytes: number) {
   const nibbles = bytes * 2
   const bits = bytes * 8
 
-  return `export type StaticUint${bits} =
-  | ZeroHexStaticUint${bits}
-  | BytesStaticUint${bits}
+  return `export { AbiUint${bits} as Uint${bits} }
+  
+export type AbiUint${bits} =
+  | ZeroHexAbiUint${bits}
+  | BytesAbiUint${bits}
 
-export namespace StaticUint${bits} {
+export namespace AbiUint${bits} {
   export const dynamic = false
   export const size = 32
 
   export type From = 
-    | ZeroHexStaticUint${bits}.From
-    | BytesStaticUint${bits}.From
+    | ZeroHexAbiUint${bits}.From
+    | BytesAbiUint${bits}.From
 
-  export function create(value: StaticUint${bits}.From) {
+  export function create(value: AbiUint${bits}.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticUint${bits}.create(value)
-    return ZeroHexStaticUint${bits}.create(value)
+      return BytesAbiUint${bits}.create(value)
+    return ZeroHexAbiUint${bits}.create(value)
   }
 
-  export function from(value: StaticUint${bits}.From) {
-    return StaticUint${bits}.create(value)
+  export function from(value: AbiUint${bits}.From) {
+    return AbiUint${bits}.create(value)
   }
 
   export function fromNumber(value: number) {
-    return ZeroHexStaticUint${bits}.fromNumber(value)
+    return ZeroHexAbiUint${bits}.fromNumber(value)
   }
 
   export function fromBigInt(value: bigint) {
-    return ZeroHexStaticUint${bits}.fromBigInt(value)
+    return ZeroHexAbiUint${bits}.fromBigInt(value)
   }
 
   export function codegen() {
-    return \`Cubane.Abi.Int${bits}\`
+    return \`Abi.Int${bits}\`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticUint${bits}.decodeOrThrow(cursor)
+    return ZeroHexAbiUint${bits}.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticUint${bits}.readOrThrow(cursor)
+    return BytesAbiUint${bits}.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticUint${bits} {
+export namespace BytesAbiUint${bits} {
   export type From = Uint8Array
 }
 
-export class BytesStaticUint${bits} {
-  readonly #class = BytesStaticUint${bits}
+export class BytesAbiUint${bits} {
+  readonly #class = BytesAbiUint${bits}
   readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
@@ -83,27 +85,27 @@ export class BytesStaticUint${bits} {
   ) { }
 
   toNumber() {
-    return new ZeroHexStaticUint${bits}(this.encodePackedOrThrow()).toNumber()
+    return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).toNumber()
   }
 
   toBigInt() {
-    return new ZeroHexStaticUint${bits}(this.encodePackedOrThrow()).toBigInt()
+    return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).toBigInt()
   }
 
-  static create(value: BytesStaticUint${bits}.From) {
-    return new BytesStaticUint${bits}(value)
+  static create(value: BytesAbiUint${bits}.From) {
+    return new BytesAbiUint${bits}(value)
   }
 
-  static from(value: BytesStaticUint${bits}.From) {
-    return BytesStaticUint${bits}.create(value)
+  static from(value: BytesAbiUint${bits}.From) {
+    return BytesAbiUint${bits}.create(value)
   }
 
   intoOrThrow() {
-    return new ZeroHexStaticUint${bits}(this.encodePackedOrThrow()).intoOrThrow()
+    return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).intoOrThrow()
   }
 
   static codegen() {
-    return \`Cubane.Abi.Int${bits}\`
+    return \`Abi.Int${bits}\`
   }
 
   get class() {
@@ -119,12 +121,12 @@ export class BytesStaticUint${bits} {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - BytesStaticUint${bits}.nibbles
+    cursor.offset += 64 - BytesAbiUint${bits}.nibbles
 
-    const content = cursor.readOrThrow(BytesStaticUint${bits}.nibbles)
+    const content = cursor.readOrThrow(BytesAbiUint${bits}.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
     
-    return new BytesStaticUint${bits}(value)
+    return new BytesAbiUint${bits}(value)
   }
 
   sizeOrThrow() {
@@ -137,17 +139,17 @@ export class BytesStaticUint${bits} {
   }
 
   static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - BytesStaticUint${bits}.bytes
+    cursor.offset += 32 - BytesAbiUint${bits}.bytes
 
-    const content = cursor.readOrThrow(BytesStaticUint${bits}.bytes)
+    const content = cursor.readOrThrow(BytesAbiUint${bits}.bytes)
     const value = Bytes.from(content)
 
-    return new BytesStaticUint${bits}(value)
+    return new BytesAbiUint${bits}(value)
   }
 
 }
 
-export namespace ZeroHexStaticUint${bits} {
+export namespace ZeroHexAbiUint${bits} {
   export type From =
     | ZeroHexString
     | bigint
@@ -155,8 +157,8 @@ export namespace ZeroHexStaticUint${bits} {
     | string
 }
 
-export class ZeroHexStaticUint${bits} {
-  readonly #class = ZeroHexStaticUint${bits}
+export class ZeroHexAbiUint${bits} {
+  readonly #class = ZeroHexAbiUint${bits}
   readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
@@ -176,11 +178,11 @@ export class ZeroHexStaticUint${bits} {
   ) { }
 
   static fromNumber(value: number) {
-    return new ZeroHexStaticUint${bits}(value.toString(16))
+    return new ZeroHexAbiUint${bits}(value.toString(16))
   }
 
   static fromBigInt(value: bigint) {
-    return new ZeroHexStaticUint${bits}(value.toString(16))
+    return new ZeroHexAbiUint${bits}(value.toString(16))
   }
 
   toNumber() {
@@ -191,18 +193,18 @@ export class ZeroHexStaticUint${bits} {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
 
-  static create(value: ZeroHexStaticUint${bits}.From) {
+  static create(value: ZeroHexAbiUint${bits}.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint${bits}.fromBigInt(value)
+      return ZeroHexAbiUint${bits}.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint${bits}.fromNumber(value)
+      return ZeroHexAbiUint${bits}.fromNumber(value)
     if (value.startsWith("0x"))
-      return new ZeroHexStaticUint${bits}(value.slice(2))
-    return ZeroHexStaticUint${bits}.fromBigInt(BigInt(value))
+      return new ZeroHexAbiUint${bits}(value.slice(2))
+    return ZeroHexAbiUint${bits}.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexStaticUint${bits}.From) {
-    return ZeroHexStaticUint${bits}.create(value)
+  static from(value: ZeroHexAbiUint${bits}.From) {
+    return ZeroHexAbiUint${bits}.create(value)
   }
 
   intoOrThrow() {
@@ -210,7 +212,7 @@ export class ZeroHexStaticUint${bits} {
   }
 
   static codegen() {
-    return \`Cubane.Abi.Int${bits}\`
+    return \`Abi.Int${bits}\`
   }
 
   get class() {
@@ -226,7 +228,7 @@ export class ZeroHexStaticUint${bits} {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexStaticUint${bits}(cursor.readOrThrow(ZeroHexStaticUint${bits}.nibbles))
+    return new ZeroHexAbiUint${bits}(cursor.readOrThrow(ZeroHexAbiUint${bits}.nibbles))
   }
 
   sizeOrThrow() {
@@ -241,150 +243,150 @@ export class ZeroHexStaticUint${bits} {
   }
 
   static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - ZeroHexStaticUint${bits}.bytes
+    cursor.offset += 32 - ZeroHexAbiUint${bits}.bytes
 
-    const content = cursor.readOrThrow(ZeroHexStaticUint${bits}.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiUint${bits}.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new ZeroHexStaticUint${bits}(value)
+    return new ZeroHexAbiUint${bits}(value)
   }
 
 }`
 }
 
-$createStaticUint$(1)
+$createUint$(1)
 
-$createStaticUint$(2)
+$createUint$(2)
 
-$createStaticUint$(3)
+$createUint$(3)
 
-$createStaticUint$(4)
+$createUint$(4)
 
-$createStaticUint$(5)
+$createUint$(5)
 
-$createStaticUint$(6)
+$createUint$(6)
 
-$createStaticUint$(7)
+$createUint$(7)
 
-$createStaticUint$(8)
+$createUint$(8)
 
-$createStaticUint$(9)
+$createUint$(9)
 
-$createStaticUint$(10)
+$createUint$(10)
 
-$createStaticUint$(11)
+$createUint$(11)
 
-$createStaticUint$(12)
+$createUint$(12)
 
-$createStaticUint$(13)
+$createUint$(13)
 
-$createStaticUint$(14)
+$createUint$(14)
 
-$createStaticUint$(15)
+$createUint$(15)
 
-$createStaticUint$(16)
+$createUint$(16)
 
-$createStaticUint$(17)
+$createUint$(17)
 
-$createStaticUint$(18)
+$createUint$(18)
 
-$createStaticUint$(19)
+$createUint$(19)
 
-$createStaticUint$(20)
+$createUint$(20)
 
-$createStaticUint$(21)
+$createUint$(21)
 
-$createStaticUint$(22)
+$createUint$(22)
 
-$createStaticUint$(23)
+$createUint$(23)
 
-$createStaticUint$(24)
+$createUint$(24)
 
-$createStaticUint$(25)
+$createUint$(25)
 
-$createStaticUint$(26)
+$createUint$(26)
 
-$createStaticUint$(27)
+$createUint$(27)
 
-$createStaticUint$(28)
+$createUint$(28)
 
-$createStaticUint$(29)
+$createUint$(29)
 
-$createStaticUint$(30)
+$createUint$(30)
 
-$createStaticUint$(31)
+$createUint$(31)
 
-$createStaticUint$(32)
+$createUint$(32)
 
 function $post$() {
   return `export type UintByName = {
-    uint8: typeof StaticUint8,
-    uint16: typeof StaticUint16,
-    uint24: typeof StaticUint24,
-    uint32: typeof StaticUint32,
-    uint40: typeof StaticUint40,
-    uint48: typeof StaticUint48,
-    uint56: typeof StaticUint56,
-    uint64: typeof StaticUint64,
-    uint72: typeof StaticUint72,
-    uint80: typeof StaticUint80,
-    uint88: typeof StaticUint88,
-    uint96: typeof StaticUint96,
-    uint104: typeof StaticUint104,
-    uint112: typeof StaticUint112,
-    uint120: typeof StaticUint120,
-    uint128: typeof StaticUint128,
-    uint136: typeof StaticUint136,
-    uint144: typeof StaticUint144,
-    uint152: typeof StaticUint152,
-    uint160: typeof StaticUint160,
-    uint168: typeof StaticUint168,
-    uint176: typeof StaticUint176,
-    uint184: typeof StaticUint184,
-    uint192: typeof StaticUint192,
-    uint200: typeof StaticUint200,
-    uint208: typeof StaticUint208,
-    uint216: typeof StaticUint216,
-    uint224: typeof StaticUint224,
-    uint232: typeof StaticUint232,
-    uint240: typeof StaticUint240,
-    uint248: typeof StaticUint248,
-    uint256: typeof StaticUint256,
+    uint8: typeof AbiUint8,
+    uint16: typeof AbiUint16,
+    uint24: typeof AbiUint24,
+    uint32: typeof AbiUint32,
+    uint40: typeof AbiUint40,
+    uint48: typeof AbiUint48,
+    uint56: typeof AbiUint56,
+    uint64: typeof AbiUint64,
+    uint72: typeof AbiUint72,
+    uint80: typeof AbiUint80,
+    uint88: typeof AbiUint88,
+    uint96: typeof AbiUint96,
+    uint104: typeof AbiUint104,
+    uint112: typeof AbiUint112,
+    uint120: typeof AbiUint120,
+    uint128: typeof AbiUint128,
+    uint136: typeof AbiUint136,
+    uint144: typeof AbiUint144,
+    uint152: typeof AbiUint152,
+    uint160: typeof AbiUint160,
+    uint168: typeof AbiUint168,
+    uint176: typeof AbiUint176,
+    uint184: typeof AbiUint184,
+    uint192: typeof AbiUint192,
+    uint200: typeof AbiUint200,
+    uint208: typeof AbiUint208,
+    uint216: typeof AbiUint216,
+    uint224: typeof AbiUint224,
+    uint232: typeof AbiUint232,
+    uint240: typeof AbiUint240,
+    uint248: typeof AbiUint248,
+    uint256: typeof AbiUint256,
   }
   
   export const uintByName: UintByName = {
-    uint8: StaticUint8,
-    uint16: StaticUint16,
-    uint24: StaticUint24,
-    uint32: StaticUint32,
-    uint40: StaticUint40,
-    uint48: StaticUint48,
-    uint56: StaticUint56,
-    uint64: StaticUint64,
-    uint72: StaticUint72,
-    uint80: StaticUint80,
-    uint88: StaticUint88,
-    uint96: StaticUint96,
-    uint104: StaticUint104,
-    uint112: StaticUint112,
-    uint120: StaticUint120,
-    uint128: StaticUint128,
-    uint136: StaticUint136,
-    uint144: StaticUint144,
-    uint152: StaticUint152,
-    uint160: StaticUint160,
-    uint168: StaticUint168,
-    uint176: StaticUint176,
-    uint184: StaticUint184,
-    uint192: StaticUint192,
-    uint200: StaticUint200,
-    uint208: StaticUint208,
-    uint216: StaticUint216,
-    uint224: StaticUint224,
-    uint232: StaticUint232,
-    uint240: StaticUint240,
-    uint248: StaticUint248,
-    uint256: StaticUint256,
+    uint8: AbiUint8,
+    uint16: AbiUint16,
+    uint24: AbiUint24,
+    uint32: AbiUint32,
+    uint40: AbiUint40,
+    uint48: AbiUint48,
+    uint56: AbiUint56,
+    uint64: AbiUint64,
+    uint72: AbiUint72,
+    uint80: AbiUint80,
+    uint88: AbiUint88,
+    uint96: AbiUint96,
+    uint104: AbiUint104,
+    uint112: AbiUint112,
+    uint120: AbiUint120,
+    uint128: AbiUint128,
+    uint136: AbiUint136,
+    uint144: AbiUint144,
+    uint152: AbiUint152,
+    uint160: AbiUint160,
+    uint168: AbiUint168,
+    uint176: AbiUint176,
+    uint184: AbiUint184,
+    uint192: AbiUint192,
+    uint200: AbiUint200,
+    uint208: AbiUint208,
+    uint216: AbiUint216,
+    uint224: AbiUint224,
+    uint232: AbiUint232,
+    uint240: AbiUint240,
+    uint248: AbiUint248,
+    uint256: AbiUint256,
   }`
 }
 

@@ -5,48 +5,50 @@ import { Base16 } from "@hazae41/base16";
   import { ZeroHexString } from "mods/types/zerohex/index.js";
   import { RawHexString } from "mods/types/rawhex/index.js";
 
-export type StaticBytes1 =
-  | BytesStaticBytes1
-  | ZeroHexStaticBytes1
+export { AbiBytes1 as Bytes1 }
   
-export namespace StaticBytes1 {
+export type AbiBytes1 =
+  | BytesAbiBytes1
+  | ZeroHexAbiBytes1
+  
+export namespace AbiBytes1 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes1.From
-    | ZeroHexStaticBytes1.From
+    | BytesAbiBytes1.From
+    | ZeroHexAbiBytes1.From
   
-  export function create(value: StaticBytes1.From) {
+  export function create(value: AbiBytes1.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes1.create(value)
-    return ZeroHexStaticBytes1.create(value)
+      return BytesAbiBytes1.create(value)
+    return ZeroHexAbiBytes1.create(value)
   }
 
-  export function from(value: StaticBytes1.From) {
-    return StaticBytes1.create(value)
+  export function from(value: AbiBytes1.From) {
+    return AbiBytes1.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes1`
+    return `Abi.Bytes1`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes1.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes1.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes1.readOrThrow(cursor)
+    return BytesAbiBytes1.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes1 {
+export namespace BytesAbiBytes1 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes1 {
-  readonly #class = BytesStaticBytes1
+export class BytesAbiBytes1 {
+  readonly #class = BytesAbiBytes1
   readonly name = this.#class.name
 
   static readonly bytes = 1
@@ -65,12 +67,12 @@ export class BytesStaticBytes1 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes1.From) {
-    return new BytesStaticBytes1(value)
+  static create(value: BytesAbiBytes1.From) {
+    return new BytesAbiBytes1(value)
   }
 
-  static from(value: BytesStaticBytes1.From) {
-    return BytesStaticBytes1.create(value)
+  static from(value: BytesAbiBytes1.From) {
+    return BytesAbiBytes1.create(value)
   }
 
   intoOrThrow() {
@@ -78,7 +80,7 @@ export class BytesStaticBytes1 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes1`
+    return `Abi.Bytes1`
   }
 
   get class() {
@@ -94,12 +96,12 @@ export class BytesStaticBytes1 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes1.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes1.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes1.nibbles
+    cursor.offset += 64 - BytesAbiBytes1.nibbles
 
-    return new BytesStaticBytes1(value)
+    return new BytesAbiBytes1(value)
   }
 
   sizeOrThrow() {
@@ -108,26 +110,26 @@ export class BytesStaticBytes1 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes1.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes1.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes1.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes1.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes1.bytes
+    cursor.offset += 32 - BytesAbiBytes1.bytes
     
-    return new BytesStaticBytes1(bytes)
+    return new BytesAbiBytes1(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes1 {
+export namespace ZeroHexAbiBytes1 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes1 {
-  readonly #class = ZeroHexStaticBytes1
+export class ZeroHexAbiBytes1 {
+  readonly #class = ZeroHexAbiBytes1
   readonly name = this.#class.name
 
   static readonly bytes = 1
@@ -146,12 +148,12 @@ export class ZeroHexStaticBytes1 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes1.From) {
-    return new ZeroHexStaticBytes1(value.slice(2))
+  static create(value: ZeroHexAbiBytes1.From) {
+    return new ZeroHexAbiBytes1(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes1.From) {
-    return ZeroHexStaticBytes1.create(value)
+  static from(value: ZeroHexAbiBytes1.From) {
+    return ZeroHexAbiBytes1.create(value)
   }
 
   intoOrThrow() {
@@ -159,7 +161,7 @@ export class ZeroHexStaticBytes1 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes1`
+    return `Abi.Bytes1`
   }
 
   get class() {
@@ -175,11 +177,11 @@ export class ZeroHexStaticBytes1 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes1.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes1.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes1.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes1.nibbles
 
-    return new ZeroHexStaticBytes1(value)
+    return new ZeroHexAbiBytes1(value)
   }
 
   sizeOrThrow() {
@@ -190,62 +192,64 @@ export class ZeroHexStaticBytes1 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes1.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes1.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes1.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes1.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes1.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes1.bytes
     
-    return new ZeroHexStaticBytes1(value)
+    return new ZeroHexAbiBytes1(value)
   }
 
 }
 
-export type StaticBytes2 =
-  | BytesStaticBytes2
-  | ZeroHexStaticBytes2
+export { AbiBytes2 as Bytes2 }
   
-export namespace StaticBytes2 {
+export type AbiBytes2 =
+  | BytesAbiBytes2
+  | ZeroHexAbiBytes2
+  
+export namespace AbiBytes2 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes2.From
-    | ZeroHexStaticBytes2.From
+    | BytesAbiBytes2.From
+    | ZeroHexAbiBytes2.From
   
-  export function create(value: StaticBytes2.From) {
+  export function create(value: AbiBytes2.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes2.create(value)
-    return ZeroHexStaticBytes2.create(value)
+      return BytesAbiBytes2.create(value)
+    return ZeroHexAbiBytes2.create(value)
   }
 
-  export function from(value: StaticBytes2.From) {
-    return StaticBytes2.create(value)
+  export function from(value: AbiBytes2.From) {
+    return AbiBytes2.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes2`
+    return `Abi.Bytes2`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes2.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes2.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes2.readOrThrow(cursor)
+    return BytesAbiBytes2.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes2 {
+export namespace BytesAbiBytes2 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes2 {
-  readonly #class = BytesStaticBytes2
+export class BytesAbiBytes2 {
+  readonly #class = BytesAbiBytes2
   readonly name = this.#class.name
 
   static readonly bytes = 2
@@ -264,12 +268,12 @@ export class BytesStaticBytes2 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes2.From) {
-    return new BytesStaticBytes2(value)
+  static create(value: BytesAbiBytes2.From) {
+    return new BytesAbiBytes2(value)
   }
 
-  static from(value: BytesStaticBytes2.From) {
-    return BytesStaticBytes2.create(value)
+  static from(value: BytesAbiBytes2.From) {
+    return BytesAbiBytes2.create(value)
   }
 
   intoOrThrow() {
@@ -277,7 +281,7 @@ export class BytesStaticBytes2 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes2`
+    return `Abi.Bytes2`
   }
 
   get class() {
@@ -293,12 +297,12 @@ export class BytesStaticBytes2 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes2.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes2.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes2.nibbles
+    cursor.offset += 64 - BytesAbiBytes2.nibbles
 
-    return new BytesStaticBytes2(value)
+    return new BytesAbiBytes2(value)
   }
 
   sizeOrThrow() {
@@ -307,26 +311,26 @@ export class BytesStaticBytes2 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes2.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes2.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes2.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes2.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes2.bytes
+    cursor.offset += 32 - BytesAbiBytes2.bytes
     
-    return new BytesStaticBytes2(bytes)
+    return new BytesAbiBytes2(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes2 {
+export namespace ZeroHexAbiBytes2 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes2 {
-  readonly #class = ZeroHexStaticBytes2
+export class ZeroHexAbiBytes2 {
+  readonly #class = ZeroHexAbiBytes2
   readonly name = this.#class.name
 
   static readonly bytes = 2
@@ -345,12 +349,12 @@ export class ZeroHexStaticBytes2 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes2.From) {
-    return new ZeroHexStaticBytes2(value.slice(2))
+  static create(value: ZeroHexAbiBytes2.From) {
+    return new ZeroHexAbiBytes2(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes2.From) {
-    return ZeroHexStaticBytes2.create(value)
+  static from(value: ZeroHexAbiBytes2.From) {
+    return ZeroHexAbiBytes2.create(value)
   }
 
   intoOrThrow() {
@@ -358,7 +362,7 @@ export class ZeroHexStaticBytes2 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes2`
+    return `Abi.Bytes2`
   }
 
   get class() {
@@ -374,11 +378,11 @@ export class ZeroHexStaticBytes2 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes2.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes2.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes2.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes2.nibbles
 
-    return new ZeroHexStaticBytes2(value)
+    return new ZeroHexAbiBytes2(value)
   }
 
   sizeOrThrow() {
@@ -389,62 +393,64 @@ export class ZeroHexStaticBytes2 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes2.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes2.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes2.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes2.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes2.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes2.bytes
     
-    return new ZeroHexStaticBytes2(value)
+    return new ZeroHexAbiBytes2(value)
   }
 
 }
 
-export type StaticBytes3 =
-  | BytesStaticBytes3
-  | ZeroHexStaticBytes3
+export { AbiBytes3 as Bytes3 }
   
-export namespace StaticBytes3 {
+export type AbiBytes3 =
+  | BytesAbiBytes3
+  | ZeroHexAbiBytes3
+  
+export namespace AbiBytes3 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes3.From
-    | ZeroHexStaticBytes3.From
+    | BytesAbiBytes3.From
+    | ZeroHexAbiBytes3.From
   
-  export function create(value: StaticBytes3.From) {
+  export function create(value: AbiBytes3.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes3.create(value)
-    return ZeroHexStaticBytes3.create(value)
+      return BytesAbiBytes3.create(value)
+    return ZeroHexAbiBytes3.create(value)
   }
 
-  export function from(value: StaticBytes3.From) {
-    return StaticBytes3.create(value)
+  export function from(value: AbiBytes3.From) {
+    return AbiBytes3.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes3`
+    return `Abi.Bytes3`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes3.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes3.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes3.readOrThrow(cursor)
+    return BytesAbiBytes3.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes3 {
+export namespace BytesAbiBytes3 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes3 {
-  readonly #class = BytesStaticBytes3
+export class BytesAbiBytes3 {
+  readonly #class = BytesAbiBytes3
   readonly name = this.#class.name
 
   static readonly bytes = 3
@@ -463,12 +469,12 @@ export class BytesStaticBytes3 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes3.From) {
-    return new BytesStaticBytes3(value)
+  static create(value: BytesAbiBytes3.From) {
+    return new BytesAbiBytes3(value)
   }
 
-  static from(value: BytesStaticBytes3.From) {
-    return BytesStaticBytes3.create(value)
+  static from(value: BytesAbiBytes3.From) {
+    return BytesAbiBytes3.create(value)
   }
 
   intoOrThrow() {
@@ -476,7 +482,7 @@ export class BytesStaticBytes3 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes3`
+    return `Abi.Bytes3`
   }
 
   get class() {
@@ -492,12 +498,12 @@ export class BytesStaticBytes3 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes3.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes3.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes3.nibbles
+    cursor.offset += 64 - BytesAbiBytes3.nibbles
 
-    return new BytesStaticBytes3(value)
+    return new BytesAbiBytes3(value)
   }
 
   sizeOrThrow() {
@@ -506,26 +512,26 @@ export class BytesStaticBytes3 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes3.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes3.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes3.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes3.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes3.bytes
+    cursor.offset += 32 - BytesAbiBytes3.bytes
     
-    return new BytesStaticBytes3(bytes)
+    return new BytesAbiBytes3(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes3 {
+export namespace ZeroHexAbiBytes3 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes3 {
-  readonly #class = ZeroHexStaticBytes3
+export class ZeroHexAbiBytes3 {
+  readonly #class = ZeroHexAbiBytes3
   readonly name = this.#class.name
 
   static readonly bytes = 3
@@ -544,12 +550,12 @@ export class ZeroHexStaticBytes3 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes3.From) {
-    return new ZeroHexStaticBytes3(value.slice(2))
+  static create(value: ZeroHexAbiBytes3.From) {
+    return new ZeroHexAbiBytes3(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes3.From) {
-    return ZeroHexStaticBytes3.create(value)
+  static from(value: ZeroHexAbiBytes3.From) {
+    return ZeroHexAbiBytes3.create(value)
   }
 
   intoOrThrow() {
@@ -557,7 +563,7 @@ export class ZeroHexStaticBytes3 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes3`
+    return `Abi.Bytes3`
   }
 
   get class() {
@@ -573,11 +579,11 @@ export class ZeroHexStaticBytes3 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes3.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes3.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes3.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes3.nibbles
 
-    return new ZeroHexStaticBytes3(value)
+    return new ZeroHexAbiBytes3(value)
   }
 
   sizeOrThrow() {
@@ -588,62 +594,64 @@ export class ZeroHexStaticBytes3 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes3.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes3.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes3.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes3.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes3.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes3.bytes
     
-    return new ZeroHexStaticBytes3(value)
+    return new ZeroHexAbiBytes3(value)
   }
 
 }
 
-export type StaticBytes4 =
-  | BytesStaticBytes4
-  | ZeroHexStaticBytes4
+export { AbiBytes4 as Bytes4 }
   
-export namespace StaticBytes4 {
+export type AbiBytes4 =
+  | BytesAbiBytes4
+  | ZeroHexAbiBytes4
+  
+export namespace AbiBytes4 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes4.From
-    | ZeroHexStaticBytes4.From
+    | BytesAbiBytes4.From
+    | ZeroHexAbiBytes4.From
   
-  export function create(value: StaticBytes4.From) {
+  export function create(value: AbiBytes4.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes4.create(value)
-    return ZeroHexStaticBytes4.create(value)
+      return BytesAbiBytes4.create(value)
+    return ZeroHexAbiBytes4.create(value)
   }
 
-  export function from(value: StaticBytes4.From) {
-    return StaticBytes4.create(value)
+  export function from(value: AbiBytes4.From) {
+    return AbiBytes4.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes4`
+    return `Abi.Bytes4`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes4.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes4.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes4.readOrThrow(cursor)
+    return BytesAbiBytes4.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes4 {
+export namespace BytesAbiBytes4 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes4 {
-  readonly #class = BytesStaticBytes4
+export class BytesAbiBytes4 {
+  readonly #class = BytesAbiBytes4
   readonly name = this.#class.name
 
   static readonly bytes = 4
@@ -662,12 +670,12 @@ export class BytesStaticBytes4 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes4.From) {
-    return new BytesStaticBytes4(value)
+  static create(value: BytesAbiBytes4.From) {
+    return new BytesAbiBytes4(value)
   }
 
-  static from(value: BytesStaticBytes4.From) {
-    return BytesStaticBytes4.create(value)
+  static from(value: BytesAbiBytes4.From) {
+    return BytesAbiBytes4.create(value)
   }
 
   intoOrThrow() {
@@ -675,7 +683,7 @@ export class BytesStaticBytes4 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes4`
+    return `Abi.Bytes4`
   }
 
   get class() {
@@ -691,12 +699,12 @@ export class BytesStaticBytes4 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes4.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes4.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes4.nibbles
+    cursor.offset += 64 - BytesAbiBytes4.nibbles
 
-    return new BytesStaticBytes4(value)
+    return new BytesAbiBytes4(value)
   }
 
   sizeOrThrow() {
@@ -705,26 +713,26 @@ export class BytesStaticBytes4 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes4.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes4.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes4.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes4.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes4.bytes
+    cursor.offset += 32 - BytesAbiBytes4.bytes
     
-    return new BytesStaticBytes4(bytes)
+    return new BytesAbiBytes4(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes4 {
+export namespace ZeroHexAbiBytes4 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes4 {
-  readonly #class = ZeroHexStaticBytes4
+export class ZeroHexAbiBytes4 {
+  readonly #class = ZeroHexAbiBytes4
   readonly name = this.#class.name
 
   static readonly bytes = 4
@@ -743,12 +751,12 @@ export class ZeroHexStaticBytes4 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes4.From) {
-    return new ZeroHexStaticBytes4(value.slice(2))
+  static create(value: ZeroHexAbiBytes4.From) {
+    return new ZeroHexAbiBytes4(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes4.From) {
-    return ZeroHexStaticBytes4.create(value)
+  static from(value: ZeroHexAbiBytes4.From) {
+    return ZeroHexAbiBytes4.create(value)
   }
 
   intoOrThrow() {
@@ -756,7 +764,7 @@ export class ZeroHexStaticBytes4 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes4`
+    return `Abi.Bytes4`
   }
 
   get class() {
@@ -772,11 +780,11 @@ export class ZeroHexStaticBytes4 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes4.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes4.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes4.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes4.nibbles
 
-    return new ZeroHexStaticBytes4(value)
+    return new ZeroHexAbiBytes4(value)
   }
 
   sizeOrThrow() {
@@ -787,62 +795,64 @@ export class ZeroHexStaticBytes4 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes4.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes4.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes4.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes4.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes4.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes4.bytes
     
-    return new ZeroHexStaticBytes4(value)
+    return new ZeroHexAbiBytes4(value)
   }
 
 }
 
-export type StaticBytes5 =
-  | BytesStaticBytes5
-  | ZeroHexStaticBytes5
+export { AbiBytes5 as Bytes5 }
   
-export namespace StaticBytes5 {
+export type AbiBytes5 =
+  | BytesAbiBytes5
+  | ZeroHexAbiBytes5
+  
+export namespace AbiBytes5 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes5.From
-    | ZeroHexStaticBytes5.From
+    | BytesAbiBytes5.From
+    | ZeroHexAbiBytes5.From
   
-  export function create(value: StaticBytes5.From) {
+  export function create(value: AbiBytes5.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes5.create(value)
-    return ZeroHexStaticBytes5.create(value)
+      return BytesAbiBytes5.create(value)
+    return ZeroHexAbiBytes5.create(value)
   }
 
-  export function from(value: StaticBytes5.From) {
-    return StaticBytes5.create(value)
+  export function from(value: AbiBytes5.From) {
+    return AbiBytes5.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes5`
+    return `Abi.Bytes5`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes5.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes5.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes5.readOrThrow(cursor)
+    return BytesAbiBytes5.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes5 {
+export namespace BytesAbiBytes5 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes5 {
-  readonly #class = BytesStaticBytes5
+export class BytesAbiBytes5 {
+  readonly #class = BytesAbiBytes5
   readonly name = this.#class.name
 
   static readonly bytes = 5
@@ -861,12 +871,12 @@ export class BytesStaticBytes5 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes5.From) {
-    return new BytesStaticBytes5(value)
+  static create(value: BytesAbiBytes5.From) {
+    return new BytesAbiBytes5(value)
   }
 
-  static from(value: BytesStaticBytes5.From) {
-    return BytesStaticBytes5.create(value)
+  static from(value: BytesAbiBytes5.From) {
+    return BytesAbiBytes5.create(value)
   }
 
   intoOrThrow() {
@@ -874,7 +884,7 @@ export class BytesStaticBytes5 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes5`
+    return `Abi.Bytes5`
   }
 
   get class() {
@@ -890,12 +900,12 @@ export class BytesStaticBytes5 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes5.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes5.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes5.nibbles
+    cursor.offset += 64 - BytesAbiBytes5.nibbles
 
-    return new BytesStaticBytes5(value)
+    return new BytesAbiBytes5(value)
   }
 
   sizeOrThrow() {
@@ -904,26 +914,26 @@ export class BytesStaticBytes5 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes5.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes5.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes5.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes5.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes5.bytes
+    cursor.offset += 32 - BytesAbiBytes5.bytes
     
-    return new BytesStaticBytes5(bytes)
+    return new BytesAbiBytes5(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes5 {
+export namespace ZeroHexAbiBytes5 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes5 {
-  readonly #class = ZeroHexStaticBytes5
+export class ZeroHexAbiBytes5 {
+  readonly #class = ZeroHexAbiBytes5
   readonly name = this.#class.name
 
   static readonly bytes = 5
@@ -942,12 +952,12 @@ export class ZeroHexStaticBytes5 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes5.From) {
-    return new ZeroHexStaticBytes5(value.slice(2))
+  static create(value: ZeroHexAbiBytes5.From) {
+    return new ZeroHexAbiBytes5(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes5.From) {
-    return ZeroHexStaticBytes5.create(value)
+  static from(value: ZeroHexAbiBytes5.From) {
+    return ZeroHexAbiBytes5.create(value)
   }
 
   intoOrThrow() {
@@ -955,7 +965,7 @@ export class ZeroHexStaticBytes5 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes5`
+    return `Abi.Bytes5`
   }
 
   get class() {
@@ -971,11 +981,11 @@ export class ZeroHexStaticBytes5 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes5.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes5.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes5.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes5.nibbles
 
-    return new ZeroHexStaticBytes5(value)
+    return new ZeroHexAbiBytes5(value)
   }
 
   sizeOrThrow() {
@@ -986,62 +996,64 @@ export class ZeroHexStaticBytes5 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes5.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes5.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes5.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes5.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes5.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes5.bytes
     
-    return new ZeroHexStaticBytes5(value)
+    return new ZeroHexAbiBytes5(value)
   }
 
 }
 
-export type StaticBytes6 =
-  | BytesStaticBytes6
-  | ZeroHexStaticBytes6
+export { AbiBytes6 as Bytes6 }
   
-export namespace StaticBytes6 {
+export type AbiBytes6 =
+  | BytesAbiBytes6
+  | ZeroHexAbiBytes6
+  
+export namespace AbiBytes6 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes6.From
-    | ZeroHexStaticBytes6.From
+    | BytesAbiBytes6.From
+    | ZeroHexAbiBytes6.From
   
-  export function create(value: StaticBytes6.From) {
+  export function create(value: AbiBytes6.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes6.create(value)
-    return ZeroHexStaticBytes6.create(value)
+      return BytesAbiBytes6.create(value)
+    return ZeroHexAbiBytes6.create(value)
   }
 
-  export function from(value: StaticBytes6.From) {
-    return StaticBytes6.create(value)
+  export function from(value: AbiBytes6.From) {
+    return AbiBytes6.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes6`
+    return `Abi.Bytes6`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes6.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes6.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes6.readOrThrow(cursor)
+    return BytesAbiBytes6.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes6 {
+export namespace BytesAbiBytes6 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes6 {
-  readonly #class = BytesStaticBytes6
+export class BytesAbiBytes6 {
+  readonly #class = BytesAbiBytes6
   readonly name = this.#class.name
 
   static readonly bytes = 6
@@ -1060,12 +1072,12 @@ export class BytesStaticBytes6 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes6.From) {
-    return new BytesStaticBytes6(value)
+  static create(value: BytesAbiBytes6.From) {
+    return new BytesAbiBytes6(value)
   }
 
-  static from(value: BytesStaticBytes6.From) {
-    return BytesStaticBytes6.create(value)
+  static from(value: BytesAbiBytes6.From) {
+    return BytesAbiBytes6.create(value)
   }
 
   intoOrThrow() {
@@ -1073,7 +1085,7 @@ export class BytesStaticBytes6 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes6`
+    return `Abi.Bytes6`
   }
 
   get class() {
@@ -1089,12 +1101,12 @@ export class BytesStaticBytes6 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes6.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes6.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes6.nibbles
+    cursor.offset += 64 - BytesAbiBytes6.nibbles
 
-    return new BytesStaticBytes6(value)
+    return new BytesAbiBytes6(value)
   }
 
   sizeOrThrow() {
@@ -1103,26 +1115,26 @@ export class BytesStaticBytes6 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes6.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes6.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes6.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes6.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes6.bytes
+    cursor.offset += 32 - BytesAbiBytes6.bytes
     
-    return new BytesStaticBytes6(bytes)
+    return new BytesAbiBytes6(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes6 {
+export namespace ZeroHexAbiBytes6 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes6 {
-  readonly #class = ZeroHexStaticBytes6
+export class ZeroHexAbiBytes6 {
+  readonly #class = ZeroHexAbiBytes6
   readonly name = this.#class.name
 
   static readonly bytes = 6
@@ -1141,12 +1153,12 @@ export class ZeroHexStaticBytes6 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes6.From) {
-    return new ZeroHexStaticBytes6(value.slice(2))
+  static create(value: ZeroHexAbiBytes6.From) {
+    return new ZeroHexAbiBytes6(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes6.From) {
-    return ZeroHexStaticBytes6.create(value)
+  static from(value: ZeroHexAbiBytes6.From) {
+    return ZeroHexAbiBytes6.create(value)
   }
 
   intoOrThrow() {
@@ -1154,7 +1166,7 @@ export class ZeroHexStaticBytes6 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes6`
+    return `Abi.Bytes6`
   }
 
   get class() {
@@ -1170,11 +1182,11 @@ export class ZeroHexStaticBytes6 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes6.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes6.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes6.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes6.nibbles
 
-    return new ZeroHexStaticBytes6(value)
+    return new ZeroHexAbiBytes6(value)
   }
 
   sizeOrThrow() {
@@ -1185,62 +1197,64 @@ export class ZeroHexStaticBytes6 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes6.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes6.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes6.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes6.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes6.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes6.bytes
     
-    return new ZeroHexStaticBytes6(value)
+    return new ZeroHexAbiBytes6(value)
   }
 
 }
 
-export type StaticBytes7 =
-  | BytesStaticBytes7
-  | ZeroHexStaticBytes7
+export { AbiBytes7 as Bytes7 }
   
-export namespace StaticBytes7 {
+export type AbiBytes7 =
+  | BytesAbiBytes7
+  | ZeroHexAbiBytes7
+  
+export namespace AbiBytes7 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes7.From
-    | ZeroHexStaticBytes7.From
+    | BytesAbiBytes7.From
+    | ZeroHexAbiBytes7.From
   
-  export function create(value: StaticBytes7.From) {
+  export function create(value: AbiBytes7.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes7.create(value)
-    return ZeroHexStaticBytes7.create(value)
+      return BytesAbiBytes7.create(value)
+    return ZeroHexAbiBytes7.create(value)
   }
 
-  export function from(value: StaticBytes7.From) {
-    return StaticBytes7.create(value)
+  export function from(value: AbiBytes7.From) {
+    return AbiBytes7.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes7`
+    return `Abi.Bytes7`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes7.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes7.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes7.readOrThrow(cursor)
+    return BytesAbiBytes7.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes7 {
+export namespace BytesAbiBytes7 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes7 {
-  readonly #class = BytesStaticBytes7
+export class BytesAbiBytes7 {
+  readonly #class = BytesAbiBytes7
   readonly name = this.#class.name
 
   static readonly bytes = 7
@@ -1259,12 +1273,12 @@ export class BytesStaticBytes7 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes7.From) {
-    return new BytesStaticBytes7(value)
+  static create(value: BytesAbiBytes7.From) {
+    return new BytesAbiBytes7(value)
   }
 
-  static from(value: BytesStaticBytes7.From) {
-    return BytesStaticBytes7.create(value)
+  static from(value: BytesAbiBytes7.From) {
+    return BytesAbiBytes7.create(value)
   }
 
   intoOrThrow() {
@@ -1272,7 +1286,7 @@ export class BytesStaticBytes7 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes7`
+    return `Abi.Bytes7`
   }
 
   get class() {
@@ -1288,12 +1302,12 @@ export class BytesStaticBytes7 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes7.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes7.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes7.nibbles
+    cursor.offset += 64 - BytesAbiBytes7.nibbles
 
-    return new BytesStaticBytes7(value)
+    return new BytesAbiBytes7(value)
   }
 
   sizeOrThrow() {
@@ -1302,26 +1316,26 @@ export class BytesStaticBytes7 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes7.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes7.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes7.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes7.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes7.bytes
+    cursor.offset += 32 - BytesAbiBytes7.bytes
     
-    return new BytesStaticBytes7(bytes)
+    return new BytesAbiBytes7(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes7 {
+export namespace ZeroHexAbiBytes7 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes7 {
-  readonly #class = ZeroHexStaticBytes7
+export class ZeroHexAbiBytes7 {
+  readonly #class = ZeroHexAbiBytes7
   readonly name = this.#class.name
 
   static readonly bytes = 7
@@ -1340,12 +1354,12 @@ export class ZeroHexStaticBytes7 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes7.From) {
-    return new ZeroHexStaticBytes7(value.slice(2))
+  static create(value: ZeroHexAbiBytes7.From) {
+    return new ZeroHexAbiBytes7(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes7.From) {
-    return ZeroHexStaticBytes7.create(value)
+  static from(value: ZeroHexAbiBytes7.From) {
+    return ZeroHexAbiBytes7.create(value)
   }
 
   intoOrThrow() {
@@ -1353,7 +1367,7 @@ export class ZeroHexStaticBytes7 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes7`
+    return `Abi.Bytes7`
   }
 
   get class() {
@@ -1369,11 +1383,11 @@ export class ZeroHexStaticBytes7 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes7.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes7.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes7.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes7.nibbles
 
-    return new ZeroHexStaticBytes7(value)
+    return new ZeroHexAbiBytes7(value)
   }
 
   sizeOrThrow() {
@@ -1384,62 +1398,64 @@ export class ZeroHexStaticBytes7 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes7.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes7.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes7.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes7.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes7.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes7.bytes
     
-    return new ZeroHexStaticBytes7(value)
+    return new ZeroHexAbiBytes7(value)
   }
 
 }
 
-export type StaticBytes8 =
-  | BytesStaticBytes8
-  | ZeroHexStaticBytes8
+export { AbiBytes8 as Bytes8 }
   
-export namespace StaticBytes8 {
+export type AbiBytes8 =
+  | BytesAbiBytes8
+  | ZeroHexAbiBytes8
+  
+export namespace AbiBytes8 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes8.From
-    | ZeroHexStaticBytes8.From
+    | BytesAbiBytes8.From
+    | ZeroHexAbiBytes8.From
   
-  export function create(value: StaticBytes8.From) {
+  export function create(value: AbiBytes8.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes8.create(value)
-    return ZeroHexStaticBytes8.create(value)
+      return BytesAbiBytes8.create(value)
+    return ZeroHexAbiBytes8.create(value)
   }
 
-  export function from(value: StaticBytes8.From) {
-    return StaticBytes8.create(value)
+  export function from(value: AbiBytes8.From) {
+    return AbiBytes8.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes8`
+    return `Abi.Bytes8`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes8.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes8.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes8.readOrThrow(cursor)
+    return BytesAbiBytes8.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes8 {
+export namespace BytesAbiBytes8 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes8 {
-  readonly #class = BytesStaticBytes8
+export class BytesAbiBytes8 {
+  readonly #class = BytesAbiBytes8
   readonly name = this.#class.name
 
   static readonly bytes = 8
@@ -1458,12 +1474,12 @@ export class BytesStaticBytes8 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes8.From) {
-    return new BytesStaticBytes8(value)
+  static create(value: BytesAbiBytes8.From) {
+    return new BytesAbiBytes8(value)
   }
 
-  static from(value: BytesStaticBytes8.From) {
-    return BytesStaticBytes8.create(value)
+  static from(value: BytesAbiBytes8.From) {
+    return BytesAbiBytes8.create(value)
   }
 
   intoOrThrow() {
@@ -1471,7 +1487,7 @@ export class BytesStaticBytes8 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes8`
+    return `Abi.Bytes8`
   }
 
   get class() {
@@ -1487,12 +1503,12 @@ export class BytesStaticBytes8 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes8.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes8.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes8.nibbles
+    cursor.offset += 64 - BytesAbiBytes8.nibbles
 
-    return new BytesStaticBytes8(value)
+    return new BytesAbiBytes8(value)
   }
 
   sizeOrThrow() {
@@ -1501,26 +1517,26 @@ export class BytesStaticBytes8 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes8.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes8.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes8.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes8.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes8.bytes
+    cursor.offset += 32 - BytesAbiBytes8.bytes
     
-    return new BytesStaticBytes8(bytes)
+    return new BytesAbiBytes8(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes8 {
+export namespace ZeroHexAbiBytes8 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes8 {
-  readonly #class = ZeroHexStaticBytes8
+export class ZeroHexAbiBytes8 {
+  readonly #class = ZeroHexAbiBytes8
   readonly name = this.#class.name
 
   static readonly bytes = 8
@@ -1539,12 +1555,12 @@ export class ZeroHexStaticBytes8 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes8.From) {
-    return new ZeroHexStaticBytes8(value.slice(2))
+  static create(value: ZeroHexAbiBytes8.From) {
+    return new ZeroHexAbiBytes8(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes8.From) {
-    return ZeroHexStaticBytes8.create(value)
+  static from(value: ZeroHexAbiBytes8.From) {
+    return ZeroHexAbiBytes8.create(value)
   }
 
   intoOrThrow() {
@@ -1552,7 +1568,7 @@ export class ZeroHexStaticBytes8 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes8`
+    return `Abi.Bytes8`
   }
 
   get class() {
@@ -1568,11 +1584,11 @@ export class ZeroHexStaticBytes8 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes8.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes8.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes8.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes8.nibbles
 
-    return new ZeroHexStaticBytes8(value)
+    return new ZeroHexAbiBytes8(value)
   }
 
   sizeOrThrow() {
@@ -1583,62 +1599,64 @@ export class ZeroHexStaticBytes8 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes8.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes8.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes8.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes8.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes8.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes8.bytes
     
-    return new ZeroHexStaticBytes8(value)
+    return new ZeroHexAbiBytes8(value)
   }
 
 }
 
-export type StaticBytes9 =
-  | BytesStaticBytes9
-  | ZeroHexStaticBytes9
+export { AbiBytes9 as Bytes9 }
   
-export namespace StaticBytes9 {
+export type AbiBytes9 =
+  | BytesAbiBytes9
+  | ZeroHexAbiBytes9
+  
+export namespace AbiBytes9 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes9.From
-    | ZeroHexStaticBytes9.From
+    | BytesAbiBytes9.From
+    | ZeroHexAbiBytes9.From
   
-  export function create(value: StaticBytes9.From) {
+  export function create(value: AbiBytes9.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes9.create(value)
-    return ZeroHexStaticBytes9.create(value)
+      return BytesAbiBytes9.create(value)
+    return ZeroHexAbiBytes9.create(value)
   }
 
-  export function from(value: StaticBytes9.From) {
-    return StaticBytes9.create(value)
+  export function from(value: AbiBytes9.From) {
+    return AbiBytes9.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes9`
+    return `Abi.Bytes9`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes9.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes9.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes9.readOrThrow(cursor)
+    return BytesAbiBytes9.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes9 {
+export namespace BytesAbiBytes9 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes9 {
-  readonly #class = BytesStaticBytes9
+export class BytesAbiBytes9 {
+  readonly #class = BytesAbiBytes9
   readonly name = this.#class.name
 
   static readonly bytes = 9
@@ -1657,12 +1675,12 @@ export class BytesStaticBytes9 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes9.From) {
-    return new BytesStaticBytes9(value)
+  static create(value: BytesAbiBytes9.From) {
+    return new BytesAbiBytes9(value)
   }
 
-  static from(value: BytesStaticBytes9.From) {
-    return BytesStaticBytes9.create(value)
+  static from(value: BytesAbiBytes9.From) {
+    return BytesAbiBytes9.create(value)
   }
 
   intoOrThrow() {
@@ -1670,7 +1688,7 @@ export class BytesStaticBytes9 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes9`
+    return `Abi.Bytes9`
   }
 
   get class() {
@@ -1686,12 +1704,12 @@ export class BytesStaticBytes9 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes9.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes9.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes9.nibbles
+    cursor.offset += 64 - BytesAbiBytes9.nibbles
 
-    return new BytesStaticBytes9(value)
+    return new BytesAbiBytes9(value)
   }
 
   sizeOrThrow() {
@@ -1700,26 +1718,26 @@ export class BytesStaticBytes9 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes9.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes9.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes9.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes9.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes9.bytes
+    cursor.offset += 32 - BytesAbiBytes9.bytes
     
-    return new BytesStaticBytes9(bytes)
+    return new BytesAbiBytes9(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes9 {
+export namespace ZeroHexAbiBytes9 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes9 {
-  readonly #class = ZeroHexStaticBytes9
+export class ZeroHexAbiBytes9 {
+  readonly #class = ZeroHexAbiBytes9
   readonly name = this.#class.name
 
   static readonly bytes = 9
@@ -1738,12 +1756,12 @@ export class ZeroHexStaticBytes9 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes9.From) {
-    return new ZeroHexStaticBytes9(value.slice(2))
+  static create(value: ZeroHexAbiBytes9.From) {
+    return new ZeroHexAbiBytes9(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes9.From) {
-    return ZeroHexStaticBytes9.create(value)
+  static from(value: ZeroHexAbiBytes9.From) {
+    return ZeroHexAbiBytes9.create(value)
   }
 
   intoOrThrow() {
@@ -1751,7 +1769,7 @@ export class ZeroHexStaticBytes9 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes9`
+    return `Abi.Bytes9`
   }
 
   get class() {
@@ -1767,11 +1785,11 @@ export class ZeroHexStaticBytes9 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes9.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes9.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes9.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes9.nibbles
 
-    return new ZeroHexStaticBytes9(value)
+    return new ZeroHexAbiBytes9(value)
   }
 
   sizeOrThrow() {
@@ -1782,62 +1800,64 @@ export class ZeroHexStaticBytes9 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes9.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes9.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes9.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes9.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes9.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes9.bytes
     
-    return new ZeroHexStaticBytes9(value)
+    return new ZeroHexAbiBytes9(value)
   }
 
 }
 
-export type StaticBytes10 =
-  | BytesStaticBytes10
-  | ZeroHexStaticBytes10
+export { AbiBytes10 as Bytes10 }
   
-export namespace StaticBytes10 {
+export type AbiBytes10 =
+  | BytesAbiBytes10
+  | ZeroHexAbiBytes10
+  
+export namespace AbiBytes10 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes10.From
-    | ZeroHexStaticBytes10.From
+    | BytesAbiBytes10.From
+    | ZeroHexAbiBytes10.From
   
-  export function create(value: StaticBytes10.From) {
+  export function create(value: AbiBytes10.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes10.create(value)
-    return ZeroHexStaticBytes10.create(value)
+      return BytesAbiBytes10.create(value)
+    return ZeroHexAbiBytes10.create(value)
   }
 
-  export function from(value: StaticBytes10.From) {
-    return StaticBytes10.create(value)
+  export function from(value: AbiBytes10.From) {
+    return AbiBytes10.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes10`
+    return `Abi.Bytes10`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes10.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes10.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes10.readOrThrow(cursor)
+    return BytesAbiBytes10.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes10 {
+export namespace BytesAbiBytes10 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes10 {
-  readonly #class = BytesStaticBytes10
+export class BytesAbiBytes10 {
+  readonly #class = BytesAbiBytes10
   readonly name = this.#class.name
 
   static readonly bytes = 10
@@ -1856,12 +1876,12 @@ export class BytesStaticBytes10 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes10.From) {
-    return new BytesStaticBytes10(value)
+  static create(value: BytesAbiBytes10.From) {
+    return new BytesAbiBytes10(value)
   }
 
-  static from(value: BytesStaticBytes10.From) {
-    return BytesStaticBytes10.create(value)
+  static from(value: BytesAbiBytes10.From) {
+    return BytesAbiBytes10.create(value)
   }
 
   intoOrThrow() {
@@ -1869,7 +1889,7 @@ export class BytesStaticBytes10 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes10`
+    return `Abi.Bytes10`
   }
 
   get class() {
@@ -1885,12 +1905,12 @@ export class BytesStaticBytes10 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes10.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes10.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes10.nibbles
+    cursor.offset += 64 - BytesAbiBytes10.nibbles
 
-    return new BytesStaticBytes10(value)
+    return new BytesAbiBytes10(value)
   }
 
   sizeOrThrow() {
@@ -1899,26 +1919,26 @@ export class BytesStaticBytes10 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes10.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes10.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes10.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes10.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes10.bytes
+    cursor.offset += 32 - BytesAbiBytes10.bytes
     
-    return new BytesStaticBytes10(bytes)
+    return new BytesAbiBytes10(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes10 {
+export namespace ZeroHexAbiBytes10 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes10 {
-  readonly #class = ZeroHexStaticBytes10
+export class ZeroHexAbiBytes10 {
+  readonly #class = ZeroHexAbiBytes10
   readonly name = this.#class.name
 
   static readonly bytes = 10
@@ -1937,12 +1957,12 @@ export class ZeroHexStaticBytes10 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes10.From) {
-    return new ZeroHexStaticBytes10(value.slice(2))
+  static create(value: ZeroHexAbiBytes10.From) {
+    return new ZeroHexAbiBytes10(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes10.From) {
-    return ZeroHexStaticBytes10.create(value)
+  static from(value: ZeroHexAbiBytes10.From) {
+    return ZeroHexAbiBytes10.create(value)
   }
 
   intoOrThrow() {
@@ -1950,7 +1970,7 @@ export class ZeroHexStaticBytes10 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes10`
+    return `Abi.Bytes10`
   }
 
   get class() {
@@ -1966,11 +1986,11 @@ export class ZeroHexStaticBytes10 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes10.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes10.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes10.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes10.nibbles
 
-    return new ZeroHexStaticBytes10(value)
+    return new ZeroHexAbiBytes10(value)
   }
 
   sizeOrThrow() {
@@ -1981,62 +2001,64 @@ export class ZeroHexStaticBytes10 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes10.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes10.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes10.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes10.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes10.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes10.bytes
     
-    return new ZeroHexStaticBytes10(value)
+    return new ZeroHexAbiBytes10(value)
   }
 
 }
 
-export type StaticBytes11 =
-  | BytesStaticBytes11
-  | ZeroHexStaticBytes11
+export { AbiBytes11 as Bytes11 }
   
-export namespace StaticBytes11 {
+export type AbiBytes11 =
+  | BytesAbiBytes11
+  | ZeroHexAbiBytes11
+  
+export namespace AbiBytes11 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes11.From
-    | ZeroHexStaticBytes11.From
+    | BytesAbiBytes11.From
+    | ZeroHexAbiBytes11.From
   
-  export function create(value: StaticBytes11.From) {
+  export function create(value: AbiBytes11.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes11.create(value)
-    return ZeroHexStaticBytes11.create(value)
+      return BytesAbiBytes11.create(value)
+    return ZeroHexAbiBytes11.create(value)
   }
 
-  export function from(value: StaticBytes11.From) {
-    return StaticBytes11.create(value)
+  export function from(value: AbiBytes11.From) {
+    return AbiBytes11.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes11`
+    return `Abi.Bytes11`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes11.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes11.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes11.readOrThrow(cursor)
+    return BytesAbiBytes11.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes11 {
+export namespace BytesAbiBytes11 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes11 {
-  readonly #class = BytesStaticBytes11
+export class BytesAbiBytes11 {
+  readonly #class = BytesAbiBytes11
   readonly name = this.#class.name
 
   static readonly bytes = 11
@@ -2055,12 +2077,12 @@ export class BytesStaticBytes11 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes11.From) {
-    return new BytesStaticBytes11(value)
+  static create(value: BytesAbiBytes11.From) {
+    return new BytesAbiBytes11(value)
   }
 
-  static from(value: BytesStaticBytes11.From) {
-    return BytesStaticBytes11.create(value)
+  static from(value: BytesAbiBytes11.From) {
+    return BytesAbiBytes11.create(value)
   }
 
   intoOrThrow() {
@@ -2068,7 +2090,7 @@ export class BytesStaticBytes11 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes11`
+    return `Abi.Bytes11`
   }
 
   get class() {
@@ -2084,12 +2106,12 @@ export class BytesStaticBytes11 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes11.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes11.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes11.nibbles
+    cursor.offset += 64 - BytesAbiBytes11.nibbles
 
-    return new BytesStaticBytes11(value)
+    return new BytesAbiBytes11(value)
   }
 
   sizeOrThrow() {
@@ -2098,26 +2120,26 @@ export class BytesStaticBytes11 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes11.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes11.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes11.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes11.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes11.bytes
+    cursor.offset += 32 - BytesAbiBytes11.bytes
     
-    return new BytesStaticBytes11(bytes)
+    return new BytesAbiBytes11(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes11 {
+export namespace ZeroHexAbiBytes11 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes11 {
-  readonly #class = ZeroHexStaticBytes11
+export class ZeroHexAbiBytes11 {
+  readonly #class = ZeroHexAbiBytes11
   readonly name = this.#class.name
 
   static readonly bytes = 11
@@ -2136,12 +2158,12 @@ export class ZeroHexStaticBytes11 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes11.From) {
-    return new ZeroHexStaticBytes11(value.slice(2))
+  static create(value: ZeroHexAbiBytes11.From) {
+    return new ZeroHexAbiBytes11(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes11.From) {
-    return ZeroHexStaticBytes11.create(value)
+  static from(value: ZeroHexAbiBytes11.From) {
+    return ZeroHexAbiBytes11.create(value)
   }
 
   intoOrThrow() {
@@ -2149,7 +2171,7 @@ export class ZeroHexStaticBytes11 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes11`
+    return `Abi.Bytes11`
   }
 
   get class() {
@@ -2165,11 +2187,11 @@ export class ZeroHexStaticBytes11 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes11.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes11.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes11.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes11.nibbles
 
-    return new ZeroHexStaticBytes11(value)
+    return new ZeroHexAbiBytes11(value)
   }
 
   sizeOrThrow() {
@@ -2180,62 +2202,64 @@ export class ZeroHexStaticBytes11 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes11.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes11.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes11.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes11.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes11.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes11.bytes
     
-    return new ZeroHexStaticBytes11(value)
+    return new ZeroHexAbiBytes11(value)
   }
 
 }
 
-export type StaticBytes12 =
-  | BytesStaticBytes12
-  | ZeroHexStaticBytes12
+export { AbiBytes12 as Bytes12 }
   
-export namespace StaticBytes12 {
+export type AbiBytes12 =
+  | BytesAbiBytes12
+  | ZeroHexAbiBytes12
+  
+export namespace AbiBytes12 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes12.From
-    | ZeroHexStaticBytes12.From
+    | BytesAbiBytes12.From
+    | ZeroHexAbiBytes12.From
   
-  export function create(value: StaticBytes12.From) {
+  export function create(value: AbiBytes12.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes12.create(value)
-    return ZeroHexStaticBytes12.create(value)
+      return BytesAbiBytes12.create(value)
+    return ZeroHexAbiBytes12.create(value)
   }
 
-  export function from(value: StaticBytes12.From) {
-    return StaticBytes12.create(value)
+  export function from(value: AbiBytes12.From) {
+    return AbiBytes12.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes12`
+    return `Abi.Bytes12`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes12.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes12.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes12.readOrThrow(cursor)
+    return BytesAbiBytes12.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes12 {
+export namespace BytesAbiBytes12 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes12 {
-  readonly #class = BytesStaticBytes12
+export class BytesAbiBytes12 {
+  readonly #class = BytesAbiBytes12
   readonly name = this.#class.name
 
   static readonly bytes = 12
@@ -2254,12 +2278,12 @@ export class BytesStaticBytes12 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes12.From) {
-    return new BytesStaticBytes12(value)
+  static create(value: BytesAbiBytes12.From) {
+    return new BytesAbiBytes12(value)
   }
 
-  static from(value: BytesStaticBytes12.From) {
-    return BytesStaticBytes12.create(value)
+  static from(value: BytesAbiBytes12.From) {
+    return BytesAbiBytes12.create(value)
   }
 
   intoOrThrow() {
@@ -2267,7 +2291,7 @@ export class BytesStaticBytes12 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes12`
+    return `Abi.Bytes12`
   }
 
   get class() {
@@ -2283,12 +2307,12 @@ export class BytesStaticBytes12 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes12.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes12.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes12.nibbles
+    cursor.offset += 64 - BytesAbiBytes12.nibbles
 
-    return new BytesStaticBytes12(value)
+    return new BytesAbiBytes12(value)
   }
 
   sizeOrThrow() {
@@ -2297,26 +2321,26 @@ export class BytesStaticBytes12 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes12.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes12.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes12.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes12.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes12.bytes
+    cursor.offset += 32 - BytesAbiBytes12.bytes
     
-    return new BytesStaticBytes12(bytes)
+    return new BytesAbiBytes12(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes12 {
+export namespace ZeroHexAbiBytes12 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes12 {
-  readonly #class = ZeroHexStaticBytes12
+export class ZeroHexAbiBytes12 {
+  readonly #class = ZeroHexAbiBytes12
   readonly name = this.#class.name
 
   static readonly bytes = 12
@@ -2335,12 +2359,12 @@ export class ZeroHexStaticBytes12 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes12.From) {
-    return new ZeroHexStaticBytes12(value.slice(2))
+  static create(value: ZeroHexAbiBytes12.From) {
+    return new ZeroHexAbiBytes12(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes12.From) {
-    return ZeroHexStaticBytes12.create(value)
+  static from(value: ZeroHexAbiBytes12.From) {
+    return ZeroHexAbiBytes12.create(value)
   }
 
   intoOrThrow() {
@@ -2348,7 +2372,7 @@ export class ZeroHexStaticBytes12 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes12`
+    return `Abi.Bytes12`
   }
 
   get class() {
@@ -2364,11 +2388,11 @@ export class ZeroHexStaticBytes12 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes12.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes12.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes12.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes12.nibbles
 
-    return new ZeroHexStaticBytes12(value)
+    return new ZeroHexAbiBytes12(value)
   }
 
   sizeOrThrow() {
@@ -2379,62 +2403,64 @@ export class ZeroHexStaticBytes12 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes12.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes12.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes12.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes12.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes12.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes12.bytes
     
-    return new ZeroHexStaticBytes12(value)
+    return new ZeroHexAbiBytes12(value)
   }
 
 }
 
-export type StaticBytes13 =
-  | BytesStaticBytes13
-  | ZeroHexStaticBytes13
+export { AbiBytes13 as Bytes13 }
   
-export namespace StaticBytes13 {
+export type AbiBytes13 =
+  | BytesAbiBytes13
+  | ZeroHexAbiBytes13
+  
+export namespace AbiBytes13 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes13.From
-    | ZeroHexStaticBytes13.From
+    | BytesAbiBytes13.From
+    | ZeroHexAbiBytes13.From
   
-  export function create(value: StaticBytes13.From) {
+  export function create(value: AbiBytes13.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes13.create(value)
-    return ZeroHexStaticBytes13.create(value)
+      return BytesAbiBytes13.create(value)
+    return ZeroHexAbiBytes13.create(value)
   }
 
-  export function from(value: StaticBytes13.From) {
-    return StaticBytes13.create(value)
+  export function from(value: AbiBytes13.From) {
+    return AbiBytes13.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes13`
+    return `Abi.Bytes13`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes13.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes13.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes13.readOrThrow(cursor)
+    return BytesAbiBytes13.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes13 {
+export namespace BytesAbiBytes13 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes13 {
-  readonly #class = BytesStaticBytes13
+export class BytesAbiBytes13 {
+  readonly #class = BytesAbiBytes13
   readonly name = this.#class.name
 
   static readonly bytes = 13
@@ -2453,12 +2479,12 @@ export class BytesStaticBytes13 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes13.From) {
-    return new BytesStaticBytes13(value)
+  static create(value: BytesAbiBytes13.From) {
+    return new BytesAbiBytes13(value)
   }
 
-  static from(value: BytesStaticBytes13.From) {
-    return BytesStaticBytes13.create(value)
+  static from(value: BytesAbiBytes13.From) {
+    return BytesAbiBytes13.create(value)
   }
 
   intoOrThrow() {
@@ -2466,7 +2492,7 @@ export class BytesStaticBytes13 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes13`
+    return `Abi.Bytes13`
   }
 
   get class() {
@@ -2482,12 +2508,12 @@ export class BytesStaticBytes13 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes13.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes13.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes13.nibbles
+    cursor.offset += 64 - BytesAbiBytes13.nibbles
 
-    return new BytesStaticBytes13(value)
+    return new BytesAbiBytes13(value)
   }
 
   sizeOrThrow() {
@@ -2496,26 +2522,26 @@ export class BytesStaticBytes13 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes13.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes13.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes13.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes13.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes13.bytes
+    cursor.offset += 32 - BytesAbiBytes13.bytes
     
-    return new BytesStaticBytes13(bytes)
+    return new BytesAbiBytes13(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes13 {
+export namespace ZeroHexAbiBytes13 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes13 {
-  readonly #class = ZeroHexStaticBytes13
+export class ZeroHexAbiBytes13 {
+  readonly #class = ZeroHexAbiBytes13
   readonly name = this.#class.name
 
   static readonly bytes = 13
@@ -2534,12 +2560,12 @@ export class ZeroHexStaticBytes13 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes13.From) {
-    return new ZeroHexStaticBytes13(value.slice(2))
+  static create(value: ZeroHexAbiBytes13.From) {
+    return new ZeroHexAbiBytes13(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes13.From) {
-    return ZeroHexStaticBytes13.create(value)
+  static from(value: ZeroHexAbiBytes13.From) {
+    return ZeroHexAbiBytes13.create(value)
   }
 
   intoOrThrow() {
@@ -2547,7 +2573,7 @@ export class ZeroHexStaticBytes13 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes13`
+    return `Abi.Bytes13`
   }
 
   get class() {
@@ -2563,11 +2589,11 @@ export class ZeroHexStaticBytes13 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes13.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes13.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes13.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes13.nibbles
 
-    return new ZeroHexStaticBytes13(value)
+    return new ZeroHexAbiBytes13(value)
   }
 
   sizeOrThrow() {
@@ -2578,62 +2604,64 @@ export class ZeroHexStaticBytes13 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes13.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes13.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes13.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes13.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes13.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes13.bytes
     
-    return new ZeroHexStaticBytes13(value)
+    return new ZeroHexAbiBytes13(value)
   }
 
 }
 
-export type StaticBytes14 =
-  | BytesStaticBytes14
-  | ZeroHexStaticBytes14
+export { AbiBytes14 as Bytes14 }
   
-export namespace StaticBytes14 {
+export type AbiBytes14 =
+  | BytesAbiBytes14
+  | ZeroHexAbiBytes14
+  
+export namespace AbiBytes14 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes14.From
-    | ZeroHexStaticBytes14.From
+    | BytesAbiBytes14.From
+    | ZeroHexAbiBytes14.From
   
-  export function create(value: StaticBytes14.From) {
+  export function create(value: AbiBytes14.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes14.create(value)
-    return ZeroHexStaticBytes14.create(value)
+      return BytesAbiBytes14.create(value)
+    return ZeroHexAbiBytes14.create(value)
   }
 
-  export function from(value: StaticBytes14.From) {
-    return StaticBytes14.create(value)
+  export function from(value: AbiBytes14.From) {
+    return AbiBytes14.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes14`
+    return `Abi.Bytes14`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes14.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes14.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes14.readOrThrow(cursor)
+    return BytesAbiBytes14.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes14 {
+export namespace BytesAbiBytes14 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes14 {
-  readonly #class = BytesStaticBytes14
+export class BytesAbiBytes14 {
+  readonly #class = BytesAbiBytes14
   readonly name = this.#class.name
 
   static readonly bytes = 14
@@ -2652,12 +2680,12 @@ export class BytesStaticBytes14 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes14.From) {
-    return new BytesStaticBytes14(value)
+  static create(value: BytesAbiBytes14.From) {
+    return new BytesAbiBytes14(value)
   }
 
-  static from(value: BytesStaticBytes14.From) {
-    return BytesStaticBytes14.create(value)
+  static from(value: BytesAbiBytes14.From) {
+    return BytesAbiBytes14.create(value)
   }
 
   intoOrThrow() {
@@ -2665,7 +2693,7 @@ export class BytesStaticBytes14 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes14`
+    return `Abi.Bytes14`
   }
 
   get class() {
@@ -2681,12 +2709,12 @@ export class BytesStaticBytes14 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes14.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes14.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes14.nibbles
+    cursor.offset += 64 - BytesAbiBytes14.nibbles
 
-    return new BytesStaticBytes14(value)
+    return new BytesAbiBytes14(value)
   }
 
   sizeOrThrow() {
@@ -2695,26 +2723,26 @@ export class BytesStaticBytes14 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes14.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes14.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes14.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes14.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes14.bytes
+    cursor.offset += 32 - BytesAbiBytes14.bytes
     
-    return new BytesStaticBytes14(bytes)
+    return new BytesAbiBytes14(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes14 {
+export namespace ZeroHexAbiBytes14 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes14 {
-  readonly #class = ZeroHexStaticBytes14
+export class ZeroHexAbiBytes14 {
+  readonly #class = ZeroHexAbiBytes14
   readonly name = this.#class.name
 
   static readonly bytes = 14
@@ -2733,12 +2761,12 @@ export class ZeroHexStaticBytes14 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes14.From) {
-    return new ZeroHexStaticBytes14(value.slice(2))
+  static create(value: ZeroHexAbiBytes14.From) {
+    return new ZeroHexAbiBytes14(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes14.From) {
-    return ZeroHexStaticBytes14.create(value)
+  static from(value: ZeroHexAbiBytes14.From) {
+    return ZeroHexAbiBytes14.create(value)
   }
 
   intoOrThrow() {
@@ -2746,7 +2774,7 @@ export class ZeroHexStaticBytes14 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes14`
+    return `Abi.Bytes14`
   }
 
   get class() {
@@ -2762,11 +2790,11 @@ export class ZeroHexStaticBytes14 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes14.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes14.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes14.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes14.nibbles
 
-    return new ZeroHexStaticBytes14(value)
+    return new ZeroHexAbiBytes14(value)
   }
 
   sizeOrThrow() {
@@ -2777,62 +2805,64 @@ export class ZeroHexStaticBytes14 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes14.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes14.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes14.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes14.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes14.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes14.bytes
     
-    return new ZeroHexStaticBytes14(value)
+    return new ZeroHexAbiBytes14(value)
   }
 
 }
 
-export type StaticBytes15 =
-  | BytesStaticBytes15
-  | ZeroHexStaticBytes15
+export { AbiBytes15 as Bytes15 }
   
-export namespace StaticBytes15 {
+export type AbiBytes15 =
+  | BytesAbiBytes15
+  | ZeroHexAbiBytes15
+  
+export namespace AbiBytes15 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes15.From
-    | ZeroHexStaticBytes15.From
+    | BytesAbiBytes15.From
+    | ZeroHexAbiBytes15.From
   
-  export function create(value: StaticBytes15.From) {
+  export function create(value: AbiBytes15.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes15.create(value)
-    return ZeroHexStaticBytes15.create(value)
+      return BytesAbiBytes15.create(value)
+    return ZeroHexAbiBytes15.create(value)
   }
 
-  export function from(value: StaticBytes15.From) {
-    return StaticBytes15.create(value)
+  export function from(value: AbiBytes15.From) {
+    return AbiBytes15.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes15`
+    return `Abi.Bytes15`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes15.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes15.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes15.readOrThrow(cursor)
+    return BytesAbiBytes15.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes15 {
+export namespace BytesAbiBytes15 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes15 {
-  readonly #class = BytesStaticBytes15
+export class BytesAbiBytes15 {
+  readonly #class = BytesAbiBytes15
   readonly name = this.#class.name
 
   static readonly bytes = 15
@@ -2851,12 +2881,12 @@ export class BytesStaticBytes15 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes15.From) {
-    return new BytesStaticBytes15(value)
+  static create(value: BytesAbiBytes15.From) {
+    return new BytesAbiBytes15(value)
   }
 
-  static from(value: BytesStaticBytes15.From) {
-    return BytesStaticBytes15.create(value)
+  static from(value: BytesAbiBytes15.From) {
+    return BytesAbiBytes15.create(value)
   }
 
   intoOrThrow() {
@@ -2864,7 +2894,7 @@ export class BytesStaticBytes15 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes15`
+    return `Abi.Bytes15`
   }
 
   get class() {
@@ -2880,12 +2910,12 @@ export class BytesStaticBytes15 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes15.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes15.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes15.nibbles
+    cursor.offset += 64 - BytesAbiBytes15.nibbles
 
-    return new BytesStaticBytes15(value)
+    return new BytesAbiBytes15(value)
   }
 
   sizeOrThrow() {
@@ -2894,26 +2924,26 @@ export class BytesStaticBytes15 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes15.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes15.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes15.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes15.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes15.bytes
+    cursor.offset += 32 - BytesAbiBytes15.bytes
     
-    return new BytesStaticBytes15(bytes)
+    return new BytesAbiBytes15(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes15 {
+export namespace ZeroHexAbiBytes15 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes15 {
-  readonly #class = ZeroHexStaticBytes15
+export class ZeroHexAbiBytes15 {
+  readonly #class = ZeroHexAbiBytes15
   readonly name = this.#class.name
 
   static readonly bytes = 15
@@ -2932,12 +2962,12 @@ export class ZeroHexStaticBytes15 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes15.From) {
-    return new ZeroHexStaticBytes15(value.slice(2))
+  static create(value: ZeroHexAbiBytes15.From) {
+    return new ZeroHexAbiBytes15(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes15.From) {
-    return ZeroHexStaticBytes15.create(value)
+  static from(value: ZeroHexAbiBytes15.From) {
+    return ZeroHexAbiBytes15.create(value)
   }
 
   intoOrThrow() {
@@ -2945,7 +2975,7 @@ export class ZeroHexStaticBytes15 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes15`
+    return `Abi.Bytes15`
   }
 
   get class() {
@@ -2961,11 +2991,11 @@ export class ZeroHexStaticBytes15 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes15.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes15.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes15.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes15.nibbles
 
-    return new ZeroHexStaticBytes15(value)
+    return new ZeroHexAbiBytes15(value)
   }
 
   sizeOrThrow() {
@@ -2976,62 +3006,64 @@ export class ZeroHexStaticBytes15 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes15.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes15.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes15.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes15.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes15.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes15.bytes
     
-    return new ZeroHexStaticBytes15(value)
+    return new ZeroHexAbiBytes15(value)
   }
 
 }
 
-export type StaticBytes16 =
-  | BytesStaticBytes16
-  | ZeroHexStaticBytes16
+export { AbiBytes16 as Bytes16 }
   
-export namespace StaticBytes16 {
+export type AbiBytes16 =
+  | BytesAbiBytes16
+  | ZeroHexAbiBytes16
+  
+export namespace AbiBytes16 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes16.From
-    | ZeroHexStaticBytes16.From
+    | BytesAbiBytes16.From
+    | ZeroHexAbiBytes16.From
   
-  export function create(value: StaticBytes16.From) {
+  export function create(value: AbiBytes16.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes16.create(value)
-    return ZeroHexStaticBytes16.create(value)
+      return BytesAbiBytes16.create(value)
+    return ZeroHexAbiBytes16.create(value)
   }
 
-  export function from(value: StaticBytes16.From) {
-    return StaticBytes16.create(value)
+  export function from(value: AbiBytes16.From) {
+    return AbiBytes16.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes16`
+    return `Abi.Bytes16`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes16.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes16.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes16.readOrThrow(cursor)
+    return BytesAbiBytes16.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes16 {
+export namespace BytesAbiBytes16 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes16 {
-  readonly #class = BytesStaticBytes16
+export class BytesAbiBytes16 {
+  readonly #class = BytesAbiBytes16
   readonly name = this.#class.name
 
   static readonly bytes = 16
@@ -3050,12 +3082,12 @@ export class BytesStaticBytes16 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes16.From) {
-    return new BytesStaticBytes16(value)
+  static create(value: BytesAbiBytes16.From) {
+    return new BytesAbiBytes16(value)
   }
 
-  static from(value: BytesStaticBytes16.From) {
-    return BytesStaticBytes16.create(value)
+  static from(value: BytesAbiBytes16.From) {
+    return BytesAbiBytes16.create(value)
   }
 
   intoOrThrow() {
@@ -3063,7 +3095,7 @@ export class BytesStaticBytes16 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes16`
+    return `Abi.Bytes16`
   }
 
   get class() {
@@ -3079,12 +3111,12 @@ export class BytesStaticBytes16 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes16.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes16.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes16.nibbles
+    cursor.offset += 64 - BytesAbiBytes16.nibbles
 
-    return new BytesStaticBytes16(value)
+    return new BytesAbiBytes16(value)
   }
 
   sizeOrThrow() {
@@ -3093,26 +3125,26 @@ export class BytesStaticBytes16 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes16.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes16.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes16.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes16.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes16.bytes
+    cursor.offset += 32 - BytesAbiBytes16.bytes
     
-    return new BytesStaticBytes16(bytes)
+    return new BytesAbiBytes16(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes16 {
+export namespace ZeroHexAbiBytes16 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes16 {
-  readonly #class = ZeroHexStaticBytes16
+export class ZeroHexAbiBytes16 {
+  readonly #class = ZeroHexAbiBytes16
   readonly name = this.#class.name
 
   static readonly bytes = 16
@@ -3131,12 +3163,12 @@ export class ZeroHexStaticBytes16 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes16.From) {
-    return new ZeroHexStaticBytes16(value.slice(2))
+  static create(value: ZeroHexAbiBytes16.From) {
+    return new ZeroHexAbiBytes16(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes16.From) {
-    return ZeroHexStaticBytes16.create(value)
+  static from(value: ZeroHexAbiBytes16.From) {
+    return ZeroHexAbiBytes16.create(value)
   }
 
   intoOrThrow() {
@@ -3144,7 +3176,7 @@ export class ZeroHexStaticBytes16 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes16`
+    return `Abi.Bytes16`
   }
 
   get class() {
@@ -3160,11 +3192,11 @@ export class ZeroHexStaticBytes16 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes16.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes16.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes16.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes16.nibbles
 
-    return new ZeroHexStaticBytes16(value)
+    return new ZeroHexAbiBytes16(value)
   }
 
   sizeOrThrow() {
@@ -3175,62 +3207,64 @@ export class ZeroHexStaticBytes16 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes16.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes16.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes16.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes16.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes16.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes16.bytes
     
-    return new ZeroHexStaticBytes16(value)
+    return new ZeroHexAbiBytes16(value)
   }
 
 }
 
-export type StaticBytes17 =
-  | BytesStaticBytes17
-  | ZeroHexStaticBytes17
+export { AbiBytes17 as Bytes17 }
   
-export namespace StaticBytes17 {
+export type AbiBytes17 =
+  | BytesAbiBytes17
+  | ZeroHexAbiBytes17
+  
+export namespace AbiBytes17 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes17.From
-    | ZeroHexStaticBytes17.From
+    | BytesAbiBytes17.From
+    | ZeroHexAbiBytes17.From
   
-  export function create(value: StaticBytes17.From) {
+  export function create(value: AbiBytes17.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes17.create(value)
-    return ZeroHexStaticBytes17.create(value)
+      return BytesAbiBytes17.create(value)
+    return ZeroHexAbiBytes17.create(value)
   }
 
-  export function from(value: StaticBytes17.From) {
-    return StaticBytes17.create(value)
+  export function from(value: AbiBytes17.From) {
+    return AbiBytes17.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes17`
+    return `Abi.Bytes17`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes17.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes17.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes17.readOrThrow(cursor)
+    return BytesAbiBytes17.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes17 {
+export namespace BytesAbiBytes17 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes17 {
-  readonly #class = BytesStaticBytes17
+export class BytesAbiBytes17 {
+  readonly #class = BytesAbiBytes17
   readonly name = this.#class.name
 
   static readonly bytes = 17
@@ -3249,12 +3283,12 @@ export class BytesStaticBytes17 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes17.From) {
-    return new BytesStaticBytes17(value)
+  static create(value: BytesAbiBytes17.From) {
+    return new BytesAbiBytes17(value)
   }
 
-  static from(value: BytesStaticBytes17.From) {
-    return BytesStaticBytes17.create(value)
+  static from(value: BytesAbiBytes17.From) {
+    return BytesAbiBytes17.create(value)
   }
 
   intoOrThrow() {
@@ -3262,7 +3296,7 @@ export class BytesStaticBytes17 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes17`
+    return `Abi.Bytes17`
   }
 
   get class() {
@@ -3278,12 +3312,12 @@ export class BytesStaticBytes17 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes17.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes17.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes17.nibbles
+    cursor.offset += 64 - BytesAbiBytes17.nibbles
 
-    return new BytesStaticBytes17(value)
+    return new BytesAbiBytes17(value)
   }
 
   sizeOrThrow() {
@@ -3292,26 +3326,26 @@ export class BytesStaticBytes17 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes17.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes17.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes17.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes17.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes17.bytes
+    cursor.offset += 32 - BytesAbiBytes17.bytes
     
-    return new BytesStaticBytes17(bytes)
+    return new BytesAbiBytes17(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes17 {
+export namespace ZeroHexAbiBytes17 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes17 {
-  readonly #class = ZeroHexStaticBytes17
+export class ZeroHexAbiBytes17 {
+  readonly #class = ZeroHexAbiBytes17
   readonly name = this.#class.name
 
   static readonly bytes = 17
@@ -3330,12 +3364,12 @@ export class ZeroHexStaticBytes17 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes17.From) {
-    return new ZeroHexStaticBytes17(value.slice(2))
+  static create(value: ZeroHexAbiBytes17.From) {
+    return new ZeroHexAbiBytes17(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes17.From) {
-    return ZeroHexStaticBytes17.create(value)
+  static from(value: ZeroHexAbiBytes17.From) {
+    return ZeroHexAbiBytes17.create(value)
   }
 
   intoOrThrow() {
@@ -3343,7 +3377,7 @@ export class ZeroHexStaticBytes17 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes17`
+    return `Abi.Bytes17`
   }
 
   get class() {
@@ -3359,11 +3393,11 @@ export class ZeroHexStaticBytes17 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes17.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes17.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes17.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes17.nibbles
 
-    return new ZeroHexStaticBytes17(value)
+    return new ZeroHexAbiBytes17(value)
   }
 
   sizeOrThrow() {
@@ -3374,62 +3408,64 @@ export class ZeroHexStaticBytes17 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes17.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes17.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes17.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes17.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes17.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes17.bytes
     
-    return new ZeroHexStaticBytes17(value)
+    return new ZeroHexAbiBytes17(value)
   }
 
 }
 
-export type StaticBytes18 =
-  | BytesStaticBytes18
-  | ZeroHexStaticBytes18
+export { AbiBytes18 as Bytes18 }
   
-export namespace StaticBytes18 {
+export type AbiBytes18 =
+  | BytesAbiBytes18
+  | ZeroHexAbiBytes18
+  
+export namespace AbiBytes18 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes18.From
-    | ZeroHexStaticBytes18.From
+    | BytesAbiBytes18.From
+    | ZeroHexAbiBytes18.From
   
-  export function create(value: StaticBytes18.From) {
+  export function create(value: AbiBytes18.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes18.create(value)
-    return ZeroHexStaticBytes18.create(value)
+      return BytesAbiBytes18.create(value)
+    return ZeroHexAbiBytes18.create(value)
   }
 
-  export function from(value: StaticBytes18.From) {
-    return StaticBytes18.create(value)
+  export function from(value: AbiBytes18.From) {
+    return AbiBytes18.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes18`
+    return `Abi.Bytes18`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes18.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes18.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes18.readOrThrow(cursor)
+    return BytesAbiBytes18.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes18 {
+export namespace BytesAbiBytes18 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes18 {
-  readonly #class = BytesStaticBytes18
+export class BytesAbiBytes18 {
+  readonly #class = BytesAbiBytes18
   readonly name = this.#class.name
 
   static readonly bytes = 18
@@ -3448,12 +3484,12 @@ export class BytesStaticBytes18 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes18.From) {
-    return new BytesStaticBytes18(value)
+  static create(value: BytesAbiBytes18.From) {
+    return new BytesAbiBytes18(value)
   }
 
-  static from(value: BytesStaticBytes18.From) {
-    return BytesStaticBytes18.create(value)
+  static from(value: BytesAbiBytes18.From) {
+    return BytesAbiBytes18.create(value)
   }
 
   intoOrThrow() {
@@ -3461,7 +3497,7 @@ export class BytesStaticBytes18 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes18`
+    return `Abi.Bytes18`
   }
 
   get class() {
@@ -3477,12 +3513,12 @@ export class BytesStaticBytes18 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes18.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes18.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes18.nibbles
+    cursor.offset += 64 - BytesAbiBytes18.nibbles
 
-    return new BytesStaticBytes18(value)
+    return new BytesAbiBytes18(value)
   }
 
   sizeOrThrow() {
@@ -3491,26 +3527,26 @@ export class BytesStaticBytes18 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes18.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes18.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes18.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes18.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes18.bytes
+    cursor.offset += 32 - BytesAbiBytes18.bytes
     
-    return new BytesStaticBytes18(bytes)
+    return new BytesAbiBytes18(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes18 {
+export namespace ZeroHexAbiBytes18 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes18 {
-  readonly #class = ZeroHexStaticBytes18
+export class ZeroHexAbiBytes18 {
+  readonly #class = ZeroHexAbiBytes18
   readonly name = this.#class.name
 
   static readonly bytes = 18
@@ -3529,12 +3565,12 @@ export class ZeroHexStaticBytes18 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes18.From) {
-    return new ZeroHexStaticBytes18(value.slice(2))
+  static create(value: ZeroHexAbiBytes18.From) {
+    return new ZeroHexAbiBytes18(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes18.From) {
-    return ZeroHexStaticBytes18.create(value)
+  static from(value: ZeroHexAbiBytes18.From) {
+    return ZeroHexAbiBytes18.create(value)
   }
 
   intoOrThrow() {
@@ -3542,7 +3578,7 @@ export class ZeroHexStaticBytes18 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes18`
+    return `Abi.Bytes18`
   }
 
   get class() {
@@ -3558,11 +3594,11 @@ export class ZeroHexStaticBytes18 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes18.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes18.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes18.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes18.nibbles
 
-    return new ZeroHexStaticBytes18(value)
+    return new ZeroHexAbiBytes18(value)
   }
 
   sizeOrThrow() {
@@ -3573,62 +3609,64 @@ export class ZeroHexStaticBytes18 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes18.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes18.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes18.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes18.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes18.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes18.bytes
     
-    return new ZeroHexStaticBytes18(value)
+    return new ZeroHexAbiBytes18(value)
   }
 
 }
 
-export type StaticBytes19 =
-  | BytesStaticBytes19
-  | ZeroHexStaticBytes19
+export { AbiBytes19 as Bytes19 }
   
-export namespace StaticBytes19 {
+export type AbiBytes19 =
+  | BytesAbiBytes19
+  | ZeroHexAbiBytes19
+  
+export namespace AbiBytes19 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes19.From
-    | ZeroHexStaticBytes19.From
+    | BytesAbiBytes19.From
+    | ZeroHexAbiBytes19.From
   
-  export function create(value: StaticBytes19.From) {
+  export function create(value: AbiBytes19.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes19.create(value)
-    return ZeroHexStaticBytes19.create(value)
+      return BytesAbiBytes19.create(value)
+    return ZeroHexAbiBytes19.create(value)
   }
 
-  export function from(value: StaticBytes19.From) {
-    return StaticBytes19.create(value)
+  export function from(value: AbiBytes19.From) {
+    return AbiBytes19.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes19`
+    return `Abi.Bytes19`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes19.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes19.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes19.readOrThrow(cursor)
+    return BytesAbiBytes19.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes19 {
+export namespace BytesAbiBytes19 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes19 {
-  readonly #class = BytesStaticBytes19
+export class BytesAbiBytes19 {
+  readonly #class = BytesAbiBytes19
   readonly name = this.#class.name
 
   static readonly bytes = 19
@@ -3647,12 +3685,12 @@ export class BytesStaticBytes19 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes19.From) {
-    return new BytesStaticBytes19(value)
+  static create(value: BytesAbiBytes19.From) {
+    return new BytesAbiBytes19(value)
   }
 
-  static from(value: BytesStaticBytes19.From) {
-    return BytesStaticBytes19.create(value)
+  static from(value: BytesAbiBytes19.From) {
+    return BytesAbiBytes19.create(value)
   }
 
   intoOrThrow() {
@@ -3660,7 +3698,7 @@ export class BytesStaticBytes19 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes19`
+    return `Abi.Bytes19`
   }
 
   get class() {
@@ -3676,12 +3714,12 @@ export class BytesStaticBytes19 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes19.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes19.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes19.nibbles
+    cursor.offset += 64 - BytesAbiBytes19.nibbles
 
-    return new BytesStaticBytes19(value)
+    return new BytesAbiBytes19(value)
   }
 
   sizeOrThrow() {
@@ -3690,26 +3728,26 @@ export class BytesStaticBytes19 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes19.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes19.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes19.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes19.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes19.bytes
+    cursor.offset += 32 - BytesAbiBytes19.bytes
     
-    return new BytesStaticBytes19(bytes)
+    return new BytesAbiBytes19(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes19 {
+export namespace ZeroHexAbiBytes19 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes19 {
-  readonly #class = ZeroHexStaticBytes19
+export class ZeroHexAbiBytes19 {
+  readonly #class = ZeroHexAbiBytes19
   readonly name = this.#class.name
 
   static readonly bytes = 19
@@ -3728,12 +3766,12 @@ export class ZeroHexStaticBytes19 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes19.From) {
-    return new ZeroHexStaticBytes19(value.slice(2))
+  static create(value: ZeroHexAbiBytes19.From) {
+    return new ZeroHexAbiBytes19(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes19.From) {
-    return ZeroHexStaticBytes19.create(value)
+  static from(value: ZeroHexAbiBytes19.From) {
+    return ZeroHexAbiBytes19.create(value)
   }
 
   intoOrThrow() {
@@ -3741,7 +3779,7 @@ export class ZeroHexStaticBytes19 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes19`
+    return `Abi.Bytes19`
   }
 
   get class() {
@@ -3757,11 +3795,11 @@ export class ZeroHexStaticBytes19 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes19.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes19.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes19.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes19.nibbles
 
-    return new ZeroHexStaticBytes19(value)
+    return new ZeroHexAbiBytes19(value)
   }
 
   sizeOrThrow() {
@@ -3772,62 +3810,64 @@ export class ZeroHexStaticBytes19 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes19.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes19.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes19.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes19.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes19.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes19.bytes
     
-    return new ZeroHexStaticBytes19(value)
+    return new ZeroHexAbiBytes19(value)
   }
 
 }
 
-export type StaticBytes20 =
-  | BytesStaticBytes20
-  | ZeroHexStaticBytes20
+export { AbiBytes20 as Bytes20 }
   
-export namespace StaticBytes20 {
+export type AbiBytes20 =
+  | BytesAbiBytes20
+  | ZeroHexAbiBytes20
+  
+export namespace AbiBytes20 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes20.From
-    | ZeroHexStaticBytes20.From
+    | BytesAbiBytes20.From
+    | ZeroHexAbiBytes20.From
   
-  export function create(value: StaticBytes20.From) {
+  export function create(value: AbiBytes20.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes20.create(value)
-    return ZeroHexStaticBytes20.create(value)
+      return BytesAbiBytes20.create(value)
+    return ZeroHexAbiBytes20.create(value)
   }
 
-  export function from(value: StaticBytes20.From) {
-    return StaticBytes20.create(value)
+  export function from(value: AbiBytes20.From) {
+    return AbiBytes20.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes20`
+    return `Abi.Bytes20`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes20.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes20.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes20.readOrThrow(cursor)
+    return BytesAbiBytes20.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes20 {
+export namespace BytesAbiBytes20 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes20 {
-  readonly #class = BytesStaticBytes20
+export class BytesAbiBytes20 {
+  readonly #class = BytesAbiBytes20
   readonly name = this.#class.name
 
   static readonly bytes = 20
@@ -3846,12 +3886,12 @@ export class BytesStaticBytes20 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes20.From) {
-    return new BytesStaticBytes20(value)
+  static create(value: BytesAbiBytes20.From) {
+    return new BytesAbiBytes20(value)
   }
 
-  static from(value: BytesStaticBytes20.From) {
-    return BytesStaticBytes20.create(value)
+  static from(value: BytesAbiBytes20.From) {
+    return BytesAbiBytes20.create(value)
   }
 
   intoOrThrow() {
@@ -3859,7 +3899,7 @@ export class BytesStaticBytes20 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes20`
+    return `Abi.Bytes20`
   }
 
   get class() {
@@ -3875,12 +3915,12 @@ export class BytesStaticBytes20 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes20.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes20.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes20.nibbles
+    cursor.offset += 64 - BytesAbiBytes20.nibbles
 
-    return new BytesStaticBytes20(value)
+    return new BytesAbiBytes20(value)
   }
 
   sizeOrThrow() {
@@ -3889,26 +3929,26 @@ export class BytesStaticBytes20 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes20.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes20.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes20.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes20.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes20.bytes
+    cursor.offset += 32 - BytesAbiBytes20.bytes
     
-    return new BytesStaticBytes20(bytes)
+    return new BytesAbiBytes20(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes20 {
+export namespace ZeroHexAbiBytes20 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes20 {
-  readonly #class = ZeroHexStaticBytes20
+export class ZeroHexAbiBytes20 {
+  readonly #class = ZeroHexAbiBytes20
   readonly name = this.#class.name
 
   static readonly bytes = 20
@@ -3927,12 +3967,12 @@ export class ZeroHexStaticBytes20 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes20.From) {
-    return new ZeroHexStaticBytes20(value.slice(2))
+  static create(value: ZeroHexAbiBytes20.From) {
+    return new ZeroHexAbiBytes20(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes20.From) {
-    return ZeroHexStaticBytes20.create(value)
+  static from(value: ZeroHexAbiBytes20.From) {
+    return ZeroHexAbiBytes20.create(value)
   }
 
   intoOrThrow() {
@@ -3940,7 +3980,7 @@ export class ZeroHexStaticBytes20 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes20`
+    return `Abi.Bytes20`
   }
 
   get class() {
@@ -3956,11 +3996,11 @@ export class ZeroHexStaticBytes20 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes20.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes20.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes20.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes20.nibbles
 
-    return new ZeroHexStaticBytes20(value)
+    return new ZeroHexAbiBytes20(value)
   }
 
   sizeOrThrow() {
@@ -3971,62 +4011,64 @@ export class ZeroHexStaticBytes20 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes20.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes20.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes20.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes20.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes20.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes20.bytes
     
-    return new ZeroHexStaticBytes20(value)
+    return new ZeroHexAbiBytes20(value)
   }
 
 }
 
-export type StaticBytes21 =
-  | BytesStaticBytes21
-  | ZeroHexStaticBytes21
+export { AbiBytes21 as Bytes21 }
   
-export namespace StaticBytes21 {
+export type AbiBytes21 =
+  | BytesAbiBytes21
+  | ZeroHexAbiBytes21
+  
+export namespace AbiBytes21 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes21.From
-    | ZeroHexStaticBytes21.From
+    | BytesAbiBytes21.From
+    | ZeroHexAbiBytes21.From
   
-  export function create(value: StaticBytes21.From) {
+  export function create(value: AbiBytes21.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes21.create(value)
-    return ZeroHexStaticBytes21.create(value)
+      return BytesAbiBytes21.create(value)
+    return ZeroHexAbiBytes21.create(value)
   }
 
-  export function from(value: StaticBytes21.From) {
-    return StaticBytes21.create(value)
+  export function from(value: AbiBytes21.From) {
+    return AbiBytes21.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes21`
+    return `Abi.Bytes21`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes21.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes21.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes21.readOrThrow(cursor)
+    return BytesAbiBytes21.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes21 {
+export namespace BytesAbiBytes21 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes21 {
-  readonly #class = BytesStaticBytes21
+export class BytesAbiBytes21 {
+  readonly #class = BytesAbiBytes21
   readonly name = this.#class.name
 
   static readonly bytes = 21
@@ -4045,12 +4087,12 @@ export class BytesStaticBytes21 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes21.From) {
-    return new BytesStaticBytes21(value)
+  static create(value: BytesAbiBytes21.From) {
+    return new BytesAbiBytes21(value)
   }
 
-  static from(value: BytesStaticBytes21.From) {
-    return BytesStaticBytes21.create(value)
+  static from(value: BytesAbiBytes21.From) {
+    return BytesAbiBytes21.create(value)
   }
 
   intoOrThrow() {
@@ -4058,7 +4100,7 @@ export class BytesStaticBytes21 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes21`
+    return `Abi.Bytes21`
   }
 
   get class() {
@@ -4074,12 +4116,12 @@ export class BytesStaticBytes21 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes21.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes21.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes21.nibbles
+    cursor.offset += 64 - BytesAbiBytes21.nibbles
 
-    return new BytesStaticBytes21(value)
+    return new BytesAbiBytes21(value)
   }
 
   sizeOrThrow() {
@@ -4088,26 +4130,26 @@ export class BytesStaticBytes21 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes21.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes21.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes21.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes21.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes21.bytes
+    cursor.offset += 32 - BytesAbiBytes21.bytes
     
-    return new BytesStaticBytes21(bytes)
+    return new BytesAbiBytes21(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes21 {
+export namespace ZeroHexAbiBytes21 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes21 {
-  readonly #class = ZeroHexStaticBytes21
+export class ZeroHexAbiBytes21 {
+  readonly #class = ZeroHexAbiBytes21
   readonly name = this.#class.name
 
   static readonly bytes = 21
@@ -4126,12 +4168,12 @@ export class ZeroHexStaticBytes21 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes21.From) {
-    return new ZeroHexStaticBytes21(value.slice(2))
+  static create(value: ZeroHexAbiBytes21.From) {
+    return new ZeroHexAbiBytes21(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes21.From) {
-    return ZeroHexStaticBytes21.create(value)
+  static from(value: ZeroHexAbiBytes21.From) {
+    return ZeroHexAbiBytes21.create(value)
   }
 
   intoOrThrow() {
@@ -4139,7 +4181,7 @@ export class ZeroHexStaticBytes21 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes21`
+    return `Abi.Bytes21`
   }
 
   get class() {
@@ -4155,11 +4197,11 @@ export class ZeroHexStaticBytes21 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes21.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes21.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes21.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes21.nibbles
 
-    return new ZeroHexStaticBytes21(value)
+    return new ZeroHexAbiBytes21(value)
   }
 
   sizeOrThrow() {
@@ -4170,62 +4212,64 @@ export class ZeroHexStaticBytes21 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes21.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes21.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes21.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes21.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes21.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes21.bytes
     
-    return new ZeroHexStaticBytes21(value)
+    return new ZeroHexAbiBytes21(value)
   }
 
 }
 
-export type StaticBytes22 =
-  | BytesStaticBytes22
-  | ZeroHexStaticBytes22
+export { AbiBytes22 as Bytes22 }
   
-export namespace StaticBytes22 {
+export type AbiBytes22 =
+  | BytesAbiBytes22
+  | ZeroHexAbiBytes22
+  
+export namespace AbiBytes22 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes22.From
-    | ZeroHexStaticBytes22.From
+    | BytesAbiBytes22.From
+    | ZeroHexAbiBytes22.From
   
-  export function create(value: StaticBytes22.From) {
+  export function create(value: AbiBytes22.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes22.create(value)
-    return ZeroHexStaticBytes22.create(value)
+      return BytesAbiBytes22.create(value)
+    return ZeroHexAbiBytes22.create(value)
   }
 
-  export function from(value: StaticBytes22.From) {
-    return StaticBytes22.create(value)
+  export function from(value: AbiBytes22.From) {
+    return AbiBytes22.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes22`
+    return `Abi.Bytes22`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes22.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes22.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes22.readOrThrow(cursor)
+    return BytesAbiBytes22.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes22 {
+export namespace BytesAbiBytes22 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes22 {
-  readonly #class = BytesStaticBytes22
+export class BytesAbiBytes22 {
+  readonly #class = BytesAbiBytes22
   readonly name = this.#class.name
 
   static readonly bytes = 22
@@ -4244,12 +4288,12 @@ export class BytesStaticBytes22 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes22.From) {
-    return new BytesStaticBytes22(value)
+  static create(value: BytesAbiBytes22.From) {
+    return new BytesAbiBytes22(value)
   }
 
-  static from(value: BytesStaticBytes22.From) {
-    return BytesStaticBytes22.create(value)
+  static from(value: BytesAbiBytes22.From) {
+    return BytesAbiBytes22.create(value)
   }
 
   intoOrThrow() {
@@ -4257,7 +4301,7 @@ export class BytesStaticBytes22 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes22`
+    return `Abi.Bytes22`
   }
 
   get class() {
@@ -4273,12 +4317,12 @@ export class BytesStaticBytes22 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes22.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes22.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes22.nibbles
+    cursor.offset += 64 - BytesAbiBytes22.nibbles
 
-    return new BytesStaticBytes22(value)
+    return new BytesAbiBytes22(value)
   }
 
   sizeOrThrow() {
@@ -4287,26 +4331,26 @@ export class BytesStaticBytes22 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes22.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes22.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes22.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes22.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes22.bytes
+    cursor.offset += 32 - BytesAbiBytes22.bytes
     
-    return new BytesStaticBytes22(bytes)
+    return new BytesAbiBytes22(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes22 {
+export namespace ZeroHexAbiBytes22 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes22 {
-  readonly #class = ZeroHexStaticBytes22
+export class ZeroHexAbiBytes22 {
+  readonly #class = ZeroHexAbiBytes22
   readonly name = this.#class.name
 
   static readonly bytes = 22
@@ -4325,12 +4369,12 @@ export class ZeroHexStaticBytes22 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes22.From) {
-    return new ZeroHexStaticBytes22(value.slice(2))
+  static create(value: ZeroHexAbiBytes22.From) {
+    return new ZeroHexAbiBytes22(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes22.From) {
-    return ZeroHexStaticBytes22.create(value)
+  static from(value: ZeroHexAbiBytes22.From) {
+    return ZeroHexAbiBytes22.create(value)
   }
 
   intoOrThrow() {
@@ -4338,7 +4382,7 @@ export class ZeroHexStaticBytes22 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes22`
+    return `Abi.Bytes22`
   }
 
   get class() {
@@ -4354,11 +4398,11 @@ export class ZeroHexStaticBytes22 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes22.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes22.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes22.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes22.nibbles
 
-    return new ZeroHexStaticBytes22(value)
+    return new ZeroHexAbiBytes22(value)
   }
 
   sizeOrThrow() {
@@ -4369,62 +4413,64 @@ export class ZeroHexStaticBytes22 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes22.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes22.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes22.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes22.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes22.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes22.bytes
     
-    return new ZeroHexStaticBytes22(value)
+    return new ZeroHexAbiBytes22(value)
   }
 
 }
 
-export type StaticBytes23 =
-  | BytesStaticBytes23
-  | ZeroHexStaticBytes23
+export { AbiBytes23 as Bytes23 }
   
-export namespace StaticBytes23 {
+export type AbiBytes23 =
+  | BytesAbiBytes23
+  | ZeroHexAbiBytes23
+  
+export namespace AbiBytes23 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes23.From
-    | ZeroHexStaticBytes23.From
+    | BytesAbiBytes23.From
+    | ZeroHexAbiBytes23.From
   
-  export function create(value: StaticBytes23.From) {
+  export function create(value: AbiBytes23.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes23.create(value)
-    return ZeroHexStaticBytes23.create(value)
+      return BytesAbiBytes23.create(value)
+    return ZeroHexAbiBytes23.create(value)
   }
 
-  export function from(value: StaticBytes23.From) {
-    return StaticBytes23.create(value)
+  export function from(value: AbiBytes23.From) {
+    return AbiBytes23.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes23`
+    return `Abi.Bytes23`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes23.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes23.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes23.readOrThrow(cursor)
+    return BytesAbiBytes23.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes23 {
+export namespace BytesAbiBytes23 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes23 {
-  readonly #class = BytesStaticBytes23
+export class BytesAbiBytes23 {
+  readonly #class = BytesAbiBytes23
   readonly name = this.#class.name
 
   static readonly bytes = 23
@@ -4443,12 +4489,12 @@ export class BytesStaticBytes23 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes23.From) {
-    return new BytesStaticBytes23(value)
+  static create(value: BytesAbiBytes23.From) {
+    return new BytesAbiBytes23(value)
   }
 
-  static from(value: BytesStaticBytes23.From) {
-    return BytesStaticBytes23.create(value)
+  static from(value: BytesAbiBytes23.From) {
+    return BytesAbiBytes23.create(value)
   }
 
   intoOrThrow() {
@@ -4456,7 +4502,7 @@ export class BytesStaticBytes23 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes23`
+    return `Abi.Bytes23`
   }
 
   get class() {
@@ -4472,12 +4518,12 @@ export class BytesStaticBytes23 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes23.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes23.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes23.nibbles
+    cursor.offset += 64 - BytesAbiBytes23.nibbles
 
-    return new BytesStaticBytes23(value)
+    return new BytesAbiBytes23(value)
   }
 
   sizeOrThrow() {
@@ -4486,26 +4532,26 @@ export class BytesStaticBytes23 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes23.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes23.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes23.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes23.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes23.bytes
+    cursor.offset += 32 - BytesAbiBytes23.bytes
     
-    return new BytesStaticBytes23(bytes)
+    return new BytesAbiBytes23(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes23 {
+export namespace ZeroHexAbiBytes23 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes23 {
-  readonly #class = ZeroHexStaticBytes23
+export class ZeroHexAbiBytes23 {
+  readonly #class = ZeroHexAbiBytes23
   readonly name = this.#class.name
 
   static readonly bytes = 23
@@ -4524,12 +4570,12 @@ export class ZeroHexStaticBytes23 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes23.From) {
-    return new ZeroHexStaticBytes23(value.slice(2))
+  static create(value: ZeroHexAbiBytes23.From) {
+    return new ZeroHexAbiBytes23(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes23.From) {
-    return ZeroHexStaticBytes23.create(value)
+  static from(value: ZeroHexAbiBytes23.From) {
+    return ZeroHexAbiBytes23.create(value)
   }
 
   intoOrThrow() {
@@ -4537,7 +4583,7 @@ export class ZeroHexStaticBytes23 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes23`
+    return `Abi.Bytes23`
   }
 
   get class() {
@@ -4553,11 +4599,11 @@ export class ZeroHexStaticBytes23 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes23.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes23.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes23.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes23.nibbles
 
-    return new ZeroHexStaticBytes23(value)
+    return new ZeroHexAbiBytes23(value)
   }
 
   sizeOrThrow() {
@@ -4568,62 +4614,64 @@ export class ZeroHexStaticBytes23 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes23.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes23.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes23.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes23.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes23.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes23.bytes
     
-    return new ZeroHexStaticBytes23(value)
+    return new ZeroHexAbiBytes23(value)
   }
 
 }
 
-export type StaticBytes24 =
-  | BytesStaticBytes24
-  | ZeroHexStaticBytes24
+export { AbiBytes24 as Bytes24 }
   
-export namespace StaticBytes24 {
+export type AbiBytes24 =
+  | BytesAbiBytes24
+  | ZeroHexAbiBytes24
+  
+export namespace AbiBytes24 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes24.From
-    | ZeroHexStaticBytes24.From
+    | BytesAbiBytes24.From
+    | ZeroHexAbiBytes24.From
   
-  export function create(value: StaticBytes24.From) {
+  export function create(value: AbiBytes24.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes24.create(value)
-    return ZeroHexStaticBytes24.create(value)
+      return BytesAbiBytes24.create(value)
+    return ZeroHexAbiBytes24.create(value)
   }
 
-  export function from(value: StaticBytes24.From) {
-    return StaticBytes24.create(value)
+  export function from(value: AbiBytes24.From) {
+    return AbiBytes24.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes24`
+    return `Abi.Bytes24`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes24.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes24.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes24.readOrThrow(cursor)
+    return BytesAbiBytes24.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes24 {
+export namespace BytesAbiBytes24 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes24 {
-  readonly #class = BytesStaticBytes24
+export class BytesAbiBytes24 {
+  readonly #class = BytesAbiBytes24
   readonly name = this.#class.name
 
   static readonly bytes = 24
@@ -4642,12 +4690,12 @@ export class BytesStaticBytes24 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes24.From) {
-    return new BytesStaticBytes24(value)
+  static create(value: BytesAbiBytes24.From) {
+    return new BytesAbiBytes24(value)
   }
 
-  static from(value: BytesStaticBytes24.From) {
-    return BytesStaticBytes24.create(value)
+  static from(value: BytesAbiBytes24.From) {
+    return BytesAbiBytes24.create(value)
   }
 
   intoOrThrow() {
@@ -4655,7 +4703,7 @@ export class BytesStaticBytes24 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes24`
+    return `Abi.Bytes24`
   }
 
   get class() {
@@ -4671,12 +4719,12 @@ export class BytesStaticBytes24 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes24.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes24.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes24.nibbles
+    cursor.offset += 64 - BytesAbiBytes24.nibbles
 
-    return new BytesStaticBytes24(value)
+    return new BytesAbiBytes24(value)
   }
 
   sizeOrThrow() {
@@ -4685,26 +4733,26 @@ export class BytesStaticBytes24 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes24.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes24.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes24.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes24.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes24.bytes
+    cursor.offset += 32 - BytesAbiBytes24.bytes
     
-    return new BytesStaticBytes24(bytes)
+    return new BytesAbiBytes24(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes24 {
+export namespace ZeroHexAbiBytes24 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes24 {
-  readonly #class = ZeroHexStaticBytes24
+export class ZeroHexAbiBytes24 {
+  readonly #class = ZeroHexAbiBytes24
   readonly name = this.#class.name
 
   static readonly bytes = 24
@@ -4723,12 +4771,12 @@ export class ZeroHexStaticBytes24 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes24.From) {
-    return new ZeroHexStaticBytes24(value.slice(2))
+  static create(value: ZeroHexAbiBytes24.From) {
+    return new ZeroHexAbiBytes24(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes24.From) {
-    return ZeroHexStaticBytes24.create(value)
+  static from(value: ZeroHexAbiBytes24.From) {
+    return ZeroHexAbiBytes24.create(value)
   }
 
   intoOrThrow() {
@@ -4736,7 +4784,7 @@ export class ZeroHexStaticBytes24 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes24`
+    return `Abi.Bytes24`
   }
 
   get class() {
@@ -4752,11 +4800,11 @@ export class ZeroHexStaticBytes24 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes24.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes24.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes24.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes24.nibbles
 
-    return new ZeroHexStaticBytes24(value)
+    return new ZeroHexAbiBytes24(value)
   }
 
   sizeOrThrow() {
@@ -4767,62 +4815,64 @@ export class ZeroHexStaticBytes24 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes24.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes24.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes24.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes24.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes24.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes24.bytes
     
-    return new ZeroHexStaticBytes24(value)
+    return new ZeroHexAbiBytes24(value)
   }
 
 }
 
-export type StaticBytes25 =
-  | BytesStaticBytes25
-  | ZeroHexStaticBytes25
+export { AbiBytes25 as Bytes25 }
   
-export namespace StaticBytes25 {
+export type AbiBytes25 =
+  | BytesAbiBytes25
+  | ZeroHexAbiBytes25
+  
+export namespace AbiBytes25 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes25.From
-    | ZeroHexStaticBytes25.From
+    | BytesAbiBytes25.From
+    | ZeroHexAbiBytes25.From
   
-  export function create(value: StaticBytes25.From) {
+  export function create(value: AbiBytes25.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes25.create(value)
-    return ZeroHexStaticBytes25.create(value)
+      return BytesAbiBytes25.create(value)
+    return ZeroHexAbiBytes25.create(value)
   }
 
-  export function from(value: StaticBytes25.From) {
-    return StaticBytes25.create(value)
+  export function from(value: AbiBytes25.From) {
+    return AbiBytes25.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes25`
+    return `Abi.Bytes25`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes25.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes25.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes25.readOrThrow(cursor)
+    return BytesAbiBytes25.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes25 {
+export namespace BytesAbiBytes25 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes25 {
-  readonly #class = BytesStaticBytes25
+export class BytesAbiBytes25 {
+  readonly #class = BytesAbiBytes25
   readonly name = this.#class.name
 
   static readonly bytes = 25
@@ -4841,12 +4891,12 @@ export class BytesStaticBytes25 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes25.From) {
-    return new BytesStaticBytes25(value)
+  static create(value: BytesAbiBytes25.From) {
+    return new BytesAbiBytes25(value)
   }
 
-  static from(value: BytesStaticBytes25.From) {
-    return BytesStaticBytes25.create(value)
+  static from(value: BytesAbiBytes25.From) {
+    return BytesAbiBytes25.create(value)
   }
 
   intoOrThrow() {
@@ -4854,7 +4904,7 @@ export class BytesStaticBytes25 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes25`
+    return `Abi.Bytes25`
   }
 
   get class() {
@@ -4870,12 +4920,12 @@ export class BytesStaticBytes25 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes25.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes25.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes25.nibbles
+    cursor.offset += 64 - BytesAbiBytes25.nibbles
 
-    return new BytesStaticBytes25(value)
+    return new BytesAbiBytes25(value)
   }
 
   sizeOrThrow() {
@@ -4884,26 +4934,26 @@ export class BytesStaticBytes25 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes25.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes25.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes25.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes25.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes25.bytes
+    cursor.offset += 32 - BytesAbiBytes25.bytes
     
-    return new BytesStaticBytes25(bytes)
+    return new BytesAbiBytes25(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes25 {
+export namespace ZeroHexAbiBytes25 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes25 {
-  readonly #class = ZeroHexStaticBytes25
+export class ZeroHexAbiBytes25 {
+  readonly #class = ZeroHexAbiBytes25
   readonly name = this.#class.name
 
   static readonly bytes = 25
@@ -4922,12 +4972,12 @@ export class ZeroHexStaticBytes25 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes25.From) {
-    return new ZeroHexStaticBytes25(value.slice(2))
+  static create(value: ZeroHexAbiBytes25.From) {
+    return new ZeroHexAbiBytes25(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes25.From) {
-    return ZeroHexStaticBytes25.create(value)
+  static from(value: ZeroHexAbiBytes25.From) {
+    return ZeroHexAbiBytes25.create(value)
   }
 
   intoOrThrow() {
@@ -4935,7 +4985,7 @@ export class ZeroHexStaticBytes25 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes25`
+    return `Abi.Bytes25`
   }
 
   get class() {
@@ -4951,11 +5001,11 @@ export class ZeroHexStaticBytes25 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes25.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes25.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes25.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes25.nibbles
 
-    return new ZeroHexStaticBytes25(value)
+    return new ZeroHexAbiBytes25(value)
   }
 
   sizeOrThrow() {
@@ -4966,62 +5016,64 @@ export class ZeroHexStaticBytes25 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes25.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes25.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes25.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes25.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes25.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes25.bytes
     
-    return new ZeroHexStaticBytes25(value)
+    return new ZeroHexAbiBytes25(value)
   }
 
 }
 
-export type StaticBytes26 =
-  | BytesStaticBytes26
-  | ZeroHexStaticBytes26
+export { AbiBytes26 as Bytes26 }
   
-export namespace StaticBytes26 {
+export type AbiBytes26 =
+  | BytesAbiBytes26
+  | ZeroHexAbiBytes26
+  
+export namespace AbiBytes26 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes26.From
-    | ZeroHexStaticBytes26.From
+    | BytesAbiBytes26.From
+    | ZeroHexAbiBytes26.From
   
-  export function create(value: StaticBytes26.From) {
+  export function create(value: AbiBytes26.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes26.create(value)
-    return ZeroHexStaticBytes26.create(value)
+      return BytesAbiBytes26.create(value)
+    return ZeroHexAbiBytes26.create(value)
   }
 
-  export function from(value: StaticBytes26.From) {
-    return StaticBytes26.create(value)
+  export function from(value: AbiBytes26.From) {
+    return AbiBytes26.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes26`
+    return `Abi.Bytes26`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes26.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes26.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes26.readOrThrow(cursor)
+    return BytesAbiBytes26.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes26 {
+export namespace BytesAbiBytes26 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes26 {
-  readonly #class = BytesStaticBytes26
+export class BytesAbiBytes26 {
+  readonly #class = BytesAbiBytes26
   readonly name = this.#class.name
 
   static readonly bytes = 26
@@ -5040,12 +5092,12 @@ export class BytesStaticBytes26 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes26.From) {
-    return new BytesStaticBytes26(value)
+  static create(value: BytesAbiBytes26.From) {
+    return new BytesAbiBytes26(value)
   }
 
-  static from(value: BytesStaticBytes26.From) {
-    return BytesStaticBytes26.create(value)
+  static from(value: BytesAbiBytes26.From) {
+    return BytesAbiBytes26.create(value)
   }
 
   intoOrThrow() {
@@ -5053,7 +5105,7 @@ export class BytesStaticBytes26 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes26`
+    return `Abi.Bytes26`
   }
 
   get class() {
@@ -5069,12 +5121,12 @@ export class BytesStaticBytes26 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes26.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes26.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes26.nibbles
+    cursor.offset += 64 - BytesAbiBytes26.nibbles
 
-    return new BytesStaticBytes26(value)
+    return new BytesAbiBytes26(value)
   }
 
   sizeOrThrow() {
@@ -5083,26 +5135,26 @@ export class BytesStaticBytes26 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes26.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes26.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes26.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes26.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes26.bytes
+    cursor.offset += 32 - BytesAbiBytes26.bytes
     
-    return new BytesStaticBytes26(bytes)
+    return new BytesAbiBytes26(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes26 {
+export namespace ZeroHexAbiBytes26 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes26 {
-  readonly #class = ZeroHexStaticBytes26
+export class ZeroHexAbiBytes26 {
+  readonly #class = ZeroHexAbiBytes26
   readonly name = this.#class.name
 
   static readonly bytes = 26
@@ -5121,12 +5173,12 @@ export class ZeroHexStaticBytes26 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes26.From) {
-    return new ZeroHexStaticBytes26(value.slice(2))
+  static create(value: ZeroHexAbiBytes26.From) {
+    return new ZeroHexAbiBytes26(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes26.From) {
-    return ZeroHexStaticBytes26.create(value)
+  static from(value: ZeroHexAbiBytes26.From) {
+    return ZeroHexAbiBytes26.create(value)
   }
 
   intoOrThrow() {
@@ -5134,7 +5186,7 @@ export class ZeroHexStaticBytes26 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes26`
+    return `Abi.Bytes26`
   }
 
   get class() {
@@ -5150,11 +5202,11 @@ export class ZeroHexStaticBytes26 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes26.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes26.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes26.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes26.nibbles
 
-    return new ZeroHexStaticBytes26(value)
+    return new ZeroHexAbiBytes26(value)
   }
 
   sizeOrThrow() {
@@ -5165,62 +5217,64 @@ export class ZeroHexStaticBytes26 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes26.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes26.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes26.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes26.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes26.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes26.bytes
     
-    return new ZeroHexStaticBytes26(value)
+    return new ZeroHexAbiBytes26(value)
   }
 
 }
 
-export type StaticBytes27 =
-  | BytesStaticBytes27
-  | ZeroHexStaticBytes27
+export { AbiBytes27 as Bytes27 }
   
-export namespace StaticBytes27 {
+export type AbiBytes27 =
+  | BytesAbiBytes27
+  | ZeroHexAbiBytes27
+  
+export namespace AbiBytes27 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes27.From
-    | ZeroHexStaticBytes27.From
+    | BytesAbiBytes27.From
+    | ZeroHexAbiBytes27.From
   
-  export function create(value: StaticBytes27.From) {
+  export function create(value: AbiBytes27.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes27.create(value)
-    return ZeroHexStaticBytes27.create(value)
+      return BytesAbiBytes27.create(value)
+    return ZeroHexAbiBytes27.create(value)
   }
 
-  export function from(value: StaticBytes27.From) {
-    return StaticBytes27.create(value)
+  export function from(value: AbiBytes27.From) {
+    return AbiBytes27.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes27`
+    return `Abi.Bytes27`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes27.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes27.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes27.readOrThrow(cursor)
+    return BytesAbiBytes27.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes27 {
+export namespace BytesAbiBytes27 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes27 {
-  readonly #class = BytesStaticBytes27
+export class BytesAbiBytes27 {
+  readonly #class = BytesAbiBytes27
   readonly name = this.#class.name
 
   static readonly bytes = 27
@@ -5239,12 +5293,12 @@ export class BytesStaticBytes27 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes27.From) {
-    return new BytesStaticBytes27(value)
+  static create(value: BytesAbiBytes27.From) {
+    return new BytesAbiBytes27(value)
   }
 
-  static from(value: BytesStaticBytes27.From) {
-    return BytesStaticBytes27.create(value)
+  static from(value: BytesAbiBytes27.From) {
+    return BytesAbiBytes27.create(value)
   }
 
   intoOrThrow() {
@@ -5252,7 +5306,7 @@ export class BytesStaticBytes27 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes27`
+    return `Abi.Bytes27`
   }
 
   get class() {
@@ -5268,12 +5322,12 @@ export class BytesStaticBytes27 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes27.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes27.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes27.nibbles
+    cursor.offset += 64 - BytesAbiBytes27.nibbles
 
-    return new BytesStaticBytes27(value)
+    return new BytesAbiBytes27(value)
   }
 
   sizeOrThrow() {
@@ -5282,26 +5336,26 @@ export class BytesStaticBytes27 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes27.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes27.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes27.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes27.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes27.bytes
+    cursor.offset += 32 - BytesAbiBytes27.bytes
     
-    return new BytesStaticBytes27(bytes)
+    return new BytesAbiBytes27(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes27 {
+export namespace ZeroHexAbiBytes27 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes27 {
-  readonly #class = ZeroHexStaticBytes27
+export class ZeroHexAbiBytes27 {
+  readonly #class = ZeroHexAbiBytes27
   readonly name = this.#class.name
 
   static readonly bytes = 27
@@ -5320,12 +5374,12 @@ export class ZeroHexStaticBytes27 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes27.From) {
-    return new ZeroHexStaticBytes27(value.slice(2))
+  static create(value: ZeroHexAbiBytes27.From) {
+    return new ZeroHexAbiBytes27(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes27.From) {
-    return ZeroHexStaticBytes27.create(value)
+  static from(value: ZeroHexAbiBytes27.From) {
+    return ZeroHexAbiBytes27.create(value)
   }
 
   intoOrThrow() {
@@ -5333,7 +5387,7 @@ export class ZeroHexStaticBytes27 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes27`
+    return `Abi.Bytes27`
   }
 
   get class() {
@@ -5349,11 +5403,11 @@ export class ZeroHexStaticBytes27 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes27.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes27.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes27.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes27.nibbles
 
-    return new ZeroHexStaticBytes27(value)
+    return new ZeroHexAbiBytes27(value)
   }
 
   sizeOrThrow() {
@@ -5364,62 +5418,64 @@ export class ZeroHexStaticBytes27 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes27.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes27.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes27.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes27.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes27.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes27.bytes
     
-    return new ZeroHexStaticBytes27(value)
+    return new ZeroHexAbiBytes27(value)
   }
 
 }
 
-export type StaticBytes28 =
-  | BytesStaticBytes28
-  | ZeroHexStaticBytes28
+export { AbiBytes28 as Bytes28 }
   
-export namespace StaticBytes28 {
+export type AbiBytes28 =
+  | BytesAbiBytes28
+  | ZeroHexAbiBytes28
+  
+export namespace AbiBytes28 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes28.From
-    | ZeroHexStaticBytes28.From
+    | BytesAbiBytes28.From
+    | ZeroHexAbiBytes28.From
   
-  export function create(value: StaticBytes28.From) {
+  export function create(value: AbiBytes28.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes28.create(value)
-    return ZeroHexStaticBytes28.create(value)
+      return BytesAbiBytes28.create(value)
+    return ZeroHexAbiBytes28.create(value)
   }
 
-  export function from(value: StaticBytes28.From) {
-    return StaticBytes28.create(value)
+  export function from(value: AbiBytes28.From) {
+    return AbiBytes28.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes28`
+    return `Abi.Bytes28`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes28.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes28.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes28.readOrThrow(cursor)
+    return BytesAbiBytes28.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes28 {
+export namespace BytesAbiBytes28 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes28 {
-  readonly #class = BytesStaticBytes28
+export class BytesAbiBytes28 {
+  readonly #class = BytesAbiBytes28
   readonly name = this.#class.name
 
   static readonly bytes = 28
@@ -5438,12 +5494,12 @@ export class BytesStaticBytes28 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes28.From) {
-    return new BytesStaticBytes28(value)
+  static create(value: BytesAbiBytes28.From) {
+    return new BytesAbiBytes28(value)
   }
 
-  static from(value: BytesStaticBytes28.From) {
-    return BytesStaticBytes28.create(value)
+  static from(value: BytesAbiBytes28.From) {
+    return BytesAbiBytes28.create(value)
   }
 
   intoOrThrow() {
@@ -5451,7 +5507,7 @@ export class BytesStaticBytes28 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes28`
+    return `Abi.Bytes28`
   }
 
   get class() {
@@ -5467,12 +5523,12 @@ export class BytesStaticBytes28 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes28.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes28.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes28.nibbles
+    cursor.offset += 64 - BytesAbiBytes28.nibbles
 
-    return new BytesStaticBytes28(value)
+    return new BytesAbiBytes28(value)
   }
 
   sizeOrThrow() {
@@ -5481,26 +5537,26 @@ export class BytesStaticBytes28 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes28.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes28.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes28.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes28.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes28.bytes
+    cursor.offset += 32 - BytesAbiBytes28.bytes
     
-    return new BytesStaticBytes28(bytes)
+    return new BytesAbiBytes28(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes28 {
+export namespace ZeroHexAbiBytes28 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes28 {
-  readonly #class = ZeroHexStaticBytes28
+export class ZeroHexAbiBytes28 {
+  readonly #class = ZeroHexAbiBytes28
   readonly name = this.#class.name
 
   static readonly bytes = 28
@@ -5519,12 +5575,12 @@ export class ZeroHexStaticBytes28 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes28.From) {
-    return new ZeroHexStaticBytes28(value.slice(2))
+  static create(value: ZeroHexAbiBytes28.From) {
+    return new ZeroHexAbiBytes28(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes28.From) {
-    return ZeroHexStaticBytes28.create(value)
+  static from(value: ZeroHexAbiBytes28.From) {
+    return ZeroHexAbiBytes28.create(value)
   }
 
   intoOrThrow() {
@@ -5532,7 +5588,7 @@ export class ZeroHexStaticBytes28 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes28`
+    return `Abi.Bytes28`
   }
 
   get class() {
@@ -5548,11 +5604,11 @@ export class ZeroHexStaticBytes28 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes28.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes28.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes28.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes28.nibbles
 
-    return new ZeroHexStaticBytes28(value)
+    return new ZeroHexAbiBytes28(value)
   }
 
   sizeOrThrow() {
@@ -5563,62 +5619,64 @@ export class ZeroHexStaticBytes28 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes28.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes28.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes28.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes28.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes28.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes28.bytes
     
-    return new ZeroHexStaticBytes28(value)
+    return new ZeroHexAbiBytes28(value)
   }
 
 }
 
-export type StaticBytes29 =
-  | BytesStaticBytes29
-  | ZeroHexStaticBytes29
+export { AbiBytes29 as Bytes29 }
   
-export namespace StaticBytes29 {
+export type AbiBytes29 =
+  | BytesAbiBytes29
+  | ZeroHexAbiBytes29
+  
+export namespace AbiBytes29 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes29.From
-    | ZeroHexStaticBytes29.From
+    | BytesAbiBytes29.From
+    | ZeroHexAbiBytes29.From
   
-  export function create(value: StaticBytes29.From) {
+  export function create(value: AbiBytes29.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes29.create(value)
-    return ZeroHexStaticBytes29.create(value)
+      return BytesAbiBytes29.create(value)
+    return ZeroHexAbiBytes29.create(value)
   }
 
-  export function from(value: StaticBytes29.From) {
-    return StaticBytes29.create(value)
+  export function from(value: AbiBytes29.From) {
+    return AbiBytes29.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes29`
+    return `Abi.Bytes29`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes29.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes29.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes29.readOrThrow(cursor)
+    return BytesAbiBytes29.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes29 {
+export namespace BytesAbiBytes29 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes29 {
-  readonly #class = BytesStaticBytes29
+export class BytesAbiBytes29 {
+  readonly #class = BytesAbiBytes29
   readonly name = this.#class.name
 
   static readonly bytes = 29
@@ -5637,12 +5695,12 @@ export class BytesStaticBytes29 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes29.From) {
-    return new BytesStaticBytes29(value)
+  static create(value: BytesAbiBytes29.From) {
+    return new BytesAbiBytes29(value)
   }
 
-  static from(value: BytesStaticBytes29.From) {
-    return BytesStaticBytes29.create(value)
+  static from(value: BytesAbiBytes29.From) {
+    return BytesAbiBytes29.create(value)
   }
 
   intoOrThrow() {
@@ -5650,7 +5708,7 @@ export class BytesStaticBytes29 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes29`
+    return `Abi.Bytes29`
   }
 
   get class() {
@@ -5666,12 +5724,12 @@ export class BytesStaticBytes29 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes29.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes29.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes29.nibbles
+    cursor.offset += 64 - BytesAbiBytes29.nibbles
 
-    return new BytesStaticBytes29(value)
+    return new BytesAbiBytes29(value)
   }
 
   sizeOrThrow() {
@@ -5680,26 +5738,26 @@ export class BytesStaticBytes29 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes29.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes29.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes29.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes29.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes29.bytes
+    cursor.offset += 32 - BytesAbiBytes29.bytes
     
-    return new BytesStaticBytes29(bytes)
+    return new BytesAbiBytes29(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes29 {
+export namespace ZeroHexAbiBytes29 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes29 {
-  readonly #class = ZeroHexStaticBytes29
+export class ZeroHexAbiBytes29 {
+  readonly #class = ZeroHexAbiBytes29
   readonly name = this.#class.name
 
   static readonly bytes = 29
@@ -5718,12 +5776,12 @@ export class ZeroHexStaticBytes29 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes29.From) {
-    return new ZeroHexStaticBytes29(value.slice(2))
+  static create(value: ZeroHexAbiBytes29.From) {
+    return new ZeroHexAbiBytes29(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes29.From) {
-    return ZeroHexStaticBytes29.create(value)
+  static from(value: ZeroHexAbiBytes29.From) {
+    return ZeroHexAbiBytes29.create(value)
   }
 
   intoOrThrow() {
@@ -5731,7 +5789,7 @@ export class ZeroHexStaticBytes29 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes29`
+    return `Abi.Bytes29`
   }
 
   get class() {
@@ -5747,11 +5805,11 @@ export class ZeroHexStaticBytes29 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes29.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes29.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes29.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes29.nibbles
 
-    return new ZeroHexStaticBytes29(value)
+    return new ZeroHexAbiBytes29(value)
   }
 
   sizeOrThrow() {
@@ -5762,62 +5820,64 @@ export class ZeroHexStaticBytes29 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes29.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes29.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes29.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes29.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes29.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes29.bytes
     
-    return new ZeroHexStaticBytes29(value)
+    return new ZeroHexAbiBytes29(value)
   }
 
 }
 
-export type StaticBytes30 =
-  | BytesStaticBytes30
-  | ZeroHexStaticBytes30
+export { AbiBytes30 as Bytes30 }
   
-export namespace StaticBytes30 {
+export type AbiBytes30 =
+  | BytesAbiBytes30
+  | ZeroHexAbiBytes30
+  
+export namespace AbiBytes30 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes30.From
-    | ZeroHexStaticBytes30.From
+    | BytesAbiBytes30.From
+    | ZeroHexAbiBytes30.From
   
-  export function create(value: StaticBytes30.From) {
+  export function create(value: AbiBytes30.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes30.create(value)
-    return ZeroHexStaticBytes30.create(value)
+      return BytesAbiBytes30.create(value)
+    return ZeroHexAbiBytes30.create(value)
   }
 
-  export function from(value: StaticBytes30.From) {
-    return StaticBytes30.create(value)
+  export function from(value: AbiBytes30.From) {
+    return AbiBytes30.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes30`
+    return `Abi.Bytes30`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes30.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes30.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes30.readOrThrow(cursor)
+    return BytesAbiBytes30.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes30 {
+export namespace BytesAbiBytes30 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes30 {
-  readonly #class = BytesStaticBytes30
+export class BytesAbiBytes30 {
+  readonly #class = BytesAbiBytes30
   readonly name = this.#class.name
 
   static readonly bytes = 30
@@ -5836,12 +5896,12 @@ export class BytesStaticBytes30 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes30.From) {
-    return new BytesStaticBytes30(value)
+  static create(value: BytesAbiBytes30.From) {
+    return new BytesAbiBytes30(value)
   }
 
-  static from(value: BytesStaticBytes30.From) {
-    return BytesStaticBytes30.create(value)
+  static from(value: BytesAbiBytes30.From) {
+    return BytesAbiBytes30.create(value)
   }
 
   intoOrThrow() {
@@ -5849,7 +5909,7 @@ export class BytesStaticBytes30 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes30`
+    return `Abi.Bytes30`
   }
 
   get class() {
@@ -5865,12 +5925,12 @@ export class BytesStaticBytes30 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes30.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes30.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes30.nibbles
+    cursor.offset += 64 - BytesAbiBytes30.nibbles
 
-    return new BytesStaticBytes30(value)
+    return new BytesAbiBytes30(value)
   }
 
   sizeOrThrow() {
@@ -5879,26 +5939,26 @@ export class BytesStaticBytes30 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes30.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes30.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes30.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes30.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes30.bytes
+    cursor.offset += 32 - BytesAbiBytes30.bytes
     
-    return new BytesStaticBytes30(bytes)
+    return new BytesAbiBytes30(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes30 {
+export namespace ZeroHexAbiBytes30 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes30 {
-  readonly #class = ZeroHexStaticBytes30
+export class ZeroHexAbiBytes30 {
+  readonly #class = ZeroHexAbiBytes30
   readonly name = this.#class.name
 
   static readonly bytes = 30
@@ -5917,12 +5977,12 @@ export class ZeroHexStaticBytes30 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes30.From) {
-    return new ZeroHexStaticBytes30(value.slice(2))
+  static create(value: ZeroHexAbiBytes30.From) {
+    return new ZeroHexAbiBytes30(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes30.From) {
-    return ZeroHexStaticBytes30.create(value)
+  static from(value: ZeroHexAbiBytes30.From) {
+    return ZeroHexAbiBytes30.create(value)
   }
 
   intoOrThrow() {
@@ -5930,7 +5990,7 @@ export class ZeroHexStaticBytes30 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes30`
+    return `Abi.Bytes30`
   }
 
   get class() {
@@ -5946,11 +6006,11 @@ export class ZeroHexStaticBytes30 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes30.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes30.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes30.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes30.nibbles
 
-    return new ZeroHexStaticBytes30(value)
+    return new ZeroHexAbiBytes30(value)
   }
 
   sizeOrThrow() {
@@ -5961,62 +6021,64 @@ export class ZeroHexStaticBytes30 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes30.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes30.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes30.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes30.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes30.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes30.bytes
     
-    return new ZeroHexStaticBytes30(value)
+    return new ZeroHexAbiBytes30(value)
   }
 
 }
 
-export type StaticBytes31 =
-  | BytesStaticBytes31
-  | ZeroHexStaticBytes31
+export { AbiBytes31 as Bytes31 }
   
-export namespace StaticBytes31 {
+export type AbiBytes31 =
+  | BytesAbiBytes31
+  | ZeroHexAbiBytes31
+  
+export namespace AbiBytes31 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes31.From
-    | ZeroHexStaticBytes31.From
+    | BytesAbiBytes31.From
+    | ZeroHexAbiBytes31.From
   
-  export function create(value: StaticBytes31.From) {
+  export function create(value: AbiBytes31.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes31.create(value)
-    return ZeroHexStaticBytes31.create(value)
+      return BytesAbiBytes31.create(value)
+    return ZeroHexAbiBytes31.create(value)
   }
 
-  export function from(value: StaticBytes31.From) {
-    return StaticBytes31.create(value)
+  export function from(value: AbiBytes31.From) {
+    return AbiBytes31.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes31`
+    return `Abi.Bytes31`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes31.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes31.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes31.readOrThrow(cursor)
+    return BytesAbiBytes31.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes31 {
+export namespace BytesAbiBytes31 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes31 {
-  readonly #class = BytesStaticBytes31
+export class BytesAbiBytes31 {
+  readonly #class = BytesAbiBytes31
   readonly name = this.#class.name
 
   static readonly bytes = 31
@@ -6035,12 +6097,12 @@ export class BytesStaticBytes31 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes31.From) {
-    return new BytesStaticBytes31(value)
+  static create(value: BytesAbiBytes31.From) {
+    return new BytesAbiBytes31(value)
   }
 
-  static from(value: BytesStaticBytes31.From) {
-    return BytesStaticBytes31.create(value)
+  static from(value: BytesAbiBytes31.From) {
+    return BytesAbiBytes31.create(value)
   }
 
   intoOrThrow() {
@@ -6048,7 +6110,7 @@ export class BytesStaticBytes31 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes31`
+    return `Abi.Bytes31`
   }
 
   get class() {
@@ -6064,12 +6126,12 @@ export class BytesStaticBytes31 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes31.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes31.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes31.nibbles
+    cursor.offset += 64 - BytesAbiBytes31.nibbles
 
-    return new BytesStaticBytes31(value)
+    return new BytesAbiBytes31(value)
   }
 
   sizeOrThrow() {
@@ -6078,26 +6140,26 @@ export class BytesStaticBytes31 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes31.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes31.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes31.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes31.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes31.bytes
+    cursor.offset += 32 - BytesAbiBytes31.bytes
     
-    return new BytesStaticBytes31(bytes)
+    return new BytesAbiBytes31(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes31 {
+export namespace ZeroHexAbiBytes31 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes31 {
-  readonly #class = ZeroHexStaticBytes31
+export class ZeroHexAbiBytes31 {
+  readonly #class = ZeroHexAbiBytes31
   readonly name = this.#class.name
 
   static readonly bytes = 31
@@ -6116,12 +6178,12 @@ export class ZeroHexStaticBytes31 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes31.From) {
-    return new ZeroHexStaticBytes31(value.slice(2))
+  static create(value: ZeroHexAbiBytes31.From) {
+    return new ZeroHexAbiBytes31(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes31.From) {
-    return ZeroHexStaticBytes31.create(value)
+  static from(value: ZeroHexAbiBytes31.From) {
+    return ZeroHexAbiBytes31.create(value)
   }
 
   intoOrThrow() {
@@ -6129,7 +6191,7 @@ export class ZeroHexStaticBytes31 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes31`
+    return `Abi.Bytes31`
   }
 
   get class() {
@@ -6145,11 +6207,11 @@ export class ZeroHexStaticBytes31 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes31.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes31.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes31.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes31.nibbles
 
-    return new ZeroHexStaticBytes31(value)
+    return new ZeroHexAbiBytes31(value)
   }
 
   sizeOrThrow() {
@@ -6160,62 +6222,64 @@ export class ZeroHexStaticBytes31 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes31.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes31.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes31.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes31.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes31.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes31.bytes
     
-    return new ZeroHexStaticBytes31(value)
+    return new ZeroHexAbiBytes31(value)
   }
 
 }
 
-export type StaticBytes32 =
-  | BytesStaticBytes32
-  | ZeroHexStaticBytes32
+export { AbiBytes32 as Bytes32 }
   
-export namespace StaticBytes32 {
+export type AbiBytes32 =
+  | BytesAbiBytes32
+  | ZeroHexAbiBytes32
+  
+export namespace AbiBytes32 {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes32.From
-    | ZeroHexStaticBytes32.From
+    | BytesAbiBytes32.From
+    | ZeroHexAbiBytes32.From
   
-  export function create(value: StaticBytes32.From) {
+  export function create(value: AbiBytes32.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes32.create(value)
-    return ZeroHexStaticBytes32.create(value)
+      return BytesAbiBytes32.create(value)
+    return ZeroHexAbiBytes32.create(value)
   }
 
-  export function from(value: StaticBytes32.From) {
-    return StaticBytes32.create(value)
+  export function from(value: AbiBytes32.From) {
+    return AbiBytes32.create(value)
   }
   
   export function codegen() {
-    return `Cubane.Abi.Bytes32`
+    return `Abi.Bytes32`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes32.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes32.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes32.readOrThrow(cursor)
+    return BytesAbiBytes32.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes32 {
+export namespace BytesAbiBytes32 {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes32 {
-  readonly #class = BytesStaticBytes32
+export class BytesAbiBytes32 {
+  readonly #class = BytesAbiBytes32
   readonly name = this.#class.name
 
   static readonly bytes = 32
@@ -6234,12 +6298,12 @@ export class BytesStaticBytes32 {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes32.From) {
-    return new BytesStaticBytes32(value)
+  static create(value: BytesAbiBytes32.From) {
+    return new BytesAbiBytes32(value)
   }
 
-  static from(value: BytesStaticBytes32.From) {
-    return BytesStaticBytes32.create(value)
+  static from(value: BytesAbiBytes32.From) {
+    return BytesAbiBytes32.create(value)
   }
 
   intoOrThrow() {
@@ -6247,7 +6311,7 @@ export class BytesStaticBytes32 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes32`
+    return `Abi.Bytes32`
   }
 
   get class() {
@@ -6263,12 +6327,12 @@ export class BytesStaticBytes32 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes32.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes32.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes32.nibbles
+    cursor.offset += 64 - BytesAbiBytes32.nibbles
 
-    return new BytesStaticBytes32(value)
+    return new BytesAbiBytes32(value)
   }
 
   sizeOrThrow() {
@@ -6277,26 +6341,26 @@ export class BytesStaticBytes32 {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes32.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes32.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes32.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes32.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes32.bytes
+    cursor.offset += 32 - BytesAbiBytes32.bytes
     
-    return new BytesStaticBytes32(bytes)
+    return new BytesAbiBytes32(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes32 {
+export namespace ZeroHexAbiBytes32 {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes32 {
-  readonly #class = ZeroHexStaticBytes32
+export class ZeroHexAbiBytes32 {
+  readonly #class = ZeroHexAbiBytes32
   readonly name = this.#class.name
 
   static readonly bytes = 32
@@ -6315,12 +6379,12 @@ export class ZeroHexStaticBytes32 {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes32.From) {
-    return new ZeroHexStaticBytes32(value.slice(2))
+  static create(value: ZeroHexAbiBytes32.From) {
+    return new ZeroHexAbiBytes32(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes32.From) {
-    return ZeroHexStaticBytes32.create(value)
+  static from(value: ZeroHexAbiBytes32.From) {
+    return ZeroHexAbiBytes32.create(value)
   }
 
   intoOrThrow() {
@@ -6328,7 +6392,7 @@ export class ZeroHexStaticBytes32 {
   }
 
   static codegen() {
-    return `Cubane.Abi.Bytes32`
+    return `Abi.Bytes32`
   }
 
   get class() {
@@ -6344,11 +6408,11 @@ export class ZeroHexStaticBytes32 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes32.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes32.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes32.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes32.nibbles
 
-    return new ZeroHexStaticBytes32(value)
+    return new ZeroHexAbiBytes32(value)
   }
 
   sizeOrThrow() {
@@ -6359,86 +6423,86 @@ export class ZeroHexStaticBytes32 {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes32.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes32.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes32.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes32.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes32.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes32.bytes
     
-    return new ZeroHexStaticBytes32(value)
+    return new ZeroHexAbiBytes32(value)
   }
 
 }
 
 export type BytesByName = {
-    bytes1: typeof StaticBytes1,
-    bytes2: typeof StaticBytes2,
-    bytes3: typeof StaticBytes3,
-    bytes4: typeof StaticBytes4,
-    bytes5: typeof StaticBytes5,
-    bytes6: typeof StaticBytes6,
-    bytes7: typeof StaticBytes7,
-    bytes8: typeof StaticBytes8,
-    bytes9: typeof StaticBytes9,
-    bytes10: typeof StaticBytes10,
-    bytes11: typeof StaticBytes11,
-    bytes12: typeof StaticBytes12,
-    bytes13: typeof StaticBytes13,
-    bytes14: typeof StaticBytes14,
-    bytes15: typeof StaticBytes15,
-    bytes16: typeof StaticBytes16,
-    bytes17: typeof StaticBytes17,
-    bytes18: typeof StaticBytes18,
-    bytes19: typeof StaticBytes19,
-    bytes20: typeof StaticBytes20,
-    bytes21: typeof StaticBytes21,
-    bytes22: typeof StaticBytes22,
-    bytes23: typeof StaticBytes23,
-    bytes24: typeof StaticBytes24,
-    bytes25: typeof StaticBytes25,
-    bytes26: typeof StaticBytes26,
-    bytes27: typeof StaticBytes27,
-    bytes28: typeof StaticBytes28,
-    bytes29: typeof StaticBytes29,
-    bytes30: typeof StaticBytes30,
-    bytes31: typeof StaticBytes31,
-    bytes32: typeof StaticBytes32,
+    bytes1: typeof AbiBytes1,
+    bytes2: typeof AbiBytes2,
+    bytes3: typeof AbiBytes3,
+    bytes4: typeof AbiBytes4,
+    bytes5: typeof AbiBytes5,
+    bytes6: typeof AbiBytes6,
+    bytes7: typeof AbiBytes7,
+    bytes8: typeof AbiBytes8,
+    bytes9: typeof AbiBytes9,
+    bytes10: typeof AbiBytes10,
+    bytes11: typeof AbiBytes11,
+    bytes12: typeof AbiBytes12,
+    bytes13: typeof AbiBytes13,
+    bytes14: typeof AbiBytes14,
+    bytes15: typeof AbiBytes15,
+    bytes16: typeof AbiBytes16,
+    bytes17: typeof AbiBytes17,
+    bytes18: typeof AbiBytes18,
+    bytes19: typeof AbiBytes19,
+    bytes20: typeof AbiBytes20,
+    bytes21: typeof AbiBytes21,
+    bytes22: typeof AbiBytes22,
+    bytes23: typeof AbiBytes23,
+    bytes24: typeof AbiBytes24,
+    bytes25: typeof AbiBytes25,
+    bytes26: typeof AbiBytes26,
+    bytes27: typeof AbiBytes27,
+    bytes28: typeof AbiBytes28,
+    bytes29: typeof AbiBytes29,
+    bytes30: typeof AbiBytes30,
+    bytes31: typeof AbiBytes31,
+    bytes32: typeof AbiBytes32,
   }
   
   export const bytesByName: BytesByName = {
-    bytes1: StaticBytes1,
-    bytes2: StaticBytes2,
-    bytes3: StaticBytes3,
-    bytes4: StaticBytes4,
-    bytes5: StaticBytes5,
-    bytes6: StaticBytes6,
-    bytes7: StaticBytes7,
-    bytes8: StaticBytes8,
-    bytes9: StaticBytes9,
-    bytes10: StaticBytes10,
-    bytes11: StaticBytes11,
-    bytes12: StaticBytes12,
-    bytes13: StaticBytes13,
-    bytes14: StaticBytes14,
-    bytes15: StaticBytes15,
-    bytes16: StaticBytes16,
-    bytes17: StaticBytes17,
-    bytes18: StaticBytes18,
-    bytes19: StaticBytes19,
-    bytes20: StaticBytes20,
-    bytes21: StaticBytes21,
-    bytes22: StaticBytes22,
-    bytes23: StaticBytes23,
-    bytes24: StaticBytes24,
-    bytes25: StaticBytes25,
-    bytes26: StaticBytes26,
-    bytes27: StaticBytes27,
-    bytes28: StaticBytes28,
-    bytes29: StaticBytes29,
-    bytes30: StaticBytes30,
-    bytes31: StaticBytes31,
-    bytes32: StaticBytes32,
+    bytes1: AbiBytes1,
+    bytes2: AbiBytes2,
+    bytes3: AbiBytes3,
+    bytes4: AbiBytes4,
+    bytes5: AbiBytes5,
+    bytes6: AbiBytes6,
+    bytes7: AbiBytes7,
+    bytes8: AbiBytes8,
+    bytes9: AbiBytes9,
+    bytes10: AbiBytes10,
+    bytes11: AbiBytes11,
+    bytes12: AbiBytes12,
+    bytes13: AbiBytes13,
+    bytes14: AbiBytes14,
+    bytes15: AbiBytes15,
+    bytes16: AbiBytes16,
+    bytes17: AbiBytes17,
+    bytes18: AbiBytes18,
+    bytes19: AbiBytes19,
+    bytes20: AbiBytes20,
+    bytes21: AbiBytes21,
+    bytes22: AbiBytes22,
+    bytes23: AbiBytes23,
+    bytes24: AbiBytes24,
+    bytes25: AbiBytes25,
+    bytes26: AbiBytes26,
+    bytes27: AbiBytes27,
+    bytes28: AbiBytes28,
+    bytes29: AbiBytes29,
+    bytes30: AbiBytes30,
+    bytes31: AbiBytes31,
+    bytes32: AbiBytes32,
   } as const

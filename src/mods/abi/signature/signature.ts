@@ -6,33 +6,33 @@ import { Err, Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Records } from "libs/records/records.js";
 import { Factory } from "../abi.js";
-import { StaticAddress } from "../types/address/address.js";
-import { createDynamicArray } from "../types/array/array.js";
-import { StaticBool } from "../types/bool/bool.js";
-import { DynamicBytes } from "../types/bytes/dynamic.js";
+import { AbiAddress } from "../types/address/address.js";
+import { createArray } from "../types/array/array.js";
+import { AbiBool } from "../types/bool/bool.js";
+import { AbiBytes } from "../types/bytes/dynamic.js";
 import { bytesByName } from "../types/bytes/static.js";
 import { FunctionSelector, FunctionSelectorAndArgumentsFactory, FunctionSelectorAndArgumentsInstance, createFunctionSelectorAndArguments } from "../types/function/function.js";
 import { IntByName, intByName } from "../types/int/int.js";
-import { DynamicString } from "../types/string/string.js";
-import { DynamicTupleFactory, createDynamicTuple } from "../types/tuple/tuple.js";
+import { AbiString } from "../types/string/string.js";
+import { TupleFactory, createTuple } from "../types/tuple/tuple.js";
 import { UintByName, uintByName } from "../types/uint/uint.js";
-import { createDynamicVector } from "../types/vector/vector.js";
+import { createVector } from "../types/vector/vector.js";
 
 export namespace FunctionSignature {
 
   export const factoryByName: UintByName & IntByName & {
-    bool: typeof StaticBool,
-    address: typeof StaticAddress,
-    bytes: typeof DynamicBytes,
-    string: typeof DynamicString,
+    bool: typeof AbiBool,
+    address: typeof AbiAddress,
+    bytes: typeof AbiBytes,
+    string: typeof AbiString,
   } = {
     ...uintByName,
     ...intByName,
     ...bytesByName,
-    bool: StaticBool,
-    address: StaticAddress,
-    bytes: DynamicBytes,
-    string: DynamicString,
+    bool: AbiBool,
+    address: AbiAddress,
+    bytes: AbiBytes,
+    string: AbiString,
   } as const
 
   export function create<T extends readonly Factory[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {
@@ -61,7 +61,7 @@ export namespace FunctionSignature {
     })
   }
 
-  function tryParseArguments(tokens: string[]): Result<DynamicTupleFactory<Factory[]>, Error> {
+  function tryParseArguments(tokens: string[]): Result<TupleFactory<Factory[]>, Error> {
     return Result.unthrowSync(t => {
       const factories = new Array<Factory>()
 
@@ -75,7 +75,7 @@ export namespace FunctionSignature {
         else if (token === "(")
           factories.push(doParseArrayOrVectorOrSingle(tokens, tryParseArguments(tokens).throw(t)))
         else if (token === ")")
-          return new Ok(createDynamicTuple(...factories))
+          return new Ok(createTuple(...factories))
         else if (token === "[")
           return new Err(new Error(`Unexpected brackets`))
         else if (token === "]")
@@ -84,7 +84,7 @@ export namespace FunctionSignature {
           factories.push(doParseArrayOrVectorOrSingle(tokens, Records.tryResolve(FunctionSignature.factoryByName, token).throw(t)))
       }
 
-      return new Ok(createDynamicTuple(...factories))
+      return new Ok(createTuple(...factories))
     })
   }
 
@@ -92,14 +92,14 @@ export namespace FunctionSignature {
     if (tokens[0] === "[" && tokens[1] === "]") {
       tokens.shift()
       tokens.shift()
-      return createDynamicVector(factory)
+      return createVector(factory)
     }
 
     if (tokens[0] === "[" && tokens[2] === "]") {
       tokens.shift()
       const length = parseInt(tokens.shift()!)
       tokens.shift()
-      return createDynamicArray(factory, length)
+      return createArray(factory, length)
     }
 
     return factory
@@ -140,7 +140,7 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
     }
 
     static codegen() {
-      return `Cubane.Abi.createFunctionSignature("${$name}",${$funcAndArgs.codegen()})`
+      return `Abi.createFunctionSignature("${$name}",${$funcAndArgs.codegen()})`
     }
 
     encodeOrThrow() {

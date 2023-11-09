@@ -7,12 +7,12 @@ import { Nullable } from "@hazae41/option"
 import { Result } from "@hazae41/result"
 import { Records } from "libs/records/records.js"
 import { Factory } from "../abi.js"
-import { StaticAddress } from "../types/address/address.js"
-import { StaticBool } from "../types/bool/bool.js"
-import { StaticBytes32, bytesByName } from "../types/bytes/index.js"
+import { AbiAddress } from "../types/address/address.js"
+import { AbiBool } from "../types/bool/bool.js"
+import { AbiBytes32, bytesByName } from "../types/bytes/index.js"
 import { intByName } from "../types/int/int.js"
-import { DynamicString } from "../types/string/string.js"
-import { StaticUint256, uintByName } from "../types/uint/uint.js"
+import { AbiString } from "../types/string/string.js"
+import { AbiUint256, uintByName } from "../types/uint/uint.js"
 
 export interface TypedData {
   readonly types: TypedDataTypes
@@ -38,11 +38,11 @@ export interface TypedDataStruct {
 }
 
 export interface EIP712Domain extends TypedDataStruct {
-  readonly name?: DynamicString.From
-  readonly version?: DynamicString.From
-  readonly chainId?: StaticUint256.From
-  readonly verifyingContract?: StaticAddress.From
-  readonly salt?: StaticBytes32.From
+  readonly name?: AbiString.From
+  readonly version?: AbiString.From
+  readonly chainId?: AbiUint256.From
+  readonly verifyingContract?: AbiAddress.From
+  readonly salt?: AbiBytes32.From
 }
 
 /**
@@ -54,8 +54,8 @@ export namespace TypedData {
     ...uintByName,
     ...intByName,
     ...bytesByName,
-    bool: StaticBool,
-    address: StaticAddress,
+    bool: AbiBool,
+    address: AbiAddress,
   }
 
   export const EIP712Domain = [

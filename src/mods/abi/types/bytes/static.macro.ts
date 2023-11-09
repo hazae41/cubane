@@ -9,52 +9,54 @@ function $pre$() {
 
 $pre$()
 
-function $createStaticBytes$(bytes: number) {
+function $createBytes$(bytes: number) {
   const bits = bytes * 8
   const nibbles = bytes * 2
 
-  return `export type StaticBytes${bytes} =
-  | BytesStaticBytes${bytes}
-  | ZeroHexStaticBytes${bytes}
+  return `export { AbiBytes${bytes} as Bytes${bytes} }
   
-export namespace StaticBytes${bytes} {
+export type AbiBytes${bytes} =
+  | BytesAbiBytes${bytes}
+  | ZeroHexAbiBytes${bytes}
+  
+export namespace AbiBytes${bytes} {
   export const dynamic = false
   export const size = 32
   
   export type From = 
-    | BytesStaticBytes${bytes}.From
-    | ZeroHexStaticBytes${bytes}.From
+    | BytesAbiBytes${bytes}.From
+    | ZeroHexAbiBytes${bytes}.From
   
-  export function create(value: StaticBytes${bytes}.From) {
+  export function create(value: AbiBytes${bytes}.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticBytes${bytes}.create(value)
-    return ZeroHexStaticBytes${bytes}.create(value)
+      return BytesAbiBytes${bytes}.create(value)
+    return ZeroHexAbiBytes${bytes}.create(value)
   }
 
-  export function from(value: StaticBytes${bytes}.From) {
-    return StaticBytes${bytes}.create(value)
+  export function from(value: AbiBytes${bytes}.From) {
+    return AbiBytes${bytes}.create(value)
   }
   
   export function codegen() {
-    return \`Cubane.Abi.Bytes${bytes}\`
+    return \`Abi.Bytes${bytes}\`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticBytes${bytes}.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes${bytes}.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticBytes${bytes}.readOrThrow(cursor)
+    return BytesAbiBytes${bytes}.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticBytes${bytes} {
+export namespace BytesAbiBytes${bytes} {
   export type From = Uint8Array
 }
 
-export class BytesStaticBytes${bytes} {
-  readonly #class = BytesStaticBytes${bytes}
+export class BytesAbiBytes${bytes} {
+  readonly #class = BytesAbiBytes${bytes}
   readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
@@ -73,12 +75,12 @@ export class BytesStaticBytes${bytes} {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticBytes${bytes}.From) {
-    return new BytesStaticBytes${bytes}(value)
+  static create(value: BytesAbiBytes${bytes}.From) {
+    return new BytesAbiBytes${bytes}(value)
   }
 
-  static from(value: BytesStaticBytes${bytes}.From) {
-    return BytesStaticBytes${bytes}.create(value)
+  static from(value: BytesAbiBytes${bytes}.From) {
+    return BytesAbiBytes${bytes}.create(value)
   }
 
   intoOrThrow() {
@@ -86,7 +88,7 @@ export class BytesStaticBytes${bytes} {
   }
 
   static codegen() {
-    return \`Cubane.Abi.Bytes${bytes}\`
+    return \`Abi.Bytes${bytes}\`
   }
 
   get class() {
@@ -102,12 +104,12 @@ export class BytesStaticBytes${bytes} {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes${bytes}.nibbles)
+    const content = cursor.readOrThrow(BytesAbiBytes${bytes}.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
 
-    cursor.offset += 64 - BytesStaticBytes${bytes}.nibbles
+    cursor.offset += 64 - BytesAbiBytes${bytes}.nibbles
 
-    return new BytesStaticBytes${bytes}(value)
+    return new BytesAbiBytes${bytes}(value)
   }
 
   sizeOrThrow() {
@@ -116,26 +118,26 @@ export class BytesStaticBytes${bytes} {
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
-    cursor.fillOrThrow(0, 32 - BytesStaticBytes${bytes}.bytes)
+    cursor.fillOrThrow(0, 32 - BytesAbiBytes${bytes}.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesStaticBytes${bytes}.bytes)
+    const content = cursor.readOrThrow(BytesAbiBytes${bytes}.bytes)
     const bytes = Bytes.from(content)
 
-    cursor.offset += 32 - BytesStaticBytes${bytes}.bytes
+    cursor.offset += 32 - BytesAbiBytes${bytes}.bytes
     
-    return new BytesStaticBytes${bytes}(bytes)
+    return new BytesAbiBytes${bytes}(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticBytes${bytes} {
+export namespace ZeroHexAbiBytes${bytes} {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticBytes${bytes} {
-  readonly #class = ZeroHexStaticBytes${bytes}
+export class ZeroHexAbiBytes${bytes} {
+  readonly #class = ZeroHexAbiBytes${bytes}
   readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
@@ -154,12 +156,12 @@ export class ZeroHexStaticBytes${bytes} {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticBytes${bytes}.From) {
-    return new ZeroHexStaticBytes${bytes}(value.slice(2))
+  static create(value: ZeroHexAbiBytes${bytes}.From) {
+    return new ZeroHexAbiBytes${bytes}(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticBytes${bytes}.From) {
-    return ZeroHexStaticBytes${bytes}.create(value)
+  static from(value: ZeroHexAbiBytes${bytes}.From) {
+    return ZeroHexAbiBytes${bytes}.create(value)
   }
 
   intoOrThrow() {
@@ -167,7 +169,7 @@ export class ZeroHexStaticBytes${bytes} {
   }
 
   static codegen() {
-    return \`Cubane.Abi.Bytes${bytes}\`
+    return \`Abi.Bytes${bytes}\`
   }
 
   get class() {
@@ -183,11 +185,11 @@ export class ZeroHexStaticBytes${bytes} {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexStaticBytes${bytes}.nibbles)
+    const value = cursor.readOrThrow(ZeroHexAbiBytes${bytes}.nibbles)
 
-    cursor.offset += 64 - ZeroHexStaticBytes${bytes}.nibbles
+    cursor.offset += 64 - ZeroHexAbiBytes${bytes}.nibbles
 
-    return new ZeroHexStaticBytes${bytes}(value)
+    return new ZeroHexAbiBytes${bytes}(value)
   }
 
   sizeOrThrow() {
@@ -198,154 +200,154 @@ export class ZeroHexStaticBytes${bytes} {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticBytes${bytes}.bytes)
+    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes${bytes}.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexStaticBytes${bytes}.bytes)
+    const content = cursor.readOrThrow(ZeroHexAbiBytes${bytes}.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexStaticBytes${bytes}.bytes
+    cursor.offset += 32 - ZeroHexAbiBytes${bytes}.bytes
     
-    return new ZeroHexStaticBytes${bytes}(value)
+    return new ZeroHexAbiBytes${bytes}(value)
   }
 
 }`
 }
 
-$createStaticBytes$(1)
+$createBytes$(1)
 
-$createStaticBytes$(2)
+$createBytes$(2)
 
-$createStaticBytes$(3)
+$createBytes$(3)
 
-$createStaticBytes$(4)
+$createBytes$(4)
 
-$createStaticBytes$(5)
+$createBytes$(5)
 
-$createStaticBytes$(6)
+$createBytes$(6)
 
-$createStaticBytes$(7)
+$createBytes$(7)
 
-$createStaticBytes$(8)
+$createBytes$(8)
 
-$createStaticBytes$(9)
+$createBytes$(9)
 
-$createStaticBytes$(10)
+$createBytes$(10)
 
-$createStaticBytes$(11)
+$createBytes$(11)
 
-$createStaticBytes$(12)
+$createBytes$(12)
 
-$createStaticBytes$(13)
+$createBytes$(13)
 
-$createStaticBytes$(14)
+$createBytes$(14)
 
-$createStaticBytes$(15)
+$createBytes$(15)
 
-$createStaticBytes$(16)
+$createBytes$(16)
 
-$createStaticBytes$(17)
+$createBytes$(17)
 
-$createStaticBytes$(18)
+$createBytes$(18)
 
-$createStaticBytes$(19)
+$createBytes$(19)
 
-$createStaticBytes$(20)
+$createBytes$(20)
 
-$createStaticBytes$(21)
+$createBytes$(21)
 
-$createStaticBytes$(22)
+$createBytes$(22)
 
-$createStaticBytes$(23)
+$createBytes$(23)
 
-$createStaticBytes$(24)
+$createBytes$(24)
 
-$createStaticBytes$(25)
+$createBytes$(25)
 
-$createStaticBytes$(26)
+$createBytes$(26)
 
-$createStaticBytes$(27)
+$createBytes$(27)
 
-$createStaticBytes$(28)
+$createBytes$(28)
 
-$createStaticBytes$(29)
+$createBytes$(29)
 
-$createStaticBytes$(30)
+$createBytes$(30)
 
-$createStaticBytes$(31)
+$createBytes$(31)
 
-$createStaticBytes$(32)
+$createBytes$(32)
 
 function $post$() {
   return `export type BytesByName = {
-    bytes1: typeof StaticBytes1,
-    bytes2: typeof StaticBytes2,
-    bytes3: typeof StaticBytes3,
-    bytes4: typeof StaticBytes4,
-    bytes5: typeof StaticBytes5,
-    bytes6: typeof StaticBytes6,
-    bytes7: typeof StaticBytes7,
-    bytes8: typeof StaticBytes8,
-    bytes9: typeof StaticBytes9,
-    bytes10: typeof StaticBytes10,
-    bytes11: typeof StaticBytes11,
-    bytes12: typeof StaticBytes12,
-    bytes13: typeof StaticBytes13,
-    bytes14: typeof StaticBytes14,
-    bytes15: typeof StaticBytes15,
-    bytes16: typeof StaticBytes16,
-    bytes17: typeof StaticBytes17,
-    bytes18: typeof StaticBytes18,
-    bytes19: typeof StaticBytes19,
-    bytes20: typeof StaticBytes20,
-    bytes21: typeof StaticBytes21,
-    bytes22: typeof StaticBytes22,
-    bytes23: typeof StaticBytes23,
-    bytes24: typeof StaticBytes24,
-    bytes25: typeof StaticBytes25,
-    bytes26: typeof StaticBytes26,
-    bytes27: typeof StaticBytes27,
-    bytes28: typeof StaticBytes28,
-    bytes29: typeof StaticBytes29,
-    bytes30: typeof StaticBytes30,
-    bytes31: typeof StaticBytes31,
-    bytes32: typeof StaticBytes32,
+    bytes1: typeof AbiBytes1,
+    bytes2: typeof AbiBytes2,
+    bytes3: typeof AbiBytes3,
+    bytes4: typeof AbiBytes4,
+    bytes5: typeof AbiBytes5,
+    bytes6: typeof AbiBytes6,
+    bytes7: typeof AbiBytes7,
+    bytes8: typeof AbiBytes8,
+    bytes9: typeof AbiBytes9,
+    bytes10: typeof AbiBytes10,
+    bytes11: typeof AbiBytes11,
+    bytes12: typeof AbiBytes12,
+    bytes13: typeof AbiBytes13,
+    bytes14: typeof AbiBytes14,
+    bytes15: typeof AbiBytes15,
+    bytes16: typeof AbiBytes16,
+    bytes17: typeof AbiBytes17,
+    bytes18: typeof AbiBytes18,
+    bytes19: typeof AbiBytes19,
+    bytes20: typeof AbiBytes20,
+    bytes21: typeof AbiBytes21,
+    bytes22: typeof AbiBytes22,
+    bytes23: typeof AbiBytes23,
+    bytes24: typeof AbiBytes24,
+    bytes25: typeof AbiBytes25,
+    bytes26: typeof AbiBytes26,
+    bytes27: typeof AbiBytes27,
+    bytes28: typeof AbiBytes28,
+    bytes29: typeof AbiBytes29,
+    bytes30: typeof AbiBytes30,
+    bytes31: typeof AbiBytes31,
+    bytes32: typeof AbiBytes32,
   }
   
   export const bytesByName: BytesByName = {
-    bytes1: StaticBytes1,
-    bytes2: StaticBytes2,
-    bytes3: StaticBytes3,
-    bytes4: StaticBytes4,
-    bytes5: StaticBytes5,
-    bytes6: StaticBytes6,
-    bytes7: StaticBytes7,
-    bytes8: StaticBytes8,
-    bytes9: StaticBytes9,
-    bytes10: StaticBytes10,
-    bytes11: StaticBytes11,
-    bytes12: StaticBytes12,
-    bytes13: StaticBytes13,
-    bytes14: StaticBytes14,
-    bytes15: StaticBytes15,
-    bytes16: StaticBytes16,
-    bytes17: StaticBytes17,
-    bytes18: StaticBytes18,
-    bytes19: StaticBytes19,
-    bytes20: StaticBytes20,
-    bytes21: StaticBytes21,
-    bytes22: StaticBytes22,
-    bytes23: StaticBytes23,
-    bytes24: StaticBytes24,
-    bytes25: StaticBytes25,
-    bytes26: StaticBytes26,
-    bytes27: StaticBytes27,
-    bytes28: StaticBytes28,
-    bytes29: StaticBytes29,
-    bytes30: StaticBytes30,
-    bytes31: StaticBytes31,
-    bytes32: StaticBytes32,
+    bytes1: AbiBytes1,
+    bytes2: AbiBytes2,
+    bytes3: AbiBytes3,
+    bytes4: AbiBytes4,
+    bytes5: AbiBytes5,
+    bytes6: AbiBytes6,
+    bytes7: AbiBytes7,
+    bytes8: AbiBytes8,
+    bytes9: AbiBytes9,
+    bytes10: AbiBytes10,
+    bytes11: AbiBytes11,
+    bytes12: AbiBytes12,
+    bytes13: AbiBytes13,
+    bytes14: AbiBytes14,
+    bytes15: AbiBytes15,
+    bytes16: AbiBytes16,
+    bytes17: AbiBytes17,
+    bytes18: AbiBytes18,
+    bytes19: AbiBytes19,
+    bytes20: AbiBytes20,
+    bytes21: AbiBytes21,
+    bytes22: AbiBytes22,
+    bytes23: AbiBytes23,
+    bytes24: AbiBytes24,
+    bytes25: AbiBytes25,
+    bytes26: AbiBytes26,
+    bytes27: AbiBytes27,
+    bytes28: AbiBytes28,
+    bytes29: AbiBytes29,
+    bytes30: AbiBytes30,
+    bytes31: AbiBytes31,
+    bytes32: AbiBytes32,
   } as const`
 }
 

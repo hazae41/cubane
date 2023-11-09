@@ -4,13 +4,15 @@ import { Factory, Instance } from "mods/abi/abi.js";
 import type { Readable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
-import { StaticUint32 } from "../uint/uint.js";
+import { Uint32 } from "../uint/uint.js";
 
 type Unuseds = Readable
 
-export const createDynamicVector = <T extends Factory>($type: T) => {
-  return class DynamicVector {
-    readonly #class = DynamicVector
+export { AbiVector as Vector };
+
+export const createVector = <T extends Factory>($type: T) => {
+  return class AbiVector {
+    readonly #class = AbiVector
     readonly name = this.#class.name
 
     static readonly type = $type
@@ -50,7 +52,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
         const size = instance.sizeOrThrow()
 
         if (instance.dynamic) {
-          const pointer = StaticUint32.fromNumber(offset)
+          const pointer = Uint32.fromNumber(offset)
 
           heads.push(pointer)
           length += 32
@@ -64,16 +66,16 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
         }
       }
 
-      return new DynamicVector(instances, heads, tails, 32 + length)
+      return new AbiVector(instances, heads, tails, 32 + length)
     }
 
     static from(primitives: Factory.Primitives<T[]>) {
       const result: Instance<any>[] = new Array(primitives.length)
 
       for (let i = 0; i < primitives.length; i++)
-        result[i] = DynamicVector.type.from(primitives[i])
+        result[i] = AbiVector.type.from(primitives[i])
 
-      return DynamicVector.new(result as any as Factory.Instances<T[]>)
+      return AbiVector.new(result as any as Factory.Instances<T[]>)
     }
 
     intoOrThrow() {
@@ -81,7 +83,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     }
 
     static codegen() {
-      return `Cubane.Abi.createDynamicVector(${this.type.codegen()})`
+      return `Abi.createVector(${this.type.codegen()})`
     }
 
     get class() {
@@ -113,7 +115,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     static decodeOrThrow(cursor: TextCursor) {
       const zero = cursor.offset
 
-      const length = StaticUint32.decodeOrThrow(cursor).toNumber()
+      const length = Uint32.decodeOrThrow(cursor).toNumber()
 
       const start = cursor.offset
 
@@ -125,17 +127,17 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
       const subcursor = new TextCursor(cursor.text)
 
       for (let i = 0; i < length; i++) {
-        if (DynamicVector.type.dynamic) {
-          const pointer = StaticUint32.decodeOrThrow(cursor)
+        if (AbiVector.type.dynamic) {
+          const pointer = Uint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
           subcursor.offset = start + (pointer.toNumber() * 2)
-          const instance = DynamicVector.type.decodeOrThrow(subcursor)
+          const instance = AbiVector.type.decodeOrThrow(subcursor)
 
           inner.push(instance)
           tails.push(instance)
         } else {
-          const instance = DynamicVector.type.decodeOrThrow(cursor)
+          const instance = AbiVector.type.decodeOrThrow(cursor)
           inner.push(instance)
           heads.push(instance)
         }
@@ -143,7 +145,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new DynamicVector(inner as any as Factory.Instances<T[]>, heads, tails, (cursor.offset - zero) / 2)
+      return new AbiVector(inner as any as Factory.Instances<T[]>, heads, tails, (cursor.offset - zero) / 2)
     }
 
     sizeOrThrow() {
@@ -151,7 +153,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     }
 
     writeOrThrow(cursor: Cursor) {
-      const length = StaticUint32.fromNumber(this.inner.length)
+      const length = Uint32.fromNumber(this.inner.length)
 
       length.writeOrThrow(cursor)
 
@@ -164,7 +166,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     static readOrThrow(cursor: Cursor) {
       const zero = cursor.offset
 
-      const length = StaticUint32.readOrThrow(cursor).toNumber()
+      const length = Uint32.readOrThrow(cursor).toNumber()
 
       const start = cursor.offset
 
@@ -176,17 +178,17 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
       const tails = new Array<Instance<any>>()
 
       for (let i = 0; i < length; i++) {
-        if (DynamicVector.type.dynamic) {
-          const pointer = StaticUint32.readOrThrow(cursor)
+        if (AbiVector.type.dynamic) {
+          const pointer = Uint32.readOrThrow(cursor)
           heads.push(pointer)
 
           subcursor.offset = start + pointer.toNumber()
-          const instance = DynamicVector.type.readOrThrow(subcursor)
+          const instance = AbiVector.type.readOrThrow(subcursor)
 
           inner.push(instance)
           tails.push(instance)
         } else {
-          const instance = DynamicVector.type.readOrThrow(cursor)
+          const instance = AbiVector.type.readOrThrow(cursor)
           inner.push(instance)
           heads.push(instance)
         }
@@ -194,26 +196,26 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new DynamicVector(inner as any as Factory.Instances<T[]>, heads, tails, cursor.offset - zero)
+      return new AbiVector(inner as any as Factory.Instances<T[]>, heads, tails, cursor.offset - zero)
     }
 
   }
 }
 
-export type DynamicVectorInstance<T extends Factory = Factory> =
-  Readable.Output<DynamicVectorFactory<T>>
+export type VectorInstance<T extends Factory = Factory> =
+  Readable.Output<VectorFactory<T>>
 
-export type DynamicVectorFactory<T extends Factory = Factory> =
-  ReturnType<typeof createDynamicVector<T>> & { readonly name: string }
+export type VectorFactory<T extends Factory = Factory> =
+  ReturnType<typeof createVector<T>> & { readonly name: string }
 
-export namespace DynamicVector {
-  export const name = "DynamicVector"
+export namespace AbiVector {
+  export const name = "Vector"
 
-  export function isInstance<T extends Factory = Factory>(x: Skeleton<DynamicVectorInstance<T>>): x is DynamicVectorInstance<T> {
+  export function isInstance<T extends Factory = Factory>(x: Skeleton<VectorInstance<T>>): x is VectorInstance<T> {
     return x.name === name && x.class != null
   }
 
-  export function isFactory<T extends Factory = Factory>(x: Skeleton<DynamicVectorFactory<T>>): x is DynamicVectorFactory<T> {
+  export function isFactory<T extends Factory = Factory>(x: Skeleton<VectorFactory<T>>): x is VectorFactory<T> {
     return x.name === name && x.prototype != null
   }
 

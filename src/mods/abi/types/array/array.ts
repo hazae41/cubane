@@ -4,13 +4,15 @@ import { Factory, Instance } from "mods/abi/abi.js";
 import type { Readable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
-import { StaticUint32 } from "../uint/uint.js";
+import { Uint32 } from "../uint/uint.js";
 
 type Unuseds = Readable
 
-export const createDynamicArray = <T extends Factory, N extends number>($type: T, $count: N) => {
-  return class DynamicArray {
-    readonly #class = DynamicArray
+export { AbiArray as Array };
+
+export const createArray = <T extends Factory, N extends number>($type: T, $count: N) => {
+  return class AbiArray {
+    readonly #class = AbiArray
     readonly name = this.#class.name
 
     static readonly type = $type
@@ -52,7 +54,7 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
         const size = instance.sizeOrThrow()
 
         if (instance.dynamic) {
-          const pointer = StaticUint32.fromNumber(offset)
+          const pointer = Uint32.fromNumber(offset)
 
           heads.push(pointer)
           length += 32
@@ -66,16 +68,16 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
         }
       }
 
-      return new DynamicArray(instances, heads, tails, length)
+      return new AbiArray(instances, heads, tails, length)
     }
 
     static from(primitives: Factory.Primitives<T[]> & { readonly length: N }) {
-      const result = new Array(DynamicArray.count)
+      const result = new Array(AbiArray.count)
 
-      for (let i = 0; i < DynamicArray.count; i++)
-        result[i] = DynamicArray.type.from(primitives[i])
+      for (let i = 0; i < AbiArray.count; i++)
+        result[i] = AbiArray.type.from(primitives[i])
 
-      return DynamicArray.create(result as any as Factory.Instances<T[]> & { readonly length: N })
+      return AbiArray.create(result as any as Factory.Instances<T[]> & { readonly length: N })
     }
 
     intoOrThrow() {
@@ -83,7 +85,7 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
     }
 
     static codegen() {
-      return `Cubane.Abi.createDynamicArray(${this.type.codegen()},${this.count})`
+      return `Abi.createArray(${this.type.codegen()},${this.count})`
     }
 
     get class() {
@@ -124,17 +126,17 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
       const subcursor = new TextCursor(cursor.text)
 
       for (let i = 0; i < this.count; i++) {
-        if (DynamicArray.type.dynamic) {
-          const pointer = StaticUint32.decodeOrThrow(cursor)
+        if (AbiArray.type.dynamic) {
+          const pointer = Uint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
           subcursor.offset = start + (pointer.toNumber() * 2)
-          const instance = DynamicArray.type.decodeOrThrow(subcursor)
+          const instance = AbiArray.type.decodeOrThrow(subcursor)
 
           inner.push(instance)
           tails.push(instance)
         } else {
-          const instance = DynamicArray.type.decodeOrThrow(cursor)
+          const instance = AbiArray.type.decodeOrThrow(cursor)
           inner.push(instance)
           heads.push(instance)
         }
@@ -142,7 +144,7 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new DynamicArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
+      return new AbiArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
     }
 
     sizeOrThrow() {
@@ -168,17 +170,17 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
       const tails = new Array<Instance<any>>()
 
       for (let i = 0; i < this.count; i++) {
-        if (DynamicArray.type.dynamic) {
-          const pointer = StaticUint32.readOrThrow(cursor)
+        if (AbiArray.type.dynamic) {
+          const pointer = Uint32.readOrThrow(cursor)
           heads.push(pointer)
 
           subcursor.offset = start + pointer.toNumber()
-          const instance = DynamicArray.type.readOrThrow(subcursor)
+          const instance = AbiArray.type.readOrThrow(subcursor)
 
           inner.push(instance)
           tails.push(instance)
         } else {
-          const instance = DynamicArray.type.readOrThrow(cursor)
+          const instance = AbiArray.type.readOrThrow(cursor)
           inner.push(instance)
           heads.push(instance)
         }
@@ -186,27 +188,28 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new DynamicArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero)
+      return new AbiArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero)
     }
 
   }
 }
 
-export type DynamicArrayInstance<T extends Factory, N extends number> =
-  Readable.Output<DynamicArrayFactory<T, N>>
+export type ArrayInstance<T extends Factory, N extends number> =
+  Readable.Output<ArrayFactory<T, N>>
 
-export type DynamicArrayFactory<T extends Factory, N extends number> =
-  ReturnType<typeof createDynamicArray<T, N>> & { readonly name: string }
+export type ArrayFactory<T extends Factory, N extends number> =
+  ReturnType<typeof createArray<T, N>> & { readonly name: string }
 
-export namespace DynamicArray {
-  export const name = "DynamicArray"
+export namespace AbiArray {
+  export const name = "Array"
 
-  export function isInstance<T extends Factory, N extends number>(x: Skeleton<DynamicArrayInstance<T, N>>): x is DynamicArrayInstance<T, N> {
+  export function isInstance<T extends Factory, N extends number>(x: Skeleton<ArrayInstance<T, N>>): x is ArrayInstance<T, N> {
     return x.name === name && x.class != null
   }
 
-  export function isFactory<T extends Factory, N extends number>(x: Skeleton<DynamicArrayFactory<T, N>>): x is DynamicArrayFactory<T, N> {
+  export function isFactory<T extends Factory, N extends number>(x: Skeleton<ArrayFactory<T, N>>): x is ArrayFactory<T, N> {
     return x.name === name && x.prototype != null
   }
 
 }
+

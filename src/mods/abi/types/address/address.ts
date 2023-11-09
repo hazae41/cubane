@@ -6,48 +6,50 @@ import { Address } from "mods/types/address/index.js";
 import { RawHexString } from "mods/types/rawhex/index.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
 
-export type StaticAddress =
-  | ZeroHexStaticAddress
-  | BytesStaticAddress
+export { AbiAddress as Address };
 
-export namespace StaticAddress {
+export type AbiAddress =
+  | ZeroHexAbiAddress
+  | BytesAbiAddress
+
+export namespace AbiAddress {
   export const dynamic = false
   export const size = 32
 
   export type From =
-    | ZeroHexStaticAddress.From
-    | BytesStaticAddress.From
+    | ZeroHexAbiAddress.From
+    | BytesAbiAddress.From
 
-  export function create(value: StaticAddress.From) {
+  export function create(value: AbiAddress.From) {
     if (value instanceof Uint8Array)
-      return BytesStaticAddress.create(value)
-    return ZeroHexStaticAddress.create(value)
+      return BytesAbiAddress.create(value)
+    return ZeroHexAbiAddress.create(value)
   }
 
-  export function from(value: StaticAddress.From) {
-    return StaticAddress.create(value)
+  export function from(value: AbiAddress.From) {
+    return AbiAddress.create(value)
   }
 
   export function codegen() {
-    return `Cubane.Abi.StaticAddress`
+    return `Abi.Address`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexStaticAddress.decodeOrThrow(cursor)
+    return ZeroHexAbiAddress.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesStaticAddress.readOrThrow(cursor)
+    return BytesAbiAddress.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesStaticAddress {
+export namespace BytesAbiAddress {
   export type From = Uint8Array
 }
 
-export class BytesStaticAddress {
-  readonly #class = BytesStaticAddress
+export class BytesAbiAddress {
+  readonly #class = BytesAbiAddress
 
   static readonly dynamic = false
   static readonly size = 32
@@ -59,12 +61,12 @@ export class BytesStaticAddress {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesStaticAddress.From) {
-    return new BytesStaticAddress(value)
+  static create(value: BytesAbiAddress.From) {
+    return new BytesAbiAddress(value)
   }
 
-  static from(value: BytesStaticAddress.From) {
-    return BytesStaticAddress.create(value)
+  static from(value: BytesAbiAddress.From) {
+    return BytesAbiAddress.create(value)
   }
 
   intoOrThrow() {
@@ -98,17 +100,17 @@ export class BytesStaticAddress {
     const content = cursor.readOrThrow(20)
     const bytes = Bytes.from(content)
 
-    return new BytesStaticAddress(bytes)
+    return new BytesAbiAddress(bytes)
   }
 
 }
 
-export namespace ZeroHexStaticAddress {
+export namespace ZeroHexAbiAddress {
   export type From = ZeroHexString
 }
 
-export class ZeroHexStaticAddress {
-  readonly #class = ZeroHexStaticAddress
+export class ZeroHexAbiAddress {
+  readonly #class = ZeroHexAbiAddress
 
   static readonly dynamic = false
   static readonly size = 32
@@ -120,12 +122,12 @@ export class ZeroHexStaticAddress {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexStaticAddress.From) {
-    return new ZeroHexStaticAddress(value.slice(2))
+  static create(value: ZeroHexAbiAddress.From) {
+    return new ZeroHexAbiAddress(value.slice(2))
   }
 
-  static from(value: ZeroHexStaticAddress.From) {
-    return ZeroHexStaticAddress.create(value)
+  static from(value: ZeroHexAbiAddress.From) {
+    return ZeroHexAbiAddress.create(value)
   }
 
   intoOrThrow() {
@@ -149,7 +151,7 @@ export class ZeroHexStaticAddress {
 
     const value = cursor.readOrThrow(40)
 
-    return new ZeroHexStaticAddress(value)
+    return new ZeroHexAbiAddress(value)
   }
 
   sizeOrThrow() {

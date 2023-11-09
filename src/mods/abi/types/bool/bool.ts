@@ -1,12 +1,14 @@
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 
-export namespace StaticBool {
+export { AbiBool as Bool };
+
+export namespace AbiBool {
   export type From = boolean
 }
 
-export class StaticBool {
-  readonly #class = StaticBool
+export class AbiBool {
+  readonly #class = AbiBool
 
   static readonly dynamic = false
   static readonly size = 32
@@ -19,11 +21,11 @@ export class StaticBool {
   ) { }
 
   static create(value: boolean) {
-    return new StaticBool(value)
+    return new AbiBool(value)
   }
 
   static from(value: boolean) {
-    return new StaticBool(value)
+    return new AbiBool(value)
   }
 
   intoOrThrow() {
@@ -31,7 +33,7 @@ export class StaticBool {
   }
 
   static codegen() {
-    return `Cubane.Abi.StaticBool`
+    return `Abi.Bool`
   }
 
   get class() {
@@ -50,8 +52,8 @@ export class StaticBool {
     cursor.offset += 62
 
     if (cursor.readOrThrow(2) === "00")
-      return new StaticBool(false)
-    return new StaticBool(true)
+      return new AbiBool(false)
+    return new AbiBool(true)
   }
 
   sizeOrThrow() {
@@ -71,8 +73,8 @@ export class StaticBool {
     const byte = cursor.readUint8OrThrow()
 
     if (byte === 0)
-      return new StaticBool(false)
-    return new StaticBool(true)
+      return new AbiBool(false)
+    return new AbiBool(true)
   }
 
 }

@@ -105,7 +105,7 @@ import { Cubane } from "@hazae41/cubane"
  */
 import "./keccak256.js"
 
-export const f = Cubane.Abi.FunctionSignature.$parse$("f(bool,uint256,string)")
+export const f = Abi.FunctionSignature.$parse$("f(bool,uint256,string)")
 ```
 
 ```bash

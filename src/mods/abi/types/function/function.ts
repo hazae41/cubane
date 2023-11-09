@@ -2,7 +2,7 @@ import { Readable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { Factory } from "mods/abi/abi.js";
-import { DynamicTupleFactory, DynamicTupleInstance } from "../tuple/tuple.js";
+import { TupleFactory, TupleInstance } from "../tuple/tuple.js";
 
 import { Base16 } from "@hazae41/base16";
 import type { Writable } from "@hazae41/binary";
@@ -37,11 +37,11 @@ export class FunctionSelector {
   }
 
   static codegen() {
-    return `Cubane.Abi.FunctionSelector`
+    return `Abi.FunctionSelector`
   }
 
   codegen() {
-    return `Cubane.Abi.FunctionSelector.from([${this.value}])`
+    return `Abi.FunctionSelector.from([${this.value}])`
   }
 
   get class() {
@@ -86,7 +86,7 @@ export type FunctionSelectorAndArgumentsInstance<T extends readonly Factory[] = 
 export type FunctionSelectorAndArgumentsFactory<T extends readonly Factory[] = Factory[]> =
   ReturnType<typeof createFunctionSelectorAndArguments<T>> & { readonly name: string }
 
-export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>($func: FunctionSelector, $args: DynamicTupleFactory<T>) => {
+export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>($func: FunctionSelector, $args: TupleFactory<T>) => {
   return class FunctionSelectorAndArguments {
     readonly #class = FunctionSelectorAndArguments
 
@@ -97,7 +97,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
     readonly args = this.#class.args
 
     constructor(
-      readonly inner: DynamicTupleInstance<T>
+      readonly inner: TupleInstance<T>
     ) { }
 
     static new(...instances: Factory.Instances<T>) {
@@ -117,7 +117,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
     }
 
     static codegen() {
-      return `Cubane.Abi.createFunctionSelectorAndArguments(${$func.codegen()},${$args.codegen()})`
+      return `Abi.createFunctionSelectorAndArguments(${$func.codegen()},${$args.codegen()})`
     }
 
     get class() {

@@ -4,20 +4,20 @@ import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test } from "@hazae41/phobos";
 import { BigInts } from "libs/bigint/bigint.js";
-import { StaticUint256, StaticUint32 } from "./uint.js";
+import { Uint256, Uint32 } from "./uint.js";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 
 test("uint32", async ({ message, test }) => {
   const value = 123
-  const abi = StaticUint32.create(value)
+  const abi = Uint32.create(value)
   const bytes = Writable.writeToBytesOrThrow(abi)
 
   // console.log(message, value)
   // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
-  const abi2 = Readable.tryReadFromBytes(StaticUint32, bytes).unwrap()
+  const abi2 = Readable.tryReadFromBytes(Uint32, bytes).unwrap()
   const value2 = abi2.intoOrThrow()
 
   // console.log(message, value2)
@@ -28,13 +28,13 @@ test("uint32", async ({ message, test }) => {
 test("uint256", async ({ message, test }) => {
   const random = Bytes.random(32)
   const value = BigInts.importOrThrow(random)
-  const abi = StaticUint256.create(value)
+  const abi = Uint256.create(value)
   const bytes = Writable.writeToBytesOrThrow(abi)
 
   // console.log(message, value)
   // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
-  const abi2 = Readable.readFromBytesOrThrow(StaticUint256, bytes)
+  const abi2 = Readable.readFromBytesOrThrow(Uint256, bytes)
   const value2 = abi2.intoOrThrow()
 
   // console.log(message, value2)

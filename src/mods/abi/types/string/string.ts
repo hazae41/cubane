@@ -1,31 +1,33 @@
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesDynamicBytes } from "../bytes/dynamic.js";
+import { BytesAbiBytes } from "../bytes/dynamic.js";
 
-export namespace DynamicString {
+export { AbiString as String };
+
+export namespace AbiString {
   export type From = Bytes | string
 }
 
-export class DynamicString {
-  readonly #class = DynamicString
+export class AbiString {
+  readonly #class = AbiString
 
   static readonly dynamic = true
 
   readonly dynamic = this.#class.dynamic
 
   constructor(
-    readonly inner: BytesDynamicBytes
+    readonly inner: BytesAbiBytes
   ) { }
 
-  static create(value: DynamicString.From): DynamicString {
+  static create(value: AbiString.From): AbiString {
     if (typeof value === "string")
-      return DynamicString.create(Bytes.fromUtf8(value))
-    return new DynamicString(BytesDynamicBytes.create(value))
+      return AbiString.create(Bytes.fromUtf8(value))
+    return new AbiString(BytesAbiBytes.create(value))
   }
 
-  static from(value: DynamicString.From) {
-    return DynamicString.create(value)
+  static from(value: AbiString.From) {
+    return AbiString.create(value)
   }
 
   intoOrThrow() {
@@ -33,7 +35,7 @@ export class DynamicString {
   }
 
   static codegen() {
-    return `Cubane.Abi.DynamicString`
+    return `Abi.String`
   }
 
   get class() {
@@ -49,7 +51,7 @@ export class DynamicString {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new DynamicString(BytesDynamicBytes.decodeOrThrow(cursor))
+    return new AbiString(BytesAbiBytes.decodeOrThrow(cursor))
   }
 
   sizeOrThrow() {
@@ -61,7 +63,7 @@ export class DynamicString {
   }
 
   static readOrThrow(cursor: Cursor) {
-    return new DynamicString(BytesDynamicBytes.readOrThrow(cursor))
+    return new AbiString(BytesAbiBytes.readOrThrow(cursor))
   }
 
 }

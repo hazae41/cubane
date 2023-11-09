@@ -3,64 +3,66 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { RawHexString, ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { StaticUint32 } from "../uint/uint.js";
+import { Uint32 } from "../uint/uint.js";
 
-export type DynamicBytes =
-  | BytesDynamicBytes
-  | ZeroHexDynamicBytes
+export { AbiBytes as Bytes };
 
-export namespace DynamicBytes {
+export type AbiBytes =
+  | BytesAbiBytes
+  | ZeroHexAbiBytes
+
+export namespace AbiBytes {
   export const dynamic = true
 
   export type From =
-    | BytesDynamicBytes.From
-    | ZeroHexDynamicBytes.From
+    | BytesAbiBytes.From
+    | ZeroHexAbiBytes.From
 
-  export function create(value: DynamicBytes.From) {
+  export function create(value: AbiBytes.From) {
     if (value instanceof Uint8Array)
-      return BytesDynamicBytes.create(value)
-    return ZeroHexDynamicBytes.create(value)
+      return BytesAbiBytes.create(value)
+    return ZeroHexAbiBytes.create(value)
   }
 
-  export function from(value: DynamicBytes.From) {
-    return DynamicBytes.create(value)
+  export function from(value: AbiBytes.From) {
+    return AbiBytes.create(value)
   }
 
   export function codegen() {
-    return `Cubane.Abi.DynamicBytes`
+    return `Abi.Bytes`
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexDynamicBytes.decodeOrThrow(cursor)
+    return ZeroHexAbiBytes.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesDynamicBytes.readOrThrow(cursor)
+    return BytesAbiBytes.readOrThrow(cursor)
   }
 
 }
 
-export namespace BytesDynamicBytes {
+export namespace BytesAbiBytes {
   export type From = Bytes
 }
 
-export class BytesDynamicBytes {
-  readonly #class = BytesDynamicBytes
+export class BytesAbiBytes {
+  readonly #class = BytesAbiBytes
 
   static readonly dynamic = true
 
   readonly dynamic = this.#class.dynamic
 
   constructor(
-    readonly value: BytesDynamicBytes.From
+    readonly value: BytesAbiBytes.From
   ) { }
 
-  static create(value: BytesDynamicBytes.From) {
-    return new BytesDynamicBytes(value)
+  static create(value: BytesAbiBytes.From) {
+    return new BytesAbiBytes(value)
   }
 
-  static from(value: BytesDynamicBytes.From) {
-    return BytesDynamicBytes.create(value)
+  static from(value: BytesAbiBytes.From) {
+    return BytesAbiBytes.create(value)
   }
 
   intoOrThrow() {
@@ -68,7 +70,7 @@ export class BytesDynamicBytes {
   }
 
   static codegen() {
-    return `Cubane.Abi.DynamicBytes`
+    return `Abi.Bytes`
   }
 
   get class() {
@@ -79,7 +81,7 @@ export class BytesDynamicBytes {
     const length1 = this.value.length
     const length2 = length1 * 2
 
-    const head = StaticUint32.fromNumber(length1).encodeOrThrow()
+    const head = Uint32.fromNumber(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
     const body = Base16.get().encodeOrThrow(this.value).padEnd(padded2, "0")
@@ -90,14 +92,14 @@ export class BytesDynamicBytes {
   encodePackedOrThrow() {
     const length1 = this.value.length
 
-    const head = StaticUint32.fromNumber(length1).encodePackedOrThrow()
+    const head = Uint32.fromNumber(length1).encodePackedOrThrow()
     const body = Base16.get().encodeOrThrow(this.value)
 
     return head + body
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const length1 = StaticUint32.decodeOrThrow(cursor).toNumber()
+    const length1 = Uint32.decodeOrThrow(cursor).toNumber()
     const length2 = length1 * 2
 
     const content = cursor.readOrThrow(length2)
@@ -107,7 +109,7 @@ export class BytesDynamicBytes {
     const padded2 = Math.ceil(length2 / 64) * 64
     cursor.offset += padded2 - length2
 
-    return new BytesDynamicBytes(value)
+    return new BytesAbiBytes(value)
   }
 
   sizeOrThrow() {
@@ -121,7 +123,7 @@ export class BytesDynamicBytes {
   writeOrThrow(cursor: Cursor) {
     const length1 = this.value.length
 
-    StaticUint32.fromNumber(length1).writeOrThrow(cursor)
+    Uint32.fromNumber(length1).writeOrThrow(cursor)
     cursor.writeOrThrow(this.value)
 
     const padded1 = Math.ceil(length1 / 32) * 32
@@ -129,24 +131,24 @@ export class BytesDynamicBytes {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const length1 = StaticUint32.readOrThrow(cursor).toNumber()
+    const length1 = Uint32.readOrThrow(cursor).toNumber()
     const content = cursor.readOrThrow(length1)
     const bytes = new Uint8Array(content)
 
     const padded1 = Math.ceil(length1 / 32) * 32
     cursor.offset += padded1 - length1
 
-    return new BytesDynamicBytes(bytes)
+    return new BytesAbiBytes(bytes)
   }
 
 }
 
-export namespace ZeroHexDynamicBytes {
+export namespace ZeroHexAbiBytes {
   export type From = ZeroHexString
 }
 
-export class ZeroHexDynamicBytes {
-  readonly #class = BytesDynamicBytes
+export class ZeroHexAbiBytes {
+  readonly #class = BytesAbiBytes
 
   static readonly dynamic = true
 
@@ -156,12 +158,12 @@ export class ZeroHexDynamicBytes {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexDynamicBytes.From) {
-    return new ZeroHexDynamicBytes(value.slice(2))
+  static create(value: ZeroHexAbiBytes.From) {
+    return new ZeroHexAbiBytes(value.slice(2))
   }
 
-  static from(value: ZeroHexDynamicBytes.From) {
-    return ZeroHexDynamicBytes.create(value)
+  static from(value: ZeroHexAbiBytes.From) {
+    return ZeroHexAbiBytes.create(value)
   }
 
   intoOrThrow() {
@@ -169,7 +171,7 @@ export class ZeroHexDynamicBytes {
   }
 
   static codegen() {
-    return `Cubane.Abi.DynamicBytes`
+    return `Abi.Bytes`
   }
 
   get class() {
@@ -180,7 +182,7 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    const head = StaticUint32.fromNumber(length1).encodeOrThrow()
+    const head = Uint32.fromNumber(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
     const body = this.value.padEnd(padded2, "0")
@@ -192,14 +194,14 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    const head = StaticUint32.fromNumber(length1).encodeOrThrow()
+    const head = Uint32.fromNumber(length1).encodeOrThrow()
     const body = this.value
 
     return head + body
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const length1 = StaticUint32.decodeOrThrow(cursor).toNumber()
+    const length1 = Uint32.decodeOrThrow(cursor).toNumber()
     const length2 = length1 * 2
 
     const value = cursor.readOrThrow(length2)
@@ -207,7 +209,7 @@ export class ZeroHexDynamicBytes {
     const padded2 = Math.ceil(length2 / 64) * 64
     cursor.offset += padded2 - length2
 
-    return new ZeroHexDynamicBytes(value)
+    return new ZeroHexAbiBytes(value)
   }
 
   sizeOrThrow() {
@@ -223,7 +225,7 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    StaticUint32.fromNumber(length1).writeOrThrow(cursor)
+    Uint32.fromNumber(length1).writeOrThrow(cursor)
 
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
     cursor.writeOrThrow(slice.bytes)
@@ -233,7 +235,7 @@ export class ZeroHexDynamicBytes {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const length1 = StaticUint32.readOrThrow(cursor).toNumber()
+    const length1 = Uint32.readOrThrow(cursor).toNumber()
 
     const bytes = cursor.readOrThrow(length1)
     const value = Base16.get().encodeOrThrow(bytes)
@@ -241,7 +243,7 @@ export class ZeroHexDynamicBytes {
     const padded1 = Math.ceil(length1 / 32) * 32
     cursor.offset += padded1 - length1
 
-    return new ZeroHexDynamicBytes(value)
+    return new ZeroHexAbiBytes(value)
   }
 
 }
