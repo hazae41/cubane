@@ -80,14 +80,14 @@ See https://github.com/hazae41/base16 for more
 Parse the function from its signature
 
 ```tsx
-const signature = FunctionSignature.tryParse("f(bool,uint256,string)").unwrap()
+const signature = FunctionSignature.parseOrThrow("f(bool,uint256,string)")
 ```
 
 Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
 
 ```tsx
-const hex = tryEncode(signature.args.from(true, 123456789n, "hello world")).unwrap()
-// 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
+const hex = signature.args.from(true, 123456789n, "hello world").encodeOrThrow()
+// c4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 
 ### Abi to Hex (macro)
@@ -120,8 +120,8 @@ import { f } from "./f.abi.ts"
 /**
  * f is fully typed as (bool,uint256,string)
  */
-const hex = tryEncode(f.args.from(true, 123456789n, "hello world")).unwrap()
-// 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
+const hex = f.args.from(true, 123456789n, "hello world").encodeOrThrow()
+// c4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 
 ### Abi to Hex (manual)
@@ -129,7 +129,7 @@ const hex = tryEncode(f.args.from(true, 123456789n, "hello world")).unwrap()
 You can generate the function from its signature
 
 ```tsx
-> console.log(FunctionSignature.tryParse("f(bool,uint256,string)").unwrap().codegen())
+> console.log(FunctionSignature.parseOrThrow("f(bool,uint256,string)").codegen())
 ```
 
 Paste it in a file `f.abi.ts`
@@ -141,8 +141,8 @@ export const f = /*generated code*/
 Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
 
 ```tsx
-const hex = tryEncode(f.args.from(true, 123456789n, "hello world")).unwrap()
-// 0xc4b71e130000000000000000000000000000000000000000000000000000000000000001...
+const hex = f.args.from(true, 123456789n, "hello world").encodeOrThrow()
+// c4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 
 ### Rlp to Bytes
@@ -152,7 +152,7 @@ const cat = RlpString.from(Bytes.fromUtf8("cat"))
 const dog = RlpString.from(Bytes.fromUtf8("dog"))
 const catAndDog = RlpList.from([cat, dog])
 
-const bytes = Writable.tryWriteToBytes(catAndDog).unwrap()
+const bytes = Writable.writeToBytesOrThrow(catAndDog)
 ```
 
 ### Rlp to Hex
@@ -162,6 +162,6 @@ const cat = RlpString.from(Bytes.fromUtf8("cat"))
 const dog = RlpString.from(Bytes.fromUtf8("dog"))
 const catAndDog = RlpList.from([cat, dog])
 
-const bytes = Writable.tryWriteToBytes(catAndDog).unwrap()
+const bytes = Writable.writeToBytesOrThrow(catAndDog)
 const hex = "0x" + Base16.get().encodeOrThrow(bytes)
 ```
