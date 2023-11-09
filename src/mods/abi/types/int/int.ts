@@ -131,6 +131,7 @@ export namespace ZeroHexStaticInt8 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt8 {
@@ -184,7 +185,9 @@ export class ZeroHexStaticInt8 {
       return ZeroHexStaticInt8.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt8.fromNumber(value)
-    return new ZeroHexStaticInt8(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt8(value.slice(2))
+    return ZeroHexStaticInt8.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt8.From) {
@@ -359,6 +362,7 @@ export namespace ZeroHexStaticInt16 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt16 {
@@ -412,7 +416,9 @@ export class ZeroHexStaticInt16 {
       return ZeroHexStaticInt16.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt16.fromNumber(value)
-    return new ZeroHexStaticInt16(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt16(value.slice(2))
+    return ZeroHexStaticInt16.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt16.From) {
@@ -587,6 +593,7 @@ export namespace ZeroHexStaticInt24 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt24 {
@@ -640,7 +647,9 @@ export class ZeroHexStaticInt24 {
       return ZeroHexStaticInt24.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt24.fromNumber(value)
-    return new ZeroHexStaticInt24(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt24(value.slice(2))
+    return ZeroHexStaticInt24.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt24.From) {
@@ -815,6 +824,7 @@ export namespace ZeroHexStaticInt32 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt32 {
@@ -868,7 +878,9 @@ export class ZeroHexStaticInt32 {
       return ZeroHexStaticInt32.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt32.fromNumber(value)
-    return new ZeroHexStaticInt32(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt32(value.slice(2))
+    return ZeroHexStaticInt32.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt32.From) {
@@ -1043,6 +1055,7 @@ export namespace ZeroHexStaticInt40 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt40 {
@@ -1096,7 +1109,9 @@ export class ZeroHexStaticInt40 {
       return ZeroHexStaticInt40.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt40.fromNumber(value)
-    return new ZeroHexStaticInt40(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt40(value.slice(2))
+    return ZeroHexStaticInt40.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt40.From) {
@@ -1271,6 +1286,7 @@ export namespace ZeroHexStaticInt48 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt48 {
@@ -1324,7 +1340,9 @@ export class ZeroHexStaticInt48 {
       return ZeroHexStaticInt48.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt48.fromNumber(value)
-    return new ZeroHexStaticInt48(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt48(value.slice(2))
+    return ZeroHexStaticInt48.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt48.From) {
@@ -1499,6 +1517,7 @@ export namespace ZeroHexStaticInt56 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt56 {
@@ -1552,7 +1571,9 @@ export class ZeroHexStaticInt56 {
       return ZeroHexStaticInt56.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt56.fromNumber(value)
-    return new ZeroHexStaticInt56(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt56(value.slice(2))
+    return ZeroHexStaticInt56.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt56.From) {
@@ -1727,6 +1748,7 @@ export namespace ZeroHexStaticInt64 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt64 {
@@ -1780,7 +1802,9 @@ export class ZeroHexStaticInt64 {
       return ZeroHexStaticInt64.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt64.fromNumber(value)
-    return new ZeroHexStaticInt64(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt64(value.slice(2))
+    return ZeroHexStaticInt64.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt64.From) {
@@ -1955,6 +1979,7 @@ export namespace ZeroHexStaticInt72 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt72 {
@@ -2008,7 +2033,9 @@ export class ZeroHexStaticInt72 {
       return ZeroHexStaticInt72.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt72.fromNumber(value)
-    return new ZeroHexStaticInt72(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt72(value.slice(2))
+    return ZeroHexStaticInt72.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt72.From) {
@@ -2183,6 +2210,7 @@ export namespace ZeroHexStaticInt80 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt80 {
@@ -2236,7 +2264,9 @@ export class ZeroHexStaticInt80 {
       return ZeroHexStaticInt80.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt80.fromNumber(value)
-    return new ZeroHexStaticInt80(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt80(value.slice(2))
+    return ZeroHexStaticInt80.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt80.From) {
@@ -2411,6 +2441,7 @@ export namespace ZeroHexStaticInt88 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt88 {
@@ -2464,7 +2495,9 @@ export class ZeroHexStaticInt88 {
       return ZeroHexStaticInt88.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt88.fromNumber(value)
-    return new ZeroHexStaticInt88(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt88(value.slice(2))
+    return ZeroHexStaticInt88.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt88.From) {
@@ -2639,6 +2672,7 @@ export namespace ZeroHexStaticInt96 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt96 {
@@ -2692,7 +2726,9 @@ export class ZeroHexStaticInt96 {
       return ZeroHexStaticInt96.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt96.fromNumber(value)
-    return new ZeroHexStaticInt96(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt96(value.slice(2))
+    return ZeroHexStaticInt96.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt96.From) {
@@ -2867,6 +2903,7 @@ export namespace ZeroHexStaticInt104 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt104 {
@@ -2920,7 +2957,9 @@ export class ZeroHexStaticInt104 {
       return ZeroHexStaticInt104.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt104.fromNumber(value)
-    return new ZeroHexStaticInt104(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt104(value.slice(2))
+    return ZeroHexStaticInt104.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt104.From) {
@@ -3095,6 +3134,7 @@ export namespace ZeroHexStaticInt112 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt112 {
@@ -3148,7 +3188,9 @@ export class ZeroHexStaticInt112 {
       return ZeroHexStaticInt112.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt112.fromNumber(value)
-    return new ZeroHexStaticInt112(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt112(value.slice(2))
+    return ZeroHexStaticInt112.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt112.From) {
@@ -3323,6 +3365,7 @@ export namespace ZeroHexStaticInt120 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt120 {
@@ -3376,7 +3419,9 @@ export class ZeroHexStaticInt120 {
       return ZeroHexStaticInt120.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt120.fromNumber(value)
-    return new ZeroHexStaticInt120(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt120(value.slice(2))
+    return ZeroHexStaticInt120.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt120.From) {
@@ -3551,6 +3596,7 @@ export namespace ZeroHexStaticInt128 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt128 {
@@ -3604,7 +3650,9 @@ export class ZeroHexStaticInt128 {
       return ZeroHexStaticInt128.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt128.fromNumber(value)
-    return new ZeroHexStaticInt128(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt128(value.slice(2))
+    return ZeroHexStaticInt128.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt128.From) {
@@ -3779,6 +3827,7 @@ export namespace ZeroHexStaticInt136 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt136 {
@@ -3832,7 +3881,9 @@ export class ZeroHexStaticInt136 {
       return ZeroHexStaticInt136.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt136.fromNumber(value)
-    return new ZeroHexStaticInt136(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt136(value.slice(2))
+    return ZeroHexStaticInt136.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt136.From) {
@@ -4007,6 +4058,7 @@ export namespace ZeroHexStaticInt144 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt144 {
@@ -4060,7 +4112,9 @@ export class ZeroHexStaticInt144 {
       return ZeroHexStaticInt144.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt144.fromNumber(value)
-    return new ZeroHexStaticInt144(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt144(value.slice(2))
+    return ZeroHexStaticInt144.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt144.From) {
@@ -4235,6 +4289,7 @@ export namespace ZeroHexStaticInt152 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt152 {
@@ -4288,7 +4343,9 @@ export class ZeroHexStaticInt152 {
       return ZeroHexStaticInt152.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt152.fromNumber(value)
-    return new ZeroHexStaticInt152(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt152(value.slice(2))
+    return ZeroHexStaticInt152.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt152.From) {
@@ -4463,6 +4520,7 @@ export namespace ZeroHexStaticInt160 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt160 {
@@ -4516,7 +4574,9 @@ export class ZeroHexStaticInt160 {
       return ZeroHexStaticInt160.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt160.fromNumber(value)
-    return new ZeroHexStaticInt160(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt160(value.slice(2))
+    return ZeroHexStaticInt160.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt160.From) {
@@ -4691,6 +4751,7 @@ export namespace ZeroHexStaticInt168 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt168 {
@@ -4744,7 +4805,9 @@ export class ZeroHexStaticInt168 {
       return ZeroHexStaticInt168.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt168.fromNumber(value)
-    return new ZeroHexStaticInt168(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt168(value.slice(2))
+    return ZeroHexStaticInt168.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt168.From) {
@@ -4919,6 +4982,7 @@ export namespace ZeroHexStaticInt176 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt176 {
@@ -4972,7 +5036,9 @@ export class ZeroHexStaticInt176 {
       return ZeroHexStaticInt176.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt176.fromNumber(value)
-    return new ZeroHexStaticInt176(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt176(value.slice(2))
+    return ZeroHexStaticInt176.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt176.From) {
@@ -5147,6 +5213,7 @@ export namespace ZeroHexStaticInt184 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt184 {
@@ -5200,7 +5267,9 @@ export class ZeroHexStaticInt184 {
       return ZeroHexStaticInt184.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt184.fromNumber(value)
-    return new ZeroHexStaticInt184(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt184(value.slice(2))
+    return ZeroHexStaticInt184.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt184.From) {
@@ -5375,6 +5444,7 @@ export namespace ZeroHexStaticInt192 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt192 {
@@ -5428,7 +5498,9 @@ export class ZeroHexStaticInt192 {
       return ZeroHexStaticInt192.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt192.fromNumber(value)
-    return new ZeroHexStaticInt192(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt192(value.slice(2))
+    return ZeroHexStaticInt192.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt192.From) {
@@ -5603,6 +5675,7 @@ export namespace ZeroHexStaticInt200 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt200 {
@@ -5656,7 +5729,9 @@ export class ZeroHexStaticInt200 {
       return ZeroHexStaticInt200.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt200.fromNumber(value)
-    return new ZeroHexStaticInt200(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt200(value.slice(2))
+    return ZeroHexStaticInt200.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt200.From) {
@@ -5831,6 +5906,7 @@ export namespace ZeroHexStaticInt208 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt208 {
@@ -5884,7 +5960,9 @@ export class ZeroHexStaticInt208 {
       return ZeroHexStaticInt208.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt208.fromNumber(value)
-    return new ZeroHexStaticInt208(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt208(value.slice(2))
+    return ZeroHexStaticInt208.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt208.From) {
@@ -6059,6 +6137,7 @@ export namespace ZeroHexStaticInt216 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt216 {
@@ -6112,7 +6191,9 @@ export class ZeroHexStaticInt216 {
       return ZeroHexStaticInt216.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt216.fromNumber(value)
-    return new ZeroHexStaticInt216(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt216(value.slice(2))
+    return ZeroHexStaticInt216.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt216.From) {
@@ -6287,6 +6368,7 @@ export namespace ZeroHexStaticInt224 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt224 {
@@ -6340,7 +6422,9 @@ export class ZeroHexStaticInt224 {
       return ZeroHexStaticInt224.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt224.fromNumber(value)
-    return new ZeroHexStaticInt224(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt224(value.slice(2))
+    return ZeroHexStaticInt224.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt224.From) {
@@ -6515,6 +6599,7 @@ export namespace ZeroHexStaticInt232 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt232 {
@@ -6568,7 +6653,9 @@ export class ZeroHexStaticInt232 {
       return ZeroHexStaticInt232.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt232.fromNumber(value)
-    return new ZeroHexStaticInt232(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt232(value.slice(2))
+    return ZeroHexStaticInt232.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt232.From) {
@@ -6743,6 +6830,7 @@ export namespace ZeroHexStaticInt240 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt240 {
@@ -6796,7 +6884,9 @@ export class ZeroHexStaticInt240 {
       return ZeroHexStaticInt240.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt240.fromNumber(value)
-    return new ZeroHexStaticInt240(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt240(value.slice(2))
+    return ZeroHexStaticInt240.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt240.From) {
@@ -6971,6 +7061,7 @@ export namespace ZeroHexStaticInt248 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt248 {
@@ -7024,7 +7115,9 @@ export class ZeroHexStaticInt248 {
       return ZeroHexStaticInt248.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt248.fromNumber(value)
-    return new ZeroHexStaticInt248(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt248(value.slice(2))
+    return ZeroHexStaticInt248.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt248.From) {
@@ -7199,6 +7292,7 @@ export namespace ZeroHexStaticInt256 {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt256 {
@@ -7252,7 +7346,9 @@ export class ZeroHexStaticInt256 {
       return ZeroHexStaticInt256.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt256.fromNumber(value)
-    return new ZeroHexStaticInt256(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt256(value.slice(2))
+    return ZeroHexStaticInt256.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt256.From) {

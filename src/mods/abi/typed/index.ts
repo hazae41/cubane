@@ -63,6 +63,7 @@ export namespace TypedData {
     { name: 'version', type: 'string' },
     { name: 'chainId', type: 'uint256' },
     { name: 'verifyingContract', type: 'address' },
+    { name: 'salt', type: 'bytes32' },
   ] as const
 
   function sizeStructOrThrow(types: TypedDataTypes, type: string) {
@@ -98,7 +99,8 @@ export namespace TypedData {
       let realtype = type
 
       if (type.endsWith("]")) {
-        const [subtype] = type.split("[")
+        const index = type.lastIndexOf("[")
+        const subtype = type.slice(0, index)
         realtype = subtype
         continue
       }
@@ -167,7 +169,8 @@ export namespace TypedData {
      * Array
      */
     if (type.endsWith("]")) {
-      const [subtype] = type.split("[")
+      const index = type.lastIndexOf("[")
+      const subtype = type.slice(0, index)
       const array = value as readonly unknown[]
       using hash = hashArrayOrThrow(types, subtype, array, typeSizeCache, typeHashCache)
       cursor.writeOrThrow(hash.bytes)

@@ -143,6 +143,6 @@ test("Mail", async ({ test }) => {
   for (let i = 0; i < data.length; i++) {
     const d = data[i]
     console.log(i)
-    assert(viem.hashTypedData(d as any) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(d))))
+    assert(viem.hashTypedData(d as any) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(d as any))))
   }
 })

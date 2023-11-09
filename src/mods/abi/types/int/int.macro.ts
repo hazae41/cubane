@@ -139,6 +139,7 @@ export namespace ZeroHexStaticInt${bits} {
     | ZeroHexString
     | bigint
     | number
+    | string
 }
 
 export class ZeroHexStaticInt${bits} {
@@ -192,7 +193,9 @@ export class ZeroHexStaticInt${bits} {
       return ZeroHexStaticInt${bits}.fromBigInt(value)
     if (typeof value === "number")
       return ZeroHexStaticInt${bits}.fromNumber(value)
-    return new ZeroHexStaticInt${bits}(value.slice(2))
+    if (value.startsWith("0x"))
+      return new ZeroHexStaticInt${bits}(value.slice(2))
+    return ZeroHexStaticInt${bits}.fromBigInt(BigInt(value))
   }
 
   static from(value: ZeroHexStaticInt${bits}.From) {
