@@ -79,7 +79,7 @@ export class BytesDynamicBytes {
     const length1 = this.value.length
     const length2 = length1 * 2
 
-    const head = StaticUint32.create(length1).encodeOrThrow()
+    const head = StaticUint32.fromNumber(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
     const body = Base16.get().encodeOrThrow(this.value).padEnd(padded2, "0")
@@ -90,7 +90,7 @@ export class BytesDynamicBytes {
   encodePackedOrThrow() {
     const length1 = this.value.length
 
-    const head = StaticUint32.create(length1).encodePackedOrThrow()
+    const head = StaticUint32.fromNumber(length1).encodePackedOrThrow()
     const body = Base16.get().encodeOrThrow(this.value)
 
     return head + body
@@ -121,7 +121,7 @@ export class BytesDynamicBytes {
   writeOrThrow(cursor: Cursor) {
     const length1 = this.value.length
 
-    StaticUint32.create(length1).writeOrThrow(cursor)
+    StaticUint32.fromNumber(length1).writeOrThrow(cursor)
     cursor.writeOrThrow(this.value)
 
     const padded1 = Math.ceil(length1 / 32) * 32
@@ -180,7 +180,7 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    const head = StaticUint32.create(length1).encodeOrThrow()
+    const head = StaticUint32.fromNumber(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
     const body = this.value.padEnd(padded2, "0")
@@ -192,7 +192,7 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    const head = StaticUint32.create(length1).encodeOrThrow()
+    const head = StaticUint32.fromNumber(length1).encodeOrThrow()
     const body = this.value
 
     return head + body
@@ -223,7 +223,7 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    StaticUint32.create(length1).writeOrThrow(cursor)
+    StaticUint32.fromNumber(length1).writeOrThrow(cursor)
 
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
     cursor.writeOrThrow(slice.bytes)

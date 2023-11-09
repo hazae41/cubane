@@ -47,7 +47,7 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...$types: T) =
         const size = instance.sizeOrThrow()
 
         if (instance.dynamic) {
-          const pointer = StaticUint32.create(offset)
+          const pointer = StaticUint32.fromNumber(offset)
 
           heads.push(pointer)
           length += 32

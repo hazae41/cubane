@@ -52,7 +52,7 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
         const size = instance.sizeOrThrow()
 
         if (instance.dynamic) {
-          const pointer = StaticUint32.create(offset)
+          const pointer = StaticUint32.fromNumber(offset)
 
           heads.push(pointer)
           length += 32

@@ -28,6 +28,14 @@ export namespace StaticUint8 {
     return StaticUint8.create(value)
   }
 
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint8.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint8.fromBigInt(value)
+  }
+
   export function codegen() {
     return `Cubane.Abi.Int8`
   }
@@ -158,7 +166,11 @@ export class ZeroHexStaticUint8 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint8(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint8(value.toString(16))
   }
 
@@ -172,9 +184,9 @@ export class ZeroHexStaticUint8 {
 
   static create(value: ZeroHexStaticUint8.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint8.#fromBigInt(value)
+      return ZeroHexStaticUint8.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint8.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint8.fromNumber(value)
     return new ZeroHexStaticUint8(value.slice(2))
   }
 
@@ -248,6 +260,14 @@ export namespace StaticUint16 {
 
   export function from(value: StaticUint16.From) {
     return StaticUint16.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint16.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint16.fromBigInt(value)
   }
 
   export function codegen() {
@@ -380,7 +400,11 @@ export class ZeroHexStaticUint16 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint16(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint16(value.toString(16))
   }
 
@@ -394,9 +418,9 @@ export class ZeroHexStaticUint16 {
 
   static create(value: ZeroHexStaticUint16.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint16.#fromBigInt(value)
+      return ZeroHexStaticUint16.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint16.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint16.fromNumber(value)
     return new ZeroHexStaticUint16(value.slice(2))
   }
 
@@ -470,6 +494,14 @@ export namespace StaticUint24 {
 
   export function from(value: StaticUint24.From) {
     return StaticUint24.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint24.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint24.fromBigInt(value)
   }
 
   export function codegen() {
@@ -602,7 +634,11 @@ export class ZeroHexStaticUint24 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint24(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint24(value.toString(16))
   }
 
@@ -616,9 +652,9 @@ export class ZeroHexStaticUint24 {
 
   static create(value: ZeroHexStaticUint24.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint24.#fromBigInt(value)
+      return ZeroHexStaticUint24.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint24.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint24.fromNumber(value)
     return new ZeroHexStaticUint24(value.slice(2))
   }
 
@@ -692,6 +728,14 @@ export namespace StaticUint32 {
 
   export function from(value: StaticUint32.From) {
     return StaticUint32.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint32.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint32.fromBigInt(value)
   }
 
   export function codegen() {
@@ -824,7 +868,11 @@ export class ZeroHexStaticUint32 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint32(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint32(value.toString(16))
   }
 
@@ -838,9 +886,9 @@ export class ZeroHexStaticUint32 {
 
   static create(value: ZeroHexStaticUint32.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint32.#fromBigInt(value)
+      return ZeroHexStaticUint32.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint32.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint32.fromNumber(value)
     return new ZeroHexStaticUint32(value.slice(2))
   }
 
@@ -914,6 +962,14 @@ export namespace StaticUint40 {
 
   export function from(value: StaticUint40.From) {
     return StaticUint40.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint40.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint40.fromBigInt(value)
   }
 
   export function codegen() {
@@ -1046,7 +1102,11 @@ export class ZeroHexStaticUint40 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint40(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint40(value.toString(16))
   }
 
@@ -1060,9 +1120,9 @@ export class ZeroHexStaticUint40 {
 
   static create(value: ZeroHexStaticUint40.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint40.#fromBigInt(value)
+      return ZeroHexStaticUint40.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint40.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint40.fromNumber(value)
     return new ZeroHexStaticUint40(value.slice(2))
   }
 
@@ -1136,6 +1196,14 @@ export namespace StaticUint48 {
 
   export function from(value: StaticUint48.From) {
     return StaticUint48.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint48.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint48.fromBigInt(value)
   }
 
   export function codegen() {
@@ -1268,7 +1336,11 @@ export class ZeroHexStaticUint48 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint48(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint48(value.toString(16))
   }
 
@@ -1282,9 +1354,9 @@ export class ZeroHexStaticUint48 {
 
   static create(value: ZeroHexStaticUint48.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint48.#fromBigInt(value)
+      return ZeroHexStaticUint48.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint48.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint48.fromNumber(value)
     return new ZeroHexStaticUint48(value.slice(2))
   }
 
@@ -1358,6 +1430,14 @@ export namespace StaticUint56 {
 
   export function from(value: StaticUint56.From) {
     return StaticUint56.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint56.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint56.fromBigInt(value)
   }
 
   export function codegen() {
@@ -1490,7 +1570,11 @@ export class ZeroHexStaticUint56 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint56(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint56(value.toString(16))
   }
 
@@ -1504,9 +1588,9 @@ export class ZeroHexStaticUint56 {
 
   static create(value: ZeroHexStaticUint56.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint56.#fromBigInt(value)
+      return ZeroHexStaticUint56.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint56.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint56.fromNumber(value)
     return new ZeroHexStaticUint56(value.slice(2))
   }
 
@@ -1580,6 +1664,14 @@ export namespace StaticUint64 {
 
   export function from(value: StaticUint64.From) {
     return StaticUint64.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint64.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint64.fromBigInt(value)
   }
 
   export function codegen() {
@@ -1712,7 +1804,11 @@ export class ZeroHexStaticUint64 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint64(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint64(value.toString(16))
   }
 
@@ -1726,9 +1822,9 @@ export class ZeroHexStaticUint64 {
 
   static create(value: ZeroHexStaticUint64.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint64.#fromBigInt(value)
+      return ZeroHexStaticUint64.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint64.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint64.fromNumber(value)
     return new ZeroHexStaticUint64(value.slice(2))
   }
 
@@ -1802,6 +1898,14 @@ export namespace StaticUint72 {
 
   export function from(value: StaticUint72.From) {
     return StaticUint72.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint72.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint72.fromBigInt(value)
   }
 
   export function codegen() {
@@ -1934,7 +2038,11 @@ export class ZeroHexStaticUint72 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint72(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint72(value.toString(16))
   }
 
@@ -1948,9 +2056,9 @@ export class ZeroHexStaticUint72 {
 
   static create(value: ZeroHexStaticUint72.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint72.#fromBigInt(value)
+      return ZeroHexStaticUint72.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint72.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint72.fromNumber(value)
     return new ZeroHexStaticUint72(value.slice(2))
   }
 
@@ -2024,6 +2132,14 @@ export namespace StaticUint80 {
 
   export function from(value: StaticUint80.From) {
     return StaticUint80.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint80.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint80.fromBigInt(value)
   }
 
   export function codegen() {
@@ -2156,7 +2272,11 @@ export class ZeroHexStaticUint80 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint80(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint80(value.toString(16))
   }
 
@@ -2170,9 +2290,9 @@ export class ZeroHexStaticUint80 {
 
   static create(value: ZeroHexStaticUint80.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint80.#fromBigInt(value)
+      return ZeroHexStaticUint80.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint80.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint80.fromNumber(value)
     return new ZeroHexStaticUint80(value.slice(2))
   }
 
@@ -2246,6 +2366,14 @@ export namespace StaticUint88 {
 
   export function from(value: StaticUint88.From) {
     return StaticUint88.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint88.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint88.fromBigInt(value)
   }
 
   export function codegen() {
@@ -2378,7 +2506,11 @@ export class ZeroHexStaticUint88 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint88(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint88(value.toString(16))
   }
 
@@ -2392,9 +2524,9 @@ export class ZeroHexStaticUint88 {
 
   static create(value: ZeroHexStaticUint88.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint88.#fromBigInt(value)
+      return ZeroHexStaticUint88.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint88.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint88.fromNumber(value)
     return new ZeroHexStaticUint88(value.slice(2))
   }
 
@@ -2468,6 +2600,14 @@ export namespace StaticUint96 {
 
   export function from(value: StaticUint96.From) {
     return StaticUint96.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint96.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint96.fromBigInt(value)
   }
 
   export function codegen() {
@@ -2600,7 +2740,11 @@ export class ZeroHexStaticUint96 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint96(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint96(value.toString(16))
   }
 
@@ -2614,9 +2758,9 @@ export class ZeroHexStaticUint96 {
 
   static create(value: ZeroHexStaticUint96.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint96.#fromBigInt(value)
+      return ZeroHexStaticUint96.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint96.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint96.fromNumber(value)
     return new ZeroHexStaticUint96(value.slice(2))
   }
 
@@ -2690,6 +2834,14 @@ export namespace StaticUint104 {
 
   export function from(value: StaticUint104.From) {
     return StaticUint104.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint104.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint104.fromBigInt(value)
   }
 
   export function codegen() {
@@ -2822,7 +2974,11 @@ export class ZeroHexStaticUint104 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint104(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint104(value.toString(16))
   }
 
@@ -2836,9 +2992,9 @@ export class ZeroHexStaticUint104 {
 
   static create(value: ZeroHexStaticUint104.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint104.#fromBigInt(value)
+      return ZeroHexStaticUint104.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint104.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint104.fromNumber(value)
     return new ZeroHexStaticUint104(value.slice(2))
   }
 
@@ -2912,6 +3068,14 @@ export namespace StaticUint112 {
 
   export function from(value: StaticUint112.From) {
     return StaticUint112.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint112.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint112.fromBigInt(value)
   }
 
   export function codegen() {
@@ -3044,7 +3208,11 @@ export class ZeroHexStaticUint112 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint112(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint112(value.toString(16))
   }
 
@@ -3058,9 +3226,9 @@ export class ZeroHexStaticUint112 {
 
   static create(value: ZeroHexStaticUint112.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint112.#fromBigInt(value)
+      return ZeroHexStaticUint112.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint112.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint112.fromNumber(value)
     return new ZeroHexStaticUint112(value.slice(2))
   }
 
@@ -3134,6 +3302,14 @@ export namespace StaticUint120 {
 
   export function from(value: StaticUint120.From) {
     return StaticUint120.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint120.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint120.fromBigInt(value)
   }
 
   export function codegen() {
@@ -3266,7 +3442,11 @@ export class ZeroHexStaticUint120 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint120(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint120(value.toString(16))
   }
 
@@ -3280,9 +3460,9 @@ export class ZeroHexStaticUint120 {
 
   static create(value: ZeroHexStaticUint120.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint120.#fromBigInt(value)
+      return ZeroHexStaticUint120.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint120.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint120.fromNumber(value)
     return new ZeroHexStaticUint120(value.slice(2))
   }
 
@@ -3356,6 +3536,14 @@ export namespace StaticUint128 {
 
   export function from(value: StaticUint128.From) {
     return StaticUint128.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint128.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint128.fromBigInt(value)
   }
 
   export function codegen() {
@@ -3488,7 +3676,11 @@ export class ZeroHexStaticUint128 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint128(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint128(value.toString(16))
   }
 
@@ -3502,9 +3694,9 @@ export class ZeroHexStaticUint128 {
 
   static create(value: ZeroHexStaticUint128.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint128.#fromBigInt(value)
+      return ZeroHexStaticUint128.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint128.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint128.fromNumber(value)
     return new ZeroHexStaticUint128(value.slice(2))
   }
 
@@ -3578,6 +3770,14 @@ export namespace StaticUint136 {
 
   export function from(value: StaticUint136.From) {
     return StaticUint136.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint136.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint136.fromBigInt(value)
   }
 
   export function codegen() {
@@ -3710,7 +3910,11 @@ export class ZeroHexStaticUint136 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint136(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint136(value.toString(16))
   }
 
@@ -3724,9 +3928,9 @@ export class ZeroHexStaticUint136 {
 
   static create(value: ZeroHexStaticUint136.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint136.#fromBigInt(value)
+      return ZeroHexStaticUint136.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint136.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint136.fromNumber(value)
     return new ZeroHexStaticUint136(value.slice(2))
   }
 
@@ -3800,6 +4004,14 @@ export namespace StaticUint144 {
 
   export function from(value: StaticUint144.From) {
     return StaticUint144.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint144.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint144.fromBigInt(value)
   }
 
   export function codegen() {
@@ -3932,7 +4144,11 @@ export class ZeroHexStaticUint144 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint144(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint144(value.toString(16))
   }
 
@@ -3946,9 +4162,9 @@ export class ZeroHexStaticUint144 {
 
   static create(value: ZeroHexStaticUint144.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint144.#fromBigInt(value)
+      return ZeroHexStaticUint144.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint144.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint144.fromNumber(value)
     return new ZeroHexStaticUint144(value.slice(2))
   }
 
@@ -4022,6 +4238,14 @@ export namespace StaticUint152 {
 
   export function from(value: StaticUint152.From) {
     return StaticUint152.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint152.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint152.fromBigInt(value)
   }
 
   export function codegen() {
@@ -4154,7 +4378,11 @@ export class ZeroHexStaticUint152 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint152(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint152(value.toString(16))
   }
 
@@ -4168,9 +4396,9 @@ export class ZeroHexStaticUint152 {
 
   static create(value: ZeroHexStaticUint152.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint152.#fromBigInt(value)
+      return ZeroHexStaticUint152.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint152.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint152.fromNumber(value)
     return new ZeroHexStaticUint152(value.slice(2))
   }
 
@@ -4244,6 +4472,14 @@ export namespace StaticUint160 {
 
   export function from(value: StaticUint160.From) {
     return StaticUint160.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint160.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint160.fromBigInt(value)
   }
 
   export function codegen() {
@@ -4376,7 +4612,11 @@ export class ZeroHexStaticUint160 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint160(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint160(value.toString(16))
   }
 
@@ -4390,9 +4630,9 @@ export class ZeroHexStaticUint160 {
 
   static create(value: ZeroHexStaticUint160.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint160.#fromBigInt(value)
+      return ZeroHexStaticUint160.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint160.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint160.fromNumber(value)
     return new ZeroHexStaticUint160(value.slice(2))
   }
 
@@ -4466,6 +4706,14 @@ export namespace StaticUint168 {
 
   export function from(value: StaticUint168.From) {
     return StaticUint168.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint168.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint168.fromBigInt(value)
   }
 
   export function codegen() {
@@ -4598,7 +4846,11 @@ export class ZeroHexStaticUint168 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint168(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint168(value.toString(16))
   }
 
@@ -4612,9 +4864,9 @@ export class ZeroHexStaticUint168 {
 
   static create(value: ZeroHexStaticUint168.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint168.#fromBigInt(value)
+      return ZeroHexStaticUint168.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint168.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint168.fromNumber(value)
     return new ZeroHexStaticUint168(value.slice(2))
   }
 
@@ -4688,6 +4940,14 @@ export namespace StaticUint176 {
 
   export function from(value: StaticUint176.From) {
     return StaticUint176.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint176.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint176.fromBigInt(value)
   }
 
   export function codegen() {
@@ -4820,7 +5080,11 @@ export class ZeroHexStaticUint176 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint176(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint176(value.toString(16))
   }
 
@@ -4834,9 +5098,9 @@ export class ZeroHexStaticUint176 {
 
   static create(value: ZeroHexStaticUint176.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint176.#fromBigInt(value)
+      return ZeroHexStaticUint176.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint176.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint176.fromNumber(value)
     return new ZeroHexStaticUint176(value.slice(2))
   }
 
@@ -4910,6 +5174,14 @@ export namespace StaticUint184 {
 
   export function from(value: StaticUint184.From) {
     return StaticUint184.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint184.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint184.fromBigInt(value)
   }
 
   export function codegen() {
@@ -5042,7 +5314,11 @@ export class ZeroHexStaticUint184 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint184(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint184(value.toString(16))
   }
 
@@ -5056,9 +5332,9 @@ export class ZeroHexStaticUint184 {
 
   static create(value: ZeroHexStaticUint184.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint184.#fromBigInt(value)
+      return ZeroHexStaticUint184.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint184.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint184.fromNumber(value)
     return new ZeroHexStaticUint184(value.slice(2))
   }
 
@@ -5132,6 +5408,14 @@ export namespace StaticUint192 {
 
   export function from(value: StaticUint192.From) {
     return StaticUint192.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint192.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint192.fromBigInt(value)
   }
 
   export function codegen() {
@@ -5264,7 +5548,11 @@ export class ZeroHexStaticUint192 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint192(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint192(value.toString(16))
   }
 
@@ -5278,9 +5566,9 @@ export class ZeroHexStaticUint192 {
 
   static create(value: ZeroHexStaticUint192.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint192.#fromBigInt(value)
+      return ZeroHexStaticUint192.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint192.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint192.fromNumber(value)
     return new ZeroHexStaticUint192(value.slice(2))
   }
 
@@ -5354,6 +5642,14 @@ export namespace StaticUint200 {
 
   export function from(value: StaticUint200.From) {
     return StaticUint200.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint200.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint200.fromBigInt(value)
   }
 
   export function codegen() {
@@ -5486,7 +5782,11 @@ export class ZeroHexStaticUint200 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint200(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint200(value.toString(16))
   }
 
@@ -5500,9 +5800,9 @@ export class ZeroHexStaticUint200 {
 
   static create(value: ZeroHexStaticUint200.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint200.#fromBigInt(value)
+      return ZeroHexStaticUint200.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint200.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint200.fromNumber(value)
     return new ZeroHexStaticUint200(value.slice(2))
   }
 
@@ -5576,6 +5876,14 @@ export namespace StaticUint208 {
 
   export function from(value: StaticUint208.From) {
     return StaticUint208.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint208.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint208.fromBigInt(value)
   }
 
   export function codegen() {
@@ -5708,7 +6016,11 @@ export class ZeroHexStaticUint208 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint208(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint208(value.toString(16))
   }
 
@@ -5722,9 +6034,9 @@ export class ZeroHexStaticUint208 {
 
   static create(value: ZeroHexStaticUint208.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint208.#fromBigInt(value)
+      return ZeroHexStaticUint208.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint208.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint208.fromNumber(value)
     return new ZeroHexStaticUint208(value.slice(2))
   }
 
@@ -5798,6 +6110,14 @@ export namespace StaticUint216 {
 
   export function from(value: StaticUint216.From) {
     return StaticUint216.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint216.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint216.fromBigInt(value)
   }
 
   export function codegen() {
@@ -5930,7 +6250,11 @@ export class ZeroHexStaticUint216 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint216(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint216(value.toString(16))
   }
 
@@ -5944,9 +6268,9 @@ export class ZeroHexStaticUint216 {
 
   static create(value: ZeroHexStaticUint216.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint216.#fromBigInt(value)
+      return ZeroHexStaticUint216.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint216.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint216.fromNumber(value)
     return new ZeroHexStaticUint216(value.slice(2))
   }
 
@@ -6020,6 +6344,14 @@ export namespace StaticUint224 {
 
   export function from(value: StaticUint224.From) {
     return StaticUint224.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint224.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint224.fromBigInt(value)
   }
 
   export function codegen() {
@@ -6152,7 +6484,11 @@ export class ZeroHexStaticUint224 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint224(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint224(value.toString(16))
   }
 
@@ -6166,9 +6502,9 @@ export class ZeroHexStaticUint224 {
 
   static create(value: ZeroHexStaticUint224.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint224.#fromBigInt(value)
+      return ZeroHexStaticUint224.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint224.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint224.fromNumber(value)
     return new ZeroHexStaticUint224(value.slice(2))
   }
 
@@ -6242,6 +6578,14 @@ export namespace StaticUint232 {
 
   export function from(value: StaticUint232.From) {
     return StaticUint232.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint232.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint232.fromBigInt(value)
   }
 
   export function codegen() {
@@ -6374,7 +6718,11 @@ export class ZeroHexStaticUint232 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint232(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint232(value.toString(16))
   }
 
@@ -6388,9 +6736,9 @@ export class ZeroHexStaticUint232 {
 
   static create(value: ZeroHexStaticUint232.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint232.#fromBigInt(value)
+      return ZeroHexStaticUint232.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint232.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint232.fromNumber(value)
     return new ZeroHexStaticUint232(value.slice(2))
   }
 
@@ -6464,6 +6812,14 @@ export namespace StaticUint240 {
 
   export function from(value: StaticUint240.From) {
     return StaticUint240.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint240.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint240.fromBigInt(value)
   }
 
   export function codegen() {
@@ -6596,7 +6952,11 @@ export class ZeroHexStaticUint240 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint240(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint240(value.toString(16))
   }
 
@@ -6610,9 +6970,9 @@ export class ZeroHexStaticUint240 {
 
   static create(value: ZeroHexStaticUint240.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint240.#fromBigInt(value)
+      return ZeroHexStaticUint240.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint240.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint240.fromNumber(value)
     return new ZeroHexStaticUint240(value.slice(2))
   }
 
@@ -6686,6 +7046,14 @@ export namespace StaticUint248 {
 
   export function from(value: StaticUint248.From) {
     return StaticUint248.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint248.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint248.fromBigInt(value)
   }
 
   export function codegen() {
@@ -6818,7 +7186,11 @@ export class ZeroHexStaticUint248 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint248(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint248(value.toString(16))
   }
 
@@ -6832,9 +7204,9 @@ export class ZeroHexStaticUint248 {
 
   static create(value: ZeroHexStaticUint248.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint248.#fromBigInt(value)
+      return ZeroHexStaticUint248.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint248.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint248.fromNumber(value)
     return new ZeroHexStaticUint248(value.slice(2))
   }
 
@@ -6908,6 +7280,14 @@ export namespace StaticUint256 {
 
   export function from(value: StaticUint256.From) {
     return StaticUint256.create(value)
+  }
+
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint256.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint256.fromBigInt(value)
   }
 
   export function codegen() {
@@ -7040,7 +7420,11 @@ export class ZeroHexStaticUint256 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint256(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint256(value.toString(16))
   }
 
@@ -7054,9 +7438,9 @@ export class ZeroHexStaticUint256 {
 
   static create(value: ZeroHexStaticUint256.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint256.#fromBigInt(value)
+      return ZeroHexStaticUint256.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint256.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint256.fromNumber(value)
     return new ZeroHexStaticUint256(value.slice(2))
   }
 

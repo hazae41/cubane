@@ -36,6 +36,14 @@ export namespace StaticUint${bits} {
     return StaticUint${bits}.create(value)
   }
 
+  export function fromNumber(value: number) {
+    return ZeroHexStaticUint${bits}.fromNumber(value)
+  }
+
+  export function fromBigInt(value: bigint) {
+    return ZeroHexStaticUint${bits}.fromBigInt(value)
+  }
+
   export function codegen() {
     return \`Cubane.Abi.Int${bits}\`
   }
@@ -166,7 +174,11 @@ export class ZeroHexStaticUint${bits} {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return new ZeroHexStaticUint${bits}(value.toString(16))
+  }
+
+  static fromBigInt(value: bigint) {
     return new ZeroHexStaticUint${bits}(value.toString(16))
   }
 
@@ -180,9 +192,9 @@ export class ZeroHexStaticUint${bits} {
 
   static create(value: ZeroHexStaticUint${bits}.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticUint${bits}.#fromBigInt(value)
+      return ZeroHexStaticUint${bits}.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticUint${bits}.#fromBigInt(BigInt(value))
+      return ZeroHexStaticUint${bits}.fromNumber(value)
     return new ZeroHexStaticUint${bits}(value.slice(2))
   }
 

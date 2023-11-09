@@ -163,7 +163,11 @@ export class ZeroHexStaticInt${bits} {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt${bits}.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt${bits}(value.toString(16))
 
@@ -185,9 +189,9 @@ export class ZeroHexStaticInt${bits} {
 
   static create(value: ZeroHexStaticInt${bits}.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt${bits}.#fromBigInt(value)
+      return ZeroHexStaticInt${bits}.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt${bits}.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt${bits}.fromNumber(value)
     return new ZeroHexStaticInt${bits}(value.slice(2))
   }
 

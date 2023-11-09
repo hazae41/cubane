@@ -155,7 +155,11 @@ export class ZeroHexStaticInt8 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt8.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt8(value.toString(16))
 
@@ -177,9 +181,9 @@ export class ZeroHexStaticInt8 {
 
   static create(value: ZeroHexStaticInt8.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt8.#fromBigInt(value)
+      return ZeroHexStaticInt8.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt8.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt8.fromNumber(value)
     return new ZeroHexStaticInt8(value.slice(2))
   }
 
@@ -379,7 +383,11 @@ export class ZeroHexStaticInt16 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt16.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt16(value.toString(16))
 
@@ -401,9 +409,9 @@ export class ZeroHexStaticInt16 {
 
   static create(value: ZeroHexStaticInt16.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt16.#fromBigInt(value)
+      return ZeroHexStaticInt16.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt16.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt16.fromNumber(value)
     return new ZeroHexStaticInt16(value.slice(2))
   }
 
@@ -603,7 +611,11 @@ export class ZeroHexStaticInt24 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt24.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt24(value.toString(16))
 
@@ -625,9 +637,9 @@ export class ZeroHexStaticInt24 {
 
   static create(value: ZeroHexStaticInt24.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt24.#fromBigInt(value)
+      return ZeroHexStaticInt24.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt24.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt24.fromNumber(value)
     return new ZeroHexStaticInt24(value.slice(2))
   }
 
@@ -827,7 +839,11 @@ export class ZeroHexStaticInt32 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt32.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt32(value.toString(16))
 
@@ -849,9 +865,9 @@ export class ZeroHexStaticInt32 {
 
   static create(value: ZeroHexStaticInt32.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt32.#fromBigInt(value)
+      return ZeroHexStaticInt32.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt32.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt32.fromNumber(value)
     return new ZeroHexStaticInt32(value.slice(2))
   }
 
@@ -1051,7 +1067,11 @@ export class ZeroHexStaticInt40 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt40.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt40(value.toString(16))
 
@@ -1073,9 +1093,9 @@ export class ZeroHexStaticInt40 {
 
   static create(value: ZeroHexStaticInt40.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt40.#fromBigInt(value)
+      return ZeroHexStaticInt40.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt40.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt40.fromNumber(value)
     return new ZeroHexStaticInt40(value.slice(2))
   }
 
@@ -1275,7 +1295,11 @@ export class ZeroHexStaticInt48 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt48.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt48(value.toString(16))
 
@@ -1297,9 +1321,9 @@ export class ZeroHexStaticInt48 {
 
   static create(value: ZeroHexStaticInt48.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt48.#fromBigInt(value)
+      return ZeroHexStaticInt48.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt48.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt48.fromNumber(value)
     return new ZeroHexStaticInt48(value.slice(2))
   }
 
@@ -1499,7 +1523,11 @@ export class ZeroHexStaticInt56 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt56.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt56(value.toString(16))
 
@@ -1521,9 +1549,9 @@ export class ZeroHexStaticInt56 {
 
   static create(value: ZeroHexStaticInt56.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt56.#fromBigInt(value)
+      return ZeroHexStaticInt56.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt56.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt56.fromNumber(value)
     return new ZeroHexStaticInt56(value.slice(2))
   }
 
@@ -1723,7 +1751,11 @@ export class ZeroHexStaticInt64 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt64.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt64(value.toString(16))
 
@@ -1745,9 +1777,9 @@ export class ZeroHexStaticInt64 {
 
   static create(value: ZeroHexStaticInt64.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt64.#fromBigInt(value)
+      return ZeroHexStaticInt64.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt64.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt64.fromNumber(value)
     return new ZeroHexStaticInt64(value.slice(2))
   }
 
@@ -1947,7 +1979,11 @@ export class ZeroHexStaticInt72 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt72.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt72(value.toString(16))
 
@@ -1969,9 +2005,9 @@ export class ZeroHexStaticInt72 {
 
   static create(value: ZeroHexStaticInt72.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt72.#fromBigInt(value)
+      return ZeroHexStaticInt72.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt72.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt72.fromNumber(value)
     return new ZeroHexStaticInt72(value.slice(2))
   }
 
@@ -2171,7 +2207,11 @@ export class ZeroHexStaticInt80 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt80.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt80(value.toString(16))
 
@@ -2193,9 +2233,9 @@ export class ZeroHexStaticInt80 {
 
   static create(value: ZeroHexStaticInt80.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt80.#fromBigInt(value)
+      return ZeroHexStaticInt80.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt80.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt80.fromNumber(value)
     return new ZeroHexStaticInt80(value.slice(2))
   }
 
@@ -2395,7 +2435,11 @@ export class ZeroHexStaticInt88 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt88.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt88(value.toString(16))
 
@@ -2417,9 +2461,9 @@ export class ZeroHexStaticInt88 {
 
   static create(value: ZeroHexStaticInt88.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt88.#fromBigInt(value)
+      return ZeroHexStaticInt88.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt88.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt88.fromNumber(value)
     return new ZeroHexStaticInt88(value.slice(2))
   }
 
@@ -2619,7 +2663,11 @@ export class ZeroHexStaticInt96 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt96.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt96(value.toString(16))
 
@@ -2641,9 +2689,9 @@ export class ZeroHexStaticInt96 {
 
   static create(value: ZeroHexStaticInt96.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt96.#fromBigInt(value)
+      return ZeroHexStaticInt96.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt96.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt96.fromNumber(value)
     return new ZeroHexStaticInt96(value.slice(2))
   }
 
@@ -2843,7 +2891,11 @@ export class ZeroHexStaticInt104 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt104.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt104(value.toString(16))
 
@@ -2865,9 +2917,9 @@ export class ZeroHexStaticInt104 {
 
   static create(value: ZeroHexStaticInt104.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt104.#fromBigInt(value)
+      return ZeroHexStaticInt104.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt104.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt104.fromNumber(value)
     return new ZeroHexStaticInt104(value.slice(2))
   }
 
@@ -3067,7 +3119,11 @@ export class ZeroHexStaticInt112 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt112.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt112(value.toString(16))
 
@@ -3089,9 +3145,9 @@ export class ZeroHexStaticInt112 {
 
   static create(value: ZeroHexStaticInt112.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt112.#fromBigInt(value)
+      return ZeroHexStaticInt112.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt112.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt112.fromNumber(value)
     return new ZeroHexStaticInt112(value.slice(2))
   }
 
@@ -3291,7 +3347,11 @@ export class ZeroHexStaticInt120 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt120.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt120(value.toString(16))
 
@@ -3313,9 +3373,9 @@ export class ZeroHexStaticInt120 {
 
   static create(value: ZeroHexStaticInt120.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt120.#fromBigInt(value)
+      return ZeroHexStaticInt120.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt120.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt120.fromNumber(value)
     return new ZeroHexStaticInt120(value.slice(2))
   }
 
@@ -3515,7 +3575,11 @@ export class ZeroHexStaticInt128 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt128.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt128(value.toString(16))
 
@@ -3537,9 +3601,9 @@ export class ZeroHexStaticInt128 {
 
   static create(value: ZeroHexStaticInt128.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt128.#fromBigInt(value)
+      return ZeroHexStaticInt128.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt128.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt128.fromNumber(value)
     return new ZeroHexStaticInt128(value.slice(2))
   }
 
@@ -3739,7 +3803,11 @@ export class ZeroHexStaticInt136 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt136.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt136(value.toString(16))
 
@@ -3761,9 +3829,9 @@ export class ZeroHexStaticInt136 {
 
   static create(value: ZeroHexStaticInt136.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt136.#fromBigInt(value)
+      return ZeroHexStaticInt136.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt136.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt136.fromNumber(value)
     return new ZeroHexStaticInt136(value.slice(2))
   }
 
@@ -3963,7 +4031,11 @@ export class ZeroHexStaticInt144 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt144.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt144(value.toString(16))
 
@@ -3985,9 +4057,9 @@ export class ZeroHexStaticInt144 {
 
   static create(value: ZeroHexStaticInt144.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt144.#fromBigInt(value)
+      return ZeroHexStaticInt144.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt144.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt144.fromNumber(value)
     return new ZeroHexStaticInt144(value.slice(2))
   }
 
@@ -4187,7 +4259,11 @@ export class ZeroHexStaticInt152 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt152.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt152(value.toString(16))
 
@@ -4209,9 +4285,9 @@ export class ZeroHexStaticInt152 {
 
   static create(value: ZeroHexStaticInt152.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt152.#fromBigInt(value)
+      return ZeroHexStaticInt152.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt152.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt152.fromNumber(value)
     return new ZeroHexStaticInt152(value.slice(2))
   }
 
@@ -4411,7 +4487,11 @@ export class ZeroHexStaticInt160 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt160.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt160(value.toString(16))
 
@@ -4433,9 +4513,9 @@ export class ZeroHexStaticInt160 {
 
   static create(value: ZeroHexStaticInt160.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt160.#fromBigInt(value)
+      return ZeroHexStaticInt160.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt160.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt160.fromNumber(value)
     return new ZeroHexStaticInt160(value.slice(2))
   }
 
@@ -4635,7 +4715,11 @@ export class ZeroHexStaticInt168 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt168.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt168(value.toString(16))
 
@@ -4657,9 +4741,9 @@ export class ZeroHexStaticInt168 {
 
   static create(value: ZeroHexStaticInt168.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt168.#fromBigInt(value)
+      return ZeroHexStaticInt168.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt168.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt168.fromNumber(value)
     return new ZeroHexStaticInt168(value.slice(2))
   }
 
@@ -4859,7 +4943,11 @@ export class ZeroHexStaticInt176 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt176.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt176(value.toString(16))
 
@@ -4881,9 +4969,9 @@ export class ZeroHexStaticInt176 {
 
   static create(value: ZeroHexStaticInt176.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt176.#fromBigInt(value)
+      return ZeroHexStaticInt176.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt176.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt176.fromNumber(value)
     return new ZeroHexStaticInt176(value.slice(2))
   }
 
@@ -5083,7 +5171,11 @@ export class ZeroHexStaticInt184 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt184.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt184(value.toString(16))
 
@@ -5105,9 +5197,9 @@ export class ZeroHexStaticInt184 {
 
   static create(value: ZeroHexStaticInt184.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt184.#fromBigInt(value)
+      return ZeroHexStaticInt184.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt184.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt184.fromNumber(value)
     return new ZeroHexStaticInt184(value.slice(2))
   }
 
@@ -5307,7 +5399,11 @@ export class ZeroHexStaticInt192 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt192.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt192(value.toString(16))
 
@@ -5329,9 +5425,9 @@ export class ZeroHexStaticInt192 {
 
   static create(value: ZeroHexStaticInt192.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt192.#fromBigInt(value)
+      return ZeroHexStaticInt192.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt192.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt192.fromNumber(value)
     return new ZeroHexStaticInt192(value.slice(2))
   }
 
@@ -5531,7 +5627,11 @@ export class ZeroHexStaticInt200 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt200.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt200(value.toString(16))
 
@@ -5553,9 +5653,9 @@ export class ZeroHexStaticInt200 {
 
   static create(value: ZeroHexStaticInt200.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt200.#fromBigInt(value)
+      return ZeroHexStaticInt200.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt200.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt200.fromNumber(value)
     return new ZeroHexStaticInt200(value.slice(2))
   }
 
@@ -5755,7 +5855,11 @@ export class ZeroHexStaticInt208 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt208.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt208(value.toString(16))
 
@@ -5777,9 +5881,9 @@ export class ZeroHexStaticInt208 {
 
   static create(value: ZeroHexStaticInt208.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt208.#fromBigInt(value)
+      return ZeroHexStaticInt208.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt208.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt208.fromNumber(value)
     return new ZeroHexStaticInt208(value.slice(2))
   }
 
@@ -5979,7 +6083,11 @@ export class ZeroHexStaticInt216 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt216.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt216(value.toString(16))
 
@@ -6001,9 +6109,9 @@ export class ZeroHexStaticInt216 {
 
   static create(value: ZeroHexStaticInt216.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt216.#fromBigInt(value)
+      return ZeroHexStaticInt216.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt216.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt216.fromNumber(value)
     return new ZeroHexStaticInt216(value.slice(2))
   }
 
@@ -6203,7 +6311,11 @@ export class ZeroHexStaticInt224 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt224.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt224(value.toString(16))
 
@@ -6225,9 +6337,9 @@ export class ZeroHexStaticInt224 {
 
   static create(value: ZeroHexStaticInt224.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt224.#fromBigInt(value)
+      return ZeroHexStaticInt224.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt224.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt224.fromNumber(value)
     return new ZeroHexStaticInt224(value.slice(2))
   }
 
@@ -6427,7 +6539,11 @@ export class ZeroHexStaticInt232 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt232.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt232(value.toString(16))
 
@@ -6449,9 +6565,9 @@ export class ZeroHexStaticInt232 {
 
   static create(value: ZeroHexStaticInt232.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt232.#fromBigInt(value)
+      return ZeroHexStaticInt232.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt232.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt232.fromNumber(value)
     return new ZeroHexStaticInt232(value.slice(2))
   }
 
@@ -6651,7 +6767,11 @@ export class ZeroHexStaticInt240 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt240.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt240(value.toString(16))
 
@@ -6673,9 +6793,9 @@ export class ZeroHexStaticInt240 {
 
   static create(value: ZeroHexStaticInt240.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt240.#fromBigInt(value)
+      return ZeroHexStaticInt240.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt240.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt240.fromNumber(value)
     return new ZeroHexStaticInt240(value.slice(2))
   }
 
@@ -6875,7 +6995,11 @@ export class ZeroHexStaticInt248 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt248.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt248(value.toString(16))
 
@@ -6897,9 +7021,9 @@ export class ZeroHexStaticInt248 {
 
   static create(value: ZeroHexStaticInt248.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt248.#fromBigInt(value)
+      return ZeroHexStaticInt248.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt248.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt248.fromNumber(value)
     return new ZeroHexStaticInt248(value.slice(2))
   }
 
@@ -7099,7 +7223,11 @@ export class ZeroHexStaticInt256 {
     readonly value: RawHexString
   ) { }
 
-  static #fromBigInt(value: bigint) {
+  static fromNumber(value: number) {
+    return ZeroHexStaticInt256.fromBigInt(BigInt(value))
+  }
+
+  static fromBigInt(value: bigint) {
     if (value >= BN_0) 
       return new ZeroHexStaticInt256(value.toString(16))
 
@@ -7121,9 +7249,9 @@ export class ZeroHexStaticInt256 {
 
   static create(value: ZeroHexStaticInt256.From) {
     if (typeof value === "bigint")
-      return ZeroHexStaticInt256.#fromBigInt(value)
+      return ZeroHexStaticInt256.fromBigInt(value)
     if (typeof value === "number")
-      return ZeroHexStaticInt256.#fromBigInt(BigInt(value))
+      return ZeroHexStaticInt256.fromNumber(value)
     return new ZeroHexStaticInt256(value.slice(2))
   }
 

@@ -50,7 +50,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
         const size = instance.sizeOrThrow()
 
         if (instance.dynamic) {
-          const pointer = StaticUint32.create(offset)
+          const pointer = StaticUint32.fromNumber(offset)
 
           heads.push(pointer)
           length += 32
@@ -151,7 +151,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     }
 
     writeOrThrow(cursor: Cursor) {
-      const length = StaticUint32.create(this.inner.length)
+      const length = StaticUint32.fromNumber(this.inner.length)
 
       length.writeOrThrow(cursor)
 
