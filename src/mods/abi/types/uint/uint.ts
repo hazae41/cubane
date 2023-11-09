@@ -49,11 +49,11 @@ export namespace AbiUint8 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiUint8.decodeOrThrow(cursor)
+    return NumberAbiUint8.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesAbiUint8.readOrThrow(cursor)
+    return NumberAbiUint8.readOrThrow(cursor)
   }
 
 }
@@ -390,11 +390,11 @@ export namespace AbiUint16 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiUint16.decodeOrThrow(cursor)
+    return NumberAbiUint16.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesAbiUint16.readOrThrow(cursor)
+    return NumberAbiUint16.readOrThrow(cursor)
   }
 
 }
@@ -731,11 +731,11 @@ export namespace AbiUint24 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiUint24.decodeOrThrow(cursor)
+    return NumberAbiUint24.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesAbiUint24.readOrThrow(cursor)
+    return NumberAbiUint24.readOrThrow(cursor)
   }
 
 }
@@ -1072,11 +1072,11 @@ export namespace AbiUint32 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiUint32.decodeOrThrow(cursor)
+    return NumberAbiUint32.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesAbiUint32.readOrThrow(cursor)
+    return NumberAbiUint32.readOrThrow(cursor)
   }
 
 }

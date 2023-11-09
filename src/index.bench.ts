@@ -54,18 +54,18 @@ if (true) {
   const options = { samples: 10000, warmup: true } as const
 
   const benchCubaneHex = benchSync("cubane (hex)", ({ message }) => {
-    const hex = factory.funcAndArgs.from(true, 123456789n, "hello world", [true, 123456789n, "hello world"], random).encodeOrThrow()
+    const hex = factory.funcAndArgs.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]).encodeOrThrow()
     // console.log(message, hex)
-    const args = factory.funcAndArgs.decodeOrThrow(new TextCursor(hex))
+    const args = factory.funcAndArgs.args.decodeOrThrow(new TextCursor(hex))
     // console.log(args.args.inner)
   }, options)
 
   const benchCubaneBytes = benchSync("cubane (bytes)", ({ message }) => {
-    const instance = factory.funcAndArgs.from(true, 123456789n, "hello world", [true, 123456789n, "hello world"], random)
+    const instance = factory.funcAndArgs.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random])
     const bytes = Writable.writeToBytesOrThrow(instance)
     // const hex = hexlify(bytes)
     // console.log(message, hex)
-    const args = Readable.readFromBytesOrThrow(factory.funcAndArgs, bytes)
+    const args = Readable.readFromBytesOrThrow(factory.funcAndArgs.args, bytes)
     // console.log(args.args.inner)
   }, options)
 

@@ -63,11 +63,15 @@ export namespace AbiUint${bits} {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiUint${bits}.decodeOrThrow(cursor)
+    ${numberable
+      ? `return NumberAbiUint${bits}.decodeOrThrow(cursor)`
+      : `return ZeroHexAbiUint${bits}.decodeOrThrow(cursor)`}
   }
 
   export function readOrThrow(cursor: Cursor) {
-    return BytesAbiUint${bits}.readOrThrow(cursor)
+    ${numberable
+      ? `return NumberAbiUint${bits}.readOrThrow(cursor)`
+      : `return BytesAbiUint${bits}.readOrThrow(cursor)`}
   }
 
 }
