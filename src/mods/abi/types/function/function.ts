@@ -5,10 +5,7 @@ import { Factory } from "mods/abi/abi.js";
 import { TupleFactory, TupleInstance } from "../tuple/tuple.js";
 
 import { Base16 } from "@hazae41/base16";
-import type { Writable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
-
-type Unuseds = Writable
 
 export class InvalidFunctionSelector extends Error {
   readonly #class = InvalidFunctionSelector

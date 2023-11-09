@@ -6,8 +6,6 @@ import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Uint32 } from "../uint/uint.js";
 
-type Unuseds = Readable
-
 export { AbiArray as Array };
 
 export const createArray = <T extends Factory, N extends number>($type: T, $count: N) => {
