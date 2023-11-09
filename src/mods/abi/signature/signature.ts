@@ -20,7 +20,7 @@ import { createVector } from "../types/vector/vector.js";
 
 export namespace FunctionSignature {
 
-  export const factoryByName: UintByName & IntByName & {
+  const factoryByName: UintByName & IntByName & {
     bool: typeof AbiBool,
     address: typeof AbiAddress,
     bytes: typeof AbiBytes,
@@ -40,7 +40,7 @@ export namespace FunctionSignature {
   }
 
   export function $parse$(signature: string): FunctionSignatureFactory {
-    return tryParse(signature).unwrap().codegen() as any
+    return parseOrThrow(signature).codegen() as any
   }
 
   export function tryParse(signature: string): Result<FunctionSignatureFactory, Error> {
@@ -73,7 +73,7 @@ export namespace FunctionSignature {
         else if (token === ",")
           continue
         else if (token === "(")
-          factories.push(doParseArrayOrVectorOrSingle(tokens, tryParseArguments(tokens).throw(t)))
+          factories.push(parseArrayOrVectorOrSingle(tokens, tryParseArguments(tokens).throw(t)))
         else if (token === ")")
           return new Ok(createTuple(...factories))
         else if (token === "[")
@@ -81,14 +81,55 @@ export namespace FunctionSignature {
         else if (token === "]")
           return new Err(new Error(`Unexpected brackets`))
         else
-          factories.push(doParseArrayOrVectorOrSingle(tokens, Records.tryResolve(FunctionSignature.factoryByName, token).throw(t)))
+          factories.push(parseArrayOrVectorOrSingle(tokens, Records.tryResolve(factoryByName, token).throw(t)))
       }
 
       return new Ok(createTuple(...factories))
     })
   }
 
-  function doParseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
+  export function parseOrThrow(signature: string): FunctionSignatureFactory {
+    const [name, ...tokens] = signature.trim().split(/(,|\(|\)|\[|\])/g).filter(Boolean)
+
+    if (tokens.shift() !== "(")
+      throw new Error(`Expected parenthesis`)
+
+    const bytes = Bytes.fromUtf8(signature)
+    using hash = Keccak256.get().hashOrThrow(bytes)
+    const func = FunctionSelector.create(hash.bytes.slice(0, 4) as Bytes<4>)
+    const args = parseArgumentsOrThrow(tokens)
+
+    const inner = createFunctionSelectorAndArguments(func, args)
+
+    return createFunctionSignature(name, inner)
+  }
+
+  function parseArgumentsOrThrow(tokens: string[]): TupleFactory<Factory[]> {
+    const factories = new Array<Factory>()
+
+    while (tokens.length) {
+      const token = tokens.shift()!
+
+      if (!token)
+        continue
+      else if (token === ",")
+        continue
+      else if (token === "(")
+        factories.push(parseArrayOrVectorOrSingle(tokens, parseArgumentsOrThrow(tokens)))
+      else if (token === ")")
+        return createTuple(...factories)
+      else if (token === "[")
+        throw new Error(`Unexpected brackets`)
+      else if (token === "]")
+        throw new Error(`Unexpected brackets`)
+      else
+        factories.push(parseArrayOrVectorOrSingle(tokens, Records.resolveOrThrow(factoryByName, token)))
+    }
+
+    return createTuple(...factories)
+  }
+
+  function parseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
     if (tokens[0] === "[" && tokens[1] === "]") {
       tokens.shift()
       tokens.shift()
