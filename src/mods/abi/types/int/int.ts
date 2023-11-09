@@ -59,9 +59,9 @@ export class BytesStaticInt8 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -138,13 +138,15 @@ export class ZeroHexStaticInt8 {
   readonly name = this.#class.name
 
   static readonly bytes = 1
+  static readonly nibbles = 2
   static readonly bits = 8
   static readonly bitsn = BigInt(8)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -281,9 +283,9 @@ export class BytesStaticInt16 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -360,13 +362,15 @@ export class ZeroHexStaticInt16 {
   readonly name = this.#class.name
 
   static readonly bytes = 2
+  static readonly nibbles = 4
   static readonly bits = 16
   static readonly bitsn = BigInt(16)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -503,9 +507,9 @@ export class BytesStaticInt24 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -582,13 +586,15 @@ export class ZeroHexStaticInt24 {
   readonly name = this.#class.name
 
   static readonly bytes = 3
+  static readonly nibbles = 6
   static readonly bits = 24
   static readonly bitsn = BigInt(24)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -725,9 +731,9 @@ export class BytesStaticInt32 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -804,13 +810,15 @@ export class ZeroHexStaticInt32 {
   readonly name = this.#class.name
 
   static readonly bytes = 4
+  static readonly nibbles = 8
   static readonly bits = 32
   static readonly bitsn = BigInt(32)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -947,9 +955,9 @@ export class BytesStaticInt40 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -1026,13 +1034,15 @@ export class ZeroHexStaticInt40 {
   readonly name = this.#class.name
 
   static readonly bytes = 5
+  static readonly nibbles = 10
   static readonly bits = 40
   static readonly bitsn = BigInt(40)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -1169,9 +1179,9 @@ export class BytesStaticInt48 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -1248,13 +1258,15 @@ export class ZeroHexStaticInt48 {
   readonly name = this.#class.name
 
   static readonly bytes = 6
+  static readonly nibbles = 12
   static readonly bits = 48
   static readonly bitsn = BigInt(48)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -1391,9 +1403,9 @@ export class BytesStaticInt56 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -1470,13 +1482,15 @@ export class ZeroHexStaticInt56 {
   readonly name = this.#class.name
 
   static readonly bytes = 7
+  static readonly nibbles = 14
   static readonly bits = 56
   static readonly bitsn = BigInt(56)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -1613,9 +1627,9 @@ export class BytesStaticInt64 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -1692,13 +1706,15 @@ export class ZeroHexStaticInt64 {
   readonly name = this.#class.name
 
   static readonly bytes = 8
+  static readonly nibbles = 16
   static readonly bits = 64
   static readonly bitsn = BigInt(64)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -1835,9 +1851,9 @@ export class BytesStaticInt72 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -1914,13 +1930,15 @@ export class ZeroHexStaticInt72 {
   readonly name = this.#class.name
 
   static readonly bytes = 9
+  static readonly nibbles = 18
   static readonly bits = 72
   static readonly bitsn = BigInt(72)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -2057,9 +2075,9 @@ export class BytesStaticInt80 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -2136,13 +2154,15 @@ export class ZeroHexStaticInt80 {
   readonly name = this.#class.name
 
   static readonly bytes = 10
+  static readonly nibbles = 20
   static readonly bits = 80
   static readonly bitsn = BigInt(80)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -2279,9 +2299,9 @@ export class BytesStaticInt88 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -2358,13 +2378,15 @@ export class ZeroHexStaticInt88 {
   readonly name = this.#class.name
 
   static readonly bytes = 11
+  static readonly nibbles = 22
   static readonly bits = 88
   static readonly bitsn = BigInt(88)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -2501,9 +2523,9 @@ export class BytesStaticInt96 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -2580,13 +2602,15 @@ export class ZeroHexStaticInt96 {
   readonly name = this.#class.name
 
   static readonly bytes = 12
+  static readonly nibbles = 24
   static readonly bits = 96
   static readonly bitsn = BigInt(96)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -2723,9 +2747,9 @@ export class BytesStaticInt104 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -2802,13 +2826,15 @@ export class ZeroHexStaticInt104 {
   readonly name = this.#class.name
 
   static readonly bytes = 13
+  static readonly nibbles = 26
   static readonly bits = 104
   static readonly bitsn = BigInt(104)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -2945,9 +2971,9 @@ export class BytesStaticInt112 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -3024,13 +3050,15 @@ export class ZeroHexStaticInt112 {
   readonly name = this.#class.name
 
   static readonly bytes = 14
+  static readonly nibbles = 28
   static readonly bits = 112
   static readonly bitsn = BigInt(112)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -3167,9 +3195,9 @@ export class BytesStaticInt120 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -3246,13 +3274,15 @@ export class ZeroHexStaticInt120 {
   readonly name = this.#class.name
 
   static readonly bytes = 15
+  static readonly nibbles = 30
   static readonly bits = 120
   static readonly bitsn = BigInt(120)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -3389,9 +3419,9 @@ export class BytesStaticInt128 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -3468,13 +3498,15 @@ export class ZeroHexStaticInt128 {
   readonly name = this.#class.name
 
   static readonly bytes = 16
+  static readonly nibbles = 32
   static readonly bits = 128
   static readonly bitsn = BigInt(128)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -3611,9 +3643,9 @@ export class BytesStaticInt136 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -3690,13 +3722,15 @@ export class ZeroHexStaticInt136 {
   readonly name = this.#class.name
 
   static readonly bytes = 17
+  static readonly nibbles = 34
   static readonly bits = 136
   static readonly bitsn = BigInt(136)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -3833,9 +3867,9 @@ export class BytesStaticInt144 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -3912,13 +3946,15 @@ export class ZeroHexStaticInt144 {
   readonly name = this.#class.name
 
   static readonly bytes = 18
+  static readonly nibbles = 36
   static readonly bits = 144
   static readonly bitsn = BigInt(144)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -4055,9 +4091,9 @@ export class BytesStaticInt152 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -4134,13 +4170,15 @@ export class ZeroHexStaticInt152 {
   readonly name = this.#class.name
 
   static readonly bytes = 19
+  static readonly nibbles = 38
   static readonly bits = 152
   static readonly bitsn = BigInt(152)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -4277,9 +4315,9 @@ export class BytesStaticInt160 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -4356,13 +4394,15 @@ export class ZeroHexStaticInt160 {
   readonly name = this.#class.name
 
   static readonly bytes = 20
+  static readonly nibbles = 40
   static readonly bits = 160
   static readonly bitsn = BigInt(160)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -4499,9 +4539,9 @@ export class BytesStaticInt168 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -4578,13 +4618,15 @@ export class ZeroHexStaticInt168 {
   readonly name = this.#class.name
 
   static readonly bytes = 21
+  static readonly nibbles = 42
   static readonly bits = 168
   static readonly bitsn = BigInt(168)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -4721,9 +4763,9 @@ export class BytesStaticInt176 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -4800,13 +4842,15 @@ export class ZeroHexStaticInt176 {
   readonly name = this.#class.name
 
   static readonly bytes = 22
+  static readonly nibbles = 44
   static readonly bits = 176
   static readonly bitsn = BigInt(176)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -4943,9 +4987,9 @@ export class BytesStaticInt184 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -5022,13 +5066,15 @@ export class ZeroHexStaticInt184 {
   readonly name = this.#class.name
 
   static readonly bytes = 23
+  static readonly nibbles = 46
   static readonly bits = 184
   static readonly bitsn = BigInt(184)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -5165,9 +5211,9 @@ export class BytesStaticInt192 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -5244,13 +5290,15 @@ export class ZeroHexStaticInt192 {
   readonly name = this.#class.name
 
   static readonly bytes = 24
+  static readonly nibbles = 48
   static readonly bits = 192
   static readonly bitsn = BigInt(192)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -5387,9 +5435,9 @@ export class BytesStaticInt200 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -5466,13 +5514,15 @@ export class ZeroHexStaticInt200 {
   readonly name = this.#class.name
 
   static readonly bytes = 25
+  static readonly nibbles = 50
   static readonly bits = 200
   static readonly bitsn = BigInt(200)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -5609,9 +5659,9 @@ export class BytesStaticInt208 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -5688,13 +5738,15 @@ export class ZeroHexStaticInt208 {
   readonly name = this.#class.name
 
   static readonly bytes = 26
+  static readonly nibbles = 52
   static readonly bits = 208
   static readonly bitsn = BigInt(208)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -5831,9 +5883,9 @@ export class BytesStaticInt216 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -5910,13 +5962,15 @@ export class ZeroHexStaticInt216 {
   readonly name = this.#class.name
 
   static readonly bytes = 27
+  static readonly nibbles = 54
   static readonly bits = 216
   static readonly bitsn = BigInt(216)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -6053,9 +6107,9 @@ export class BytesStaticInt224 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -6132,13 +6186,15 @@ export class ZeroHexStaticInt224 {
   readonly name = this.#class.name
 
   static readonly bytes = 28
+  static readonly nibbles = 56
   static readonly bits = 224
   static readonly bitsn = BigInt(224)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -6275,9 +6331,9 @@ export class BytesStaticInt232 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -6354,13 +6410,15 @@ export class ZeroHexStaticInt232 {
   readonly name = this.#class.name
 
   static readonly bytes = 29
+  static readonly nibbles = 58
   static readonly bits = 232
   static readonly bitsn = BigInt(232)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -6497,9 +6555,9 @@ export class BytesStaticInt240 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -6576,13 +6634,15 @@ export class ZeroHexStaticInt240 {
   readonly name = this.#class.name
 
   static readonly bytes = 30
+  static readonly nibbles = 60
   static readonly bits = 240
   static readonly bitsn = BigInt(240)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -6719,9 +6779,9 @@ export class BytesStaticInt248 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -6798,13 +6858,15 @@ export class ZeroHexStaticInt248 {
   readonly name = this.#class.name
 
   static readonly bytes = 31
+  static readonly nibbles = 62
   static readonly bits = 248
   static readonly bitsn = BigInt(248)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
@@ -6941,9 +7003,9 @@ export class BytesStaticInt256 {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -7020,13 +7082,15 @@ export class ZeroHexStaticInt256 {
   readonly name = this.#class.name
 
   static readonly bytes = 32
+  static readonly nibbles = 64
   static readonly bits = 256
   static readonly bitsn = BigInt(256)
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size

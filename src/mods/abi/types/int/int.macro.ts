@@ -67,9 +67,9 @@ export class BytesStaticInt${bits} {
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
-  readonly nibbles = this.#class.nibbles
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
@@ -146,13 +146,15 @@ export class ZeroHexStaticInt${bits} {
   readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
+  static readonly nibbles = ${nibbles}
   static readonly bits = ${bits}
   static readonly bitsn = BigInt(${bits})
   static readonly dynamic = false
   static readonly size = 32
 
-  readonly bits = this.#class.bits
   readonly bytes = this.#class.bytes
+  readonly nibbles = this.#class.nibbles
+  readonly bits = this.#class.bits
   readonly bitsn = this.#class.bitsn
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size

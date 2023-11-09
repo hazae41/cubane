@@ -3,7 +3,7 @@ import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
 import { Factory, Instance } from "mods/abi/abi.js";
-import { Uint32 } from "../uint/uint.js";
+import { StaticUint32 } from "../uint/uint.js";
 
 export const createDynamicTuple = <T extends readonly Factory[]>(...$types: T) => {
   return class DynamicTuple {
@@ -47,7 +47,7 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...$types: T) =
         const size = instance.sizeOrThrow()
 
         if (instance.dynamic) {
-          const pointer = Uint32.new(offset)
+          const pointer = StaticUint32.create(offset)
 
           heads.push(pointer)
           length += 32
@@ -120,10 +120,10 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...$types: T) =
 
       for (const factory of DynamicTuple.types) {
         if (factory.dynamic) {
-          const pointer = Uint32.decodeOrThrow(cursor)
+          const pointer = StaticUint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + (pointer.value * 2)
+          subcursor.offset = start + (pointer.toNumber() * 2)
           const instance = factory.decodeOrThrow(subcursor)
 
           inner.push(instance)
@@ -164,10 +164,10 @@ export const createDynamicTuple = <T extends readonly Factory[]>(...$types: T) =
 
       for (const factory of DynamicTuple.types) {
         if (factory.dynamic) {
-          const pointer = Uint32.readOrThrow(cursor)
+          const pointer = StaticUint32.readOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + pointer.value
+          subcursor.offset = start + pointer.toNumber()
           const instance = factory.readOrThrow(subcursor)
 
           inner.push(instance)

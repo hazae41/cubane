@@ -3,7 +3,7 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { RawHexString, ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { Uint32 } from "../uint/uint.js";
+import { StaticUint32 } from "../uint/uint.js";
 
 export type DynamicBytes =
   | BytesDynamicBytes
@@ -79,7 +79,7 @@ export class BytesDynamicBytes {
     const length1 = this.value.length
     const length2 = length1 * 2
 
-    const head = Uint32.new(length1).encodeOrThrow()
+    const head = StaticUint32.create(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
     const body = Base16.get().encodeOrThrow(this.value).padEnd(padded2, "0")
@@ -90,14 +90,14 @@ export class BytesDynamicBytes {
   encodePackedOrThrow() {
     const length1 = this.value.length
 
-    const head = Uint32.new(length1).encodePackedOrThrow()
+    const head = StaticUint32.create(length1).encodePackedOrThrow()
     const body = Base16.get().encodeOrThrow(this.value)
 
     return head + body
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const length1 = Uint32.decodeOrThrow(cursor).value
+    const length1 = StaticUint32.decodeOrThrow(cursor).toNumber()
     const length2 = length1 * 2
 
     const content = cursor.readOrThrow(length2)
@@ -121,7 +121,7 @@ export class BytesDynamicBytes {
   writeOrThrow(cursor: Cursor) {
     const length1 = this.value.length
 
-    Uint32.new(length1).writeOrThrow(cursor)
+    StaticUint32.create(length1).writeOrThrow(cursor)
     cursor.writeOrThrow(this.value)
 
     const padded1 = Math.ceil(length1 / 32) * 32
@@ -129,7 +129,7 @@ export class BytesDynamicBytes {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const length1 = Uint32.readOrThrow(cursor).value
+    const length1 = StaticUint32.readOrThrow(cursor).toNumber()
     const content = cursor.readOrThrow(length1)
     const bytes = new Uint8Array(content)
 
@@ -180,7 +180,7 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    const head = Uint32.new(length1).encodeOrThrow()
+    const head = StaticUint32.create(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
     const body = this.value.padEnd(padded2, "0")
@@ -192,14 +192,14 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    const head = Uint32.new(length1).encodeOrThrow()
+    const head = StaticUint32.create(length1).encodeOrThrow()
     const body = this.value
 
     return head + body
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const length1 = Uint32.decodeOrThrow(cursor).value
+    const length1 = StaticUint32.decodeOrThrow(cursor).toNumber()
     const length2 = length1 * 2
 
     const value = cursor.readOrThrow(length2)
@@ -223,7 +223,7 @@ export class ZeroHexDynamicBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    Uint32.new(length1).writeOrThrow(cursor)
+    StaticUint32.create(length1).writeOrThrow(cursor)
 
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
     cursor.writeOrThrow(slice.bytes)
@@ -233,7 +233,7 @@ export class ZeroHexDynamicBytes {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const length1 = Uint32.readOrThrow(cursor).value
+    const length1 = StaticUint32.readOrThrow(cursor).toNumber()
 
     const bytes = cursor.readOrThrow(length1)
     const value = Base16.get().encodeOrThrow(bytes)

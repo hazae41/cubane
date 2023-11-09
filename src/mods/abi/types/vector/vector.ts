@@ -1,10 +1,10 @@
 import { Cursor } from "@hazae41/cursor";
 import { Factory, Instance } from "mods/abi/abi.js";
-import { Uint32 } from "../uint/uint.js";
 
 import type { Readable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
+import { StaticUint32 } from "../uint/uint.js";
 
 type Unuseds = Readable
 
@@ -50,7 +50,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
         const size = instance.sizeOrThrow()
 
         if (instance.dynamic) {
-          const pointer = Uint32.new(offset)
+          const pointer = StaticUint32.create(offset)
 
           heads.push(pointer)
           length += 32
@@ -113,7 +113,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     static decodeOrThrow(cursor: TextCursor) {
       const zero = cursor.offset
 
-      const length = Uint32.decodeOrThrow(cursor)
+      const length = StaticUint32.decodeOrThrow(cursor).toNumber()
 
       const start = cursor.offset
 
@@ -124,12 +124,12 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
 
       const subcursor = new TextCursor(cursor.text)
 
-      for (let i = 0; i < length.value; i++) {
+      for (let i = 0; i < length; i++) {
         if (DynamicVector.type.dynamic) {
-          const pointer = Uint32.decodeOrThrow(cursor)
+          const pointer = StaticUint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + (pointer.value * 2)
+          subcursor.offset = start + (pointer.toNumber() * 2)
           const instance = DynamicVector.type.decodeOrThrow(subcursor)
 
           inner.push(instance)
@@ -151,7 +151,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     }
 
     writeOrThrow(cursor: Cursor) {
-      const length = Uint32.new(this.inner.length)
+      const length = StaticUint32.create(this.inner.length)
 
       length.writeOrThrow(cursor)
 
@@ -164,7 +164,7 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
     static readOrThrow(cursor: Cursor) {
       const zero = cursor.offset
 
-      const length = Uint32.readOrThrow(cursor)
+      const length = StaticUint32.readOrThrow(cursor).toNumber()
 
       const start = cursor.offset
 
@@ -175,12 +175,12 @@ export const createDynamicVector = <T extends Factory>($type: T) => {
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
 
-      for (let i = 0; i < length.value; i++) {
+      for (let i = 0; i < length; i++) {
         if (DynamicVector.type.dynamic) {
-          const pointer = Uint32.readOrThrow(cursor)
+          const pointer = StaticUint32.readOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + pointer.value
+          subcursor.offset = start + pointer.toNumber()
           const instance = DynamicVector.type.readOrThrow(subcursor)
 
           inner.push(instance)

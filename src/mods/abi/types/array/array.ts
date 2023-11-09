@@ -1,10 +1,10 @@
 import { Cursor } from "@hazae41/cursor";
 import { Factory, Instance } from "mods/abi/abi.js";
-import { Uint32 } from "../uint/uint.js";
 
 import type { Readable } from "@hazae41/binary";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
+import { StaticUint32 } from "../uint/uint.js";
 
 type Unuseds = Readable
 
@@ -52,7 +52,7 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
         const size = instance.sizeOrThrow()
 
         if (instance.dynamic) {
-          const pointer = Uint32.new(offset)
+          const pointer = StaticUint32.create(offset)
 
           heads.push(pointer)
           length += 32
@@ -125,10 +125,10 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
 
       for (let i = 0; i < this.count; i++) {
         if (DynamicArray.type.dynamic) {
-          const pointer = Uint32.decodeOrThrow(cursor)
+          const pointer = StaticUint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + (pointer.value * 2)
+          subcursor.offset = start + (pointer.toNumber() * 2)
           const instance = DynamicArray.type.decodeOrThrow(subcursor)
 
           inner.push(instance)
@@ -169,10 +169,10 @@ export const createDynamicArray = <T extends Factory, N extends number>($type: T
 
       for (let i = 0; i < this.count; i++) {
         if (DynamicArray.type.dynamic) {
-          const pointer = Uint32.readOrThrow(cursor)
+          const pointer = StaticUint32.readOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + pointer.value
+          subcursor.offset = start + pointer.toNumber()
           const instance = DynamicArray.type.readOrThrow(subcursor)
 
           inner.push(instance)
