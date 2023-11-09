@@ -12,7 +12,7 @@ Keccak256.set(await Keccak256.fromMorax())
 test("uint32", async ({ message, test }) => {
   const value = 123
   const abi = StaticUint32.create(value)
-  const bytes = Writable.tryWriteToBytes(abi).unwrap()
+  const bytes = Writable.writeToBytesOrThrow(abi)
 
   // console.log(message, value)
   // console.log(message, Base16.get().tryEncode(bytes).unwrap())
@@ -27,14 +27,14 @@ test("uint32", async ({ message, test }) => {
 
 test("uint256", async ({ message, test }) => {
   const random = Bytes.random(32)
-  const value = BigInts.tryImport(random).unwrap()
+  const value = BigInts.importOrThrow(random)
   const abi = StaticUint256.create(value)
-  const bytes = Writable.tryWriteToBytes(abi).unwrap()
+  const bytes = Writable.writeToBytesOrThrow(abi)
 
   // console.log(message, value)
   // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
-  const abi2 = Readable.tryReadFromBytes(StaticUint32, bytes).unwrap()
+  const abi2 = Readable.readFromBytesOrThrow(StaticUint256, bytes)
   const value2 = abi2.intoOrThrow()
 
   // console.log(message, value2)

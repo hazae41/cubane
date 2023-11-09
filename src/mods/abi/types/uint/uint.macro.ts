@@ -124,7 +124,7 @@ export class BytesStaticUint${bits} {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint${bits}.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -221,7 +221,7 @@ export class ZeroHexStaticUint${bits} {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint${bits}.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 

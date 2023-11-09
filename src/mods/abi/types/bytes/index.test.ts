@@ -11,12 +11,12 @@ Keccak256.set(await Keccak256.fromMorax())
 test("bytes", async ({ message, test }) => {
   const value = Bytes.random(123)
   const abi = DynamicBytes.create(value)
-  const bytes = Writable.tryWriteToBytes(abi).unwrap()
+  const bytes = Writable.writeToBytesOrThrow(abi)
 
   // console.log(message, value)
   // console.log(message, Base16.get().tryEncode(bytes).unwrap())
 
-  const abi2 = Readable.tryReadFromBytes(DynamicBytes, bytes).unwrap()
+  const abi2 = Readable.readFromBytesOrThrow(DynamicBytes, bytes)
   const value2 = abi2.value
 
   // console.log(message, value2)

@@ -116,7 +116,7 @@ export class BytesStaticUint8 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint8.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -213,7 +213,7 @@ export class ZeroHexStaticUint8 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint8.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -338,7 +338,7 @@ export class BytesStaticUint16 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint16.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -435,7 +435,7 @@ export class ZeroHexStaticUint16 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint16.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -560,7 +560,7 @@ export class BytesStaticUint24 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint24.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -657,7 +657,7 @@ export class ZeroHexStaticUint24 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint24.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -782,7 +782,7 @@ export class BytesStaticUint32 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint32.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -879,7 +879,7 @@ export class ZeroHexStaticUint32 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint32.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -1004,7 +1004,7 @@ export class BytesStaticUint40 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint40.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -1101,7 +1101,7 @@ export class ZeroHexStaticUint40 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint40.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -1226,7 +1226,7 @@ export class BytesStaticUint48 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint48.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -1323,7 +1323,7 @@ export class ZeroHexStaticUint48 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint48.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -1448,7 +1448,7 @@ export class BytesStaticUint56 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint56.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -1545,7 +1545,7 @@ export class ZeroHexStaticUint56 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint56.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -1670,7 +1670,7 @@ export class BytesStaticUint64 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint64.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -1767,7 +1767,7 @@ export class ZeroHexStaticUint64 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint64.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -1892,7 +1892,7 @@ export class BytesStaticUint72 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint72.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -1989,7 +1989,7 @@ export class ZeroHexStaticUint72 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint72.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -2114,7 +2114,7 @@ export class BytesStaticUint80 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint80.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -2211,7 +2211,7 @@ export class ZeroHexStaticUint80 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint80.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -2336,7 +2336,7 @@ export class BytesStaticUint88 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint88.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -2433,7 +2433,7 @@ export class ZeroHexStaticUint88 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint88.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -2558,7 +2558,7 @@ export class BytesStaticUint96 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint96.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -2655,7 +2655,7 @@ export class ZeroHexStaticUint96 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint96.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -2780,7 +2780,7 @@ export class BytesStaticUint104 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint104.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -2877,7 +2877,7 @@ export class ZeroHexStaticUint104 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint104.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -3002,7 +3002,7 @@ export class BytesStaticUint112 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint112.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -3099,7 +3099,7 @@ export class ZeroHexStaticUint112 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint112.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -3224,7 +3224,7 @@ export class BytesStaticUint120 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint120.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -3321,7 +3321,7 @@ export class ZeroHexStaticUint120 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint120.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -3446,7 +3446,7 @@ export class BytesStaticUint128 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint128.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -3543,7 +3543,7 @@ export class ZeroHexStaticUint128 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint128.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -3668,7 +3668,7 @@ export class BytesStaticUint136 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint136.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -3765,7 +3765,7 @@ export class ZeroHexStaticUint136 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint136.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -3890,7 +3890,7 @@ export class BytesStaticUint144 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint144.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -3987,7 +3987,7 @@ export class ZeroHexStaticUint144 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint144.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -4112,7 +4112,7 @@ export class BytesStaticUint152 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint152.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -4209,7 +4209,7 @@ export class ZeroHexStaticUint152 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint152.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -4334,7 +4334,7 @@ export class BytesStaticUint160 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint160.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -4431,7 +4431,7 @@ export class ZeroHexStaticUint160 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint160.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -4556,7 +4556,7 @@ export class BytesStaticUint168 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint168.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -4653,7 +4653,7 @@ export class ZeroHexStaticUint168 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint168.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -4778,7 +4778,7 @@ export class BytesStaticUint176 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint176.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -4875,7 +4875,7 @@ export class ZeroHexStaticUint176 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint176.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -5000,7 +5000,7 @@ export class BytesStaticUint184 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint184.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -5097,7 +5097,7 @@ export class ZeroHexStaticUint184 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint184.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -5222,7 +5222,7 @@ export class BytesStaticUint192 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint192.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -5319,7 +5319,7 @@ export class ZeroHexStaticUint192 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint192.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -5444,7 +5444,7 @@ export class BytesStaticUint200 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint200.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -5541,7 +5541,7 @@ export class ZeroHexStaticUint200 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint200.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -5666,7 +5666,7 @@ export class BytesStaticUint208 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint208.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -5763,7 +5763,7 @@ export class ZeroHexStaticUint208 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint208.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -5888,7 +5888,7 @@ export class BytesStaticUint216 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint216.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -5985,7 +5985,7 @@ export class ZeroHexStaticUint216 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint216.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -6110,7 +6110,7 @@ export class BytesStaticUint224 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint224.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -6207,7 +6207,7 @@ export class ZeroHexStaticUint224 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint224.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -6332,7 +6332,7 @@ export class BytesStaticUint232 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint232.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -6429,7 +6429,7 @@ export class ZeroHexStaticUint232 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint232.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -6554,7 +6554,7 @@ export class BytesStaticUint240 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint240.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -6651,7 +6651,7 @@ export class ZeroHexStaticUint240 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint240.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -6776,7 +6776,7 @@ export class BytesStaticUint248 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint248.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -6873,7 +6873,7 @@ export class ZeroHexStaticUint248 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint248.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
@@ -6998,7 +6998,7 @@ export class BytesStaticUint256 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    cursor.fillOrThrow(0, 32 - BytesStaticUint256.bytes)
+    cursor.fillOrThrow(0, 32 - this.value.length)
     cursor.writeOrThrow(this.value)
   }
 
@@ -7095,7 +7095,7 @@ export class ZeroHexStaticUint256 {
   writeOrThrow(cursor: Cursor) {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - ZeroHexStaticUint256.nibbles)
+    cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
   }
 
