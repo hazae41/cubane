@@ -141,7 +141,7 @@ export const f = /*generated code*/
 Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
 
 ```tsx
-const hex = f.args.from(true, 123456789n, "hello world").encodeOrThrow()
+const hex = f.from(true, 123456789n, "hello world").encodeOrThrow()
 // c4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 
