@@ -63,7 +63,7 @@ export const createVector = <T extends Factory>($type: T) => {
         }
       }
 
-      return new AbiVector(instances, heads, tails, 32 + length)
+      return new AbiVector(instances, heads, tails, length)
     }
 
     static from(primitives: Factory.Primitives<T[]>) {
@@ -110,8 +110,6 @@ export const createVector = <T extends Factory>($type: T) => {
     }
 
     static decodeOrThrow(cursor: TextCursor) {
-      const zero = cursor.offset
-
       const length = Uint32.decodeOrThrow(cursor).toNumber()
 
       const start = cursor.offset
@@ -142,7 +140,7 @@ export const createVector = <T extends Factory>($type: T) => {
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new AbiVector(inner as any as Factory.Instances<T[]>, heads, tails, (cursor.offset - zero) / 2)
+      return new AbiVector(inner as any as Factory.Instances<T[]>, heads, tails, (cursor.offset - start) / 2)
     }
 
     sizeOrThrow() {
@@ -161,8 +159,6 @@ export const createVector = <T extends Factory>($type: T) => {
     }
 
     static readOrThrow(cursor: Cursor) {
-      const zero = cursor.offset
-
       const length = Uint32.readOrThrow(cursor).toNumber()
 
       const start = cursor.offset
@@ -193,7 +189,7 @@ export const createVector = <T extends Factory>($type: T) => {
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new AbiVector(inner as any as Factory.Instances<T[]>, heads, tails, cursor.offset - zero)
+      return new AbiVector(inner as any as Factory.Instances<T[]>, heads, tails, cursor.offset - start)
     }
 
   }
@@ -206,7 +202,7 @@ export type VectorFactory<T extends Factory = Factory> =
   ReturnType<typeof createVector<T>> & { readonly name: string }
 
 export namespace AbiVector {
-  export const name = "Vector"
+  export const name = "AbiVector"
 
   export function isInstance<T extends Factory = Factory>(x: Skeleton<VectorInstance<T>>): x is VectorInstance<T> {
     return x.name === name && x.class != null

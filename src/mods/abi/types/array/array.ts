@@ -112,7 +112,6 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
     }
 
     static decodeOrThrow(cursor: TextCursor) {
-      const zero = cursor.offset
       const start = cursor.offset
 
       const inner = new Array<Instance<any>>()
@@ -141,7 +140,7 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new AbiArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, (cursor.offset - zero) / 2)
+      return new AbiArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, (cursor.offset - start) / 2)
     }
 
     sizeOrThrow() {
@@ -156,7 +155,6 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
     }
 
     static readOrThrow(cursor: Cursor) {
-      const zero = cursor.offset
       const start = cursor.offset
 
       const subcursor = new Cursor(cursor.bytes)
@@ -185,7 +183,7 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new AbiArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - zero)
+      return new AbiArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - start)
     }
 
   }
@@ -198,7 +196,7 @@ export type ArrayFactory<T extends Factory, N extends number> =
   ReturnType<typeof createArray<T, N>> & { readonly name: string }
 
 export namespace AbiArray {
-  export const name = "Array"
+  export const name = "AbiArray"
 
   export function isInstance<T extends Factory, N extends number>(x: Skeleton<ArrayInstance<T, N>>): x is ArrayInstance<T, N> {
     return x.name === name && x.class != null

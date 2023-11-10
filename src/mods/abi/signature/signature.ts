@@ -126,18 +126,24 @@ export namespace FunctionSignature {
     return createTuple(...factories)
   }
 
-  function parseArrayOrVectorOrSingle<T extends Factory>(tokens: string[], factory: T) {
-    if (tokens[0] === "[" && tokens[1] === "]") {
-      tokens.shift()
-      tokens.shift()
-      return createVector(factory)
-    }
+  function parseArrayOrVectorOrSingle(tokens: string[], factory: Factory) {
+    while (tokens.length) {
+      if (tokens[0] === "[" && tokens[1] === "]") {
+        tokens.shift()
+        tokens.shift()
+        factory = createVector(factory)
+        continue
+      }
 
-    if (tokens[0] === "[" && tokens[2] === "]") {
-      tokens.shift()
-      const length = parseInt(tokens.shift()!)
-      tokens.shift()
-      return createArray(factory, length)
+      if (tokens[0] === "[" && tokens[2] === "]") {
+        tokens.shift()
+        const length = parseInt(tokens.shift()!)
+        tokens.shift()
+        factory = createArray(factory, length)
+        continue
+      }
+
+      return factory
     }
 
     return factory

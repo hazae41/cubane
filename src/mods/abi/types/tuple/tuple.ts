@@ -109,7 +109,6 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
     }
 
     static decodeOrThrow(cursor: TextCursor) {
-      const zero = cursor.offset
       const start = cursor.offset
 
       const inner = new Array<Instance<any>>()
@@ -138,7 +137,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new AbiTuple(inner as Factory.Instances<T>, heads, tails, (cursor.offset - zero) / 2)
+      return new AbiTuple(inner as Factory.Instances<T>, heads, tails, (cursor.offset - start) / 2)
     }
 
     sizeOrThrow() {
@@ -153,7 +152,6 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
     }
 
     static readOrThrow(cursor: Cursor) {
-      const zero = cursor.offset
       const start = cursor.offset
 
       const inner = new Array<Instance<any>>()
@@ -182,7 +180,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
 
       cursor.offset = Math.max(cursor.offset, subcursor.offset)
 
-      return new AbiTuple(inner as Factory.Instances<T>, heads, tails, cursor.offset - zero)
+      return new AbiTuple(inner as Factory.Instances<T>, heads, tails, cursor.offset - start)
     }
 
   }
@@ -195,7 +193,7 @@ export type TupleFactory<T extends readonly Factory[] = Factory[]> =
   ReturnType<typeof createTuple<T>> & { readonly name: string }
 
 export namespace AbiTuple {
-  export const name = "Tuple"
+  export const name = "AbiTuple"
 
   export function isInstance<T extends readonly Factory[]>(x: Skeleton<TupleInstance<T>>): x is TupleInstance<T> {
     return x.name === name && x.class != null

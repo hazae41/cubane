@@ -66,12 +66,23 @@ test("runtime encode then decode", async () => {
 
 test("json", async () => {
   for (const element of elements as any[]) {
-    console.log(element.name)
-
     const signature = FunctionSignature.parseOrThrow(`f(${element.type})`)
     const encoded = signature.funcAndArgs.args.from([element.value]).encodeOrThrow()
 
-    console.log(encoded, element.encoded)
-    assert(ZeroHexString.from(encoded).toLowerCase() === element.encoded.toLowerCase(), "encoded")
+    const a = ZeroHexString.from(encoded).toLowerCase()
+    const b = element.encoded.toLowerCase()
+
+    // for (let i = 2; i < a.length; i += 32) {
+    //   console.log(i, a.slice(i, i + 32) === b.slice(i, i + 32))
+    //   console.log(a.slice(i, i + 32))
+    //   console.log(b.slice(i, i + 32))
+    // }
+
+    assert(a === b, "encoded")
+
+    const decoded = signature.funcAndArgs.args.decodeOrThrow(new TextCursor(encoded)).intoOrThrow()
+
+    console.log("a", decoded)
+    console.log("b", [element.value])
   }
 })
