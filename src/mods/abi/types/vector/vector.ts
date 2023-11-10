@@ -20,8 +20,8 @@ export const createVector = <T extends Factory>($type: T) => {
 
     private constructor(
       readonly inner: Factory.Instances<T[]>,
-      readonly heads: Instance<any>[],
-      readonly tails: Instance<any>[],
+      readonly heads: Instance[],
+      readonly tails: Instance[],
       readonly size: number,
     ) { }
 
@@ -79,6 +79,10 @@ export const createVector = <T extends Factory>($type: T) => {
       return this.inner.map(it => it.intoOrThrow()) as Factory.Primitives<T[]>
     }
 
+    toJSON() {
+      return this.inner.map(it => it.toJSON()) as Factory.Jsoneds<T[]>
+    }
+
     static codegen() {
       return `Abi.createVector(${this.type.codegen()})`
     }
@@ -110,7 +114,7 @@ export const createVector = <T extends Factory>($type: T) => {
     }
 
     static decodeOrThrow(cursor: TextCursor) {
-      const length = Uint32.decodeOrThrow(cursor).toNumber()
+      const length = Uint32.decodeOrThrow(cursor).value
 
       const start = cursor.offset
 
@@ -128,7 +132,7 @@ export const createVector = <T extends Factory>($type: T) => {
 
           const offset = cursor.offset
 
-          cursor.offset = start + (pointer.toNumber() * 2)
+          cursor.offset = start + (pointer.value * 2)
           const instance = AbiVector.type.decodeOrThrow(cursor)
 
           end = cursor.offset
@@ -164,7 +168,7 @@ export const createVector = <T extends Factory>($type: T) => {
     }
 
     static readOrThrow(cursor: Cursor) {
-      const length = Uint32.readOrThrow(cursor).toNumber()
+      const length = Uint32.readOrThrow(cursor).value
 
       const start = cursor.offset
 
@@ -182,7 +186,7 @@ export const createVector = <T extends Factory>($type: T) => {
 
           const offset = cursor.offset
 
-          cursor.offset = start + pointer.toNumber()
+          cursor.offset = start + pointer.value
           const instance = AbiVector.type.readOrThrow(cursor)
 
           end = cursor.offset

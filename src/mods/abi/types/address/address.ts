@@ -69,8 +69,12 @@ export class BytesAbiAddress {
     return BytesAbiAddress.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Address {
     return Address.checksum(this.encodePackedOrThrow())
+  }
+
+  toJSON(): Address {
+    return this.intoOrThrow()
   }
 
   get class() {
@@ -130,8 +134,12 @@ export class ZeroHexAbiAddress {
     return ZeroHexAbiAddress.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Address {
     return Address.checksum(this.value)
+  }
+
+  toJSON(): Address {
+    return this.intoOrThrow()
   }
 
   get class() {

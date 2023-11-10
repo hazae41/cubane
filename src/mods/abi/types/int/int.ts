@@ -79,8 +79,12 @@ export class BytesAbiInt8 {
     return BytesAbiInt8.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt8(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt8(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -172,16 +176,6 @@ export class ZeroHexAbiInt8 {
     return new ZeroHexAbiInt8(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt8.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt8.fromBigInt(value)
@@ -196,8 +190,18 @@ export class ZeroHexAbiInt8 {
     return ZeroHexAbiInt8.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -312,8 +316,12 @@ export class BytesAbiInt16 {
     return BytesAbiInt16.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt16(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt16(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -405,16 +413,6 @@ export class ZeroHexAbiInt16 {
     return new ZeroHexAbiInt16(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt16.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt16.fromBigInt(value)
@@ -429,8 +427,18 @@ export class ZeroHexAbiInt16 {
     return ZeroHexAbiInt16.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -545,8 +553,12 @@ export class BytesAbiInt24 {
     return BytesAbiInt24.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt24(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt24(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -638,16 +650,6 @@ export class ZeroHexAbiInt24 {
     return new ZeroHexAbiInt24(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt24.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt24.fromBigInt(value)
@@ -662,8 +664,18 @@ export class ZeroHexAbiInt24 {
     return ZeroHexAbiInt24.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -778,8 +790,12 @@ export class BytesAbiInt32 {
     return BytesAbiInt32.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt32(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt32(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -871,16 +887,6 @@ export class ZeroHexAbiInt32 {
     return new ZeroHexAbiInt32(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt32.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt32.fromBigInt(value)
@@ -895,8 +901,18 @@ export class ZeroHexAbiInt32 {
     return ZeroHexAbiInt32.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1011,8 +1027,12 @@ export class BytesAbiInt40 {
     return BytesAbiInt40.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt40(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt40(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -1104,16 +1124,6 @@ export class ZeroHexAbiInt40 {
     return new ZeroHexAbiInt40(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt40.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt40.fromBigInt(value)
@@ -1128,8 +1138,18 @@ export class ZeroHexAbiInt40 {
     return ZeroHexAbiInt40.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1244,8 +1264,12 @@ export class BytesAbiInt48 {
     return BytesAbiInt48.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt48(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt48(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -1337,16 +1361,6 @@ export class ZeroHexAbiInt48 {
     return new ZeroHexAbiInt48(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt48.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt48.fromBigInt(value)
@@ -1361,8 +1375,18 @@ export class ZeroHexAbiInt48 {
     return ZeroHexAbiInt48.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1477,8 +1501,12 @@ export class BytesAbiInt56 {
     return BytesAbiInt56.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt56(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt56(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -1570,16 +1598,6 @@ export class ZeroHexAbiInt56 {
     return new ZeroHexAbiInt56(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt56.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt56.fromBigInt(value)
@@ -1594,8 +1612,18 @@ export class ZeroHexAbiInt56 {
     return ZeroHexAbiInt56.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1710,8 +1738,12 @@ export class BytesAbiInt64 {
     return BytesAbiInt64.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt64(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt64(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -1803,16 +1835,6 @@ export class ZeroHexAbiInt64 {
     return new ZeroHexAbiInt64(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt64.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt64.fromBigInt(value)
@@ -1827,8 +1849,18 @@ export class ZeroHexAbiInt64 {
     return ZeroHexAbiInt64.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1943,8 +1975,12 @@ export class BytesAbiInt72 {
     return BytesAbiInt72.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt72(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt72(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2036,16 +2072,6 @@ export class ZeroHexAbiInt72 {
     return new ZeroHexAbiInt72(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt72.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt72.fromBigInt(value)
@@ -2060,8 +2086,18 @@ export class ZeroHexAbiInt72 {
     return ZeroHexAbiInt72.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -2176,8 +2212,12 @@ export class BytesAbiInt80 {
     return BytesAbiInt80.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt80(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt80(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2269,16 +2309,6 @@ export class ZeroHexAbiInt80 {
     return new ZeroHexAbiInt80(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt80.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt80.fromBigInt(value)
@@ -2293,8 +2323,18 @@ export class ZeroHexAbiInt80 {
     return ZeroHexAbiInt80.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -2409,8 +2449,12 @@ export class BytesAbiInt88 {
     return BytesAbiInt88.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt88(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt88(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2502,16 +2546,6 @@ export class ZeroHexAbiInt88 {
     return new ZeroHexAbiInt88(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt88.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt88.fromBigInt(value)
@@ -2526,8 +2560,18 @@ export class ZeroHexAbiInt88 {
     return ZeroHexAbiInt88.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -2642,8 +2686,12 @@ export class BytesAbiInt96 {
     return BytesAbiInt96.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt96(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt96(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2735,16 +2783,6 @@ export class ZeroHexAbiInt96 {
     return new ZeroHexAbiInt96(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt96.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt96.fromBigInt(value)
@@ -2759,8 +2797,18 @@ export class ZeroHexAbiInt96 {
     return ZeroHexAbiInt96.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -2875,8 +2923,12 @@ export class BytesAbiInt104 {
     return BytesAbiInt104.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt104(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt104(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2968,16 +3020,6 @@ export class ZeroHexAbiInt104 {
     return new ZeroHexAbiInt104(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt104.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt104.fromBigInt(value)
@@ -2992,8 +3034,18 @@ export class ZeroHexAbiInt104 {
     return ZeroHexAbiInt104.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -3108,8 +3160,12 @@ export class BytesAbiInt112 {
     return BytesAbiInt112.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt112(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt112(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -3201,16 +3257,6 @@ export class ZeroHexAbiInt112 {
     return new ZeroHexAbiInt112(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt112.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt112.fromBigInt(value)
@@ -3225,8 +3271,18 @@ export class ZeroHexAbiInt112 {
     return ZeroHexAbiInt112.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -3341,8 +3397,12 @@ export class BytesAbiInt120 {
     return BytesAbiInt120.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt120(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt120(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -3434,16 +3494,6 @@ export class ZeroHexAbiInt120 {
     return new ZeroHexAbiInt120(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt120.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt120.fromBigInt(value)
@@ -3458,8 +3508,18 @@ export class ZeroHexAbiInt120 {
     return ZeroHexAbiInt120.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -3574,8 +3634,12 @@ export class BytesAbiInt128 {
     return BytesAbiInt128.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt128(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt128(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -3667,16 +3731,6 @@ export class ZeroHexAbiInt128 {
     return new ZeroHexAbiInt128(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt128.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt128.fromBigInt(value)
@@ -3691,8 +3745,18 @@ export class ZeroHexAbiInt128 {
     return ZeroHexAbiInt128.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -3807,8 +3871,12 @@ export class BytesAbiInt136 {
     return BytesAbiInt136.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt136(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt136(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -3900,16 +3968,6 @@ export class ZeroHexAbiInt136 {
     return new ZeroHexAbiInt136(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt136.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt136.fromBigInt(value)
@@ -3924,8 +3982,18 @@ export class ZeroHexAbiInt136 {
     return ZeroHexAbiInt136.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4040,8 +4108,12 @@ export class BytesAbiInt144 {
     return BytesAbiInt144.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt144(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt144(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -4133,16 +4205,6 @@ export class ZeroHexAbiInt144 {
     return new ZeroHexAbiInt144(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt144.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt144.fromBigInt(value)
@@ -4157,8 +4219,18 @@ export class ZeroHexAbiInt144 {
     return ZeroHexAbiInt144.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4273,8 +4345,12 @@ export class BytesAbiInt152 {
     return BytesAbiInt152.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt152(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt152(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -4366,16 +4442,6 @@ export class ZeroHexAbiInt152 {
     return new ZeroHexAbiInt152(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt152.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt152.fromBigInt(value)
@@ -4390,8 +4456,18 @@ export class ZeroHexAbiInt152 {
     return ZeroHexAbiInt152.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4506,8 +4582,12 @@ export class BytesAbiInt160 {
     return BytesAbiInt160.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt160(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt160(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -4599,16 +4679,6 @@ export class ZeroHexAbiInt160 {
     return new ZeroHexAbiInt160(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt160.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt160.fromBigInt(value)
@@ -4623,8 +4693,18 @@ export class ZeroHexAbiInt160 {
     return ZeroHexAbiInt160.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4739,8 +4819,12 @@ export class BytesAbiInt168 {
     return BytesAbiInt168.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt168(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt168(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -4832,16 +4916,6 @@ export class ZeroHexAbiInt168 {
     return new ZeroHexAbiInt168(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt168.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt168.fromBigInt(value)
@@ -4856,8 +4930,18 @@ export class ZeroHexAbiInt168 {
     return ZeroHexAbiInt168.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4972,8 +5056,12 @@ export class BytesAbiInt176 {
     return BytesAbiInt176.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt176(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt176(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5065,16 +5153,6 @@ export class ZeroHexAbiInt176 {
     return new ZeroHexAbiInt176(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt176.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt176.fromBigInt(value)
@@ -5089,8 +5167,18 @@ export class ZeroHexAbiInt176 {
     return ZeroHexAbiInt176.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -5205,8 +5293,12 @@ export class BytesAbiInt184 {
     return BytesAbiInt184.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt184(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt184(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5298,16 +5390,6 @@ export class ZeroHexAbiInt184 {
     return new ZeroHexAbiInt184(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt184.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt184.fromBigInt(value)
@@ -5322,8 +5404,18 @@ export class ZeroHexAbiInt184 {
     return ZeroHexAbiInt184.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -5438,8 +5530,12 @@ export class BytesAbiInt192 {
     return BytesAbiInt192.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt192(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt192(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5531,16 +5627,6 @@ export class ZeroHexAbiInt192 {
     return new ZeroHexAbiInt192(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt192.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt192.fromBigInt(value)
@@ -5555,8 +5641,18 @@ export class ZeroHexAbiInt192 {
     return ZeroHexAbiInt192.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -5671,8 +5767,12 @@ export class BytesAbiInt200 {
     return BytesAbiInt200.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt200(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt200(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5764,16 +5864,6 @@ export class ZeroHexAbiInt200 {
     return new ZeroHexAbiInt200(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt200.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt200.fromBigInt(value)
@@ -5788,8 +5878,18 @@ export class ZeroHexAbiInt200 {
     return ZeroHexAbiInt200.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -5904,8 +6004,12 @@ export class BytesAbiInt208 {
     return BytesAbiInt208.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt208(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt208(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5997,16 +6101,6 @@ export class ZeroHexAbiInt208 {
     return new ZeroHexAbiInt208(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt208.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt208.fromBigInt(value)
@@ -6021,8 +6115,18 @@ export class ZeroHexAbiInt208 {
     return ZeroHexAbiInt208.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -6137,8 +6241,12 @@ export class BytesAbiInt216 {
     return BytesAbiInt216.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt216(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt216(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -6230,16 +6338,6 @@ export class ZeroHexAbiInt216 {
     return new ZeroHexAbiInt216(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt216.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt216.fromBigInt(value)
@@ -6254,8 +6352,18 @@ export class ZeroHexAbiInt216 {
     return ZeroHexAbiInt216.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -6370,8 +6478,12 @@ export class BytesAbiInt224 {
     return BytesAbiInt224.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt224(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt224(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -6463,16 +6575,6 @@ export class ZeroHexAbiInt224 {
     return new ZeroHexAbiInt224(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt224.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt224.fromBigInt(value)
@@ -6487,8 +6589,18 @@ export class ZeroHexAbiInt224 {
     return ZeroHexAbiInt224.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -6603,8 +6715,12 @@ export class BytesAbiInt232 {
     return BytesAbiInt232.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt232(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt232(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -6696,16 +6812,6 @@ export class ZeroHexAbiInt232 {
     return new ZeroHexAbiInt232(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt232.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt232.fromBigInt(value)
@@ -6720,8 +6826,18 @@ export class ZeroHexAbiInt232 {
     return ZeroHexAbiInt232.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -6836,8 +6952,12 @@ export class BytesAbiInt240 {
     return BytesAbiInt240.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt240(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt240(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -6929,16 +7049,6 @@ export class ZeroHexAbiInt240 {
     return new ZeroHexAbiInt240(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt240.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt240.fromBigInt(value)
@@ -6953,8 +7063,18 @@ export class ZeroHexAbiInt240 {
     return ZeroHexAbiInt240.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -7069,8 +7189,12 @@ export class BytesAbiInt248 {
     return BytesAbiInt248.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt248(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt248(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -7162,16 +7286,6 @@ export class ZeroHexAbiInt248 {
     return new ZeroHexAbiInt248(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt248.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt248.fromBigInt(value)
@@ -7186,8 +7300,18 @@ export class ZeroHexAbiInt248 {
     return ZeroHexAbiInt248.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -7302,8 +7426,12 @@ export class BytesAbiInt256 {
     return BytesAbiInt256.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiInt256(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiInt256(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -7395,16 +7523,6 @@ export class ZeroHexAbiInt256 {
     return new ZeroHexAbiInt256(value2.toString(16))
   }
 
-  toBigInt() {
-    const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
-
-    if ((value & mask) >> (this.bitsn - BN_1))
-      return -(((~value) & mask) + BN_1)
-
-    return value
-  }
-
   static create(value: ZeroHexAbiInt256.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt256.fromBigInt(value)
@@ -7419,8 +7537,18 @@ export class ZeroHexAbiInt256 {
     return ZeroHexAbiInt256.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    const mask = (BN_1 << this.bitsn) - BN_1
+    const value = BigInts.decodeRawHexSafe(this.value)
+
+    if ((value & mask) >> (this.bitsn - BN_1))
+      return -(((~value) & mask) + BN_1)
+
+    return value
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {

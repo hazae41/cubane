@@ -75,8 +75,12 @@ export class BytesAbiBytes1 {
     return BytesAbiBytes1.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -156,7 +160,11 @@ export class ZeroHexAbiBytes1 {
     return ZeroHexAbiBytes1.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -276,8 +284,12 @@ export class BytesAbiBytes2 {
     return BytesAbiBytes2.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -357,7 +369,11 @@ export class ZeroHexAbiBytes2 {
     return ZeroHexAbiBytes2.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -477,8 +493,12 @@ export class BytesAbiBytes3 {
     return BytesAbiBytes3.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -558,7 +578,11 @@ export class ZeroHexAbiBytes3 {
     return ZeroHexAbiBytes3.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -678,8 +702,12 @@ export class BytesAbiBytes4 {
     return BytesAbiBytes4.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -759,7 +787,11 @@ export class ZeroHexAbiBytes4 {
     return ZeroHexAbiBytes4.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -879,8 +911,12 @@ export class BytesAbiBytes5 {
     return BytesAbiBytes5.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -960,7 +996,11 @@ export class ZeroHexAbiBytes5 {
     return ZeroHexAbiBytes5.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -1080,8 +1120,12 @@ export class BytesAbiBytes6 {
     return BytesAbiBytes6.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -1161,7 +1205,11 @@ export class ZeroHexAbiBytes6 {
     return ZeroHexAbiBytes6.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -1281,8 +1329,12 @@ export class BytesAbiBytes7 {
     return BytesAbiBytes7.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -1362,7 +1414,11 @@ export class ZeroHexAbiBytes7 {
     return ZeroHexAbiBytes7.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -1482,8 +1538,12 @@ export class BytesAbiBytes8 {
     return BytesAbiBytes8.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -1563,7 +1623,11 @@ export class ZeroHexAbiBytes8 {
     return ZeroHexAbiBytes8.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -1683,8 +1747,12 @@ export class BytesAbiBytes9 {
     return BytesAbiBytes9.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -1764,7 +1832,11 @@ export class ZeroHexAbiBytes9 {
     return ZeroHexAbiBytes9.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -1884,8 +1956,12 @@ export class BytesAbiBytes10 {
     return BytesAbiBytes10.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -1965,7 +2041,11 @@ export class ZeroHexAbiBytes10 {
     return ZeroHexAbiBytes10.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -2085,8 +2165,12 @@ export class BytesAbiBytes11 {
     return BytesAbiBytes11.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -2166,7 +2250,11 @@ export class ZeroHexAbiBytes11 {
     return ZeroHexAbiBytes11.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -2286,8 +2374,12 @@ export class BytesAbiBytes12 {
     return BytesAbiBytes12.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -2367,7 +2459,11 @@ export class ZeroHexAbiBytes12 {
     return ZeroHexAbiBytes12.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -2487,8 +2583,12 @@ export class BytesAbiBytes13 {
     return BytesAbiBytes13.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -2568,7 +2668,11 @@ export class ZeroHexAbiBytes13 {
     return ZeroHexAbiBytes13.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -2688,8 +2792,12 @@ export class BytesAbiBytes14 {
     return BytesAbiBytes14.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -2769,7 +2877,11 @@ export class ZeroHexAbiBytes14 {
     return ZeroHexAbiBytes14.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -2889,8 +3001,12 @@ export class BytesAbiBytes15 {
     return BytesAbiBytes15.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -2970,7 +3086,11 @@ export class ZeroHexAbiBytes15 {
     return ZeroHexAbiBytes15.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -3090,8 +3210,12 @@ export class BytesAbiBytes16 {
     return BytesAbiBytes16.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -3171,7 +3295,11 @@ export class ZeroHexAbiBytes16 {
     return ZeroHexAbiBytes16.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -3291,8 +3419,12 @@ export class BytesAbiBytes17 {
     return BytesAbiBytes17.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -3372,7 +3504,11 @@ export class ZeroHexAbiBytes17 {
     return ZeroHexAbiBytes17.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -3492,8 +3628,12 @@ export class BytesAbiBytes18 {
     return BytesAbiBytes18.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -3573,7 +3713,11 @@ export class ZeroHexAbiBytes18 {
     return ZeroHexAbiBytes18.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -3693,8 +3837,12 @@ export class BytesAbiBytes19 {
     return BytesAbiBytes19.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -3774,7 +3922,11 @@ export class ZeroHexAbiBytes19 {
     return ZeroHexAbiBytes19.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -3894,8 +4046,12 @@ export class BytesAbiBytes20 {
     return BytesAbiBytes20.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -3975,7 +4131,11 @@ export class ZeroHexAbiBytes20 {
     return ZeroHexAbiBytes20.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -4095,8 +4255,12 @@ export class BytesAbiBytes21 {
     return BytesAbiBytes21.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -4176,7 +4340,11 @@ export class ZeroHexAbiBytes21 {
     return ZeroHexAbiBytes21.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -4296,8 +4464,12 @@ export class BytesAbiBytes22 {
     return BytesAbiBytes22.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -4377,7 +4549,11 @@ export class ZeroHexAbiBytes22 {
     return ZeroHexAbiBytes22.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -4497,8 +4673,12 @@ export class BytesAbiBytes23 {
     return BytesAbiBytes23.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -4578,7 +4758,11 @@ export class ZeroHexAbiBytes23 {
     return ZeroHexAbiBytes23.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -4698,8 +4882,12 @@ export class BytesAbiBytes24 {
     return BytesAbiBytes24.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -4779,7 +4967,11 @@ export class ZeroHexAbiBytes24 {
     return ZeroHexAbiBytes24.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -4899,8 +5091,12 @@ export class BytesAbiBytes25 {
     return BytesAbiBytes25.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -4980,7 +5176,11 @@ export class ZeroHexAbiBytes25 {
     return ZeroHexAbiBytes25.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -5100,8 +5300,12 @@ export class BytesAbiBytes26 {
     return BytesAbiBytes26.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -5181,7 +5385,11 @@ export class ZeroHexAbiBytes26 {
     return ZeroHexAbiBytes26.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -5301,8 +5509,12 @@ export class BytesAbiBytes27 {
     return BytesAbiBytes27.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -5382,7 +5594,11 @@ export class ZeroHexAbiBytes27 {
     return ZeroHexAbiBytes27.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -5502,8 +5718,12 @@ export class BytesAbiBytes28 {
     return BytesAbiBytes28.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -5583,7 +5803,11 @@ export class ZeroHexAbiBytes28 {
     return ZeroHexAbiBytes28.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -5703,8 +5927,12 @@ export class BytesAbiBytes29 {
     return BytesAbiBytes29.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -5784,7 +6012,11 @@ export class ZeroHexAbiBytes29 {
     return ZeroHexAbiBytes29.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -5904,8 +6136,12 @@ export class BytesAbiBytes30 {
     return BytesAbiBytes30.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -5985,7 +6221,11 @@ export class ZeroHexAbiBytes30 {
     return ZeroHexAbiBytes30.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -6105,8 +6345,12 @@ export class BytesAbiBytes31 {
     return BytesAbiBytes31.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -6186,7 +6430,11 @@ export class ZeroHexAbiBytes31 {
     return ZeroHexAbiBytes31.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -6306,8 +6554,12 @@ export class BytesAbiBytes32 {
     return BytesAbiBytes32.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -6387,7 +6639,11 @@ export class ZeroHexAbiBytes32 {
     return ZeroHexAbiBytes32.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 

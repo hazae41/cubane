@@ -22,8 +22,8 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
 
     private constructor(
       readonly inner: Factory.Instances<T[]> & { readonly length: N },
-      readonly heads: Instance<any>[],
-      readonly tails: Instance<any>[],
+      readonly heads: Instance[],
+      readonly tails: Instance[],
       readonly size: number,
     ) { }
 
@@ -81,6 +81,10 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
       return this.inner.map(instance => instance.intoOrThrow()) as any as Factory.Primitives<T[]> & { readonly length: N }
     }
 
+    toJSON() {
+      return this.inner.map(instance => instance.toJSON()) as any as Factory.Jsoneds<T[]> & { readonly length: N }
+    }
+
     static codegen() {
       return `Abi.createArray(${this.type.codegen()},${this.count})`
     }
@@ -128,7 +132,7 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
 
           const offset = cursor.offset
 
-          cursor.offset = start + (pointer.toNumber() * 2)
+          cursor.offset = start + (pointer.value * 2)
           const instance = AbiArray.type.decodeOrThrow(cursor)
 
           end = cursor.offset
@@ -176,7 +180,7 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
 
           const offset = cursor.offset
 
-          cursor.offset = start + pointer.toNumber()
+          cursor.offset = start + pointer.value
           const instance = AbiArray.type.readOrThrow(cursor)
 
           end = cursor.offset

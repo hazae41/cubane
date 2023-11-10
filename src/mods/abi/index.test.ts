@@ -82,9 +82,11 @@ test("json", async () => {
 
     assert(a === b, "encoded")
 
-    const decoded = signature.funcAndArgs.args.decodeOrThrow(new TextCursor(encoded)).intoOrThrow()
+    const decoded = signature.funcAndArgs.args.decodeOrThrow(new TextCursor(encoded))
 
-    console.log("a", decoded)
-    console.log("b", [element.value])
+    // console.log("a", decoded.toJSON())
+    // console.log("b", [element.value])
+
+    assert(JSON.stringify(decoded) === JSON.stringify([element.value]), "decoded")
   }
 })

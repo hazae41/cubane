@@ -100,14 +100,6 @@ export class BytesAbiUint${bits} {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint${bits}.From) {
     return new BytesAbiUint${bits}(value)
   }
@@ -116,8 +108,12 @@ export class BytesAbiUint${bits} {
     return BytesAbiUint${bits}.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -189,14 +185,6 @@ export class NumberAbiUint${bits} {
     readonly value: number
   ) { }
 
-  toNumber() {
-    return this.value
-  }
-
-  toBigInt() {
-    return BigInt(this.value)
-  }
-
   static fromNumber(value: number) {
     return new NumberAbiUint${bits}(value)
   }
@@ -213,8 +201,12 @@ export class NumberAbiUint${bits} {
     return NumberAbiUint${bits}.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return BigInt(this.value)
+  }
+
+  toJSON(): string {
+    return this.value.toString()
   }
 
   static codegen() {
@@ -297,14 +289,6 @@ export class ZeroHexAbiUint${bits} {
     return new ZeroHexAbiUint${bits}(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint${bits}.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint${bits}.fromBigInt(value)
@@ -319,8 +303,12 @@ export class ZeroHexAbiUint${bits} {
     return ZeroHexAbiUint${bits}.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {

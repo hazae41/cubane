@@ -28,7 +28,11 @@ export class AbiBool {
     return new AbiBool(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): boolean {
+    return this.value
+  }
+
+  toJSON(): boolean {
     return this.value
   }
 

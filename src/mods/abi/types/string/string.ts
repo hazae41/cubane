@@ -30,8 +30,12 @@ export class AbiString {
     return AbiString.create(value)
   }
 
-  intoOrThrow() {
-    return Bytes.toUtf8(this.inner.intoOrThrow())
+  intoOrThrow(): string {
+    return Bytes.toUtf8(this.inner.value)
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow()
   }
 
   static codegen() {

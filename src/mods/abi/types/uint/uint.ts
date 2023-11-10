@@ -82,14 +82,6 @@ export class BytesAbiUint8 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint8(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint8(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint8.From) {
     return new BytesAbiUint8(value)
   }
@@ -98,8 +90,12 @@ export class BytesAbiUint8 {
     return BytesAbiUint8.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint8(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint8(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -171,14 +167,6 @@ export class NumberAbiUint8 {
     readonly value: number
   ) { }
 
-  toNumber() {
-    return this.value
-  }
-
-  toBigInt() {
-    return BigInt(this.value)
-  }
-
   static fromNumber(value: number) {
     return new NumberAbiUint8(value)
   }
@@ -195,8 +183,12 @@ export class NumberAbiUint8 {
     return NumberAbiUint8.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return BigInt(this.value)
+  }
+
+  toJSON(): string {
+    return this.value.toString()
   }
 
   static codegen() {
@@ -279,14 +271,6 @@ export class ZeroHexAbiUint8 {
     return new ZeroHexAbiUint8(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint8.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint8.fromBigInt(value)
@@ -301,8 +285,12 @@ export class ZeroHexAbiUint8 {
     return ZeroHexAbiUint8.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -427,14 +415,6 @@ export class BytesAbiUint16 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint16(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint16(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint16.From) {
     return new BytesAbiUint16(value)
   }
@@ -443,8 +423,12 @@ export class BytesAbiUint16 {
     return BytesAbiUint16.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint16(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint16(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -516,14 +500,6 @@ export class NumberAbiUint16 {
     readonly value: number
   ) { }
 
-  toNumber() {
-    return this.value
-  }
-
-  toBigInt() {
-    return BigInt(this.value)
-  }
-
   static fromNumber(value: number) {
     return new NumberAbiUint16(value)
   }
@@ -540,8 +516,12 @@ export class NumberAbiUint16 {
     return NumberAbiUint16.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return BigInt(this.value)
+  }
+
+  toJSON(): string {
+    return this.value.toString()
   }
 
   static codegen() {
@@ -624,14 +604,6 @@ export class ZeroHexAbiUint16 {
     return new ZeroHexAbiUint16(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint16.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint16.fromBigInt(value)
@@ -646,8 +618,12 @@ export class ZeroHexAbiUint16 {
     return ZeroHexAbiUint16.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -772,14 +748,6 @@ export class BytesAbiUint24 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint24(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint24(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint24.From) {
     return new BytesAbiUint24(value)
   }
@@ -788,8 +756,12 @@ export class BytesAbiUint24 {
     return BytesAbiUint24.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint24(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint24(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -861,14 +833,6 @@ export class NumberAbiUint24 {
     readonly value: number
   ) { }
 
-  toNumber() {
-    return this.value
-  }
-
-  toBigInt() {
-    return BigInt(this.value)
-  }
-
   static fromNumber(value: number) {
     return new NumberAbiUint24(value)
   }
@@ -885,8 +849,12 @@ export class NumberAbiUint24 {
     return NumberAbiUint24.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return BigInt(this.value)
+  }
+
+  toJSON(): string {
+    return this.value.toString()
   }
 
   static codegen() {
@@ -969,14 +937,6 @@ export class ZeroHexAbiUint24 {
     return new ZeroHexAbiUint24(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint24.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint24.fromBigInt(value)
@@ -991,8 +951,12 @@ export class ZeroHexAbiUint24 {
     return ZeroHexAbiUint24.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1117,14 +1081,6 @@ export class BytesAbiUint32 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint32(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint32(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint32.From) {
     return new BytesAbiUint32(value)
   }
@@ -1133,8 +1089,12 @@ export class BytesAbiUint32 {
     return BytesAbiUint32.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint32(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint32(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -1206,14 +1166,6 @@ export class NumberAbiUint32 {
     readonly value: number
   ) { }
 
-  toNumber() {
-    return this.value
-  }
-
-  toBigInt() {
-    return BigInt(this.value)
-  }
-
   static fromNumber(value: number) {
     return new NumberAbiUint32(value)
   }
@@ -1230,8 +1182,12 @@ export class NumberAbiUint32 {
     return NumberAbiUint32.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return BigInt(this.value)
+  }
+
+  toJSON(): string {
+    return this.value.toString()
   }
 
   static codegen() {
@@ -1314,14 +1270,6 @@ export class ZeroHexAbiUint32 {
     return new ZeroHexAbiUint32(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint32.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint32.fromBigInt(value)
@@ -1336,8 +1284,12 @@ export class ZeroHexAbiUint32 {
     return ZeroHexAbiUint32.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1460,14 +1412,6 @@ export class BytesAbiUint40 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint40(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint40(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint40.From) {
     return new BytesAbiUint40(value)
   }
@@ -1476,8 +1420,12 @@ export class BytesAbiUint40 {
     return BytesAbiUint40.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint40(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint40(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -1563,14 +1511,6 @@ export class ZeroHexAbiUint40 {
     return new ZeroHexAbiUint40(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint40.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint40.fromBigInt(value)
@@ -1585,8 +1525,12 @@ export class ZeroHexAbiUint40 {
     return ZeroHexAbiUint40.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1709,14 +1653,6 @@ export class BytesAbiUint48 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint48(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint48(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint48.From) {
     return new BytesAbiUint48(value)
   }
@@ -1725,8 +1661,12 @@ export class BytesAbiUint48 {
     return BytesAbiUint48.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint48(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint48(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -1812,14 +1752,6 @@ export class ZeroHexAbiUint48 {
     return new ZeroHexAbiUint48(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint48.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint48.fromBigInt(value)
@@ -1834,8 +1766,12 @@ export class ZeroHexAbiUint48 {
     return ZeroHexAbiUint48.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -1958,14 +1894,6 @@ export class BytesAbiUint56 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint56(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint56(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint56.From) {
     return new BytesAbiUint56(value)
   }
@@ -1974,8 +1902,12 @@ export class BytesAbiUint56 {
     return BytesAbiUint56.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint56(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint56(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2061,14 +1993,6 @@ export class ZeroHexAbiUint56 {
     return new ZeroHexAbiUint56(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint56.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint56.fromBigInt(value)
@@ -2083,8 +2007,12 @@ export class ZeroHexAbiUint56 {
     return ZeroHexAbiUint56.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -2207,14 +2135,6 @@ export class BytesAbiUint64 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint64(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint64(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint64.From) {
     return new BytesAbiUint64(value)
   }
@@ -2223,8 +2143,12 @@ export class BytesAbiUint64 {
     return BytesAbiUint64.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint64(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint64(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2310,14 +2234,6 @@ export class ZeroHexAbiUint64 {
     return new ZeroHexAbiUint64(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint64.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint64.fromBigInt(value)
@@ -2332,8 +2248,12 @@ export class ZeroHexAbiUint64 {
     return ZeroHexAbiUint64.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -2456,14 +2376,6 @@ export class BytesAbiUint72 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint72(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint72(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint72.From) {
     return new BytesAbiUint72(value)
   }
@@ -2472,8 +2384,12 @@ export class BytesAbiUint72 {
     return BytesAbiUint72.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint72(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint72(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2559,14 +2475,6 @@ export class ZeroHexAbiUint72 {
     return new ZeroHexAbiUint72(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint72.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint72.fromBigInt(value)
@@ -2581,8 +2489,12 @@ export class ZeroHexAbiUint72 {
     return ZeroHexAbiUint72.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -2705,14 +2617,6 @@ export class BytesAbiUint80 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint80(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint80(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint80.From) {
     return new BytesAbiUint80(value)
   }
@@ -2721,8 +2625,12 @@ export class BytesAbiUint80 {
     return BytesAbiUint80.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint80(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint80(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -2808,14 +2716,6 @@ export class ZeroHexAbiUint80 {
     return new ZeroHexAbiUint80(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint80.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint80.fromBigInt(value)
@@ -2830,8 +2730,12 @@ export class ZeroHexAbiUint80 {
     return ZeroHexAbiUint80.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -2954,14 +2858,6 @@ export class BytesAbiUint88 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint88(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint88(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint88.From) {
     return new BytesAbiUint88(value)
   }
@@ -2970,8 +2866,12 @@ export class BytesAbiUint88 {
     return BytesAbiUint88.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint88(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint88(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -3057,14 +2957,6 @@ export class ZeroHexAbiUint88 {
     return new ZeroHexAbiUint88(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint88.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint88.fromBigInt(value)
@@ -3079,8 +2971,12 @@ export class ZeroHexAbiUint88 {
     return ZeroHexAbiUint88.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -3203,14 +3099,6 @@ export class BytesAbiUint96 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint96(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint96(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint96.From) {
     return new BytesAbiUint96(value)
   }
@@ -3219,8 +3107,12 @@ export class BytesAbiUint96 {
     return BytesAbiUint96.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint96(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint96(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -3306,14 +3198,6 @@ export class ZeroHexAbiUint96 {
     return new ZeroHexAbiUint96(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint96.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint96.fromBigInt(value)
@@ -3328,8 +3212,12 @@ export class ZeroHexAbiUint96 {
     return ZeroHexAbiUint96.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -3452,14 +3340,6 @@ export class BytesAbiUint104 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint104(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint104(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint104.From) {
     return new BytesAbiUint104(value)
   }
@@ -3468,8 +3348,12 @@ export class BytesAbiUint104 {
     return BytesAbiUint104.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint104(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint104(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -3555,14 +3439,6 @@ export class ZeroHexAbiUint104 {
     return new ZeroHexAbiUint104(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint104.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint104.fromBigInt(value)
@@ -3577,8 +3453,12 @@ export class ZeroHexAbiUint104 {
     return ZeroHexAbiUint104.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -3701,14 +3581,6 @@ export class BytesAbiUint112 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint112(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint112(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint112.From) {
     return new BytesAbiUint112(value)
   }
@@ -3717,8 +3589,12 @@ export class BytesAbiUint112 {
     return BytesAbiUint112.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint112(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint112(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -3804,14 +3680,6 @@ export class ZeroHexAbiUint112 {
     return new ZeroHexAbiUint112(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint112.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint112.fromBigInt(value)
@@ -3826,8 +3694,12 @@ export class ZeroHexAbiUint112 {
     return ZeroHexAbiUint112.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -3950,14 +3822,6 @@ export class BytesAbiUint120 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint120(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint120(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint120.From) {
     return new BytesAbiUint120(value)
   }
@@ -3966,8 +3830,12 @@ export class BytesAbiUint120 {
     return BytesAbiUint120.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint120(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint120(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -4053,14 +3921,6 @@ export class ZeroHexAbiUint120 {
     return new ZeroHexAbiUint120(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint120.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint120.fromBigInt(value)
@@ -4075,8 +3935,12 @@ export class ZeroHexAbiUint120 {
     return ZeroHexAbiUint120.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4199,14 +4063,6 @@ export class BytesAbiUint128 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint128(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint128(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint128.From) {
     return new BytesAbiUint128(value)
   }
@@ -4215,8 +4071,12 @@ export class BytesAbiUint128 {
     return BytesAbiUint128.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint128(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint128(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -4302,14 +4162,6 @@ export class ZeroHexAbiUint128 {
     return new ZeroHexAbiUint128(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint128.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint128.fromBigInt(value)
@@ -4324,8 +4176,12 @@ export class ZeroHexAbiUint128 {
     return ZeroHexAbiUint128.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4448,14 +4304,6 @@ export class BytesAbiUint136 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint136(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint136(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint136.From) {
     return new BytesAbiUint136(value)
   }
@@ -4464,8 +4312,12 @@ export class BytesAbiUint136 {
     return BytesAbiUint136.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint136(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint136(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -4551,14 +4403,6 @@ export class ZeroHexAbiUint136 {
     return new ZeroHexAbiUint136(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint136.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint136.fromBigInt(value)
@@ -4573,8 +4417,12 @@ export class ZeroHexAbiUint136 {
     return ZeroHexAbiUint136.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4697,14 +4545,6 @@ export class BytesAbiUint144 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint144(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint144(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint144.From) {
     return new BytesAbiUint144(value)
   }
@@ -4713,8 +4553,12 @@ export class BytesAbiUint144 {
     return BytesAbiUint144.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint144(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint144(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -4800,14 +4644,6 @@ export class ZeroHexAbiUint144 {
     return new ZeroHexAbiUint144(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint144.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint144.fromBigInt(value)
@@ -4822,8 +4658,12 @@ export class ZeroHexAbiUint144 {
     return ZeroHexAbiUint144.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -4946,14 +4786,6 @@ export class BytesAbiUint152 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint152(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint152(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint152.From) {
     return new BytesAbiUint152(value)
   }
@@ -4962,8 +4794,12 @@ export class BytesAbiUint152 {
     return BytesAbiUint152.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint152(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint152(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5049,14 +4885,6 @@ export class ZeroHexAbiUint152 {
     return new ZeroHexAbiUint152(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint152.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint152.fromBigInt(value)
@@ -5071,8 +4899,12 @@ export class ZeroHexAbiUint152 {
     return ZeroHexAbiUint152.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -5195,14 +5027,6 @@ export class BytesAbiUint160 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint160(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint160(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint160.From) {
     return new BytesAbiUint160(value)
   }
@@ -5211,8 +5035,12 @@ export class BytesAbiUint160 {
     return BytesAbiUint160.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint160(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint160(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5298,14 +5126,6 @@ export class ZeroHexAbiUint160 {
     return new ZeroHexAbiUint160(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint160.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint160.fromBigInt(value)
@@ -5320,8 +5140,12 @@ export class ZeroHexAbiUint160 {
     return ZeroHexAbiUint160.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -5444,14 +5268,6 @@ export class BytesAbiUint168 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint168(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint168(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint168.From) {
     return new BytesAbiUint168(value)
   }
@@ -5460,8 +5276,12 @@ export class BytesAbiUint168 {
     return BytesAbiUint168.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint168(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint168(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5547,14 +5367,6 @@ export class ZeroHexAbiUint168 {
     return new ZeroHexAbiUint168(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint168.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint168.fromBigInt(value)
@@ -5569,8 +5381,12 @@ export class ZeroHexAbiUint168 {
     return ZeroHexAbiUint168.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -5693,14 +5509,6 @@ export class BytesAbiUint176 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint176(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint176(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint176.From) {
     return new BytesAbiUint176(value)
   }
@@ -5709,8 +5517,12 @@ export class BytesAbiUint176 {
     return BytesAbiUint176.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint176(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint176(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -5796,14 +5608,6 @@ export class ZeroHexAbiUint176 {
     return new ZeroHexAbiUint176(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint176.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint176.fromBigInt(value)
@@ -5818,8 +5622,12 @@ export class ZeroHexAbiUint176 {
     return ZeroHexAbiUint176.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -5942,14 +5750,6 @@ export class BytesAbiUint184 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint184(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint184(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint184.From) {
     return new BytesAbiUint184(value)
   }
@@ -5958,8 +5758,12 @@ export class BytesAbiUint184 {
     return BytesAbiUint184.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint184(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint184(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -6045,14 +5849,6 @@ export class ZeroHexAbiUint184 {
     return new ZeroHexAbiUint184(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint184.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint184.fromBigInt(value)
@@ -6067,8 +5863,12 @@ export class ZeroHexAbiUint184 {
     return ZeroHexAbiUint184.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -6191,14 +5991,6 @@ export class BytesAbiUint192 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint192(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint192(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint192.From) {
     return new BytesAbiUint192(value)
   }
@@ -6207,8 +5999,12 @@ export class BytesAbiUint192 {
     return BytesAbiUint192.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint192(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint192(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -6294,14 +6090,6 @@ export class ZeroHexAbiUint192 {
     return new ZeroHexAbiUint192(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint192.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint192.fromBigInt(value)
@@ -6316,8 +6104,12 @@ export class ZeroHexAbiUint192 {
     return ZeroHexAbiUint192.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -6440,14 +6232,6 @@ export class BytesAbiUint200 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint200(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint200(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint200.From) {
     return new BytesAbiUint200(value)
   }
@@ -6456,8 +6240,12 @@ export class BytesAbiUint200 {
     return BytesAbiUint200.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint200(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint200(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -6543,14 +6331,6 @@ export class ZeroHexAbiUint200 {
     return new ZeroHexAbiUint200(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint200.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint200.fromBigInt(value)
@@ -6565,8 +6345,12 @@ export class ZeroHexAbiUint200 {
     return ZeroHexAbiUint200.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -6689,14 +6473,6 @@ export class BytesAbiUint208 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint208(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint208(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint208.From) {
     return new BytesAbiUint208(value)
   }
@@ -6705,8 +6481,12 @@ export class BytesAbiUint208 {
     return BytesAbiUint208.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint208(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint208(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -6792,14 +6572,6 @@ export class ZeroHexAbiUint208 {
     return new ZeroHexAbiUint208(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint208.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint208.fromBigInt(value)
@@ -6814,8 +6586,12 @@ export class ZeroHexAbiUint208 {
     return ZeroHexAbiUint208.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -6938,14 +6714,6 @@ export class BytesAbiUint216 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint216(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint216(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint216.From) {
     return new BytesAbiUint216(value)
   }
@@ -6954,8 +6722,12 @@ export class BytesAbiUint216 {
     return BytesAbiUint216.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint216(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint216(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -7041,14 +6813,6 @@ export class ZeroHexAbiUint216 {
     return new ZeroHexAbiUint216(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint216.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint216.fromBigInt(value)
@@ -7063,8 +6827,12 @@ export class ZeroHexAbiUint216 {
     return ZeroHexAbiUint216.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -7187,14 +6955,6 @@ export class BytesAbiUint224 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint224(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint224(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint224.From) {
     return new BytesAbiUint224(value)
   }
@@ -7203,8 +6963,12 @@ export class BytesAbiUint224 {
     return BytesAbiUint224.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint224(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint224(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -7290,14 +7054,6 @@ export class ZeroHexAbiUint224 {
     return new ZeroHexAbiUint224(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint224.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint224.fromBigInt(value)
@@ -7312,8 +7068,12 @@ export class ZeroHexAbiUint224 {
     return ZeroHexAbiUint224.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -7436,14 +7196,6 @@ export class BytesAbiUint232 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint232(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint232(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint232.From) {
     return new BytesAbiUint232(value)
   }
@@ -7452,8 +7204,12 @@ export class BytesAbiUint232 {
     return BytesAbiUint232.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint232(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint232(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -7539,14 +7295,6 @@ export class ZeroHexAbiUint232 {
     return new ZeroHexAbiUint232(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint232.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint232.fromBigInt(value)
@@ -7561,8 +7309,12 @@ export class ZeroHexAbiUint232 {
     return ZeroHexAbiUint232.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -7685,14 +7437,6 @@ export class BytesAbiUint240 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint240(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint240(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint240.From) {
     return new BytesAbiUint240(value)
   }
@@ -7701,8 +7445,12 @@ export class BytesAbiUint240 {
     return BytesAbiUint240.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint240(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint240(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -7788,14 +7536,6 @@ export class ZeroHexAbiUint240 {
     return new ZeroHexAbiUint240(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint240.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint240.fromBigInt(value)
@@ -7810,8 +7550,12 @@ export class ZeroHexAbiUint240 {
     return ZeroHexAbiUint240.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -7934,14 +7678,6 @@ export class BytesAbiUint248 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint248(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint248(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint248.From) {
     return new BytesAbiUint248(value)
   }
@@ -7950,8 +7686,12 @@ export class BytesAbiUint248 {
     return BytesAbiUint248.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint248(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint248(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -8037,14 +7777,6 @@ export class ZeroHexAbiUint248 {
     return new ZeroHexAbiUint248(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint248.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint248.fromBigInt(value)
@@ -8059,8 +7791,12 @@ export class ZeroHexAbiUint248 {
     return ZeroHexAbiUint248.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {
@@ -8183,14 +7919,6 @@ export class BytesAbiUint256 {
     readonly value: Uint8Array
   ) { }
 
-  toNumber() {
-    return new ZeroHexAbiUint256(this.encodePackedOrThrow()).toNumber()
-  }
-
-  toBigInt() {
-    return new ZeroHexAbiUint256(this.encodePackedOrThrow()).toBigInt()
-  }
-
   static create(value: BytesAbiUint256.From) {
     return new BytesAbiUint256(value)
   }
@@ -8199,8 +7927,12 @@ export class BytesAbiUint256 {
     return BytesAbiUint256.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): bigint {
     return new ZeroHexAbiUint256(this.encodePackedOrThrow()).intoOrThrow()
+  }
+
+  toJSON(): string {
+    return new ZeroHexAbiUint256(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -8286,14 +8018,6 @@ export class ZeroHexAbiUint256 {
     return new ZeroHexAbiUint256(value.toString(16))
   }
 
-  toNumber() {
-    return this.value.length ? parseInt(this.value, 16) : 0
-  }
-
-  toBigInt() {
-    return this.value.length ? BigInt("0x" + this.value) : 0n
-  }
-
   static create(value: ZeroHexAbiUint256.From) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint256.fromBigInt(value)
@@ -8308,8 +8032,12 @@ export class ZeroHexAbiUint256 {
     return ZeroHexAbiUint256.create(value)
   }
 
-  intoOrThrow() {
-    return this.toBigInt()
+  intoOrThrow(): bigint {
+    return this.value.length ? BigInt("0x" + this.value) : 0n
+  }
+
+  toJSON(): string {
+    return this.intoOrThrow().toString()
   }
 
   static codegen() {

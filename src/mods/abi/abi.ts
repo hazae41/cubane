@@ -4,7 +4,7 @@ import { Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
 
-export interface Instance<P> extends Writable {
+export interface Instance<P = unknown, J = unknown> extends Writable {
   readonly dynamic: boolean
 
   intoOrThrow(): P
@@ -14,9 +14,11 @@ export interface Instance<P> extends Writable {
 
   sizeOrThrow(): number
   writeOrThrow(cursor: Cursor): void
+
+  toJSON(): J
 }
 
-export interface Factory<P = unknown, I extends Instance<P> = Instance<P>> extends Readable<I> {
+export interface Factory<P = unknown, J = unknown, I extends Instance<P, J> = Instance<P, J>> extends Readable<I> {
   readonly dynamic: boolean
 
   from(primitive: P): I
@@ -30,13 +32,19 @@ export interface Factory<P = unknown, I extends Instance<P> = Instance<P>> exten
 
 export namespace Factory {
 
-  export type Primitive<T> = T extends Factory<infer P, any> ? P : never
+  export type Primitive<T> = T extends Factory<infer P, any, any> ? P : never
 
   export type Primitives<T extends readonly Factory[]> = {
     readonly [Index in keyof T]: Primitive<T[Index]>
   }
 
-  export type Instance<T extends Factory> = T extends Factory<unknown, infer T> ? T : never
+  export type Jsoned<T> = T extends Factory<any, infer J, any> ? J : never
+
+  export type Jsoneds<T extends readonly Factory[]> = {
+    readonly [Index in keyof T]: Jsoned<T[Index]>
+  }
+
+  export type Instance<T extends Factory> = T extends Factory<any, any, infer I> ? I : never
 
   export type Instances<T extends readonly Factory[]> = {
     readonly [Index in keyof T]: Instance<T[Index]>

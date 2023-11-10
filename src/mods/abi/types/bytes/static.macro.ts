@@ -83,8 +83,12 @@ export class BytesAbiBytes${bytes} {
     return BytesAbiBytes${bytes}.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return \`0x\${Base16.get().encodeOrThrow(this.value)}\`
   }
 
   static codegen() {
@@ -164,7 +168,11 @@ export class ZeroHexAbiBytes${bytes} {
     return ZeroHexAbiBytes${bytes}.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return \`0x\${this.value}\`
   }
 

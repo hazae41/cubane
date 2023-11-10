@@ -19,8 +19,8 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
 
     private constructor(
       readonly inner: Factory.Instances<T>,
-      readonly heads: Instance<any>[],
-      readonly tails: Instance<any>[],
+      readonly heads: Instance[],
+      readonly tails: Instance[],
       readonly size: number,
     ) { }
 
@@ -78,6 +78,10 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
       return this.inner.map(it => it.intoOrThrow()) as Factory.Primitives<T>
     }
 
+    toJSON() {
+      return this.inner.map(it => it.toJSON()) as Factory.Jsoneds<T>
+    }
+
     static codegen() {
       return `Abi.createTuple(${this.types.map(it => it.codegen()).join(",")})`
     }
@@ -125,7 +129,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
 
           const offset = cursor.offset
 
-          cursor.offset = start + (pointer.toNumber() * 2)
+          cursor.offset = start + (pointer.value * 2)
           const instance = factory.decodeOrThrow(cursor)
 
           end = cursor.offset
@@ -173,7 +177,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
 
           const offset = cursor.offset
 
-          cursor.offset = start + pointer.toNumber()
+          cursor.offset = start + pointer.value
           const instance = factory.readOrThrow(cursor)
 
           end = cursor.offset

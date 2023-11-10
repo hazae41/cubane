@@ -1,5 +1,4 @@
 import { Base16 } from "@hazae41/base16";
-import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { RawHexString, ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
@@ -43,7 +42,7 @@ export namespace AbiBytes {
 }
 
 export namespace BytesAbiBytes {
-  export type From = Bytes
+  export type From = Uint8Array
 }
 
 export class BytesAbiBytes {
@@ -65,8 +64,12 @@ export class BytesAbiBytes {
     return BytesAbiBytes.create(value)
   }
 
-  intoOrThrow() {
+  intoOrThrow(): Uint8Array {
     return this.value
+  }
+
+  toJSON(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}`
   }
 
   static codegen() {
@@ -99,7 +102,7 @@ export class BytesAbiBytes {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const length1 = Uint32.decodeOrThrow(cursor).toNumber()
+    const length1 = Uint32.decodeOrThrow(cursor).value
     const length2 = length1 * 2
 
     const content = cursor.readOrThrow(length2)
@@ -131,7 +134,7 @@ export class BytesAbiBytes {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const length1 = Uint32.readOrThrow(cursor).toNumber()
+    const length1 = Uint32.readOrThrow(cursor).value
     const content = cursor.readOrThrow(length1)
     const bytes = new Uint8Array(content)
 
@@ -166,7 +169,11 @@ export class ZeroHexAbiBytes {
     return ZeroHexAbiBytes.create(value)
   }
 
-  intoOrThrow(): ZeroHexString {
+  intoOrThrow(): Uint8Array {
+    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toJSON(): ZeroHexString {
     return `0x${this.value}`
   }
 
@@ -201,7 +208,7 @@ export class ZeroHexAbiBytes {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const length1 = Uint32.decodeOrThrow(cursor).toNumber()
+    const length1 = Uint32.decodeOrThrow(cursor).value
     const length2 = length1 * 2
 
     const value = cursor.readOrThrow(length2)
@@ -235,7 +242,7 @@ export class ZeroHexAbiBytes {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const length1 = Uint32.readOrThrow(cursor).toNumber()
+    const length1 = Uint32.readOrThrow(cursor).value
 
     const bytes = cursor.readOrThrow(length1)
     const value = Base16.get().encodeOrThrow(bytes)
