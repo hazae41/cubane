@@ -24,7 +24,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
       readonly size: number,
     ) { }
 
-    static new(instances: Factory.Instances<T>) {
+    static create(instances: Factory.Instances<T>) {
       let length = 0
       let offset = 0
 
@@ -71,7 +71,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
       for (let i = 0; i < AbiTuple.types.length; i++)
         result[i] = AbiTuple.types[i].from(primitives[i])
 
-      return AbiTuple.new(result as Factory.Instances<T>)
+      return AbiTuple.create(result as Factory.Instances<T>)
     }
 
     intoOrThrow() {
@@ -214,7 +214,7 @@ export namespace AbiTuple {
   }
 
   export function isFactory<T extends readonly Factory[]>(x: Skeleton<TupleFactory<T>>): x is TupleFactory<T> {
-    return x.name === name && x.new != null
+    return x.name === name && x.create != null
   }
 
 }

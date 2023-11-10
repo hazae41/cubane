@@ -25,7 +25,7 @@ export const createVector = <T extends Factory>($type: T) => {
       readonly size: number,
     ) { }
 
-    static new(instances: Factory.Instances<T[]>) {
+    static create(instances: Factory.Instances<T[]>) {
       let length = 0
       let offset = 0
 
@@ -72,7 +72,7 @@ export const createVector = <T extends Factory>($type: T) => {
       for (let i = 0; i < primitives.length; i++)
         result[i] = AbiVector.type.from(primitives[i])
 
-      return AbiVector.new(result as any as Factory.Instances<T[]>)
+      return AbiVector.create(result as any as Factory.Instances<T[]>)
     }
 
     intoOrThrow() {

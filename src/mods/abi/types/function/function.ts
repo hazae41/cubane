@@ -89,27 +89,39 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
     static readonly func = $func
     static readonly args = $args
 
-    readonly func = this.#class.func
-    readonly args = this.#class.args
-
     constructor(
-      readonly inner: TupleInstance<T>
+      readonly func: FunctionSelector,
+      readonly args: TupleInstance<T>
     ) { }
 
-    static new(...instances: Factory.Instances<T>) {
-      const args = FunctionSelectorAndArguments.args.new(instances)
+    static create(...instances: Factory.Instances<T>) {
+      const args = FunctionSelectorAndArguments.args.create(instances)
 
-      return new FunctionSelectorAndArguments(args)
+      return new FunctionSelectorAndArguments($func, args)
     }
 
     static from(...primitives: Factory.Primitives<T>) {
       const args = FunctionSelectorAndArguments.args.from(primitives)
 
-      return new FunctionSelectorAndArguments(args)
+      return new FunctionSelectorAndArguments($func, args)
     }
 
     intoOrThrow() {
-      return this.inner.intoOrThrow()
+      return this.args.intoOrThrow()
+    }
+
+    toJSON() {
+      return this.args.toJSON()
+    }
+
+    verify() {
+      return Bytes.equals($func.value, this.func.value)
+    }
+
+    verifyOrThrow() {
+      if (!this.verify())
+        throw new Error(`Invalid function selector`)
+      return this
     }
 
     static codegen() {
@@ -121,40 +133,34 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
     }
 
     encodeOrThrow() {
-      return this.func.encodeOrThrow() + this.inner.encodeOrThrow()
+      return this.func.encodeOrThrow() + this.args.encodeOrThrow()
     }
 
     encodePackedOrThrow() {
-      return this.func.encodePackedOrThrow() + this.inner.encodePackedOrThrow()
+      return this.func.encodePackedOrThrow() + this.args.encodePackedOrThrow()
     }
 
     static decodeOrThrow(cursor: TextCursor) {
       const func = FunctionSelector.decodeOrThrow(cursor)
       const args = FunctionSelectorAndArguments.args.decodeOrThrow(cursor)
 
-      if (!Bytes.equals(func.value, this.func.value))
-        throw new Error(`Invalid function selector`)
-
-      return new FunctionSelectorAndArguments(args)
+      return new FunctionSelectorAndArguments(func, args)
     }
 
     sizeOrThrow() {
-      return this.func.sizeOrThrow() + this.inner.sizeOrThrow()
+      return this.func.sizeOrThrow() + this.args.sizeOrThrow()
     }
 
     writeOrThrow(cursor: Cursor) {
       this.func.writeOrThrow(cursor)
-      this.inner.writeOrThrow(cursor)
+      this.args.writeOrThrow(cursor)
     }
 
     static readOrThrow(cursor: Cursor) {
       const func = FunctionSelector.readOrThrow(cursor)
       const args = FunctionSelectorAndArguments.args.readOrThrow(cursor)
 
-      if (!Bytes.equals(func.value, this.func.value))
-        throw new Error(`Invalid function selector`)
-
-      return new FunctionSelectorAndArguments(args)
+      return new FunctionSelectorAndArguments(func, args)
     }
 
   }

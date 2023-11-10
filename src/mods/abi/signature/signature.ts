@@ -172,7 +172,7 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
     ) { }
 
     static create(...instances: Factory.Instances<T>) {
-      const args = FunctionSignature.funcAndArgs.new(...instances)
+      const args = FunctionSignature.funcAndArgs.create(...instances)
 
       return new FunctionSignature(args)
     }
@@ -184,7 +184,15 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
     }
 
     static codegen() {
-      return `Abi.createFunctionSignature("${$name}",${$funcAndArgs.codegen()})`
+      return `Abi.createFunctionSignature(${JSON.stringify($name)},${$funcAndArgs.codegen()})`
+    }
+
+    intoOrThrow() {
+      return this.inner.intoOrThrow()
+    }
+
+    toJSON() {
+      return this.inner.toJSON()
     }
 
     encodeOrThrow() {
@@ -196,7 +204,7 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
     }
 
     static decodeOrThrow(cursor: TextCursor) {
-      return $funcAndArgs.decodeOrThrow(cursor)
+      return new FunctionSignature($funcAndArgs.decodeOrThrow(cursor))
     }
 
     sizeOrThrow() {
@@ -208,7 +216,7 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
     }
 
     static readOrThrow(cursor: Cursor) {
-      return $funcAndArgs.readOrThrow(cursor)
+      return new FunctionSignature($funcAndArgs.readOrThrow(cursor))
     }
 
   }
