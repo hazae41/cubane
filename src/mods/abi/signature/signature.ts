@@ -12,20 +12,15 @@ import { AbiBool } from "../types/bool/bool.js";
 import { AbiBytes } from "../types/bytes/dynamic.js";
 import { bytesByName } from "../types/bytes/static.js";
 import { FunctionSelector, FunctionSelectorAndArgumentsFactory, FunctionSelectorAndArgumentsInstance, createFunctionSelectorAndArguments } from "../types/function/function.js";
-import { IntByName, intByName } from "../types/int/int.js";
+import { AbiInt256, intByName } from "../types/int/int.js";
 import { AbiString } from "../types/string/string.js";
 import { TupleFactory, createTuple } from "../types/tuple/tuple.js";
-import { UintByName, uintByName } from "../types/uint/uint.js";
+import { AbiUint256, uintByName } from "../types/uint/uint.js";
 import { createVector } from "../types/vector/vector.js";
 
 export namespace FunctionSignature {
 
-  const factoryByName: UintByName & IntByName & {
-    bool: typeof AbiBool,
-    address: typeof AbiAddress,
-    bytes: typeof AbiBytes,
-    string: typeof AbiString,
-  } = {
+  const factoryByName: Record<string, Factory> = {
     ...uintByName,
     ...intByName,
     ...bytesByName,
@@ -33,6 +28,8 @@ export namespace FunctionSignature {
     address: AbiAddress,
     bytes: AbiBytes,
     string: AbiString,
+    uint: AbiUint256,
+    int: AbiInt256,
   } as const
 
   export function create<T extends readonly Factory[]>(name: string, args: FunctionSelectorAndArgumentsFactory<T>) {

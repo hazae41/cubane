@@ -4,7 +4,7 @@ export * from "./types/index.test.js";
 import { Base16 } from "@hazae41/base16";
 import { Readable } from "@hazae41/binary";
 import { Keccak256 } from "@hazae41/keccak256";
-import { test } from "@hazae41/phobos";
+import { assert, test } from "@hazae41/phobos";
 import { ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature } from "./signature/signature.js";
@@ -12,6 +12,10 @@ import { AbiAddress } from "./types/address/address.js";
 import { createArray } from "./types/array/array.js";
 import { createTuple } from "./types/tuple/tuple.js";
 import { createVector } from "./types/vector/vector.js";
+
+import elements from "./index.test.json";
+
+elements;
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
@@ -58,4 +62,16 @@ test("runtime encode then decode", async () => {
   ).encodeOrThrow())
 
   signature.decodeOrThrow(new TextCursor(hex.slice(2)))
+})
+
+test("json", async () => {
+  for (const element of elements as any[]) {
+    console.log(element.name)
+
+    const signature = FunctionSignature.parseOrThrow(`f(${element.type})`)
+    const encoded = signature.funcAndArgs.args.from([element.value]).encodeOrThrow()
+
+    console.log(encoded, element.encoded)
+    assert(ZeroHexString.from(encoded).toLowerCase() === element.encoded.toLowerCase(), "encoded")
+  }
 })

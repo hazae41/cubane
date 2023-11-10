@@ -10,7 +10,7 @@ import { Factory } from "../abi.js"
 import { AbiAddress } from "../types/address/address.js"
 import { AbiBool } from "../types/bool/bool.js"
 import { AbiBytes32, bytesByName } from "../types/bytes/index.js"
-import { intByName } from "../types/int/int.js"
+import { AbiInt256, intByName } from "../types/int/int.js"
 import { AbiString } from "../types/string/string.js"
 import { AbiUint256, uintByName } from "../types/uint/uint.js"
 
@@ -56,6 +56,8 @@ export namespace TypedData {
     ...bytesByName,
     bool: AbiBool,
     address: AbiAddress,
+    uint: AbiUint256,
+    int: AbiInt256,
   }
 
   export const EIP712Domain = [
