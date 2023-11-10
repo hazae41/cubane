@@ -27,7 +27,7 @@ npm i @hazae41/cubane
 - TypedData (EIP-712) hashing
 - ENS (e.g. `namehash`)
 
-## Coming soon
+### Coming soon
 - JSON-ABI parsing
 - Return type of functions
 - Signatures and transactions
