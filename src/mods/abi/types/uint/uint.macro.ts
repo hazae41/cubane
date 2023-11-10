@@ -340,7 +340,11 @@ export class ZeroHexAbiUint${bits} {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint${bits}(cursor.readOrThrow(ZeroHexAbiUint${bits}.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint${bits}.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint${bits}.nibbles)
+
+    return new ZeroHexAbiUint${bits}(content)
   }
 
   sizeOrThrow() {

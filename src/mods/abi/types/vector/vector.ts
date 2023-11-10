@@ -119,15 +119,20 @@ export const createVector = <T extends Factory>($type: T) => {
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
 
-      const subcursor = new TextCursor(cursor.text)
+      let end = 0
 
       for (let i = 0; i < length; i++) {
         if (AbiVector.type.dynamic) {
           const pointer = Uint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + (pointer.toNumber() * 2)
-          const instance = AbiVector.type.decodeOrThrow(subcursor)
+          const offset = cursor.offset
+
+          cursor.offset = start + (pointer.toNumber() * 2)
+          const instance = AbiVector.type.decodeOrThrow(cursor)
+
+          end = cursor.offset
+          cursor.offset = offset
 
           inner.push(instance)
           tails.push(instance)
@@ -138,7 +143,7 @@ export const createVector = <T extends Factory>($type: T) => {
         }
       }
 
-      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+      cursor.offset = Math.max(cursor.offset, end)
 
       return new AbiVector(inner as any as Factory.Instances<T[]>, heads, tails, (cursor.offset - start) / 2)
     }
@@ -163,20 +168,25 @@ export const createVector = <T extends Factory>($type: T) => {
 
       const start = cursor.offset
 
-      const subcursor = new Cursor(cursor.bytes)
-
       const inner = new Array<Instance<any>>()
 
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
+
+      let end = 0
 
       for (let i = 0; i < length; i++) {
         if (AbiVector.type.dynamic) {
           const pointer = Uint32.readOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + pointer.toNumber()
-          const instance = AbiVector.type.readOrThrow(subcursor)
+          const offset = cursor.offset
+
+          cursor.offset = start + pointer.toNumber()
+          const instance = AbiVector.type.readOrThrow(cursor)
+
+          end = cursor.offset
+          cursor.offset = offset
 
           inner.push(instance)
           tails.push(instance)
@@ -187,7 +197,7 @@ export const createVector = <T extends Factory>($type: T) => {
         }
       }
 
-      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+      cursor.offset = Math.max(cursor.offset, end)
 
       return new AbiVector(inner as any as Factory.Instances<T[]>, heads, tails, cursor.offset - start)
     }

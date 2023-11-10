@@ -322,7 +322,11 @@ export class ZeroHexAbiUint8 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint8(cursor.readOrThrow(ZeroHexAbiUint8.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint8.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint8.nibbles)
+
+    return new ZeroHexAbiUint8(content)
   }
 
   sizeOrThrow() {
@@ -663,7 +667,11 @@ export class ZeroHexAbiUint16 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint16(cursor.readOrThrow(ZeroHexAbiUint16.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint16.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint16.nibbles)
+
+    return new ZeroHexAbiUint16(content)
   }
 
   sizeOrThrow() {
@@ -1004,7 +1012,11 @@ export class ZeroHexAbiUint24 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint24(cursor.readOrThrow(ZeroHexAbiUint24.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint24.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint24.nibbles)
+
+    return new ZeroHexAbiUint24(content)
   }
 
   sizeOrThrow() {
@@ -1345,7 +1357,11 @@ export class ZeroHexAbiUint32 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint32(cursor.readOrThrow(ZeroHexAbiUint32.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint32.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint32.nibbles)
+
+    return new ZeroHexAbiUint32(content)
   }
 
   sizeOrThrow() {
@@ -1590,7 +1606,11 @@ export class ZeroHexAbiUint40 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint40(cursor.readOrThrow(ZeroHexAbiUint40.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint40.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint40.nibbles)
+
+    return new ZeroHexAbiUint40(content)
   }
 
   sizeOrThrow() {
@@ -1835,7 +1855,11 @@ export class ZeroHexAbiUint48 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint48(cursor.readOrThrow(ZeroHexAbiUint48.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint48.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint48.nibbles)
+
+    return new ZeroHexAbiUint48(content)
   }
 
   sizeOrThrow() {
@@ -2080,7 +2104,11 @@ export class ZeroHexAbiUint56 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint56(cursor.readOrThrow(ZeroHexAbiUint56.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint56.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint56.nibbles)
+
+    return new ZeroHexAbiUint56(content)
   }
 
   sizeOrThrow() {
@@ -2325,7 +2353,11 @@ export class ZeroHexAbiUint64 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint64(cursor.readOrThrow(ZeroHexAbiUint64.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint64.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint64.nibbles)
+
+    return new ZeroHexAbiUint64(content)
   }
 
   sizeOrThrow() {
@@ -2570,7 +2602,11 @@ export class ZeroHexAbiUint72 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint72(cursor.readOrThrow(ZeroHexAbiUint72.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint72.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint72.nibbles)
+
+    return new ZeroHexAbiUint72(content)
   }
 
   sizeOrThrow() {
@@ -2815,7 +2851,11 @@ export class ZeroHexAbiUint80 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint80(cursor.readOrThrow(ZeroHexAbiUint80.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint80.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint80.nibbles)
+
+    return new ZeroHexAbiUint80(content)
   }
 
   sizeOrThrow() {
@@ -3060,7 +3100,11 @@ export class ZeroHexAbiUint88 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint88(cursor.readOrThrow(ZeroHexAbiUint88.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint88.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint88.nibbles)
+
+    return new ZeroHexAbiUint88(content)
   }
 
   sizeOrThrow() {
@@ -3305,7 +3349,11 @@ export class ZeroHexAbiUint96 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint96(cursor.readOrThrow(ZeroHexAbiUint96.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint96.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint96.nibbles)
+
+    return new ZeroHexAbiUint96(content)
   }
 
   sizeOrThrow() {
@@ -3550,7 +3598,11 @@ export class ZeroHexAbiUint104 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint104(cursor.readOrThrow(ZeroHexAbiUint104.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint104.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint104.nibbles)
+
+    return new ZeroHexAbiUint104(content)
   }
 
   sizeOrThrow() {
@@ -3795,7 +3847,11 @@ export class ZeroHexAbiUint112 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint112(cursor.readOrThrow(ZeroHexAbiUint112.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint112.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint112.nibbles)
+
+    return new ZeroHexAbiUint112(content)
   }
 
   sizeOrThrow() {
@@ -4040,7 +4096,11 @@ export class ZeroHexAbiUint120 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint120(cursor.readOrThrow(ZeroHexAbiUint120.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint120.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint120.nibbles)
+
+    return new ZeroHexAbiUint120(content)
   }
 
   sizeOrThrow() {
@@ -4285,7 +4345,11 @@ export class ZeroHexAbiUint128 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint128(cursor.readOrThrow(ZeroHexAbiUint128.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint128.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint128.nibbles)
+
+    return new ZeroHexAbiUint128(content)
   }
 
   sizeOrThrow() {
@@ -4530,7 +4594,11 @@ export class ZeroHexAbiUint136 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint136(cursor.readOrThrow(ZeroHexAbiUint136.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint136.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint136.nibbles)
+
+    return new ZeroHexAbiUint136(content)
   }
 
   sizeOrThrow() {
@@ -4775,7 +4843,11 @@ export class ZeroHexAbiUint144 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint144(cursor.readOrThrow(ZeroHexAbiUint144.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint144.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint144.nibbles)
+
+    return new ZeroHexAbiUint144(content)
   }
 
   sizeOrThrow() {
@@ -5020,7 +5092,11 @@ export class ZeroHexAbiUint152 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint152(cursor.readOrThrow(ZeroHexAbiUint152.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint152.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint152.nibbles)
+
+    return new ZeroHexAbiUint152(content)
   }
 
   sizeOrThrow() {
@@ -5265,7 +5341,11 @@ export class ZeroHexAbiUint160 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint160(cursor.readOrThrow(ZeroHexAbiUint160.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint160.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint160.nibbles)
+
+    return new ZeroHexAbiUint160(content)
   }
 
   sizeOrThrow() {
@@ -5510,7 +5590,11 @@ export class ZeroHexAbiUint168 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint168(cursor.readOrThrow(ZeroHexAbiUint168.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint168.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint168.nibbles)
+
+    return new ZeroHexAbiUint168(content)
   }
 
   sizeOrThrow() {
@@ -5755,7 +5839,11 @@ export class ZeroHexAbiUint176 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint176(cursor.readOrThrow(ZeroHexAbiUint176.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint176.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint176.nibbles)
+
+    return new ZeroHexAbiUint176(content)
   }
 
   sizeOrThrow() {
@@ -6000,7 +6088,11 @@ export class ZeroHexAbiUint184 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint184(cursor.readOrThrow(ZeroHexAbiUint184.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint184.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint184.nibbles)
+
+    return new ZeroHexAbiUint184(content)
   }
 
   sizeOrThrow() {
@@ -6245,7 +6337,11 @@ export class ZeroHexAbiUint192 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint192(cursor.readOrThrow(ZeroHexAbiUint192.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint192.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint192.nibbles)
+
+    return new ZeroHexAbiUint192(content)
   }
 
   sizeOrThrow() {
@@ -6490,7 +6586,11 @@ export class ZeroHexAbiUint200 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint200(cursor.readOrThrow(ZeroHexAbiUint200.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint200.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint200.nibbles)
+
+    return new ZeroHexAbiUint200(content)
   }
 
   sizeOrThrow() {
@@ -6735,7 +6835,11 @@ export class ZeroHexAbiUint208 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint208(cursor.readOrThrow(ZeroHexAbiUint208.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint208.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint208.nibbles)
+
+    return new ZeroHexAbiUint208(content)
   }
 
   sizeOrThrow() {
@@ -6980,7 +7084,11 @@ export class ZeroHexAbiUint216 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint216(cursor.readOrThrow(ZeroHexAbiUint216.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint216.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint216.nibbles)
+
+    return new ZeroHexAbiUint216(content)
   }
 
   sizeOrThrow() {
@@ -7225,7 +7333,11 @@ export class ZeroHexAbiUint224 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint224(cursor.readOrThrow(ZeroHexAbiUint224.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint224.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint224.nibbles)
+
+    return new ZeroHexAbiUint224(content)
   }
 
   sizeOrThrow() {
@@ -7470,7 +7582,11 @@ export class ZeroHexAbiUint232 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint232(cursor.readOrThrow(ZeroHexAbiUint232.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint232.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint232.nibbles)
+
+    return new ZeroHexAbiUint232(content)
   }
 
   sizeOrThrow() {
@@ -7715,7 +7831,11 @@ export class ZeroHexAbiUint240 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint240(cursor.readOrThrow(ZeroHexAbiUint240.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint240.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint240.nibbles)
+
+    return new ZeroHexAbiUint240(content)
   }
 
   sizeOrThrow() {
@@ -7960,7 +8080,11 @@ export class ZeroHexAbiUint248 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint248(cursor.readOrThrow(ZeroHexAbiUint248.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint248.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint248.nibbles)
+
+    return new ZeroHexAbiUint248(content)
   }
 
   sizeOrThrow() {
@@ -8205,7 +8329,11 @@ export class ZeroHexAbiUint256 {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    return new ZeroHexAbiUint256(cursor.readOrThrow(ZeroHexAbiUint256.nibbles))
+    cursor.offset += 64 - ZeroHexAbiUint256.nibbles
+
+    const content = cursor.readOrThrow(ZeroHexAbiUint256.nibbles)
+
+    return new ZeroHexAbiUint256(content)
   }
 
   sizeOrThrow() {

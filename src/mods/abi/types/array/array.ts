@@ -119,15 +119,20 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
 
-      const subcursor = new TextCursor(cursor.text)
+      let end = 0
 
       for (let i = 0; i < this.count; i++) {
         if (AbiArray.type.dynamic) {
           const pointer = Uint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + (pointer.toNumber() * 2)
-          const instance = AbiArray.type.decodeOrThrow(subcursor)
+          const offset = cursor.offset
+
+          cursor.offset = start + (pointer.toNumber() * 2)
+          const instance = AbiArray.type.decodeOrThrow(cursor)
+
+          end = cursor.offset
+          cursor.offset = offset
 
           inner.push(instance)
           tails.push(instance)
@@ -138,7 +143,7 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
         }
       }
 
-      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+      cursor.offset = Math.max(cursor.offset, end)
 
       return new AbiArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, (cursor.offset - start) / 2)
     }
@@ -157,20 +162,25 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
     static readOrThrow(cursor: Cursor) {
       const start = cursor.offset
 
-      const subcursor = new Cursor(cursor.bytes)
-
       const inner = new Array<Instance<any>>()
 
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
+
+      let end = 0
 
       for (let i = 0; i < this.count; i++) {
         if (AbiArray.type.dynamic) {
           const pointer = Uint32.readOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + pointer.toNumber()
-          const instance = AbiArray.type.readOrThrow(subcursor)
+          const offset = cursor.offset
+
+          cursor.offset = start + pointer.toNumber()
+          const instance = AbiArray.type.readOrThrow(cursor)
+
+          end = cursor.offset
+          cursor.offset = offset
 
           inner.push(instance)
           tails.push(instance)
@@ -181,7 +191,7 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
         }
       }
 
-      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+      cursor.offset = Math.max(cursor.offset, end)
 
       return new AbiArray(inner as any as Factory.Instances<T[]> & { readonly length: N }, heads, tails, cursor.offset - start)
     }

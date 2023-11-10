@@ -8,6 +8,14 @@ export class TextCursor {
     readonly text: string,
   ) { }
 
+  get before() {
+    return this.text.slice(0, this.offset)
+  }
+
+  get after() {
+    return this.text.slice(this.offset)
+  }
+
   get remaining() {
     return this.text.length - this.offset
   }

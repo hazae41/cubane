@@ -116,15 +116,20 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
 
-      const subcursor = new TextCursor(cursor.text)
+      let end = 0
 
       for (const factory of AbiTuple.types) {
         if (factory.dynamic) {
           const pointer = Uint32.decodeOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + (pointer.toNumber() * 2)
-          const instance = factory.decodeOrThrow(subcursor)
+          const offset = cursor.offset
+
+          cursor.offset = start + (pointer.toNumber() * 2)
+          const instance = factory.decodeOrThrow(cursor)
+
+          end = cursor.offset
+          cursor.offset = offset
 
           inner.push(instance)
           tails.push(instance)
@@ -135,7 +140,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
         }
       }
 
-      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+      cursor.offset = Math.max(cursor.offset, end)
 
       return new AbiTuple(inner as Factory.Instances<T>, heads, tails, (cursor.offset - start) / 2)
     }
@@ -159,15 +164,20 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
       const heads = new Array<Instance<any>>()
       const tails = new Array<Instance<any>>()
 
-      const subcursor = new Cursor(cursor.bytes)
+      let end = 0
 
       for (const factory of AbiTuple.types) {
         if (factory.dynamic) {
           const pointer = Uint32.readOrThrow(cursor)
           heads.push(pointer)
 
-          subcursor.offset = start + pointer.toNumber()
-          const instance = factory.readOrThrow(subcursor)
+          const offset = cursor.offset
+
+          cursor.offset = start + pointer.toNumber()
+          const instance = factory.readOrThrow(cursor)
+
+          end = cursor.offset
+          cursor.offset = offset
 
           inner.push(instance)
           tails.push(instance)
@@ -178,7 +188,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
         }
       }
 
-      cursor.offset = Math.max(cursor.offset, subcursor.offset)
+      cursor.offset = Math.max(cursor.offset, end)
 
       return new AbiTuple(inner as Factory.Instances<T>, heads, tails, cursor.offset - start)
     }
