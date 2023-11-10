@@ -10,16 +10,27 @@ npm i @hazae41/cubane
 
 ## Features
 
-### Current features
+### Goals
 - 100% TypeScript and ESM
 - Minimal dependencies
 - Rust-like patterns
-- Zero-copy ABI coding
-- Zero-copy RLP coding
 - Human-readable code
 - Bottom-up abstractions
-- High-performance codegen
 - Bring your own algorithms
+- Zero-copy bytes encoding
+- Compile-time codegen
+
+### Implemented
+- ABI / ABIv2 (except `fixed`)
+- Function parsing (e.g. `f(uint256)`)
+- Recursive-Length Prefix (RLP) coding
+- TypedData (EIP-712) hashing
+- ENS (e.g. `namehash`)
+
+## Coming soon
+- JSON-ABI parsing
+- Return type of functions
+- Signatures and transactions
 
 ## Setup
 
@@ -80,7 +91,9 @@ See https://github.com/hazae41/base16 for more
 Parse the function from its signature
 
 ```tsx
-const f = FunctionSignature.parseOrThrow("f(bool,uint256,string)")
+import { Abi } from "@hazae41/cubane"
+
+const f = Abi.FunctionSignature.parseOrThrow("f(bool,uint256,string)")
 ```
 
 Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
@@ -98,7 +111,7 @@ Cubane provides Saumon macros to generate typed ABI functions
 
 ```tsx
 import "@hazae41/symbol-dispose-polyfill"
-import { Cubane } from "@hazae41/cubane"
+import { Abi } from "@hazae41/cubane"
 
 /**
  * Your Keccak256 adapter code
@@ -129,7 +142,8 @@ const hex = f.from(true, 123456789n, "hello world").encodeOrThrow()
 You can generate the function from its signature
 
 ```tsx
-> console.log(FunctionSignature.parseOrThrow("f(bool,uint256,string)").codegen())
+> import { Abi } from "@hazae41/cubane"
+> console.log(Abi.FunctionSignature.parseOrThrow("f(bool,uint256,string)").codegen())
 ```
 
 Paste it in a file `f.abi.ts`
@@ -141,6 +155,11 @@ export const f = /*generated code*/
 Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
 
 ```tsx
+import { f } from "./f.abi.ts"
+
+/**
+ * f is fully typed as (bool,uint256,string)
+ */
 const hex = f.from(true, 123456789n, "hello world").encodeOrThrow()
 // c4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
@@ -148,6 +167,9 @@ const hex = f.from(true, 123456789n, "hello world").encodeOrThrow()
 ### Rlp to Bytes
 
 ```tsx
+import { RlpString, RlpList } from "@hazae41/cubane"
+import { Writable } from "@hazae41/binary"
+
 const cat = RlpString.from(Bytes.fromUtf8("cat"))
 const dog = RlpString.from(Bytes.fromUtf8("dog"))
 const catAndDog = RlpList.from([cat, dog])
@@ -158,6 +180,9 @@ const bytes = Writable.writeToBytesOrThrow(catAndDog)
 ### Rlp to Hex
 
 ```tsx
+import { RlpString, RlpList } from "@hazae41/cubane"
+import { Writable } from "@hazae41/binary"
+
 const cat = RlpString.from(Bytes.fromUtf8("cat"))
 const dog = RlpString.from(Bytes.fromUtf8("dog"))
 const catAndDog = RlpList.from([cat, dog])
