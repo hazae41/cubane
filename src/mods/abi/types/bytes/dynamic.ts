@@ -166,8 +166,8 @@ export class ZeroHexAbiBytes {
     return ZeroHexAbiBytes.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {

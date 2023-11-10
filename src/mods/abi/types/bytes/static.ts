@@ -156,8 +156,8 @@ export class ZeroHexAbiBytes1 {
     return ZeroHexAbiBytes1.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -357,8 +357,8 @@ export class ZeroHexAbiBytes2 {
     return ZeroHexAbiBytes2.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -558,8 +558,8 @@ export class ZeroHexAbiBytes3 {
     return ZeroHexAbiBytes3.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -759,8 +759,8 @@ export class ZeroHexAbiBytes4 {
     return ZeroHexAbiBytes4.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -960,8 +960,8 @@ export class ZeroHexAbiBytes5 {
     return ZeroHexAbiBytes5.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -1161,8 +1161,8 @@ export class ZeroHexAbiBytes6 {
     return ZeroHexAbiBytes6.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -1362,8 +1362,8 @@ export class ZeroHexAbiBytes7 {
     return ZeroHexAbiBytes7.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -1563,8 +1563,8 @@ export class ZeroHexAbiBytes8 {
     return ZeroHexAbiBytes8.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -1764,8 +1764,8 @@ export class ZeroHexAbiBytes9 {
     return ZeroHexAbiBytes9.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -1965,8 +1965,8 @@ export class ZeroHexAbiBytes10 {
     return ZeroHexAbiBytes10.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -2166,8 +2166,8 @@ export class ZeroHexAbiBytes11 {
     return ZeroHexAbiBytes11.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -2367,8 +2367,8 @@ export class ZeroHexAbiBytes12 {
     return ZeroHexAbiBytes12.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -2568,8 +2568,8 @@ export class ZeroHexAbiBytes13 {
     return ZeroHexAbiBytes13.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -2769,8 +2769,8 @@ export class ZeroHexAbiBytes14 {
     return ZeroHexAbiBytes14.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -2970,8 +2970,8 @@ export class ZeroHexAbiBytes15 {
     return ZeroHexAbiBytes15.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -3171,8 +3171,8 @@ export class ZeroHexAbiBytes16 {
     return ZeroHexAbiBytes16.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -3372,8 +3372,8 @@ export class ZeroHexAbiBytes17 {
     return ZeroHexAbiBytes17.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -3573,8 +3573,8 @@ export class ZeroHexAbiBytes18 {
     return ZeroHexAbiBytes18.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -3774,8 +3774,8 @@ export class ZeroHexAbiBytes19 {
     return ZeroHexAbiBytes19.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -3975,8 +3975,8 @@ export class ZeroHexAbiBytes20 {
     return ZeroHexAbiBytes20.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -4176,8 +4176,8 @@ export class ZeroHexAbiBytes21 {
     return ZeroHexAbiBytes21.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -4377,8 +4377,8 @@ export class ZeroHexAbiBytes22 {
     return ZeroHexAbiBytes22.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -4578,8 +4578,8 @@ export class ZeroHexAbiBytes23 {
     return ZeroHexAbiBytes23.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -4779,8 +4779,8 @@ export class ZeroHexAbiBytes24 {
     return ZeroHexAbiBytes24.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -4980,8 +4980,8 @@ export class ZeroHexAbiBytes25 {
     return ZeroHexAbiBytes25.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -5181,8 +5181,8 @@ export class ZeroHexAbiBytes26 {
     return ZeroHexAbiBytes26.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -5382,8 +5382,8 @@ export class ZeroHexAbiBytes27 {
     return ZeroHexAbiBytes27.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -5583,8 +5583,8 @@ export class ZeroHexAbiBytes28 {
     return ZeroHexAbiBytes28.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -5784,8 +5784,8 @@ export class ZeroHexAbiBytes29 {
     return ZeroHexAbiBytes29.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -5985,8 +5985,8 @@ export class ZeroHexAbiBytes30 {
     return ZeroHexAbiBytes30.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -6186,8 +6186,8 @@ export class ZeroHexAbiBytes31 {
     return ZeroHexAbiBytes31.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {
@@ -6387,8 +6387,8 @@ export class ZeroHexAbiBytes32 {
     return ZeroHexAbiBytes32.create(value)
   }
 
-  intoOrThrow() {
-    return this.value
+  intoOrThrow(): ZeroHexString {
+    return `0x${this.value}`
   }
 
   static codegen() {

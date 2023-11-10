@@ -66,6 +66,8 @@ test("runtime encode then decode", async () => {
 
 test("json", async () => {
   for (const element of elements as any[]) {
+    console.log(element.name)
+
     const signature = FunctionSignature.parseOrThrow(`f(${element.type})`)
     const encoded = signature.funcAndArgs.args.from([element.value]).encodeOrThrow()
 
