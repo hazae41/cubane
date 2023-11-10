@@ -80,13 +80,13 @@ See https://github.com/hazae41/base16 for more
 Parse the function from its signature
 
 ```tsx
-const signature = FunctionSignature.parseOrThrow("f(bool,uint256,string)")
+const f = FunctionSignature.parseOrThrow("f(bool,uint256,string)")
 ```
 
 Encode the function selector and its arguments (it will return a `0x`-prefixed hex string)
 
 ```tsx
-const hex = signature.args.from(true, 123456789n, "hello world").encodeOrThrow()
+const hex = f.from(true, 123456789n, "hello world").encodeOrThrow()
 // c4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 
@@ -120,7 +120,7 @@ import { f } from "./f.abi.ts"
 /**
  * f is fully typed as (bool,uint256,string)
  */
-const hex = f.args.from(true, 123456789n, "hello world").encodeOrThrow()
+const hex = f.from(true, 123456789n, "hello world").encodeOrThrow()
 // c4b71e130000000000000000000000000000000000000000000000000000000000000001...
 ```
 
