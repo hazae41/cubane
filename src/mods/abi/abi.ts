@@ -4,10 +4,10 @@ import { Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
 
-export interface Instance<P = unknown, J = unknown> extends Writable {
+export interface Instance<I = unknown, J = unknown> extends Writable {
   readonly dynamic: boolean
 
-  intoOrThrow(): P
+  intoOrThrow(): I
 
   encodeOrThrow(): string
   encodePackedOrThrow(): string
@@ -18,37 +18,51 @@ export interface Instance<P = unknown, J = unknown> extends Writable {
   toJSON(): J
 }
 
-export interface Factory<P = unknown, J = unknown, I extends Instance<P, J> = Instance<P, J>> extends Readable<I> {
+export interface Factory<F = unknown, S extends Instance<any, any> = Instance<any, any>> extends Readable<S> {
   readonly dynamic: boolean
 
-  from(primitive: P): I
+  from(primitive: F): S
 
-  decodeOrThrow(cursor: TextCursor): I
+  decodeOrThrow(cursor: TextCursor): S
 
-  readOrThrow(cursor: Cursor): I
+  readOrThrow(cursor: Cursor): S
 
   codegen(): string
 }
 
 export namespace Factory {
 
-  export type Primitive<T> = T extends Factory<infer P, any, any> ? P : never
+  export type From<T> = T extends Factory<infer F, any> ? F : never
 
-  export type Primitives<T extends readonly Factory[]> = {
-    readonly [Index in keyof T]: Primitive<T[Index]>
+  export type Froms<T extends readonly Factory[]> = {
+    readonly [Index in keyof T]: From<T[Index]>
   }
 
-  export type Jsoned<T> = T extends Factory<any, infer J, any> ? J : never
-
-  export type Jsoneds<T extends readonly Factory[]> = {
-    readonly [Index in keyof T]: Jsoned<T[Index]>
-  }
-
-  export type Instance<T extends Factory> = T extends Factory<any, any, infer I> ? I : never
+  export type Instance<T> = T extends Factory<any, infer I> ? I : never
 
   export type Instances<T extends readonly Factory[]> = {
     readonly [Index in keyof T]: Instance<T[Index]>
   }
+
+  export type Into<T> = Instance.Into<Instance<T>>
+
+  export type Intos<T extends readonly Factory[]> = {
+    readonly [Index in keyof T]: Into<T[Index]>
+  }
+
+  export type Json<T> = Instance.Json<Instance<T>>
+
+  export type Jsons<T extends readonly Factory[]> = {
+    readonly [Index in keyof T]: Json<T[Index]>
+  }
+
+}
+
+export namespace Instance {
+
+  export type Into<T> = T extends Instance<infer I, any> ? I : never
+
+  export type Json<T> = T extends Instance<any, infer J> ? J : never
 
 }
 

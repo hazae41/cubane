@@ -177,7 +177,7 @@ export function createFunctionSignature<T extends readonly Factory[] = Factory[]
       return new FunctionSignature(args)
     }
 
-    static from(...primitives: Factory.Primitives<T>) {
+    static from(...primitives: Factory.Froms<T>) {
       const args = FunctionSignature.funcAndArgs.from(...primitives)
 
       return new FunctionSignature(args)

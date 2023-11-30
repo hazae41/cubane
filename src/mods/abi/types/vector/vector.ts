@@ -66,7 +66,7 @@ export const createVector = <T extends Factory>($type: T) => {
       return new AbiVector(instances, heads, tails, length)
     }
 
-    static from(primitives: Factory.Primitives<T[]>) {
+    static from(primitives: Factory.Froms<T[]>) {
       const result: Instance<any>[] = new Array(primitives.length)
 
       for (let i = 0; i < primitives.length; i++)
@@ -76,11 +76,11 @@ export const createVector = <T extends Factory>($type: T) => {
     }
 
     intoOrThrow() {
-      return this.inner.map(it => it.intoOrThrow()) as Factory.Primitives<T[]>
+      return this.inner.map(it => it.intoOrThrow()) as Factory.Intos<T[]>
     }
 
     toJSON() {
-      return this.inner.map(it => it.toJSON()) as Factory.Jsoneds<T[]>
+      return this.inner.map(it => it.toJSON()) as Factory.Jsons<T[]>
     }
 
     static codegen() {

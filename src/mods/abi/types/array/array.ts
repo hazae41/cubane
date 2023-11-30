@@ -68,7 +68,7 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
       return new AbiArray(instances, heads, tails, length)
     }
 
-    static from(primitives: Factory.Primitives<T[]> & { readonly length: N }) {
+    static from(primitives: Factory.Froms<T[]> & { readonly length: N }) {
       const result = new Array(AbiArray.count)
 
       for (let i = 0; i < AbiArray.count; i++)
@@ -78,11 +78,11 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
     }
 
     intoOrThrow() {
-      return this.inner.map(instance => instance.intoOrThrow()) as any as Factory.Primitives<T[]> & { readonly length: N }
+      return this.inner.map(instance => instance.intoOrThrow()) as any as Factory.Intos<T[]> & { readonly length: N }
     }
 
     toJSON() {
-      return this.inner.map(instance => instance.toJSON()) as any as Factory.Jsoneds<T[]> & { readonly length: N }
+      return this.inner.map(instance => instance.toJSON()) as any as Factory.Jsons<T[]> & { readonly length: N }
     }
 
     static codegen() {

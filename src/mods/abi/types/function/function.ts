@@ -100,7 +100,7 @@ export const createFunctionSelectorAndArguments = <T extends readonly Factory[]>
       return new FunctionSelectorAndArguments($func, args)
     }
 
-    static from(...primitives: Factory.Primitives<T>) {
+    static from(...primitives: Factory.Froms<T>) {
       const args = FunctionSelectorAndArguments.args.from(primitives)
 
       return new FunctionSelectorAndArguments($func, args)

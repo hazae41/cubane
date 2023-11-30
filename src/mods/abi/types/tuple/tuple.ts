@@ -65,7 +65,7 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
       return new AbiTuple(instances, heads, tails, length)
     }
 
-    static from(primitives: Factory.Primitives<T>) {
+    static from(primitives: Factory.Froms<T>) {
       const result = new Array(AbiTuple.types.length)
 
       for (let i = 0; i < AbiTuple.types.length; i++)
@@ -75,11 +75,11 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
     }
 
     intoOrThrow() {
-      return this.inner.map(it => it.intoOrThrow()) as Factory.Primitives<T>
+      return this.inner.map(it => it.intoOrThrow()) as Factory.Intos<T>
     }
 
     toJSON() {
-      return this.inner.map(it => it.toJSON()) as Factory.Jsoneds<T>
+      return this.inner.map(it => it.toJSON()) as Factory.Jsons<T>
     }
 
     static codegen() {
