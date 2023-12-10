@@ -1,6 +1,7 @@
 /**
  * @macro delete-next-lines
  */
+import { Abi } from "@hazae41/cubane";
 import { $parse$ } from "./macros/parse";
 
 function $pre$() {
@@ -10,5 +11,8 @@ function $pre$() {
 $pre$()
 
 export namespace PairAbi {
-  export const getReserves = $parse$("getReserves()")
+  export const getReserves = {
+    input: $parse$("getReserves()"),
+    output: Abi.createTuple(Abi.Uint112, Abi.Uint112, Abi.Uint32)
+  } as const
 }

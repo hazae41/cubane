@@ -1,8 +1,13 @@
-import { Abi, ZeroHexString } from "@hazae41/cubane"
+import { Abi, Fixed, ZeroHexString } from "@hazae41/cubane"
 import { RpcCounter, RpcRequestPreinit, RpcResponse } from "@hazae41/jsonrpc"
 import { PairAbi } from "./abi/pair.abi"
 
-export class FetchProvider {
+interface Callable<I extends readonly Abi.Factory[], O extends Abi.Factory> {
+  readonly input: Abi.FunctionSignatureFactory<I>
+  readonly output: O
+}
+
+class FetchProvider {
 
   readonly counter = new RpcCounter()
 
@@ -11,10 +16,10 @@ export class FetchProvider {
     readonly init: RequestInit = {}
   ) { }
 
-  async request<T>(preinit: RpcRequestPreinit) {
+  async request<T>(data: RpcRequestPreinit) {
     const { method = "POST", ...rest } = this.init
 
-    const body = JSON.stringify(this.counter.prepare(preinit))
+    const body = JSON.stringify(this.counter.prepare(data))
 
     const request = new Request(this.info, { method, body, ...rest })
     request.headers.set("Content-Type", "application/json")
@@ -27,11 +32,23 @@ export class FetchProvider {
     return RpcResponse.from<T>(await response.json())
   }
 
+  async call<I extends readonly Abi.Factory[], O extends Abi.Factory>(address: ZeroHexString, callable: Callable<I, O>, ...args: Abi.Factory.Froms<I>) {
+    const { input, output } = callable
+
+    const response = await mainnet.request<ZeroHexString>({
+      method: "eth_call",
+      params: [{
+        to: address,
+        data: Abi.encodeOrThrow(input.from(...args))
+      }, "pending"]
+    }).then(r => r.unwrap())
+
+    return Abi.decodeOrThrow(output, response).intoOrThrow() as Abi.Factory.Into<O>
+  }
+
 }
 
-
-
-const mainnet = new FetchProvider("https://ethereum.publicnode.com")
+const mainnet = new FetchProvider("https://ethereum.publicnode.com", { cache: "no-cache" })
 
 async function getBlockNumber() {
   return await mainnet.request<ZeroHexString>({
@@ -39,19 +56,38 @@ async function getBlockNumber() {
   }).then(r => r.mapSync(BigInt).unwrap())
 }
 
-async function getPairPrice(address: ZeroHexString) {
-  const request = Abi.encodeOrThrow(PairAbi.getReserves.from())
-
-  const response = await mainnet.request<ZeroHexString>({
-    method: "eth_call",
-    params: [{
-      to: address,
-      data: request
-    }, "pending"]
-  }).then(r => r.unwrap())
-
-  const types = Abi.createTuple(Abi.Uint112, Abi.Uint112, Abi.Uint32)
-  const [a, b] = Abi.decodeOrThrow(types, response).intoOrThrow()
-
-
+interface PairInfo {
+  readonly address: ZeroHexString
+  readonly decimals0: number
+  readonly decimals1: number
 }
+
+async function getPairPrice(pair: PairInfo, reversed = false) {
+  const [reserve0, reserve1] = await mainnet.call(pair.address, PairAbi.getReserves)
+
+  const quantity0 = new Fixed(reserve0, pair.decimals0)
+  const quantity1 = new Fixed(reserve1, pair.decimals1)
+
+  if (reversed)
+    return quantity0.div(quantity1)
+
+  return quantity1.div(quantity0)
+}
+
+async function main() {
+  const blockNumber = await getBlockNumber()
+
+  console.log({ blockNumber })
+
+  const ethUsdtOnUniswap2: PairInfo = {
+    address: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852",
+    decimals0: 18,
+    decimals1: 6,
+  } as const
+
+  const price = await getPairPrice(ethUsdtOnUniswap2).then(x => x.toDecimalString())
+
+  console.log({ price })
+}
+
+await main()

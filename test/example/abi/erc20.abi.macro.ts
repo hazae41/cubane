@@ -1,6 +1,7 @@
 /**
  * @macro delete-next-lines
  */
+import { Abi } from "@hazae41/cubane";
 import { $parse$ } from "./macros/parse";
 
 function $pre$() {
@@ -10,5 +11,8 @@ function $pre$() {
 $pre$()
 
 export namespace TokenAbi {
-  export const balanceOf = $parse$("balanceOf(address)")
+  export const balanceOf = {
+    input: $parse$("balanceOf(address)"),
+    output: Abi.Uint256
+  }
 }

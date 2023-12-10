@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hazae41/cubane": "^0.1.3",
+    "@hazae41/cubane": "^0.1.4",
     "@hazae41/jsonrpc": "^1.0.3"
   },
   "devDependencies": {
