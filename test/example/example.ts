@@ -61,7 +61,6 @@ async function getBalance(address: ZeroHexString) {
     method: "eth_getBalance",
     params: [address, "latest"]
   }).then(r => r.unwrap())
-  console.log(response)
 
   return Fixed.fromJSON(new ZeroHexFixed(response, 18))
 }
@@ -89,9 +88,7 @@ async function main() {
 
   const blockNumber = await getBlockNumber()
 
-  console.log("Pending block", blockNumber.toString())
-
-  const balance = await getBalance(vitalik)
+  console.log(`The pending block is ${blockNumber}`)
 
   const price = await getPairPrice({
     address: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852",
@@ -99,9 +96,11 @@ async function main() {
     decimals1: 6,
   })
 
-  console.log(`Current price of ETH/USD is ${price}`)
+  console.log(`1 ETH = $${price}`)
 
-  console.log(`Vitalik has ${balance} ETH which is worth ${balance.mul(price)}`)
+  const balance = await getBalance(vitalik)
+
+  console.log(`Vitalik has ${balance} ETH = $${balance.mul(price)}`)
 }
 
 await main()
