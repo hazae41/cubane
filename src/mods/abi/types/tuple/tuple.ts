@@ -1,7 +1,7 @@
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";
-import { Factory, Instance } from "mods/abi/abi.js";
+import { Factory, Instance } from "mods/abi/types.js";
 import { Uint32 } from "../uint/uint.js";
 
 export { AbiTuple as Tuple };

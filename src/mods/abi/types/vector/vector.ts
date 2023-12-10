@@ -1,5 +1,5 @@
 import { Cursor } from "@hazae41/cursor";
-import { Factory, Instance } from "mods/abi/abi.js";
+import { Factory, Instance } from "mods/abi/types.js";
 
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Skeleton } from "libs/typescript/skeleton.js";

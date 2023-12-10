@@ -5,7 +5,7 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { Err, Ok, Result } from "@hazae41/result";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Records } from "libs/records/records.js";
-import { Factory } from "../abi.js";
+import { Factory } from "../types.js";
 import { AbiAddress } from "../types/address/address.js";
 import { createArray } from "../types/array/array.js";
 import { AbiBool } from "../types/bool/bool.js";
