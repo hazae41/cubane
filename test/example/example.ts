@@ -100,7 +100,7 @@ async function main() {
 
   console.log("ETH/USD", price.toDecimalString())
 
-  console.log(`Vitalik has ${balance}`)
+  console.log(`Vitalik has ${balance.toDecimalString()} ETH which is worth ${balance.mul(price).toDecimalString()}`)
 }
 
 await main()

@@ -80,14 +80,14 @@ export class Fixed<D extends number = number> implements FixedInit {
     return new Fixed(this.value - other.move(this.decimals).value, this.decimals)
   }
 
-  toDecimalString() {
+  toString() {
     const raw = this.value.toString().padStart(this.decimals, "0")
     const whole = raw.slice(0, raw.length - this.decimals).replaceAll("0", " ").trimStart().replaceAll(" ", "0")
     const decimal = raw.slice(raw.length - this.decimals).replaceAll("0", " ").trimEnd().replaceAll(" ", "0")
     return `${whole || "0"}.${decimal || "0"}`
   }
 
-  static fromDecimalString<D extends number>(text: string, decimals: D) {
+  static fromString<D extends number>(text: string, decimals: D) {
     const [whole = "0", decimal = "0"] = text.split(".")
     const value = BigInt(whole + decimal.padEnd(decimals, "0").slice(0, decimals))
     return new Fixed(value, decimals)
