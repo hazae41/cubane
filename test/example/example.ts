@@ -39,18 +39,19 @@ async function getBlockNumber() {
   }).then(r => r.mapSync(BigInt).unwrap())
 }
 
-async function getEthUsdPrice() {
-  const request = Abi.tryEncode(PairAbi.getReserves.from()).throw(t)
+async function getPairPrice(address: ZeroHexString) {
+  const request = Abi.encodeOrThrow(PairAbi.getReserves.from())
 
   const response = await mainnet.request<ZeroHexString>({
     method: "eth_call",
     params: [{
-      to: pair.address,
+      to: address,
       data: request
     }, "pending"]
   }).then(r => r.unwrap())
 
   const types = Abi.createTuple(Abi.Uint112, Abi.Uint112, Abi.Uint32)
-  const [a, b] = Abi.tryDecode(types, response).unwrap().intoOrThrow()
+  const [a, b] = Abi.decodeOrThrow(types, response).intoOrThrow()
+
 
 }

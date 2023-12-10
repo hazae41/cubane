@@ -27,7 +27,7 @@ test("int32", async ({ message, test }) => {
 
 test("int256", async ({ message, test }) => {
   const random = Bytes.random(31)
-  const value = BigInts.tryImport(random).unwrap() * (Math.random() > 0.5 ? 1n : -1n)
+  const value = BigInts.importOrThrow(random) * (Math.random() > 0.5 ? 1n : -1n)
   const abi = Int256.create(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
