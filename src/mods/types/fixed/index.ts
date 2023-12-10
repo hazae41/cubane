@@ -1,28 +1,28 @@
 import { BigInts } from "libs/bigint/bigint.js"
 import { ZeroHexString } from "../zerohex/index.js"
 
-export interface ZeroHexFixedInit {
+export interface ZeroHexFixedInit<D extends number = number> {
   readonly value: ZeroHexString,
-  readonly decimals: number
+  readonly decimals: D
 }
 
-export class ZeroHexFixed implements ZeroHexFixedInit {
+export class ZeroHexFixed<D extends number = number> implements ZeroHexFixedInit {
   constructor(
     readonly value: ZeroHexString,
-    readonly decimals: number
+    readonly decimals: D
   ) { }
 }
 
-export interface FixedInit {
+export interface FixedInit<D extends number = number> {
   readonly value: bigint,
-  readonly decimals: number
+  readonly decimals: D
 }
 
 export namespace Fixed {
 
-  export type From =
-    | FixedInit
-    | ZeroHexFixedInit
+  export type From<D extends number = number> =
+    | FixedInit<D>
+    | ZeroHexFixedInit<D>
 
 }
 
@@ -36,7 +36,7 @@ export class Fixed<D extends number = number> implements FixedInit {
     this.tens = BigInts.tens(decimals)
   }
 
-  static from(init: Fixed.From) {
+  static from<D extends number = number>(init: Fixed.From<D>) {
     if (init instanceof Fixed)
       return init
     if (typeof init.value === "bigint")

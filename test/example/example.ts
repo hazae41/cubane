@@ -1,4 +1,4 @@
-import { Abi, Fixed, ZeroHexString } from "@hazae41/cubane"
+import { Abi, Fixed, ZeroHexFixed, ZeroHexString } from "@hazae41/cubane"
 import { RpcCounter, RpcRequestPreinit, RpcResponse } from "@hazae41/jsonrpc"
 import { PairAbi } from "./abi/pair.abi"
 
@@ -35,7 +35,7 @@ class FetchProvider {
   async call<I extends readonly Abi.Factory[], O extends Abi.Factory>(address: ZeroHexString, callable: Callable<I, O>, ...args: Abi.Factory.Froms<I>) {
     const { input, output } = callable
 
-    const response = await mainnet.request<ZeroHexString>({
+    const response = await this.request<ZeroHexString>({
       method: "eth_call",
       params: [{
         to: address,
@@ -54,6 +54,15 @@ async function getBlockNumber() {
   return await mainnet.request<ZeroHexString>({
     method: "eth_blockNumber"
   }).then(r => r.mapSync(BigInt).unwrap())
+}
+
+async function getBalance(address: ZeroHexString) {
+  const response = await mainnet.request<ZeroHexString>({
+    method: "eth_getBalance",
+    params: [address, "latest"]
+  }).then(r => r.unwrap())
+
+  return Fixed.from(new ZeroHexFixed(response, 18))
 }
 
 interface PairInfo {
@@ -75,19 +84,23 @@ async function getPairPrice(pair: PairInfo, reversed = false) {
 }
 
 async function main() {
+  const vitalik = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+
   const blockNumber = await getBlockNumber()
 
-  console.log({ blockNumber })
+  console.log("Pending block", blockNumber.toString())
 
-  const ethUsdtOnUniswap2: PairInfo = {
+  const balance = await getBalance(vitalik)
+
+  const price = await getPairPrice({
     address: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852",
     decimals0: 18,
     decimals1: 6,
-  } as const
+  })
 
-  const price = await getPairPrice(ethUsdtOnUniswap2).then(x => x.toDecimalString())
+  console.log("ETH/USD", price.toDecimalString())
 
-  console.log({ price })
+  console.log(`Vitalik has ${balance}`)
 }
 
 await main()
