@@ -61,8 +61,9 @@ async function getBalance(address: ZeroHexString) {
     method: "eth_getBalance",
     params: [address, "latest"]
   }).then(r => r.unwrap())
+  console.log(response)
 
-  return Fixed.from(new ZeroHexFixed(response, 18))
+  return Fixed.fromJSON(new ZeroHexFixed(response, 18))
 }
 
 interface PairInfo {
@@ -98,9 +99,9 @@ async function main() {
     decimals1: 6,
   })
 
-  console.log("ETH/USD", price.toDecimalString())
+  console.log(`Current price of ETH/USD is ${price}`)
 
-  console.log(`Vitalik has ${balance.toDecimalString()} ETH which is worth ${balance.mul(price).toDecimalString()}`)
+  console.log(`Vitalik has ${balance} ETH which is worth ${balance.mul(price)}`)
 }
 
 await main()

@@ -192,7 +192,7 @@ export class ZeroHexAbiInt8 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -429,7 +429,7 @@ export class ZeroHexAbiInt16 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -666,7 +666,7 @@ export class ZeroHexAbiInt24 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -903,7 +903,7 @@ export class ZeroHexAbiInt32 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -1140,7 +1140,7 @@ export class ZeroHexAbiInt40 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -1377,7 +1377,7 @@ export class ZeroHexAbiInt48 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -1614,7 +1614,7 @@ export class ZeroHexAbiInt56 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -1851,7 +1851,7 @@ export class ZeroHexAbiInt64 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -2088,7 +2088,7 @@ export class ZeroHexAbiInt72 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -2325,7 +2325,7 @@ export class ZeroHexAbiInt80 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -2562,7 +2562,7 @@ export class ZeroHexAbiInt88 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -2799,7 +2799,7 @@ export class ZeroHexAbiInt96 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3036,7 +3036,7 @@ export class ZeroHexAbiInt104 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3273,7 +3273,7 @@ export class ZeroHexAbiInt112 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3510,7 +3510,7 @@ export class ZeroHexAbiInt120 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3747,7 +3747,7 @@ export class ZeroHexAbiInt128 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3984,7 +3984,7 @@ export class ZeroHexAbiInt136 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -4221,7 +4221,7 @@ export class ZeroHexAbiInt144 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -4458,7 +4458,7 @@ export class ZeroHexAbiInt152 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -4695,7 +4695,7 @@ export class ZeroHexAbiInt160 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -4932,7 +4932,7 @@ export class ZeroHexAbiInt168 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -5169,7 +5169,7 @@ export class ZeroHexAbiInt176 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -5406,7 +5406,7 @@ export class ZeroHexAbiInt184 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -5643,7 +5643,7 @@ export class ZeroHexAbiInt192 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -5880,7 +5880,7 @@ export class ZeroHexAbiInt200 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -6117,7 +6117,7 @@ export class ZeroHexAbiInt208 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -6354,7 +6354,7 @@ export class ZeroHexAbiInt216 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -6591,7 +6591,7 @@ export class ZeroHexAbiInt224 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -6828,7 +6828,7 @@ export class ZeroHexAbiInt232 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -7065,7 +7065,7 @@ export class ZeroHexAbiInt240 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -7302,7 +7302,7 @@ export class ZeroHexAbiInt248 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -7539,7 +7539,7 @@ export class ZeroHexAbiInt256 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decode(this.value)
+    const value = BigInts.decodeRawHex(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)

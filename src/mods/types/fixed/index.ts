@@ -45,12 +45,12 @@ export class Fixed<D extends number = number> implements FixedInit {
   }
 
   toJSON() {
-    const value = `0x${this.value.toString(16)}` satisfies ZeroHexString
+    const value = BigInts.encode(this.value)
     return new ZeroHexFixed(value, this.decimals)
   }
 
   static fromJSON(init: ZeroHexFixed) {
-    const value = BigInt(init.value.slice(2))
+    const value = BigInts.decode(init.value)
     return new Fixed(value, init.decimals)
   }
 
