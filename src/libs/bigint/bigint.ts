@@ -8,28 +8,28 @@ export namespace BigInts {
     return BigInt(`1${`0`.repeat(value)}`)
   }
 
-  export function encodeRawHex(value: bigint) {
+  export function encodeRaw(value: bigint) {
     return value.toString(16)
   }
 
-  export function decodeRawHex(value: string): bigint {
-    return value.length ? BigInt(`0x${value}`) : 0n
+  export function decodeRaw(value: string): bigint {
+    return value.length === 0 ? 0n : BigInt(`0x${value}`)
   }
 
   export function encode(value: bigint): ZeroHexString {
-    return `0x${encodeRawHex(value)}`
+    return `0x${encodeRaw(value)}`
   }
 
   export function decode(value: ZeroHexString) {
-    return decodeRawHex(value.slice(2))
+    return value.length === 2 ? 0n : BigInt(value)
   }
 
   export function exportOrThrow(value: bigint): Copiable {
-    return Base16.get().padStartAndDecodeOrThrow(encodeRawHex(value))
+    return Base16.get().padStartAndDecodeOrThrow(encodeRaw(value))
   }
 
   export function importOrThrow(bytes: BytesOrCopiable): bigint {
-    return decodeRawHex(Base16.get().encodeOrThrow(bytes))
+    return decodeRaw(Base16.get().encodeOrThrow(bytes))
   }
 
 }
