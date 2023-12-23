@@ -80,16 +80,35 @@ export class Fixed<D extends number = number> implements FixedInit {
     return new Fixed(this.value - other.move(this.decimals).value, this.decimals)
   }
 
+  floor() {
+    return new Fixed(this.value - (this.value % this.tens), this.decimals)
+  }
+
+  ceil() {
+    return new Fixed(this.value + (this.tens - (this.value % this.tens)), this.decimals)
+  }
+
+  round() {
+    return new Fixed(this.value + (this.tens / 2n) - ((this.value + (this.tens / 2n)) % this.tens), this.decimals)
+  }
+
   toString() {
     const raw = this.value.toString().padStart(this.decimals, "0")
+
     const whole = raw.slice(0, raw.length - this.decimals).replaceAll("0", " ").trimStart().replaceAll(" ", "0")
     const decimal = raw.slice(raw.length - this.decimals).replaceAll("0", " ").trimEnd().replaceAll(" ", "0")
-    return `${whole || "0"}.${decimal || "0"}`
+
+    if (!decimal)
+      return (whole || "0")
+
+    return `${whole || "0"}.${decimal}`
   }
 
   static fromString<D extends number>(text: string, decimals: D) {
     const [whole = "0", decimal = "0"] = text.split(".")
+
     const value = BigInt(whole + decimal.padEnd(decimals, "0").slice(0, decimals))
+
     return new Fixed(value, decimals)
   }
 
