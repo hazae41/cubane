@@ -21,13 +21,7 @@ export class DecodeError extends Error {
 }
 
 export function decodeOrThrow<T>(decodable: Decodable<T>, hex: ZeroHexString): T {
-  const cursor = new TextCursor(hex.slice(2))
-  const decoded = decodable.decodeOrThrow(cursor)
-
-  if (cursor.remaining >= 64)
-    throw new Error(`Underflow`)
-
-  return decoded
+  return decodable.decodeOrThrow(new TextCursor(hex.slice(2)))
 }
 
 export function tryDecode<T>(decodable: Decodable<T>, hex: ZeroHexString): Result<T, DecodeError> {

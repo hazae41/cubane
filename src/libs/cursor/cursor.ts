@@ -21,9 +21,7 @@ export class TextCursor {
   }
 
   readOrThrow<N extends number>(length: N): RawHexString<N> {
-    if (length > this.remaining)
-      throw new Error(`Overflow`)
-    return this.text.slice(this.offset, this.offset += length) as RawHexString<N>
+    return this.text.slice(this.offset, this.offset += length).padEnd(length, "0") as RawHexString<N>
   }
 
 }
