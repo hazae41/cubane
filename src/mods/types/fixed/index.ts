@@ -36,6 +36,10 @@ export class Fixed<D extends number = number> implements FixedInit {
     this.tens = BigInts.tens(decimals)
   }
 
+  static unit<D extends number = number>(decimals: D) {
+    return new Fixed(BigInts.tens(decimals), decimals)
+  }
+
   static from<D extends number = number>(init: Fixed.From<D>) {
     if (init instanceof Fixed)
       return init
