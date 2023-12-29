@@ -24,5 +24,5 @@ test("fixed", async () => {
   assert(Fixed.fromString("123.654", 18).floor().toString() === "123")
   assert(Fixed.fromString("123.654", 18).ceil().toString() === "124")
 
-  assert(Fixed.fromString("0x123.0x456", 18).toString() === "291.084")
+  assert(Fixed.fromString("0x123", 18).value === 0x123n)
 })
