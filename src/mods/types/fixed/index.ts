@@ -111,7 +111,10 @@ export class Fixed<D extends number = number> implements FixedInit {
   static fromString<D extends number>(text: string, decimals: D) {
     const [whole = "0", decimal = "0"] = text.split(".")
 
-    const value = BigInt(whole + decimal.padEnd(decimals, "0").slice(0, decimals))
+    const whole2 = BigInt(whole).toString()
+    const decimal2 = BigInt(decimal).toString()
+
+    const value = BigInt(whole2 + decimal2.padEnd(decimals, "0").slice(0, decimals))
 
     return new Fixed(value, decimals)
   }
