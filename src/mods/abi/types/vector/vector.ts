@@ -116,6 +116,9 @@ export const createVector = <T extends Factory>($type: T) => {
     static decodeOrThrow(cursor: TextCursor) {
       const length = Uint32.decodeOrThrow(cursor).value
 
+      if (length > 256)
+        throw new Error("Invalid length")
+
       const start = cursor.offset
 
       const inner = new Array<Instance<any>>()
@@ -172,6 +175,9 @@ export const createVector = <T extends Factory>($type: T) => {
 
     static readOrThrow(cursor: Cursor) {
       const length = Uint32.readOrThrow(cursor).value
+
+      if (length > 256)
+        throw new Error("Invalid length")
 
       const start = cursor.offset
 

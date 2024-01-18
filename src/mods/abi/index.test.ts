@@ -103,3 +103,15 @@ test("recursion", async () => {
 
   assert(throws(() => decodeOrThrow(signature.funcAndArgs.args, `0x${payload}`)))
 })
+
+test("ZST array", async () => {
+  assert(throws(() => FunctionSignature.parseOrThrow("f(uint256[0][4294967295])")))
+})
+
+test("ZST vector", async () => {
+  const signature = FunctionSignature.parseOrThrow("f(uint256[0][])")
+
+  const payload = "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000FFFFFFFF"
+
+  assert(throws(() => decodeOrThrow(signature.funcAndArgs.args, `0x${payload}`)))
+})

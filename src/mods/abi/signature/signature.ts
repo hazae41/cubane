@@ -70,7 +70,7 @@ export namespace FunctionSignature {
         else if (token === ",")
           continue
         else if (token === "(")
-          factories.push(parseArrayOrVectorOrSingle(tokens, tryParseArguments(tokens).throw(t)))
+          factories.push(parseArrayOrVectorOrSingleOrThrow(tokens, tryParseArguments(tokens).throw(t)))
         else if (token === ")")
           return new Ok(createTuple(...factories))
         else if (token === "[")
@@ -78,7 +78,7 @@ export namespace FunctionSignature {
         else if (token === "]")
           return new Err(new Error(`Unexpected brackets`))
         else
-          factories.push(parseArrayOrVectorOrSingle(tokens, Records.tryResolve(factoryByName, token).throw(t)))
+          factories.push(parseArrayOrVectorOrSingleOrThrow(tokens, Records.tryResolve(factoryByName, token).throw(t)))
       }
 
       return new Ok(createTuple(...factories))
@@ -112,7 +112,7 @@ export namespace FunctionSignature {
       else if (token === ",")
         continue
       else if (token === "(")
-        factories.push(parseArrayOrVectorOrSingle(tokens, parseArgumentsOrThrow(tokens)))
+        factories.push(parseArrayOrVectorOrSingleOrThrow(tokens, parseArgumentsOrThrow(tokens)))
       else if (token === ")")
         return createTuple(...factories)
       else if (token === "[")
@@ -120,25 +120,32 @@ export namespace FunctionSignature {
       else if (token === "]")
         throw new Error(`Unexpected brackets`)
       else
-        factories.push(parseArrayOrVectorOrSingle(tokens, Records.resolveOrThrow(factoryByName, token)))
+        factories.push(parseArrayOrVectorOrSingleOrThrow(tokens, Records.resolveOrThrow(factoryByName, token)))
     }
 
     return createTuple(...factories)
   }
 
-  function parseArrayOrVectorOrSingle(tokens: string[], factory: Factory) {
+  function parseArrayOrVectorOrSingleOrThrow(tokens: string[], factory: Factory) {
     while (tokens.length) {
       if (tokens[0] === "[" && tokens[1] === "]") {
         tokens.shift()
         tokens.shift()
+
         factory = createVector(factory)
         continue
       }
 
       if (tokens[0] === "[" && tokens[2] === "]") {
         tokens.shift()
+
         const length = parseInt(tokens.shift()!)
+
+        if (length > 256)
+          throw new Error("Invalid length")
+
         tokens.shift()
+
         factory = createArray(factory, length)
         continue
       }
