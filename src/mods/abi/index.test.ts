@@ -4,7 +4,7 @@ export * from "./types/index.test.js";
 import { Base16 } from "@hazae41/base16";
 import { Readable } from "@hazae41/binary";
 import { Keccak256 } from "@hazae41/keccak256";
-import { assert, test } from "@hazae41/phobos";
+import { assert, test, throws } from "@hazae41/phobos";
 import { ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature } from "./signature/signature.js";
@@ -13,6 +13,7 @@ import { createArray } from "./types/array/array.js";
 import { createTuple } from "./types/tuple/tuple.js";
 import { createVector } from "./types/vector/vector.js";
 
+import { decodeOrThrow } from "./decode.js";
 import elements from "./index.test.json";
 
 elements;
@@ -89,4 +90,16 @@ test("json", async () => {
 
     assert(JSON.stringify(decoded) === JSON.stringify([element.value]), "decoded")
   }
+})
+
+test("recursion", async () => {
+  const signature = FunctionSignature.parseOrThrow("f(uint256[][])")
+
+  const payload =
+    '0000000000000000000000000000000000000000000000000000000000000020' + // main array ptr
+    '0000000000000000000000000000000000000000000000000000000000000002' + // main array length (2 elements)
+    '0000000000000000000000000000000000000000000000000000000000000020' + // first array element (acts as ptr to array itself)
+    '0000000000000000000000000000000000000000000000000000000000000020'; // second array element
+
+  assert(throws(() => decodeOrThrow(signature.funcAndArgs.args, `0x${payload}`)))
 })

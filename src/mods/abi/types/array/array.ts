@@ -131,8 +131,11 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
           heads.push(pointer)
 
           const offset = cursor.offset
-
           cursor.offset = start + (pointer.value * 2)
+
+          if (cursor.offset < offset)
+            throw new Error("Invalid offset")
+
           const instance = AbiArray.type.decodeOrThrow(cursor)
 
           end = cursor.offset
@@ -179,8 +182,11 @@ export const createArray = <T extends Factory, N extends number>($type: T, $coun
           heads.push(pointer)
 
           const offset = cursor.offset
-
           cursor.offset = start + pointer.value
+
+          if (cursor.offset < offset)
+            throw new Error("Invalid offset")
+
           const instance = AbiArray.type.readOrThrow(cursor)
 
           end = cursor.offset

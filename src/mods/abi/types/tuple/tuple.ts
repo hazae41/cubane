@@ -128,8 +128,11 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
           heads.push(pointer)
 
           const offset = cursor.offset
-
           cursor.offset = start + (pointer.value * 2)
+
+          if (cursor.offset < offset)
+            throw new Error("Invalid offset")
+
           const instance = factory.decodeOrThrow(cursor)
 
           end = cursor.offset
@@ -176,8 +179,11 @@ export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
           heads.push(pointer)
 
           const offset = cursor.offset
-
           cursor.offset = start + pointer.value
+
+          if (cursor.offset < offset)
+            throw new Error("Invalid offset")
+
           const instance = factory.readOrThrow(cursor)
 
           end = cursor.offset

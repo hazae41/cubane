@@ -131,8 +131,11 @@ export const createVector = <T extends Factory>($type: T) => {
           heads.push(pointer)
 
           const offset = cursor.offset
-
           cursor.offset = start + (pointer.value * 2)
+
+          if (cursor.offset < offset)
+            throw new Error("Invalid offset")
+
           const instance = AbiVector.type.decodeOrThrow(cursor)
 
           end = cursor.offset
@@ -185,8 +188,11 @@ export const createVector = <T extends Factory>($type: T) => {
           heads.push(pointer)
 
           const offset = cursor.offset
-
           cursor.offset = start + pointer.value
+
+          if (cursor.offset < offset)
+            throw new Error("Invalid offset")
+
           const instance = AbiVector.type.readOrThrow(cursor)
 
           end = cursor.offset
