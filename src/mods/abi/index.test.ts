@@ -14,6 +14,7 @@ import { createTuple } from "./types/tuple/tuple.js";
 import { createVector } from "./types/vector/vector.js";
 
 import { decodeOrThrow } from "./decode.js";
+import { encodeOrThrow } from "./encode.js";
 import elements from "./index.test.json";
 
 elements;
@@ -92,6 +93,11 @@ test("json", async () => {
   }
 })
 
+/**
+ * ZSTs, ABIs, stolen keys and broken legs
+ * https://github.com/paulmillr/micro-eth-signer/discussions/20
+ */
+
 test("recursion", async () => {
   const signature = FunctionSignature.parseOrThrow("f(uint256[][])")
 
@@ -115,3 +121,57 @@ test("ZST vector", async () => {
 
   assert(throws(() => decodeOrThrow(signature.funcAndArgs.args, `0x${payload}`)))
 })
+
+test("more bugs", async () => {
+  const brackets = [[], [], [], [], [], [], [], [], [], []];
+  const array = brackets.map((x, i) => BigInt(brackets.length - i + 1) * 32n)
+
+  const signature0 = FunctionSignature.parseOrThrow("f(uint256[])")
+  const payload0 = encodeOrThrow(signature0.from(array))
+
+  const payload = `0x${payload0.slice(2).repeat(10 + 1)}`
+
+  const signature1 = FunctionSignature.parseOrThrow("f(uint256[][][][][][][][][][])")
+  assert(throws(() => decodeOrThrow(signature1, payload as ZeroHexString)))
+})
+
+test("interleave", async () => {
+  const repeats: Record<any, number> = {
+    4: 47, // 6kb -> 6kb (+0x)
+    8: 109, // 15kb -> 30kb (+1x)
+    16: 233, // 30kb -> 123kb (+3x)
+    32: 481, // 63kb -> 510kb (+7x)
+    64: 977, // 129kb -> 2mb (+15x)
+    128: 1969, // 260kb -> 8mb (+31x)
+    256: 3953, // 522kb -> 33mb (+63x)
+    512: 7921, // 1mb -> 133mb (+127x)
+    1024: 15857, // 2mb -> 533mb (+255x)
+    2048: 32000, // 4mb -> 2gb (+511x)
+    4096: 64000, // 8mb -> est: 8gb (+1023x)
+  };
+
+  function f(length: number) {
+    const array = Array.from({ length }, (i, j) => BigInt(length - j) * 32n)
+
+    const signature0 = FunctionSignature.parseOrThrow("f(uint256[])")
+    const payload0 = encodeOrThrow(signature0.from(array))
+
+    const payload = payload0 + "00".repeat(32 * 2 * repeats[length])
+
+    const signature1 = FunctionSignature.parseOrThrow("f(uint256[][])")
+    assert(throws(() => decodeOrThrow(signature1, payload as ZeroHexString)))
+  }
+
+  f(4)
+  f(8)
+  f(16)
+  f(32)
+  f(64)
+  f(128)
+  f(256)
+  f(512)
+  f(1024)
+  f(2048)
+  f(4096)
+})
+
