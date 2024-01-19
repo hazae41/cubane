@@ -6,7 +6,7 @@ import { Keccak256 } from "@hazae41/keccak256"
 import { Nullable } from "@hazae41/option"
 import { Result } from "@hazae41/result"
 import { Records } from "libs/records/records.js"
-import { Factory } from "../types.js"
+import { AbiFactory } from "../types.js"
 import { AbiAddress } from "../types/address/address.js"
 import { AbiBool } from "../types/bool/bool.js"
 import { AbiBytes32, bytesByName } from "../types/bytes/index.js"
@@ -50,7 +50,7 @@ export interface EIP712Domain extends TypedDataStruct {
  */
 export namespace TypedData {
 
-  const factoryByName: Record<string, Factory> = {
+  const factoryByName: Record<string, AbiFactory> = {
     ...uintByName,
     ...intByName,
     ...bytesByName,

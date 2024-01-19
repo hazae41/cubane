@@ -1,226 +1,222 @@
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { Skeleton } from "libs/typescript/skeleton.js";
-import { Factory, Instance } from "mods/abi/types.js";
+import { AbiFactory, AbiInstance } from "mods/abi/types.js";
 import { Uint32 } from "../uint/uint.js";
 
 export { AbiTuple as Tuple };
 
-export const createTuple = <T extends readonly Factory[]>(...$types: T) => {
-  return class AbiTuple {
-    readonly #class = AbiTuple
-    readonly name = this.#class.name
+export class AbiTuple {
 
-    static readonly types = $types
-    static readonly dynamic = $types.some(it => it.dynamic)
+  private constructor() { }
 
-    readonly types = this.#class.types
-    readonly dynamic = this.#class.dynamic
+  static create<T extends readonly AbiFactory[]>(...$types: T) {
+    return class AbiTuple {
+      readonly #class = AbiTuple
+      readonly name = this.#class.name
 
-    private constructor(
-      readonly inner: Factory.Instances<T>,
-      readonly heads: Instance[],
-      readonly tails: Instance[],
-      readonly size: number,
-    ) { }
+      static readonly types = $types
+      static readonly dynamic = $types.some(it => it.dynamic)
 
-    static create(instances: Factory.Instances<T>) {
-      let length = 0
-      let offset = 0
+      readonly types = this.#class.types
+      readonly dynamic = this.#class.dynamic
 
-      for (const instance of instances) {
-        if (instance.dynamic)
-          /**
-           * Pointer
-           */
-          offset += 32
-        else
-          /**
-           * As-is
-           */
-          offset += instance.sizeOrThrow()
-      }
+      private constructor(
+        readonly inner: AbiFactory.Instances<T>,
+        readonly heads: AbiInstance[],
+        readonly tails: AbiInstance[],
+        readonly size: number,
+      ) { }
 
-      const heads = new Array<Instance<any>>()
-      const tails = new Array<Instance<any>>()
+      static create(instances: AbiFactory.Instances<T>) {
+        let length = 0
+        let offset = 0
 
-      for (const instance of instances) {
-        const size = instance.sizeOrThrow()
-
-        if (instance.dynamic) {
-          const pointer = Uint32.fromNumber(offset)
-
-          heads.push(pointer)
-          length += 32
-
-          tails.push(instance)
-          length += size
-          offset += size
-        } else {
-          heads.push(instance)
-          length += size
+        for (const instance of instances) {
+          if (instance.dynamic)
+            /**
+             * Pointer
+             */
+            offset += 32
+          else
+            /**
+             * As-is
+             */
+            offset += instance.sizeOrThrow()
         }
-      }
 
-      return new AbiTuple(instances, heads, tails, length)
-    }
+        const heads = new Array<AbiInstance<any>>()
+        const tails = new Array<AbiInstance<any>>()
 
-    static from(primitives: Factory.Froms<T>) {
-      const result = new Array(AbiTuple.types.length)
+        for (const instance of instances) {
+          const size = instance.sizeOrThrow()
 
-      for (let i = 0; i < AbiTuple.types.length; i++)
-        result[i] = AbiTuple.types[i].from(primitives[i])
+          if (instance.dynamic) {
+            const pointer = Uint32.fromNumber(offset)
 
-      return AbiTuple.create(result as Factory.Instances<T>)
-    }
+            heads.push(pointer)
+            length += 32
 
-    intoOrThrow() {
-      return this.inner.map(it => it.intoOrThrow()) as Factory.Intos<T>
-    }
-
-    toJSON() {
-      return this.inner.map(it => it.toJSON()) as Factory.Jsons<T>
-    }
-
-    static codegen() {
-      return `Abi.createTuple(${this.types.map(it => it.codegen()).join(",")})`
-    }
-
-    get class() {
-      return this.#class
-    }
-
-    encodeOrThrow() {
-      let result = ""
-
-      for (const instance of this.heads)
-        result += instance.encodeOrThrow()
-      for (const instance of this.tails)
-        result += instance.encodeOrThrow()
-
-      return result
-    }
-
-    encodePackedOrThrow() {
-      let result = ""
-
-      for (const instance of this.heads)
-        result += instance.encodePackedOrThrow()
-      for (const instance of this.tails)
-        result += instance.encodePackedOrThrow()
-
-      return result
-    }
-
-    static decodeOrThrow(cursor: TextCursor) {
-      const start = cursor.offset
-
-      const inner = new Array<Instance<any>>()
-
-      const heads = new Array<Instance<any>>()
-      const tails = new Array<Instance<any>>()
-
-      let end = 0
-
-      for (const factory of AbiTuple.types) {
-        if (factory.dynamic) {
-          const pointer = Uint32.decodeOrThrow(cursor)
-          heads.push(pointer)
-
-          const offset = cursor.offset
-          cursor.offset = start + (pointer.value * 2)
-
-          if (cursor.offset < offset)
-            throw new Error("Invalid offset")
-
-          const instance = factory.decodeOrThrow(cursor)
-
-          end = cursor.offset
-          cursor.offset = offset
-
-          inner.push(instance)
-          tails.push(instance)
-        } else {
-          const instance = factory.decodeOrThrow(cursor)
-          inner.push(instance)
-          heads.push(instance)
+            tails.push(instance)
+            length += size
+            offset += size
+          } else {
+            heads.push(instance)
+            length += size
+          }
         }
+
+        return new AbiTuple(instances, heads, tails, length)
       }
 
-      cursor.offset = Math.max(cursor.offset, end)
+      static from(primitives: AbiFactory.Froms<T>) {
+        const result = new Array(AbiTuple.types.length)
 
-      return new AbiTuple(inner as Factory.Instances<T>, heads, tails, (cursor.offset - start) / 2)
-    }
+        for (let i = 0; i < AbiTuple.types.length; i++)
+          result[i] = AbiTuple.types[i].from(primitives[i])
 
-    sizeOrThrow() {
-      return this.size
-    }
+        return AbiTuple.create(result as AbiFactory.Instances<T>)
+      }
 
-    writeOrThrow(cursor: Cursor) {
-      for (const instance of this.heads)
-        instance.writeOrThrow(cursor)
-      for (const instance of this.tails)
-        instance.writeOrThrow(cursor)
-    }
+      intoOrThrow() {
+        return this.inner.map(it => it.intoOrThrow()) as AbiFactory.Intos<T>
+      }
 
-    static readOrThrow(cursor: Cursor) {
-      const start = cursor.offset
+      toJSON() {
+        return this.inner.map(it => it.toJSON()) as AbiFactory.Jsons<T>
+      }
 
-      const inner = new Array<Instance<any>>()
+      static codegen() {
+        return `Abi.createTuple(${this.types.map(it => it.codegen()).join(",")})`
+      }
 
-      const heads = new Array<Instance<any>>()
-      const tails = new Array<Instance<any>>()
+      get class() {
+        return this.#class
+      }
 
-      let end = 0
+      encodeOrThrow() {
+        let result = ""
 
-      for (const factory of AbiTuple.types) {
-        if (factory.dynamic) {
-          const pointer = Uint32.readOrThrow(cursor)
-          heads.push(pointer)
+        for (const instance of this.heads)
+          result += instance.encodeOrThrow()
+        for (const instance of this.tails)
+          result += instance.encodeOrThrow()
 
-          const offset = cursor.offset
-          cursor.offset = start + pointer.value
+        return result
+      }
 
-          if (cursor.offset < offset)
-            throw new Error("Invalid offset")
+      encodePackedOrThrow() {
+        let result = ""
 
-          const instance = factory.readOrThrow(cursor)
+        for (const instance of this.heads)
+          result += instance.encodePackedOrThrow()
+        for (const instance of this.tails)
+          result += instance.encodePackedOrThrow()
 
-          end = cursor.offset
-          cursor.offset = offset
+        return result
+      }
 
-          inner.push(instance)
-          tails.push(instance)
-        } else {
-          const instance = factory.readOrThrow(cursor)
-          inner.push(instance)
-          heads.push(instance)
+      static decodeOrThrow(cursor: TextCursor) {
+        const start = cursor.offset
+
+        const inner = new Array<AbiInstance<any>>()
+
+        const heads = new Array<AbiInstance<any>>()
+        const tails = new Array<AbiInstance<any>>()
+
+        let end = 0
+
+        for (const factory of AbiTuple.types) {
+          if (factory.dynamic) {
+            const pointer = Uint32.decodeOrThrow(cursor)
+            heads.push(pointer)
+
+            const offset = cursor.offset
+            cursor.offset = start + (pointer.value * 2)
+
+            if (cursor.offset < offset)
+              throw new Error("Invalid offset")
+
+            const instance = factory.decodeOrThrow(cursor)
+
+            end = cursor.offset
+            cursor.offset = offset
+
+            inner.push(instance)
+            tails.push(instance)
+          } else {
+            const instance = factory.decodeOrThrow(cursor)
+            inner.push(instance)
+            heads.push(instance)
+          }
         }
+
+        cursor.offset = Math.max(cursor.offset, end)
+
+        return new AbiTuple(inner as AbiFactory.Instances<T>, heads, tails, (cursor.offset - start) / 2)
       }
 
-      cursor.offset = Math.max(cursor.offset, end)
+      sizeOrThrow() {
+        return this.size
+      }
 
-      return new AbiTuple(inner as Factory.Instances<T>, heads, tails, cursor.offset - start)
+      writeOrThrow(cursor: Cursor) {
+        for (const instance of this.heads)
+          instance.writeOrThrow(cursor)
+        for (const instance of this.tails)
+          instance.writeOrThrow(cursor)
+      }
+
+      static readOrThrow(cursor: Cursor) {
+        const start = cursor.offset
+
+        const inner = new Array<AbiInstance<any>>()
+
+        const heads = new Array<AbiInstance<any>>()
+        const tails = new Array<AbiInstance<any>>()
+
+        let end = 0
+
+        for (const factory of AbiTuple.types) {
+          if (factory.dynamic) {
+            const pointer = Uint32.readOrThrow(cursor)
+            heads.push(pointer)
+
+            const offset = cursor.offset
+            cursor.offset = start + pointer.value
+
+            if (cursor.offset < offset)
+              throw new Error("Invalid offset")
+
+            const instance = factory.readOrThrow(cursor)
+
+            end = cursor.offset
+            cursor.offset = offset
+
+            inner.push(instance)
+            tails.push(instance)
+          } else {
+            const instance = factory.readOrThrow(cursor)
+            inner.push(instance)
+            heads.push(instance)
+          }
+        }
+
+        cursor.offset = Math.max(cursor.offset, end)
+
+        return new AbiTuple(inner as AbiFactory.Instances<T>, heads, tails, cursor.offset - start)
+      }
+
     }
-
   }
+
 }
 
-export type TupleInstance<T extends readonly Factory[] = Factory[]> =
-  Factory.Instance<TupleFactory<T>>
-
-export type TupleFactory<T extends readonly Factory[] = Factory[]> =
-  ReturnType<typeof createTuple<T>> & { readonly name: string }
-
 export namespace AbiTuple {
-  export const name = "AbiTuple"
 
-  export function isInstance<T extends readonly Factory[]>(x: Skeleton<TupleInstance<T>>): x is TupleInstance<T> {
-    return x.name === name && x.class != null
-  }
+  export type Factory<T extends readonly AbiFactory[]> =
+    ReturnType<typeof AbiTuple.create<T>>
 
-  export function isFactory<T extends readonly Factory[]>(x: Skeleton<TupleFactory<T>>): x is TupleFactory<T> {
-    return x.name === name && x.create != null
-  }
+  export type Instance<T extends readonly AbiFactory[]> =
+    AbiFactory.Instance<Factory<T>>
 
 }

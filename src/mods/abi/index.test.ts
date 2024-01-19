@@ -9,12 +9,10 @@ import { ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature } from "./signature/signature.js";
 import { AbiAddress } from "./types/address/address.js";
-import { createArray } from "./types/array/array.js";
-import { createTuple } from "./types/tuple/tuple.js";
-import { createVector } from "./types/vector/vector.js";
 
 import { decodeOrThrow } from "./decode.js";
 import { encodeOrThrow } from "./encode.js";
+import { AbiArray, AbiTuple, AbiVector } from "./index.js";
 import elements from "./index.test.json";
 
 elements;
@@ -26,21 +24,21 @@ test("test", async () => {
   const abi = "f71870b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000007b000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000"
   const signature = FunctionSignature.tryParse("test(bool,string,uint256)").unwrap()
   const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
-  const decoded = Readable.tryReadFromBytes(signature.funcAndArgs, bytes).unwrap()
+  const decoded = Readable.tryReadFromBytes(signature, bytes).unwrap()
   // console.log(decoded)
 })
 
 test("test", async () => {
   const abi = "000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000076a65814b6e0fa5a3598ef6503fa1d990ec0e61a000000000000000000000000d66832ff9d808b32adfe0136a0381054f3600185"
   const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
-  const decoded = Readable.tryReadFromBytes(createArray(AbiAddress, 3), bytes).unwrap()
+  const decoded = Readable.tryReadFromBytes(AbiArray.create(AbiAddress, 3), bytes).unwrap()
   // console.log(decoded)
 })
 
 test("test", async () => {
   const abi = "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000076a65814b6e0fa5a3598ef6503fa1d990ec0e61a000000000000000000000000d66832ff9d808b32adfe0136a0381054f3600185"
   const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
-  const decoded = Readable.tryReadFromBytes(createTuple(createVector(AbiAddress)), bytes).unwrap()
+  const decoded = Readable.tryReadFromBytes(AbiTuple.create(AbiVector.create(AbiAddress)), bytes).unwrap()
   // console.log(decoded.inner)
 })
 
@@ -71,7 +69,7 @@ test("json", async () => {
     console.log(element.name)
 
     const signature = FunctionSignature.parseOrThrow(`f(${element.type})`)
-    const encoded = signature.funcAndArgs.args.from([element.value]).encodeOrThrow()
+    const encoded = signature.args.from([element.value]).encodeOrThrow()
 
     const a = ZeroHexString.from(encoded).toLowerCase()
     const b = element.encoded.toLowerCase()
@@ -84,7 +82,7 @@ test("json", async () => {
 
     assert(a === b, "encoded")
 
-    const decoded = signature.funcAndArgs.args.decodeOrThrow(new TextCursor(encoded))
+    const decoded = signature.args.decodeOrThrow(new TextCursor(encoded))
 
     // console.log("a", decoded.toJSON())
     // console.log("b", [element.value])
@@ -107,7 +105,7 @@ test("recursion", async () => {
     '0000000000000000000000000000000000000000000000000000000000000020' + // first array element (acts as ptr to array itself)
     '0000000000000000000000000000000000000000000000000000000000000020'; // second array element
 
-  assert(throws(() => decodeOrThrow(signature.funcAndArgs.args, `0x${payload}`)))
+  assert(throws(() => decodeOrThrow(signature.args, `0x${payload}`)))
 })
 
 test("ZST array", async () => {
@@ -119,7 +117,7 @@ test("ZST vector", async () => {
 
   const payload = "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000FFFFFFFF"
 
-  assert(throws(() => decodeOrThrow(signature.funcAndArgs.args, `0x${payload}`)))
+  assert(throws(() => decodeOrThrow(signature.args, `0x${payload}`)))
 })
 
 test("more bugs", async () => {

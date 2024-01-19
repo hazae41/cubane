@@ -54,18 +54,18 @@ if (true) {
   const options = { samples: 10000, warmup: true } as const
 
   const benchCubaneHex = benchSync("cubane (hex)", ({ message }) => {
-    const hex = factory.funcAndArgs.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]).encodeOrThrow()
+    const hex = factory.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random]).encodeOrThrow()
     // console.log(message, hex)
-    const args = factory.funcAndArgs.args.decodeOrThrow(new TextCursor(hex))
+    const args = factory.args.decodeOrThrow(new TextCursor(hex))
     // console.log(args.args.inner)
   }, options)
 
   const benchCubaneBytes = benchSync("cubane (bytes)", ({ message }) => {
-    const instance = factory.funcAndArgs.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random])
+    const instance = factory.args.from([true, 123456789n, "hello world", [true, 123456789n, "hello world"], random])
     const bytes = Writable.writeToBytesOrThrow(instance)
     // const hex = hexlify(bytes)
     // console.log(message, hex)
-    const args = Readable.readFromBytesOrThrow(factory.funcAndArgs.args, bytes)
+    const args = Readable.readFromBytesOrThrow(factory.args, bytes)
     // console.log(args.args.inner)
   }, options)
 
@@ -103,7 +103,7 @@ if (false) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: ZeroHexString.from(abi.funcAndArgs.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").encodeOrThrow()),
+    data: ZeroHexString.from(abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").encodeOrThrow()),
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
@@ -159,7 +159,7 @@ if (false) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: ZeroHexString.from(abi.funcAndArgs.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.random(1024)).encodeOrThrow()),
+    data: ZeroHexString.from(abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.random(1024)).encodeOrThrow()),
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",

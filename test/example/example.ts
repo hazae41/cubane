@@ -2,7 +2,7 @@ import { Abi, Fixed, ZeroHexFixed, ZeroHexString } from "@hazae41/cubane"
 import { RpcCounter, RpcRequestPreinit, RpcResponse } from "@hazae41/jsonrpc"
 import { PairAbi } from "./abi/pair.abi"
 
-interface Callable<I extends readonly Abi.Factory[], O extends Abi.Factory> {
+interface Callable<I extends readonly Abi.AbiFactory[], O extends Abi.AbiFactory> {
   readonly input: Abi.FunctionSignatureFactory<I>
   readonly output: O
 }
@@ -32,7 +32,7 @@ class FetchProvider {
     return RpcResponse.from<T>(await response.json())
   }
 
-  async call<I extends readonly Abi.Factory[], O extends Abi.Factory>(address: ZeroHexString, callable: Callable<I, O>, ...args: Abi.Factory.Froms<I>) {
+  async call<I extends readonly Abi.AbiFactory[], O extends Abi.AbiFactory>(address: ZeroHexString, callable: Callable<I, O>, ...args: Abi.AbiFactory.Froms<I>) {
     const { input, output } = callable
 
     const response = await this.request<ZeroHexString>({
@@ -43,7 +43,7 @@ class FetchProvider {
       }, "pending"]
     }).then(r => r.unwrap())
 
-    return Abi.decodeOrThrow(output, response).intoOrThrow() as Abi.Factory.Into<O>
+    return Abi.decodeOrThrow(output, response).intoOrThrow() as Abi.AbiFactory.Into<O>
   }
 
 }
