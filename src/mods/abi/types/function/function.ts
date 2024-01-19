@@ -191,3 +191,11 @@ export class AbiFunction<A extends readonly AbiFactory[], R extends readonly Abi
   }
 
 }
+
+export namespace AbiFunction {
+
+  export type Args<T> = T extends AbiFunction<infer A, any> ? A : never
+
+  export type Rets<T> = T extends AbiFunction<any, infer R> ? R : never
+
+}
