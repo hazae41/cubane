@@ -89,7 +89,7 @@ export class AbiArray {
       }
 
       static codegen() {
-        return `Abi.createArray(${this.type.codegen()},${this.count})`
+        return `Abi.Array.create(${this.type.codegen()},${this.count})`
       }
 
       get class() {

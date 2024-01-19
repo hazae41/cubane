@@ -86,7 +86,7 @@ export class AbiTuple {
       }
 
       static codegen() {
-        return `Abi.createTuple(${this.types.map(it => it.codegen()).join(",")})`
+        return `Abi.Tuple.create(${this.types.map(it => it.codegen()).join(",")})`
       }
 
       get class() {

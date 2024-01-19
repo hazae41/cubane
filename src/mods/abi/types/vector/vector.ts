@@ -87,7 +87,7 @@ export class AbiVector {
       }
 
       static codegen() {
-        return `Abi.createVector(${this.type.codegen()})`
+        return `Abi.Vector.create(${this.type.codegen()})`
       }
 
       get class() {

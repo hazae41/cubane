@@ -79,6 +79,8 @@ export class AbiFunctionSelector {
 
 export class AbiFunctionSelectorAndArguments {
 
+  private constructor() { }
+
   static create<T extends readonly AbiFactory[]>($func: AbiFunctionSelector, $args: AbiTuple.Factory<T>) {
     return class AbiFunctionSelectorAndArguments {
       readonly #class = AbiFunctionSelectorAndArguments
@@ -123,7 +125,7 @@ export class AbiFunctionSelectorAndArguments {
       }
 
       static codegen() {
-        return `Abi.createFunctionSelectorAndArguments(${$func.codegen()},${$args.codegen()})`
+        return `Abi.FunctionSelectorAndArguments.create(${$func.codegen()},${$args.codegen()})`
       }
 
       get class() {
@@ -176,12 +178,16 @@ export namespace AbiFunctionSelectorAndArguments {
 
 }
 
-export class AbiFunction<A extends readonly AbiFactory[], R extends AbiFactory[]> {
+export class AbiFunction<A extends readonly AbiFactory[], R extends readonly AbiFactory[]> {
 
-  constructor(
+  private constructor(
     readonly func: AbiFunctionSelector,
     readonly args: AbiTuple.Factory<A>,
     readonly rets: AbiTuple.Factory<R>
   ) { }
+
+  static create<A extends readonly AbiFactory[], R extends readonly AbiFactory[]>(func: AbiFunctionSelector, args: AbiTuple.Factory<A>, rets: AbiTuple.Factory<R>) {
+    return new AbiFunction(func, args, rets)
+  }
 
 }
