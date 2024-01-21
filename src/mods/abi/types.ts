@@ -2,18 +2,6 @@ import { Readable, Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 
-export type Named<N extends string, T> = T & { readonly __name: N }
-
-export namespace Named {
-
-  export type Extract<T> = T extends Named<infer N, any> ? N : never
-
-  export type Keep<T extends {}, U> = T extends Named<infer N, any> ? Named<N, U> : U
-
-}
-
-type lol = Named.Extract<Named<"a", {}>>
-
 export interface AbiInstance<I = any, J = any> extends Writable {
   readonly dynamic: boolean
 
@@ -42,13 +30,13 @@ export interface AbiFactory<F = any, S extends AbiInstance<any, any> = any> exte
 
 export namespace AbiFactory {
 
-  export type From<T> = T extends AbiFactory<infer F, any> ? Named.Keep<T, F> : never
+  export type From<T> = T extends AbiFactory<infer F, any> ? F : never
 
   export type Froms<T extends readonly AbiFactory[]> = {
     readonly [I in keyof T]: From<T[I]>
   }
 
-  export type Instance<T> = T extends AbiFactory<any, infer I> ? Named.Keep<T, I> : never
+  export type Instance<T> = T extends AbiFactory<any, infer I> ? I : never
 
   export type Instances<T extends readonly AbiFactory[]> = {
     readonly [I in keyof T]: Instance<T[I]>
@@ -70,8 +58,8 @@ export namespace AbiFactory {
 
 export namespace AbiInstance {
 
-  export type Into<T> = T extends AbiInstance<infer I, any> ? Named.Keep<T, I> : never
+  export type Into<T> = T extends AbiInstance<infer I, any> ? I : never
 
-  export type Json<T> = T extends AbiInstance<any, infer J> ? Named.Keep<T, J> : never
+  export type Json<T> = T extends AbiInstance<any, infer J> ? J : never
 
 }
