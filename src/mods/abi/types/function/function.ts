@@ -178,24 +178,25 @@ export namespace AbiFunctionSelectorAndArguments {
 
 }
 
-export class AbiFunction<A extends readonly AbiFactory[], R extends readonly AbiFactory[]> {
+export class AbiFunction<N extends string, A extends readonly AbiFactory[], R extends readonly AbiFactory[]> {
 
   private constructor(
+    readonly name: N,
     readonly func: AbiFunctionSelector,
     readonly args: AbiTuple.Factory<A>,
-    readonly rets: AbiTuple.Factory<R>
+    readonly rets: R
   ) { }
 
-  static create<A extends readonly AbiFactory[], R extends readonly AbiFactory[]>(func: AbiFunctionSelector, args: AbiTuple.Factory<A>, rets: AbiTuple.Factory<R>) {
-    return new AbiFunction(func, args, rets)
+  static create<N extends string, A extends readonly AbiFactory[], R extends readonly AbiFactory[]>(name: N, func: AbiFunctionSelector, args: AbiTuple.Factory<A>, rets: R) {
+    return new AbiFunction(name, func, args, rets)
   }
 
 }
 
 export namespace AbiFunction {
 
-  export type Args<T> = T extends AbiFunction<infer A, any> ? A : never
+  export type Args<T> = T extends AbiFunction<any, infer A, any> ? A : never
 
-  export type Rets<T> = T extends AbiFunction<any, infer R> ? R : never
+  export type Rets<T> = T extends AbiFunction<any, any, infer R> ? R : never
 
 }
