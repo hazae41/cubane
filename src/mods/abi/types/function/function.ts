@@ -2,6 +2,7 @@ import { Base16 } from "@hazae41/base16";
 import { Bytes, Uint8Array } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { AbiStruct } from "mods/abi/json/json.js";
 import { AbiFactory } from "mods/abi/types.js";
 import { AbiTuple } from "../index.js";
 
@@ -178,16 +179,16 @@ export namespace AbiFunctionSelectorAndArguments {
 
 }
 
-export class AbiFunction<N extends string, A extends readonly AbiFactory[], R extends readonly AbiFactory[]> {
+export class AbiFunction<N extends string, A extends AbiStruct.Factory<any>, R extends AbiStruct.Factory<any>> {
 
   private constructor(
     readonly name: N,
     readonly func: AbiFunctionSelector,
-    readonly args: AbiTuple.Factory<A>,
+    readonly args: A,
     readonly rets: R
   ) { }
 
-  static create<N extends string, A extends readonly AbiFactory[], R extends readonly AbiFactory[]>(name: N, func: AbiFunctionSelector, args: AbiTuple.Factory<A>, rets: R) {
+  static create<N extends string, A extends AbiStruct.Factory<any>, R extends AbiStruct.Factory<any>>(name: N, func: AbiFunctionSelector, args: A, rets: R) {
     return new AbiFunction(name, func, args, rets)
   }
 
@@ -195,8 +196,8 @@ export class AbiFunction<N extends string, A extends readonly AbiFactory[], R ex
 
 export namespace AbiFunction {
 
-  export type Args<T> = T extends AbiFunction<any, infer A, any> ? A : never
+  export type Args<T> = T extends AbiFunction<infer _, infer A, infer _> ? A : never
 
-  export type Rets<T> = T extends AbiFunction<any, any, infer R> ? R : never
+  export type Rets<T> = T extends AbiFunction<infer _, infer _, infer R> ? R : never
 
 }

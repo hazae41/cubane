@@ -1,8 +1,231 @@
 import { Cursor } from "@hazae41/cursor"
 import { TextCursor } from "libs/cursor/cursor.js"
-import { AbiAddress, AbiBool, AbiFactory, AbiFunction, AbiTuple, AbiUint256, AbiUint8 } from "../index.js"
+import { AbiAddress, AbiBool, AbiFactory, AbiFunction, AbiString, AbiTuple, AbiUint256, AbiUint8 } from "../index.js"
 
 export { AbiStruct as Struct }
+
+export const erc20 = [
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_spender",
+        "type": "address"
+      },
+      {
+        "name": "_value",
+        "type": "uint256"
+      }
+    ],
+    "name": "approve",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "totalSupply",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "name": "_value",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferFrom",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "decimals",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_owner",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "name": "balance",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "name": "_value",
+        "type": "uint256"
+      }
+    ],
+    "name": "transfer",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_owner",
+        "type": "address"
+      },
+      {
+        "name": "_spender",
+        "type": "address"
+      }
+    ],
+    "name": "allowance",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "fallback"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "spender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "Approval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "Transfer",
+    "type": "event"
+  }
+] as const
 
 export type StateMutability =
   | "pure"
@@ -67,6 +290,7 @@ export namespace ParameterDescriptor {
     T extends ParameterDescriptor<infer N, "bool", []> ? AbiNamed.Factory<N, typeof AbiBool> :
     T extends ParameterDescriptor<infer N, "uint8", []> ? AbiNamed.Factory<N, typeof AbiUint8> :
     T extends ParameterDescriptor<infer N, "uint256", []> ? AbiNamed.Factory<N, typeof AbiUint256> :
+    T extends ParameterDescriptor<infer N, "string", []> ? AbiNamed.Factory<N, typeof AbiString> :
     never
 
   export type Parseds<T extends readonly unknown[]> = {
@@ -76,16 +300,16 @@ export namespace ParameterDescriptor {
 }
 
 export type Parsed<T> =
-  T extends FunctionDescriptor<infer N, infer I, infer O> ? AbiFunction<N, ParameterDescriptor.Parseds<I>, ParameterDescriptor.Parseds<O>> :
+  T extends FunctionDescriptor<infer N, infer I, infer O> ? AbiFunction<N, AbiStruct.Factory<ParameterDescriptor.Parseds<I>>, AbiStruct.Factory<ParameterDescriptor.Parseds<O>>> :
   never
 
 export type Parseds<T extends readonly unknown[]> = {
-  [I in keyof T]: Parsed<T[I]>
+  [I in Exclude<keyof T, keyof []> as Named<T[I]>]: Parsed<T[I]>
 }
 
-export type Nameds<T extends readonly unknown[]> = {
-  [I in keyof T]: Parsed<T[I]>
-}
+export type Named<T> =
+  T extends FunctionDescriptor<infer N, infer _, infer _> ? N :
+  never
 
 export namespace JsonAbi {
 
@@ -95,11 +319,13 @@ export namespace JsonAbi {
 
 }
 
-// type lol = Parsed<FunctionDescriptor<"f", [{ name: "a", type: "uint256", components?: [] }], []>>
+type AbiErc20 = typeof erc20
 
-// function f(x: lol) {
-//   x.args.from([123])
-// }
+function f(erc20: Parseds<AbiErc20>) {
+  erc20.transfer.args.from({ _to: "0x0", _value: 0n })
+}
+
+
 
 export class AbiNamed {
 
@@ -194,7 +420,10 @@ export class AbiStruct {
         readonly type: AbiTuple.Instance<T>
       ) { }
 
-      static from(value: AbiStruct.From<T>) {
+      static from(value: AbiStruct.From<T> | AbiFactory.Froms<T>) {
+        if (Array.isArray(value))
+          return new AbiStruct(this.type.from(value as any))
+
         const values = []
 
         for (const type of this.types)

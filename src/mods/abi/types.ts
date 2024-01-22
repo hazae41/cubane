@@ -58,8 +58,8 @@ export namespace AbiFactory {
 
 export namespace AbiInstance {
 
-  export type Into<T> = T extends AbiInstance<infer I, any> ? I : never
+  export type Into<T> = T extends AbiInstance<infer I, infer _> ? I : never
 
-  export type Json<T> = T extends AbiInstance<any, infer J> ? J : never
+  export type Json<T> = T extends AbiInstance<infer _, infer J> ? J : never
 
 }

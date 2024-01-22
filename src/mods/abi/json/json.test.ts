@@ -11,9 +11,11 @@ Keccak256.set(await Keccak256.fromMorax())
 test("struct", async () => {
   const MyStruct = AbiStruct.create(AbiNamed.create("a", AbiUint256), AbiNamed.create("b", AbiBool))
 
-  const myStruct = MyStruct.from({ b: true, a: 1n })
+  const myStruct = MyStruct.from({ b: true, a: 123n })
+  const myStruct2 = MyStruct.from([123n, true])
 
   console.log(myStruct.encodeOrThrow())
+  console.log(myStruct2.encodeOrThrow())
 })
 
 
