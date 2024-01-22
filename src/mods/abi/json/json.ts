@@ -1,6 +1,6 @@
 import { Cursor } from "@hazae41/cursor"
 import { TextCursor } from "libs/cursor/cursor.js"
-import { AbiAddress, AbiBool, AbiFactory, AbiFunction, AbiString, AbiTuple, AbiUint256, AbiUint8 } from "../index.js"
+import { AbiAddress, AbiArray, AbiBool, AbiBytes, AbiBytes32, AbiFactory, AbiFunction, AbiInt16, AbiInt24, AbiInt256, AbiInt32, AbiInt8, AbiString, AbiTuple, AbiUint16, AbiUint24, AbiUint256, AbiUint32, AbiUint8, AbiVector } from "../index.js"
 
 export { AbiStruct as Struct }
 
@@ -139,7 +139,7 @@ export const erc20 = [
       },
       {
         "name": "_value",
-        "type": "uint256"
+        "type": "uint256[3]"
       }
     ],
     "name": "transfer",
@@ -227,6 +227,118 @@ export const erc20 = [
   }
 ] as const
 
+export const nestedTupleArrayAbi = [
+  {
+    inputs: [
+      {
+        name: 's',
+        type: 'tuple',
+        components: [
+          {
+            name: 'a',
+            type: 'uint8',
+          },
+          {
+            name: 'b',
+            type: 'uint8[]',
+          },
+          {
+            name: 'c',
+            type: 'tuple[]',
+            components: [
+              {
+                name: 'x',
+                type: 'uint8',
+              },
+              {
+                name: 'y',
+                type: 'uint8',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: 't',
+        type: 'tuple',
+        components: [
+          {
+            name: 'x',
+            type: 'uint',
+          },
+          {
+            name: 'y',
+            type: 'uint',
+          },
+        ],
+      },
+      {
+        name: 'a',
+        type: 'uint256',
+      },
+    ],
+    name: 'f',
+    outputs: [
+      {
+        name: 't',
+        type: 'tuple[]',
+        components: [
+          {
+            name: 'x',
+            type: 'uint256',
+          },
+          {
+            name: 'y',
+            type: 'uint256',
+          },
+        ],
+      },
+    ],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        name: 's',
+        type: 'tuple[2]',
+        components: [
+          {
+            name: 'a',
+            type: 'uint8',
+          },
+          {
+            name: 'b',
+            type: 'uint8[]',
+          },
+        ],
+      },
+      {
+        name: 't',
+        type: 'tuple',
+        components: [
+          {
+            name: 'x',
+            type: 'uint',
+          },
+          {
+            name: 'y',
+            type: 'uint',
+          },
+        ],
+      },
+      {
+        name: 'a',
+        type: 'uint256',
+      },
+    ],
+    name: 'v',
+    outputs: [],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
 export type StateMutability =
   | "pure"
   | "view"
@@ -285,12 +397,31 @@ export interface ErrorDescriptor<N extends string, I extends readonly ParameterD
 
 export namespace ParameterDescriptor {
 
+  export type Subparsed<T extends string, C extends readonly ParameterDescriptor<any, any, any>[]> =
+    T extends "address" ? typeof AbiAddress :
+    T extends "bool" ? typeof AbiBool :
+    T extends "bytes" ? typeof AbiBytes :
+    T extends "bytes32" ? typeof AbiBytes32 :
+    T extends "int" ? typeof AbiInt256 :
+    T extends "int8" ? typeof AbiInt8 :
+    T extends "int16" ? typeof AbiInt16 :
+    T extends "int24" ? typeof AbiInt24 :
+    T extends "int32" ? typeof AbiInt32 :
+    T extends "int256" ? typeof AbiInt256 :
+    T extends "string" ? typeof AbiString :
+    T extends "uint" ? typeof AbiUint256 :
+    T extends "uint8" ? typeof AbiUint8 :
+    T extends "uint16" ? typeof AbiUint16 :
+    T extends "uint24" ? typeof AbiUint24 :
+    T extends "uint32" ? typeof AbiUint32 :
+    T extends "uint256" ? typeof AbiUint256 :
+    T extends `${infer X}[]` ? AbiVector.Factory<Subparsed<X, C>> :
+    T extends `${infer X}[${infer Y extends number}]` ? AbiArray.Factory<Subparsed<X, C>, Y> :
+    T extends "tuple" ? AbiStruct.Factory<Parseds<C>> :
+    never
+
   export type Parsed<T> =
-    T extends ParameterDescriptor<infer N, "address", []> ? AbiNamed.Factory<N, typeof AbiAddress> :
-    T extends ParameterDescriptor<infer N, "bool", []> ? AbiNamed.Factory<N, typeof AbiBool> :
-    T extends ParameterDescriptor<infer N, "uint8", []> ? AbiNamed.Factory<N, typeof AbiUint8> :
-    T extends ParameterDescriptor<infer N, "uint256", []> ? AbiNamed.Factory<N, typeof AbiUint256> :
-    T extends ParameterDescriptor<infer N, "string", []> ? AbiNamed.Factory<N, typeof AbiString> :
+    T extends ParameterDescriptor<infer N, infer T, infer C> ? AbiNamed.Factory<N, Subparsed<T, C>> :
     never
 
   export type Parseds<T extends readonly unknown[]> = {
@@ -319,13 +450,14 @@ export namespace JsonAbi {
 
 }
 
-type AbiErc20 = typeof erc20
 
-function f(erc20: Parseds<AbiErc20>) {
-  erc20.transfer.args.from({ _to: "0x0", _value: 0n })
+function f(abi: Parseds<typeof erc20>) {
+  abi.transfer.args.from({ _to: "0x0", _value: [0n, 0n, 0n] })
 }
 
-
+function g(abi: Parseds<typeof nestedTupleArrayAbi>) {
+  abi.f.args.from({ s: { a: 0, b: [0], c: [{ x: 0, y: 0 }] }, a: 0, t: { x: 0n, y: 0n } })
+}
 
 export class AbiNamed {
 
@@ -474,4 +606,3 @@ export namespace AbiStruct {
     AbiFactory.Instance<Factory<T>>
 
 }
-
