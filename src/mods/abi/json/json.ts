@@ -194,7 +194,7 @@ export class AbiStruct {
         readonly type: AbiTuple.Instance<T>
       ) { }
 
-      static from(value: { [I in Exclude<keyof T, keyof []> as AbiNamed.Factory.Name<T[I]>]: AbiFactory.From<T[I]> }) {
+      static from(value: AbiStruct.From<T>) {
         const values = []
 
         for (const type of this.types)
@@ -233,6 +233,10 @@ export class AbiStruct {
 }
 
 export namespace AbiStruct {
+
+  export type From<T extends readonly AbiNamed.Factory<string, AbiFactory>[]> = {
+    [I in Exclude<keyof T, keyof []> as AbiNamed.Factory.Name<T[I]>]: AbiFactory.From<T[I]>
+  }
 
   export type Factory<T extends readonly AbiNamed.Factory<string, AbiFactory>[]> =
     ReturnType<typeof AbiStruct.create< T>>
