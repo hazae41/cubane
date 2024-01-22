@@ -36,9 +36,11 @@ npm i @hazae41/cubane
 
 ### Encoding various types with preparsed ABI
 
-Cubane 0.1.14
-viem 2.4.1
-ethers 6.10.0
+Cubane can encode both to hexadecimal string and to Uint8Array, this benchmark aims to check the speed difference between both engines and between other libraries
+
+- @hazae41/cubane@0.1.14
+- viem@2.4.1
+- ethers@6.10.0
 
 ```bash
 ┌────────────────┬──────────────────┬─────────────┬─────────────┐
