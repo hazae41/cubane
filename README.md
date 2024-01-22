@@ -42,6 +42,8 @@ Cubane can encode both to hexadecimal string and to Uint8Array, this benchmark a
 - viem@2.4.1
 - ethers@6.10.0
 
+Running on Node 20.3.1 on Apple M1 Max
+
 ```bash
 ┌────────────────┬──────────────────┬─────────────┬─────────────┐
 │    (index)     │     average      │   minimum   │   maximum   │
