@@ -27,7 +27,7 @@ export class AbiVector {
         readonly size: number,
       ) { }
 
-      static create(instances: AbiFactory.Instances<T[]>) {
+      static create(instances: AbiVector.Create<T>) {
         let length = 0
         let offset = 0
 
@@ -68,7 +68,7 @@ export class AbiVector {
         return new AbiVector(instances, heads, tails, length)
       }
 
-      static from(primitives: AbiFactory.Froms<T[]>) {
+      static from(primitives: AbiVector.From<T>) {
         const result: AbiInstance<any>[] = new Array(primitives.length)
 
         for (let i = 0; i < primitives.length; i++)
@@ -226,6 +226,12 @@ export class AbiVector {
 }
 
 export namespace AbiVector {
+
+  export type Create<T extends AbiFactory> =
+    AbiFactory.Instances<T[]>
+
+  export type From<T extends AbiFactory> =
+    AbiFactory.Froms<T[]>
 
   export type Factory<T extends AbiFactory> =
     ReturnType<typeof AbiVector.create<T>>

@@ -478,8 +478,16 @@ export class AbiNamed {
         readonly type: AbiFactory.Instance<T>
       ) { }
 
+      static create(value: AbiFactory.Instance<T>) {
+        return new AbiNamed(this.name, this.type.create(value))
+      }
+
       static from(value: AbiFactory.From<T>) {
         return new AbiNamed(this.name, this.type.from(value))
+      }
+
+      intoOrThrow() {
+        return this.type.intoOrThrow()
       }
 
       sizeOrThrow() {
@@ -492,6 +500,14 @@ export class AbiNamed {
 
       encodeOrThrow() {
         return this.type.encodeOrThrow()
+      }
+
+      encodePackedOrThrow() {
+        return this.type.encodePackedOrThrow()
+      }
+
+      toJSON() {
+        return this.type.toJSON()
       }
 
       static codegen() {
@@ -552,7 +568,19 @@ export class AbiStruct {
         readonly type: AbiTuple.Instance<T>
       ) { }
 
-      static from(value: AbiStruct.From<T> | AbiFactory.Froms<T>) {
+      static create(value: AbiStruct.Create<T> | AbiTuple.Create<T>) {
+        if (Array.isArray(value))
+          return new AbiStruct(this.type.create(value as any))
+
+        const values = []
+
+        for (const type of this.types)
+          values.push((value as any)[type.name])
+
+        return new AbiStruct(this.type.create(values as any))
+      }
+
+      static from(value: AbiStruct.From<T> | AbiTuple.From<T>) {
         if (Array.isArray(value))
           return new AbiStruct(this.type.from(value as any))
 
@@ -562,6 +590,10 @@ export class AbiStruct {
           values.push((value as any)[type.name])
 
         return new AbiStruct(this.type.from(values as any))
+      }
+
+      intoOrThrow() {
+        return this.type.intoOrThrow()
       }
 
       sizeOrThrow() {
@@ -574,6 +606,14 @@ export class AbiStruct {
 
       encodeOrThrow() {
         return this.type.encodeOrThrow()
+      }
+
+      encodePackedOrThrow() {
+        return this.type.encodePackedOrThrow()
+      }
+
+      toJSON() {
+        return this.type.toJSON()
       }
 
       static codegen() {
@@ -595,8 +635,12 @@ export class AbiStruct {
 
 export namespace AbiStruct {
 
+  export type Create<T extends readonly AbiNamed.Factory<string, AbiFactory>[]> = {
+    readonly [I in Exclude<keyof T, keyof []> as AbiNamed.Factory.Name<T[I]>]: AbiFactory.Create<T[I]>
+  }
+
   export type From<T extends readonly AbiNamed.Factory<string, AbiFactory>[]> = {
-    [I in Exclude<keyof T, keyof []> as AbiNamed.Factory.Name<T[I]>]: AbiFactory.From<T[I]>
+    readonly [I in Exclude<keyof T, keyof []> as AbiNamed.Factory.Name<T[I]>]: AbiFactory.From<T[I]>
   }
 
   export type Factory<T extends readonly AbiNamed.Factory<string, AbiFactory>[]> =

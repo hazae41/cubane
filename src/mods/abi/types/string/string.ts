@@ -6,7 +6,13 @@ import { BytesAbiBytes } from "../bytes/dynamic.js";
 export { AbiString as String };
 
 export namespace AbiString {
-  export type From = Bytes | string
+  export type Create =
+    | Uint8Array
+    | string
+
+  export type From =
+    | Uint8Array
+    | string
 }
 
 export class AbiString {
@@ -20,7 +26,7 @@ export class AbiString {
     readonly inner: BytesAbiBytes
   ) { }
 
-  static create(value: AbiString.From): AbiString {
+  static create(value: AbiString.Create): AbiString {
     if (typeof value === "string")
       return AbiString.create(Bytes.fromUtf8(value))
     return new AbiString(BytesAbiBytes.create(value))

@@ -17,6 +17,11 @@ export class InvalidFunctionSelector extends Error {
   }
 }
 
+export namespace AbiFunctionSelector {
+  export type Create = Uint8Array<4>
+  export type From = readonly [number, number, number, number]
+}
+
 export class AbiFunctionSelector {
   readonly #class = AbiFunctionSelector
 
@@ -26,11 +31,11 @@ export class AbiFunctionSelector {
     readonly value: Uint8Array<4>
   ) { }
 
-  static create(value: Uint8Array<4>) {
+  static create(value: AbiFunctionSelector.Create) {
     return new AbiFunctionSelector(value)
   }
 
-  static from(values: readonly [number, number, number, number]) {
+  static from(values: AbiFunctionSelector.From) {
     return new AbiFunctionSelector(Bytes.from(values))
   }
 
@@ -78,6 +83,11 @@ export class AbiFunctionSelector {
 
 }
 
+export namespace AbiFunctionSelectorAndArguments {
+  export type Create<T extends readonly AbiFactory[]> = AbiFactory.Instances<T>
+  export type From<T extends readonly AbiFactory[]> = AbiFactory.Froms<T>
+}
+
 export class AbiFunctionSelectorAndArguments {
 
   private constructor() { }
@@ -94,13 +104,13 @@ export class AbiFunctionSelectorAndArguments {
         readonly args: AbiTuple.Instance<T>
       ) { }
 
-      static create(...instances: AbiFactory.Instances<T>) {
+      static create(...instances: AbiFunctionSelectorAndArguments.Create<T>) {
         const args = AbiFunctionSelectorAndArguments.args.create(instances)
 
         return new AbiFunctionSelectorAndArguments($func, args)
       }
 
-      static from(...primitives: AbiFactory.Froms<T>) {
+      static from(...primitives: AbiFunctionSelectorAndArguments.From<T>) {
         const args = AbiFunctionSelectorAndArguments.args.from(primitives)
 
         return new AbiFunctionSelectorAndArguments($func, args)

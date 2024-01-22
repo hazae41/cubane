@@ -27,11 +27,15 @@ export namespace AbiInt${bits} {
   export const dynamic = false
   export const size = 32
 
+  export type Create =
+    | BytesAbiInt${bits}.Create
+    | ZeroHexAbiInt${bits}.Create
+
   export type From = 
     | ZeroHexAbiInt${bits}.From
     | BytesAbiInt${bits}.From
 
-  export function create(value: AbiInt${bits}.From) {
+  export function create(value: AbiInt${bits}.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt${bits}.create(value)
     return ZeroHexAbiInt${bits}.create(value)
@@ -56,6 +60,7 @@ export namespace AbiInt${bits} {
 }
 
 export namespace BytesAbiInt${bits} {
+  export type Create = Uint8Array
   export type From = Uint8Array
 }
 
@@ -78,7 +83,7 @@ export class BytesAbiInt${bits} {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesAbiInt${bits}.From) {
+  static create(value: BytesAbiInt${bits}.Create) {
     return new BytesAbiInt${bits}(value)
   }
 
@@ -140,6 +145,12 @@ export class BytesAbiInt${bits} {
 }
 
 export namespace ZeroHexAbiInt${bits} {
+  export type Create =
+    | ZeroHexString
+    | bigint
+    | number
+    | string
+
   export type From =
     | ZeroHexString
     | bigint
@@ -182,7 +193,7 @@ export class ZeroHexAbiInt${bits} {
     return new ZeroHexAbiInt${bits}(value2.toString(16))
   }
 
-  static create(value: ZeroHexAbiInt${bits}.From) {
+  static create(value: ZeroHexAbiInt${bits}.Create) {
     if (typeof value === "bigint")
       return ZeroHexAbiInt${bits}.fromBigInt(value)
     if (typeof value === "number")

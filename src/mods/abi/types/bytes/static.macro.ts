@@ -22,12 +22,16 @@ export type AbiBytes${bytes} =
 export namespace AbiBytes${bytes} {
   export const dynamic = false
   export const size = 32
+
+  export type Create =
+    | BytesAbiBytes${bytes}.Create
+    | ZeroHexAbiBytes${bytes}.Create
   
   export type From = 
     | BytesAbiBytes${bytes}.From
     | ZeroHexAbiBytes${bytes}.From
   
-  export function create(value: AbiBytes${bytes}.From) {
+  export function create(value: AbiBytes${bytes}.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes${bytes}.create(value)
     return ZeroHexAbiBytes${bytes}.create(value)
@@ -52,6 +56,7 @@ export namespace AbiBytes${bytes} {
 }
 
 export namespace BytesAbiBytes${bytes} {
+  export type Create = Uint8Array
   export type From = Uint8Array
 }
 
@@ -74,7 +79,7 @@ export class BytesAbiBytes${bytes} {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesAbiBytes${bytes}.From) {
+  static create(value: BytesAbiBytes${bytes}.Create) {
     return new BytesAbiBytes${bytes}(value)
   }
 
@@ -136,6 +141,7 @@ export class BytesAbiBytes${bytes} {
 }
 
 export namespace ZeroHexAbiBytes${bytes} {
+  export type Create = ZeroHexString
   export type From = ZeroHexString
 }
 
@@ -158,7 +164,7 @@ export class ZeroHexAbiBytes${bytes} {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexAbiBytes${bytes}.From) {
+  static create(value: ZeroHexAbiBytes${bytes}.Create) {
     return new ZeroHexAbiBytes${bytes}(value.slice(2))
   }
 

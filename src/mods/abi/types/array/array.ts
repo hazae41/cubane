@@ -30,7 +30,7 @@ export class AbiArray {
         readonly size: number,
       ) { }
 
-      static create(instances: AbiFactory.Instances<T[]> & { readonly length: N }) {
+      static create(instances: AbiArray.Create<T, N>) {
         let length = 0
         let offset = 0
 
@@ -71,7 +71,7 @@ export class AbiArray {
         return new AbiArray(instances, heads, tails, length)
       }
 
-      static from(primitives: AbiFactory.Froms<T[]> & { readonly length: N }) {
+      static from(primitives: AbiArray.From<T, N>) {
         const result = new Array(AbiArray.count)
 
         for (let i = 0; i < AbiArray.count; i++)
@@ -215,6 +215,12 @@ export class AbiArray {
 
 
 export namespace AbiArray {
+
+  export type Create<T extends AbiFactory, N extends number> =
+    AbiFactory.Instances<T[]> & { readonly length: N }
+
+  export type From<T extends AbiFactory, N extends number> =
+    AbiFactory.Froms<T[]> & { readonly length: N }
 
   export type Factory<T extends AbiFactory, N extends number> =
     ReturnType<typeof AbiArray.create<T, N>>

@@ -27,12 +27,17 @@ export namespace AbiUint${bits} {
   export const dynamic = false
   export const size = 32
 
+  export type Create =
+    | BytesAbiUint${bits}.Create
+    | ZeroHexAbiUint${bits}.Create
+    ${numberable ? `| NumberAbiUint${bits}.Create` : ``}
+
   export type From = 
     | ZeroHexAbiUint${bits}.From
     | BytesAbiUint${bits}.From
     ${numberable ? `| NumberAbiUint${bits}.From` : ``}
 
-  export function create(value: AbiUint${bits}.From) {
+  export function create(value: AbiUint${bits}.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint${bits}.create(value)
     ${numberable ? `if (typeof value === "number")
@@ -77,6 +82,7 @@ export namespace AbiUint${bits} {
 }
 
 export namespace BytesAbiUint${bits} {
+  export type Create = Uint8Array
   export type From = Uint8Array
 }
 
@@ -99,7 +105,7 @@ export class BytesAbiUint${bits} {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesAbiUint${bits}.From) {
+  static create(value: BytesAbiUint${bits}.Create) {
     return new BytesAbiUint${bits}(value)
   }
 
@@ -161,6 +167,7 @@ export class BytesAbiUint${bits} {
 }
 
 ${numberable ? `export namespace NumberAbiUint${bits} {
+  export type Create = number
   export type From = number
 }
 
@@ -191,7 +198,7 @@ export class NumberAbiUint${bits} {
     return new NumberAbiUint${bits}(Number(value))
   }
 
-  static create(value: NumberAbiUint${bits}.From) {
+  static create(value: NumberAbiUint${bits}.Create) {
     return new NumberAbiUint${bits}(value)
   }
 
@@ -252,6 +259,12 @@ export class NumberAbiUint${bits} {
 }` : ``}
 
 export namespace ZeroHexAbiUint${bits} {
+  export type Create =
+    | ZeroHexString
+    | bigint
+    | number
+    | string
+
   export type From =
     | ZeroHexString
     | bigint
@@ -286,7 +299,7 @@ export class ZeroHexAbiUint${bits} {
     return new ZeroHexAbiUint${bits}(value.toString(16))
   }
 
-  static create(value: ZeroHexAbiUint${bits}.From) {
+  static create(value: ZeroHexAbiUint${bits}.Create) {
     if (typeof value === "bigint")
       return ZeroHexAbiUint${bits}.fromBigInt(value)
     if (typeof value === "number")

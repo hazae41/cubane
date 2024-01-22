@@ -16,11 +16,15 @@ export namespace AbiAddress {
   export const dynamic = false
   export const size = 32
 
+  export type Create =
+    | ZeroHexAbiAddress.Create
+    | BytesAbiAddress.Create
+
   export type From =
     | ZeroHexAbiAddress.From
     | BytesAbiAddress.From
 
-  export function create(value: AbiAddress.From) {
+  export function create(value: AbiAddress.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiAddress.create(value)
     return ZeroHexAbiAddress.create(value)
@@ -45,6 +49,7 @@ export namespace AbiAddress {
 }
 
 export namespace BytesAbiAddress {
+  export type Create = Uint8Array
   export type From = Uint8Array
 }
 
@@ -61,7 +66,7 @@ export class BytesAbiAddress {
     readonly value: Uint8Array
   ) { }
 
-  static create(value: BytesAbiAddress.From) {
+  static create(value: BytesAbiAddress.Create) {
     return new BytesAbiAddress(value)
   }
 
@@ -110,6 +115,7 @@ export class BytesAbiAddress {
 }
 
 export namespace ZeroHexAbiAddress {
+  export type Create = ZeroHexString
   export type From = ZeroHexString
 }
 
@@ -126,7 +132,7 @@ export class ZeroHexAbiAddress {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexAbiAddress.From) {
+  static create(value: ZeroHexAbiAddress.Create) {
     return new ZeroHexAbiAddress(value.slice(2))
   }
 

@@ -14,8 +14,11 @@ test("struct", async () => {
   const myStruct = MyStruct.from({ b: true, a: 123n })
   const myStruct2 = MyStruct.from([123n, true])
 
+  const myStruct3 = MyStruct.create({ a: AbiUint256.from(123), b: AbiBool.from(true) })
+
   console.log(myStruct.encodeOrThrow())
   console.log(myStruct2.encodeOrThrow())
+  console.log(myStruct3.encodeOrThrow())
 })
 
 

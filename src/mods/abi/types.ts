@@ -16,10 +16,12 @@ export interface AbiInstance<I = any, J = any> extends Writable {
   toJSON(): J
 }
 
-export interface AbiFactory<F = any, S extends AbiInstance<any, any> = any> extends Readable<S> {
+export interface AbiFactory<C = any, F = any, S extends AbiInstance<any, any> = any> extends Readable<S> {
   readonly dynamic: boolean
 
-  from(primitive: F): S
+  create(create: C): S
+
+  from(from: F): S
 
   decodeOrThrow(cursor: TextCursor): S
 
@@ -30,13 +32,19 @@ export interface AbiFactory<F = any, S extends AbiInstance<any, any> = any> exte
 
 export namespace AbiFactory {
 
-  export type From<T> = T extends AbiFactory<infer F, any> ? F : never
+  export type Create<T> = T extends AbiFactory<infer C, any, any> ? C : never
+
+  export type Creates<T extends readonly AbiFactory[]> = {
+    readonly [I in keyof T]: Create<T[I]>
+  }
+
+  export type From<T> = T extends AbiFactory<any, infer F, any> ? F : never
 
   export type Froms<T extends readonly AbiFactory[]> = {
     readonly [I in keyof T]: From<T[I]>
   }
 
-  export type Instance<T> = T extends AbiFactory<any, infer I> ? I : never
+  export type Instance<T> = T extends AbiFactory<any, any, infer I> ? I : never
 
   export type Instances<T extends readonly AbiFactory[]> = {
     readonly [I in keyof T]: Instance<T[I]>

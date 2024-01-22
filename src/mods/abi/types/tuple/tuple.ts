@@ -26,7 +26,7 @@ export class AbiTuple {
         readonly size: number,
       ) { }
 
-      static create(instances: AbiFactory.Instances<T>) {
+      static create(instances: AbiTuple.Create<T>) {
         let length = 0
         let offset = 0
 
@@ -67,7 +67,7 @@ export class AbiTuple {
         return new AbiTuple(instances, heads, tails, length)
       }
 
-      static from(primitives: AbiFactory.Froms<T>) {
+      static from(primitives: AbiTuple.From<T>) {
         const result = new Array(AbiTuple.types.length)
 
         for (let i = 0; i < AbiTuple.types.length; i++)
@@ -211,6 +211,12 @@ export class AbiTuple {
 }
 
 export namespace AbiTuple {
+
+  export type Create<T extends readonly AbiFactory[]> =
+    AbiFactory.Instances<T>
+
+  export type From<T extends readonly AbiFactory[]> =
+    AbiFactory.Froms<T>
 
   export type Factory<T extends readonly AbiFactory[]> =
     ReturnType<typeof AbiTuple.create<T>>

@@ -4,6 +4,7 @@ import { TextCursor } from "libs/cursor/cursor.js";
 export { AbiBool as Bool };
 
 export namespace AbiBool {
+  export type Create = boolean
   export type From = boolean
 }
 
@@ -20,11 +21,11 @@ export class AbiBool {
     readonly value: boolean
   ) { }
 
-  static create(value: boolean) {
+  static create(value: AbiBool.Create) {
     return new AbiBool(value)
   }
 
-  static from(value: boolean) {
+  static from(value: AbiBool.From) {
     return new AbiBool(value)
   }
 
