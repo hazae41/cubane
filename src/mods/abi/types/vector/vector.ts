@@ -13,7 +13,6 @@ export class AbiVector {
   static create<T extends AbiFactory>($type: T) {
     return class AbiVector {
       readonly #class = AbiVector
-      readonly name = this.#class.name
 
       static readonly type = $type
       static readonly dynamic = true

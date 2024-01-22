@@ -61,7 +61,6 @@ export namespace BytesAbiInt${bits} {
 
 export class BytesAbiInt${bits} {
   readonly #class = BytesAbiInt${bits}
-  readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
   static readonly nibbles = ${nibbles}
@@ -150,7 +149,6 @@ export namespace ZeroHexAbiInt${bits} {
 
 export class ZeroHexAbiInt${bits} {
   readonly #class = ZeroHexAbiInt${bits}
-  readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
   static readonly nibbles = ${nibbles}

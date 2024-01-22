@@ -82,7 +82,6 @@ export namespace BytesAbiUint${bits} {
 
 export class BytesAbiUint${bits} {
   readonly #class = BytesAbiUint${bits}
-  readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
   static readonly nibbles = ${nibbles}
@@ -167,7 +166,6 @@ ${numberable ? `export namespace NumberAbiUint${bits} {
 
 export class NumberAbiUint${bits} {
   readonly #class = NumberAbiUint${bits}
-  readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
   static readonly nibbles = ${nibbles}
@@ -263,7 +261,6 @@ export namespace ZeroHexAbiUint${bits} {
 
 export class ZeroHexAbiUint${bits} {
   readonly #class = ZeroHexAbiUint${bits}
-  readonly name = this.#class.name
 
   static readonly bytes = ${bytes}
   static readonly nibbles = ${nibbles}

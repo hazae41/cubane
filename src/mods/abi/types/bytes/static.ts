@@ -49,7 +49,6 @@ export namespace BytesAbiBytes1 {
 
 export class BytesAbiBytes1 {
   readonly #class = BytesAbiBytes1
-  readonly name = this.#class.name
 
   static readonly bytes = 1
   static readonly nibbles = 2
@@ -134,7 +133,6 @@ export namespace ZeroHexAbiBytes1 {
 
 export class ZeroHexAbiBytes1 {
   readonly #class = ZeroHexAbiBytes1
-  readonly name = this.#class.name
 
   static readonly bytes = 1
   static readonly nibbles = 2
@@ -258,7 +256,6 @@ export namespace BytesAbiBytes2 {
 
 export class BytesAbiBytes2 {
   readonly #class = BytesAbiBytes2
-  readonly name = this.#class.name
 
   static readonly bytes = 2
   static readonly nibbles = 4
@@ -343,7 +340,6 @@ export namespace ZeroHexAbiBytes2 {
 
 export class ZeroHexAbiBytes2 {
   readonly #class = ZeroHexAbiBytes2
-  readonly name = this.#class.name
 
   static readonly bytes = 2
   static readonly nibbles = 4
@@ -467,7 +463,6 @@ export namespace BytesAbiBytes3 {
 
 export class BytesAbiBytes3 {
   readonly #class = BytesAbiBytes3
-  readonly name = this.#class.name
 
   static readonly bytes = 3
   static readonly nibbles = 6
@@ -552,7 +547,6 @@ export namespace ZeroHexAbiBytes3 {
 
 export class ZeroHexAbiBytes3 {
   readonly #class = ZeroHexAbiBytes3
-  readonly name = this.#class.name
 
   static readonly bytes = 3
   static readonly nibbles = 6
@@ -676,7 +670,6 @@ export namespace BytesAbiBytes4 {
 
 export class BytesAbiBytes4 {
   readonly #class = BytesAbiBytes4
-  readonly name = this.#class.name
 
   static readonly bytes = 4
   static readonly nibbles = 8
@@ -761,7 +754,6 @@ export namespace ZeroHexAbiBytes4 {
 
 export class ZeroHexAbiBytes4 {
   readonly #class = ZeroHexAbiBytes4
-  readonly name = this.#class.name
 
   static readonly bytes = 4
   static readonly nibbles = 8
@@ -885,7 +877,6 @@ export namespace BytesAbiBytes5 {
 
 export class BytesAbiBytes5 {
   readonly #class = BytesAbiBytes5
-  readonly name = this.#class.name
 
   static readonly bytes = 5
   static readonly nibbles = 10
@@ -970,7 +961,6 @@ export namespace ZeroHexAbiBytes5 {
 
 export class ZeroHexAbiBytes5 {
   readonly #class = ZeroHexAbiBytes5
-  readonly name = this.#class.name
 
   static readonly bytes = 5
   static readonly nibbles = 10
@@ -1094,7 +1084,6 @@ export namespace BytesAbiBytes6 {
 
 export class BytesAbiBytes6 {
   readonly #class = BytesAbiBytes6
-  readonly name = this.#class.name
 
   static readonly bytes = 6
   static readonly nibbles = 12
@@ -1179,7 +1168,6 @@ export namespace ZeroHexAbiBytes6 {
 
 export class ZeroHexAbiBytes6 {
   readonly #class = ZeroHexAbiBytes6
-  readonly name = this.#class.name
 
   static readonly bytes = 6
   static readonly nibbles = 12
@@ -1303,7 +1291,6 @@ export namespace BytesAbiBytes7 {
 
 export class BytesAbiBytes7 {
   readonly #class = BytesAbiBytes7
-  readonly name = this.#class.name
 
   static readonly bytes = 7
   static readonly nibbles = 14
@@ -1388,7 +1375,6 @@ export namespace ZeroHexAbiBytes7 {
 
 export class ZeroHexAbiBytes7 {
   readonly #class = ZeroHexAbiBytes7
-  readonly name = this.#class.name
 
   static readonly bytes = 7
   static readonly nibbles = 14
@@ -1512,7 +1498,6 @@ export namespace BytesAbiBytes8 {
 
 export class BytesAbiBytes8 {
   readonly #class = BytesAbiBytes8
-  readonly name = this.#class.name
 
   static readonly bytes = 8
   static readonly nibbles = 16
@@ -1597,7 +1582,6 @@ export namespace ZeroHexAbiBytes8 {
 
 export class ZeroHexAbiBytes8 {
   readonly #class = ZeroHexAbiBytes8
-  readonly name = this.#class.name
 
   static readonly bytes = 8
   static readonly nibbles = 16
@@ -1721,7 +1705,6 @@ export namespace BytesAbiBytes9 {
 
 export class BytesAbiBytes9 {
   readonly #class = BytesAbiBytes9
-  readonly name = this.#class.name
 
   static readonly bytes = 9
   static readonly nibbles = 18
@@ -1806,7 +1789,6 @@ export namespace ZeroHexAbiBytes9 {
 
 export class ZeroHexAbiBytes9 {
   readonly #class = ZeroHexAbiBytes9
-  readonly name = this.#class.name
 
   static readonly bytes = 9
   static readonly nibbles = 18
@@ -1930,7 +1912,6 @@ export namespace BytesAbiBytes10 {
 
 export class BytesAbiBytes10 {
   readonly #class = BytesAbiBytes10
-  readonly name = this.#class.name
 
   static readonly bytes = 10
   static readonly nibbles = 20
@@ -2015,7 +1996,6 @@ export namespace ZeroHexAbiBytes10 {
 
 export class ZeroHexAbiBytes10 {
   readonly #class = ZeroHexAbiBytes10
-  readonly name = this.#class.name
 
   static readonly bytes = 10
   static readonly nibbles = 20
@@ -2139,7 +2119,6 @@ export namespace BytesAbiBytes11 {
 
 export class BytesAbiBytes11 {
   readonly #class = BytesAbiBytes11
-  readonly name = this.#class.name
 
   static readonly bytes = 11
   static readonly nibbles = 22
@@ -2224,7 +2203,6 @@ export namespace ZeroHexAbiBytes11 {
 
 export class ZeroHexAbiBytes11 {
   readonly #class = ZeroHexAbiBytes11
-  readonly name = this.#class.name
 
   static readonly bytes = 11
   static readonly nibbles = 22
@@ -2348,7 +2326,6 @@ export namespace BytesAbiBytes12 {
 
 export class BytesAbiBytes12 {
   readonly #class = BytesAbiBytes12
-  readonly name = this.#class.name
 
   static readonly bytes = 12
   static readonly nibbles = 24
@@ -2433,7 +2410,6 @@ export namespace ZeroHexAbiBytes12 {
 
 export class ZeroHexAbiBytes12 {
   readonly #class = ZeroHexAbiBytes12
-  readonly name = this.#class.name
 
   static readonly bytes = 12
   static readonly nibbles = 24
@@ -2557,7 +2533,6 @@ export namespace BytesAbiBytes13 {
 
 export class BytesAbiBytes13 {
   readonly #class = BytesAbiBytes13
-  readonly name = this.#class.name
 
   static readonly bytes = 13
   static readonly nibbles = 26
@@ -2642,7 +2617,6 @@ export namespace ZeroHexAbiBytes13 {
 
 export class ZeroHexAbiBytes13 {
   readonly #class = ZeroHexAbiBytes13
-  readonly name = this.#class.name
 
   static readonly bytes = 13
   static readonly nibbles = 26
@@ -2766,7 +2740,6 @@ export namespace BytesAbiBytes14 {
 
 export class BytesAbiBytes14 {
   readonly #class = BytesAbiBytes14
-  readonly name = this.#class.name
 
   static readonly bytes = 14
   static readonly nibbles = 28
@@ -2851,7 +2824,6 @@ export namespace ZeroHexAbiBytes14 {
 
 export class ZeroHexAbiBytes14 {
   readonly #class = ZeroHexAbiBytes14
-  readonly name = this.#class.name
 
   static readonly bytes = 14
   static readonly nibbles = 28
@@ -2975,7 +2947,6 @@ export namespace BytesAbiBytes15 {
 
 export class BytesAbiBytes15 {
   readonly #class = BytesAbiBytes15
-  readonly name = this.#class.name
 
   static readonly bytes = 15
   static readonly nibbles = 30
@@ -3060,7 +3031,6 @@ export namespace ZeroHexAbiBytes15 {
 
 export class ZeroHexAbiBytes15 {
   readonly #class = ZeroHexAbiBytes15
-  readonly name = this.#class.name
 
   static readonly bytes = 15
   static readonly nibbles = 30
@@ -3184,7 +3154,6 @@ export namespace BytesAbiBytes16 {
 
 export class BytesAbiBytes16 {
   readonly #class = BytesAbiBytes16
-  readonly name = this.#class.name
 
   static readonly bytes = 16
   static readonly nibbles = 32
@@ -3269,7 +3238,6 @@ export namespace ZeroHexAbiBytes16 {
 
 export class ZeroHexAbiBytes16 {
   readonly #class = ZeroHexAbiBytes16
-  readonly name = this.#class.name
 
   static readonly bytes = 16
   static readonly nibbles = 32
@@ -3393,7 +3361,6 @@ export namespace BytesAbiBytes17 {
 
 export class BytesAbiBytes17 {
   readonly #class = BytesAbiBytes17
-  readonly name = this.#class.name
 
   static readonly bytes = 17
   static readonly nibbles = 34
@@ -3478,7 +3445,6 @@ export namespace ZeroHexAbiBytes17 {
 
 export class ZeroHexAbiBytes17 {
   readonly #class = ZeroHexAbiBytes17
-  readonly name = this.#class.name
 
   static readonly bytes = 17
   static readonly nibbles = 34
@@ -3602,7 +3568,6 @@ export namespace BytesAbiBytes18 {
 
 export class BytesAbiBytes18 {
   readonly #class = BytesAbiBytes18
-  readonly name = this.#class.name
 
   static readonly bytes = 18
   static readonly nibbles = 36
@@ -3687,7 +3652,6 @@ export namespace ZeroHexAbiBytes18 {
 
 export class ZeroHexAbiBytes18 {
   readonly #class = ZeroHexAbiBytes18
-  readonly name = this.#class.name
 
   static readonly bytes = 18
   static readonly nibbles = 36
@@ -3811,7 +3775,6 @@ export namespace BytesAbiBytes19 {
 
 export class BytesAbiBytes19 {
   readonly #class = BytesAbiBytes19
-  readonly name = this.#class.name
 
   static readonly bytes = 19
   static readonly nibbles = 38
@@ -3896,7 +3859,6 @@ export namespace ZeroHexAbiBytes19 {
 
 export class ZeroHexAbiBytes19 {
   readonly #class = ZeroHexAbiBytes19
-  readonly name = this.#class.name
 
   static readonly bytes = 19
   static readonly nibbles = 38
@@ -4020,7 +3982,6 @@ export namespace BytesAbiBytes20 {
 
 export class BytesAbiBytes20 {
   readonly #class = BytesAbiBytes20
-  readonly name = this.#class.name
 
   static readonly bytes = 20
   static readonly nibbles = 40
@@ -4105,7 +4066,6 @@ export namespace ZeroHexAbiBytes20 {
 
 export class ZeroHexAbiBytes20 {
   readonly #class = ZeroHexAbiBytes20
-  readonly name = this.#class.name
 
   static readonly bytes = 20
   static readonly nibbles = 40
@@ -4229,7 +4189,6 @@ export namespace BytesAbiBytes21 {
 
 export class BytesAbiBytes21 {
   readonly #class = BytesAbiBytes21
-  readonly name = this.#class.name
 
   static readonly bytes = 21
   static readonly nibbles = 42
@@ -4314,7 +4273,6 @@ export namespace ZeroHexAbiBytes21 {
 
 export class ZeroHexAbiBytes21 {
   readonly #class = ZeroHexAbiBytes21
-  readonly name = this.#class.name
 
   static readonly bytes = 21
   static readonly nibbles = 42
@@ -4438,7 +4396,6 @@ export namespace BytesAbiBytes22 {
 
 export class BytesAbiBytes22 {
   readonly #class = BytesAbiBytes22
-  readonly name = this.#class.name
 
   static readonly bytes = 22
   static readonly nibbles = 44
@@ -4523,7 +4480,6 @@ export namespace ZeroHexAbiBytes22 {
 
 export class ZeroHexAbiBytes22 {
   readonly #class = ZeroHexAbiBytes22
-  readonly name = this.#class.name
 
   static readonly bytes = 22
   static readonly nibbles = 44
@@ -4647,7 +4603,6 @@ export namespace BytesAbiBytes23 {
 
 export class BytesAbiBytes23 {
   readonly #class = BytesAbiBytes23
-  readonly name = this.#class.name
 
   static readonly bytes = 23
   static readonly nibbles = 46
@@ -4732,7 +4687,6 @@ export namespace ZeroHexAbiBytes23 {
 
 export class ZeroHexAbiBytes23 {
   readonly #class = ZeroHexAbiBytes23
-  readonly name = this.#class.name
 
   static readonly bytes = 23
   static readonly nibbles = 46
@@ -4856,7 +4810,6 @@ export namespace BytesAbiBytes24 {
 
 export class BytesAbiBytes24 {
   readonly #class = BytesAbiBytes24
-  readonly name = this.#class.name
 
   static readonly bytes = 24
   static readonly nibbles = 48
@@ -4941,7 +4894,6 @@ export namespace ZeroHexAbiBytes24 {
 
 export class ZeroHexAbiBytes24 {
   readonly #class = ZeroHexAbiBytes24
-  readonly name = this.#class.name
 
   static readonly bytes = 24
   static readonly nibbles = 48
@@ -5065,7 +5017,6 @@ export namespace BytesAbiBytes25 {
 
 export class BytesAbiBytes25 {
   readonly #class = BytesAbiBytes25
-  readonly name = this.#class.name
 
   static readonly bytes = 25
   static readonly nibbles = 50
@@ -5150,7 +5101,6 @@ export namespace ZeroHexAbiBytes25 {
 
 export class ZeroHexAbiBytes25 {
   readonly #class = ZeroHexAbiBytes25
-  readonly name = this.#class.name
 
   static readonly bytes = 25
   static readonly nibbles = 50
@@ -5274,7 +5224,6 @@ export namespace BytesAbiBytes26 {
 
 export class BytesAbiBytes26 {
   readonly #class = BytesAbiBytes26
-  readonly name = this.#class.name
 
   static readonly bytes = 26
   static readonly nibbles = 52
@@ -5359,7 +5308,6 @@ export namespace ZeroHexAbiBytes26 {
 
 export class ZeroHexAbiBytes26 {
   readonly #class = ZeroHexAbiBytes26
-  readonly name = this.#class.name
 
   static readonly bytes = 26
   static readonly nibbles = 52
@@ -5483,7 +5431,6 @@ export namespace BytesAbiBytes27 {
 
 export class BytesAbiBytes27 {
   readonly #class = BytesAbiBytes27
-  readonly name = this.#class.name
 
   static readonly bytes = 27
   static readonly nibbles = 54
@@ -5568,7 +5515,6 @@ export namespace ZeroHexAbiBytes27 {
 
 export class ZeroHexAbiBytes27 {
   readonly #class = ZeroHexAbiBytes27
-  readonly name = this.#class.name
 
   static readonly bytes = 27
   static readonly nibbles = 54
@@ -5692,7 +5638,6 @@ export namespace BytesAbiBytes28 {
 
 export class BytesAbiBytes28 {
   readonly #class = BytesAbiBytes28
-  readonly name = this.#class.name
 
   static readonly bytes = 28
   static readonly nibbles = 56
@@ -5777,7 +5722,6 @@ export namespace ZeroHexAbiBytes28 {
 
 export class ZeroHexAbiBytes28 {
   readonly #class = ZeroHexAbiBytes28
-  readonly name = this.#class.name
 
   static readonly bytes = 28
   static readonly nibbles = 56
@@ -5901,7 +5845,6 @@ export namespace BytesAbiBytes29 {
 
 export class BytesAbiBytes29 {
   readonly #class = BytesAbiBytes29
-  readonly name = this.#class.name
 
   static readonly bytes = 29
   static readonly nibbles = 58
@@ -5986,7 +5929,6 @@ export namespace ZeroHexAbiBytes29 {
 
 export class ZeroHexAbiBytes29 {
   readonly #class = ZeroHexAbiBytes29
-  readonly name = this.#class.name
 
   static readonly bytes = 29
   static readonly nibbles = 58
@@ -6110,7 +6052,6 @@ export namespace BytesAbiBytes30 {
 
 export class BytesAbiBytes30 {
   readonly #class = BytesAbiBytes30
-  readonly name = this.#class.name
 
   static readonly bytes = 30
   static readonly nibbles = 60
@@ -6195,7 +6136,6 @@ export namespace ZeroHexAbiBytes30 {
 
 export class ZeroHexAbiBytes30 {
   readonly #class = ZeroHexAbiBytes30
-  readonly name = this.#class.name
 
   static readonly bytes = 30
   static readonly nibbles = 60
@@ -6319,7 +6259,6 @@ export namespace BytesAbiBytes31 {
 
 export class BytesAbiBytes31 {
   readonly #class = BytesAbiBytes31
-  readonly name = this.#class.name
 
   static readonly bytes = 31
   static readonly nibbles = 62
@@ -6404,7 +6343,6 @@ export namespace ZeroHexAbiBytes31 {
 
 export class ZeroHexAbiBytes31 {
   readonly #class = ZeroHexAbiBytes31
-  readonly name = this.#class.name
 
   static readonly bytes = 31
   static readonly nibbles = 62
@@ -6528,7 +6466,6 @@ export namespace BytesAbiBytes32 {
 
 export class BytesAbiBytes32 {
   readonly #class = BytesAbiBytes32
-  readonly name = this.#class.name
 
   static readonly bytes = 32
   static readonly nibbles = 64
@@ -6613,7 +6550,6 @@ export namespace ZeroHexAbiBytes32 {
 
 export class ZeroHexAbiBytes32 {
   readonly #class = ZeroHexAbiBytes32
-  readonly name = this.#class.name
 
   static readonly bytes = 32
   static readonly nibbles = 64

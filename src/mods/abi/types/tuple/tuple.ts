@@ -12,7 +12,6 @@ export class AbiTuple {
   static create<T extends readonly AbiFactory[]>(...$types: T) {
     return class AbiTuple {
       readonly #class = AbiTuple
-      readonly name = this.#class.name
 
       static readonly types = $types
       static readonly dynamic = $types.some(it => it.dynamic)
