@@ -1,3 +1,4 @@
+export * from "./json/json.test.js";
 export * from "./typed/index.test.js";
 export * from "./types/index.test.js";
 
@@ -66,7 +67,7 @@ test("runtime encode then decode", async () => {
 
 test("json", async () => {
   for (const element of elements as any[]) {
-    console.log(element.name)
+    // console.log(element.name)
 
     const signature = FunctionSignature.parseOrThrow(`f(${element.type})`)
     const encoded = signature.args.from([element.value]).encodeOrThrow()

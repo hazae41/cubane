@@ -2,6 +2,8 @@ import { Cursor } from "@hazae41/cursor"
 import { TextCursor } from "libs/cursor/cursor.js"
 import { AbiAddress, AbiBool, AbiFactory, AbiFunction, AbiTuple, AbiUint256, AbiUint8 } from "../index.js"
 
+export { AbiStruct as Struct }
+
 export type StateMutability =
   | "pure"
   | "view"
@@ -77,9 +79,9 @@ export type Parsed<T> =
   T extends FunctionDescriptor<infer N, infer I, infer O> ? AbiFunction<N, ParameterDescriptor.Parseds<I>, ParameterDescriptor.Parseds<O>> :
   never
 
-export type Parseds<T extends readonly unknown[]> = NamedTuple.Factory<{
+export type Parseds<T extends readonly unknown[]> = {
   [I in keyof T]: Parsed<T[I]>
-}>
+}
 
 export type Nameds<T extends readonly unknown[]> = {
   [I in keyof T]: Parsed<T[I]>
@@ -93,11 +95,11 @@ export namespace JsonAbi {
 
 }
 
-type lol = Parsed<FunctionDescriptor<"f", [{ name: "a", type: "uint256", components?: [] }], []>>
+// type lol = Parsed<FunctionDescriptor<"f", [{ name: "a", type: "uint256", components?: [] }], []>>
 
-function f(x: lol) {
-  x.args.from([123])
-}
+// function f(x: lol) {
+//   x.args.from([123])
+// }
 
 export class AbiNamed {
 
@@ -105,21 +107,29 @@ export class AbiNamed {
 
   static create<N extends string, T extends AbiFactory>($name: N, $type: T) {
     return class AbiNamed {
+      readonly #class = AbiNamed
 
       static readonly name = $name
       static readonly type = $type
+      static readonly dynamic = $type.dynamic
+
+      readonly dynamic = this.#class.dynamic
 
       constructor(
         readonly name: N,
         readonly type: AbiFactory.Instance<T>
       ) { }
 
-      static get dynamic() {
-        return this.type.dynamic
-      }
-
       static from(value: AbiFactory.From<T>) {
         return new AbiNamed(this.name, this.type.from(value))
+      }
+
+      sizeOrThrow() {
+        return this.type.sizeOrThrow()
+      }
+
+      writeOrThrow(cursor: Cursor) {
+        return this.type.writeOrThrow(cursor)
       }
 
       encodeOrThrow() {
@@ -164,15 +174,14 @@ export namespace AbiNamed {
 
 }
 
-export class AbiNamedTuple {
+export class AbiStruct {
 
   private constructor() { }
 
-  static create<N extends string, T extends readonly AbiNamed.Factory<string, AbiFactory>[]>($name: N, ...$types: T) {
-    return class AbiNamedTuple {
-      readonly #class = AbiNamedTuple
+  static create<T extends readonly AbiNamed.Factory<string, AbiFactory>[]>(...$types: T) {
+    return class AbiStruct {
+      readonly #class = AbiStruct
 
-      static readonly name = $name
       static readonly type = AbiTuple.create(...$types)
 
       static readonly types = $types
@@ -182,17 +191,24 @@ export class AbiNamedTuple {
       readonly dynamic = this.#class.dynamic
 
       constructor(
-        readonly name: N,
         readonly type: AbiTuple.Instance<T>
       ) { }
 
-      static from(value: { [I in keyof T as AbiNamed.Factory.Name<T[I]>]: AbiFactory.From<T[I]> }) {
+      static from(value: { [I in Exclude<keyof T, keyof []> as AbiNamed.Factory.Name<T[I]>]: AbiFactory.From<T[I]> }) {
         const values = []
 
         for (const type of this.types)
           values.push((value as any)[type.name])
 
-        return new AbiNamedTuple(this.name, this.type.from(values as any))
+        return new AbiStruct(this.type.from(values as any))
+      }
+
+      sizeOrThrow() {
+        return this.type.sizeOrThrow()
+      }
+
+      writeOrThrow(cursor: Cursor) {
+        return this.type.writeOrThrow(cursor)
       }
 
       encodeOrThrow() {
@@ -203,19 +219,26 @@ export class AbiNamedTuple {
         return this.type.codegen()
       }
 
-      // static decodeOrThrow(cursor: TextCursor) {
-      //   return new AbiNamedTuple(this.name, this.type.decodeOrThrow(cursor))
-      // }
+      static decodeOrThrow(cursor: TextCursor) {
+        return new AbiStruct(this.type.decodeOrThrow(cursor))
+      }
 
-      // static readOrThrow(cursor: Cursor) {
-      //   return new AbiNamedTuple(this.name, this.type.readOrThrow(cursor))
-      // }
+      static readOrThrow(cursor: Cursor) {
+        return new AbiStruct(this.type.readOrThrow(cursor))
+      }
 
     }
   }
 
 }
 
-const tuple = AbiNamedTuple.create("lol", AbiNamed.create("a", AbiUint256), AbiNamed.create("b", AbiUint256))
+export namespace AbiStruct {
 
-tuple.from({ a: 123, b: 456 })
+  export type Factory<T extends readonly AbiNamed.Factory<string, AbiFactory>[]> =
+    ReturnType<typeof AbiStruct.create< T>>
+
+  export type Instance<T extends readonly AbiNamed.Factory<string, AbiFactory>[]> =
+    AbiFactory.Instance<Factory<T>>
+
+}
+

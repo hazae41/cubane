@@ -198,7 +198,7 @@ export class ZeroHexAbiInt${bits} {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHexSafe(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
