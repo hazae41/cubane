@@ -31,7 +31,7 @@
     "@hazae41/cursor": "^1.2.3",
     "@hazae41/keccak256": "^1.0.8",
     "@hazae41/option": "^1.0.27",
-    "@hazae41/result": "^1.1.12",
+    "@hazae41/result": "^1.1.16",
     "idna-uts46-hx": "^5.1.2"
   },
   "devDependencies": {
@@ -45,19 +45,19 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.5",
-    "@types/node": "^20.10.5",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.11.5",
     "ethereumjs-abi": "^0.6.8",
     "ethereumjs-util": "^7.1.5",
-    "ethers": "^6.9.1",
+    "ethers": "^6.10.0",
     "rimraf": "^5.0.5",
-    "rollup": "^4.9.1",
+    "rollup": "^4.9.6",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-node-externals": "^6.1.2",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3",
-    "viem": "^1.20.3",
-    "web3": "^4.3.0"
+    "viem": "^2.4.1",
+    "web3": "^4.4.0"
   },
   "exports": {
     ".": {

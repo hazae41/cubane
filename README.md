@@ -32,6 +32,31 @@ npm i @hazae41/cubane
 - Return type of functions
 - Signatures and transactions
 
+## Benchmark
+
+### Encoding various types with preparsed ABI
+
+Cubane 0.1.14
+viem 2.4.1
+ethers 6.10.0
+
+```bash
+┌────────────────┬──────────────────┬─────────────┬─────────────┐
+│    (index)     │     average      │   minimum   │   maximum   │
+├────────────────┼──────────────────┼─────────────┼─────────────┤
+│ cubane (bytes) │  '4.10 μs/iter'  │  '3.08 μs'  │ '129.37 μs' │
+│  cubane (hex)  │  '4.47 μs/iter'  │  '3.83 μs'  │ '76.13 μs'  │
+│      viem      │ '18.77 μs/iter'  │ '16.58 μs'  │ '184.83 μs' │
+│     ethers     │ '211.55 μs/iter' │ '194.08 μs' │ '586.21 μs' │
+└────────────────┴──────────────────┴─────────────┴─────────────┘
+Summary
+- cubane (hex) is 4.20x faster than viem
+- cubane (hex) is 47.28x faster than ethers
+Summary
+- cubane (bytes) is 4.58x faster than viem
+- cubane (bytes) is 51.59x faster than ethers
+```
+
 ## Setup
 
 ### Symbol.dispose
