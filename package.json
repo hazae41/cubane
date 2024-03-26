@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@hazae41/cubane",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Next-gen Ethereum library for TypeScript",
   "homepage": "https://github.com/hazae41/cubane",
   "repository": "github:hazae41/cubane",
