@@ -22,7 +22,7 @@ export function namehashOrThrow(name: string) {
   if (name.length === 0)
     return new Uint8Array(32)
 
-  const labels = Uts46.toUnicode(name, { useStd3ASCII: true }).split('.').reverse()
+  const labels = Uts46.toUnicode(name, { useSTD3ASCIIRules: true }).split('.').reverse()
 
   using node: Slot<Box<Copiable>> = new Slot(new Box(new Copied(new Uint8Array(32))))
 
