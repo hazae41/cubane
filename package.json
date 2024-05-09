@@ -32,7 +32,7 @@
     "@hazae41/keccak256": "^1.0.8",
     "@hazae41/option": "^1.0.27",
     "@hazae41/result": "^1.2.0",
-    "idna-uts46-hx": "^6.0.3"
+    "idna-uts46-hx": "^6.0.4"
   },
   "devDependencies": {
     "@ensdomains/eth-ens-namehash": "^2.0.15",
@@ -46,18 +46,18 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.12.11",
     "ethereumjs-abi": "^0.6.8",
     "ethereumjs-util": "^7.1.5",
-    "ethers": "^6.11.1",
+    "ethers": "^6.12.1",
     "rimraf": "^5.0.5",
-    "rollup": "^4.13.0",
+    "rollup": "^4.17.2",
     "rollup-plugin-dts": "^6.1.0",
-    "rollup-plugin-node-externals": "^7.1.1",
+    "rollup-plugin-node-externals": "^7.1.2",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.3",
-    "viem": "^2.9.2",
-    "web3": "^4.6.0"
+    "typescript": "^5.4.5",
+    "viem": "^2.10.2",
+    "web3": "^4.8.0"
   },
   "exports": {
     ".": {
