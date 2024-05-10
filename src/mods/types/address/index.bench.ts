@@ -15,7 +15,7 @@ if (false) {
   const options = { samples: 10_000, warmup: true }
 
   const selfResult = benchSync("cubane", () => {
-    Address.from(address)
+    Address.fromOrNull(address)
   }, options)
 
   const viemResult = benchSync("viem", () => {
