@@ -100,8 +100,8 @@ export class Fixed<D extends number = number> implements FixedInit {
     return BigInts.encodeZeroHex(this.value)
   }
 
-  static fromZeroHex<D extends number>(text: ZeroHexInteger, decimals: D) {
-    return new Fixed(BigInts.decodeZeroHex(text), decimals)
+  static fromZeroHex<D extends number>(value: ZeroHexInteger, decimals: D) {
+    return new Fixed(BigInts.decodeZeroHex(value), decimals)
   }
 
   toString() {
@@ -117,14 +117,18 @@ export class Fixed<D extends number = number> implements FixedInit {
   }
 
   static fromString<D extends number>(text: string, decimals: D) {
-    if (ZeroHexInteger.is(text))
-      return this.fromZeroHex(text, decimals)
-
     const [whole = "0", decimal = "0"] = text.split(".")
 
     const value = BigInt(whole + decimal.padEnd(decimals, "0").slice(0, decimals))
 
     return new Fixed(value, decimals)
+  }
+
+  static fromStringOrZeroHex<D extends number>(text: string, decimals: D) {
+    if (ZeroHexInteger.is(text))
+      return this.fromZeroHex(text, decimals)
+    else
+      return this.fromString(text, decimals)
   }
 
 }
