@@ -49,7 +49,7 @@ export namespace ZeroHexString {
       return `0x${Base16.get().encodeOrThrow(Bytes.fromUtf8(from.toString()))}`
     if (from instanceof Uint8Array)
       return `0x${Base16.get().encodeOrThrow(from)}`
-    if (is(from))
+    if (ZeroHexString.is(from))
       return from
     return `0x${Base16.get().encodeOrThrow(Bytes.fromUtf8(from))}`
   }

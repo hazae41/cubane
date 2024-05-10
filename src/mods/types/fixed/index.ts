@@ -49,12 +49,12 @@ export class Fixed<D extends number = number> implements FixedInit {
   }
 
   toJSON() {
-    const value = BigInts.encode(this.value)
+    const value = BigInts.encodeZeroHex(this.value)
     return new ZeroHexFixed(value, this.decimals)
   }
 
   static fromJSON(init: ZeroHexFixed) {
-    const value = BigInts.decode(init.value)
+    const value = BigInts.decodeZeroHex(init.value)
     return new Fixed(value, init.decimals)
   }
 
@@ -97,11 +97,11 @@ export class Fixed<D extends number = number> implements FixedInit {
   }
 
   toZeroHex() {
-    return BigInts.encode(this.value)
+    return BigInts.encodeZeroHex(this.value)
   }
 
   static fromZeroHex<D extends number>(text: ZeroHexInteger, decimals: D) {
-    return new Fixed(BigInts.decode(text), decimals)
+    return new Fixed(BigInts.decodeZeroHex(text), decimals)
   }
 
   toString() {

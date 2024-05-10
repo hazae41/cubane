@@ -8,28 +8,43 @@ export namespace BigInts {
     return BigInt(`1${`0`.repeat(value)}`)
   }
 
-  export function encodeRaw(value: bigint) {
+  export function encodeRawHex(value: bigint) {
     return value.toString(16)
   }
 
-  export function decodeRaw(value: string): bigint {
-    return value.length === 0 ? 0n : BigInt(`0x${value}`)
+  export function decodeRawHex(value: string): bigint {
+    return value.length < 2 ? 0n : BigInt(`0x${value}`)
   }
 
-  export function encode(value: bigint): ZeroHexInteger {
-    return `0x${encodeRaw(value)}`
+  export function encodeZeroHex(value: bigint): ZeroHexInteger {
+    return `0x${encodeRawHex(value)}`
   }
 
-  export function decode(value: ZeroHexInteger) {
-    return value.length === 2 ? 0n : BigInt(value)
+  export function decodeZeroHex(value: ZeroHexInteger): bigint {
+    return value.length < 3 ? 0n : BigInt(value)
+  }
+
+  export function encodeDecimal(value: bigint): string {
+    return value.toString()
+  }
+
+  export function decodeDecimal(value: string): bigint {
+    return value.length < 2 ? 0n : BigInt(value)
+  }
+
+  export function decodeZeroHexOrDecimal(value: string): bigint {
+    if (ZeroHexInteger.is(value))
+      return decodeZeroHex(value)
+    else
+      return decodeDecimal(value)
   }
 
   export function exportOrThrow(value: bigint): Copiable {
-    return Base16.get().padStartAndDecodeOrThrow(encodeRaw(value))
+    return Base16.get().padStartAndDecodeOrThrow(encodeRawHex(value))
   }
 
   export function importOrThrow(bytes: BytesOrCopiable): bigint {
-    return decodeRaw(Base16.get().encodeOrThrow(bytes))
+    return decodeRawHex(Base16.get().encodeOrThrow(bytes))
   }
 
 }

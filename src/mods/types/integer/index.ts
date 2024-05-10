@@ -1,5 +1,6 @@
 import { Base16 } from "@hazae41/base16"
-import { ZeroHexString } from "../string/index.js"
+import { BigInts } from "libs/bigint/bigint.js"
+import { Numbers } from "libs/number/number.js"
 
 export type Integer =
   | BigIntInteger
@@ -22,8 +23,8 @@ export namespace BigIntInteger {
     if (typeof value === "number")
       return BigInt(value)
     if (typeof value === "string")
-      return BigInt(value)
-    return BigInt(`0x${Base16.get().encodeOrThrow(value)}`)
+      return BigInts.decodeZeroHexOrDecimal(value)
+    return BigInts.decodeRawHex(Base16.get().encodeOrThrow(value))
   }
 
 }
@@ -44,8 +45,8 @@ export namespace NumberInteger {
     if (typeof value === "bigint")
       return Number(value)
     if (typeof value === "string")
-      return Number(value)
-    return Number(`0x${Base16.get().encodeOrThrow(value)}`)
+      return Numbers.decodeZeroHexOrDecimal(value)
+    return Numbers.decodeRawHex(Base16.get().encodeOrThrow(value))
   }
 
 }
@@ -76,9 +77,9 @@ export namespace ZeroHexInteger {
       return `0x${from.toString(16)}`
     if (from instanceof Uint8Array)
       return `0x${Base16.get().encodeOrThrow(from)}`
-    if (is(from))
+    if (ZeroHexInteger.is(from))
       return from
-    return `0x${BigInt(from).toString(16)}`
+    return `0x${BigInts.decodeDecimal(from).toString(16)}`
   }
 
 }
@@ -103,9 +104,9 @@ export namespace BytesInteger {
       return Base16.get().padStartAndDecodeOrThrow(value.toString(16)).copyAndDispose()
     if (typeof value === "number")
       return Base16.get().padStartAndDecodeOrThrow(value.toString(16)).copyAndDispose()
-    if (ZeroHexString.is(value))
+    if (ZeroHexInteger.is(value))
       return Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose()
-    return Base16.get().padStartAndDecodeOrThrow(BigInt(value).toString(16)).copyAndDispose()
+    return Base16.get().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16)).copyAndDispose()
   }
 
 }
