@@ -103,7 +103,7 @@ if (false) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: ZeroHexString.from(abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").encodeOrThrow()),
+    data: ZeroHexString.fromOrThrow(abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").encodeOrThrow()),
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
@@ -159,7 +159,7 @@ if (false) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: ZeroHexString.from(abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.random(1024)).encodeOrThrow()),
+    data: ZeroHexString.fromOrThrow(abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.random(1024)).encodeOrThrow()),
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",

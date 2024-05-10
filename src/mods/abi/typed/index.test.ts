@@ -140,12 +140,12 @@ const typedDatas = {
 
 
 test("eip-712", async ({ test }) => {
-  assert(viem.hashTypedData(typedData) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedData))))
-  assert(viem.hashTypedData(typedDatas.basic) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.basic))))
-  assert(viem.hashTypedData(typedDatas.complex) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.complex))))
+  assert(viem.hashTypedData(typedData) === ZeroHexString.fromOrThrow(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedData))))
+  assert(viem.hashTypedData(typedDatas.basic) === ZeroHexString.fromOrThrow(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.basic))))
+  assert(viem.hashTypedData(typedDatas.complex) === ZeroHexString.fromOrThrow(Base16.get().encodeOrThrow(TypedData.hashOrThrow(typedDatas.complex))))
 
   for (const data of json as any[])
-    assert(viem.hashTypedData(data) === ZeroHexString.from(Base16.get().encodeOrThrow(TypedData.hashOrThrow(data))))
+    assert(viem.hashTypedData(data) === ZeroHexString.fromOrThrow(Base16.get().encodeOrThrow(TypedData.hashOrThrow(data))))
 
   return
 })

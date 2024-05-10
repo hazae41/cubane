@@ -1,6 +1,6 @@
 import { Base16 } from "@hazae41/base16";
 import { BytesOrCopiable, Copiable } from "@hazae41/box";
-import { ZeroHexString } from "index.js";
+import { ZeroHexInteger } from "index.js";
 
 export namespace BigInts {
 
@@ -16,11 +16,11 @@ export namespace BigInts {
     return value.length === 0 ? 0n : BigInt(`0x${value}`)
   }
 
-  export function encode(value: bigint): ZeroHexString {
+  export function encode(value: bigint): ZeroHexInteger {
     return `0x${encodeRaw(value)}`
   }
 
-  export function decode(value: ZeroHexString) {
+  export function decode(value: ZeroHexInteger) {
     return value.length === 2 ? 0n : BigInt(value)
   }
 

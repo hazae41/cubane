@@ -3,7 +3,7 @@ import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "@hazae41/option";
 import { Err, Ok, Result } from "@hazae41/result";
-import { ZeroHexString } from "../zerohex/index.js";
+import { ZeroHexString } from "../string/index.js";
 
 /**
  * A "0x"-prefixed and checksummed valid hex string of length 42
@@ -15,7 +15,7 @@ export namespace Address {
   export type From = string | bigint | Uint8Array
 
   export function from(fromable: From): Nullable<Address> {
-    const zeroHex = ZeroHexString.from(fromable)
+    const zeroHex = ZeroHexString.fromOrThrow(fromable)
 
     if (zeroHex == null)
       return undefined

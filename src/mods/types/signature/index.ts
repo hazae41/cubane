@@ -1,13 +1,14 @@
 import { Base16 } from "@hazae41/base16"
 import { Uint8Array } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
-import { RawHexString } from "../rawhex/index.js"
-import { ZeroHexString } from "../zerohex/index.js"
+import { Secp256k1 } from "@hazae41/secp256k1"
+import { RawHexString, ZeroHexString } from "../string/index.js"
 
 export type Signature =
   | RsvSignature
   | ZeroHexSignature
   | BytesSignature
+  | WasmSignature
 
 export namespace Signature {
 
@@ -15,13 +16,21 @@ export namespace Signature {
     | RsvSignatureInit
     | ZeroHexString
     | Uint8Array
+    | Secp256k1.SignatureAndRecovery
 
   export type From =
+    | RsvSignature
+    | ZeroHexSignature
+    | BytesSignature
+    | WasmSignature
     | RsvSignatureInit
     | ZeroHexString
     | Uint8Array
+    | Secp256k1.SignatureAndRecovery
 
   export function create(value: Create): Signature {
+    if (value instanceof Secp256k1.SignatureAndRecovery)
+      return new WasmSignature(value)
     if (value instanceof Uint8Array)
       return new BytesSignature(value)
     if (typeof value === "string")
@@ -30,6 +39,14 @@ export namespace Signature {
   }
 
   export function fromOrThrow(value: From): Signature {
+    if (value instanceof RsvSignature)
+      return value
+    if (value instanceof ZeroHexSignature)
+      return value
+    if (value instanceof BytesSignature)
+      return value
+    if (value instanceof WasmSignature)
+      return value
     return create(value)
   }
 
@@ -45,7 +62,15 @@ export namespace RsvSignature {
 
   export type Create = RsvSignatureInit
 
-  export type From = Signature.From
+  export type From =
+    | RsvSignature
+    | ZeroHexSignature
+    | BytesSignature
+    | WasmSignature
+    | RsvSignatureInit
+    | ZeroHexString
+    | Uint8Array
+    | Secp256k1.SignatureAndRecovery
 
 }
 
@@ -62,6 +87,27 @@ export class RsvSignature {
   }
 
   static fromOrThrow(from: RsvSignature.From): RsvSignature {
+    if (from instanceof RsvSignature)
+      return from
+    if (from instanceof ZeroHexSignature)
+      return RsvSignature.fromOrThrow(from.value)
+    if (from instanceof BytesSignature)
+      return RsvSignature.fromOrThrow(from.value)
+    if (from instanceof WasmSignature)
+      return RsvSignature.fromOrThrow(from.value)
+
+    if (from instanceof Secp256k1.SignatureAndRecovery) {
+      using slice = from.exportOrThrow()
+
+      const cursor = new Cursor(slice.bytes)
+
+      const r = cursor.readAndCopyOrThrow(32)
+      const s = cursor.readAndCopyOrThrow(32)
+      const v = cursor.readUint8OrThrow()
+
+      return new RsvSignature(r, s, v)
+    }
+
     if (from instanceof Uint8Array) {
       const cursor = new Cursor(from)
 
@@ -93,7 +139,15 @@ export namespace ZeroHexSignature {
 
   export type Create = ZeroHexString
 
-  export type From = Signature.From
+  export type From =
+    | RsvSignature
+    | ZeroHexSignature
+    | BytesSignature
+    | WasmSignature
+    | RsvSignatureInit
+    | ZeroHexString
+    | Uint8Array
+    | Secp256k1.SignatureAndRecovery
 
 }
 
@@ -108,18 +162,40 @@ export class ZeroHexSignature {
   }
 
   static fromOrThrow(from: ZeroHexSignature.From): ZeroHexSignature {
-    if (from instanceof Uint8Array)
-      return new ZeroHexSignature(`0x${Base16.get().encodeOrThrow(from)}`)
-    if (typeof from === "string")
-      return new ZeroHexSignature(from)
+    if (from instanceof RsvSignature)
+      return ZeroHexSignature.fromOrThrow(from)
+    if (from instanceof ZeroHexSignature)
+      return from
+    if (from instanceof BytesSignature)
+      return ZeroHexSignature.fromOrThrow(from.value)
+    if (from instanceof WasmSignature)
+      return ZeroHexSignature.fromOrThrow(from.value)
 
-    const { r, s, v } = from
+    if (from instanceof Secp256k1.SignatureAndRecovery) {
+      using slice = from.exportOrThrow()
 
-    const hr = Base16.get().encodeOrThrow(r)
-    const hs = Base16.get().encodeOrThrow(s)
-    const hv = RawHexString.padStart(v.toString(16))
+      const raw = Base16.get().encodeOrThrow(slice.bytes)
 
-    return new ZeroHexSignature(`0x${hr}${hs}${hv}`)
+      return new ZeroHexSignature(`0x${raw}`)
+    }
+
+    if (from instanceof Uint8Array) {
+      const raw = Base16.get().encodeOrThrow(from)
+
+      return new ZeroHexSignature(`0x${raw}`)
+    }
+
+    if (typeof from === "object") {
+      const { r, s, v } = from
+
+      const hr = Base16.get().encodeOrThrow(r)
+      const hs = Base16.get().encodeOrThrow(s)
+      const hv = RawHexString.padStart(v.toString(16))
+
+      return new ZeroHexSignature(`0x${hr}${hs}${hv}`)
+    }
+
+    return new ZeroHexSignature(from)
   }
 
 }
@@ -128,7 +204,15 @@ export namespace BytesSignature {
 
   export type Create = Uint8Array
 
-  export type From = Signature.From
+  export type From =
+    | RsvSignature
+    | ZeroHexSignature
+    | BytesSignature
+    | WasmSignature
+    | RsvSignatureInit
+    | ZeroHexString
+    | Uint8Array
+    | Secp256k1.SignatureAndRecovery
 
 }
 
@@ -143,6 +227,17 @@ export class BytesSignature {
   }
 
   static fromOrThrow(from: BytesSignature.From): BytesSignature {
+    if (from instanceof RsvSignature)
+      return BytesSignature.fromOrThrow(from)
+    if (from instanceof ZeroHexSignature)
+      return BytesSignature.fromOrThrow(from.value)
+    if (from instanceof BytesSignature)
+      return from
+    if (from instanceof WasmSignature)
+      return BytesSignature.fromOrThrow(from.value)
+
+    if (from instanceof Secp256k1.SignatureAndRecovery)
+      return new BytesSignature(from.exportOrThrow().copyAndDispose())
     if (from instanceof Uint8Array)
       return new BytesSignature(from)
     if (typeof from === "string")
@@ -157,6 +252,30 @@ export class BytesSignature {
     cursor.writeUint8OrThrow(v)
 
     return new BytesSignature(cursor.bytes)
+  }
+
+}
+
+export namespace WasmSignature {
+
+  export type Create = Secp256k1.SignatureAndRecovery
+
+  export type From = Secp256k1.SignatureAndRecovery
+
+}
+
+export class WasmSignature {
+
+  constructor(
+    readonly value: Secp256k1.SignatureAndRecovery
+  ) { }
+
+  static create(value: WasmSignature.Create): WasmSignature {
+    return new WasmSignature(value)
+  }
+
+  static fromOrThrow(value: WasmSignature.From): WasmSignature {
+    return new WasmSignature(value)
   }
 
 }

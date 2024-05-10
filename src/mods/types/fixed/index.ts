@@ -1,14 +1,14 @@
 import { BigInts } from "libs/bigint/bigint.js"
-import { ZeroHexString } from "../zerohex/index.js"
+import { ZeroHexInteger } from "../integer/index.js"
 
 export interface ZeroHexFixedInit<D extends number = number> {
-  readonly value: ZeroHexString,
+  readonly value: ZeroHexInteger,
   readonly decimals: D
 }
 
 export class ZeroHexFixed<D extends number = number> implements ZeroHexFixedInit {
   constructor(
-    readonly value: ZeroHexString,
+    readonly value: ZeroHexInteger,
     readonly decimals: D
   ) { }
 }
@@ -100,7 +100,7 @@ export class Fixed<D extends number = number> implements FixedInit {
     return BigInts.encode(this.value)
   }
 
-  static fromZeroHex<D extends number>(text: ZeroHexString, decimals: D) {
+  static fromZeroHex<D extends number>(text: ZeroHexInteger, decimals: D) {
     return new Fixed(BigInts.decode(text), decimals)
   }
 
@@ -117,7 +117,7 @@ export class Fixed<D extends number = number> implements FixedInit {
   }
 
   static fromString<D extends number>(text: string, decimals: D) {
-    if (ZeroHexString.is(text))
+    if (ZeroHexInteger.is(text))
       return this.fromZeroHex(text, decimals)
 
     const [whole = "0", decimal = "0"] = text.split(".")

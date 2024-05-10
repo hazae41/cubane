@@ -32,6 +32,7 @@
     "@hazae41/keccak256": "^1.0.8",
     "@hazae41/option": "^1.0.27",
     "@hazae41/result": "^1.2.0",
+    "@hazae41/secp256k1": "^1.0.0",
     "idna-uts46-hx": "^6.0.4"
   },
   "devDependencies": {
@@ -56,7 +57,7 @@
     "rollup-plugin-node-externals": "^7.1.2",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5",
-    "viem": "^2.10.2",
+    "viem": "^2.10.3",
     "web3": "^4.8.0"
   },
   "exports": {
