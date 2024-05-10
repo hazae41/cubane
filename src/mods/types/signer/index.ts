@@ -15,7 +15,10 @@ export class WasmPrivateKey {
   }
 
   signUnsafeMessageOrThrow(message: BytesString.From) {
-    return new WasmSignature(this.value.signOrThrow(BytesString.fromOrThrow(message)))
+    const bytesm = BytesString.fromOrThrow(message)
+    using hash = Keccak256.get().hashOrThrow(bytesm)
+
+    return new WasmSignature(this.value.signOrThrow(hash))
   }
 
   signPersonalMessageOrThrow(message: BytesString.From) {
@@ -35,5 +38,26 @@ export class WasmPublicKey {
   constructor(
     readonly value: Secp256k1.PublicKey
   ) { }
+
+  static recoverUnsafeMessageOrThrow(message: BytesString.From, signature: WasmSignature) {
+    const bytesm = BytesString.fromOrThrow(message)
+    using hash = Keccak256.get().hashOrThrow(bytesm)
+
+    const inner = Secp256k1.get().PublicKey.recoverOrThrow(hash, signature.value)
+
+    return new WasmPublicKey(inner)
+  }
+
+  verifyUnsafeMessageOrThrow(message: BytesString.From, signature: WasmSignature) {
+    const bytesm = BytesString.fromOrThrow(message)
+    using hash = Keccak256.get().hashOrThrow(bytesm)
+
+    using recovered = Secp256k1.get().PublicKey.recoverOrThrow(hash, signature.value)
+
+    using left = this.value.exportCompressedOrThrow()
+    using right = recovered.exportCompressedOrThrow()
+
+    return Bytes.equals(left.bytes, right.bytes)
+  }
 
 }
