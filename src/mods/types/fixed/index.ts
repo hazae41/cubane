@@ -1,15 +1,14 @@
 import { BigInts } from "libs/bigint/bigint.js"
-import { ZeroHexInteger } from "../integer/index.js"
 import { ZeroHexString } from "../string/index.js"
 
 export interface ZeroHexFixedInit<D extends number = number> {
-  readonly value: ZeroHexInteger,
+  readonly value: ZeroHexString,
   readonly decimals: D
 }
 
 export class ZeroHexFixed<D extends number = number> implements ZeroHexFixedInit {
   constructor(
-    readonly value: ZeroHexInteger,
+    readonly value: ZeroHexString,
     readonly decimals: D
   ) { }
 }

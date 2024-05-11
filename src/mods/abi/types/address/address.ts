@@ -2,7 +2,6 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Address } from "mods/types/address/index.js";
-import { BytesInteger } from "mods/types/index.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 export { AbiAddress as Address, BytesAbiAddress as BytesAddress, RawHexAbiAddress as RawHexAddress };
@@ -74,8 +73,14 @@ export class BytesAbiAddress {
     return new BytesAbiAddress(value)
   }
 
+  static fromZeroHexOrThrow(value: ZeroHexString) {
+    return new BytesAbiAddress(Base16.get().padStartAndDecodeOrThrow(value).copyAndDispose())
+  }
+
   static fromOrThrow(value: BytesAbiAddress.From) {
-    return new BytesAbiAddress(BytesInteger.fromOrThrow(value))
+    if (value instanceof Uint8Array)
+      return new BytesAbiAddress(value)
+    return BytesAbiAddress.fromZeroHexOrThrow(value)
   }
 
   intoOrThrow(): Address {

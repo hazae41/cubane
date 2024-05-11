@@ -1,6 +1,5 @@
 import { Base16 } from "@hazae41/base16";
 import { BytesOrCopiable, Copiable } from "@hazae41/box";
-import { ZeroHexInteger } from "mods/types/integer/index.js";
 import { ZeroHexString } from "mods/types/string/index.js";
 
 export namespace Numbers {
@@ -17,11 +16,11 @@ export namespace Numbers {
     return value.length < 1 ? 0 : Number(`0x${value}`)
   }
 
-  export function encodeZeroHex(value: number): ZeroHexInteger {
+  export function encodeZeroHex(value: number): ZeroHexString {
     return `0x${encodeRawHex(value)}`
   }
 
-  export function decodeZeroHex(value: ZeroHexInteger): number {
+  export function decodeZeroHex(value: ZeroHexString): number {
     return value.length < 3 ? 0 : Number(value)
   }
 

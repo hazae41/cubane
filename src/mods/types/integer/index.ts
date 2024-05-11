@@ -3,28 +3,6 @@ import { BigInts } from "libs/bigint/bigint.js"
 import { Numbers } from "libs/number/number.js"
 import { RawHexString, ZeroHexString } from "../string/index.js"
 
-export type Integer =
-  | BigIntInteger
-  | NumberInteger
-  | ZeroHexInteger
-  | BytesInteger
-  | StringInteger
-
-export namespace Integer {
-
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
-
-  export function fromOrThrow(value: Integer.From): Integer {
-    return value
-  }
-
-}
-
 export type BigIntInteger = bigint
 
 export namespace BigIntInteger {
