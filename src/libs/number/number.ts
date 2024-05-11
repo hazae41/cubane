@@ -13,7 +13,7 @@ export namespace Numbers {
   }
 
   export function decodeRawHex(value: string): number {
-    return value.length < 2 ? 0 : Number(`0x${value}`)
+    return value.length < 1 ? 0 : Number(`0x${value}`)
   }
 
   export function encodeZeroHex(value: number): ZeroHexInteger {
@@ -29,7 +29,7 @@ export namespace Numbers {
   }
 
   export function decodeDecimal(value: string): number {
-    return value.length < 2 ? 0 : Number(value)
+    return value.length < 1 ? 0 : Number(value)
   }
 
   export function decodeZeroHexOrDecimal(value: string): number {

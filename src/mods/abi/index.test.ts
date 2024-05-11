@@ -46,7 +46,7 @@ test("test", async () => {
 test("runtime encode then decode", async () => {
   const signature = FunctionSignature.tryParse("f(bool,uint256,(string,address[3])[],bytes)").unwrap()
 
-  const hex = ZeroHexString.fromOrThrow(signature.from(
+  const hex = `0x${signature.from(
     true,
     123456789n,
     [
@@ -60,7 +60,7 @@ test("runtime encode then decode", async () => {
       ],
     ],
     new Uint8Array([1, 2, 3])
-  ).encodeOrThrow())
+  ).encodeOrThrow()}`
 
   signature.decodeOrThrow(new TextCursor(hex.slice(2)))
 })
@@ -72,7 +72,7 @@ test("json", async () => {
     const signature = FunctionSignature.parseOrThrow(`f(${element.type})`)
     const encoded = signature.args.fromOrThrow([element.value]).encodeOrThrow()
 
-    const a = ZeroHexString.fromOrThrow(encoded).toLowerCase()
+    const a = `0x${encoded}`.toLowerCase()
     const b = element.encoded.toLowerCase()
 
     // for (let i = 2; i < a.length; i += 32) {

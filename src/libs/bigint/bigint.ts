@@ -13,7 +13,7 @@ export namespace BigInts {
   }
 
   export function decodeRawHex(value: string): bigint {
-    return value.length < 2 ? 0n : BigInt(`0x${value}`)
+    return value.length < 1 ? 0n : BigInt(`0x${value}`)
   }
 
   export function encodeZeroHex(value: bigint): ZeroHexInteger {
@@ -29,7 +29,7 @@ export namespace BigInts {
   }
 
   export function decodeDecimal(value: string): bigint {
-    return value.length < 2 ? 0n : BigInt(value)
+    return value.length < 1 ? 0n : BigInt(value)
   }
 
   export function decodeZeroHexOrDecimal(value: string): bigint {

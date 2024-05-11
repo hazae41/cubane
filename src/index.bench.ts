@@ -9,7 +9,7 @@ import { Cursor } from "@hazae41/cursor";
 import { benchSync } from "@hazae41/deimos";
 import { Keccak256 } from "@hazae41/keccak256";
 import { ethers } from "ethers";
-import { Rlp, ZeroHexString } from "index.js";
+import { Rlp } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature } from "mods/abi/index.js";
 import * as viem from "viem";
@@ -103,7 +103,7 @@ if (false) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: ZeroHexString.fromOrThrow(abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").encodeOrThrow()),
+    data: `0x${abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").encodeOrThrow()}`,
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
@@ -159,7 +159,7 @@ if (false) {
   const txhex = ethers.Transaction.from({
     type: 0,
     value: 1n * (10n ** 18n),
-    data: ZeroHexString.fromOrThrow(abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.random(1024)).encodeOrThrow()),
+    data: `0x${abi.from(true, 1n * (10n ** 18n), "hello world", "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", Bytes.random(1024)).encodeOrThrow()}`,
     gasLimit: 1n * (10n ** 18n),
     gasPrice: 1n * (10n ** 18n),
     to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
