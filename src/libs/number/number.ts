@@ -1,7 +1,7 @@
 import { Base16 } from "@hazae41/base16";
 import { BytesOrCopiable, Copiable } from "@hazae41/box";
-import { ZeroHexString } from "mods/index.js";
 import { ZeroHexInteger } from "mods/types/integer/index.js";
+import { ZeroHexString } from "mods/types/string/index.js";
 
 export namespace Numbers {
 
