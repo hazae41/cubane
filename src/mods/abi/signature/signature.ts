@@ -2,16 +2,18 @@ import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Result } from "@hazae41/result";
 import { Records } from "libs/records/records.js";
-import { AbiArray, AbiTuple, AbiVector } from "../index.js";
 import { AbiFactory } from "../types.js";
 import { AbiAddress } from "../types/address/address.js";
+import { AbiArray } from "../types/array/array.js";
 import { AbiBool } from "../types/bool/bool.js";
 import { AbiBytes } from "../types/bytes/dynamic.js";
 import { bytesByName } from "../types/bytes/static.js";
 import { AbiFunctionSelector, AbiFunctionSelectorAndArguments } from "../types/function/function.js";
 import { AbiInt256, intByName } from "../types/int/int.js";
 import { AbiString } from "../types/string/string.js";
+import { AbiTuple } from "../types/tuple/tuple.js";
 import { AbiUint256, uintByName } from "../types/uint/uint.js";
+import { AbiVector } from "../types/vector/vector.js";
 
 export namespace FunctionSignature {
 
