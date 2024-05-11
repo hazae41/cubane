@@ -82,7 +82,7 @@ export namespace ZeroHexUtf8 {
       return `0x${Base16.get().encodeOrThrow(Bytes.fromUtf8(from.toString()))}`
     if (from instanceof Uint8Array)
       return `0x${Base16.get().encodeOrThrow(from)}`
-    if (ZeroHexString.is(from))
+    if (ZeroHexString.String.is(from))
       return from
     return `0x${Base16.get().encodeOrThrow(Bytes.fromUtf8(from))}`
   }
@@ -109,7 +109,7 @@ export namespace BytesUtf8 {
       return Bytes.fromUtf8(from.toString())
     if (typeof from === "number")
       return Bytes.fromUtf8(from.toString())
-    if (ZeroHexString.is(from))
+    if (ZeroHexString.String.is(from))
       return Base16.get().padStartAndDecodeOrThrow(from.slice(2)).copyAndDispose()
     return Bytes.fromUtf8(from)
   }
