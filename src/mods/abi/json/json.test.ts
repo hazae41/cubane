@@ -16,9 +16,9 @@ test("struct", async () => {
 
   const myStruct3 = MyStruct.create({ a: BytesAbiUint256.fromOrThrow(new Uint8Array([123])), b: AbiBool.fromOrThrow(true) })
 
-  console.log(myStruct.encodeOrThrow())
-  console.log(myStruct2.encodeOrThrow())
-  console.log(myStruct3.encodeOrThrow())
+  // console.log(myStruct.encodeOrThrow())
+  // console.log(myStruct2.encodeOrThrow())
+  // console.log(myStruct3.encodeOrThrow())
 })
 
 

@@ -4,11 +4,50 @@ import { Bytes } from "@hazae41/bytes"
 /**
  * Does not check if the string is a valid hex string
  */
+export type ZeroHexString<N extends number = number> = number extends N
+  ? `0x${string}`
+  : `0x${string}` & { readonly length: N }
+
+export namespace ZeroHexString {
+
+  export namespace String {
+
+    export function is(value: string): value is ZeroHexString {
+      return value.startsWith("0x")
+    }
+
+  }
+
+  export function is(value: unknown): value is ZeroHexString {
+    return typeof value === "string" && value.startsWith("0x")
+  }
+
+  export function fromRawHex(value: RawHexString): ZeroHexString {
+    return `0x${value}`
+  }
+
+}
+
+/**
+ * Does not check if the string is a valid hex string
+ */
 export type RawHexString<N extends number = number> = number extends N
   ? string
   : string & { readonly length: N }
 
 export namespace RawHexString {
+
+  export namespace String {
+
+    export function is(value: string): value is RawHexString {
+      return true
+    }
+
+  }
+
+  export function is(value: unknown): value is RawHexString {
+    return typeof value === "string"
+  }
 
   export function padStart(text: RawHexString) {
     return text.padStart(text.length + (text.length % 2), "0")
@@ -23,14 +62,12 @@ export namespace RawHexString {
 /**
  * Does not check if the string is a valid hex string
  */
-export type ZeroHexString<N extends number = number> = number extends N
-  ? `0x${string}`
-  : `0x${string}` & { readonly length: N }
+export type ZeroHexUf8 = ZeroHexString
 
 /**
  * Decode an utf-8 stringable to a zero-hex string
  */
-export namespace ZeroHexString {
+export namespace ZeroHexUtf8 {
 
   export type From =
     | string
@@ -38,11 +75,7 @@ export namespace ZeroHexString {
     | bigint
     | Uint8Array
 
-  export function is(maybeZeroHex: string): maybeZeroHex is ZeroHexString {
-    return maybeZeroHex.startsWith("0x")
-  }
-
-  export function fromOrThrow(from: ZeroHexString.From): ZeroHexString {
+  export function fromOrThrow(from: ZeroHexUtf8.From): ZeroHexUf8 {
     if (typeof from === "number")
       return `0x${Base16.get().encodeOrThrow(Bytes.fromUtf8(from.toString()))}`
     if (typeof from === "bigint")
@@ -56,12 +89,12 @@ export namespace ZeroHexString {
 
 }
 
-export type BytesString = Uint8Array
+export type BytesUtf8 = Uint8Array
 
 /**
  * Decode an utf-8 stringable to bytes
  */
-export namespace BytesString {
+export namespace BytesUtf8 {
 
   export type From =
     | string
@@ -69,7 +102,7 @@ export namespace BytesString {
     | bigint
     | Uint8Array
 
-  export function fromOrThrow(from: BytesString.From): BytesString {
+  export function fromOrThrow(from: BytesUtf8.From): BytesUtf8 {
     if (from instanceof Uint8Array)
       return from
     if (typeof from === "bigint")
