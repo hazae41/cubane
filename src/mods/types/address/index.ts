@@ -2,7 +2,6 @@ import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "@hazae41/option";
-import { RawHexInteger } from "../integer/index.js";
 import { RawHexString, ZeroHexString } from "../string/index.js";
 
 /**
@@ -13,9 +12,6 @@ export type Address = ZeroHexString<42> & { readonly __isAddress: true }
 export namespace Address {
 
   export type From =
-    | string
-    | number
-    | bigint
     | Uint8Array
     | ZeroHexString
 
@@ -24,7 +20,7 @@ export namespace Address {
     export function is(value: string): value is Address {
       if (!/^0x[0-9a-fA-F]{40}$/.test(value))
         return false
-      return value === checksumOrThrow(value.slice(2))
+      return value === fromRawHexOrThrow(value.slice(2))
     }
 
   }
@@ -34,37 +30,18 @@ export namespace Address {
       return false
     if (!/^0x[0-9a-fA-F]{40}$/.test(value))
       return false
-    return value === checksumOrThrow(value.slice(2))
+    return value === fromRawHexOrThrow(value.slice(2))
   }
 
-  export function fromOrThrow(from: Address.From): Address {
-    const raw = RawHexInteger.fromOrThrow(from)
-
-    if (!/^[0-9a-fA-F]{40}$/.test(raw))
-      throw new Error("Invalid address")
-
-    return checksumOrThrow(raw)
+  export function fromBytesOrThrow(value: Uint8Array): Address {
+    return fromRawHexOrThrow(Base16.get().encodeOrThrow(value))
   }
 
-  export function fromOrNull(from: Address.From): Nullable<Address> {
-    try {
-      return fromOrThrow(from)
-    } catch { }
+  export function fromZeroHexOrThrow(value: ZeroHexString): Address {
+    return fromRawHexOrThrow(value.slice(2))
   }
 
-  /**
-   * Compute address from uncompressed public key
-   * @param uncompressedPublicKey 
-   * @returns 
-   */
-  export function computeOrThrow(uncompressedPublicKey: Uint8Array) {
-    using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.subarray(1))
-    const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
-
-    return checksumOrThrow(rawLowerCase)
-  }
-
-  export function checksumOrThrow(raw: RawHexString) {
+  export function fromRawHexOrThrow(raw: RawHexString) {
     const lowerCase = raw.toLowerCase()
     const upperCase = raw.toUpperCase()
 
@@ -86,6 +63,30 @@ export namespace Address {
     }
 
     return address as Address
+  }
+
+  export function fromOrThrow(from: Address.From): Address {
+    if (from instanceof Uint8Array)
+      return fromBytesOrThrow(from)
+    return fromZeroHexOrThrow(from)
+  }
+
+  export function fromOrNull(from: Address.From): Nullable<Address> {
+    try {
+      return fromOrThrow(from)
+    } catch { }
+  }
+
+  /**
+   * Compute address from uncompressed public key
+   * @param uncompressedPublicKey 
+   * @returns 
+   */
+  export function computeOrThrow(uncompressedPublicKey: Uint8Array) {
+    using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.subarray(1))
+    const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
+
+    return fromRawHexOrThrow(rawLowerCase)
   }
 
   export type Formatted = `0x${string}...${string}`

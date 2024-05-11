@@ -2,7 +2,7 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Address } from "mods/types/address/index.js";
-import { BytesInteger, RawHexInteger } from "mods/types/index.js";
+import { BytesInteger } from "mods/types/index.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 export { AbiAddress as Address, BytesAbiAddress as BytesAddress, RawHexAbiAddress as RawHexAddress };
@@ -16,23 +16,17 @@ export namespace AbiAddress {
   export const size = 32
 
   export type Create =
-    | string
-    | number
-    | bigint
     | Uint8Array
     | ZeroHexString
 
   export type From =
-    | string
-    | number
-    | bigint
     | Uint8Array
     | ZeroHexString
 
   export function create(value: AbiAddress.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiAddress.create(value)
-    return RawHexAbiAddress.fromOrThrow(value)
+    return RawHexAbiAddress.fromZeroHexOrThrow(value)
   }
 
   export function fromOrThrow(value: AbiAddress.From) {
@@ -58,9 +52,6 @@ export namespace BytesAbiAddress {
   export type Create = Uint8Array
 
   export type From =
-    | string
-    | number
-    | bigint
     | Uint8Array
     | ZeroHexString
 
@@ -88,7 +79,7 @@ export class BytesAbiAddress {
   }
 
   intoOrThrow(): Address {
-    return Address.checksumOrThrow(this.encodePackedOrThrow())
+    return Address.fromRawHexOrThrow(this.encodePackedOrThrow())
   }
 
   toJSON(): Address {
@@ -131,9 +122,6 @@ export namespace RawHexAbiAddress {
   export type Create = RawHexString
 
   export type From =
-    | string
-    | number
-    | bigint
     | Uint8Array
     | ZeroHexString
 
@@ -156,12 +144,22 @@ export class RawHexAbiAddress {
     return new RawHexAbiAddress(value)
   }
 
+  static fromBytesOrThrow(value: Uint8Array) {
+    return new RawHexAbiAddress(Base16.get().encodeOrThrow(value))
+  }
+
+  static fromZeroHexOrThrow(value: ZeroHexString) {
+    return new RawHexAbiAddress(value.slice(2))
+  }
+
   static fromOrThrow(value: RawHexAbiAddress.From) {
-    return new RawHexAbiAddress(RawHexInteger.fromOrThrow(value))
+    if (value instanceof Uint8Array)
+      return RawHexAbiAddress.fromBytesOrThrow(value)
+    return RawHexAbiAddress.fromZeroHexOrThrow(value)
   }
 
   intoOrThrow(): Address {
-    return Address.checksumOrThrow(this.value)
+    return Address.fromRawHexOrThrow(this.value)
   }
 
   toJSON(): Address {
