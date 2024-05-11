@@ -1,7 +1,7 @@
 import { Base16 } from "@hazae41/base16"
 import { BigInts } from "libs/bigint/bigint.js"
 import { Numbers } from "libs/number/number.js"
-import { ZeroHexString } from "../string/index.js"
+import { RawHexString, ZeroHexString } from "../string/index.js"
 
 export type Integer =
   | BigIntInteger
@@ -103,6 +103,34 @@ export namespace ZeroHexInteger {
     if (ZeroHexString.String.is(from))
       return from
     return `0x${BigInts.decodeDecimal(from).toString(16)}`
+  }
+
+}
+
+export type RawHexInteger = RawHexString
+
+/**
+ * Decode an integerable to a raw-hex string
+ */
+export namespace RawHexInteger {
+
+  export type From =
+    | string
+    | bigint
+    | number
+    | Uint8Array
+    | ZeroHexString
+
+  export function fromOrThrow(from: RawHexInteger.From): RawHexInteger {
+    if (typeof from === "number")
+      return from.toString(16)
+    if (typeof from === "bigint")
+      return from.toString(16)
+    if (from instanceof Uint8Array)
+      return Base16.get().encodeOrThrow(from)
+    if (ZeroHexString.String.is(from))
+      return from.slice(2)
+    return BigInts.decodeDecimal(from).toString(16)
   }
 
 }

@@ -1,8 +1,7 @@
 import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
-import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesInteger, NumberInteger } from "mods/types/integer/index.js";
+import { BytesInteger, NumberInteger, RawHexInteger } from "mods/types/integer/index.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 export { AbiUint8 as Uint8, BytesAbiUint8 as BytesUint8, RawHexAbiUint8 as RawHexUint8, NumberAbiUint8 as NumberUint8 }
@@ -244,7 +243,7 @@ export class NumberAbiUint8 {
 
 export namespace RawHexAbiUint8 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -279,15 +278,7 @@ export class RawHexAbiUint8 {
   }
 
   static fromOrThrow(value: RawHexAbiUint8.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint8(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint8(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint8(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint8(value.slice(2))
-    return new RawHexAbiUint8(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint8(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -583,7 +574,7 @@ export class NumberAbiUint16 {
 
 export namespace RawHexAbiUint16 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -618,15 +609,7 @@ export class RawHexAbiUint16 {
   }
 
   static fromOrThrow(value: RawHexAbiUint16.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint16(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint16(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint16(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint16(value.slice(2))
-    return new RawHexAbiUint16(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint16(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -922,7 +905,7 @@ export class NumberAbiUint24 {
 
 export namespace RawHexAbiUint24 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -957,15 +940,7 @@ export class RawHexAbiUint24 {
   }
 
   static fromOrThrow(value: RawHexAbiUint24.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint24(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint24(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint24(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint24(value.slice(2))
-    return new RawHexAbiUint24(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint24(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -1261,7 +1236,7 @@ export class NumberAbiUint32 {
 
 export namespace RawHexAbiUint32 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -1296,15 +1271,7 @@ export class RawHexAbiUint32 {
   }
 
   static fromOrThrow(value: RawHexAbiUint32.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint32(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint32(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint32(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint32(value.slice(2))
-    return new RawHexAbiUint32(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint32(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -1507,7 +1474,7 @@ export class BytesAbiUint40 {
 
 export namespace RawHexAbiUint40 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -1542,15 +1509,7 @@ export class RawHexAbiUint40 {
   }
 
   static fromOrThrow(value: RawHexAbiUint40.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint40(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint40(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint40(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint40(value.slice(2))
-    return new RawHexAbiUint40(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint40(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -1753,7 +1712,7 @@ export class BytesAbiUint48 {
 
 export namespace RawHexAbiUint48 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -1788,15 +1747,7 @@ export class RawHexAbiUint48 {
   }
 
   static fromOrThrow(value: RawHexAbiUint48.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint48(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint48(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint48(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint48(value.slice(2))
-    return new RawHexAbiUint48(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint48(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -1999,7 +1950,7 @@ export class BytesAbiUint56 {
 
 export namespace RawHexAbiUint56 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -2034,15 +1985,7 @@ export class RawHexAbiUint56 {
   }
 
   static fromOrThrow(value: RawHexAbiUint56.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint56(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint56(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint56(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint56(value.slice(2))
-    return new RawHexAbiUint56(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint56(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -2245,7 +2188,7 @@ export class BytesAbiUint64 {
 
 export namespace RawHexAbiUint64 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -2280,15 +2223,7 @@ export class RawHexAbiUint64 {
   }
 
   static fromOrThrow(value: RawHexAbiUint64.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint64(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint64(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint64(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint64(value.slice(2))
-    return new RawHexAbiUint64(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint64(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -2491,7 +2426,7 @@ export class BytesAbiUint72 {
 
 export namespace RawHexAbiUint72 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -2526,15 +2461,7 @@ export class RawHexAbiUint72 {
   }
 
   static fromOrThrow(value: RawHexAbiUint72.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint72(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint72(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint72(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint72(value.slice(2))
-    return new RawHexAbiUint72(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint72(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -2737,7 +2664,7 @@ export class BytesAbiUint80 {
 
 export namespace RawHexAbiUint80 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -2772,15 +2699,7 @@ export class RawHexAbiUint80 {
   }
 
   static fromOrThrow(value: RawHexAbiUint80.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint80(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint80(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint80(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint80(value.slice(2))
-    return new RawHexAbiUint80(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint80(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -2983,7 +2902,7 @@ export class BytesAbiUint88 {
 
 export namespace RawHexAbiUint88 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -3018,15 +2937,7 @@ export class RawHexAbiUint88 {
   }
 
   static fromOrThrow(value: RawHexAbiUint88.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint88(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint88(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint88(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint88(value.slice(2))
-    return new RawHexAbiUint88(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint88(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -3229,7 +3140,7 @@ export class BytesAbiUint96 {
 
 export namespace RawHexAbiUint96 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -3264,15 +3175,7 @@ export class RawHexAbiUint96 {
   }
 
   static fromOrThrow(value: RawHexAbiUint96.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint96(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint96(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint96(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint96(value.slice(2))
-    return new RawHexAbiUint96(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint96(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -3475,7 +3378,7 @@ export class BytesAbiUint104 {
 
 export namespace RawHexAbiUint104 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -3510,15 +3413,7 @@ export class RawHexAbiUint104 {
   }
 
   static fromOrThrow(value: RawHexAbiUint104.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint104(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint104(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint104(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint104(value.slice(2))
-    return new RawHexAbiUint104(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint104(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -3721,7 +3616,7 @@ export class BytesAbiUint112 {
 
 export namespace RawHexAbiUint112 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -3756,15 +3651,7 @@ export class RawHexAbiUint112 {
   }
 
   static fromOrThrow(value: RawHexAbiUint112.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint112(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint112(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint112(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint112(value.slice(2))
-    return new RawHexAbiUint112(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint112(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -3967,7 +3854,7 @@ export class BytesAbiUint120 {
 
 export namespace RawHexAbiUint120 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4002,15 +3889,7 @@ export class RawHexAbiUint120 {
   }
 
   static fromOrThrow(value: RawHexAbiUint120.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint120(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint120(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint120(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint120(value.slice(2))
-    return new RawHexAbiUint120(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint120(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -4213,7 +4092,7 @@ export class BytesAbiUint128 {
 
 export namespace RawHexAbiUint128 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4248,15 +4127,7 @@ export class RawHexAbiUint128 {
   }
 
   static fromOrThrow(value: RawHexAbiUint128.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint128(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint128(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint128(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint128(value.slice(2))
-    return new RawHexAbiUint128(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint128(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -4459,7 +4330,7 @@ export class BytesAbiUint136 {
 
 export namespace RawHexAbiUint136 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4494,15 +4365,7 @@ export class RawHexAbiUint136 {
   }
 
   static fromOrThrow(value: RawHexAbiUint136.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint136(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint136(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint136(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint136(value.slice(2))
-    return new RawHexAbiUint136(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint136(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -4705,7 +4568,7 @@ export class BytesAbiUint144 {
 
 export namespace RawHexAbiUint144 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4740,15 +4603,7 @@ export class RawHexAbiUint144 {
   }
 
   static fromOrThrow(value: RawHexAbiUint144.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint144(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint144(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint144(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint144(value.slice(2))
-    return new RawHexAbiUint144(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint144(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -4951,7 +4806,7 @@ export class BytesAbiUint152 {
 
 export namespace RawHexAbiUint152 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4986,15 +4841,7 @@ export class RawHexAbiUint152 {
   }
 
   static fromOrThrow(value: RawHexAbiUint152.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint152(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint152(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint152(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint152(value.slice(2))
-    return new RawHexAbiUint152(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint152(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -5197,7 +5044,7 @@ export class BytesAbiUint160 {
 
 export namespace RawHexAbiUint160 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -5232,15 +5079,7 @@ export class RawHexAbiUint160 {
   }
 
   static fromOrThrow(value: RawHexAbiUint160.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint160(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint160(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint160(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint160(value.slice(2))
-    return new RawHexAbiUint160(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint160(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -5443,7 +5282,7 @@ export class BytesAbiUint168 {
 
 export namespace RawHexAbiUint168 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -5478,15 +5317,7 @@ export class RawHexAbiUint168 {
   }
 
   static fromOrThrow(value: RawHexAbiUint168.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint168(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint168(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint168(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint168(value.slice(2))
-    return new RawHexAbiUint168(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint168(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -5689,7 +5520,7 @@ export class BytesAbiUint176 {
 
 export namespace RawHexAbiUint176 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -5724,15 +5555,7 @@ export class RawHexAbiUint176 {
   }
 
   static fromOrThrow(value: RawHexAbiUint176.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint176(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint176(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint176(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint176(value.slice(2))
-    return new RawHexAbiUint176(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint176(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -5935,7 +5758,7 @@ export class BytesAbiUint184 {
 
 export namespace RawHexAbiUint184 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -5970,15 +5793,7 @@ export class RawHexAbiUint184 {
   }
 
   static fromOrThrow(value: RawHexAbiUint184.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint184(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint184(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint184(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint184(value.slice(2))
-    return new RawHexAbiUint184(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint184(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -6181,7 +5996,7 @@ export class BytesAbiUint192 {
 
 export namespace RawHexAbiUint192 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -6216,15 +6031,7 @@ export class RawHexAbiUint192 {
   }
 
   static fromOrThrow(value: RawHexAbiUint192.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint192(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint192(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint192(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint192(value.slice(2))
-    return new RawHexAbiUint192(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint192(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -6427,7 +6234,7 @@ export class BytesAbiUint200 {
 
 export namespace RawHexAbiUint200 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -6462,15 +6269,7 @@ export class RawHexAbiUint200 {
   }
 
   static fromOrThrow(value: RawHexAbiUint200.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint200(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint200(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint200(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint200(value.slice(2))
-    return new RawHexAbiUint200(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint200(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -6673,7 +6472,7 @@ export class BytesAbiUint208 {
 
 export namespace RawHexAbiUint208 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -6708,15 +6507,7 @@ export class RawHexAbiUint208 {
   }
 
   static fromOrThrow(value: RawHexAbiUint208.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint208(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint208(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint208(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint208(value.slice(2))
-    return new RawHexAbiUint208(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint208(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -6919,7 +6710,7 @@ export class BytesAbiUint216 {
 
 export namespace RawHexAbiUint216 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -6954,15 +6745,7 @@ export class RawHexAbiUint216 {
   }
 
   static fromOrThrow(value: RawHexAbiUint216.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint216(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint216(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint216(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint216(value.slice(2))
-    return new RawHexAbiUint216(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint216(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -7165,7 +6948,7 @@ export class BytesAbiUint224 {
 
 export namespace RawHexAbiUint224 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -7200,15 +6983,7 @@ export class RawHexAbiUint224 {
   }
 
   static fromOrThrow(value: RawHexAbiUint224.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint224(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint224(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint224(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint224(value.slice(2))
-    return new RawHexAbiUint224(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint224(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -7411,7 +7186,7 @@ export class BytesAbiUint232 {
 
 export namespace RawHexAbiUint232 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -7446,15 +7221,7 @@ export class RawHexAbiUint232 {
   }
 
   static fromOrThrow(value: RawHexAbiUint232.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint232(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint232(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint232(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint232(value.slice(2))
-    return new RawHexAbiUint232(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint232(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -7657,7 +7424,7 @@ export class BytesAbiUint240 {
 
 export namespace RawHexAbiUint240 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -7692,15 +7459,7 @@ export class RawHexAbiUint240 {
   }
 
   static fromOrThrow(value: RawHexAbiUint240.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint240(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint240(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint240(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint240(value.slice(2))
-    return new RawHexAbiUint240(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint240(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -7903,7 +7662,7 @@ export class BytesAbiUint248 {
 
 export namespace RawHexAbiUint248 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -7938,15 +7697,7 @@ export class RawHexAbiUint248 {
   }
 
   static fromOrThrow(value: RawHexAbiUint248.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint248(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint248(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint248(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint248(value.slice(2))
-    return new RawHexAbiUint248(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint248(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -8149,7 +7900,7 @@ export class BytesAbiUint256 {
 
 export namespace RawHexAbiUint256 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -8184,15 +7935,7 @@ export class RawHexAbiUint256 {
   }
 
   static fromOrThrow(value: RawHexAbiUint256.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint256(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint256(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint256(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint256(value.slice(2))
-    return new RawHexAbiUint256(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint256(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {

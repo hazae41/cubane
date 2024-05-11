@@ -1,9 +1,8 @@
 function $pre$() {
   return `import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
-import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesInteger, NumberInteger } from "mods/types/integer/index.js";
+import { BytesInteger, NumberInteger, RawHexInteger } from "mods/types/integer/index.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";`
 }
 
@@ -258,7 +257,7 @@ export class NumberAbiUint${bits} {
 
 export namespace RawHexAbiUint${bits} {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -293,15 +292,7 @@ export class RawHexAbiUint${bits} {
   }
 
   static fromOrThrow(value: RawHexAbiUint${bits}.From) {
-    if (value instanceof Uint8Array)
-      return new RawHexAbiUint${bits}(Base16.get().encodeOrThrow(value))
-    if (typeof value === "bigint")
-      return new RawHexAbiUint${bits}(value.toString(16))
-    if (typeof value === "number")
-      return new RawHexAbiUint${bits}(value.toString(16))
-    if (value.startsWith("0x"))
-      return new RawHexAbiUint${bits}(value.slice(2))
-    return new RawHexAbiUint${bits}(BigInts.decodeDecimal(value).toString(16))
+    return new RawHexAbiUint${bits}(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {

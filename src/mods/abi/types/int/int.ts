@@ -2,7 +2,7 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { ZeroHexString } from "mods/types/string/index.js";
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
   
 const BN_0 = 0n
 const BN_1 = 1n
@@ -144,7 +144,7 @@ export class BytesAbiInt8 {
 
 export namespace RawHexAbiInt8 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -173,7 +173,7 @@ export class RawHexAbiInt8 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt8.Create) {
@@ -395,7 +395,7 @@ export class BytesAbiInt16 {
 
 export namespace RawHexAbiInt16 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -424,7 +424,7 @@ export class RawHexAbiInt16 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt16.Create) {
@@ -646,7 +646,7 @@ export class BytesAbiInt24 {
 
 export namespace RawHexAbiInt24 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -675,7 +675,7 @@ export class RawHexAbiInt24 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt24.Create) {
@@ -897,7 +897,7 @@ export class BytesAbiInt32 {
 
 export namespace RawHexAbiInt32 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -926,7 +926,7 @@ export class RawHexAbiInt32 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt32.Create) {
@@ -1148,7 +1148,7 @@ export class BytesAbiInt40 {
 
 export namespace RawHexAbiInt40 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -1177,7 +1177,7 @@ export class RawHexAbiInt40 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt40.Create) {
@@ -1399,7 +1399,7 @@ export class BytesAbiInt48 {
 
 export namespace RawHexAbiInt48 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -1428,7 +1428,7 @@ export class RawHexAbiInt48 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt48.Create) {
@@ -1650,7 +1650,7 @@ export class BytesAbiInt56 {
 
 export namespace RawHexAbiInt56 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -1679,7 +1679,7 @@ export class RawHexAbiInt56 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt56.Create) {
@@ -1901,7 +1901,7 @@ export class BytesAbiInt64 {
 
 export namespace RawHexAbiInt64 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -1930,7 +1930,7 @@ export class RawHexAbiInt64 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt64.Create) {
@@ -2152,7 +2152,7 @@ export class BytesAbiInt72 {
 
 export namespace RawHexAbiInt72 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -2181,7 +2181,7 @@ export class RawHexAbiInt72 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt72.Create) {
@@ -2403,7 +2403,7 @@ export class BytesAbiInt80 {
 
 export namespace RawHexAbiInt80 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -2432,7 +2432,7 @@ export class RawHexAbiInt80 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt80.Create) {
@@ -2654,7 +2654,7 @@ export class BytesAbiInt88 {
 
 export namespace RawHexAbiInt88 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -2683,7 +2683,7 @@ export class RawHexAbiInt88 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt88.Create) {
@@ -2905,7 +2905,7 @@ export class BytesAbiInt96 {
 
 export namespace RawHexAbiInt96 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -2934,7 +2934,7 @@ export class RawHexAbiInt96 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt96.Create) {
@@ -3156,7 +3156,7 @@ export class BytesAbiInt104 {
 
 export namespace RawHexAbiInt104 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -3185,7 +3185,7 @@ export class RawHexAbiInt104 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt104.Create) {
@@ -3407,7 +3407,7 @@ export class BytesAbiInt112 {
 
 export namespace RawHexAbiInt112 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -3436,7 +3436,7 @@ export class RawHexAbiInt112 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt112.Create) {
@@ -3658,7 +3658,7 @@ export class BytesAbiInt120 {
 
 export namespace RawHexAbiInt120 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -3687,7 +3687,7 @@ export class RawHexAbiInt120 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt120.Create) {
@@ -3909,7 +3909,7 @@ export class BytesAbiInt128 {
 
 export namespace RawHexAbiInt128 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -3938,7 +3938,7 @@ export class RawHexAbiInt128 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt128.Create) {
@@ -4160,7 +4160,7 @@ export class BytesAbiInt136 {
 
 export namespace RawHexAbiInt136 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4189,7 +4189,7 @@ export class RawHexAbiInt136 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt136.Create) {
@@ -4411,7 +4411,7 @@ export class BytesAbiInt144 {
 
 export namespace RawHexAbiInt144 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4440,7 +4440,7 @@ export class RawHexAbiInt144 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt144.Create) {
@@ -4662,7 +4662,7 @@ export class BytesAbiInt152 {
 
 export namespace RawHexAbiInt152 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4691,7 +4691,7 @@ export class RawHexAbiInt152 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt152.Create) {
@@ -4913,7 +4913,7 @@ export class BytesAbiInt160 {
 
 export namespace RawHexAbiInt160 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -4942,7 +4942,7 @@ export class RawHexAbiInt160 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt160.Create) {
@@ -5164,7 +5164,7 @@ export class BytesAbiInt168 {
 
 export namespace RawHexAbiInt168 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -5193,7 +5193,7 @@ export class RawHexAbiInt168 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt168.Create) {
@@ -5415,7 +5415,7 @@ export class BytesAbiInt176 {
 
 export namespace RawHexAbiInt176 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -5444,7 +5444,7 @@ export class RawHexAbiInt176 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt176.Create) {
@@ -5666,7 +5666,7 @@ export class BytesAbiInt184 {
 
 export namespace RawHexAbiInt184 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -5695,7 +5695,7 @@ export class RawHexAbiInt184 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt184.Create) {
@@ -5917,7 +5917,7 @@ export class BytesAbiInt192 {
 
 export namespace RawHexAbiInt192 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -5946,7 +5946,7 @@ export class RawHexAbiInt192 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt192.Create) {
@@ -6168,7 +6168,7 @@ export class BytesAbiInt200 {
 
 export namespace RawHexAbiInt200 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -6197,7 +6197,7 @@ export class RawHexAbiInt200 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt200.Create) {
@@ -6419,7 +6419,7 @@ export class BytesAbiInt208 {
 
 export namespace RawHexAbiInt208 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -6448,7 +6448,7 @@ export class RawHexAbiInt208 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt208.Create) {
@@ -6670,7 +6670,7 @@ export class BytesAbiInt216 {
 
 export namespace RawHexAbiInt216 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -6699,7 +6699,7 @@ export class RawHexAbiInt216 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt216.Create) {
@@ -6921,7 +6921,7 @@ export class BytesAbiInt224 {
 
 export namespace RawHexAbiInt224 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -6950,7 +6950,7 @@ export class RawHexAbiInt224 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt224.Create) {
@@ -7172,7 +7172,7 @@ export class BytesAbiInt232 {
 
 export namespace RawHexAbiInt232 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -7201,7 +7201,7 @@ export class RawHexAbiInt232 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt232.Create) {
@@ -7423,7 +7423,7 @@ export class BytesAbiInt240 {
 
 export namespace RawHexAbiInt240 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -7452,7 +7452,7 @@ export class RawHexAbiInt240 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt240.Create) {
@@ -7674,7 +7674,7 @@ export class BytesAbiInt248 {
 
 export namespace RawHexAbiInt248 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -7703,7 +7703,7 @@ export class RawHexAbiInt248 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt248.Create) {
@@ -7925,7 +7925,7 @@ export class BytesAbiInt256 {
 
 export namespace RawHexAbiInt256 {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -7954,7 +7954,7 @@ export class RawHexAbiInt256 {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt256.Create) {

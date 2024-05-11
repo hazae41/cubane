@@ -2,12 +2,13 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Address } from "mods/types/address/index.js";
+import { BytesInteger, RawHexInteger } from "mods/types/index.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
-export { AbiAddress as Address };
+export { AbiAddress as Address, BytesAbiAddress as BytesAddress, RawHexAbiAddress as RawHexAddress };
 
 export type AbiAddress =
-  | ZeroHexAbiAddress
+  | RawHexAbiAddress
   | BytesAbiAddress
 
 export namespace AbiAddress {
@@ -15,17 +16,17 @@ export namespace AbiAddress {
   export const size = 32
 
   export type Create =
-    | ZeroHexAbiAddress.Create
+    | RawHexAbiAddress.Create
     | BytesAbiAddress.Create
 
   export type From =
-    | ZeroHexAbiAddress.From
+    | RawHexAbiAddress.From
     | BytesAbiAddress.From
 
   export function create(value: AbiAddress.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiAddress.create(value)
-    return ZeroHexAbiAddress.create(value)
+    return RawHexAbiAddress.create(value)
   }
 
   export function fromOrThrow(value: AbiAddress.From) {
@@ -37,7 +38,7 @@ export namespace AbiAddress {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiAddress.decodeOrThrow(cursor)
+    return RawHexAbiAddress.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -47,8 +48,13 @@ export namespace AbiAddress {
 }
 
 export namespace BytesAbiAddress {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From =
+    | Uint8Array
+    | ZeroHexString<40>
+
 }
 
 export class BytesAbiAddress {
@@ -69,7 +75,7 @@ export class BytesAbiAddress {
   }
 
   static fromOrThrow(value: BytesAbiAddress.From) {
-    return BytesAbiAddress.create(value)
+    return new BytesAbiAddress(BytesInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Address {
@@ -111,16 +117,18 @@ export class BytesAbiAddress {
 
 }
 
-export namespace ZeroHexAbiAddress {
+export namespace RawHexAbiAddress {
 
-  export type Create = ZeroHexString
+  export type Create = RawHexString
 
-  export type From = ZeroHexString
+  export type From =
+    | Uint8Array
+    | ZeroHexString<40>
 
 }
 
-export class ZeroHexAbiAddress {
-  readonly #class = ZeroHexAbiAddress
+export class RawHexAbiAddress {
+  readonly #class = RawHexAbiAddress
 
   static readonly dynamic = false
   static readonly size = 32
@@ -132,12 +140,12 @@ export class ZeroHexAbiAddress {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexAbiAddress.Create) {
-    return new ZeroHexAbiAddress(value.slice(2))
+  static create(value: RawHexAbiAddress.Create) {
+    return new RawHexAbiAddress(value)
   }
 
-  static fromOrThrow(value: ZeroHexAbiAddress.From) {
-    return ZeroHexAbiAddress.create(value)
+  static fromOrThrow(value: RawHexAbiAddress.From) {
+    return new RawHexAbiAddress(RawHexInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Address {
@@ -165,7 +173,7 @@ export class ZeroHexAbiAddress {
 
     const value = cursor.readOrThrow(40)
 
-    return new ZeroHexAbiAddress(value)
+    return new RawHexAbiAddress(value)
   }
 
   sizeOrThrow() {

@@ -2,8 +2,8 @@ import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "@hazae41/option";
-import { ZeroHexInteger } from "../integer/index.js";
-import { ZeroHexString } from "../string/index.js";
+import { RawHexInteger } from "../integer/index.js";
+import { RawHexString, ZeroHexString } from "../string/index.js";
 
 /**
  * A "0x"-prefixed and checksummed valid hex string of length 42
@@ -12,21 +12,38 @@ export type Address = ZeroHexString<42> & { readonly __isAddress: true }
 
 export namespace Address {
 
-  export type From = ZeroHexInteger.From
+  export type From =
+    | string
+    | number
+    | bigint
+    | Uint8Array
+    | ZeroHexString
 
-  export function is(maybeAddress: string): maybeAddress is Address {
-    if (!/^0x[0-9a-fA-F]{40}$/.test(maybeAddress))
+  export namespace String {
+
+    export function is(value: string): value is Address {
+      if (!/^0x[0-9a-fA-F]{40}$/.test(value))
+        return false
+      return value === checksumOrThrow(value.slice(2))
+    }
+
+  }
+
+  export function is(value: unknown): value is Address {
+    if (typeof value !== "string")
       return false
-    return maybeAddress === checksumOrThrow(maybeAddress.slice(2))
+    if (!/^0x[0-9a-fA-F]{40}$/.test(value))
+      return false
+    return value === checksumOrThrow(value.slice(2))
   }
 
   export function fromOrThrow(from: Address.From): Address {
-    const zeroHex = ZeroHexInteger.fromOrThrow(from)
+    const raw = RawHexInteger.fromOrThrow(from)
 
-    if (!/^0x[0-9a-fA-F]{40}$/.test(zeroHex))
+    if (!/^[0-9a-fA-F]{40}$/.test(raw))
       throw new Error("Invalid address")
 
-    return checksumOrThrow(zeroHex.slice(2))
+    return checksumOrThrow(raw)
   }
 
   export function fromOrNull(from: Address.From): Nullable<Address> {
@@ -47,9 +64,9 @@ export namespace Address {
     return checksumOrThrow(rawLowerCase)
   }
 
-  export function checksumOrThrow(rawHex: string) {
-    const lowerCase = rawHex.toLowerCase()
-    const upperCase = rawHex.toUpperCase()
+  export function checksumOrThrow(raw: RawHexString) {
+    const lowerCase = raw.toLowerCase()
+    const upperCase = raw.toUpperCase()
 
     const bytes = Bytes.fromUtf8(lowerCase)
     using hashed = Keccak256.get().hashOrThrow(bytes)

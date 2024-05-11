@@ -3,7 +3,7 @@ function $pre$() {
 import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { ZeroHexString } from "mods/types/string/index.js";
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
   
 const BN_0 = 0n
 const BN_1 = 1n`
@@ -152,7 +152,7 @@ export class BytesAbiInt${bits} {
 
 export namespace RawHexAbiInt${bits} {
 
-  export type Create = string
+  export type Create = RawHexString
 
   export type From =
     | string 
@@ -181,7 +181,7 @@ export class RawHexAbiInt${bits} {
   readonly size = this.#class.size
 
   constructor(
-    readonly value: string
+    readonly value: RawHexString
   ) { }
 
   static create(value: RawHexAbiInt${bits}.Create) {
