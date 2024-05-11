@@ -1,5 +1,6 @@
 import { BigInts } from "libs/bigint/bigint.js"
 import { ZeroHexInteger } from "../integer/index.js"
+import { ZeroHexString } from "../string/index.js"
 
 export interface ZeroHexFixedInit<D extends number = number> {
   readonly value: ZeroHexInteger,
@@ -100,7 +101,7 @@ export class Fixed<D extends number = number> implements FixedInit {
     return BigInts.encodeZeroHex(this.value)
   }
 
-  static fromZeroHex<D extends number>(value: ZeroHexInteger, decimals: D) {
+  static fromZeroHex<D extends number>(value: ZeroHexString, decimals: D) {
     return new Fixed(BigInts.decodeZeroHex(value), decimals)
   }
 
@@ -125,7 +126,7 @@ export class Fixed<D extends number = number> implements FixedInit {
   }
 
   static fromStringOrZeroHex<D extends number>(text: string, decimals: D) {
-    if (ZeroHexInteger.is(text))
+    if (ZeroHexString.String.is(text))
       return this.fromZeroHex(text, decimals)
     else
       return this.fromString(text, decimals)
