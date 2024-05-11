@@ -35,7 +35,7 @@ export class AbiFunctionSelector {
     return new AbiFunctionSelector(value)
   }
 
-  static from(values: AbiFunctionSelector.From) {
+  static fromOrThrow(values: AbiFunctionSelector.From) {
     return new AbiFunctionSelector(Bytes.from(values))
   }
 
@@ -75,10 +75,7 @@ export class AbiFunctionSelector {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(4)
-    const bytes = Bytes.from(content)
-
-    return new AbiFunctionSelector(bytes)
+    return new AbiFunctionSelector(cursor.readAndCopyOrThrow(4))
   }
 
 }
@@ -110,7 +107,7 @@ export class AbiFunctionSelectorAndArguments {
         return new AbiFunctionSelectorAndArguments($func, args)
       }
 
-      static from(...primitives: AbiFunctionSelectorAndArguments.From<T>) {
+      static fromOrThrow(...primitives: AbiFunctionSelectorAndArguments.From<T>) {
         const args = AbiFunctionSelectorAndArguments.args.fromOrThrow(primitives)
 
         return new AbiFunctionSelectorAndArguments($func, args)

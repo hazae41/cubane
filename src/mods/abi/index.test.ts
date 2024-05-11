@@ -46,7 +46,7 @@ test("test", async () => {
 test("runtime encode then decode", async () => {
   const signature = FunctionSignature.tryParse("f(bool,uint256,(string,address[3])[],bytes)").unwrap()
 
-  const hex = `0x${signature.from(
+  const hex = `0x${signature.fromOrThrow(
     true,
     123456789n,
     [
@@ -126,7 +126,7 @@ test("more bugs", async () => {
   const array = brackets.map((x, i) => BigInt(brackets.length - i + 1) * 32n)
 
   const signature0 = FunctionSignature.parseOrThrow("f(uint256[])")
-  const payload0 = encodeOrThrow(signature0.from(array))
+  const payload0 = encodeOrThrow(signature0.fromOrThrow(array))
 
   const payload = `0x${payload0.slice(2).repeat(10 + 1)}`
 
@@ -153,7 +153,7 @@ test("interleave", async () => {
     const array = Array.from({ length }, (i, j) => BigInt(length - j) * 32n)
 
     const signature0 = FunctionSignature.parseOrThrow("f(uint256[])")
-    const payload0 = encodeOrThrow(signature0.from(array))
+    const payload0 = encodeOrThrow(signature0.fromOrThrow(array))
 
     const payload = payload0 + "00".repeat(32 * 2 * repeats[length])
 

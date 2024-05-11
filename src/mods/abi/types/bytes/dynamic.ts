@@ -65,7 +65,7 @@ export class BytesAbiBytes {
     return new BytesAbiBytes(value)
   }
 
-  static from(value: BytesAbiBytes.From) {
+  static fromOrThrow(value: BytesAbiBytes.From) {
     return BytesAbiBytes.create(value)
   }
 
@@ -171,7 +171,7 @@ export class ZeroHexAbiBytes {
     return new ZeroHexAbiBytes(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes.From) {
     return ZeroHexAbiBytes.create(value)
   }
 

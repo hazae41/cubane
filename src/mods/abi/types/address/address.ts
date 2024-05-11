@@ -1,5 +1,4 @@
 import { Base16 } from "@hazae41/base16";
-import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Address } from "mods/types/address/index.js";
@@ -69,7 +68,7 @@ export class BytesAbiAddress {
     return new BytesAbiAddress(value)
   }
 
-  static from(value: BytesAbiAddress.From) {
+  static fromOrThrow(value: BytesAbiAddress.From) {
     return BytesAbiAddress.create(value)
   }
 
@@ -105,10 +104,9 @@ export class BytesAbiAddress {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - 20
 
-    const content = cursor.readOrThrow(20)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(20)
 
-    return new BytesAbiAddress(bytes)
+    return new BytesAbiAddress(content)
   }
 
 }
@@ -138,7 +136,7 @@ export class ZeroHexAbiAddress {
     return new ZeroHexAbiAddress(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiAddress.From) {
+  static fromOrThrow(value: ZeroHexAbiAddress.From) {
     return ZeroHexAbiAddress.create(value)
   }
 
