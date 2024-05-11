@@ -1,6 +1,7 @@
 import { Base16 } from "@hazae41/base16"
 import { BigInts } from "libs/bigint/bigint.js"
 import { Numbers } from "libs/number/number.js"
+import { ZeroHexString } from "../string/index.js"
 
 export type Integer =
   | BigIntInteger
@@ -16,7 +17,7 @@ export namespace Integer {
     | bigint
     | number
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function fromOrThrow(value: Integer.From): Integer {
     return value
@@ -33,7 +34,7 @@ export namespace BigIntInteger {
     | bigint
     | number
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function is(value: unknown): value is BigIntInteger {
     return typeof value === "bigint"
@@ -60,7 +61,7 @@ export namespace NumberInteger {
     | bigint
     | number
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function is(value: unknown): value is NumberInteger {
     return typeof value === "number"
@@ -78,9 +79,7 @@ export namespace NumberInteger {
 
 }
 
-export type ZeroHexInteger<N extends number = number> = number extends N
-  ? `0x${string}`
-  : `0x${string}` & { readonly length: N }
+export type ZeroHexInteger = ZeroHexString
 
 /**
  * Decode an integerable to a zero-hex string
@@ -92,19 +91,7 @@ export namespace ZeroHexInteger {
     | bigint
     | number
     | Uint8Array
-    | `0x${string}`
-
-  export namespace String {
-
-    export function is(value: string): value is ZeroHexInteger {
-      return value.startsWith("0x")
-    }
-
-  }
-
-  export function is(value: unknown): value is ZeroHexInteger {
-    return typeof value === "string" && value.startsWith("0x")
-  }
+    | ZeroHexString
 
   export function fromOrThrow(from: ZeroHexInteger.From): ZeroHexInteger {
     if (typeof from === "number")
@@ -113,7 +100,7 @@ export namespace ZeroHexInteger {
       return `0x${from.toString(16)}`
     if (from instanceof Uint8Array)
       return `0x${Base16.get().encodeOrThrow(from)}`
-    if (ZeroHexInteger.is(from))
+    if (ZeroHexString.String.is(from))
       return from
     return `0x${BigInts.decodeDecimal(from).toString(16)}`
   }
@@ -132,7 +119,7 @@ export namespace BytesInteger {
     | bigint
     | number
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function is(value: unknown): value is BytesInteger {
     return value instanceof Uint8Array
@@ -145,7 +132,7 @@ export namespace BytesInteger {
       return Base16.get().padStartAndDecodeOrThrow(value.toString(16)).copyAndDispose()
     if (typeof value === "number")
       return Base16.get().padStartAndDecodeOrThrow(value.toString(16)).copyAndDispose()
-    if (ZeroHexInteger.is(value))
+    if (ZeroHexString.String.is(value))
       return Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose()
     return Base16.get().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16)).copyAndDispose()
   }
@@ -164,7 +151,7 @@ export namespace StringInteger {
     | bigint
     | number
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function is(value: unknown): value is StringInteger {
     return typeof value === "string"
@@ -177,7 +164,7 @@ export namespace StringInteger {
       return value.toString()
     if (typeof value === "number")
       return value.toString()
-    if (ZeroHexInteger.String.is(value))
+    if (ZeroHexString.String.is(value))
       return BigInts.decodeZeroHex(value).toString()
     return value
   }

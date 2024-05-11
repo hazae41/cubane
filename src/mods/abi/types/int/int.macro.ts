@@ -3,6 +3,7 @@ function $pre$() {
 import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { ZeroHexString } from "mods/types/string/index.js";
   
 const BN_0 = 0n
 const BN_1 = 1n`
@@ -29,14 +30,14 @@ export namespace AbiInt${bits} {
     | number 
     | bigint 
     | Uint8Array
-    | \`0x$\{string\}\`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | \`0x$\{string\}\`
+    | ZeroHexString
 
   export function create(value: AbiInt${bits}.Create) {
     if (value instanceof Uint8Array)
@@ -158,7 +159,7 @@ export namespace RawHexAbiInt${bits} {
     | number
     | bigint 
     | Uint8Array
-    | \`0x$\{string\}\`
+    | ZeroHexString
 
 }
 

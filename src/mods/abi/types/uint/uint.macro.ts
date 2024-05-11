@@ -4,7 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { BytesInteger, NumberInteger } from "mods/types/integer/index.js";
-import { RawHexString } from "mods/types/string/index.js";`
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";`
 }
 
 $pre$()
@@ -31,14 +31,14 @@ export namespace AbiUint${bits} {
     | number 
     | bigint 
     | Uint8Array
-    | \`0x$\{string\}\`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | \`0x$\{string\}\`
+    | ZeroHexString
 
   export function create(value: AbiUint${bits}.Create) {
     if (value instanceof Uint8Array)
@@ -81,7 +81,7 @@ export namespace BytesAbiUint${bits} {
     | number 
     | bigint 
     | Uint8Array
-    | \`0x$\{string\}\`
+    | ZeroHexString
 
 }
 
@@ -173,7 +173,7 @@ ${numberable ? `export namespace NumberAbiUint${bits} {
     | number 
     | bigint 
     | Uint8Array
-    | \`0x$\{string\}\`
+    | ZeroHexString
 
 }
 
@@ -265,7 +265,7 @@ export namespace RawHexAbiUint${bits} {
     | number 
     | bigint 
     | Uint8Array
-    | \`0x$\{string\}\`
+    | ZeroHexString
 
 }
 

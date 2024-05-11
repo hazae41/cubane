@@ -3,7 +3,7 @@ import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { BytesInteger, NumberInteger } from "mods/types/integer/index.js";
-import { RawHexString } from "mods/types/string/index.js";
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 export { AbiUint8 as Uint8, BytesAbiUint8 as BytesUint8, RawHexAbiUint8 as RawHexUint8, NumberAbiUint8 as NumberUint8 }
   
@@ -21,14 +21,14 @@ export namespace AbiUint8 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint8.Create) {
     if (value instanceof Uint8Array)
@@ -67,7 +67,7 @@ export namespace BytesAbiUint8 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -159,7 +159,7 @@ export namespace NumberAbiUint8 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -251,7 +251,7 @@ export namespace RawHexAbiUint8 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -360,14 +360,14 @@ export namespace AbiUint16 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint16.Create) {
     if (value instanceof Uint8Array)
@@ -406,7 +406,7 @@ export namespace BytesAbiUint16 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -498,7 +498,7 @@ export namespace NumberAbiUint16 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -590,7 +590,7 @@ export namespace RawHexAbiUint16 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -699,14 +699,14 @@ export namespace AbiUint24 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint24.Create) {
     if (value instanceof Uint8Array)
@@ -745,7 +745,7 @@ export namespace BytesAbiUint24 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -837,7 +837,7 @@ export namespace NumberAbiUint24 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -929,7 +929,7 @@ export namespace RawHexAbiUint24 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -1038,14 +1038,14 @@ export namespace AbiUint32 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint32.Create) {
     if (value instanceof Uint8Array)
@@ -1084,7 +1084,7 @@ export namespace BytesAbiUint32 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -1176,7 +1176,7 @@ export namespace NumberAbiUint32 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -1268,7 +1268,7 @@ export namespace RawHexAbiUint32 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -1377,14 +1377,14 @@ export namespace AbiUint40 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint40.Create) {
     if (value instanceof Uint8Array)
@@ -1420,7 +1420,7 @@ export namespace BytesAbiUint40 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -1514,7 +1514,7 @@ export namespace RawHexAbiUint40 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -1623,14 +1623,14 @@ export namespace AbiUint48 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint48.Create) {
     if (value instanceof Uint8Array)
@@ -1666,7 +1666,7 @@ export namespace BytesAbiUint48 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -1760,7 +1760,7 @@ export namespace RawHexAbiUint48 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -1869,14 +1869,14 @@ export namespace AbiUint56 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint56.Create) {
     if (value instanceof Uint8Array)
@@ -1912,7 +1912,7 @@ export namespace BytesAbiUint56 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2006,7 +2006,7 @@ export namespace RawHexAbiUint56 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2115,14 +2115,14 @@ export namespace AbiUint64 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint64.Create) {
     if (value instanceof Uint8Array)
@@ -2158,7 +2158,7 @@ export namespace BytesAbiUint64 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2252,7 +2252,7 @@ export namespace RawHexAbiUint64 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2361,14 +2361,14 @@ export namespace AbiUint72 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint72.Create) {
     if (value instanceof Uint8Array)
@@ -2404,7 +2404,7 @@ export namespace BytesAbiUint72 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2498,7 +2498,7 @@ export namespace RawHexAbiUint72 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2607,14 +2607,14 @@ export namespace AbiUint80 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint80.Create) {
     if (value instanceof Uint8Array)
@@ -2650,7 +2650,7 @@ export namespace BytesAbiUint80 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2744,7 +2744,7 @@ export namespace RawHexAbiUint80 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2853,14 +2853,14 @@ export namespace AbiUint88 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint88.Create) {
     if (value instanceof Uint8Array)
@@ -2896,7 +2896,7 @@ export namespace BytesAbiUint88 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -2990,7 +2990,7 @@ export namespace RawHexAbiUint88 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -3099,14 +3099,14 @@ export namespace AbiUint96 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint96.Create) {
     if (value instanceof Uint8Array)
@@ -3142,7 +3142,7 @@ export namespace BytesAbiUint96 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -3236,7 +3236,7 @@ export namespace RawHexAbiUint96 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -3345,14 +3345,14 @@ export namespace AbiUint104 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint104.Create) {
     if (value instanceof Uint8Array)
@@ -3388,7 +3388,7 @@ export namespace BytesAbiUint104 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -3482,7 +3482,7 @@ export namespace RawHexAbiUint104 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -3591,14 +3591,14 @@ export namespace AbiUint112 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint112.Create) {
     if (value instanceof Uint8Array)
@@ -3634,7 +3634,7 @@ export namespace BytesAbiUint112 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -3728,7 +3728,7 @@ export namespace RawHexAbiUint112 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -3837,14 +3837,14 @@ export namespace AbiUint120 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint120.Create) {
     if (value instanceof Uint8Array)
@@ -3880,7 +3880,7 @@ export namespace BytesAbiUint120 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -3974,7 +3974,7 @@ export namespace RawHexAbiUint120 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -4083,14 +4083,14 @@ export namespace AbiUint128 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint128.Create) {
     if (value instanceof Uint8Array)
@@ -4126,7 +4126,7 @@ export namespace BytesAbiUint128 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -4220,7 +4220,7 @@ export namespace RawHexAbiUint128 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -4329,14 +4329,14 @@ export namespace AbiUint136 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint136.Create) {
     if (value instanceof Uint8Array)
@@ -4372,7 +4372,7 @@ export namespace BytesAbiUint136 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -4466,7 +4466,7 @@ export namespace RawHexAbiUint136 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -4575,14 +4575,14 @@ export namespace AbiUint144 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint144.Create) {
     if (value instanceof Uint8Array)
@@ -4618,7 +4618,7 @@ export namespace BytesAbiUint144 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -4712,7 +4712,7 @@ export namespace RawHexAbiUint144 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -4821,14 +4821,14 @@ export namespace AbiUint152 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint152.Create) {
     if (value instanceof Uint8Array)
@@ -4864,7 +4864,7 @@ export namespace BytesAbiUint152 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -4958,7 +4958,7 @@ export namespace RawHexAbiUint152 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -5067,14 +5067,14 @@ export namespace AbiUint160 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint160.Create) {
     if (value instanceof Uint8Array)
@@ -5110,7 +5110,7 @@ export namespace BytesAbiUint160 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -5204,7 +5204,7 @@ export namespace RawHexAbiUint160 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -5313,14 +5313,14 @@ export namespace AbiUint168 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint168.Create) {
     if (value instanceof Uint8Array)
@@ -5356,7 +5356,7 @@ export namespace BytesAbiUint168 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -5450,7 +5450,7 @@ export namespace RawHexAbiUint168 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -5559,14 +5559,14 @@ export namespace AbiUint176 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint176.Create) {
     if (value instanceof Uint8Array)
@@ -5602,7 +5602,7 @@ export namespace BytesAbiUint176 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -5696,7 +5696,7 @@ export namespace RawHexAbiUint176 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -5805,14 +5805,14 @@ export namespace AbiUint184 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint184.Create) {
     if (value instanceof Uint8Array)
@@ -5848,7 +5848,7 @@ export namespace BytesAbiUint184 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -5942,7 +5942,7 @@ export namespace RawHexAbiUint184 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -6051,14 +6051,14 @@ export namespace AbiUint192 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint192.Create) {
     if (value instanceof Uint8Array)
@@ -6094,7 +6094,7 @@ export namespace BytesAbiUint192 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -6188,7 +6188,7 @@ export namespace RawHexAbiUint192 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -6297,14 +6297,14 @@ export namespace AbiUint200 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint200.Create) {
     if (value instanceof Uint8Array)
@@ -6340,7 +6340,7 @@ export namespace BytesAbiUint200 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -6434,7 +6434,7 @@ export namespace RawHexAbiUint200 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -6543,14 +6543,14 @@ export namespace AbiUint208 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint208.Create) {
     if (value instanceof Uint8Array)
@@ -6586,7 +6586,7 @@ export namespace BytesAbiUint208 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -6680,7 +6680,7 @@ export namespace RawHexAbiUint208 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -6789,14 +6789,14 @@ export namespace AbiUint216 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint216.Create) {
     if (value instanceof Uint8Array)
@@ -6832,7 +6832,7 @@ export namespace BytesAbiUint216 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -6926,7 +6926,7 @@ export namespace RawHexAbiUint216 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -7035,14 +7035,14 @@ export namespace AbiUint224 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint224.Create) {
     if (value instanceof Uint8Array)
@@ -7078,7 +7078,7 @@ export namespace BytesAbiUint224 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -7172,7 +7172,7 @@ export namespace RawHexAbiUint224 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -7281,14 +7281,14 @@ export namespace AbiUint232 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint232.Create) {
     if (value instanceof Uint8Array)
@@ -7324,7 +7324,7 @@ export namespace BytesAbiUint232 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -7418,7 +7418,7 @@ export namespace RawHexAbiUint232 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -7527,14 +7527,14 @@ export namespace AbiUint240 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint240.Create) {
     if (value instanceof Uint8Array)
@@ -7570,7 +7570,7 @@ export namespace BytesAbiUint240 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -7664,7 +7664,7 @@ export namespace RawHexAbiUint240 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -7773,14 +7773,14 @@ export namespace AbiUint248 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint248.Create) {
     if (value instanceof Uint8Array)
@@ -7816,7 +7816,7 @@ export namespace BytesAbiUint248 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -7910,7 +7910,7 @@ export namespace RawHexAbiUint248 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -8019,14 +8019,14 @@ export namespace AbiUint256 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export type From = 
     | string 
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
   export function create(value: AbiUint256.Create) {
     if (value instanceof Uint8Array)
@@ -8062,7 +8062,7 @@ export namespace BytesAbiUint256 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
@@ -8156,7 +8156,7 @@ export namespace RawHexAbiUint256 {
     | number 
     | bigint 
     | Uint8Array
-    | `0x${string}`
+    | ZeroHexString
 
 }
 
