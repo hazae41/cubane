@@ -111,7 +111,7 @@ export class AbiFunctionSelectorAndArguments {
       }
 
       static from(...primitives: AbiFunctionSelectorAndArguments.From<T>) {
-        const args = AbiFunctionSelectorAndArguments.args.from(primitives)
+        const args = AbiFunctionSelectorAndArguments.args.fromOrThrow(primitives)
 
         return new AbiFunctionSelectorAndArguments($func, args)
       }

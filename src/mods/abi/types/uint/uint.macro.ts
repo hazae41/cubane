@@ -1,9 +1,10 @@
 function $pre$() {
   return `import { Base16 } from "@hazae41/base16";
-import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
+import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { RawHexString, ZeroHexString } from "mods/types/string/index.js";`
+import { BytesInteger, NumberInteger } from "mods/types/integer/index.js";
+import { RawHexString } from "mods/types/string/index.js";`
 }
 
 $pre$()
@@ -14,10 +15,10 @@ function $createUint$(bytes: number) {
 
   const numberable = bits <= 32
 
-  return `export { AbiUint${bits} as Uint${bits} }
+  return `export { AbiUint${bits} as Uint${bits}, BytesAbiUint${bits} as BytesUint${bits}, RawHexAbiUint${bits} as RawHexUint${bits}${numberable ? `, NumberAbiUint${bits} as NumberUint${bits}` : ``} }
   
 export type AbiUint${bits} =
-  | ZeroHexAbiUint${bits}
+  | RawHexAbiUint${bits}
   | BytesAbiUint${bits}
   ${numberable ? `| NumberAbiUint${bits}` : ``}
 
@@ -26,39 +27,31 @@ export namespace AbiUint${bits} {
   export const size = 32
 
   export type Create =
-    | BytesAbiUint${bits}.Create
-    | ZeroHexAbiUint${bits}.Create
-    ${numberable ? `| NumberAbiUint${bits}.Create` : ``}
+    | string 
+    | number 
+    | bigint 
+    | Uint8Array
+    | \`0x$\{string\}\`
 
   export type From = 
-    | ZeroHexAbiUint${bits}.From
-    | BytesAbiUint${bits}.From
-    ${numberable ? `| NumberAbiUint${bits}.From` : ``}
+    | string 
+    | number 
+    | bigint 
+    | Uint8Array
+    | \`0x$\{string\}\`
 
   export function create(value: AbiUint${bits}.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint${bits}.create(value)
     ${numberable ? `if (typeof value === "number")
-      return NumberAbiUint${bits}.create(value)` : ``}
-    ${numberable ? `if (typeof value === "bigint")
+      return NumberAbiUint${bits}.create(value)
+    if (typeof value === "bigint")
       return NumberAbiUint${bits}.create(Number(value))` : ``}
-    return ZeroHexAbiUint${bits}.create(value)
+    return RawHexAbiUint${bits}.fromOrThrow(value)
   }
 
   export function fromOrThrow(value: AbiUint${bits}.From) {
     return AbiUint${bits}.create(value)
-  }
-
-  export function fromNumber(value: number) {
-    ${numberable
-      ? `return NumberAbiUint${bits}.fromNumber(value)`
-      : `return ZeroHexAbiUint${bits}.fromNumber(value)`}
-  }
-
-  export function fromBigInt(value: bigint) {
-    ${numberable
-      ? `return NumberAbiUint${bits}.fromBigInt(value)`
-      : `return ZeroHexAbiUint${bits}.fromBigInt(value)`}
   }
 
   export function codegen() {
@@ -68,7 +61,7 @@ export namespace AbiUint${bits} {
   export function decodeOrThrow(cursor: TextCursor) {
     ${numberable
       ? `return NumberAbiUint${bits}.decodeOrThrow(cursor)`
-      : `return ZeroHexAbiUint${bits}.decodeOrThrow(cursor)`}
+      : `return RawHexAbiUint${bits}.decodeOrThrow(cursor)`}
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -83,7 +76,12 @@ export namespace BytesAbiUint${bits} {
 
   export type Create = Uint8Array
 
-  export type From = Uint8Array
+  export type From =
+    | string 
+    | number 
+    | bigint 
+    | Uint8Array
+    | \`0x$\{string\}\`
 
 }
 
@@ -111,15 +109,15 @@ export class BytesAbiUint${bits} {
   }
 
   static fromOrThrow(value: BytesAbiUint${bits}.From) {
-    return BytesAbiUint${bits}.create(value)
+    return new BytesAbiUint${bits}(BytesInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
-    return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).intoOrThrow()
+    return new RawHexAbiUint${bits}(this.encodePackedOrThrow()).intoOrThrow()
   }
 
   toJSON(): string {
-    return new ZeroHexAbiUint${bits}(this.encodePackedOrThrow()).toJSON()
+    return new RawHexAbiUint${bits}(this.encodePackedOrThrow()).toJSON()
   }
 
   static codegen() {
@@ -170,7 +168,12 @@ ${numberable ? `export namespace NumberAbiUint${bits} {
 
   export type Create = number
 
-  export type From = number
+  export type From =
+    | string 
+    | number 
+    | bigint 
+    | Uint8Array
+    | \`0x$\{string\}\`
 
 }
 
@@ -193,20 +196,12 @@ export class NumberAbiUint${bits} {
     readonly value: number
   ) { }
 
-  static fromNumber(value: number) {
-    return new NumberAbiUint${bits}(value)
-  }
-
-  static fromBigInt(value: bigint) {
-    return new NumberAbiUint${bits}(Number(value))
-  }
-
   static create(value: NumberAbiUint${bits}.Create) {
     return new NumberAbiUint${bits}(value)
   }
 
   static fromOrThrow(value: NumberAbiUint${bits}.From) {
-    return NumberAbiUint${bits}.create(value)
+    return new NumberAbiUint${bits}(NumberInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -261,21 +256,21 @@ export class NumberAbiUint${bits} {
 
 }` : ``}
 
-export namespace ZeroHexAbiUint${bits} {
+export namespace RawHexAbiUint${bits} {
 
-  export type Create =
-    | bigint
-    | number
-    | string
+  export type Create = string
 
   export type From =
-    | bigint
-    | number
-    | string
+    | string 
+    | number 
+    | bigint 
+    | Uint8Array
+    | \`0x$\{string\}\`
+
 }
 
-export class ZeroHexAbiUint${bits} {
-  readonly #class = ZeroHexAbiUint${bits}
+export class RawHexAbiUint${bits} {
+  readonly #class = RawHexAbiUint${bits}
 
   static readonly bytes = ${bytes}
   static readonly nibbles = ${nibbles}
@@ -293,26 +288,20 @@ export class ZeroHexAbiUint${bits} {
     readonly value: RawHexString
   ) { }
 
-  static fromNumber(value: number) {
-    return new ZeroHexAbiUint${bits}(value.toString(16))
+  static create(value: RawHexAbiUint${bits}.Create) {
+    return new RawHexAbiUint${bits}(value)
   }
 
-  static fromBigInt(value: bigint) {
-    return new ZeroHexAbiUint${bits}(value.toString(16))
-  }
-
-  static create(value: ZeroHexAbiUint${bits}.Create) {
+  static fromOrThrow(value: RawHexAbiUint${bits}.From) {
+    if (value instanceof Uint8Array)
+      return new RawHexAbiUint${bits}(Base16.get().encodeOrThrow(value))
     if (typeof value === "bigint")
-      return ZeroHexAbiUint${bits}.fromBigInt(value)
+      return new RawHexAbiUint${bits}(value.toString(16))
     if (typeof value === "number")
-      return ZeroHexAbiUint${bits}.fromNumber(value)
+      return new RawHexAbiUint${bits}(value.toString(16))
     if (value.startsWith("0x"))
-      return new ZeroHexAbiUint${bits}(value.slice(2))
-    return ZeroHexAbiUint${bits}.fromBigInt(BigInt(value))
-  }
-
-  static fromOrThrow(value: ZeroHexAbiUint${bits}.From) {
-    return ZeroHexAbiUint${bits}.create(value)
+      return new RawHexAbiUint${bits}(value.slice(2))
+    return new RawHexAbiUint${bits}(BigInts.decodeDecimal(value).toString(16))
   }
 
   intoOrThrow(): bigint {
@@ -340,11 +329,11 @@ export class ZeroHexAbiUint${bits} {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    cursor.offset += 64 - ZeroHexAbiUint${bits}.nibbles
+    cursor.offset += 64 - RawHexAbiUint${bits}.nibbles
 
-    const content = cursor.readOrThrow(ZeroHexAbiUint${bits}.nibbles)
+    const content = cursor.readOrThrow(RawHexAbiUint${bits}.nibbles)
 
-    return new ZeroHexAbiUint${bits}(content)
+    return new RawHexAbiUint${bits}(content)
   }
 
   sizeOrThrow() {
@@ -359,12 +348,12 @@ export class ZeroHexAbiUint${bits} {
   }
 
   static readOrThrow(cursor: Cursor) {
-    cursor.offset += 32 - ZeroHexAbiUint${bits}.bytes
+    cursor.offset += 32 - RawHexAbiUint${bits}.bytes
 
-    const content = cursor.readOrThrow(ZeroHexAbiUint${bits}.bytes)
+    const content = cursor.readOrThrow(RawHexAbiUint${bits}.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new ZeroHexAbiUint${bits}(value)
+    return new RawHexAbiUint${bits}(value)
   }
 
 }`

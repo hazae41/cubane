@@ -2,7 +2,7 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { RawHexString, ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { Uint32 } from "../uint/uint.js";
+import { NumberUint32, Uint32 } from "../uint/uint.js";
 
 export { AbiBytes as Bytes };
 
@@ -27,7 +27,7 @@ export namespace AbiBytes {
     return ZeroHexAbiBytes.create(value)
   }
 
-  export function from(value: AbiBytes.From) {
+  export function fromOrThrow(value: AbiBytes.From) {
     return AbiBytes.create(value)
   }
 
@@ -89,7 +89,7 @@ export class BytesAbiBytes {
     const length1 = this.value.length
     const length2 = length1 * 2
 
-    const head = Uint32.fromNumber(length1).encodeOrThrow()
+    const head = NumberUint32.create(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
     const body = Base16.get().encodeOrThrow(this.value).padEnd(padded2, "0")
@@ -100,7 +100,7 @@ export class BytesAbiBytes {
   encodePackedOrThrow() {
     const length1 = this.value.length
 
-    const head = Uint32.fromNumber(length1).encodePackedOrThrow()
+    const head = NumberUint32.create(length1).encodePackedOrThrow()
     const body = Base16.get().encodeOrThrow(this.value)
 
     return head + body
@@ -131,7 +131,7 @@ export class BytesAbiBytes {
   writeOrThrow(cursor: Cursor) {
     const length1 = this.value.length
 
-    Uint32.fromNumber(length1).writeOrThrow(cursor)
+    NumberUint32.create(length1).writeOrThrow(cursor)
     cursor.writeOrThrow(this.value)
 
     const padded1 = Math.ceil(length1 / 32) * 32
@@ -195,7 +195,7 @@ export class ZeroHexAbiBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    const head = Uint32.fromNumber(length1).encodeOrThrow()
+    const head = NumberUint32.create(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
     const body = this.value.padEnd(padded2, "0")
@@ -207,7 +207,7 @@ export class ZeroHexAbiBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    const head = Uint32.fromNumber(length1).encodeOrThrow()
+    const head = NumberUint32.create(length1).encodeOrThrow()
     const body = this.value
 
     return head + body
@@ -238,7 +238,7 @@ export class ZeroHexAbiBytes {
     const length2 = this.value.length
     const length1 = length2 / 2
 
-    Uint32.fromNumber(length1).writeOrThrow(cursor)
+    NumberUint32.create(length1).writeOrThrow(cursor)
 
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
     cursor.writeOrThrow(slice.bytes)

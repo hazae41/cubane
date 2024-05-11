@@ -452,11 +452,11 @@ export namespace JsonAbi {
 
 
 function f(abi: Parseds<typeof erc20>) {
-  abi.transfer.args.from({ _to: "0x0", _value: [0n, 0n, 0n] })
+  abi.transfer.args.fromOrThrow({ _to: "0x0", _value: [0n, 0n, 0n] })
 }
 
 function g(abi: Parseds<typeof nestedTupleArrayAbi>) {
-  abi.f.args.from({ s: { a: 0, b: [0], c: [{ x: 0, y: 0 }] }, a: 0, t: { x: 0n, y: 0n } })
+  abi.f.args.fromOrThrow({ s: { a: 0, b: [0], c: [{ x: 0, y: 0 }] }, a: 0, t: { x: 0n, y: 0n } })
 }
 
 export class AbiNamed {
@@ -482,8 +482,8 @@ export class AbiNamed {
         return new AbiNamed(this.name, this.type.create(value))
       }
 
-      static from(value: AbiFactory.From<T>) {
-        return new AbiNamed(this.name, this.type.from(value))
+      static fromOrThrow(value: AbiFactory.From<T>) {
+        return new AbiNamed(this.name, this.type.fromOrThrow(value))
       }
 
       intoOrThrow() {
@@ -580,16 +580,16 @@ export class AbiStruct {
         return new AbiStruct(this.type.create(values as any))
       }
 
-      static from(value: AbiStruct.From<T> | AbiTuple.From<T>) {
+      static fromOrThrow(value: AbiStruct.From<T> | AbiTuple.From<T>) {
         if (Array.isArray(value))
-          return new AbiStruct(this.type.from(value as any))
+          return new AbiStruct(this.type.fromOrThrow(value as any))
 
         const values = []
 
         for (const type of this.types)
           values.push((value as any)[type.name])
 
-        return new AbiStruct(this.type.from(values as any))
+        return new AbiStruct(this.type.fromOrThrow(values as any))
       }
 
       intoOrThrow() {

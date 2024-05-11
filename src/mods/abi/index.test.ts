@@ -70,7 +70,7 @@ test("json", async () => {
     // console.log(element.name)
 
     const signature = FunctionSignature.parseOrThrow(`f(${element.type})`)
-    const encoded = signature.args.from([element.value]).encodeOrThrow()
+    const encoded = signature.args.fromOrThrow([element.value]).encodeOrThrow()
 
     const a = ZeroHexString.fromOrThrow(encoded).toLowerCase()
     const b = element.encoded.toLowerCase()

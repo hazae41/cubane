@@ -204,7 +204,7 @@ export namespace TypedData {
       throw new Error(`Could not encode bytes`)
     }
 
-    Records.resolveOrThrow(factoryByName, type).from(value).writeOrThrow(cursor)
+    Records.resolveOrThrow(factoryByName, type).fromOrThrow(value).writeOrThrow(cursor)
   }
 
   export function hashArrayOrThrow(types: TypedDataTypes, type: string, array: readonly unknown[], typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {

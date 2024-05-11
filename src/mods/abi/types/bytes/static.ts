@@ -1,9 +1,7 @@
 import { Base16 } from "@hazae41/base16";
-  import { Bytes } from "@hazae41/bytes";
-  import { Cursor } from "@hazae41/cursor";
-  import { TextCursor } from "libs/cursor/cursor.js";
-  import { ZeroHexString } from "mods/types/zerohex/index.js";
-  import { RawHexString } from "mods/types/rawhex/index.js";
+import { Cursor } from "@hazae41/cursor";
+import { TextCursor } from "libs/cursor/cursor.js";
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 export { AbiBytes1 as Bytes1 }
   
@@ -29,7 +27,7 @@ export namespace AbiBytes1 {
     return ZeroHexAbiBytes1.create(value)
   }
 
-  export function from(value: AbiBytes1.From) {
+  export function fromOrThrow(value: AbiBytes1.From) {
     return AbiBytes1.create(value)
   }
   
@@ -75,7 +73,7 @@ export class BytesAbiBytes1 {
     return new BytesAbiBytes1(value)
   }
 
-  static from(value: BytesAbiBytes1.From) {
+  static fromOrThrow(value: BytesAbiBytes1.From) {
     return BytesAbiBytes1.create(value)
   }
 
@@ -122,12 +120,11 @@ export class BytesAbiBytes1 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes1.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes1.bytes)
 
     cursor.offset += 32 - BytesAbiBytes1.bytes
     
-    return new BytesAbiBytes1(bytes)
+    return new BytesAbiBytes1(content)
   }
 
 }
@@ -160,7 +157,7 @@ export class ZeroHexAbiBytes1 {
     return new ZeroHexAbiBytes1(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes1.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes1.From) {
     return ZeroHexAbiBytes1.create(value)
   }
 
@@ -242,7 +239,7 @@ export namespace AbiBytes2 {
     return ZeroHexAbiBytes2.create(value)
   }
 
-  export function from(value: AbiBytes2.From) {
+  export function fromOrThrow(value: AbiBytes2.From) {
     return AbiBytes2.create(value)
   }
   
@@ -288,7 +285,7 @@ export class BytesAbiBytes2 {
     return new BytesAbiBytes2(value)
   }
 
-  static from(value: BytesAbiBytes2.From) {
+  static fromOrThrow(value: BytesAbiBytes2.From) {
     return BytesAbiBytes2.create(value)
   }
 
@@ -335,12 +332,11 @@ export class BytesAbiBytes2 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes2.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes2.bytes)
 
     cursor.offset += 32 - BytesAbiBytes2.bytes
     
-    return new BytesAbiBytes2(bytes)
+    return new BytesAbiBytes2(content)
   }
 
 }
@@ -373,7 +369,7 @@ export class ZeroHexAbiBytes2 {
     return new ZeroHexAbiBytes2(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes2.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes2.From) {
     return ZeroHexAbiBytes2.create(value)
   }
 
@@ -455,7 +451,7 @@ export namespace AbiBytes3 {
     return ZeroHexAbiBytes3.create(value)
   }
 
-  export function from(value: AbiBytes3.From) {
+  export function fromOrThrow(value: AbiBytes3.From) {
     return AbiBytes3.create(value)
   }
   
@@ -501,7 +497,7 @@ export class BytesAbiBytes3 {
     return new BytesAbiBytes3(value)
   }
 
-  static from(value: BytesAbiBytes3.From) {
+  static fromOrThrow(value: BytesAbiBytes3.From) {
     return BytesAbiBytes3.create(value)
   }
 
@@ -548,12 +544,11 @@ export class BytesAbiBytes3 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes3.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes3.bytes)
 
     cursor.offset += 32 - BytesAbiBytes3.bytes
     
-    return new BytesAbiBytes3(bytes)
+    return new BytesAbiBytes3(content)
   }
 
 }
@@ -586,7 +581,7 @@ export class ZeroHexAbiBytes3 {
     return new ZeroHexAbiBytes3(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes3.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes3.From) {
     return ZeroHexAbiBytes3.create(value)
   }
 
@@ -668,7 +663,7 @@ export namespace AbiBytes4 {
     return ZeroHexAbiBytes4.create(value)
   }
 
-  export function from(value: AbiBytes4.From) {
+  export function fromOrThrow(value: AbiBytes4.From) {
     return AbiBytes4.create(value)
   }
   
@@ -714,7 +709,7 @@ export class BytesAbiBytes4 {
     return new BytesAbiBytes4(value)
   }
 
-  static from(value: BytesAbiBytes4.From) {
+  static fromOrThrow(value: BytesAbiBytes4.From) {
     return BytesAbiBytes4.create(value)
   }
 
@@ -761,12 +756,11 @@ export class BytesAbiBytes4 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes4.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes4.bytes)
 
     cursor.offset += 32 - BytesAbiBytes4.bytes
     
-    return new BytesAbiBytes4(bytes)
+    return new BytesAbiBytes4(content)
   }
 
 }
@@ -799,7 +793,7 @@ export class ZeroHexAbiBytes4 {
     return new ZeroHexAbiBytes4(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes4.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes4.From) {
     return ZeroHexAbiBytes4.create(value)
   }
 
@@ -881,7 +875,7 @@ export namespace AbiBytes5 {
     return ZeroHexAbiBytes5.create(value)
   }
 
-  export function from(value: AbiBytes5.From) {
+  export function fromOrThrow(value: AbiBytes5.From) {
     return AbiBytes5.create(value)
   }
   
@@ -927,7 +921,7 @@ export class BytesAbiBytes5 {
     return new BytesAbiBytes5(value)
   }
 
-  static from(value: BytesAbiBytes5.From) {
+  static fromOrThrow(value: BytesAbiBytes5.From) {
     return BytesAbiBytes5.create(value)
   }
 
@@ -974,12 +968,11 @@ export class BytesAbiBytes5 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes5.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes5.bytes)
 
     cursor.offset += 32 - BytesAbiBytes5.bytes
     
-    return new BytesAbiBytes5(bytes)
+    return new BytesAbiBytes5(content)
   }
 
 }
@@ -1012,7 +1005,7 @@ export class ZeroHexAbiBytes5 {
     return new ZeroHexAbiBytes5(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes5.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes5.From) {
     return ZeroHexAbiBytes5.create(value)
   }
 
@@ -1094,7 +1087,7 @@ export namespace AbiBytes6 {
     return ZeroHexAbiBytes6.create(value)
   }
 
-  export function from(value: AbiBytes6.From) {
+  export function fromOrThrow(value: AbiBytes6.From) {
     return AbiBytes6.create(value)
   }
   
@@ -1140,7 +1133,7 @@ export class BytesAbiBytes6 {
     return new BytesAbiBytes6(value)
   }
 
-  static from(value: BytesAbiBytes6.From) {
+  static fromOrThrow(value: BytesAbiBytes6.From) {
     return BytesAbiBytes6.create(value)
   }
 
@@ -1187,12 +1180,11 @@ export class BytesAbiBytes6 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes6.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes6.bytes)
 
     cursor.offset += 32 - BytesAbiBytes6.bytes
     
-    return new BytesAbiBytes6(bytes)
+    return new BytesAbiBytes6(content)
   }
 
 }
@@ -1225,7 +1217,7 @@ export class ZeroHexAbiBytes6 {
     return new ZeroHexAbiBytes6(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes6.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes6.From) {
     return ZeroHexAbiBytes6.create(value)
   }
 
@@ -1307,7 +1299,7 @@ export namespace AbiBytes7 {
     return ZeroHexAbiBytes7.create(value)
   }
 
-  export function from(value: AbiBytes7.From) {
+  export function fromOrThrow(value: AbiBytes7.From) {
     return AbiBytes7.create(value)
   }
   
@@ -1353,7 +1345,7 @@ export class BytesAbiBytes7 {
     return new BytesAbiBytes7(value)
   }
 
-  static from(value: BytesAbiBytes7.From) {
+  static fromOrThrow(value: BytesAbiBytes7.From) {
     return BytesAbiBytes7.create(value)
   }
 
@@ -1400,12 +1392,11 @@ export class BytesAbiBytes7 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes7.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes7.bytes)
 
     cursor.offset += 32 - BytesAbiBytes7.bytes
     
-    return new BytesAbiBytes7(bytes)
+    return new BytesAbiBytes7(content)
   }
 
 }
@@ -1438,7 +1429,7 @@ export class ZeroHexAbiBytes7 {
     return new ZeroHexAbiBytes7(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes7.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes7.From) {
     return ZeroHexAbiBytes7.create(value)
   }
 
@@ -1520,7 +1511,7 @@ export namespace AbiBytes8 {
     return ZeroHexAbiBytes8.create(value)
   }
 
-  export function from(value: AbiBytes8.From) {
+  export function fromOrThrow(value: AbiBytes8.From) {
     return AbiBytes8.create(value)
   }
   
@@ -1566,7 +1557,7 @@ export class BytesAbiBytes8 {
     return new BytesAbiBytes8(value)
   }
 
-  static from(value: BytesAbiBytes8.From) {
+  static fromOrThrow(value: BytesAbiBytes8.From) {
     return BytesAbiBytes8.create(value)
   }
 
@@ -1613,12 +1604,11 @@ export class BytesAbiBytes8 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes8.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes8.bytes)
 
     cursor.offset += 32 - BytesAbiBytes8.bytes
     
-    return new BytesAbiBytes8(bytes)
+    return new BytesAbiBytes8(content)
   }
 
 }
@@ -1651,7 +1641,7 @@ export class ZeroHexAbiBytes8 {
     return new ZeroHexAbiBytes8(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes8.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes8.From) {
     return ZeroHexAbiBytes8.create(value)
   }
 
@@ -1733,7 +1723,7 @@ export namespace AbiBytes9 {
     return ZeroHexAbiBytes9.create(value)
   }
 
-  export function from(value: AbiBytes9.From) {
+  export function fromOrThrow(value: AbiBytes9.From) {
     return AbiBytes9.create(value)
   }
   
@@ -1779,7 +1769,7 @@ export class BytesAbiBytes9 {
     return new BytesAbiBytes9(value)
   }
 
-  static from(value: BytesAbiBytes9.From) {
+  static fromOrThrow(value: BytesAbiBytes9.From) {
     return BytesAbiBytes9.create(value)
   }
 
@@ -1826,12 +1816,11 @@ export class BytesAbiBytes9 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes9.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes9.bytes)
 
     cursor.offset += 32 - BytesAbiBytes9.bytes
     
-    return new BytesAbiBytes9(bytes)
+    return new BytesAbiBytes9(content)
   }
 
 }
@@ -1864,7 +1853,7 @@ export class ZeroHexAbiBytes9 {
     return new ZeroHexAbiBytes9(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes9.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes9.From) {
     return ZeroHexAbiBytes9.create(value)
   }
 
@@ -1946,7 +1935,7 @@ export namespace AbiBytes10 {
     return ZeroHexAbiBytes10.create(value)
   }
 
-  export function from(value: AbiBytes10.From) {
+  export function fromOrThrow(value: AbiBytes10.From) {
     return AbiBytes10.create(value)
   }
   
@@ -1992,7 +1981,7 @@ export class BytesAbiBytes10 {
     return new BytesAbiBytes10(value)
   }
 
-  static from(value: BytesAbiBytes10.From) {
+  static fromOrThrow(value: BytesAbiBytes10.From) {
     return BytesAbiBytes10.create(value)
   }
 
@@ -2039,12 +2028,11 @@ export class BytesAbiBytes10 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes10.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes10.bytes)
 
     cursor.offset += 32 - BytesAbiBytes10.bytes
     
-    return new BytesAbiBytes10(bytes)
+    return new BytesAbiBytes10(content)
   }
 
 }
@@ -2077,7 +2065,7 @@ export class ZeroHexAbiBytes10 {
     return new ZeroHexAbiBytes10(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes10.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes10.From) {
     return ZeroHexAbiBytes10.create(value)
   }
 
@@ -2159,7 +2147,7 @@ export namespace AbiBytes11 {
     return ZeroHexAbiBytes11.create(value)
   }
 
-  export function from(value: AbiBytes11.From) {
+  export function fromOrThrow(value: AbiBytes11.From) {
     return AbiBytes11.create(value)
   }
   
@@ -2205,7 +2193,7 @@ export class BytesAbiBytes11 {
     return new BytesAbiBytes11(value)
   }
 
-  static from(value: BytesAbiBytes11.From) {
+  static fromOrThrow(value: BytesAbiBytes11.From) {
     return BytesAbiBytes11.create(value)
   }
 
@@ -2252,12 +2240,11 @@ export class BytesAbiBytes11 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes11.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes11.bytes)
 
     cursor.offset += 32 - BytesAbiBytes11.bytes
     
-    return new BytesAbiBytes11(bytes)
+    return new BytesAbiBytes11(content)
   }
 
 }
@@ -2290,7 +2277,7 @@ export class ZeroHexAbiBytes11 {
     return new ZeroHexAbiBytes11(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes11.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes11.From) {
     return ZeroHexAbiBytes11.create(value)
   }
 
@@ -2372,7 +2359,7 @@ export namespace AbiBytes12 {
     return ZeroHexAbiBytes12.create(value)
   }
 
-  export function from(value: AbiBytes12.From) {
+  export function fromOrThrow(value: AbiBytes12.From) {
     return AbiBytes12.create(value)
   }
   
@@ -2418,7 +2405,7 @@ export class BytesAbiBytes12 {
     return new BytesAbiBytes12(value)
   }
 
-  static from(value: BytesAbiBytes12.From) {
+  static fromOrThrow(value: BytesAbiBytes12.From) {
     return BytesAbiBytes12.create(value)
   }
 
@@ -2465,12 +2452,11 @@ export class BytesAbiBytes12 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes12.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes12.bytes)
 
     cursor.offset += 32 - BytesAbiBytes12.bytes
     
-    return new BytesAbiBytes12(bytes)
+    return new BytesAbiBytes12(content)
   }
 
 }
@@ -2503,7 +2489,7 @@ export class ZeroHexAbiBytes12 {
     return new ZeroHexAbiBytes12(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes12.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes12.From) {
     return ZeroHexAbiBytes12.create(value)
   }
 
@@ -2585,7 +2571,7 @@ export namespace AbiBytes13 {
     return ZeroHexAbiBytes13.create(value)
   }
 
-  export function from(value: AbiBytes13.From) {
+  export function fromOrThrow(value: AbiBytes13.From) {
     return AbiBytes13.create(value)
   }
   
@@ -2631,7 +2617,7 @@ export class BytesAbiBytes13 {
     return new BytesAbiBytes13(value)
   }
 
-  static from(value: BytesAbiBytes13.From) {
+  static fromOrThrow(value: BytesAbiBytes13.From) {
     return BytesAbiBytes13.create(value)
   }
 
@@ -2678,12 +2664,11 @@ export class BytesAbiBytes13 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes13.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes13.bytes)
 
     cursor.offset += 32 - BytesAbiBytes13.bytes
     
-    return new BytesAbiBytes13(bytes)
+    return new BytesAbiBytes13(content)
   }
 
 }
@@ -2716,7 +2701,7 @@ export class ZeroHexAbiBytes13 {
     return new ZeroHexAbiBytes13(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes13.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes13.From) {
     return ZeroHexAbiBytes13.create(value)
   }
 
@@ -2798,7 +2783,7 @@ export namespace AbiBytes14 {
     return ZeroHexAbiBytes14.create(value)
   }
 
-  export function from(value: AbiBytes14.From) {
+  export function fromOrThrow(value: AbiBytes14.From) {
     return AbiBytes14.create(value)
   }
   
@@ -2844,7 +2829,7 @@ export class BytesAbiBytes14 {
     return new BytesAbiBytes14(value)
   }
 
-  static from(value: BytesAbiBytes14.From) {
+  static fromOrThrow(value: BytesAbiBytes14.From) {
     return BytesAbiBytes14.create(value)
   }
 
@@ -2891,12 +2876,11 @@ export class BytesAbiBytes14 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes14.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes14.bytes)
 
     cursor.offset += 32 - BytesAbiBytes14.bytes
     
-    return new BytesAbiBytes14(bytes)
+    return new BytesAbiBytes14(content)
   }
 
 }
@@ -2929,7 +2913,7 @@ export class ZeroHexAbiBytes14 {
     return new ZeroHexAbiBytes14(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes14.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes14.From) {
     return ZeroHexAbiBytes14.create(value)
   }
 
@@ -3011,7 +2995,7 @@ export namespace AbiBytes15 {
     return ZeroHexAbiBytes15.create(value)
   }
 
-  export function from(value: AbiBytes15.From) {
+  export function fromOrThrow(value: AbiBytes15.From) {
     return AbiBytes15.create(value)
   }
   
@@ -3057,7 +3041,7 @@ export class BytesAbiBytes15 {
     return new BytesAbiBytes15(value)
   }
 
-  static from(value: BytesAbiBytes15.From) {
+  static fromOrThrow(value: BytesAbiBytes15.From) {
     return BytesAbiBytes15.create(value)
   }
 
@@ -3104,12 +3088,11 @@ export class BytesAbiBytes15 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes15.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes15.bytes)
 
     cursor.offset += 32 - BytesAbiBytes15.bytes
     
-    return new BytesAbiBytes15(bytes)
+    return new BytesAbiBytes15(content)
   }
 
 }
@@ -3142,7 +3125,7 @@ export class ZeroHexAbiBytes15 {
     return new ZeroHexAbiBytes15(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes15.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes15.From) {
     return ZeroHexAbiBytes15.create(value)
   }
 
@@ -3224,7 +3207,7 @@ export namespace AbiBytes16 {
     return ZeroHexAbiBytes16.create(value)
   }
 
-  export function from(value: AbiBytes16.From) {
+  export function fromOrThrow(value: AbiBytes16.From) {
     return AbiBytes16.create(value)
   }
   
@@ -3270,7 +3253,7 @@ export class BytesAbiBytes16 {
     return new BytesAbiBytes16(value)
   }
 
-  static from(value: BytesAbiBytes16.From) {
+  static fromOrThrow(value: BytesAbiBytes16.From) {
     return BytesAbiBytes16.create(value)
   }
 
@@ -3317,12 +3300,11 @@ export class BytesAbiBytes16 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes16.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes16.bytes)
 
     cursor.offset += 32 - BytesAbiBytes16.bytes
     
-    return new BytesAbiBytes16(bytes)
+    return new BytesAbiBytes16(content)
   }
 
 }
@@ -3355,7 +3337,7 @@ export class ZeroHexAbiBytes16 {
     return new ZeroHexAbiBytes16(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes16.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes16.From) {
     return ZeroHexAbiBytes16.create(value)
   }
 
@@ -3437,7 +3419,7 @@ export namespace AbiBytes17 {
     return ZeroHexAbiBytes17.create(value)
   }
 
-  export function from(value: AbiBytes17.From) {
+  export function fromOrThrow(value: AbiBytes17.From) {
     return AbiBytes17.create(value)
   }
   
@@ -3483,7 +3465,7 @@ export class BytesAbiBytes17 {
     return new BytesAbiBytes17(value)
   }
 
-  static from(value: BytesAbiBytes17.From) {
+  static fromOrThrow(value: BytesAbiBytes17.From) {
     return BytesAbiBytes17.create(value)
   }
 
@@ -3530,12 +3512,11 @@ export class BytesAbiBytes17 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes17.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes17.bytes)
 
     cursor.offset += 32 - BytesAbiBytes17.bytes
     
-    return new BytesAbiBytes17(bytes)
+    return new BytesAbiBytes17(content)
   }
 
 }
@@ -3568,7 +3549,7 @@ export class ZeroHexAbiBytes17 {
     return new ZeroHexAbiBytes17(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes17.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes17.From) {
     return ZeroHexAbiBytes17.create(value)
   }
 
@@ -3650,7 +3631,7 @@ export namespace AbiBytes18 {
     return ZeroHexAbiBytes18.create(value)
   }
 
-  export function from(value: AbiBytes18.From) {
+  export function fromOrThrow(value: AbiBytes18.From) {
     return AbiBytes18.create(value)
   }
   
@@ -3696,7 +3677,7 @@ export class BytesAbiBytes18 {
     return new BytesAbiBytes18(value)
   }
 
-  static from(value: BytesAbiBytes18.From) {
+  static fromOrThrow(value: BytesAbiBytes18.From) {
     return BytesAbiBytes18.create(value)
   }
 
@@ -3743,12 +3724,11 @@ export class BytesAbiBytes18 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes18.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes18.bytes)
 
     cursor.offset += 32 - BytesAbiBytes18.bytes
     
-    return new BytesAbiBytes18(bytes)
+    return new BytesAbiBytes18(content)
   }
 
 }
@@ -3781,7 +3761,7 @@ export class ZeroHexAbiBytes18 {
     return new ZeroHexAbiBytes18(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes18.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes18.From) {
     return ZeroHexAbiBytes18.create(value)
   }
 
@@ -3863,7 +3843,7 @@ export namespace AbiBytes19 {
     return ZeroHexAbiBytes19.create(value)
   }
 
-  export function from(value: AbiBytes19.From) {
+  export function fromOrThrow(value: AbiBytes19.From) {
     return AbiBytes19.create(value)
   }
   
@@ -3909,7 +3889,7 @@ export class BytesAbiBytes19 {
     return new BytesAbiBytes19(value)
   }
 
-  static from(value: BytesAbiBytes19.From) {
+  static fromOrThrow(value: BytesAbiBytes19.From) {
     return BytesAbiBytes19.create(value)
   }
 
@@ -3956,12 +3936,11 @@ export class BytesAbiBytes19 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes19.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes19.bytes)
 
     cursor.offset += 32 - BytesAbiBytes19.bytes
     
-    return new BytesAbiBytes19(bytes)
+    return new BytesAbiBytes19(content)
   }
 
 }
@@ -3994,7 +3973,7 @@ export class ZeroHexAbiBytes19 {
     return new ZeroHexAbiBytes19(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes19.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes19.From) {
     return ZeroHexAbiBytes19.create(value)
   }
 
@@ -4076,7 +4055,7 @@ export namespace AbiBytes20 {
     return ZeroHexAbiBytes20.create(value)
   }
 
-  export function from(value: AbiBytes20.From) {
+  export function fromOrThrow(value: AbiBytes20.From) {
     return AbiBytes20.create(value)
   }
   
@@ -4122,7 +4101,7 @@ export class BytesAbiBytes20 {
     return new BytesAbiBytes20(value)
   }
 
-  static from(value: BytesAbiBytes20.From) {
+  static fromOrThrow(value: BytesAbiBytes20.From) {
     return BytesAbiBytes20.create(value)
   }
 
@@ -4169,12 +4148,11 @@ export class BytesAbiBytes20 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes20.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes20.bytes)
 
     cursor.offset += 32 - BytesAbiBytes20.bytes
     
-    return new BytesAbiBytes20(bytes)
+    return new BytesAbiBytes20(content)
   }
 
 }
@@ -4207,7 +4185,7 @@ export class ZeroHexAbiBytes20 {
     return new ZeroHexAbiBytes20(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes20.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes20.From) {
     return ZeroHexAbiBytes20.create(value)
   }
 
@@ -4289,7 +4267,7 @@ export namespace AbiBytes21 {
     return ZeroHexAbiBytes21.create(value)
   }
 
-  export function from(value: AbiBytes21.From) {
+  export function fromOrThrow(value: AbiBytes21.From) {
     return AbiBytes21.create(value)
   }
   
@@ -4335,7 +4313,7 @@ export class BytesAbiBytes21 {
     return new BytesAbiBytes21(value)
   }
 
-  static from(value: BytesAbiBytes21.From) {
+  static fromOrThrow(value: BytesAbiBytes21.From) {
     return BytesAbiBytes21.create(value)
   }
 
@@ -4382,12 +4360,11 @@ export class BytesAbiBytes21 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes21.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes21.bytes)
 
     cursor.offset += 32 - BytesAbiBytes21.bytes
     
-    return new BytesAbiBytes21(bytes)
+    return new BytesAbiBytes21(content)
   }
 
 }
@@ -4420,7 +4397,7 @@ export class ZeroHexAbiBytes21 {
     return new ZeroHexAbiBytes21(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes21.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes21.From) {
     return ZeroHexAbiBytes21.create(value)
   }
 
@@ -4502,7 +4479,7 @@ export namespace AbiBytes22 {
     return ZeroHexAbiBytes22.create(value)
   }
 
-  export function from(value: AbiBytes22.From) {
+  export function fromOrThrow(value: AbiBytes22.From) {
     return AbiBytes22.create(value)
   }
   
@@ -4548,7 +4525,7 @@ export class BytesAbiBytes22 {
     return new BytesAbiBytes22(value)
   }
 
-  static from(value: BytesAbiBytes22.From) {
+  static fromOrThrow(value: BytesAbiBytes22.From) {
     return BytesAbiBytes22.create(value)
   }
 
@@ -4595,12 +4572,11 @@ export class BytesAbiBytes22 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes22.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes22.bytes)
 
     cursor.offset += 32 - BytesAbiBytes22.bytes
     
-    return new BytesAbiBytes22(bytes)
+    return new BytesAbiBytes22(content)
   }
 
 }
@@ -4633,7 +4609,7 @@ export class ZeroHexAbiBytes22 {
     return new ZeroHexAbiBytes22(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes22.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes22.From) {
     return ZeroHexAbiBytes22.create(value)
   }
 
@@ -4715,7 +4691,7 @@ export namespace AbiBytes23 {
     return ZeroHexAbiBytes23.create(value)
   }
 
-  export function from(value: AbiBytes23.From) {
+  export function fromOrThrow(value: AbiBytes23.From) {
     return AbiBytes23.create(value)
   }
   
@@ -4761,7 +4737,7 @@ export class BytesAbiBytes23 {
     return new BytesAbiBytes23(value)
   }
 
-  static from(value: BytesAbiBytes23.From) {
+  static fromOrThrow(value: BytesAbiBytes23.From) {
     return BytesAbiBytes23.create(value)
   }
 
@@ -4808,12 +4784,11 @@ export class BytesAbiBytes23 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes23.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes23.bytes)
 
     cursor.offset += 32 - BytesAbiBytes23.bytes
     
-    return new BytesAbiBytes23(bytes)
+    return new BytesAbiBytes23(content)
   }
 
 }
@@ -4846,7 +4821,7 @@ export class ZeroHexAbiBytes23 {
     return new ZeroHexAbiBytes23(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes23.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes23.From) {
     return ZeroHexAbiBytes23.create(value)
   }
 
@@ -4928,7 +4903,7 @@ export namespace AbiBytes24 {
     return ZeroHexAbiBytes24.create(value)
   }
 
-  export function from(value: AbiBytes24.From) {
+  export function fromOrThrow(value: AbiBytes24.From) {
     return AbiBytes24.create(value)
   }
   
@@ -4974,7 +4949,7 @@ export class BytesAbiBytes24 {
     return new BytesAbiBytes24(value)
   }
 
-  static from(value: BytesAbiBytes24.From) {
+  static fromOrThrow(value: BytesAbiBytes24.From) {
     return BytesAbiBytes24.create(value)
   }
 
@@ -5021,12 +4996,11 @@ export class BytesAbiBytes24 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes24.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes24.bytes)
 
     cursor.offset += 32 - BytesAbiBytes24.bytes
     
-    return new BytesAbiBytes24(bytes)
+    return new BytesAbiBytes24(content)
   }
 
 }
@@ -5059,7 +5033,7 @@ export class ZeroHexAbiBytes24 {
     return new ZeroHexAbiBytes24(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes24.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes24.From) {
     return ZeroHexAbiBytes24.create(value)
   }
 
@@ -5141,7 +5115,7 @@ export namespace AbiBytes25 {
     return ZeroHexAbiBytes25.create(value)
   }
 
-  export function from(value: AbiBytes25.From) {
+  export function fromOrThrow(value: AbiBytes25.From) {
     return AbiBytes25.create(value)
   }
   
@@ -5187,7 +5161,7 @@ export class BytesAbiBytes25 {
     return new BytesAbiBytes25(value)
   }
 
-  static from(value: BytesAbiBytes25.From) {
+  static fromOrThrow(value: BytesAbiBytes25.From) {
     return BytesAbiBytes25.create(value)
   }
 
@@ -5234,12 +5208,11 @@ export class BytesAbiBytes25 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes25.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes25.bytes)
 
     cursor.offset += 32 - BytesAbiBytes25.bytes
     
-    return new BytesAbiBytes25(bytes)
+    return new BytesAbiBytes25(content)
   }
 
 }
@@ -5272,7 +5245,7 @@ export class ZeroHexAbiBytes25 {
     return new ZeroHexAbiBytes25(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes25.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes25.From) {
     return ZeroHexAbiBytes25.create(value)
   }
 
@@ -5354,7 +5327,7 @@ export namespace AbiBytes26 {
     return ZeroHexAbiBytes26.create(value)
   }
 
-  export function from(value: AbiBytes26.From) {
+  export function fromOrThrow(value: AbiBytes26.From) {
     return AbiBytes26.create(value)
   }
   
@@ -5400,7 +5373,7 @@ export class BytesAbiBytes26 {
     return new BytesAbiBytes26(value)
   }
 
-  static from(value: BytesAbiBytes26.From) {
+  static fromOrThrow(value: BytesAbiBytes26.From) {
     return BytesAbiBytes26.create(value)
   }
 
@@ -5447,12 +5420,11 @@ export class BytesAbiBytes26 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes26.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes26.bytes)
 
     cursor.offset += 32 - BytesAbiBytes26.bytes
     
-    return new BytesAbiBytes26(bytes)
+    return new BytesAbiBytes26(content)
   }
 
 }
@@ -5485,7 +5457,7 @@ export class ZeroHexAbiBytes26 {
     return new ZeroHexAbiBytes26(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes26.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes26.From) {
     return ZeroHexAbiBytes26.create(value)
   }
 
@@ -5567,7 +5539,7 @@ export namespace AbiBytes27 {
     return ZeroHexAbiBytes27.create(value)
   }
 
-  export function from(value: AbiBytes27.From) {
+  export function fromOrThrow(value: AbiBytes27.From) {
     return AbiBytes27.create(value)
   }
   
@@ -5613,7 +5585,7 @@ export class BytesAbiBytes27 {
     return new BytesAbiBytes27(value)
   }
 
-  static from(value: BytesAbiBytes27.From) {
+  static fromOrThrow(value: BytesAbiBytes27.From) {
     return BytesAbiBytes27.create(value)
   }
 
@@ -5660,12 +5632,11 @@ export class BytesAbiBytes27 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes27.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes27.bytes)
 
     cursor.offset += 32 - BytesAbiBytes27.bytes
     
-    return new BytesAbiBytes27(bytes)
+    return new BytesAbiBytes27(content)
   }
 
 }
@@ -5698,7 +5669,7 @@ export class ZeroHexAbiBytes27 {
     return new ZeroHexAbiBytes27(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes27.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes27.From) {
     return ZeroHexAbiBytes27.create(value)
   }
 
@@ -5780,7 +5751,7 @@ export namespace AbiBytes28 {
     return ZeroHexAbiBytes28.create(value)
   }
 
-  export function from(value: AbiBytes28.From) {
+  export function fromOrThrow(value: AbiBytes28.From) {
     return AbiBytes28.create(value)
   }
   
@@ -5826,7 +5797,7 @@ export class BytesAbiBytes28 {
     return new BytesAbiBytes28(value)
   }
 
-  static from(value: BytesAbiBytes28.From) {
+  static fromOrThrow(value: BytesAbiBytes28.From) {
     return BytesAbiBytes28.create(value)
   }
 
@@ -5873,12 +5844,11 @@ export class BytesAbiBytes28 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes28.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes28.bytes)
 
     cursor.offset += 32 - BytesAbiBytes28.bytes
     
-    return new BytesAbiBytes28(bytes)
+    return new BytesAbiBytes28(content)
   }
 
 }
@@ -5911,7 +5881,7 @@ export class ZeroHexAbiBytes28 {
     return new ZeroHexAbiBytes28(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes28.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes28.From) {
     return ZeroHexAbiBytes28.create(value)
   }
 
@@ -5993,7 +5963,7 @@ export namespace AbiBytes29 {
     return ZeroHexAbiBytes29.create(value)
   }
 
-  export function from(value: AbiBytes29.From) {
+  export function fromOrThrow(value: AbiBytes29.From) {
     return AbiBytes29.create(value)
   }
   
@@ -6039,7 +6009,7 @@ export class BytesAbiBytes29 {
     return new BytesAbiBytes29(value)
   }
 
-  static from(value: BytesAbiBytes29.From) {
+  static fromOrThrow(value: BytesAbiBytes29.From) {
     return BytesAbiBytes29.create(value)
   }
 
@@ -6086,12 +6056,11 @@ export class BytesAbiBytes29 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes29.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes29.bytes)
 
     cursor.offset += 32 - BytesAbiBytes29.bytes
     
-    return new BytesAbiBytes29(bytes)
+    return new BytesAbiBytes29(content)
   }
 
 }
@@ -6124,7 +6093,7 @@ export class ZeroHexAbiBytes29 {
     return new ZeroHexAbiBytes29(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes29.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes29.From) {
     return ZeroHexAbiBytes29.create(value)
   }
 
@@ -6206,7 +6175,7 @@ export namespace AbiBytes30 {
     return ZeroHexAbiBytes30.create(value)
   }
 
-  export function from(value: AbiBytes30.From) {
+  export function fromOrThrow(value: AbiBytes30.From) {
     return AbiBytes30.create(value)
   }
   
@@ -6252,7 +6221,7 @@ export class BytesAbiBytes30 {
     return new BytesAbiBytes30(value)
   }
 
-  static from(value: BytesAbiBytes30.From) {
+  static fromOrThrow(value: BytesAbiBytes30.From) {
     return BytesAbiBytes30.create(value)
   }
 
@@ -6299,12 +6268,11 @@ export class BytesAbiBytes30 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes30.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes30.bytes)
 
     cursor.offset += 32 - BytesAbiBytes30.bytes
     
-    return new BytesAbiBytes30(bytes)
+    return new BytesAbiBytes30(content)
   }
 
 }
@@ -6337,7 +6305,7 @@ export class ZeroHexAbiBytes30 {
     return new ZeroHexAbiBytes30(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes30.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes30.From) {
     return ZeroHexAbiBytes30.create(value)
   }
 
@@ -6419,7 +6387,7 @@ export namespace AbiBytes31 {
     return ZeroHexAbiBytes31.create(value)
   }
 
-  export function from(value: AbiBytes31.From) {
+  export function fromOrThrow(value: AbiBytes31.From) {
     return AbiBytes31.create(value)
   }
   
@@ -6465,7 +6433,7 @@ export class BytesAbiBytes31 {
     return new BytesAbiBytes31(value)
   }
 
-  static from(value: BytesAbiBytes31.From) {
+  static fromOrThrow(value: BytesAbiBytes31.From) {
     return BytesAbiBytes31.create(value)
   }
 
@@ -6512,12 +6480,11 @@ export class BytesAbiBytes31 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes31.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes31.bytes)
 
     cursor.offset += 32 - BytesAbiBytes31.bytes
     
-    return new BytesAbiBytes31(bytes)
+    return new BytesAbiBytes31(content)
   }
 
 }
@@ -6550,7 +6517,7 @@ export class ZeroHexAbiBytes31 {
     return new ZeroHexAbiBytes31(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes31.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes31.From) {
     return ZeroHexAbiBytes31.create(value)
   }
 
@@ -6632,7 +6599,7 @@ export namespace AbiBytes32 {
     return ZeroHexAbiBytes32.create(value)
   }
 
-  export function from(value: AbiBytes32.From) {
+  export function fromOrThrow(value: AbiBytes32.From) {
     return AbiBytes32.create(value)
   }
   
@@ -6678,7 +6645,7 @@ export class BytesAbiBytes32 {
     return new BytesAbiBytes32(value)
   }
 
-  static from(value: BytesAbiBytes32.From) {
+  static fromOrThrow(value: BytesAbiBytes32.From) {
     return BytesAbiBytes32.create(value)
   }
 
@@ -6725,12 +6692,11 @@ export class BytesAbiBytes32 {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes32.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes32.bytes)
 
     cursor.offset += 32 - BytesAbiBytes32.bytes
     
-    return new BytesAbiBytes32(bytes)
+    return new BytesAbiBytes32(content)
   }
 
 }
@@ -6763,7 +6729,7 @@ export class ZeroHexAbiBytes32 {
     return new ZeroHexAbiBytes32(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes32.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes32.From) {
     return ZeroHexAbiBytes32.create(value)
   }
 

@@ -21,7 +21,7 @@ export interface AbiFactory<C = any, F = any, S extends AbiInstance<any, any> = 
 
   create(create: C): S
 
-  from(from: F): S
+  fromOrThrow(from: F): S
 
   decodeOrThrow(cursor: TextCursor): S
 

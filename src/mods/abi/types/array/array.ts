@@ -2,7 +2,7 @@ import { Cursor } from "@hazae41/cursor";
 import { AbiFactory, AbiInstance } from "mods/abi/types.js";
 
 import { TextCursor } from "libs/cursor/cursor.js";
-import { Uint32 } from "../uint/uint.js";
+import { NumberUint32, Uint32 } from "../uint/uint.js";
 
 export { AbiArray as Array };
 
@@ -54,7 +54,7 @@ export class AbiArray {
           const size = instance.sizeOrThrow()
 
           if (instance.dynamic) {
-            const pointer = Uint32.fromNumber(offset)
+            const pointer = NumberUint32.create(offset)
 
             heads.push(pointer)
             length += 32
@@ -71,11 +71,11 @@ export class AbiArray {
         return new AbiArray(instances, heads, tails, length)
       }
 
-      static from(primitives: AbiArray.From<T, N>) {
+      static fromOrThrow(primitives: AbiArray.From<T, N>) {
         const result = new Array(AbiArray.count)
 
         for (let i = 0; i < AbiArray.count; i++)
-          result[i] = AbiArray.type.from(primitives[i])
+          result[i] = AbiArray.type.fromOrThrow(primitives[i])
 
         return AbiArray.create(result as any as AbiFactory.Instances<T[]> & { readonly length: N })
       }

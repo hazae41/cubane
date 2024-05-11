@@ -11,7 +11,7 @@ Keccak256.set(await Keccak256.fromMorax())
 test("address", async ({ message, test }) => {
   const value = Address.fromOrThrow("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045")
 
-  const abi = AbiAddress.from(value)
+  const abi = AbiAddress.fromOrThrow(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   const abi2 = Readable.tryReadFromBytes(AbiAddress, bytes).unwrap()

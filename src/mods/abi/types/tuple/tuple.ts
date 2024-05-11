@@ -1,7 +1,7 @@
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { AbiFactory, AbiInstance } from "mods/abi/types.js";
-import { Uint32 } from "../uint/uint.js";
+import { NumberUint32, Uint32 } from "../uint/uint.js";
 
 export { AbiTuple as Tuple };
 
@@ -50,7 +50,7 @@ export class AbiTuple {
           const size = instance.sizeOrThrow()
 
           if (instance.dynamic) {
-            const pointer = Uint32.fromNumber(offset)
+            const pointer = NumberUint32.create(offset)
 
             heads.push(pointer)
             length += 32
@@ -67,11 +67,11 @@ export class AbiTuple {
         return new AbiTuple(instances, heads, tails, length)
       }
 
-      static from(primitives: AbiTuple.From<T>) {
+      static fromOrThrow(primitives: AbiTuple.From<T>) {
         const result = new Array(AbiTuple.types.length)
 
         for (let i = 0; i < AbiTuple.types.length; i++)
-          result[i] = AbiTuple.types[i].from(primitives[i])
+          result[i] = AbiTuple.types[i].fromOrThrow(primitives[i])
 
         return AbiTuple.create(result as AbiFactory.Instances<T>)
       }

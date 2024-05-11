@@ -1,5 +1,5 @@
 import { Result } from "@hazae41/result"
-import { ZeroHexString } from "mods/types/zerohex/index.js"
+import { ZeroHexString } from "mods/types/string/index.js"
 
 export interface Encodable {
   encodeOrThrow(): string

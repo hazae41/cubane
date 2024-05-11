@@ -47,7 +47,7 @@ export namespace Address {
     return checksumOrThrow(rawLowerCase)
   }
 
-  function checksumOrThrow(rawHex: string) {
+  export function checksumOrThrow(rawHex: string) {
     const lowerCase = rawHex.toLowerCase()
     const upperCase = rawHex.toUpperCase()
 

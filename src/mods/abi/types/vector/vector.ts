@@ -2,7 +2,7 @@ import { Cursor } from "@hazae41/cursor";
 import { AbiFactory, AbiInstance } from "mods/abi/types.js";
 
 import { TextCursor } from "libs/cursor/cursor.js";
-import { Uint32 } from "../uint/uint.js";
+import { NumberUint32, Uint32 } from "../uint/uint.js";
 
 export { AbiVector as Vector };
 
@@ -51,7 +51,7 @@ export class AbiVector {
           const size = instance.sizeOrThrow()
 
           if (instance.dynamic) {
-            const pointer = Uint32.fromNumber(offset)
+            const pointer = NumberUint32.create(offset)
 
             heads.push(pointer)
             length += 32
@@ -68,11 +68,11 @@ export class AbiVector {
         return new AbiVector(instances, heads, tails, length)
       }
 
-      static from(primitives: AbiVector.From<T>) {
+      static fromOrThrow(primitives: AbiVector.From<T>) {
         const result: AbiInstance<any>[] = new Array(primitives.length)
 
         for (let i = 0; i < primitives.length; i++)
-          result[i] = AbiVector.type.from(primitives[i])
+          result[i] = AbiVector.type.fromOrThrow(primitives[i])
 
         return AbiVector.create(result as any as AbiFactory.Instances<T[]>)
       }
@@ -165,7 +165,7 @@ export class AbiVector {
       }
 
       writeOrThrow(cursor: Cursor) {
-        const length = Uint32.fromNumber(this.inner.length)
+        const length = NumberUint32.create(this.inner.length)
 
         length.writeOrThrow(cursor)
 

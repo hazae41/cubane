@@ -25,7 +25,7 @@ export class AbiBool {
     return new AbiBool(value)
   }
 
-  static from(value: AbiBool.From) {
+  static fromOrThrow(value: AbiBool.From) {
     return new AbiBool(value)
   }
 

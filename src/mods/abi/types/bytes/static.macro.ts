@@ -1,10 +1,8 @@
 function $pre$() {
   return `import { Base16 } from "@hazae41/base16";
-  import { Bytes } from "@hazae41/bytes";
-  import { Cursor } from "@hazae41/cursor";
-  import { TextCursor } from "libs/cursor/cursor.js";
-  import { ZeroHexString } from "mods/types/zerohex/index.js";
-  import { RawHexString } from "mods/types/rawhex/index.js";`
+import { Cursor } from "@hazae41/cursor";
+import { TextCursor } from "libs/cursor/cursor.js";
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";`
 }
 
 $pre$()
@@ -37,7 +35,7 @@ export namespace AbiBytes${bytes} {
     return ZeroHexAbiBytes${bytes}.create(value)
   }
 
-  export function from(value: AbiBytes${bytes}.From) {
+  export function fromOrThrow(value: AbiBytes${bytes}.From) {
     return AbiBytes${bytes}.create(value)
   }
   
@@ -83,7 +81,7 @@ export class BytesAbiBytes${bytes} {
     return new BytesAbiBytes${bytes}(value)
   }
 
-  static from(value: BytesAbiBytes${bytes}.From) {
+  static fromOrThrow(value: BytesAbiBytes${bytes}.From) {
     return BytesAbiBytes${bytes}.create(value)
   }
 
@@ -130,12 +128,11 @@ export class BytesAbiBytes${bytes} {
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(BytesAbiBytes${bytes}.bytes)
-    const bytes = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiBytes${bytes}.bytes)
 
     cursor.offset += 32 - BytesAbiBytes${bytes}.bytes
     
-    return new BytesAbiBytes${bytes}(bytes)
+    return new BytesAbiBytes${bytes}(content)
   }
 
 }
@@ -168,7 +165,7 @@ export class ZeroHexAbiBytes${bytes} {
     return new ZeroHexAbiBytes${bytes}(value.slice(2))
   }
 
-  static from(value: ZeroHexAbiBytes${bytes}.From) {
+  static fromOrThrow(value: ZeroHexAbiBytes${bytes}.From) {
     return ZeroHexAbiBytes${bytes}.create(value)
   }
 

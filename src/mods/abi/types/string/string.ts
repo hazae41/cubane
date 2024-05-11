@@ -32,7 +32,7 @@ export class AbiString {
     return new AbiString(BytesAbiBytes.create(value))
   }
 
-  static from(value: AbiString.From) {
+  static fromOrThrow(value: AbiString.From) {
     return AbiString.create(value)
   }
 

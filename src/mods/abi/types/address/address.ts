@@ -3,8 +3,7 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Address } from "mods/types/address/index.js";
-import { RawHexString } from "mods/types/rawhex/index.js";
-import { ZeroHexString } from "mods/types/zerohex/index.js";
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 export { AbiAddress as Address };
 
@@ -30,7 +29,7 @@ export namespace AbiAddress {
     return ZeroHexAbiAddress.create(value)
   }
 
-  export function from(value: AbiAddress.From) {
+  export function fromOrThrow(value: AbiAddress.From) {
     return AbiAddress.create(value)
   }
 
@@ -75,7 +74,7 @@ export class BytesAbiAddress {
   }
 
   intoOrThrow(): Address {
-    return Address.checksum(this.encodePackedOrThrow())
+    return Address.checksumOrThrow(this.encodePackedOrThrow())
   }
 
   toJSON(): Address {
@@ -115,8 +114,11 @@ export class BytesAbiAddress {
 }
 
 export namespace ZeroHexAbiAddress {
+
   export type Create = ZeroHexString
+
   export type From = ZeroHexString
+
 }
 
 export class ZeroHexAbiAddress {
@@ -141,7 +143,7 @@ export class ZeroHexAbiAddress {
   }
 
   intoOrThrow(): Address {
-    return Address.checksum(this.value)
+    return Address.checksumOrThrow(this.value)
   }
 
   toJSON(): Address {
