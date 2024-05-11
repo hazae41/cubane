@@ -20,7 +20,7 @@ export namespace Address {
     export function is(value: string): value is Address {
       if (!/^0x[0-9a-fA-F]{40}$/.test(value))
         return false
-      return value === fromRawHexOrThrow(value.slice(2))
+      return value === checksumOrThrow(value.slice(2))
     }
 
   }
@@ -30,18 +30,37 @@ export namespace Address {
       return false
     if (!/^0x[0-9a-fA-F]{40}$/.test(value))
       return false
-    return value === fromRawHexOrThrow(value.slice(2))
+    return value === checksumOrThrow(value.slice(2))
   }
 
   export function fromBytesOrThrow(value: Uint8Array): Address {
-    return fromRawHexOrThrow(Base16.get().encodeOrThrow(value))
+    const raw = Base16.get().encodeOrThrow(value)
+
+    if (raw.length !== 40)
+      throw new Error(`Invalid address`)
+
+    return checksumOrThrow(raw)
   }
 
   export function fromZeroHexOrThrow(value: ZeroHexString): Address {
-    return fromRawHexOrThrow(value.slice(2))
+    const raw = value.slice(2)
+
+    if (!/^[0-9a-fA-F]{40}$/.test(raw))
+      throw new Error(`Invalid address`)
+
+    return checksumOrThrow(raw)
   }
 
-  export function fromRawHexOrThrow(raw: RawHexString) {
+  export function fromRawHexOrThrow(value: RawHexString): Address {
+    const raw = value
+
+    if (!/^[0-9a-fA-F]{40}$/.test(raw))
+      throw new Error(`Invalid address`)
+
+    return checksumOrThrow(raw)
+  }
+
+  function checksumOrThrow(raw: RawHexString) {
     const lowerCase = raw.toLowerCase()
     const upperCase = raw.toUpperCase()
 
@@ -86,7 +105,7 @@ export namespace Address {
     using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.subarray(1))
     const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
 
-    return fromRawHexOrThrow(rawLowerCase)
+    return checksumOrThrow(rawLowerCase)
   }
 
   export type Formatted = `0x${string}...${string}`

@@ -79,7 +79,7 @@ export class BytesAbiAddress {
   }
 
   intoOrThrow(): Address {
-    return Address.fromRawHexOrThrow(this.encodePackedOrThrow())
+    return Address.fromBytesOrThrow(this.value)
   }
 
   toJSON(): Address {
