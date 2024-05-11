@@ -1,16 +1,16 @@
-import { Base16 } from "@hazae41/base16";
-import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { RawHexString } from "mods/types/rawhex/index.js";
+import { Bytes } from "@hazae41/bytes";
+import { Base16 } from "@hazae41/base16";
 import { ZeroHexString } from "mods/types/zerohex/index.js";
-
+import { RawHexString } from "mods/types/rawhex/index.js";
+  
 const BN_0 = 0n
 const BN_1 = 1n
 
-export { AbiInt8 as Int8 };
-
+export { AbiInt8 as Int8 }
+  
 export type AbiInt8 =
   | ZeroHexAbiInt8
   | BytesAbiInt8
@@ -23,7 +23,7 @@ export namespace AbiInt8 {
     | BytesAbiInt8.Create
     | ZeroHexAbiInt8.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt8.From
     | BytesAbiInt8.From
 
@@ -112,7 +112,7 @@ export class BytesAbiInt8 {
 
     const content = cursor.readOrThrow(BytesAbiInt8.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt8(value)
   }
 
@@ -176,7 +176,7 @@ export class ZeroHexAbiInt8 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt8(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -201,7 +201,7 @@ export class ZeroHexAbiInt8 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -255,8 +255,8 @@ export class ZeroHexAbiInt8 {
 
 }
 
-export { AbiInt16 as Int16 };
-
+export { AbiInt16 as Int16 }
+  
 export type AbiInt16 =
   | ZeroHexAbiInt16
   | BytesAbiInt16
@@ -269,7 +269,7 @@ export namespace AbiInt16 {
     | BytesAbiInt16.Create
     | ZeroHexAbiInt16.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt16.From
     | BytesAbiInt16.From
 
@@ -358,7 +358,7 @@ export class BytesAbiInt16 {
 
     const content = cursor.readOrThrow(BytesAbiInt16.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt16(value)
   }
 
@@ -422,7 +422,7 @@ export class ZeroHexAbiInt16 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt16(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -447,7 +447,7 @@ export class ZeroHexAbiInt16 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -501,8 +501,8 @@ export class ZeroHexAbiInt16 {
 
 }
 
-export { AbiInt24 as Int24 };
-
+export { AbiInt24 as Int24 }
+  
 export type AbiInt24 =
   | ZeroHexAbiInt24
   | BytesAbiInt24
@@ -515,7 +515,7 @@ export namespace AbiInt24 {
     | BytesAbiInt24.Create
     | ZeroHexAbiInt24.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt24.From
     | BytesAbiInt24.From
 
@@ -604,7 +604,7 @@ export class BytesAbiInt24 {
 
     const content = cursor.readOrThrow(BytesAbiInt24.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt24(value)
   }
 
@@ -668,7 +668,7 @@ export class ZeroHexAbiInt24 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt24(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -693,7 +693,7 @@ export class ZeroHexAbiInt24 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -747,8 +747,8 @@ export class ZeroHexAbiInt24 {
 
 }
 
-export { AbiInt32 as Int32 };
-
+export { AbiInt32 as Int32 }
+  
 export type AbiInt32 =
   | ZeroHexAbiInt32
   | BytesAbiInt32
@@ -761,7 +761,7 @@ export namespace AbiInt32 {
     | BytesAbiInt32.Create
     | ZeroHexAbiInt32.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt32.From
     | BytesAbiInt32.From
 
@@ -850,7 +850,7 @@ export class BytesAbiInt32 {
 
     const content = cursor.readOrThrow(BytesAbiInt32.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt32(value)
   }
 
@@ -914,7 +914,7 @@ export class ZeroHexAbiInt32 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt32(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -939,7 +939,7 @@ export class ZeroHexAbiInt32 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -993,8 +993,8 @@ export class ZeroHexAbiInt32 {
 
 }
 
-export { AbiInt40 as Int40 };
-
+export { AbiInt40 as Int40 }
+  
 export type AbiInt40 =
   | ZeroHexAbiInt40
   | BytesAbiInt40
@@ -1007,7 +1007,7 @@ export namespace AbiInt40 {
     | BytesAbiInt40.Create
     | ZeroHexAbiInt40.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt40.From
     | BytesAbiInt40.From
 
@@ -1096,7 +1096,7 @@ export class BytesAbiInt40 {
 
     const content = cursor.readOrThrow(BytesAbiInt40.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt40(value)
   }
 
@@ -1160,7 +1160,7 @@ export class ZeroHexAbiInt40 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt40(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -1185,7 +1185,7 @@ export class ZeroHexAbiInt40 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -1239,8 +1239,8 @@ export class ZeroHexAbiInt40 {
 
 }
 
-export { AbiInt48 as Int48 };
-
+export { AbiInt48 as Int48 }
+  
 export type AbiInt48 =
   | ZeroHexAbiInt48
   | BytesAbiInt48
@@ -1253,7 +1253,7 @@ export namespace AbiInt48 {
     | BytesAbiInt48.Create
     | ZeroHexAbiInt48.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt48.From
     | BytesAbiInt48.From
 
@@ -1342,7 +1342,7 @@ export class BytesAbiInt48 {
 
     const content = cursor.readOrThrow(BytesAbiInt48.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt48(value)
   }
 
@@ -1406,7 +1406,7 @@ export class ZeroHexAbiInt48 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt48(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -1431,7 +1431,7 @@ export class ZeroHexAbiInt48 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -1485,8 +1485,8 @@ export class ZeroHexAbiInt48 {
 
 }
 
-export { AbiInt56 as Int56 };
-
+export { AbiInt56 as Int56 }
+  
 export type AbiInt56 =
   | ZeroHexAbiInt56
   | BytesAbiInt56
@@ -1499,7 +1499,7 @@ export namespace AbiInt56 {
     | BytesAbiInt56.Create
     | ZeroHexAbiInt56.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt56.From
     | BytesAbiInt56.From
 
@@ -1588,7 +1588,7 @@ export class BytesAbiInt56 {
 
     const content = cursor.readOrThrow(BytesAbiInt56.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt56(value)
   }
 
@@ -1652,7 +1652,7 @@ export class ZeroHexAbiInt56 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt56(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -1677,7 +1677,7 @@ export class ZeroHexAbiInt56 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -1731,8 +1731,8 @@ export class ZeroHexAbiInt56 {
 
 }
 
-export { AbiInt64 as Int64 };
-
+export { AbiInt64 as Int64 }
+  
 export type AbiInt64 =
   | ZeroHexAbiInt64
   | BytesAbiInt64
@@ -1745,7 +1745,7 @@ export namespace AbiInt64 {
     | BytesAbiInt64.Create
     | ZeroHexAbiInt64.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt64.From
     | BytesAbiInt64.From
 
@@ -1834,7 +1834,7 @@ export class BytesAbiInt64 {
 
     const content = cursor.readOrThrow(BytesAbiInt64.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt64(value)
   }
 
@@ -1898,7 +1898,7 @@ export class ZeroHexAbiInt64 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt64(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -1923,7 +1923,7 @@ export class ZeroHexAbiInt64 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -1977,8 +1977,8 @@ export class ZeroHexAbiInt64 {
 
 }
 
-export { AbiInt72 as Int72 };
-
+export { AbiInt72 as Int72 }
+  
 export type AbiInt72 =
   | ZeroHexAbiInt72
   | BytesAbiInt72
@@ -1991,7 +1991,7 @@ export namespace AbiInt72 {
     | BytesAbiInt72.Create
     | ZeroHexAbiInt72.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt72.From
     | BytesAbiInt72.From
 
@@ -2080,7 +2080,7 @@ export class BytesAbiInt72 {
 
     const content = cursor.readOrThrow(BytesAbiInt72.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt72(value)
   }
 
@@ -2144,7 +2144,7 @@ export class ZeroHexAbiInt72 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt72(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -2169,7 +2169,7 @@ export class ZeroHexAbiInt72 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -2223,8 +2223,8 @@ export class ZeroHexAbiInt72 {
 
 }
 
-export { AbiInt80 as Int80 };
-
+export { AbiInt80 as Int80 }
+  
 export type AbiInt80 =
   | ZeroHexAbiInt80
   | BytesAbiInt80
@@ -2237,7 +2237,7 @@ export namespace AbiInt80 {
     | BytesAbiInt80.Create
     | ZeroHexAbiInt80.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt80.From
     | BytesAbiInt80.From
 
@@ -2326,7 +2326,7 @@ export class BytesAbiInt80 {
 
     const content = cursor.readOrThrow(BytesAbiInt80.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt80(value)
   }
 
@@ -2390,7 +2390,7 @@ export class ZeroHexAbiInt80 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt80(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -2415,7 +2415,7 @@ export class ZeroHexAbiInt80 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -2469,8 +2469,8 @@ export class ZeroHexAbiInt80 {
 
 }
 
-export { AbiInt88 as Int88 };
-
+export { AbiInt88 as Int88 }
+  
 export type AbiInt88 =
   | ZeroHexAbiInt88
   | BytesAbiInt88
@@ -2483,7 +2483,7 @@ export namespace AbiInt88 {
     | BytesAbiInt88.Create
     | ZeroHexAbiInt88.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt88.From
     | BytesAbiInt88.From
 
@@ -2572,7 +2572,7 @@ export class BytesAbiInt88 {
 
     const content = cursor.readOrThrow(BytesAbiInt88.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt88(value)
   }
 
@@ -2636,7 +2636,7 @@ export class ZeroHexAbiInt88 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt88(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -2661,7 +2661,7 @@ export class ZeroHexAbiInt88 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -2715,8 +2715,8 @@ export class ZeroHexAbiInt88 {
 
 }
 
-export { AbiInt96 as Int96 };
-
+export { AbiInt96 as Int96 }
+  
 export type AbiInt96 =
   | ZeroHexAbiInt96
   | BytesAbiInt96
@@ -2729,7 +2729,7 @@ export namespace AbiInt96 {
     | BytesAbiInt96.Create
     | ZeroHexAbiInt96.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt96.From
     | BytesAbiInt96.From
 
@@ -2818,7 +2818,7 @@ export class BytesAbiInt96 {
 
     const content = cursor.readOrThrow(BytesAbiInt96.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt96(value)
   }
 
@@ -2882,7 +2882,7 @@ export class ZeroHexAbiInt96 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt96(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -2907,7 +2907,7 @@ export class ZeroHexAbiInt96 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -2961,8 +2961,8 @@ export class ZeroHexAbiInt96 {
 
 }
 
-export { AbiInt104 as Int104 };
-
+export { AbiInt104 as Int104 }
+  
 export type AbiInt104 =
   | ZeroHexAbiInt104
   | BytesAbiInt104
@@ -2975,7 +2975,7 @@ export namespace AbiInt104 {
     | BytesAbiInt104.Create
     | ZeroHexAbiInt104.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt104.From
     | BytesAbiInt104.From
 
@@ -3064,7 +3064,7 @@ export class BytesAbiInt104 {
 
     const content = cursor.readOrThrow(BytesAbiInt104.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt104(value)
   }
 
@@ -3128,7 +3128,7 @@ export class ZeroHexAbiInt104 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt104(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -3153,7 +3153,7 @@ export class ZeroHexAbiInt104 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3207,8 +3207,8 @@ export class ZeroHexAbiInt104 {
 
 }
 
-export { AbiInt112 as Int112 };
-
+export { AbiInt112 as Int112 }
+  
 export type AbiInt112 =
   | ZeroHexAbiInt112
   | BytesAbiInt112
@@ -3221,7 +3221,7 @@ export namespace AbiInt112 {
     | BytesAbiInt112.Create
     | ZeroHexAbiInt112.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt112.From
     | BytesAbiInt112.From
 
@@ -3310,7 +3310,7 @@ export class BytesAbiInt112 {
 
     const content = cursor.readOrThrow(BytesAbiInt112.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt112(value)
   }
 
@@ -3374,7 +3374,7 @@ export class ZeroHexAbiInt112 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt112(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -3399,7 +3399,7 @@ export class ZeroHexAbiInt112 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3453,8 +3453,8 @@ export class ZeroHexAbiInt112 {
 
 }
 
-export { AbiInt120 as Int120 };
-
+export { AbiInt120 as Int120 }
+  
 export type AbiInt120 =
   | ZeroHexAbiInt120
   | BytesAbiInt120
@@ -3467,7 +3467,7 @@ export namespace AbiInt120 {
     | BytesAbiInt120.Create
     | ZeroHexAbiInt120.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt120.From
     | BytesAbiInt120.From
 
@@ -3556,7 +3556,7 @@ export class BytesAbiInt120 {
 
     const content = cursor.readOrThrow(BytesAbiInt120.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt120(value)
   }
 
@@ -3620,7 +3620,7 @@ export class ZeroHexAbiInt120 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt120(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -3645,7 +3645,7 @@ export class ZeroHexAbiInt120 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3699,8 +3699,8 @@ export class ZeroHexAbiInt120 {
 
 }
 
-export { AbiInt128 as Int128 };
-
+export { AbiInt128 as Int128 }
+  
 export type AbiInt128 =
   | ZeroHexAbiInt128
   | BytesAbiInt128
@@ -3713,7 +3713,7 @@ export namespace AbiInt128 {
     | BytesAbiInt128.Create
     | ZeroHexAbiInt128.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt128.From
     | BytesAbiInt128.From
 
@@ -3802,7 +3802,7 @@ export class BytesAbiInt128 {
 
     const content = cursor.readOrThrow(BytesAbiInt128.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt128(value)
   }
 
@@ -3866,7 +3866,7 @@ export class ZeroHexAbiInt128 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt128(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -3891,7 +3891,7 @@ export class ZeroHexAbiInt128 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -3945,8 +3945,8 @@ export class ZeroHexAbiInt128 {
 
 }
 
-export { AbiInt136 as Int136 };
-
+export { AbiInt136 as Int136 }
+  
 export type AbiInt136 =
   | ZeroHexAbiInt136
   | BytesAbiInt136
@@ -3959,7 +3959,7 @@ export namespace AbiInt136 {
     | BytesAbiInt136.Create
     | ZeroHexAbiInt136.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt136.From
     | BytesAbiInt136.From
 
@@ -4048,7 +4048,7 @@ export class BytesAbiInt136 {
 
     const content = cursor.readOrThrow(BytesAbiInt136.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt136(value)
   }
 
@@ -4112,7 +4112,7 @@ export class ZeroHexAbiInt136 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt136(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -4137,7 +4137,7 @@ export class ZeroHexAbiInt136 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -4191,8 +4191,8 @@ export class ZeroHexAbiInt136 {
 
 }
 
-export { AbiInt144 as Int144 };
-
+export { AbiInt144 as Int144 }
+  
 export type AbiInt144 =
   | ZeroHexAbiInt144
   | BytesAbiInt144
@@ -4205,7 +4205,7 @@ export namespace AbiInt144 {
     | BytesAbiInt144.Create
     | ZeroHexAbiInt144.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt144.From
     | BytesAbiInt144.From
 
@@ -4294,7 +4294,7 @@ export class BytesAbiInt144 {
 
     const content = cursor.readOrThrow(BytesAbiInt144.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt144(value)
   }
 
@@ -4358,7 +4358,7 @@ export class ZeroHexAbiInt144 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt144(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -4383,7 +4383,7 @@ export class ZeroHexAbiInt144 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -4437,8 +4437,8 @@ export class ZeroHexAbiInt144 {
 
 }
 
-export { AbiInt152 as Int152 };
-
+export { AbiInt152 as Int152 }
+  
 export type AbiInt152 =
   | ZeroHexAbiInt152
   | BytesAbiInt152
@@ -4451,7 +4451,7 @@ export namespace AbiInt152 {
     | BytesAbiInt152.Create
     | ZeroHexAbiInt152.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt152.From
     | BytesAbiInt152.From
 
@@ -4540,7 +4540,7 @@ export class BytesAbiInt152 {
 
     const content = cursor.readOrThrow(BytesAbiInt152.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt152(value)
   }
 
@@ -4604,7 +4604,7 @@ export class ZeroHexAbiInt152 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt152(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -4629,7 +4629,7 @@ export class ZeroHexAbiInt152 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -4683,8 +4683,8 @@ export class ZeroHexAbiInt152 {
 
 }
 
-export { AbiInt160 as Int160 };
-
+export { AbiInt160 as Int160 }
+  
 export type AbiInt160 =
   | ZeroHexAbiInt160
   | BytesAbiInt160
@@ -4697,7 +4697,7 @@ export namespace AbiInt160 {
     | BytesAbiInt160.Create
     | ZeroHexAbiInt160.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt160.From
     | BytesAbiInt160.From
 
@@ -4786,7 +4786,7 @@ export class BytesAbiInt160 {
 
     const content = cursor.readOrThrow(BytesAbiInt160.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt160(value)
   }
 
@@ -4850,7 +4850,7 @@ export class ZeroHexAbiInt160 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt160(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -4875,7 +4875,7 @@ export class ZeroHexAbiInt160 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -4929,8 +4929,8 @@ export class ZeroHexAbiInt160 {
 
 }
 
-export { AbiInt168 as Int168 };
-
+export { AbiInt168 as Int168 }
+  
 export type AbiInt168 =
   | ZeroHexAbiInt168
   | BytesAbiInt168
@@ -4943,7 +4943,7 @@ export namespace AbiInt168 {
     | BytesAbiInt168.Create
     | ZeroHexAbiInt168.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt168.From
     | BytesAbiInt168.From
 
@@ -5032,7 +5032,7 @@ export class BytesAbiInt168 {
 
     const content = cursor.readOrThrow(BytesAbiInt168.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt168(value)
   }
 
@@ -5096,7 +5096,7 @@ export class ZeroHexAbiInt168 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt168(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -5121,7 +5121,7 @@ export class ZeroHexAbiInt168 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -5175,8 +5175,8 @@ export class ZeroHexAbiInt168 {
 
 }
 
-export { AbiInt176 as Int176 };
-
+export { AbiInt176 as Int176 }
+  
 export type AbiInt176 =
   | ZeroHexAbiInt176
   | BytesAbiInt176
@@ -5189,7 +5189,7 @@ export namespace AbiInt176 {
     | BytesAbiInt176.Create
     | ZeroHexAbiInt176.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt176.From
     | BytesAbiInt176.From
 
@@ -5278,7 +5278,7 @@ export class BytesAbiInt176 {
 
     const content = cursor.readOrThrow(BytesAbiInt176.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt176(value)
   }
 
@@ -5342,7 +5342,7 @@ export class ZeroHexAbiInt176 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt176(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -5367,7 +5367,7 @@ export class ZeroHexAbiInt176 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -5421,8 +5421,8 @@ export class ZeroHexAbiInt176 {
 
 }
 
-export { AbiInt184 as Int184 };
-
+export { AbiInt184 as Int184 }
+  
 export type AbiInt184 =
   | ZeroHexAbiInt184
   | BytesAbiInt184
@@ -5435,7 +5435,7 @@ export namespace AbiInt184 {
     | BytesAbiInt184.Create
     | ZeroHexAbiInt184.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt184.From
     | BytesAbiInt184.From
 
@@ -5524,7 +5524,7 @@ export class BytesAbiInt184 {
 
     const content = cursor.readOrThrow(BytesAbiInt184.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt184(value)
   }
 
@@ -5588,7 +5588,7 @@ export class ZeroHexAbiInt184 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt184(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -5613,7 +5613,7 @@ export class ZeroHexAbiInt184 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -5667,8 +5667,8 @@ export class ZeroHexAbiInt184 {
 
 }
 
-export { AbiInt192 as Int192 };
-
+export { AbiInt192 as Int192 }
+  
 export type AbiInt192 =
   | ZeroHexAbiInt192
   | BytesAbiInt192
@@ -5681,7 +5681,7 @@ export namespace AbiInt192 {
     | BytesAbiInt192.Create
     | ZeroHexAbiInt192.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt192.From
     | BytesAbiInt192.From
 
@@ -5770,7 +5770,7 @@ export class BytesAbiInt192 {
 
     const content = cursor.readOrThrow(BytesAbiInt192.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt192(value)
   }
 
@@ -5834,7 +5834,7 @@ export class ZeroHexAbiInt192 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt192(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -5859,7 +5859,7 @@ export class ZeroHexAbiInt192 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -5913,8 +5913,8 @@ export class ZeroHexAbiInt192 {
 
 }
 
-export { AbiInt200 as Int200 };
-
+export { AbiInt200 as Int200 }
+  
 export type AbiInt200 =
   | ZeroHexAbiInt200
   | BytesAbiInt200
@@ -5927,7 +5927,7 @@ export namespace AbiInt200 {
     | BytesAbiInt200.Create
     | ZeroHexAbiInt200.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt200.From
     | BytesAbiInt200.From
 
@@ -6016,7 +6016,7 @@ export class BytesAbiInt200 {
 
     const content = cursor.readOrThrow(BytesAbiInt200.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt200(value)
   }
 
@@ -6080,7 +6080,7 @@ export class ZeroHexAbiInt200 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt200(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -6105,7 +6105,7 @@ export class ZeroHexAbiInt200 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -6159,8 +6159,8 @@ export class ZeroHexAbiInt200 {
 
 }
 
-export { AbiInt208 as Int208 };
-
+export { AbiInt208 as Int208 }
+  
 export type AbiInt208 =
   | ZeroHexAbiInt208
   | BytesAbiInt208
@@ -6173,7 +6173,7 @@ export namespace AbiInt208 {
     | BytesAbiInt208.Create
     | ZeroHexAbiInt208.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt208.From
     | BytesAbiInt208.From
 
@@ -6262,7 +6262,7 @@ export class BytesAbiInt208 {
 
     const content = cursor.readOrThrow(BytesAbiInt208.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt208(value)
   }
 
@@ -6326,7 +6326,7 @@ export class ZeroHexAbiInt208 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt208(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -6351,7 +6351,7 @@ export class ZeroHexAbiInt208 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -6405,8 +6405,8 @@ export class ZeroHexAbiInt208 {
 
 }
 
-export { AbiInt216 as Int216 };
-
+export { AbiInt216 as Int216 }
+  
 export type AbiInt216 =
   | ZeroHexAbiInt216
   | BytesAbiInt216
@@ -6419,7 +6419,7 @@ export namespace AbiInt216 {
     | BytesAbiInt216.Create
     | ZeroHexAbiInt216.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt216.From
     | BytesAbiInt216.From
 
@@ -6508,7 +6508,7 @@ export class BytesAbiInt216 {
 
     const content = cursor.readOrThrow(BytesAbiInt216.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt216(value)
   }
 
@@ -6572,7 +6572,7 @@ export class ZeroHexAbiInt216 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt216(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -6597,7 +6597,7 @@ export class ZeroHexAbiInt216 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -6651,8 +6651,8 @@ export class ZeroHexAbiInt216 {
 
 }
 
-export { AbiInt224 as Int224 };
-
+export { AbiInt224 as Int224 }
+  
 export type AbiInt224 =
   | ZeroHexAbiInt224
   | BytesAbiInt224
@@ -6665,7 +6665,7 @@ export namespace AbiInt224 {
     | BytesAbiInt224.Create
     | ZeroHexAbiInt224.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt224.From
     | BytesAbiInt224.From
 
@@ -6754,7 +6754,7 @@ export class BytesAbiInt224 {
 
     const content = cursor.readOrThrow(BytesAbiInt224.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt224(value)
   }
 
@@ -6818,7 +6818,7 @@ export class ZeroHexAbiInt224 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt224(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -6843,7 +6843,7 @@ export class ZeroHexAbiInt224 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -6897,8 +6897,8 @@ export class ZeroHexAbiInt224 {
 
 }
 
-export { AbiInt232 as Int232 };
-
+export { AbiInt232 as Int232 }
+  
 export type AbiInt232 =
   | ZeroHexAbiInt232
   | BytesAbiInt232
@@ -6911,7 +6911,7 @@ export namespace AbiInt232 {
     | BytesAbiInt232.Create
     | ZeroHexAbiInt232.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt232.From
     | BytesAbiInt232.From
 
@@ -7000,7 +7000,7 @@ export class BytesAbiInt232 {
 
     const content = cursor.readOrThrow(BytesAbiInt232.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt232(value)
   }
 
@@ -7064,7 +7064,7 @@ export class ZeroHexAbiInt232 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt232(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -7089,7 +7089,7 @@ export class ZeroHexAbiInt232 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -7143,8 +7143,8 @@ export class ZeroHexAbiInt232 {
 
 }
 
-export { AbiInt240 as Int240 };
-
+export { AbiInt240 as Int240 }
+  
 export type AbiInt240 =
   | ZeroHexAbiInt240
   | BytesAbiInt240
@@ -7157,7 +7157,7 @@ export namespace AbiInt240 {
     | BytesAbiInt240.Create
     | ZeroHexAbiInt240.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt240.From
     | BytesAbiInt240.From
 
@@ -7246,7 +7246,7 @@ export class BytesAbiInt240 {
 
     const content = cursor.readOrThrow(BytesAbiInt240.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt240(value)
   }
 
@@ -7310,7 +7310,7 @@ export class ZeroHexAbiInt240 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt240(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -7335,7 +7335,7 @@ export class ZeroHexAbiInt240 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -7389,8 +7389,8 @@ export class ZeroHexAbiInt240 {
 
 }
 
-export { AbiInt248 as Int248 };
-
+export { AbiInt248 as Int248 }
+  
 export type AbiInt248 =
   | ZeroHexAbiInt248
   | BytesAbiInt248
@@ -7403,7 +7403,7 @@ export namespace AbiInt248 {
     | BytesAbiInt248.Create
     | ZeroHexAbiInt248.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt248.From
     | BytesAbiInt248.From
 
@@ -7492,7 +7492,7 @@ export class BytesAbiInt248 {
 
     const content = cursor.readOrThrow(BytesAbiInt248.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt248(value)
   }
 
@@ -7556,7 +7556,7 @@ export class ZeroHexAbiInt248 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt248(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -7581,7 +7581,7 @@ export class ZeroHexAbiInt248 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -7635,8 +7635,8 @@ export class ZeroHexAbiInt248 {
 
 }
 
-export { AbiInt256 as Int256 };
-
+export { AbiInt256 as Int256 }
+  
 export type AbiInt256 =
   | ZeroHexAbiInt256
   | BytesAbiInt256
@@ -7649,7 +7649,7 @@ export namespace AbiInt256 {
     | BytesAbiInt256.Create
     | ZeroHexAbiInt256.Create
 
-  export type From =
+  export type From = 
     | ZeroHexAbiInt256.From
     | BytesAbiInt256.From
 
@@ -7738,7 +7738,7 @@ export class BytesAbiInt256 {
 
     const content = cursor.readOrThrow(BytesAbiInt256.nibbles)
     const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-
+    
     return new BytesAbiInt256(value)
   }
 
@@ -7802,7 +7802,7 @@ export class ZeroHexAbiInt256 {
   }
 
   static fromBigInt(value: bigint) {
-    if (value >= BN_0)
+    if (value >= BN_0) 
       return new ZeroHexAbiInt256(value.toString(16))
 
     const mask = (BN_1 << 256n) - BN_1
@@ -7827,7 +7827,7 @@ export class ZeroHexAbiInt256 {
 
   intoOrThrow(): bigint {
     const mask = (BN_1 << this.bitsn) - BN_1
-    const value = BigInts.decodeRawHex(this.value)
+    const value = BigInts.decodeRaw(this.value)
 
     if ((value & mask) >> (this.bitsn - BN_1))
       return -(((~value) & mask) + BN_1)
@@ -7882,71 +7882,71 @@ export class ZeroHexAbiInt256 {
 }
 
 export type IntByName = {
-  int8: typeof AbiInt8,
-  int16: typeof AbiInt16,
-  int24: typeof AbiInt24,
-  int32: typeof AbiInt32,
-  int40: typeof AbiInt40,
-  int48: typeof AbiInt48,
-  int56: typeof AbiInt56,
-  int64: typeof AbiInt64,
-  int72: typeof AbiInt72,
-  int80: typeof AbiInt80,
-  int88: typeof AbiInt88,
-  int96: typeof AbiInt96,
-  int104: typeof AbiInt104,
-  int112: typeof AbiInt112,
-  int120: typeof AbiInt120,
-  int128: typeof AbiInt128,
-  int136: typeof AbiInt136,
-  int144: typeof AbiInt144,
-  int152: typeof AbiInt152,
-  int160: typeof AbiInt160,
-  int168: typeof AbiInt168,
-  int176: typeof AbiInt176,
-  int184: typeof AbiInt184,
-  int192: typeof AbiInt192,
-  int200: typeof AbiInt200,
-  int208: typeof AbiInt208,
-  int216: typeof AbiInt216,
-  int224: typeof AbiInt224,
-  int232: typeof AbiInt232,
-  int240: typeof AbiInt240,
-  int248: typeof AbiInt248,
-  int256: typeof AbiInt256,
-}
-
-export const intByName: IntByName = {
-  int8: AbiInt8,
-  int16: AbiInt16,
-  int24: AbiInt24,
-  int32: AbiInt32,
-  int40: AbiInt40,
-  int48: AbiInt48,
-  int56: AbiInt56,
-  int64: AbiInt64,
-  int72: AbiInt72,
-  int80: AbiInt80,
-  int88: AbiInt88,
-  int96: AbiInt96,
-  int104: AbiInt104,
-  int112: AbiInt112,
-  int120: AbiInt120,
-  int128: AbiInt128,
-  int136: AbiInt136,
-  int144: AbiInt144,
-  int152: AbiInt152,
-  int160: AbiInt160,
-  int168: AbiInt168,
-  int176: AbiInt176,
-  int184: AbiInt184,
-  int192: AbiInt192,
-  int200: AbiInt200,
-  int208: AbiInt208,
-  int216: AbiInt216,
-  int224: AbiInt224,
-  int232: AbiInt232,
-  int240: AbiInt240,
-  int248: AbiInt248,
-  int256: AbiInt256,
-}
+    int8: typeof AbiInt8,
+    int16: typeof AbiInt16,
+    int24: typeof AbiInt24,
+    int32: typeof AbiInt32,
+    int40: typeof AbiInt40,
+    int48: typeof AbiInt48,
+    int56: typeof AbiInt56,
+    int64: typeof AbiInt64,
+    int72: typeof AbiInt72,
+    int80: typeof AbiInt80,
+    int88: typeof AbiInt88,
+    int96: typeof AbiInt96,
+    int104: typeof AbiInt104,
+    int112: typeof AbiInt112,
+    int120: typeof AbiInt120,
+    int128: typeof AbiInt128,
+    int136: typeof AbiInt136,
+    int144: typeof AbiInt144,
+    int152: typeof AbiInt152,
+    int160: typeof AbiInt160,
+    int168: typeof AbiInt168,
+    int176: typeof AbiInt176,
+    int184: typeof AbiInt184,
+    int192: typeof AbiInt192,
+    int200: typeof AbiInt200,
+    int208: typeof AbiInt208,
+    int216: typeof AbiInt216,
+    int224: typeof AbiInt224,
+    int232: typeof AbiInt232,
+    int240: typeof AbiInt240,
+    int248: typeof AbiInt248,
+    int256: typeof AbiInt256,
+  }
+  
+  export const intByName: IntByName = {
+    int8: AbiInt8,
+    int16: AbiInt16,
+    int24: AbiInt24,
+    int32: AbiInt32,
+    int40: AbiInt40,
+    int48: AbiInt48,
+    int56: AbiInt56,
+    int64: AbiInt64,
+    int72: AbiInt72,
+    int80: AbiInt80,
+    int88: AbiInt88,
+    int96: AbiInt96,
+    int104: AbiInt104,
+    int112: AbiInt112,
+    int120: AbiInt120,
+    int128: AbiInt128,
+    int136: AbiInt136,
+    int144: AbiInt144,
+    int152: AbiInt152,
+    int160: AbiInt160,
+    int168: AbiInt168,
+    int176: AbiInt176,
+    int184: AbiInt184,
+    int192: AbiInt192,
+    int200: AbiInt200,
+    int208: AbiInt208,
+    int216: AbiInt216,
+    int224: AbiInt224,
+    int232: AbiInt232,
+    int240: AbiInt240,
+    int248: AbiInt248,
+    int256: AbiInt256,
+  }

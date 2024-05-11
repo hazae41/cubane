@@ -1,6 +1,6 @@
 import { Result } from "@hazae41/result"
 import { TextCursor } from "libs/cursor/cursor.js"
-import { ZeroHexString } from "mods/types/zerohex/index.js"
+import { ZeroHexString } from "mods/types/string/index.js"
 
 export interface Decodable<T> {
   decodeOrThrow(text: TextCursor): T

@@ -1,10 +1,8 @@
-import { Cursor } from "@hazae41/cursor";
-import { BigInts } from "libs/bigint/bigint.js";
-import { TextCursor } from "libs/cursor/cursor.js";
-import { Bytes } from "@hazae41/bytes";
 import { Base16 } from "@hazae41/base16";
-import { ZeroHexString } from "mods/types/zerohex/index.js";
-import { RawHexString } from "mods/types/rawhex/index.js";
+import { Bytes } from "@hazae41/bytes";
+import { Cursor } from "@hazae41/cursor";
+import { TextCursor } from "libs/cursor/cursor.js";
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 export { AbiUint8 as Uint8 }
   
@@ -37,7 +35,7 @@ export namespace AbiUint8 {
     return ZeroHexAbiUint8.create(value)
   }
 
-  export function from(value: AbiUint8.From) {
+  export function fromOrThrow(value: AbiUint8.From) {
     return AbiUint8.create(value)
   }
 
@@ -64,8 +62,11 @@ export namespace AbiUint8 {
 }
 
 export namespace BytesAbiUint8 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint8 {
@@ -91,7 +92,7 @@ export class BytesAbiUint8 {
     return new BytesAbiUint8(value)
   }
 
-  static from(value: BytesAbiUint8.From) {
+  static fromOrThrow(value: BytesAbiUint8.From) {
     return BytesAbiUint8.create(value)
   }
 
@@ -140,17 +141,19 @@ export class BytesAbiUint8 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint8.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint8.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint8.bytes)
 
-    return new BytesAbiUint8(value)
+    return new BytesAbiUint8(content)
   }
 
 }
 
 export namespace NumberAbiUint8 {
+
   export type Create = number
+
   export type From = number
+
 }
 
 export class NumberAbiUint8 {
@@ -184,7 +187,7 @@ export class NumberAbiUint8 {
     return new NumberAbiUint8(value)
   }
 
-  static from(value: NumberAbiUint8.From) {
+  static fromOrThrow(value: NumberAbiUint8.From) {
     return NumberAbiUint8.create(value)
   }
 
@@ -241,14 +244,13 @@ export class NumberAbiUint8 {
 }
 
 export namespace ZeroHexAbiUint8 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -291,7 +293,7 @@ export class ZeroHexAbiUint8 {
     return ZeroHexAbiUint8.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint8.From) {
+  static fromOrThrow(value: ZeroHexAbiUint8.From) {
     return ZeroHexAbiUint8.create(value)
   }
 
@@ -380,7 +382,7 @@ export namespace AbiUint16 {
     return ZeroHexAbiUint16.create(value)
   }
 
-  export function from(value: AbiUint16.From) {
+  export function fromOrThrow(value: AbiUint16.From) {
     return AbiUint16.create(value)
   }
 
@@ -407,8 +409,11 @@ export namespace AbiUint16 {
 }
 
 export namespace BytesAbiUint16 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint16 {
@@ -434,7 +439,7 @@ export class BytesAbiUint16 {
     return new BytesAbiUint16(value)
   }
 
-  static from(value: BytesAbiUint16.From) {
+  static fromOrThrow(value: BytesAbiUint16.From) {
     return BytesAbiUint16.create(value)
   }
 
@@ -483,17 +488,19 @@ export class BytesAbiUint16 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint16.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint16.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint16.bytes)
 
-    return new BytesAbiUint16(value)
+    return new BytesAbiUint16(content)
   }
 
 }
 
 export namespace NumberAbiUint16 {
+
   export type Create = number
+
   export type From = number
+
 }
 
 export class NumberAbiUint16 {
@@ -527,7 +534,7 @@ export class NumberAbiUint16 {
     return new NumberAbiUint16(value)
   }
 
-  static from(value: NumberAbiUint16.From) {
+  static fromOrThrow(value: NumberAbiUint16.From) {
     return NumberAbiUint16.create(value)
   }
 
@@ -584,14 +591,13 @@ export class NumberAbiUint16 {
 }
 
 export namespace ZeroHexAbiUint16 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -634,7 +640,7 @@ export class ZeroHexAbiUint16 {
     return ZeroHexAbiUint16.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint16.From) {
+  static fromOrThrow(value: ZeroHexAbiUint16.From) {
     return ZeroHexAbiUint16.create(value)
   }
 
@@ -723,7 +729,7 @@ export namespace AbiUint24 {
     return ZeroHexAbiUint24.create(value)
   }
 
-  export function from(value: AbiUint24.From) {
+  export function fromOrThrow(value: AbiUint24.From) {
     return AbiUint24.create(value)
   }
 
@@ -750,8 +756,11 @@ export namespace AbiUint24 {
 }
 
 export namespace BytesAbiUint24 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint24 {
@@ -777,7 +786,7 @@ export class BytesAbiUint24 {
     return new BytesAbiUint24(value)
   }
 
-  static from(value: BytesAbiUint24.From) {
+  static fromOrThrow(value: BytesAbiUint24.From) {
     return BytesAbiUint24.create(value)
   }
 
@@ -826,17 +835,19 @@ export class BytesAbiUint24 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint24.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint24.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint24.bytes)
 
-    return new BytesAbiUint24(value)
+    return new BytesAbiUint24(content)
   }
 
 }
 
 export namespace NumberAbiUint24 {
+
   export type Create = number
+
   export type From = number
+
 }
 
 export class NumberAbiUint24 {
@@ -870,7 +881,7 @@ export class NumberAbiUint24 {
     return new NumberAbiUint24(value)
   }
 
-  static from(value: NumberAbiUint24.From) {
+  static fromOrThrow(value: NumberAbiUint24.From) {
     return NumberAbiUint24.create(value)
   }
 
@@ -927,14 +938,13 @@ export class NumberAbiUint24 {
 }
 
 export namespace ZeroHexAbiUint24 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -977,7 +987,7 @@ export class ZeroHexAbiUint24 {
     return ZeroHexAbiUint24.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint24.From) {
+  static fromOrThrow(value: ZeroHexAbiUint24.From) {
     return ZeroHexAbiUint24.create(value)
   }
 
@@ -1066,7 +1076,7 @@ export namespace AbiUint32 {
     return ZeroHexAbiUint32.create(value)
   }
 
-  export function from(value: AbiUint32.From) {
+  export function fromOrThrow(value: AbiUint32.From) {
     return AbiUint32.create(value)
   }
 
@@ -1093,8 +1103,11 @@ export namespace AbiUint32 {
 }
 
 export namespace BytesAbiUint32 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint32 {
@@ -1120,7 +1133,7 @@ export class BytesAbiUint32 {
     return new BytesAbiUint32(value)
   }
 
-  static from(value: BytesAbiUint32.From) {
+  static fromOrThrow(value: BytesAbiUint32.From) {
     return BytesAbiUint32.create(value)
   }
 
@@ -1169,17 +1182,19 @@ export class BytesAbiUint32 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint32.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint32.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint32.bytes)
 
-    return new BytesAbiUint32(value)
+    return new BytesAbiUint32(content)
   }
 
 }
 
 export namespace NumberAbiUint32 {
+
   export type Create = number
+
   export type From = number
+
 }
 
 export class NumberAbiUint32 {
@@ -1213,7 +1228,7 @@ export class NumberAbiUint32 {
     return new NumberAbiUint32(value)
   }
 
-  static from(value: NumberAbiUint32.From) {
+  static fromOrThrow(value: NumberAbiUint32.From) {
     return NumberAbiUint32.create(value)
   }
 
@@ -1270,14 +1285,13 @@ export class NumberAbiUint32 {
 }
 
 export namespace ZeroHexAbiUint32 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -1320,7 +1334,7 @@ export class ZeroHexAbiUint32 {
     return ZeroHexAbiUint32.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint32.From) {
+  static fromOrThrow(value: ZeroHexAbiUint32.From) {
     return ZeroHexAbiUint32.create(value)
   }
 
@@ -1407,7 +1421,7 @@ export namespace AbiUint40 {
     return ZeroHexAbiUint40.create(value)
   }
 
-  export function from(value: AbiUint40.From) {
+  export function fromOrThrow(value: AbiUint40.From) {
     return AbiUint40.create(value)
   }
 
@@ -1434,8 +1448,11 @@ export namespace AbiUint40 {
 }
 
 export namespace BytesAbiUint40 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint40 {
@@ -1461,7 +1478,7 @@ export class BytesAbiUint40 {
     return new BytesAbiUint40(value)
   }
 
-  static from(value: BytesAbiUint40.From) {
+  static fromOrThrow(value: BytesAbiUint40.From) {
     return BytesAbiUint40.create(value)
   }
 
@@ -1510,10 +1527,9 @@ export class BytesAbiUint40 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint40.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint40.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint40.bytes)
 
-    return new BytesAbiUint40(value)
+    return new BytesAbiUint40(content)
   }
 
 }
@@ -1521,14 +1537,13 @@ export class BytesAbiUint40 {
 
 
 export namespace ZeroHexAbiUint40 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -1571,7 +1586,7 @@ export class ZeroHexAbiUint40 {
     return ZeroHexAbiUint40.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint40.From) {
+  static fromOrThrow(value: ZeroHexAbiUint40.From) {
     return ZeroHexAbiUint40.create(value)
   }
 
@@ -1658,7 +1673,7 @@ export namespace AbiUint48 {
     return ZeroHexAbiUint48.create(value)
   }
 
-  export function from(value: AbiUint48.From) {
+  export function fromOrThrow(value: AbiUint48.From) {
     return AbiUint48.create(value)
   }
 
@@ -1685,8 +1700,11 @@ export namespace AbiUint48 {
 }
 
 export namespace BytesAbiUint48 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint48 {
@@ -1712,7 +1730,7 @@ export class BytesAbiUint48 {
     return new BytesAbiUint48(value)
   }
 
-  static from(value: BytesAbiUint48.From) {
+  static fromOrThrow(value: BytesAbiUint48.From) {
     return BytesAbiUint48.create(value)
   }
 
@@ -1761,10 +1779,9 @@ export class BytesAbiUint48 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint48.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint48.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint48.bytes)
 
-    return new BytesAbiUint48(value)
+    return new BytesAbiUint48(content)
   }
 
 }
@@ -1772,14 +1789,13 @@ export class BytesAbiUint48 {
 
 
 export namespace ZeroHexAbiUint48 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -1822,7 +1838,7 @@ export class ZeroHexAbiUint48 {
     return ZeroHexAbiUint48.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint48.From) {
+  static fromOrThrow(value: ZeroHexAbiUint48.From) {
     return ZeroHexAbiUint48.create(value)
   }
 
@@ -1909,7 +1925,7 @@ export namespace AbiUint56 {
     return ZeroHexAbiUint56.create(value)
   }
 
-  export function from(value: AbiUint56.From) {
+  export function fromOrThrow(value: AbiUint56.From) {
     return AbiUint56.create(value)
   }
 
@@ -1936,8 +1952,11 @@ export namespace AbiUint56 {
 }
 
 export namespace BytesAbiUint56 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint56 {
@@ -1963,7 +1982,7 @@ export class BytesAbiUint56 {
     return new BytesAbiUint56(value)
   }
 
-  static from(value: BytesAbiUint56.From) {
+  static fromOrThrow(value: BytesAbiUint56.From) {
     return BytesAbiUint56.create(value)
   }
 
@@ -2012,10 +2031,9 @@ export class BytesAbiUint56 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint56.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint56.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint56.bytes)
 
-    return new BytesAbiUint56(value)
+    return new BytesAbiUint56(content)
   }
 
 }
@@ -2023,14 +2041,13 @@ export class BytesAbiUint56 {
 
 
 export namespace ZeroHexAbiUint56 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -2073,7 +2090,7 @@ export class ZeroHexAbiUint56 {
     return ZeroHexAbiUint56.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint56.From) {
+  static fromOrThrow(value: ZeroHexAbiUint56.From) {
     return ZeroHexAbiUint56.create(value)
   }
 
@@ -2160,7 +2177,7 @@ export namespace AbiUint64 {
     return ZeroHexAbiUint64.create(value)
   }
 
-  export function from(value: AbiUint64.From) {
+  export function fromOrThrow(value: AbiUint64.From) {
     return AbiUint64.create(value)
   }
 
@@ -2187,8 +2204,11 @@ export namespace AbiUint64 {
 }
 
 export namespace BytesAbiUint64 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint64 {
@@ -2214,7 +2234,7 @@ export class BytesAbiUint64 {
     return new BytesAbiUint64(value)
   }
 
-  static from(value: BytesAbiUint64.From) {
+  static fromOrThrow(value: BytesAbiUint64.From) {
     return BytesAbiUint64.create(value)
   }
 
@@ -2263,10 +2283,9 @@ export class BytesAbiUint64 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint64.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint64.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint64.bytes)
 
-    return new BytesAbiUint64(value)
+    return new BytesAbiUint64(content)
   }
 
 }
@@ -2274,14 +2293,13 @@ export class BytesAbiUint64 {
 
 
 export namespace ZeroHexAbiUint64 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -2324,7 +2342,7 @@ export class ZeroHexAbiUint64 {
     return ZeroHexAbiUint64.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint64.From) {
+  static fromOrThrow(value: ZeroHexAbiUint64.From) {
     return ZeroHexAbiUint64.create(value)
   }
 
@@ -2411,7 +2429,7 @@ export namespace AbiUint72 {
     return ZeroHexAbiUint72.create(value)
   }
 
-  export function from(value: AbiUint72.From) {
+  export function fromOrThrow(value: AbiUint72.From) {
     return AbiUint72.create(value)
   }
 
@@ -2438,8 +2456,11 @@ export namespace AbiUint72 {
 }
 
 export namespace BytesAbiUint72 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint72 {
@@ -2465,7 +2486,7 @@ export class BytesAbiUint72 {
     return new BytesAbiUint72(value)
   }
 
-  static from(value: BytesAbiUint72.From) {
+  static fromOrThrow(value: BytesAbiUint72.From) {
     return BytesAbiUint72.create(value)
   }
 
@@ -2514,10 +2535,9 @@ export class BytesAbiUint72 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint72.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint72.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint72.bytes)
 
-    return new BytesAbiUint72(value)
+    return new BytesAbiUint72(content)
   }
 
 }
@@ -2525,14 +2545,13 @@ export class BytesAbiUint72 {
 
 
 export namespace ZeroHexAbiUint72 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -2575,7 +2594,7 @@ export class ZeroHexAbiUint72 {
     return ZeroHexAbiUint72.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint72.From) {
+  static fromOrThrow(value: ZeroHexAbiUint72.From) {
     return ZeroHexAbiUint72.create(value)
   }
 
@@ -2662,7 +2681,7 @@ export namespace AbiUint80 {
     return ZeroHexAbiUint80.create(value)
   }
 
-  export function from(value: AbiUint80.From) {
+  export function fromOrThrow(value: AbiUint80.From) {
     return AbiUint80.create(value)
   }
 
@@ -2689,8 +2708,11 @@ export namespace AbiUint80 {
 }
 
 export namespace BytesAbiUint80 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint80 {
@@ -2716,7 +2738,7 @@ export class BytesAbiUint80 {
     return new BytesAbiUint80(value)
   }
 
-  static from(value: BytesAbiUint80.From) {
+  static fromOrThrow(value: BytesAbiUint80.From) {
     return BytesAbiUint80.create(value)
   }
 
@@ -2765,10 +2787,9 @@ export class BytesAbiUint80 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint80.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint80.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint80.bytes)
 
-    return new BytesAbiUint80(value)
+    return new BytesAbiUint80(content)
   }
 
 }
@@ -2776,14 +2797,13 @@ export class BytesAbiUint80 {
 
 
 export namespace ZeroHexAbiUint80 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -2826,7 +2846,7 @@ export class ZeroHexAbiUint80 {
     return ZeroHexAbiUint80.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint80.From) {
+  static fromOrThrow(value: ZeroHexAbiUint80.From) {
     return ZeroHexAbiUint80.create(value)
   }
 
@@ -2913,7 +2933,7 @@ export namespace AbiUint88 {
     return ZeroHexAbiUint88.create(value)
   }
 
-  export function from(value: AbiUint88.From) {
+  export function fromOrThrow(value: AbiUint88.From) {
     return AbiUint88.create(value)
   }
 
@@ -2940,8 +2960,11 @@ export namespace AbiUint88 {
 }
 
 export namespace BytesAbiUint88 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint88 {
@@ -2967,7 +2990,7 @@ export class BytesAbiUint88 {
     return new BytesAbiUint88(value)
   }
 
-  static from(value: BytesAbiUint88.From) {
+  static fromOrThrow(value: BytesAbiUint88.From) {
     return BytesAbiUint88.create(value)
   }
 
@@ -3016,10 +3039,9 @@ export class BytesAbiUint88 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint88.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint88.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint88.bytes)
 
-    return new BytesAbiUint88(value)
+    return new BytesAbiUint88(content)
   }
 
 }
@@ -3027,14 +3049,13 @@ export class BytesAbiUint88 {
 
 
 export namespace ZeroHexAbiUint88 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -3077,7 +3098,7 @@ export class ZeroHexAbiUint88 {
     return ZeroHexAbiUint88.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint88.From) {
+  static fromOrThrow(value: ZeroHexAbiUint88.From) {
     return ZeroHexAbiUint88.create(value)
   }
 
@@ -3164,7 +3185,7 @@ export namespace AbiUint96 {
     return ZeroHexAbiUint96.create(value)
   }
 
-  export function from(value: AbiUint96.From) {
+  export function fromOrThrow(value: AbiUint96.From) {
     return AbiUint96.create(value)
   }
 
@@ -3191,8 +3212,11 @@ export namespace AbiUint96 {
 }
 
 export namespace BytesAbiUint96 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint96 {
@@ -3218,7 +3242,7 @@ export class BytesAbiUint96 {
     return new BytesAbiUint96(value)
   }
 
-  static from(value: BytesAbiUint96.From) {
+  static fromOrThrow(value: BytesAbiUint96.From) {
     return BytesAbiUint96.create(value)
   }
 
@@ -3267,10 +3291,9 @@ export class BytesAbiUint96 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint96.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint96.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint96.bytes)
 
-    return new BytesAbiUint96(value)
+    return new BytesAbiUint96(content)
   }
 
 }
@@ -3278,14 +3301,13 @@ export class BytesAbiUint96 {
 
 
 export namespace ZeroHexAbiUint96 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -3328,7 +3350,7 @@ export class ZeroHexAbiUint96 {
     return ZeroHexAbiUint96.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint96.From) {
+  static fromOrThrow(value: ZeroHexAbiUint96.From) {
     return ZeroHexAbiUint96.create(value)
   }
 
@@ -3415,7 +3437,7 @@ export namespace AbiUint104 {
     return ZeroHexAbiUint104.create(value)
   }
 
-  export function from(value: AbiUint104.From) {
+  export function fromOrThrow(value: AbiUint104.From) {
     return AbiUint104.create(value)
   }
 
@@ -3442,8 +3464,11 @@ export namespace AbiUint104 {
 }
 
 export namespace BytesAbiUint104 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint104 {
@@ -3469,7 +3494,7 @@ export class BytesAbiUint104 {
     return new BytesAbiUint104(value)
   }
 
-  static from(value: BytesAbiUint104.From) {
+  static fromOrThrow(value: BytesAbiUint104.From) {
     return BytesAbiUint104.create(value)
   }
 
@@ -3518,10 +3543,9 @@ export class BytesAbiUint104 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint104.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint104.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint104.bytes)
 
-    return new BytesAbiUint104(value)
+    return new BytesAbiUint104(content)
   }
 
 }
@@ -3529,14 +3553,13 @@ export class BytesAbiUint104 {
 
 
 export namespace ZeroHexAbiUint104 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -3579,7 +3602,7 @@ export class ZeroHexAbiUint104 {
     return ZeroHexAbiUint104.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint104.From) {
+  static fromOrThrow(value: ZeroHexAbiUint104.From) {
     return ZeroHexAbiUint104.create(value)
   }
 
@@ -3666,7 +3689,7 @@ export namespace AbiUint112 {
     return ZeroHexAbiUint112.create(value)
   }
 
-  export function from(value: AbiUint112.From) {
+  export function fromOrThrow(value: AbiUint112.From) {
     return AbiUint112.create(value)
   }
 
@@ -3693,8 +3716,11 @@ export namespace AbiUint112 {
 }
 
 export namespace BytesAbiUint112 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint112 {
@@ -3720,7 +3746,7 @@ export class BytesAbiUint112 {
     return new BytesAbiUint112(value)
   }
 
-  static from(value: BytesAbiUint112.From) {
+  static fromOrThrow(value: BytesAbiUint112.From) {
     return BytesAbiUint112.create(value)
   }
 
@@ -3769,10 +3795,9 @@ export class BytesAbiUint112 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint112.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint112.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint112.bytes)
 
-    return new BytesAbiUint112(value)
+    return new BytesAbiUint112(content)
   }
 
 }
@@ -3780,14 +3805,13 @@ export class BytesAbiUint112 {
 
 
 export namespace ZeroHexAbiUint112 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -3830,7 +3854,7 @@ export class ZeroHexAbiUint112 {
     return ZeroHexAbiUint112.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint112.From) {
+  static fromOrThrow(value: ZeroHexAbiUint112.From) {
     return ZeroHexAbiUint112.create(value)
   }
 
@@ -3917,7 +3941,7 @@ export namespace AbiUint120 {
     return ZeroHexAbiUint120.create(value)
   }
 
-  export function from(value: AbiUint120.From) {
+  export function fromOrThrow(value: AbiUint120.From) {
     return AbiUint120.create(value)
   }
 
@@ -3944,8 +3968,11 @@ export namespace AbiUint120 {
 }
 
 export namespace BytesAbiUint120 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint120 {
@@ -3971,7 +3998,7 @@ export class BytesAbiUint120 {
     return new BytesAbiUint120(value)
   }
 
-  static from(value: BytesAbiUint120.From) {
+  static fromOrThrow(value: BytesAbiUint120.From) {
     return BytesAbiUint120.create(value)
   }
 
@@ -4020,10 +4047,9 @@ export class BytesAbiUint120 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint120.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint120.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint120.bytes)
 
-    return new BytesAbiUint120(value)
+    return new BytesAbiUint120(content)
   }
 
 }
@@ -4031,14 +4057,13 @@ export class BytesAbiUint120 {
 
 
 export namespace ZeroHexAbiUint120 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -4081,7 +4106,7 @@ export class ZeroHexAbiUint120 {
     return ZeroHexAbiUint120.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint120.From) {
+  static fromOrThrow(value: ZeroHexAbiUint120.From) {
     return ZeroHexAbiUint120.create(value)
   }
 
@@ -4168,7 +4193,7 @@ export namespace AbiUint128 {
     return ZeroHexAbiUint128.create(value)
   }
 
-  export function from(value: AbiUint128.From) {
+  export function fromOrThrow(value: AbiUint128.From) {
     return AbiUint128.create(value)
   }
 
@@ -4195,8 +4220,11 @@ export namespace AbiUint128 {
 }
 
 export namespace BytesAbiUint128 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint128 {
@@ -4222,7 +4250,7 @@ export class BytesAbiUint128 {
     return new BytesAbiUint128(value)
   }
 
-  static from(value: BytesAbiUint128.From) {
+  static fromOrThrow(value: BytesAbiUint128.From) {
     return BytesAbiUint128.create(value)
   }
 
@@ -4271,10 +4299,9 @@ export class BytesAbiUint128 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint128.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint128.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint128.bytes)
 
-    return new BytesAbiUint128(value)
+    return new BytesAbiUint128(content)
   }
 
 }
@@ -4282,14 +4309,13 @@ export class BytesAbiUint128 {
 
 
 export namespace ZeroHexAbiUint128 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -4332,7 +4358,7 @@ export class ZeroHexAbiUint128 {
     return ZeroHexAbiUint128.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint128.From) {
+  static fromOrThrow(value: ZeroHexAbiUint128.From) {
     return ZeroHexAbiUint128.create(value)
   }
 
@@ -4419,7 +4445,7 @@ export namespace AbiUint136 {
     return ZeroHexAbiUint136.create(value)
   }
 
-  export function from(value: AbiUint136.From) {
+  export function fromOrThrow(value: AbiUint136.From) {
     return AbiUint136.create(value)
   }
 
@@ -4446,8 +4472,11 @@ export namespace AbiUint136 {
 }
 
 export namespace BytesAbiUint136 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint136 {
@@ -4473,7 +4502,7 @@ export class BytesAbiUint136 {
     return new BytesAbiUint136(value)
   }
 
-  static from(value: BytesAbiUint136.From) {
+  static fromOrThrow(value: BytesAbiUint136.From) {
     return BytesAbiUint136.create(value)
   }
 
@@ -4522,10 +4551,9 @@ export class BytesAbiUint136 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint136.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint136.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint136.bytes)
 
-    return new BytesAbiUint136(value)
+    return new BytesAbiUint136(content)
   }
 
 }
@@ -4533,14 +4561,13 @@ export class BytesAbiUint136 {
 
 
 export namespace ZeroHexAbiUint136 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -4583,7 +4610,7 @@ export class ZeroHexAbiUint136 {
     return ZeroHexAbiUint136.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint136.From) {
+  static fromOrThrow(value: ZeroHexAbiUint136.From) {
     return ZeroHexAbiUint136.create(value)
   }
 
@@ -4670,7 +4697,7 @@ export namespace AbiUint144 {
     return ZeroHexAbiUint144.create(value)
   }
 
-  export function from(value: AbiUint144.From) {
+  export function fromOrThrow(value: AbiUint144.From) {
     return AbiUint144.create(value)
   }
 
@@ -4697,8 +4724,11 @@ export namespace AbiUint144 {
 }
 
 export namespace BytesAbiUint144 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint144 {
@@ -4724,7 +4754,7 @@ export class BytesAbiUint144 {
     return new BytesAbiUint144(value)
   }
 
-  static from(value: BytesAbiUint144.From) {
+  static fromOrThrow(value: BytesAbiUint144.From) {
     return BytesAbiUint144.create(value)
   }
 
@@ -4773,10 +4803,9 @@ export class BytesAbiUint144 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint144.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint144.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint144.bytes)
 
-    return new BytesAbiUint144(value)
+    return new BytesAbiUint144(content)
   }
 
 }
@@ -4784,14 +4813,13 @@ export class BytesAbiUint144 {
 
 
 export namespace ZeroHexAbiUint144 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -4834,7 +4862,7 @@ export class ZeroHexAbiUint144 {
     return ZeroHexAbiUint144.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint144.From) {
+  static fromOrThrow(value: ZeroHexAbiUint144.From) {
     return ZeroHexAbiUint144.create(value)
   }
 
@@ -4921,7 +4949,7 @@ export namespace AbiUint152 {
     return ZeroHexAbiUint152.create(value)
   }
 
-  export function from(value: AbiUint152.From) {
+  export function fromOrThrow(value: AbiUint152.From) {
     return AbiUint152.create(value)
   }
 
@@ -4948,8 +4976,11 @@ export namespace AbiUint152 {
 }
 
 export namespace BytesAbiUint152 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint152 {
@@ -4975,7 +5006,7 @@ export class BytesAbiUint152 {
     return new BytesAbiUint152(value)
   }
 
-  static from(value: BytesAbiUint152.From) {
+  static fromOrThrow(value: BytesAbiUint152.From) {
     return BytesAbiUint152.create(value)
   }
 
@@ -5024,10 +5055,9 @@ export class BytesAbiUint152 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint152.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint152.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint152.bytes)
 
-    return new BytesAbiUint152(value)
+    return new BytesAbiUint152(content)
   }
 
 }
@@ -5035,14 +5065,13 @@ export class BytesAbiUint152 {
 
 
 export namespace ZeroHexAbiUint152 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -5085,7 +5114,7 @@ export class ZeroHexAbiUint152 {
     return ZeroHexAbiUint152.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint152.From) {
+  static fromOrThrow(value: ZeroHexAbiUint152.From) {
     return ZeroHexAbiUint152.create(value)
   }
 
@@ -5172,7 +5201,7 @@ export namespace AbiUint160 {
     return ZeroHexAbiUint160.create(value)
   }
 
-  export function from(value: AbiUint160.From) {
+  export function fromOrThrow(value: AbiUint160.From) {
     return AbiUint160.create(value)
   }
 
@@ -5199,8 +5228,11 @@ export namespace AbiUint160 {
 }
 
 export namespace BytesAbiUint160 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint160 {
@@ -5226,7 +5258,7 @@ export class BytesAbiUint160 {
     return new BytesAbiUint160(value)
   }
 
-  static from(value: BytesAbiUint160.From) {
+  static fromOrThrow(value: BytesAbiUint160.From) {
     return BytesAbiUint160.create(value)
   }
 
@@ -5275,10 +5307,9 @@ export class BytesAbiUint160 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint160.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint160.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint160.bytes)
 
-    return new BytesAbiUint160(value)
+    return new BytesAbiUint160(content)
   }
 
 }
@@ -5286,14 +5317,13 @@ export class BytesAbiUint160 {
 
 
 export namespace ZeroHexAbiUint160 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -5336,7 +5366,7 @@ export class ZeroHexAbiUint160 {
     return ZeroHexAbiUint160.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint160.From) {
+  static fromOrThrow(value: ZeroHexAbiUint160.From) {
     return ZeroHexAbiUint160.create(value)
   }
 
@@ -5423,7 +5453,7 @@ export namespace AbiUint168 {
     return ZeroHexAbiUint168.create(value)
   }
 
-  export function from(value: AbiUint168.From) {
+  export function fromOrThrow(value: AbiUint168.From) {
     return AbiUint168.create(value)
   }
 
@@ -5450,8 +5480,11 @@ export namespace AbiUint168 {
 }
 
 export namespace BytesAbiUint168 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint168 {
@@ -5477,7 +5510,7 @@ export class BytesAbiUint168 {
     return new BytesAbiUint168(value)
   }
 
-  static from(value: BytesAbiUint168.From) {
+  static fromOrThrow(value: BytesAbiUint168.From) {
     return BytesAbiUint168.create(value)
   }
 
@@ -5526,10 +5559,9 @@ export class BytesAbiUint168 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint168.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint168.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint168.bytes)
 
-    return new BytesAbiUint168(value)
+    return new BytesAbiUint168(content)
   }
 
 }
@@ -5537,14 +5569,13 @@ export class BytesAbiUint168 {
 
 
 export namespace ZeroHexAbiUint168 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -5587,7 +5618,7 @@ export class ZeroHexAbiUint168 {
     return ZeroHexAbiUint168.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint168.From) {
+  static fromOrThrow(value: ZeroHexAbiUint168.From) {
     return ZeroHexAbiUint168.create(value)
   }
 
@@ -5674,7 +5705,7 @@ export namespace AbiUint176 {
     return ZeroHexAbiUint176.create(value)
   }
 
-  export function from(value: AbiUint176.From) {
+  export function fromOrThrow(value: AbiUint176.From) {
     return AbiUint176.create(value)
   }
 
@@ -5701,8 +5732,11 @@ export namespace AbiUint176 {
 }
 
 export namespace BytesAbiUint176 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint176 {
@@ -5728,7 +5762,7 @@ export class BytesAbiUint176 {
     return new BytesAbiUint176(value)
   }
 
-  static from(value: BytesAbiUint176.From) {
+  static fromOrThrow(value: BytesAbiUint176.From) {
     return BytesAbiUint176.create(value)
   }
 
@@ -5777,10 +5811,9 @@ export class BytesAbiUint176 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint176.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint176.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint176.bytes)
 
-    return new BytesAbiUint176(value)
+    return new BytesAbiUint176(content)
   }
 
 }
@@ -5788,14 +5821,13 @@ export class BytesAbiUint176 {
 
 
 export namespace ZeroHexAbiUint176 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -5838,7 +5870,7 @@ export class ZeroHexAbiUint176 {
     return ZeroHexAbiUint176.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint176.From) {
+  static fromOrThrow(value: ZeroHexAbiUint176.From) {
     return ZeroHexAbiUint176.create(value)
   }
 
@@ -5925,7 +5957,7 @@ export namespace AbiUint184 {
     return ZeroHexAbiUint184.create(value)
   }
 
-  export function from(value: AbiUint184.From) {
+  export function fromOrThrow(value: AbiUint184.From) {
     return AbiUint184.create(value)
   }
 
@@ -5952,8 +5984,11 @@ export namespace AbiUint184 {
 }
 
 export namespace BytesAbiUint184 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint184 {
@@ -5979,7 +6014,7 @@ export class BytesAbiUint184 {
     return new BytesAbiUint184(value)
   }
 
-  static from(value: BytesAbiUint184.From) {
+  static fromOrThrow(value: BytesAbiUint184.From) {
     return BytesAbiUint184.create(value)
   }
 
@@ -6028,10 +6063,9 @@ export class BytesAbiUint184 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint184.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint184.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint184.bytes)
 
-    return new BytesAbiUint184(value)
+    return new BytesAbiUint184(content)
   }
 
 }
@@ -6039,14 +6073,13 @@ export class BytesAbiUint184 {
 
 
 export namespace ZeroHexAbiUint184 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -6089,7 +6122,7 @@ export class ZeroHexAbiUint184 {
     return ZeroHexAbiUint184.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint184.From) {
+  static fromOrThrow(value: ZeroHexAbiUint184.From) {
     return ZeroHexAbiUint184.create(value)
   }
 
@@ -6176,7 +6209,7 @@ export namespace AbiUint192 {
     return ZeroHexAbiUint192.create(value)
   }
 
-  export function from(value: AbiUint192.From) {
+  export function fromOrThrow(value: AbiUint192.From) {
     return AbiUint192.create(value)
   }
 
@@ -6203,8 +6236,11 @@ export namespace AbiUint192 {
 }
 
 export namespace BytesAbiUint192 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint192 {
@@ -6230,7 +6266,7 @@ export class BytesAbiUint192 {
     return new BytesAbiUint192(value)
   }
 
-  static from(value: BytesAbiUint192.From) {
+  static fromOrThrow(value: BytesAbiUint192.From) {
     return BytesAbiUint192.create(value)
   }
 
@@ -6279,10 +6315,9 @@ export class BytesAbiUint192 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint192.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint192.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint192.bytes)
 
-    return new BytesAbiUint192(value)
+    return new BytesAbiUint192(content)
   }
 
 }
@@ -6290,14 +6325,13 @@ export class BytesAbiUint192 {
 
 
 export namespace ZeroHexAbiUint192 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -6340,7 +6374,7 @@ export class ZeroHexAbiUint192 {
     return ZeroHexAbiUint192.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint192.From) {
+  static fromOrThrow(value: ZeroHexAbiUint192.From) {
     return ZeroHexAbiUint192.create(value)
   }
 
@@ -6427,7 +6461,7 @@ export namespace AbiUint200 {
     return ZeroHexAbiUint200.create(value)
   }
 
-  export function from(value: AbiUint200.From) {
+  export function fromOrThrow(value: AbiUint200.From) {
     return AbiUint200.create(value)
   }
 
@@ -6454,8 +6488,11 @@ export namespace AbiUint200 {
 }
 
 export namespace BytesAbiUint200 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint200 {
@@ -6481,7 +6518,7 @@ export class BytesAbiUint200 {
     return new BytesAbiUint200(value)
   }
 
-  static from(value: BytesAbiUint200.From) {
+  static fromOrThrow(value: BytesAbiUint200.From) {
     return BytesAbiUint200.create(value)
   }
 
@@ -6530,10 +6567,9 @@ export class BytesAbiUint200 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint200.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint200.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint200.bytes)
 
-    return new BytesAbiUint200(value)
+    return new BytesAbiUint200(content)
   }
 
 }
@@ -6541,14 +6577,13 @@ export class BytesAbiUint200 {
 
 
 export namespace ZeroHexAbiUint200 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -6591,7 +6626,7 @@ export class ZeroHexAbiUint200 {
     return ZeroHexAbiUint200.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint200.From) {
+  static fromOrThrow(value: ZeroHexAbiUint200.From) {
     return ZeroHexAbiUint200.create(value)
   }
 
@@ -6678,7 +6713,7 @@ export namespace AbiUint208 {
     return ZeroHexAbiUint208.create(value)
   }
 
-  export function from(value: AbiUint208.From) {
+  export function fromOrThrow(value: AbiUint208.From) {
     return AbiUint208.create(value)
   }
 
@@ -6705,8 +6740,11 @@ export namespace AbiUint208 {
 }
 
 export namespace BytesAbiUint208 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint208 {
@@ -6732,7 +6770,7 @@ export class BytesAbiUint208 {
     return new BytesAbiUint208(value)
   }
 
-  static from(value: BytesAbiUint208.From) {
+  static fromOrThrow(value: BytesAbiUint208.From) {
     return BytesAbiUint208.create(value)
   }
 
@@ -6781,10 +6819,9 @@ export class BytesAbiUint208 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint208.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint208.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint208.bytes)
 
-    return new BytesAbiUint208(value)
+    return new BytesAbiUint208(content)
   }
 
 }
@@ -6792,14 +6829,13 @@ export class BytesAbiUint208 {
 
 
 export namespace ZeroHexAbiUint208 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -6842,7 +6878,7 @@ export class ZeroHexAbiUint208 {
     return ZeroHexAbiUint208.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint208.From) {
+  static fromOrThrow(value: ZeroHexAbiUint208.From) {
     return ZeroHexAbiUint208.create(value)
   }
 
@@ -6929,7 +6965,7 @@ export namespace AbiUint216 {
     return ZeroHexAbiUint216.create(value)
   }
 
-  export function from(value: AbiUint216.From) {
+  export function fromOrThrow(value: AbiUint216.From) {
     return AbiUint216.create(value)
   }
 
@@ -6956,8 +6992,11 @@ export namespace AbiUint216 {
 }
 
 export namespace BytesAbiUint216 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint216 {
@@ -6983,7 +7022,7 @@ export class BytesAbiUint216 {
     return new BytesAbiUint216(value)
   }
 
-  static from(value: BytesAbiUint216.From) {
+  static fromOrThrow(value: BytesAbiUint216.From) {
     return BytesAbiUint216.create(value)
   }
 
@@ -7032,10 +7071,9 @@ export class BytesAbiUint216 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint216.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint216.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint216.bytes)
 
-    return new BytesAbiUint216(value)
+    return new BytesAbiUint216(content)
   }
 
 }
@@ -7043,14 +7081,13 @@ export class BytesAbiUint216 {
 
 
 export namespace ZeroHexAbiUint216 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -7093,7 +7130,7 @@ export class ZeroHexAbiUint216 {
     return ZeroHexAbiUint216.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint216.From) {
+  static fromOrThrow(value: ZeroHexAbiUint216.From) {
     return ZeroHexAbiUint216.create(value)
   }
 
@@ -7180,7 +7217,7 @@ export namespace AbiUint224 {
     return ZeroHexAbiUint224.create(value)
   }
 
-  export function from(value: AbiUint224.From) {
+  export function fromOrThrow(value: AbiUint224.From) {
     return AbiUint224.create(value)
   }
 
@@ -7207,8 +7244,11 @@ export namespace AbiUint224 {
 }
 
 export namespace BytesAbiUint224 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint224 {
@@ -7234,7 +7274,7 @@ export class BytesAbiUint224 {
     return new BytesAbiUint224(value)
   }
 
-  static from(value: BytesAbiUint224.From) {
+  static fromOrThrow(value: BytesAbiUint224.From) {
     return BytesAbiUint224.create(value)
   }
 
@@ -7283,10 +7323,9 @@ export class BytesAbiUint224 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint224.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint224.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint224.bytes)
 
-    return new BytesAbiUint224(value)
+    return new BytesAbiUint224(content)
   }
 
 }
@@ -7294,14 +7333,13 @@ export class BytesAbiUint224 {
 
 
 export namespace ZeroHexAbiUint224 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -7344,7 +7382,7 @@ export class ZeroHexAbiUint224 {
     return ZeroHexAbiUint224.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint224.From) {
+  static fromOrThrow(value: ZeroHexAbiUint224.From) {
     return ZeroHexAbiUint224.create(value)
   }
 
@@ -7431,7 +7469,7 @@ export namespace AbiUint232 {
     return ZeroHexAbiUint232.create(value)
   }
 
-  export function from(value: AbiUint232.From) {
+  export function fromOrThrow(value: AbiUint232.From) {
     return AbiUint232.create(value)
   }
 
@@ -7458,8 +7496,11 @@ export namespace AbiUint232 {
 }
 
 export namespace BytesAbiUint232 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint232 {
@@ -7485,7 +7526,7 @@ export class BytesAbiUint232 {
     return new BytesAbiUint232(value)
   }
 
-  static from(value: BytesAbiUint232.From) {
+  static fromOrThrow(value: BytesAbiUint232.From) {
     return BytesAbiUint232.create(value)
   }
 
@@ -7534,10 +7575,9 @@ export class BytesAbiUint232 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint232.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint232.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint232.bytes)
 
-    return new BytesAbiUint232(value)
+    return new BytesAbiUint232(content)
   }
 
 }
@@ -7545,14 +7585,13 @@ export class BytesAbiUint232 {
 
 
 export namespace ZeroHexAbiUint232 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -7595,7 +7634,7 @@ export class ZeroHexAbiUint232 {
     return ZeroHexAbiUint232.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint232.From) {
+  static fromOrThrow(value: ZeroHexAbiUint232.From) {
     return ZeroHexAbiUint232.create(value)
   }
 
@@ -7682,7 +7721,7 @@ export namespace AbiUint240 {
     return ZeroHexAbiUint240.create(value)
   }
 
-  export function from(value: AbiUint240.From) {
+  export function fromOrThrow(value: AbiUint240.From) {
     return AbiUint240.create(value)
   }
 
@@ -7709,8 +7748,11 @@ export namespace AbiUint240 {
 }
 
 export namespace BytesAbiUint240 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint240 {
@@ -7736,7 +7778,7 @@ export class BytesAbiUint240 {
     return new BytesAbiUint240(value)
   }
 
-  static from(value: BytesAbiUint240.From) {
+  static fromOrThrow(value: BytesAbiUint240.From) {
     return BytesAbiUint240.create(value)
   }
 
@@ -7785,10 +7827,9 @@ export class BytesAbiUint240 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint240.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint240.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint240.bytes)
 
-    return new BytesAbiUint240(value)
+    return new BytesAbiUint240(content)
   }
 
 }
@@ -7796,14 +7837,13 @@ export class BytesAbiUint240 {
 
 
 export namespace ZeroHexAbiUint240 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -7846,7 +7886,7 @@ export class ZeroHexAbiUint240 {
     return ZeroHexAbiUint240.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint240.From) {
+  static fromOrThrow(value: ZeroHexAbiUint240.From) {
     return ZeroHexAbiUint240.create(value)
   }
 
@@ -7933,7 +7973,7 @@ export namespace AbiUint248 {
     return ZeroHexAbiUint248.create(value)
   }
 
-  export function from(value: AbiUint248.From) {
+  export function fromOrThrow(value: AbiUint248.From) {
     return AbiUint248.create(value)
   }
 
@@ -7960,8 +8000,11 @@ export namespace AbiUint248 {
 }
 
 export namespace BytesAbiUint248 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint248 {
@@ -7987,7 +8030,7 @@ export class BytesAbiUint248 {
     return new BytesAbiUint248(value)
   }
 
-  static from(value: BytesAbiUint248.From) {
+  static fromOrThrow(value: BytesAbiUint248.From) {
     return BytesAbiUint248.create(value)
   }
 
@@ -8036,10 +8079,9 @@ export class BytesAbiUint248 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint248.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint248.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint248.bytes)
 
-    return new BytesAbiUint248(value)
+    return new BytesAbiUint248(content)
   }
 
 }
@@ -8047,14 +8089,13 @@ export class BytesAbiUint248 {
 
 
 export namespace ZeroHexAbiUint248 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -8097,7 +8138,7 @@ export class ZeroHexAbiUint248 {
     return ZeroHexAbiUint248.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint248.From) {
+  static fromOrThrow(value: ZeroHexAbiUint248.From) {
     return ZeroHexAbiUint248.create(value)
   }
 
@@ -8184,7 +8225,7 @@ export namespace AbiUint256 {
     return ZeroHexAbiUint256.create(value)
   }
 
-  export function from(value: AbiUint256.From) {
+  export function fromOrThrow(value: AbiUint256.From) {
     return AbiUint256.create(value)
   }
 
@@ -8211,8 +8252,11 @@ export namespace AbiUint256 {
 }
 
 export namespace BytesAbiUint256 {
+
   export type Create = Uint8Array
+
   export type From = Uint8Array
+
 }
 
 export class BytesAbiUint256 {
@@ -8238,7 +8282,7 @@ export class BytesAbiUint256 {
     return new BytesAbiUint256(value)
   }
 
-  static from(value: BytesAbiUint256.From) {
+  static fromOrThrow(value: BytesAbiUint256.From) {
     return BytesAbiUint256.create(value)
   }
 
@@ -8287,10 +8331,9 @@ export class BytesAbiUint256 {
   static readOrThrow(cursor: Cursor) {
     cursor.offset += 32 - BytesAbiUint256.bytes
 
-    const content = cursor.readOrThrow(BytesAbiUint256.bytes)
-    const value = Bytes.from(content)
+    const content = cursor.readAndCopyOrThrow(BytesAbiUint256.bytes)
 
-    return new BytesAbiUint256(value)
+    return new BytesAbiUint256(content)
   }
 
 }
@@ -8298,14 +8341,13 @@ export class BytesAbiUint256 {
 
 
 export namespace ZeroHexAbiUint256 {
+
   export type Create =
-    | ZeroHexString
     | bigint
     | number
     | string
 
   export type From =
-    | ZeroHexString
     | bigint
     | number
     | string
@@ -8348,7 +8390,7 @@ export class ZeroHexAbiUint256 {
     return ZeroHexAbiUint256.fromBigInt(BigInt(value))
   }
 
-  static from(value: ZeroHexAbiUint256.From) {
+  static fromOrThrow(value: ZeroHexAbiUint256.From) {
     return ZeroHexAbiUint256.create(value)
   }
 
