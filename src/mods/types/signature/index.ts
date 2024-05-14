@@ -176,13 +176,13 @@ export class ZeroHexSignature {
 
       const raw = Base16.get().encodeOrThrow(slice.bytes)
 
-      return new ZeroHexSignature(ZeroHexString.Unsafe.as(`0x${raw}`))
+      return new ZeroHexSignature(`0x${raw}` as ZeroHexString)
     }
 
     if (from instanceof Uint8Array) {
       const raw = Base16.get().encodeOrThrow(from)
 
-      return new ZeroHexSignature(ZeroHexString.Unsafe.as(`0x${raw}`))
+      return new ZeroHexSignature(`0x${raw}` as ZeroHexString)
     }
 
     if (typeof from === "object") {
@@ -191,7 +191,7 @@ export class ZeroHexSignature {
       const hr = Base16.get().encodeOrThrow(r)
       const hs = Base16.get().encodeOrThrow(s)
 
-      const hvx = RawHexString.String.as(v.toString(16))
+      const hvx = v.toString(16) as RawHexString
       const hvp = RawHexString.padStart(hvx)
 
       return new ZeroHexSignature(ZeroHexString.Unsafe.as(`0x${hr}${hs}${hvp}`))

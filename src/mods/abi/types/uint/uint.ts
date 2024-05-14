@@ -114,11 +114,11 @@ export class BytesAbiUint8 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -330,7 +330,7 @@ export class RawHexAbiUint8 {
     const content = cursor.readOrThrow(RawHexAbiUint8.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint8(RawHexString.String.as(value))
+    return new RawHexAbiUint8(value as RawHexString)
   }
 
 }
@@ -445,11 +445,11 @@ export class BytesAbiUint16 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -661,7 +661,7 @@ export class RawHexAbiUint16 {
     const content = cursor.readOrThrow(RawHexAbiUint16.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint16(RawHexString.String.as(value))
+    return new RawHexAbiUint16(value as RawHexString)
   }
 
 }
@@ -776,11 +776,11 @@ export class BytesAbiUint24 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -992,7 +992,7 @@ export class RawHexAbiUint24 {
     const content = cursor.readOrThrow(RawHexAbiUint24.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint24(RawHexString.String.as(value))
+    return new RawHexAbiUint24(value as RawHexString)
   }
 
 }
@@ -1107,11 +1107,11 @@ export class BytesAbiUint32 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -1323,7 +1323,7 @@ export class RawHexAbiUint32 {
     const content = cursor.readOrThrow(RawHexAbiUint32.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint32(RawHexString.String.as(value))
+    return new RawHexAbiUint32(value as RawHexString)
   }
 
 }
@@ -1435,11 +1435,11 @@ export class BytesAbiUint40 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -1561,7 +1561,7 @@ export class RawHexAbiUint40 {
     const content = cursor.readOrThrow(RawHexAbiUint40.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint40(RawHexString.String.as(value))
+    return new RawHexAbiUint40(value as RawHexString)
   }
 
 }
@@ -1673,11 +1673,11 @@ export class BytesAbiUint48 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -1799,7 +1799,7 @@ export class RawHexAbiUint48 {
     const content = cursor.readOrThrow(RawHexAbiUint48.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint48(RawHexString.String.as(value))
+    return new RawHexAbiUint48(value as RawHexString)
   }
 
 }
@@ -1911,11 +1911,11 @@ export class BytesAbiUint56 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2037,7 +2037,7 @@ export class RawHexAbiUint56 {
     const content = cursor.readOrThrow(RawHexAbiUint56.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint56(RawHexString.String.as(value))
+    return new RawHexAbiUint56(value as RawHexString)
   }
 
 }
@@ -2149,11 +2149,11 @@ export class BytesAbiUint64 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2275,7 +2275,7 @@ export class RawHexAbiUint64 {
     const content = cursor.readOrThrow(RawHexAbiUint64.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint64(RawHexString.String.as(value))
+    return new RawHexAbiUint64(value as RawHexString)
   }
 
 }
@@ -2387,11 +2387,11 @@ export class BytesAbiUint72 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2513,7 +2513,7 @@ export class RawHexAbiUint72 {
     const content = cursor.readOrThrow(RawHexAbiUint72.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint72(RawHexString.String.as(value))
+    return new RawHexAbiUint72(value as RawHexString)
   }
 
 }
@@ -2625,11 +2625,11 @@ export class BytesAbiUint80 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2751,7 +2751,7 @@ export class RawHexAbiUint80 {
     const content = cursor.readOrThrow(RawHexAbiUint80.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint80(RawHexString.String.as(value))
+    return new RawHexAbiUint80(value as RawHexString)
   }
 
 }
@@ -2863,11 +2863,11 @@ export class BytesAbiUint88 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2989,7 +2989,7 @@ export class RawHexAbiUint88 {
     const content = cursor.readOrThrow(RawHexAbiUint88.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint88(RawHexString.String.as(value))
+    return new RawHexAbiUint88(value as RawHexString)
   }
 
 }
@@ -3101,11 +3101,11 @@ export class BytesAbiUint96 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -3227,7 +3227,7 @@ export class RawHexAbiUint96 {
     const content = cursor.readOrThrow(RawHexAbiUint96.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint96(RawHexString.String.as(value))
+    return new RawHexAbiUint96(value as RawHexString)
   }
 
 }
@@ -3339,11 +3339,11 @@ export class BytesAbiUint104 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -3465,7 +3465,7 @@ export class RawHexAbiUint104 {
     const content = cursor.readOrThrow(RawHexAbiUint104.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint104(RawHexString.String.as(value))
+    return new RawHexAbiUint104(value as RawHexString)
   }
 
 }
@@ -3577,11 +3577,11 @@ export class BytesAbiUint112 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -3703,7 +3703,7 @@ export class RawHexAbiUint112 {
     const content = cursor.readOrThrow(RawHexAbiUint112.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint112(RawHexString.String.as(value))
+    return new RawHexAbiUint112(value as RawHexString)
   }
 
 }
@@ -3815,11 +3815,11 @@ export class BytesAbiUint120 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -3941,7 +3941,7 @@ export class RawHexAbiUint120 {
     const content = cursor.readOrThrow(RawHexAbiUint120.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint120(RawHexString.String.as(value))
+    return new RawHexAbiUint120(value as RawHexString)
   }
 
 }
@@ -4053,11 +4053,11 @@ export class BytesAbiUint128 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -4179,7 +4179,7 @@ export class RawHexAbiUint128 {
     const content = cursor.readOrThrow(RawHexAbiUint128.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint128(RawHexString.String.as(value))
+    return new RawHexAbiUint128(value as RawHexString)
   }
 
 }
@@ -4291,11 +4291,11 @@ export class BytesAbiUint136 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -4417,7 +4417,7 @@ export class RawHexAbiUint136 {
     const content = cursor.readOrThrow(RawHexAbiUint136.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint136(RawHexString.String.as(value))
+    return new RawHexAbiUint136(value as RawHexString)
   }
 
 }
@@ -4529,11 +4529,11 @@ export class BytesAbiUint144 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -4655,7 +4655,7 @@ export class RawHexAbiUint144 {
     const content = cursor.readOrThrow(RawHexAbiUint144.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint144(RawHexString.String.as(value))
+    return new RawHexAbiUint144(value as RawHexString)
   }
 
 }
@@ -4767,11 +4767,11 @@ export class BytesAbiUint152 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -4893,7 +4893,7 @@ export class RawHexAbiUint152 {
     const content = cursor.readOrThrow(RawHexAbiUint152.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint152(RawHexString.String.as(value))
+    return new RawHexAbiUint152(value as RawHexString)
   }
 
 }
@@ -5005,11 +5005,11 @@ export class BytesAbiUint160 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -5131,7 +5131,7 @@ export class RawHexAbiUint160 {
     const content = cursor.readOrThrow(RawHexAbiUint160.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint160(RawHexString.String.as(value))
+    return new RawHexAbiUint160(value as RawHexString)
   }
 
 }
@@ -5243,11 +5243,11 @@ export class BytesAbiUint168 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -5369,7 +5369,7 @@ export class RawHexAbiUint168 {
     const content = cursor.readOrThrow(RawHexAbiUint168.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint168(RawHexString.String.as(value))
+    return new RawHexAbiUint168(value as RawHexString)
   }
 
 }
@@ -5481,11 +5481,11 @@ export class BytesAbiUint176 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -5607,7 +5607,7 @@ export class RawHexAbiUint176 {
     const content = cursor.readOrThrow(RawHexAbiUint176.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint176(RawHexString.String.as(value))
+    return new RawHexAbiUint176(value as RawHexString)
   }
 
 }
@@ -5719,11 +5719,11 @@ export class BytesAbiUint184 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -5845,7 +5845,7 @@ export class RawHexAbiUint184 {
     const content = cursor.readOrThrow(RawHexAbiUint184.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint184(RawHexString.String.as(value))
+    return new RawHexAbiUint184(value as RawHexString)
   }
 
 }
@@ -5957,11 +5957,11 @@ export class BytesAbiUint192 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -6083,7 +6083,7 @@ export class RawHexAbiUint192 {
     const content = cursor.readOrThrow(RawHexAbiUint192.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint192(RawHexString.String.as(value))
+    return new RawHexAbiUint192(value as RawHexString)
   }
 
 }
@@ -6195,11 +6195,11 @@ export class BytesAbiUint200 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -6321,7 +6321,7 @@ export class RawHexAbiUint200 {
     const content = cursor.readOrThrow(RawHexAbiUint200.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint200(RawHexString.String.as(value))
+    return new RawHexAbiUint200(value as RawHexString)
   }
 
 }
@@ -6433,11 +6433,11 @@ export class BytesAbiUint208 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -6559,7 +6559,7 @@ export class RawHexAbiUint208 {
     const content = cursor.readOrThrow(RawHexAbiUint208.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint208(RawHexString.String.as(value))
+    return new RawHexAbiUint208(value as RawHexString)
   }
 
 }
@@ -6671,11 +6671,11 @@ export class BytesAbiUint216 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -6797,7 +6797,7 @@ export class RawHexAbiUint216 {
     const content = cursor.readOrThrow(RawHexAbiUint216.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint216(RawHexString.String.as(value))
+    return new RawHexAbiUint216(value as RawHexString)
   }
 
 }
@@ -6909,11 +6909,11 @@ export class BytesAbiUint224 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7035,7 +7035,7 @@ export class RawHexAbiUint224 {
     const content = cursor.readOrThrow(RawHexAbiUint224.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint224(RawHexString.String.as(value))
+    return new RawHexAbiUint224(value as RawHexString)
   }
 
 }
@@ -7147,11 +7147,11 @@ export class BytesAbiUint232 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7273,7 +7273,7 @@ export class RawHexAbiUint232 {
     const content = cursor.readOrThrow(RawHexAbiUint232.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint232(RawHexString.String.as(value))
+    return new RawHexAbiUint232(value as RawHexString)
   }
 
 }
@@ -7385,11 +7385,11 @@ export class BytesAbiUint240 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7511,7 +7511,7 @@ export class RawHexAbiUint240 {
     const content = cursor.readOrThrow(RawHexAbiUint240.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint240(RawHexString.String.as(value))
+    return new RawHexAbiUint240(value as RawHexString)
   }
 
 }
@@ -7623,11 +7623,11 @@ export class BytesAbiUint248 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7749,7 +7749,7 @@ export class RawHexAbiUint248 {
     const content = cursor.readOrThrow(RawHexAbiUint248.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint248(RawHexString.String.as(value))
+    return new RawHexAbiUint248(value as RawHexString)
   }
 
 }
@@ -7861,11 +7861,11 @@ export class BytesAbiUint256 {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7987,7 +7987,7 @@ export class RawHexAbiUint256 {
     const content = cursor.readOrThrow(RawHexAbiUint256.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiUint256(RawHexString.String.as(value))
+    return new RawHexAbiUint256(value as RawHexString)
   }
 
 }

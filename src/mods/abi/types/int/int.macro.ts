@@ -115,11 +115,11 @@ export class BytesAbiInt${bits} {
   }
 
   encodeOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
+    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -261,7 +261,7 @@ export class RawHexAbiInt${bits} {
     const content = cursor.readOrThrow(RawHexAbiInt${bits}.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt${bits}(RawHexString.String.as(value))
+    return new RawHexAbiInt${bits}(value as RawHexString)
   }
 
 }`

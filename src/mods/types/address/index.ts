@@ -98,7 +98,7 @@ export namespace Address {
     using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.subarray(1))
     const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
 
-    return checksumOrThrow(RawHexString.String.as(rawLowerCase))
+    return checksumOrThrow(rawLowerCase as RawHexString)
   }
 
   export type Formatted = `0x${string}...${string}`
