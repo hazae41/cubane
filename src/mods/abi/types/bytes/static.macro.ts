@@ -90,7 +90,7 @@ export class BytesAbiBytes${bytes} {
   }
 
   toJSON(): ZeroHexString {
-    return \`0x\${Base16.get().encodeOrThrow(this.value)}\`
+    return \`0x\${Base16.get().encodeOrThrow(this.value)}\` as ZeroHexString
   }
 
   static codegen() {
@@ -137,13 +137,21 @@ export class BytesAbiBytes${bytes} {
 
 }
 
-export namespace ZeroHexAbiBytes${bytes} {
-  export type Create = ZeroHexString
-  export type From = ZeroHexString
+export namespace RawHexAbiBytes${bytes} {
+
+  export type Create = RawHexString
+
+  export type From =
+    | string 
+    | number
+    | bigint 
+    | Uint8Array
+    | ZeroHexString
+
 }
 
-export class ZeroHexAbiBytes${bytes} {
-  readonly #class = ZeroHexAbiBytes${bytes}
+export class RawHexAbiBytes${bytes} {
+  readonly #class = RawHexAbiBytes${bytes}
 
   static readonly bytes = ${bytes}
   static readonly nibbles = ${nibbles}
@@ -161,12 +169,12 @@ export class ZeroHexAbiBytes${bytes} {
     readonly value: RawHexString
   ) { }
 
-  static create(value: ZeroHexAbiBytes${bytes}.Create) {
-    return new ZeroHexAbiBytes${bytes}(value.slice(2))
+  static create(value: RawHexAbiBytes${bytes}.Create) {
+    return new RawHexAbiBytes${bytes}(value)
   }
 
-  static fromOrThrow(value: ZeroHexAbiBytes${bytes}.From) {
-    return ZeroHexAbiBytes${bytes}.create(value)
+  static fromOrThrow(value: RawHexAbiBytes${bytes}.From) {
+    return new RawHexAbiBytes${bytes}(RawHexUtf8.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
@@ -174,7 +182,7 @@ export class ZeroHexAbiBytes${bytes} {
   }
 
   toJSON(): ZeroHexString {
-    return \`0x\${this.value}\`
+    return \`0x\${this.value}\` as ZeroHexString
   }
 
   static codegen() {
@@ -194,11 +202,11 @@ export class ZeroHexAbiBytes${bytes} {
   }
 
   static decodeOrThrow(cursor: TextCursor) {
-    const value = cursor.readOrThrow(ZeroHexAbiBytes${bytes}.nibbles)
+    const value = cursor.readOrThrow(RawHexAbiBytes${bytes}.nibbles)
 
-    cursor.offset += 64 - ZeroHexAbiBytes${bytes}.nibbles
+    cursor.offset += 64 - RawHexAbiBytes${bytes}.nibbles
 
-    return new ZeroHexAbiBytes${bytes}(value)
+    return new RawHexAbiBytes${bytes}(value)
   }
 
   sizeOrThrow() {
@@ -209,16 +217,16 @@ export class ZeroHexAbiBytes${bytes} {
     using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
-    cursor.fillOrThrow(0, 32 - ZeroHexAbiBytes${bytes}.bytes)
+    cursor.fillOrThrow(0, 32 - RawHexAbiBytes${bytes}.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {
-    const content = cursor.readOrThrow(ZeroHexAbiBytes${bytes}.bytes)
+    const content = cursor.readOrThrow(RawHexAbiBytes${bytes}.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    cursor.offset += 32 - ZeroHexAbiBytes${bytes}.bytes
+    cursor.offset += 32 - RawHexAbiBytes${bytes}.bytes
     
-    return new ZeroHexAbiBytes${bytes}(value)
+    return new RawHexAbiBytes${bytes}(value as RawHexString)
   }
 
 }`

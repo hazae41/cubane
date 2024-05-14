@@ -6,6 +6,7 @@ import { BytesAbiBytes } from "../bytes/dynamic.js";
 export { AbiString as String };
 
 export namespace AbiString {
+
   export type Create =
     | Uint8Array
     | string
@@ -13,6 +14,7 @@ export namespace AbiString {
   export type From =
     | Uint8Array
     | string
+
 }
 
 export class AbiString {
