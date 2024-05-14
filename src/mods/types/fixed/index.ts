@@ -6,27 +6,34 @@ export interface ZeroHexFixedInit<D extends number = number> {
   readonly decimals: D
 }
 
-export class ZeroHexFixed<D extends number = number> implements ZeroHexFixedInit {
+export class ZeroHexFixedInit<D extends number = number> {
   constructor(
     readonly value: ZeroHexString,
     readonly decimals: D
   ) { }
 }
 
-export interface FixedInit<D extends number = number> {
+export interface BigIntFixedInit<D extends number = number> {
   readonly value: bigint,
   readonly decimals: D
+}
+
+export class BigIntFixedInit<D extends number = number> {
+  constructor(
+    readonly value: bigint,
+    readonly decimals: D
+  ) { }
 }
 
 export namespace Fixed {
 
   export type From<D extends number = number> =
-    | FixedInit<D>
+    | BigIntFixedInit<D>
     | ZeroHexFixedInit<D>
 
 }
 
-export class Fixed<D extends number = number> implements FixedInit {
+export class Fixed<D extends number = number> implements BigIntFixedInit {
   readonly tens: bigint
 
   constructor(
@@ -43,19 +50,17 @@ export class Fixed<D extends number = number> implements FixedInit {
   static from<D extends number = number>(init: Fixed.From<D>) {
     if (init instanceof Fixed)
       return init
-    if (typeof init.value === "bigint")
-      return new Fixed(init.value, init.decimals)
-    return this.fromJSON(init)
+    if (typeof init.value === "string")
+      return this.fromZeroHex(init.value, init.decimals)
+    return new Fixed(init.value, init.decimals)
   }
 
   toJSON() {
-    const value = BigInts.encodeZeroHex(this.value)
-    return new ZeroHexFixed(value, this.decimals)
+    return new ZeroHexFixedInit(this.toZeroHex(), this.decimals)
   }
 
-  static fromJSON(init: ZeroHexFixed) {
-    const value = BigInts.decodeZeroHex(init.value)
-    return new Fixed(value, init.decimals)
+  static fromJSON(init: ZeroHexFixedInit) {
+    return this.fromZeroHex(init.value, init.decimals)
   }
 
   move<D extends number>(decimals: D) {

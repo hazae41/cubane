@@ -106,12 +106,12 @@ export class BytesAbiInt8 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -182,23 +182,23 @@ export class RawHexAbiInt8 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt8(value.toString(16))
+      return new RawHexAbiInt8(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt8(value2.toString(16))
+    return new RawHexAbiInt8(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt8.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt8(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt8(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt8.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt8.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt8(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt8(RawHexString.fromZeroHex(value))
     return RawHexAbiInt8.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -253,7 +253,7 @@ export class RawHexAbiInt8 {
     const content = cursor.readOrThrow(RawHexAbiInt8.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt8(value)
+    return new RawHexAbiInt8(RawHexString.String.as(value))
   }
 
 }
@@ -357,12 +357,12 @@ export class BytesAbiInt16 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -433,23 +433,23 @@ export class RawHexAbiInt16 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt16(value.toString(16))
+      return new RawHexAbiInt16(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt16(value2.toString(16))
+    return new RawHexAbiInt16(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt16.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt16(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt16(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt16.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt16.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt16(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt16(RawHexString.fromZeroHex(value))
     return RawHexAbiInt16.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -504,7 +504,7 @@ export class RawHexAbiInt16 {
     const content = cursor.readOrThrow(RawHexAbiInt16.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt16(value)
+    return new RawHexAbiInt16(RawHexString.String.as(value))
   }
 
 }
@@ -608,12 +608,12 @@ export class BytesAbiInt24 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -684,23 +684,23 @@ export class RawHexAbiInt24 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt24(value.toString(16))
+      return new RawHexAbiInt24(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt24(value2.toString(16))
+    return new RawHexAbiInt24(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt24.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt24(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt24(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt24.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt24.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt24(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt24(RawHexString.fromZeroHex(value))
     return RawHexAbiInt24.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -755,7 +755,7 @@ export class RawHexAbiInt24 {
     const content = cursor.readOrThrow(RawHexAbiInt24.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt24(value)
+    return new RawHexAbiInt24(RawHexString.String.as(value))
   }
 
 }
@@ -859,12 +859,12 @@ export class BytesAbiInt32 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -935,23 +935,23 @@ export class RawHexAbiInt32 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt32(value.toString(16))
+      return new RawHexAbiInt32(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt32(value2.toString(16))
+    return new RawHexAbiInt32(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt32.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt32(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt32(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt32.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt32.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt32(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt32(RawHexString.fromZeroHex(value))
     return RawHexAbiInt32.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -1006,7 +1006,7 @@ export class RawHexAbiInt32 {
     const content = cursor.readOrThrow(RawHexAbiInt32.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt32(value)
+    return new RawHexAbiInt32(RawHexString.String.as(value))
   }
 
 }
@@ -1110,12 +1110,12 @@ export class BytesAbiInt40 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -1186,23 +1186,23 @@ export class RawHexAbiInt40 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt40(value.toString(16))
+      return new RawHexAbiInt40(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt40(value2.toString(16))
+    return new RawHexAbiInt40(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt40.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt40(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt40(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt40.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt40.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt40(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt40(RawHexString.fromZeroHex(value))
     return RawHexAbiInt40.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -1257,7 +1257,7 @@ export class RawHexAbiInt40 {
     const content = cursor.readOrThrow(RawHexAbiInt40.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt40(value)
+    return new RawHexAbiInt40(RawHexString.String.as(value))
   }
 
 }
@@ -1361,12 +1361,12 @@ export class BytesAbiInt48 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -1437,23 +1437,23 @@ export class RawHexAbiInt48 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt48(value.toString(16))
+      return new RawHexAbiInt48(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt48(value2.toString(16))
+    return new RawHexAbiInt48(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt48.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt48(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt48(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt48.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt48.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt48(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt48(RawHexString.fromZeroHex(value))
     return RawHexAbiInt48.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -1508,7 +1508,7 @@ export class RawHexAbiInt48 {
     const content = cursor.readOrThrow(RawHexAbiInt48.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt48(value)
+    return new RawHexAbiInt48(RawHexString.String.as(value))
   }
 
 }
@@ -1612,12 +1612,12 @@ export class BytesAbiInt56 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -1688,23 +1688,23 @@ export class RawHexAbiInt56 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt56(value.toString(16))
+      return new RawHexAbiInt56(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt56(value2.toString(16))
+    return new RawHexAbiInt56(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt56.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt56(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt56(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt56.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt56.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt56(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt56(RawHexString.fromZeroHex(value))
     return RawHexAbiInt56.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -1759,7 +1759,7 @@ export class RawHexAbiInt56 {
     const content = cursor.readOrThrow(RawHexAbiInt56.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt56(value)
+    return new RawHexAbiInt56(RawHexString.String.as(value))
   }
 
 }
@@ -1863,12 +1863,12 @@ export class BytesAbiInt64 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -1939,23 +1939,23 @@ export class RawHexAbiInt64 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt64(value.toString(16))
+      return new RawHexAbiInt64(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt64(value2.toString(16))
+    return new RawHexAbiInt64(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt64.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt64(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt64(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt64.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt64.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt64(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt64(RawHexString.fromZeroHex(value))
     return RawHexAbiInt64.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -2010,7 +2010,7 @@ export class RawHexAbiInt64 {
     const content = cursor.readOrThrow(RawHexAbiInt64.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt64(value)
+    return new RawHexAbiInt64(RawHexString.String.as(value))
   }
 
 }
@@ -2114,12 +2114,12 @@ export class BytesAbiInt72 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2190,23 +2190,23 @@ export class RawHexAbiInt72 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt72(value.toString(16))
+      return new RawHexAbiInt72(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt72(value2.toString(16))
+    return new RawHexAbiInt72(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt72.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt72(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt72(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt72.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt72.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt72(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt72(RawHexString.fromZeroHex(value))
     return RawHexAbiInt72.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -2261,7 +2261,7 @@ export class RawHexAbiInt72 {
     const content = cursor.readOrThrow(RawHexAbiInt72.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt72(value)
+    return new RawHexAbiInt72(RawHexString.String.as(value))
   }
 
 }
@@ -2365,12 +2365,12 @@ export class BytesAbiInt80 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2441,23 +2441,23 @@ export class RawHexAbiInt80 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt80(value.toString(16))
+      return new RawHexAbiInt80(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt80(value2.toString(16))
+    return new RawHexAbiInt80(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt80.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt80(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt80(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt80.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt80.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt80(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt80(RawHexString.fromZeroHex(value))
     return RawHexAbiInt80.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -2512,7 +2512,7 @@ export class RawHexAbiInt80 {
     const content = cursor.readOrThrow(RawHexAbiInt80.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt80(value)
+    return new RawHexAbiInt80(RawHexString.String.as(value))
   }
 
 }
@@ -2616,12 +2616,12 @@ export class BytesAbiInt88 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2692,23 +2692,23 @@ export class RawHexAbiInt88 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt88(value.toString(16))
+      return new RawHexAbiInt88(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt88(value2.toString(16))
+    return new RawHexAbiInt88(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt88.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt88(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt88(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt88.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt88.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt88(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt88(RawHexString.fromZeroHex(value))
     return RawHexAbiInt88.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -2763,7 +2763,7 @@ export class RawHexAbiInt88 {
     const content = cursor.readOrThrow(RawHexAbiInt88.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt88(value)
+    return new RawHexAbiInt88(RawHexString.String.as(value))
   }
 
 }
@@ -2867,12 +2867,12 @@ export class BytesAbiInt96 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -2943,23 +2943,23 @@ export class RawHexAbiInt96 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt96(value.toString(16))
+      return new RawHexAbiInt96(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt96(value2.toString(16))
+    return new RawHexAbiInt96(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt96.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt96(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt96(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt96.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt96.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt96(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt96(RawHexString.fromZeroHex(value))
     return RawHexAbiInt96.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -3014,7 +3014,7 @@ export class RawHexAbiInt96 {
     const content = cursor.readOrThrow(RawHexAbiInt96.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt96(value)
+    return new RawHexAbiInt96(RawHexString.String.as(value))
   }
 
 }
@@ -3118,12 +3118,12 @@ export class BytesAbiInt104 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -3194,23 +3194,23 @@ export class RawHexAbiInt104 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt104(value.toString(16))
+      return new RawHexAbiInt104(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt104(value2.toString(16))
+    return new RawHexAbiInt104(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt104.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt104(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt104(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt104.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt104.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt104(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt104(RawHexString.fromZeroHex(value))
     return RawHexAbiInt104.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -3265,7 +3265,7 @@ export class RawHexAbiInt104 {
     const content = cursor.readOrThrow(RawHexAbiInt104.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt104(value)
+    return new RawHexAbiInt104(RawHexString.String.as(value))
   }
 
 }
@@ -3369,12 +3369,12 @@ export class BytesAbiInt112 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -3445,23 +3445,23 @@ export class RawHexAbiInt112 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt112(value.toString(16))
+      return new RawHexAbiInt112(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt112(value2.toString(16))
+    return new RawHexAbiInt112(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt112.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt112(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt112(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt112.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt112.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt112(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt112(RawHexString.fromZeroHex(value))
     return RawHexAbiInt112.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -3516,7 +3516,7 @@ export class RawHexAbiInt112 {
     const content = cursor.readOrThrow(RawHexAbiInt112.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt112(value)
+    return new RawHexAbiInt112(RawHexString.String.as(value))
   }
 
 }
@@ -3620,12 +3620,12 @@ export class BytesAbiInt120 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -3696,23 +3696,23 @@ export class RawHexAbiInt120 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt120(value.toString(16))
+      return new RawHexAbiInt120(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt120(value2.toString(16))
+    return new RawHexAbiInt120(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt120.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt120(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt120(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt120.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt120.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt120(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt120(RawHexString.fromZeroHex(value))
     return RawHexAbiInt120.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -3767,7 +3767,7 @@ export class RawHexAbiInt120 {
     const content = cursor.readOrThrow(RawHexAbiInt120.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt120(value)
+    return new RawHexAbiInt120(RawHexString.String.as(value))
   }
 
 }
@@ -3871,12 +3871,12 @@ export class BytesAbiInt128 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -3947,23 +3947,23 @@ export class RawHexAbiInt128 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt128(value.toString(16))
+      return new RawHexAbiInt128(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt128(value2.toString(16))
+    return new RawHexAbiInt128(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt128.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt128(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt128(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt128.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt128.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt128(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt128(RawHexString.fromZeroHex(value))
     return RawHexAbiInt128.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -4018,7 +4018,7 @@ export class RawHexAbiInt128 {
     const content = cursor.readOrThrow(RawHexAbiInt128.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt128(value)
+    return new RawHexAbiInt128(RawHexString.String.as(value))
   }
 
 }
@@ -4122,12 +4122,12 @@ export class BytesAbiInt136 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -4198,23 +4198,23 @@ export class RawHexAbiInt136 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt136(value.toString(16))
+      return new RawHexAbiInt136(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt136(value2.toString(16))
+    return new RawHexAbiInt136(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt136.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt136(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt136(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt136.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt136.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt136(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt136(RawHexString.fromZeroHex(value))
     return RawHexAbiInt136.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -4269,7 +4269,7 @@ export class RawHexAbiInt136 {
     const content = cursor.readOrThrow(RawHexAbiInt136.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt136(value)
+    return new RawHexAbiInt136(RawHexString.String.as(value))
   }
 
 }
@@ -4373,12 +4373,12 @@ export class BytesAbiInt144 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -4449,23 +4449,23 @@ export class RawHexAbiInt144 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt144(value.toString(16))
+      return new RawHexAbiInt144(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt144(value2.toString(16))
+    return new RawHexAbiInt144(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt144.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt144(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt144(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt144.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt144.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt144(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt144(RawHexString.fromZeroHex(value))
     return RawHexAbiInt144.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -4520,7 +4520,7 @@ export class RawHexAbiInt144 {
     const content = cursor.readOrThrow(RawHexAbiInt144.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt144(value)
+    return new RawHexAbiInt144(RawHexString.String.as(value))
   }
 
 }
@@ -4624,12 +4624,12 @@ export class BytesAbiInt152 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -4700,23 +4700,23 @@ export class RawHexAbiInt152 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt152(value.toString(16))
+      return new RawHexAbiInt152(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt152(value2.toString(16))
+    return new RawHexAbiInt152(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt152.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt152(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt152(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt152.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt152.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt152(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt152(RawHexString.fromZeroHex(value))
     return RawHexAbiInt152.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -4771,7 +4771,7 @@ export class RawHexAbiInt152 {
     const content = cursor.readOrThrow(RawHexAbiInt152.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt152(value)
+    return new RawHexAbiInt152(RawHexString.String.as(value))
   }
 
 }
@@ -4875,12 +4875,12 @@ export class BytesAbiInt160 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -4951,23 +4951,23 @@ export class RawHexAbiInt160 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt160(value.toString(16))
+      return new RawHexAbiInt160(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt160(value2.toString(16))
+    return new RawHexAbiInt160(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt160.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt160(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt160(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt160.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt160.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt160(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt160(RawHexString.fromZeroHex(value))
     return RawHexAbiInt160.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -5022,7 +5022,7 @@ export class RawHexAbiInt160 {
     const content = cursor.readOrThrow(RawHexAbiInt160.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt160(value)
+    return new RawHexAbiInt160(RawHexString.String.as(value))
   }
 
 }
@@ -5126,12 +5126,12 @@ export class BytesAbiInt168 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -5202,23 +5202,23 @@ export class RawHexAbiInt168 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt168(value.toString(16))
+      return new RawHexAbiInt168(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt168(value2.toString(16))
+    return new RawHexAbiInt168(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt168.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt168(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt168(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt168.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt168.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt168(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt168(RawHexString.fromZeroHex(value))
     return RawHexAbiInt168.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -5273,7 +5273,7 @@ export class RawHexAbiInt168 {
     const content = cursor.readOrThrow(RawHexAbiInt168.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt168(value)
+    return new RawHexAbiInt168(RawHexString.String.as(value))
   }
 
 }
@@ -5377,12 +5377,12 @@ export class BytesAbiInt176 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -5453,23 +5453,23 @@ export class RawHexAbiInt176 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt176(value.toString(16))
+      return new RawHexAbiInt176(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt176(value2.toString(16))
+    return new RawHexAbiInt176(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt176.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt176(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt176(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt176.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt176.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt176(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt176(RawHexString.fromZeroHex(value))
     return RawHexAbiInt176.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -5524,7 +5524,7 @@ export class RawHexAbiInt176 {
     const content = cursor.readOrThrow(RawHexAbiInt176.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt176(value)
+    return new RawHexAbiInt176(RawHexString.String.as(value))
   }
 
 }
@@ -5628,12 +5628,12 @@ export class BytesAbiInt184 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -5704,23 +5704,23 @@ export class RawHexAbiInt184 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt184(value.toString(16))
+      return new RawHexAbiInt184(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt184(value2.toString(16))
+    return new RawHexAbiInt184(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt184.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt184(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt184(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt184.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt184.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt184(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt184(RawHexString.fromZeroHex(value))
     return RawHexAbiInt184.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -5775,7 +5775,7 @@ export class RawHexAbiInt184 {
     const content = cursor.readOrThrow(RawHexAbiInt184.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt184(value)
+    return new RawHexAbiInt184(RawHexString.String.as(value))
   }
 
 }
@@ -5879,12 +5879,12 @@ export class BytesAbiInt192 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -5955,23 +5955,23 @@ export class RawHexAbiInt192 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt192(value.toString(16))
+      return new RawHexAbiInt192(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt192(value2.toString(16))
+    return new RawHexAbiInt192(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt192.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt192(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt192(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt192.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt192.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt192(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt192(RawHexString.fromZeroHex(value))
     return RawHexAbiInt192.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -6026,7 +6026,7 @@ export class RawHexAbiInt192 {
     const content = cursor.readOrThrow(RawHexAbiInt192.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt192(value)
+    return new RawHexAbiInt192(RawHexString.String.as(value))
   }
 
 }
@@ -6130,12 +6130,12 @@ export class BytesAbiInt200 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -6206,23 +6206,23 @@ export class RawHexAbiInt200 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt200(value.toString(16))
+      return new RawHexAbiInt200(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt200(value2.toString(16))
+    return new RawHexAbiInt200(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt200.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt200(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt200(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt200.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt200.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt200(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt200(RawHexString.fromZeroHex(value))
     return RawHexAbiInt200.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -6277,7 +6277,7 @@ export class RawHexAbiInt200 {
     const content = cursor.readOrThrow(RawHexAbiInt200.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt200(value)
+    return new RawHexAbiInt200(RawHexString.String.as(value))
   }
 
 }
@@ -6381,12 +6381,12 @@ export class BytesAbiInt208 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -6457,23 +6457,23 @@ export class RawHexAbiInt208 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt208(value.toString(16))
+      return new RawHexAbiInt208(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt208(value2.toString(16))
+    return new RawHexAbiInt208(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt208.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt208(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt208(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt208.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt208.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt208(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt208(RawHexString.fromZeroHex(value))
     return RawHexAbiInt208.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -6528,7 +6528,7 @@ export class RawHexAbiInt208 {
     const content = cursor.readOrThrow(RawHexAbiInt208.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt208(value)
+    return new RawHexAbiInt208(RawHexString.String.as(value))
   }
 
 }
@@ -6632,12 +6632,12 @@ export class BytesAbiInt216 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -6708,23 +6708,23 @@ export class RawHexAbiInt216 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt216(value.toString(16))
+      return new RawHexAbiInt216(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt216(value2.toString(16))
+    return new RawHexAbiInt216(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt216.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt216(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt216(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt216.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt216.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt216(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt216(RawHexString.fromZeroHex(value))
     return RawHexAbiInt216.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -6779,7 +6779,7 @@ export class RawHexAbiInt216 {
     const content = cursor.readOrThrow(RawHexAbiInt216.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt216(value)
+    return new RawHexAbiInt216(RawHexString.String.as(value))
   }
 
 }
@@ -6883,12 +6883,12 @@ export class BytesAbiInt224 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -6959,23 +6959,23 @@ export class RawHexAbiInt224 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt224(value.toString(16))
+      return new RawHexAbiInt224(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt224(value2.toString(16))
+    return new RawHexAbiInt224(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt224.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt224(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt224(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt224.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt224.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt224(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt224(RawHexString.fromZeroHex(value))
     return RawHexAbiInt224.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -7030,7 +7030,7 @@ export class RawHexAbiInt224 {
     const content = cursor.readOrThrow(RawHexAbiInt224.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt224(value)
+    return new RawHexAbiInt224(RawHexString.String.as(value))
   }
 
 }
@@ -7134,12 +7134,12 @@ export class BytesAbiInt232 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7210,23 +7210,23 @@ export class RawHexAbiInt232 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt232(value.toString(16))
+      return new RawHexAbiInt232(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt232(value2.toString(16))
+    return new RawHexAbiInt232(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt232.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt232(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt232(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt232.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt232.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt232(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt232(RawHexString.fromZeroHex(value))
     return RawHexAbiInt232.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -7281,7 +7281,7 @@ export class RawHexAbiInt232 {
     const content = cursor.readOrThrow(RawHexAbiInt232.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt232(value)
+    return new RawHexAbiInt232(RawHexString.String.as(value))
   }
 
 }
@@ -7385,12 +7385,12 @@ export class BytesAbiInt240 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7461,23 +7461,23 @@ export class RawHexAbiInt240 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt240(value.toString(16))
+      return new RawHexAbiInt240(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt240(value2.toString(16))
+    return new RawHexAbiInt240(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt240.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt240(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt240(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt240.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt240.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt240(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt240(RawHexString.fromZeroHex(value))
     return RawHexAbiInt240.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -7532,7 +7532,7 @@ export class RawHexAbiInt240 {
     const content = cursor.readOrThrow(RawHexAbiInt240.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt240(value)
+    return new RawHexAbiInt240(RawHexString.String.as(value))
   }
 
 }
@@ -7636,12 +7636,12 @@ export class BytesAbiInt248 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7712,23 +7712,23 @@ export class RawHexAbiInt248 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt248(value.toString(16))
+      return new RawHexAbiInt248(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt248(value2.toString(16))
+    return new RawHexAbiInt248(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt248.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt248(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt248(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt248.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt248.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt248(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt248(RawHexString.fromZeroHex(value))
     return RawHexAbiInt248.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -7783,7 +7783,7 @@ export class RawHexAbiInt248 {
     const content = cursor.readOrThrow(RawHexAbiInt248.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt248(value)
+    return new RawHexAbiInt248(RawHexString.String.as(value))
   }
 
 }
@@ -7887,12 +7887,12 @@ export class BytesAbiInt256 {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -7963,23 +7963,23 @@ export class RawHexAbiInt256 {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt256(value.toString(16))
+      return new RawHexAbiInt256(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt256(value2.toString(16))
+    return new RawHexAbiInt256(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt256.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt256(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt256(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt256.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt256.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt256(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt256(RawHexString.fromZeroHex(value))
     return RawHexAbiInt256.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -8034,7 +8034,7 @@ export class RawHexAbiInt256 {
     const content = cursor.readOrThrow(RawHexAbiInt256.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt256(value)
+    return new RawHexAbiInt256(RawHexString.String.as(value))
   }
 
 }

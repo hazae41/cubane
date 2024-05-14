@@ -114,12 +114,12 @@ export class BytesAbiInt${bits} {
     return this.#class
   }
 
-  encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+  encodeOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value).padStart(64, "0"))
   }
 
-  encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+  encodePackedOrThrow(): RawHexString {
+    return RawHexString.String.as(Base16.get().encodeOrThrow(this.value))
   }
 
   static decodeOrThrow(cursor: TextCursor) {
@@ -190,23 +190,23 @@ export class RawHexAbiInt${bits} {
 
   static fromBigIntOrThrow(value: bigint) {
     if (value >= BN_0) 
-      return new RawHexAbiInt${bits}(value.toString(16))
+      return new RawHexAbiInt${bits}(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
     const value2 = ((~(-value)) & mask) + BN_1
 
-    return new RawHexAbiInt${bits}(value2.toString(16))
+    return new RawHexAbiInt${bits}(value2.toString(16) as RawHexString)
   }
 
   static fromOrThrow(value: RawHexAbiInt${bits}.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt${bits}(Base16.get().encodeOrThrow(value))
+      return new RawHexAbiInt${bits}(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt${bits}.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt${bits}.fromBigIntOrThrow(BigInt(value))
-    if (value.startsWith("0x"))
-      return new RawHexAbiInt${bits}(value.slice(2))
+    if (ZeroHexString.String.is(value))
+      return new RawHexAbiInt${bits}(RawHexString.fromZeroHex(value))
     return RawHexAbiInt${bits}.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -261,7 +261,7 @@ export class RawHexAbiInt${bits} {
     const content = cursor.readOrThrow(RawHexAbiInt${bits}.bytes)
     const value = Base16.get().encodeOrThrow(content)
 
-    return new RawHexAbiInt${bits}(value)
+    return new RawHexAbiInt${bits}(RawHexString.String.as(value))
   }
 
 }`

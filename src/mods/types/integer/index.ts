@@ -73,14 +73,14 @@ export namespace ZeroHexInteger {
 
   export function fromOrThrow(from: ZeroHexInteger.From): ZeroHexInteger {
     if (typeof from === "number")
-      return `0x${from.toString(16)}`
+      return `0x${from.toString(16)}` as ZeroHexString
     if (typeof from === "bigint")
-      return `0x${from.toString(16)}`
+      return `0x${from.toString(16)}` as ZeroHexString
     if (from instanceof Uint8Array)
-      return `0x${Base16.get().encodeOrThrow(from)}`
+      return `0x${Base16.get().encodeOrThrow(from)}` as ZeroHexString
     if (ZeroHexString.String.is(from))
       return from
-    return `0x${BigInts.decodeDecimal(from).toString(16)}`
+    return `0x${BigInts.decodeDecimal(from).toString(16)}` as ZeroHexString
   }
 
 }
@@ -99,16 +99,24 @@ export namespace RawHexInteger {
     | Uint8Array
     | ZeroHexString
 
+  export function fromBytesOrThrow(value: Uint8Array): RawHexInteger {
+    return Base16.get().encodeOrThrow(value) as RawHexString
+  }
+
+  export function fromZeroHexOrThrow(value: ZeroHexString): RawHexInteger {
+    return value.slice(2) as RawHexString
+  }
+
   export function fromOrThrow(from: RawHexInteger.From): RawHexInteger {
     if (typeof from === "number")
-      return from.toString(16)
+      return from.toString(16) as RawHexString
     if (typeof from === "bigint")
-      return from.toString(16)
+      return from.toString(16) as RawHexString
     if (from instanceof Uint8Array)
-      return Base16.get().encodeOrThrow(from)
+      return Base16.get().encodeOrThrow(from) as RawHexString
     if (ZeroHexString.String.is(from))
-      return from.slice(2)
-    return BigInts.decodeDecimal(from).toString(16)
+      return from.slice(2) as RawHexString
+    return BigInts.decodeDecimal(from).toString(16) as RawHexString
   }
 
 }
