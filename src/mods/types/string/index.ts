@@ -1,6 +1,5 @@
 import { Base16 } from "@hazae41/base16"
 import { Bytes } from "@hazae41/bytes"
-import { Err, Ok } from "@hazae41/result"
 
 declare global {
   interface SymbolConstructor {
@@ -29,14 +28,6 @@ export namespace ZeroHexString {
       return /^0x[0-9a-fA-F]*$/.test(value)
     }
 
-    export function tryAs(value: Unsafe) {
-      return is(value) ? new Ok(value) : Err.error("Not a hex string")
-    }
-
-    export function asOrThrow(value: Unsafe) {
-      return tryAs(value).unwrap()
-    }
-
   }
 
   export namespace String {
@@ -47,14 +38,6 @@ export namespace ZeroHexString {
 
     export function is(value: string): value is ZeroHexString {
       return /^0x[0-9a-fA-F]*$/.test(value)
-    }
-
-    export function tryAs(value: string) {
-      return is(value) ? new Ok(value) : Err.error("Not a hex string")
-    }
-
-    export function asOrThrow(value: string) {
-      return tryAs(value).unwrap()
     }
 
   }
@@ -68,15 +51,6 @@ export namespace ZeroHexString {
     export function is(value: unknown): value is ZeroHexString {
       return typeof value === "string" && /^0x[0-9a-fA-F]*$/.test(value)
     }
-
-    export function tryAs(value: unknown) {
-      return is(value) ? new Ok(value) : Err.error("Not a hex string")
-    }
-
-    export function asOrThrow(value: unknown) {
-      return tryAs(value).unwrap()
-    }
-
   }
 
   export function fromRawHex(value: RawHexString): ZeroHexString {
@@ -101,14 +75,6 @@ export namespace RawHexString {
       return /^[0-9a-fA-F]*$/.test(value)
     }
 
-    export function tryAs(value: string) {
-      return is(value) ? new Ok(value) : Err.error("Not a hex string")
-    }
-
-    export function asOrThrow(value: string) {
-      return tryAs(value).unwrap()
-    }
-
   }
 
   export namespace Unknown {
@@ -119,14 +85,6 @@ export namespace RawHexString {
 
     export function is(value: unknown): value is RawHexString {
       return typeof value === "string" && /^[0-9a-fA-F]*$/.test(value)
-    }
-
-    export function tryAs(value: unknown) {
-      return is(value) ? new Ok(value) : Err.error("Not a hex string")
-    }
-
-    export function asOrThrow(value: unknown) {
-      return tryAs(value).unwrap()
     }
 
   }

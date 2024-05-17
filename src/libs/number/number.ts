@@ -1,6 +1,6 @@
 import { Base16 } from "@hazae41/base16";
 import { BytesOrCopiable, Copiable } from "@hazae41/box";
-import { ZeroHexString } from "mods/types/string/index.js";
+import { ZeroHexString } from "mods/types/wrapped/string.js";
 
 export namespace Numbers {
 
@@ -30,13 +30,6 @@ export namespace Numbers {
 
   export function decodeDecimal(value: string): number {
     return value.length < 1 ? 0 : Number(value)
-  }
-
-  export function decodeZeroHexOrDecimal(value: string): number {
-    if (ZeroHexString.String.is(value))
-      return decodeZeroHex(value)
-    else
-      return decodeDecimal(value)
   }
 
   export function exportOrThrow(value: number): Copiable {

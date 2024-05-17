@@ -1,6 +1,7 @@
 import { Base16 } from "@hazae41/base16";
 import { BytesOrCopiable, Copiable } from "@hazae41/box";
-import { ZeroHexString } from "mods/types/string/index.js";
+import { ZeroHexString } from "mods/types/wrapped/string.js";
+
 
 export namespace BigInts {
 
@@ -30,13 +31,6 @@ export namespace BigInts {
 
   export function decodeDecimal(value: string): bigint {
     return value.length < 1 ? 0n : BigInt(value)
-  }
-
-  export function decodeZeroHexOrDecimal(value: string): bigint {
-    if (ZeroHexString.String.is(value))
-      return decodeZeroHex(value)
-    else
-      return decodeDecimal(value)
   }
 
   export function exportOrThrow(value: bigint): Copiable {

@@ -1,51 +1,19 @@
 import { Base16 } from "@hazae41/base16"
 import { BigInts } from "libs/bigint/bigint.js"
 import { Numbers } from "libs/number/number.js"
-import { RawHexString, ZeroHexString } from "../string/index.js"
+import { Wrapped } from "../wrapped/generic.js"
 
-export type BigIntInteger = bigint
+export namespace BigIntAsInteger {
 
-export namespace BigIntInteger {
-
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
-
-  export function is(value: unknown): value is BigIntInteger {
-    return typeof value === "bigint"
-  }
-
-  export function fromOrThrow(value: BigIntInteger.From) {
-    if (typeof value === "bigint")
-      return value
-    if (typeof value === "number")
-      return BigInt(value)
-    if (typeof value === "string")
-      return BigInts.decodeZeroHexOrDecimal(value)
-    return BigInts.decodeRawHex(Base16.get().encodeOrThrow(value))
+  export function fromOrThrow(value: Wrapped.From) {
+    return Wrapped.fromOrThrow(value).toWrappedBigIntAsIntegerOrThrow()
   }
 
 }
 
-export type NumberInteger = number
+export namespace NumberAsInteger {
 
-export namespace NumberInteger {
-
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
-
-  export function is(value: unknown): value is NumberInteger {
-    return typeof value === "number"
-  }
-
-  export function fromOrThrow(value: NumberInteger.From): NumberInteger {
+  export function fromOrThrow(value: Wrapped.From) {
     if (typeof value === "number")
       return value
     if (typeof value === "bigint")
