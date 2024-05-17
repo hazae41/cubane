@@ -2,7 +2,7 @@ import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { WasmSignature } from "../signature/index.js";
-import { BytesUtf8 } from "../string/index.js";
+import { BytesAsUtf8 } from "../wrapped/generic.js";
 
 export class WasmPrivateKey {
 
@@ -14,15 +14,15 @@ export class WasmPrivateKey {
     return new WasmPublicKey(this.value.getPublicKeyOrThrow())
   }
 
-  signUnsafeMessageOrThrow(message: BytesUtf8.From) {
-    const bytesm = BytesUtf8.fromOrThrow(message)
+  signUnsafeMessageOrThrow(message: BytesAsUtf8.From) {
+    const bytesm = BytesAsUtf8.fromOrThrow(message)
     using hash = Keccak256.get().hashOrThrow(bytesm)
 
     return new WasmSignature(this.value.signOrThrow(hash))
   }
 
-  signPersonalMessageOrThrow(message: BytesUtf8.From) {
-    const bytesm = BytesUtf8.fromOrThrow(message)
+  signPersonalMessageOrThrow(message: BytesAsUtf8.From) {
+    const bytesm = BytesAsUtf8.fromOrThrow(message)
     const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + bytesm.length.toString())
 
     const concat = Bytes.concat([prefix, bytesm])
@@ -39,8 +39,8 @@ export class WasmPublicKey {
     readonly value: Secp256k1.PublicKey
   ) { }
 
-  static recoverUnsafeMessageOrThrow(message: BytesUtf8.From, signature: WasmSignature) {
-    const bytesm = BytesUtf8.fromOrThrow(message)
+  static recoverUnsafeMessageOrThrow(message: BytesAsUtf8.From, signature: WasmSignature) {
+    const bytesm = BytesAsUtf8.fromOrThrow(message)
     using hash = Keccak256.get().hashOrThrow(bytesm)
 
     const inner = Secp256k1.get().PublicKey.recoverOrThrow(hash, signature.value)
@@ -48,8 +48,8 @@ export class WasmPublicKey {
     return new WasmPublicKey(inner)
   }
 
-  verifyUnsafeMessageOrThrow(message: BytesUtf8.From, signature: WasmSignature) {
-    const bytesm = BytesUtf8.fromOrThrow(message)
+  verifyUnsafeMessageOrThrow(message: BytesAsUtf8.From, signature: WasmSignature) {
+    const bytesm = BytesAsUtf8.fromOrThrow(message)
     using hash = Keccak256.get().hashOrThrow(bytesm)
 
     using recovered = Secp256k1.get().PublicKey.recoverOrThrow(hash, signature.value)

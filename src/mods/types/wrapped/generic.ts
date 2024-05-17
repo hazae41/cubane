@@ -65,8 +65,12 @@ export namespace ZeroHexAsUtf8 {
 
   export type From = Wrapped.From
 
-  export function fromOrThrow(from: From) {
+  export function fromAndWrapOrThrow(from: From) {
     return Wrapped.fromOrThrow(from).toWrappedZeroHexAsUtf8OrThrow()
+  }
+
+  export function fromOrThrow(from: From) {
+    return Wrapped.fromOrThrow(from).toZeroHexAsUtf8OrThrow()
   }
 
 }
@@ -78,8 +82,12 @@ export namespace BytesAsUtf8 {
 
   export type From = Wrapped.From
 
+  export function fromAndWrapOrThrow(from: From) {
+    return Wrapped.fromOrThrow(from).toWrappedBytesAsUtf8OrThrow()
+  }
+
   export function fromOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toWrappedBytesAsUtf8OrThrow()
+    return Wrapped.fromOrThrow(value).toBytesAsUtf8OrThrow()
   }
 
 }
@@ -91,8 +99,12 @@ export namespace BigIntAsInteger {
 
   export type From = Wrapped.From
 
-  export function fromOrThrow(value: From) {
+  export function fromAndWrapOrThrow(value: From) {
     return Wrapped.fromOrThrow(value).toWrappedBigIntAsIntegerOrThrow()
+  }
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toBigIntAsIntegerOrThrow()
   }
 
 }
@@ -104,8 +116,12 @@ export namespace NumberAsInteger {
 
   export type From = Wrapped.From
 
-  export function fromOrThrow(value: From) {
+  export function fromAndWrapOrThrow(value: From) {
     return Wrapped.fromOrThrow(value).toWrappedNumberAsIntegerOrThrow()
+  }
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toNumberAsIntegerOrThrow()
   }
 
 }
@@ -117,8 +133,12 @@ export namespace ZeroHexAsInteger {
 
   export type From = Wrapped.From
 
-  export function fromOrThrow(from: From) {
+  export function fromAndWrapOrThrow(from: From) {
     return Wrapped.fromOrThrow(from).toWrappedZeroHexAsIntegerOrThrow()
+  }
+
+  export function fromOrThrow(from: From) {
+    return Wrapped.fromOrThrow(from).toZeroHexAsIntegerOrThrow()
   }
 
 }
@@ -130,8 +150,12 @@ export namespace RawHexAsInteger {
 
   export type From = Wrapped.From
 
+  export function fromAndWrapOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toWrappedRawHexAsIntegerOrThrow()
+  }
+
   export function fromOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toWrappedRawHexAsIntegerOrThrow()
+    return Wrapped.fromOrThrow(from).toRawHexAsIntegerOrThrow()
   }
 
 }
@@ -143,8 +167,12 @@ export namespace BytesAsInteger {
 
   export type From = Wrapped.From
 
-  export function fromOrThrow(value: From) {
+  export function fromAndWrapOrThrow(value: From) {
     return Wrapped.fromOrThrow(value).toWrappedBytesAsIntegerOrThrow()
+  }
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toBytesAsIntegerOrThrow()
   }
 
 }
@@ -156,8 +184,12 @@ export namespace StringAsInteger {
 
   export type From = Wrapped.From
 
-  export function fromOrThrow(value: From) {
+  export function fromAndWrapOrThrow(value: From) {
     return Wrapped.fromOrThrow(value).toWrappedStringAsIntegerOrThrow()
+  }
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toStringAsIntegerOrThrow()
   }
 
 }
