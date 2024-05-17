@@ -1,4 +1,4 @@
-import { ZeroHexString } from "../string/index.js"
+import { RawHexString, ZeroHexString } from "../string/index.js"
 import { WrappedBigInt } from "./bigint.js"
 import { WrappedBytes } from "./bytes.js"
 import { WrappedNumber } from "./number.js"
@@ -26,6 +26,15 @@ export abstract class Wrapped<T> {
 
   abstract toZeroHexAsIntegerOrThrow(): ZeroHexString
   abstract toWrappedZeroHexAsIntegerOrThrow(): Wrapped<ZeroHexString>
+
+  abstract toBytesAsIntegerOrThrow(): Uint8Array
+  abstract toWrappedBytesAsIntegerOrThrow(): Wrapped<Uint8Array>
+
+  abstract toStringAsIntegerOrThrow(): string
+  abstract toWrappedStringAsIntegerOrThrow(): Wrapped<string>
+
+  abstract toRawHexAsIntegerOrThrow(): RawHexString
+  abstract toWrappedRawHexAsIntegerOrThrow(): Wrapped<RawHexString>
 
   static fromOrThrow(value: Wrapped.From) {
     if (value instanceof Wrapped)

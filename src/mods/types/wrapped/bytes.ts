@@ -1,11 +1,11 @@
 import { Base16 } from "@hazae41/base16"
 import { BigInts } from "libs/bigint/bigint.js"
 import { Numbers } from "libs/number/number.js"
-import { ZeroHexString } from "../string/index.js"
+import { RawHexString, ZeroHexString } from "../string/index.js"
 import { WrappedBigInt } from "./bigint.js"
 import { Wrapped } from "./generic.js"
 import { WrappedNumber } from "./number.js"
-import { WrappedZeroHexString } from "./string.js"
+import { WrappedRawHexString, WrappedString, WrappedZeroHexString } from "./string.js"
 
 export { WrappedBytes as Bytes }
 
@@ -39,6 +39,30 @@ export class WrappedBytes extends Wrapped<Uint8Array> {
 
   toWrappedZeroHexAsIntegerOrThrow(): Wrapped<ZeroHexString> {
     return new WrappedZeroHexString(this.toZeroHexAsIntegerOrThrow())
+  }
+
+  toBytesAsIntegerOrThrow(): Uint8Array {
+    return this.value
+  }
+
+  toWrappedBytesAsIntegerOrThrow(): Wrapped<Uint8Array> {
+    return this
+  }
+
+  toStringAsIntegerOrThrow(): string {
+    return BigInts.decodeRawHex(Base16.get().encodeOrThrow(this.value)).toString()
+  }
+
+  toWrappedStringAsIntegerOrThrow(): Wrapped<string> {
+    return new WrappedString(this.toStringAsIntegerOrThrow())
+  }
+
+  toRawHexAsIntegerOrThrow() {
+    return Base16.get().encodeOrThrow(this.value) as RawHexString
+  }
+
+  toWrappedRawHexAsIntegerOrThrow() {
+    return new WrappedRawHexString(this.toRawHexAsIntegerOrThrow())
   }
 
 }
