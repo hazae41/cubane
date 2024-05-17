@@ -21,6 +21,12 @@ export abstract class Wrapped<T> {
   abstract toBigIntAsIntegerOrThrow(): bigint
   abstract toWrappedBigIntAsIntegerOrThrow(): Wrapped<bigint>
 
+  abstract toNumberAsIntegerOrThrow(): number
+  abstract toWrappedNumberAsIntegerOrThrow(): Wrapped<number>
+
+  abstract toZeroHexAsIntegerOrThrow(): ZeroHexString
+  abstract toWrappedZeroHexAsIntegerOrThrow(): Wrapped<ZeroHexString>
+
   static fromOrThrow(value: Wrapped.From) {
     if (value instanceof Wrapped)
       return value
