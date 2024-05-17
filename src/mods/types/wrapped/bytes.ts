@@ -65,4 +65,20 @@ export class WrappedBytes extends Wrapped<Uint8Array> {
     return new WrappedRawHexString(this.toRawHexAsIntegerOrThrow())
   }
 
+  toBytesAsUtf8OrThrow(): Uint8Array {
+    return this.value
+  }
+
+  toWrappedBytesAsUtf8OrThrow(): Wrapped<Uint8Array> {
+    return this
+  }
+
+  toZeroHexAsUtf8OrThrow(): ZeroHexString {
+    return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
+  }
+
+  toWrappedZeroHexAsUtf8OrThrow(): Wrapped<ZeroHexString> {
+    return new WrappedZeroHexString(this.toZeroHexAsUtf8OrThrow())
+  }
+
 }

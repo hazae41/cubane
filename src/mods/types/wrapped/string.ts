@@ -1,4 +1,5 @@
 import { Base16 } from "@hazae41/base16"
+import { Bytes } from "@hazae41/bytes"
 import { BigInts } from "libs/bigint/bigint.js"
 import { Numbers } from "libs/number/number.js"
 import { RawHexString, ZeroHexString } from "../string/index.js"
@@ -63,6 +64,22 @@ export class WrappedZeroHexString extends Wrapped<ZeroHexString> {
     return new WrappedRawHexString(this.toRawHexAsIntegerOrThrow())
   }
 
+  toBytesAsUtf8OrThrow(): Uint8Array {
+    return Base16.get().padStartAndDecodeOrThrow(this.value.slice(2)).copyAndDispose()
+  }
+
+  toWrappedBytesAsUtf8OrThrow(): Wrapped<Uint8Array> {
+    return new WrappedBytes(this.toBytesAsUtf8OrThrow())
+  }
+
+  toZeroHexAsUtf8OrThrow() {
+    return this.value
+  }
+
+  toWrappedZeroHexAsUtf8OrThrow() {
+    return this
+  }
+
 }
 
 export class WrappedRawHexString extends Wrapped<string> {
@@ -121,6 +138,22 @@ export class WrappedRawHexString extends Wrapped<string> {
     return this
   }
 
+  toBytesAsUtf8OrThrow(): Uint8Array {
+    return Base16.get().padStartAndDecodeOrThrow(this.value).copyAndDispose()
+  }
+
+  toWrappedBytesAsUtf8OrThrow(): Wrapped<Uint8Array> {
+    return new WrappedBytes(this.toBytesAsUtf8OrThrow())
+  }
+
+  toZeroHexAsUtf8OrThrow() {
+    return `0x${this.value}` as ZeroHexString
+  }
+
+  toWrappedZeroHexAsUtf8OrThrow() {
+    return new WrappedZeroHexString(this.toZeroHexAsUtf8OrThrow())
+  }
+
 }
 
 export class WrappedString extends Wrapped<string> {
@@ -177,6 +210,22 @@ export class WrappedString extends Wrapped<string> {
 
   toWrappedRawHexAsIntegerOrThrow() {
     return new WrappedRawHexString(this.toRawHexAsIntegerOrThrow())
+  }
+
+  toBytesAsUtf8OrThrow(): Uint8Array {
+    return Bytes.fromUtf8(this.value)
+  }
+
+  toWrappedBytesAsUtf8OrThrow(): Wrapped<Uint8Array> {
+    return new WrappedBytes(this.toBytesAsUtf8OrThrow())
+  }
+
+  toZeroHexAsUtf8OrThrow() {
+    return `0x${Base16.get().encodeOrThrow(Bytes.fromUtf8(this.value))}` as ZeroHexString
+  }
+
+  toWrappedZeroHexAsUtf8OrThrow() {
+    return new WrappedZeroHexString(this.toZeroHexAsUtf8OrThrow())
   }
 
 }

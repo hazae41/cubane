@@ -36,6 +36,12 @@ export abstract class Wrapped<T> {
   abstract toRawHexAsIntegerOrThrow(): RawHexString
   abstract toWrappedRawHexAsIntegerOrThrow(): Wrapped<RawHexString>
 
+  abstract toBytesAsUtf8OrThrow(): Uint8Array
+  abstract toWrappedBytesAsUtf8OrThrow(): Wrapped<Uint8Array>
+
+  abstract toZeroHexAsUtf8OrThrow(): ZeroHexString
+  abstract toWrappedZeroHexAsUtf8OrThrow(): Wrapped<ZeroHexString>
+
   static fromOrThrow(value: Wrapped.From) {
     if (value instanceof Wrapped)
       return value
@@ -48,6 +54,110 @@ export abstract class Wrapped<T> {
     if (ZeroHexString.String.is(value))
       return new WrappedZeroHexString(value)
     return new WrappedString(value)
+  }
+
+}
+
+/**
+ * Decode an utf-8 string-like to a zero-hex string
+ */
+export namespace ZeroHexAsUtf8 {
+
+  export type From = Wrapped.From
+
+  export function fromOrThrow(from: From) {
+    return Wrapped.fromOrThrow(from).toWrappedZeroHexAsUtf8OrThrow()
+  }
+
+}
+
+/**
+ * Decode an utf-8 string-like to bytes
+ */
+export namespace BytesAsUtf8 {
+
+  export type From = Wrapped.From
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toWrappedBytesAsUtf8OrThrow()
+  }
+
+}
+
+/**
+ * Convert an integer-like to a bigint
+ */
+export namespace BigIntAsInteger {
+
+  export type From = Wrapped.From
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toWrappedBigIntAsIntegerOrThrow()
+  }
+
+}
+
+/**
+ * Convert an integer-like to a number
+ */
+export namespace NumberAsInteger {
+
+  export type From = Wrapped.From
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toWrappedNumberAsIntegerOrThrow()
+  }
+
+}
+
+/**
+ * Convert an integer-like to a zero-hex string
+ */
+export namespace ZeroHexAsInteger {
+
+  export type From = Wrapped.From
+
+  export function fromOrThrow(from: From) {
+    return Wrapped.fromOrThrow(from).toWrappedZeroHexAsIntegerOrThrow()
+  }
+
+}
+
+/**
+ * Convert an integer-like to a raw-hex string
+ */
+export namespace RawHexAsInteger {
+
+  export type From = Wrapped.From
+
+  export function fromOrThrow(from: From) {
+    return Wrapped.fromOrThrow(from).toWrappedRawHexAsIntegerOrThrow()
+  }
+
+}
+
+/**
+ * Convert an integer-like to bytes
+ */
+export namespace BytesAsInteger {
+
+  export type From = Wrapped.From
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toWrappedBytesAsIntegerOrThrow()
+  }
+
+}
+
+/**
+ * Convert an integer-like to a decimal string
+ */
+export namespace StringAsInteger {
+
+  export type From = Wrapped.From
+
+  export function fromOrThrow(value: From) {
+    return Wrapped.fromOrThrow(value).toWrappedStringAsIntegerOrThrow()
   }
 
 }
