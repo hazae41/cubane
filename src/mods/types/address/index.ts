@@ -2,8 +2,8 @@ import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "@hazae41/option";
-import { RawHexInteger } from "../integer/index.js";
 import { RawHexString, ZeroHexString } from "../string/index.js";
+import { RawHexAsInteger } from "../wrapped/generic.js";
 
 declare global {
   interface SymbolConstructor {
@@ -18,10 +18,7 @@ export type Address = ZeroHexString<42> & { readonly [Symbol.isAddress]: true }
 
 export namespace Address {
 
-  export type From =
-    | string
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
   export namespace String {
 
@@ -41,18 +38,6 @@ export namespace Address {
       return value === checksumOrThrow(RawHexString.fromZeroHex(value))
     }
 
-  }
-
-  export function fromBytesOrThrow(value: Uint8Array): Address {
-    return checksumOrThrow(RawHexInteger.fromBytesOrThrow(value))
-  }
-
-  export function fromZeroHexOrThrow(value: ZeroHexString): Address {
-    return checksumOrThrow(RawHexInteger.fromZeroHexOrThrow(value))
-  }
-
-  export function fromRawHexOrThrow(value: RawHexString): Address {
-    return checksumOrThrow(value)
   }
 
   function checksumOrThrow(raw: RawHexString) {
@@ -80,7 +65,7 @@ export namespace Address {
   }
 
   export function fromOrThrow(from: Address.From): Address {
-    return checksumOrThrow(RawHexInteger.fromOrThrow(from))
+    return checksumOrThrow(RawHexAsInteger.fromOrThrow(from))
   }
 
   export function fromOrNull(from: Address.From): Nullable<Address> {
