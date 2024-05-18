@@ -41,7 +41,9 @@ export class AbiString {
   }
 
   intoOrThrow(): string {
-    return StringAsUtf8.fromOrThrow(this.value.value)
+    if (this.value instanceof BytesAbiBytes)
+      return StringAsUtf8.fromOrThrow(this.value.value)
+    return StringAsUtf8.fromOrThrow(`0x${this.value.value}`)
   }
 
   /**
