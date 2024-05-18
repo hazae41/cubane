@@ -2,6 +2,7 @@ function $pre$() {
   return `import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { BytesAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";`
 }
 
@@ -15,7 +16,7 @@ function $createBytes$(bytes: number) {
   
 export type AbiBytes${bytes} =
   | BytesAbiBytes${bytes}
-  | ZeroHexAbiBytes${bytes}
+  | RawHexAbiBytes${bytes}
   
 export namespace AbiBytes${bytes} {
   export const dynamic = false
@@ -23,20 +24,22 @@ export namespace AbiBytes${bytes} {
 
   export type Create =
     | BytesAbiBytes${bytes}.Create
-    | ZeroHexAbiBytes${bytes}.Create
+    | RawHexAbiBytes${bytes}.Create
   
   export type From = 
     | BytesAbiBytes${bytes}.From
-    | ZeroHexAbiBytes${bytes}.From
+    | RawHexAbiBytes${bytes}.From
   
   export function create(value: AbiBytes${bytes}.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes${bytes}.create(value)
-    return ZeroHexAbiBytes${bytes}.create(value)
+    return RawHexAbiBytes${bytes}.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes${bytes}.From) {
-    return AbiBytes${bytes}.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes${bytes}.create(value)
+    return RawHexAbiBytes${bytes}.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -44,7 +47,7 @@ export namespace AbiBytes${bytes} {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes${bytes}.decodeOrThrow(cursor)
+    return RawHexAbiBytes${bytes}.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -54,8 +57,11 @@ export namespace AbiBytes${bytes} {
 }
 
 export namespace BytesAbiBytes${bytes} {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes${bytes} {
@@ -82,7 +88,7 @@ export class BytesAbiBytes${bytes} {
   }
 
   static fromOrThrow(value: BytesAbiBytes${bytes}.From) {
-    return BytesAbiBytes${bytes}.create(value)
+    return new BytesAbiBytes${bytes}(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
@@ -144,12 +150,7 @@ export namespace RawHexAbiBytes${bytes} {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -177,7 +178,7 @@ export class RawHexAbiBytes${bytes} {
   }
 
   static fromOrThrow(value: RawHexAbiBytes${bytes}.From) {
-    return new RawHexAbiBytes${bytes}(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes${bytes}(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {

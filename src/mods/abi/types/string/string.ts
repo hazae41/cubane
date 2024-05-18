@@ -1,6 +1,6 @@
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesAsUtf8, RawHexAsUtf8, StringAsUtf8 } from "mods/types/wrapped/generic.js";
+import { BytesAsUtf8, RawHexAsUtf8, StringAsUtf8 } from "mods/types/helpers/generic.js";
 import { AbiBytes, BytesAbiBytes, RawHexAbiBytes } from "../bytes/dynamic.js";
 
 export { AbiString as String };

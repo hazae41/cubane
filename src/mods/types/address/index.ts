@@ -2,8 +2,8 @@ import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "@hazae41/option";
+import { RawHexAsInteger } from "../helpers/generic.js";
 import { RawHexString, ZeroHexString } from "../string/index.js";
-import { RawHexAsInteger } from "../wrapped/generic.js";
 
 declare global {
   interface SymbolConstructor {

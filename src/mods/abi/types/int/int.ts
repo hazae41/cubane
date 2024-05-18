@@ -94,6 +94,9 @@ export class BytesAbiInt8 {
     return new RawHexAbiInt8(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt8(this.encodePackedOrThrow()).toJSON()
   }
@@ -212,6 +215,9 @@ export class RawHexAbiInt8 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -345,6 +351,9 @@ export class BytesAbiInt16 {
     return new RawHexAbiInt16(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt16(this.encodePackedOrThrow()).toJSON()
   }
@@ -463,6 +472,9 @@ export class RawHexAbiInt16 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -596,6 +608,9 @@ export class BytesAbiInt24 {
     return new RawHexAbiInt24(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt24(this.encodePackedOrThrow()).toJSON()
   }
@@ -714,6 +729,9 @@ export class RawHexAbiInt24 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -847,6 +865,9 @@ export class BytesAbiInt32 {
     return new RawHexAbiInt32(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt32(this.encodePackedOrThrow()).toJSON()
   }
@@ -965,6 +986,9 @@ export class RawHexAbiInt32 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -1098,6 +1122,9 @@ export class BytesAbiInt40 {
     return new RawHexAbiInt40(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt40(this.encodePackedOrThrow()).toJSON()
   }
@@ -1216,6 +1243,9 @@ export class RawHexAbiInt40 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -1349,6 +1379,9 @@ export class BytesAbiInt48 {
     return new RawHexAbiInt48(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt48(this.encodePackedOrThrow()).toJSON()
   }
@@ -1467,6 +1500,9 @@ export class RawHexAbiInt48 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -1600,6 +1636,9 @@ export class BytesAbiInt56 {
     return new RawHexAbiInt56(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt56(this.encodePackedOrThrow()).toJSON()
   }
@@ -1718,6 +1757,9 @@ export class RawHexAbiInt56 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -1851,6 +1893,9 @@ export class BytesAbiInt64 {
     return new RawHexAbiInt64(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt64(this.encodePackedOrThrow()).toJSON()
   }
@@ -1969,6 +2014,9 @@ export class RawHexAbiInt64 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -2102,6 +2150,9 @@ export class BytesAbiInt72 {
     return new RawHexAbiInt72(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt72(this.encodePackedOrThrow()).toJSON()
   }
@@ -2220,6 +2271,9 @@ export class RawHexAbiInt72 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -2353,6 +2407,9 @@ export class BytesAbiInt80 {
     return new RawHexAbiInt80(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt80(this.encodePackedOrThrow()).toJSON()
   }
@@ -2471,6 +2528,9 @@ export class RawHexAbiInt80 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -2604,6 +2664,9 @@ export class BytesAbiInt88 {
     return new RawHexAbiInt88(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt88(this.encodePackedOrThrow()).toJSON()
   }
@@ -2722,6 +2785,9 @@ export class RawHexAbiInt88 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -2855,6 +2921,9 @@ export class BytesAbiInt96 {
     return new RawHexAbiInt96(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt96(this.encodePackedOrThrow()).toJSON()
   }
@@ -2973,6 +3042,9 @@ export class RawHexAbiInt96 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -3106,6 +3178,9 @@ export class BytesAbiInt104 {
     return new RawHexAbiInt104(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt104(this.encodePackedOrThrow()).toJSON()
   }
@@ -3224,6 +3299,9 @@ export class RawHexAbiInt104 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -3357,6 +3435,9 @@ export class BytesAbiInt112 {
     return new RawHexAbiInt112(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt112(this.encodePackedOrThrow()).toJSON()
   }
@@ -3475,6 +3556,9 @@ export class RawHexAbiInt112 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -3608,6 +3692,9 @@ export class BytesAbiInt120 {
     return new RawHexAbiInt120(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt120(this.encodePackedOrThrow()).toJSON()
   }
@@ -3726,6 +3813,9 @@ export class RawHexAbiInt120 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -3859,6 +3949,9 @@ export class BytesAbiInt128 {
     return new RawHexAbiInt128(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt128(this.encodePackedOrThrow()).toJSON()
   }
@@ -3977,6 +4070,9 @@ export class RawHexAbiInt128 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -4110,6 +4206,9 @@ export class BytesAbiInt136 {
     return new RawHexAbiInt136(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt136(this.encodePackedOrThrow()).toJSON()
   }
@@ -4228,6 +4327,9 @@ export class RawHexAbiInt136 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -4361,6 +4463,9 @@ export class BytesAbiInt144 {
     return new RawHexAbiInt144(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt144(this.encodePackedOrThrow()).toJSON()
   }
@@ -4479,6 +4584,9 @@ export class RawHexAbiInt144 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -4612,6 +4720,9 @@ export class BytesAbiInt152 {
     return new RawHexAbiInt152(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt152(this.encodePackedOrThrow()).toJSON()
   }
@@ -4730,6 +4841,9 @@ export class RawHexAbiInt152 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -4863,6 +4977,9 @@ export class BytesAbiInt160 {
     return new RawHexAbiInt160(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt160(this.encodePackedOrThrow()).toJSON()
   }
@@ -4981,6 +5098,9 @@ export class RawHexAbiInt160 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -5114,6 +5234,9 @@ export class BytesAbiInt168 {
     return new RawHexAbiInt168(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt168(this.encodePackedOrThrow()).toJSON()
   }
@@ -5232,6 +5355,9 @@ export class RawHexAbiInt168 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -5365,6 +5491,9 @@ export class BytesAbiInt176 {
     return new RawHexAbiInt176(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt176(this.encodePackedOrThrow()).toJSON()
   }
@@ -5483,6 +5612,9 @@ export class RawHexAbiInt176 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -5616,6 +5748,9 @@ export class BytesAbiInt184 {
     return new RawHexAbiInt184(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt184(this.encodePackedOrThrow()).toJSON()
   }
@@ -5734,6 +5869,9 @@ export class RawHexAbiInt184 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -5867,6 +6005,9 @@ export class BytesAbiInt192 {
     return new RawHexAbiInt192(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt192(this.encodePackedOrThrow()).toJSON()
   }
@@ -5985,6 +6126,9 @@ export class RawHexAbiInt192 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -6118,6 +6262,9 @@ export class BytesAbiInt200 {
     return new RawHexAbiInt200(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt200(this.encodePackedOrThrow()).toJSON()
   }
@@ -6236,6 +6383,9 @@ export class RawHexAbiInt200 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -6369,6 +6519,9 @@ export class BytesAbiInt208 {
     return new RawHexAbiInt208(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt208(this.encodePackedOrThrow()).toJSON()
   }
@@ -6487,6 +6640,9 @@ export class RawHexAbiInt208 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -6620,6 +6776,9 @@ export class BytesAbiInt216 {
     return new RawHexAbiInt216(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt216(this.encodePackedOrThrow()).toJSON()
   }
@@ -6738,6 +6897,9 @@ export class RawHexAbiInt216 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -6871,6 +7033,9 @@ export class BytesAbiInt224 {
     return new RawHexAbiInt224(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt224(this.encodePackedOrThrow()).toJSON()
   }
@@ -6989,6 +7154,9 @@ export class RawHexAbiInt224 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -7122,6 +7290,9 @@ export class BytesAbiInt232 {
     return new RawHexAbiInt232(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt232(this.encodePackedOrThrow()).toJSON()
   }
@@ -7240,6 +7411,9 @@ export class RawHexAbiInt232 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -7373,6 +7547,9 @@ export class BytesAbiInt240 {
     return new RawHexAbiInt240(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt240(this.encodePackedOrThrow()).toJSON()
   }
@@ -7491,6 +7668,9 @@ export class RawHexAbiInt240 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -7624,6 +7804,9 @@ export class BytesAbiInt248 {
     return new RawHexAbiInt248(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt248(this.encodePackedOrThrow()).toJSON()
   }
@@ -7742,6 +7925,9 @@ export class RawHexAbiInt248 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }
@@ -7875,6 +8061,9 @@ export class BytesAbiInt256 {
     return new RawHexAbiInt256(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt256(this.encodePackedOrThrow()).toJSON()
   }
@@ -7993,6 +8182,9 @@ export class RawHexAbiInt256 {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }

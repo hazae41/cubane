@@ -1,13 +1,14 @@
 import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { BytesAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 export { AbiBytes1 as Bytes1 }
   
 export type AbiBytes1 =
   | BytesAbiBytes1
-  | ZeroHexAbiBytes1
+  | RawHexAbiBytes1
   
 export namespace AbiBytes1 {
   export const dynamic = false
@@ -15,20 +16,22 @@ export namespace AbiBytes1 {
 
   export type Create =
     | BytesAbiBytes1.Create
-    | ZeroHexAbiBytes1.Create
+    | RawHexAbiBytes1.Create
   
   export type From = 
     | BytesAbiBytes1.From
-    | ZeroHexAbiBytes1.From
+    | RawHexAbiBytes1.From
   
   export function create(value: AbiBytes1.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes1.create(value)
-    return ZeroHexAbiBytes1.create(value)
+    return RawHexAbiBytes1.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes1.From) {
-    return AbiBytes1.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes1.create(value)
+    return RawHexAbiBytes1.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -36,7 +39,7 @@ export namespace AbiBytes1 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes1.decodeOrThrow(cursor)
+    return RawHexAbiBytes1.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -46,8 +49,11 @@ export namespace AbiBytes1 {
 }
 
 export namespace BytesAbiBytes1 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes1 {
@@ -74,13 +80,16 @@ export class BytesAbiBytes1 {
   }
 
   static fromOrThrow(value: BytesAbiBytes1.From) {
-    return BytesAbiBytes1.create(value)
+    return new BytesAbiBytes1(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -133,12 +142,7 @@ export namespace RawHexAbiBytes1 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -166,13 +170,16 @@ export class RawHexAbiBytes1 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes1.From) {
-    return new RawHexAbiBytes1(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes1(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -227,7 +234,7 @@ export { AbiBytes2 as Bytes2 }
   
 export type AbiBytes2 =
   | BytesAbiBytes2
-  | ZeroHexAbiBytes2
+  | RawHexAbiBytes2
   
 export namespace AbiBytes2 {
   export const dynamic = false
@@ -235,20 +242,22 @@ export namespace AbiBytes2 {
 
   export type Create =
     | BytesAbiBytes2.Create
-    | ZeroHexAbiBytes2.Create
+    | RawHexAbiBytes2.Create
   
   export type From = 
     | BytesAbiBytes2.From
-    | ZeroHexAbiBytes2.From
+    | RawHexAbiBytes2.From
   
   export function create(value: AbiBytes2.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes2.create(value)
-    return ZeroHexAbiBytes2.create(value)
+    return RawHexAbiBytes2.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes2.From) {
-    return AbiBytes2.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes2.create(value)
+    return RawHexAbiBytes2.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -256,7 +265,7 @@ export namespace AbiBytes2 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes2.decodeOrThrow(cursor)
+    return RawHexAbiBytes2.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -266,8 +275,11 @@ export namespace AbiBytes2 {
 }
 
 export namespace BytesAbiBytes2 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes2 {
@@ -294,13 +306,16 @@ export class BytesAbiBytes2 {
   }
 
   static fromOrThrow(value: BytesAbiBytes2.From) {
-    return BytesAbiBytes2.create(value)
+    return new BytesAbiBytes2(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -353,12 +368,7 @@ export namespace RawHexAbiBytes2 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -386,13 +396,16 @@ export class RawHexAbiBytes2 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes2.From) {
-    return new RawHexAbiBytes2(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes2(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -447,7 +460,7 @@ export { AbiBytes3 as Bytes3 }
   
 export type AbiBytes3 =
   | BytesAbiBytes3
-  | ZeroHexAbiBytes3
+  | RawHexAbiBytes3
   
 export namespace AbiBytes3 {
   export const dynamic = false
@@ -455,20 +468,22 @@ export namespace AbiBytes3 {
 
   export type Create =
     | BytesAbiBytes3.Create
-    | ZeroHexAbiBytes3.Create
+    | RawHexAbiBytes3.Create
   
   export type From = 
     | BytesAbiBytes3.From
-    | ZeroHexAbiBytes3.From
+    | RawHexAbiBytes3.From
   
   export function create(value: AbiBytes3.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes3.create(value)
-    return ZeroHexAbiBytes3.create(value)
+    return RawHexAbiBytes3.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes3.From) {
-    return AbiBytes3.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes3.create(value)
+    return RawHexAbiBytes3.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -476,7 +491,7 @@ export namespace AbiBytes3 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes3.decodeOrThrow(cursor)
+    return RawHexAbiBytes3.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -486,8 +501,11 @@ export namespace AbiBytes3 {
 }
 
 export namespace BytesAbiBytes3 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes3 {
@@ -514,13 +532,16 @@ export class BytesAbiBytes3 {
   }
 
   static fromOrThrow(value: BytesAbiBytes3.From) {
-    return BytesAbiBytes3.create(value)
+    return new BytesAbiBytes3(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -573,12 +594,7 @@ export namespace RawHexAbiBytes3 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -606,13 +622,16 @@ export class RawHexAbiBytes3 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes3.From) {
-    return new RawHexAbiBytes3(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes3(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -667,7 +686,7 @@ export { AbiBytes4 as Bytes4 }
   
 export type AbiBytes4 =
   | BytesAbiBytes4
-  | ZeroHexAbiBytes4
+  | RawHexAbiBytes4
   
 export namespace AbiBytes4 {
   export const dynamic = false
@@ -675,20 +694,22 @@ export namespace AbiBytes4 {
 
   export type Create =
     | BytesAbiBytes4.Create
-    | ZeroHexAbiBytes4.Create
+    | RawHexAbiBytes4.Create
   
   export type From = 
     | BytesAbiBytes4.From
-    | ZeroHexAbiBytes4.From
+    | RawHexAbiBytes4.From
   
   export function create(value: AbiBytes4.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes4.create(value)
-    return ZeroHexAbiBytes4.create(value)
+    return RawHexAbiBytes4.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes4.From) {
-    return AbiBytes4.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes4.create(value)
+    return RawHexAbiBytes4.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -696,7 +717,7 @@ export namespace AbiBytes4 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes4.decodeOrThrow(cursor)
+    return RawHexAbiBytes4.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -706,8 +727,11 @@ export namespace AbiBytes4 {
 }
 
 export namespace BytesAbiBytes4 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes4 {
@@ -734,13 +758,16 @@ export class BytesAbiBytes4 {
   }
 
   static fromOrThrow(value: BytesAbiBytes4.From) {
-    return BytesAbiBytes4.create(value)
+    return new BytesAbiBytes4(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -793,12 +820,7 @@ export namespace RawHexAbiBytes4 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -826,13 +848,16 @@ export class RawHexAbiBytes4 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes4.From) {
-    return new RawHexAbiBytes4(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes4(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -887,7 +912,7 @@ export { AbiBytes5 as Bytes5 }
   
 export type AbiBytes5 =
   | BytesAbiBytes5
-  | ZeroHexAbiBytes5
+  | RawHexAbiBytes5
   
 export namespace AbiBytes5 {
   export const dynamic = false
@@ -895,20 +920,22 @@ export namespace AbiBytes5 {
 
   export type Create =
     | BytesAbiBytes5.Create
-    | ZeroHexAbiBytes5.Create
+    | RawHexAbiBytes5.Create
   
   export type From = 
     | BytesAbiBytes5.From
-    | ZeroHexAbiBytes5.From
+    | RawHexAbiBytes5.From
   
   export function create(value: AbiBytes5.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes5.create(value)
-    return ZeroHexAbiBytes5.create(value)
+    return RawHexAbiBytes5.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes5.From) {
-    return AbiBytes5.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes5.create(value)
+    return RawHexAbiBytes5.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -916,7 +943,7 @@ export namespace AbiBytes5 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes5.decodeOrThrow(cursor)
+    return RawHexAbiBytes5.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -926,8 +953,11 @@ export namespace AbiBytes5 {
 }
 
 export namespace BytesAbiBytes5 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes5 {
@@ -954,13 +984,16 @@ export class BytesAbiBytes5 {
   }
 
   static fromOrThrow(value: BytesAbiBytes5.From) {
-    return BytesAbiBytes5.create(value)
+    return new BytesAbiBytes5(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -1013,12 +1046,7 @@ export namespace RawHexAbiBytes5 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1046,13 +1074,16 @@ export class RawHexAbiBytes5 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes5.From) {
-    return new RawHexAbiBytes5(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes5(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -1107,7 +1138,7 @@ export { AbiBytes6 as Bytes6 }
   
 export type AbiBytes6 =
   | BytesAbiBytes6
-  | ZeroHexAbiBytes6
+  | RawHexAbiBytes6
   
 export namespace AbiBytes6 {
   export const dynamic = false
@@ -1115,20 +1146,22 @@ export namespace AbiBytes6 {
 
   export type Create =
     | BytesAbiBytes6.Create
-    | ZeroHexAbiBytes6.Create
+    | RawHexAbiBytes6.Create
   
   export type From = 
     | BytesAbiBytes6.From
-    | ZeroHexAbiBytes6.From
+    | RawHexAbiBytes6.From
   
   export function create(value: AbiBytes6.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes6.create(value)
-    return ZeroHexAbiBytes6.create(value)
+    return RawHexAbiBytes6.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes6.From) {
-    return AbiBytes6.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes6.create(value)
+    return RawHexAbiBytes6.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -1136,7 +1169,7 @@ export namespace AbiBytes6 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes6.decodeOrThrow(cursor)
+    return RawHexAbiBytes6.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -1146,8 +1179,11 @@ export namespace AbiBytes6 {
 }
 
 export namespace BytesAbiBytes6 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes6 {
@@ -1174,13 +1210,16 @@ export class BytesAbiBytes6 {
   }
 
   static fromOrThrow(value: BytesAbiBytes6.From) {
-    return BytesAbiBytes6.create(value)
+    return new BytesAbiBytes6(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -1233,12 +1272,7 @@ export namespace RawHexAbiBytes6 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1266,13 +1300,16 @@ export class RawHexAbiBytes6 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes6.From) {
-    return new RawHexAbiBytes6(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes6(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -1327,7 +1364,7 @@ export { AbiBytes7 as Bytes7 }
   
 export type AbiBytes7 =
   | BytesAbiBytes7
-  | ZeroHexAbiBytes7
+  | RawHexAbiBytes7
   
 export namespace AbiBytes7 {
   export const dynamic = false
@@ -1335,20 +1372,22 @@ export namespace AbiBytes7 {
 
   export type Create =
     | BytesAbiBytes7.Create
-    | ZeroHexAbiBytes7.Create
+    | RawHexAbiBytes7.Create
   
   export type From = 
     | BytesAbiBytes7.From
-    | ZeroHexAbiBytes7.From
+    | RawHexAbiBytes7.From
   
   export function create(value: AbiBytes7.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes7.create(value)
-    return ZeroHexAbiBytes7.create(value)
+    return RawHexAbiBytes7.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes7.From) {
-    return AbiBytes7.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes7.create(value)
+    return RawHexAbiBytes7.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -1356,7 +1395,7 @@ export namespace AbiBytes7 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes7.decodeOrThrow(cursor)
+    return RawHexAbiBytes7.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -1366,8 +1405,11 @@ export namespace AbiBytes7 {
 }
 
 export namespace BytesAbiBytes7 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes7 {
@@ -1394,13 +1436,16 @@ export class BytesAbiBytes7 {
   }
 
   static fromOrThrow(value: BytesAbiBytes7.From) {
-    return BytesAbiBytes7.create(value)
+    return new BytesAbiBytes7(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -1453,12 +1498,7 @@ export namespace RawHexAbiBytes7 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1486,13 +1526,16 @@ export class RawHexAbiBytes7 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes7.From) {
-    return new RawHexAbiBytes7(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes7(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -1547,7 +1590,7 @@ export { AbiBytes8 as Bytes8 }
   
 export type AbiBytes8 =
   | BytesAbiBytes8
-  | ZeroHexAbiBytes8
+  | RawHexAbiBytes8
   
 export namespace AbiBytes8 {
   export const dynamic = false
@@ -1555,20 +1598,22 @@ export namespace AbiBytes8 {
 
   export type Create =
     | BytesAbiBytes8.Create
-    | ZeroHexAbiBytes8.Create
+    | RawHexAbiBytes8.Create
   
   export type From = 
     | BytesAbiBytes8.From
-    | ZeroHexAbiBytes8.From
+    | RawHexAbiBytes8.From
   
   export function create(value: AbiBytes8.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes8.create(value)
-    return ZeroHexAbiBytes8.create(value)
+    return RawHexAbiBytes8.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes8.From) {
-    return AbiBytes8.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes8.create(value)
+    return RawHexAbiBytes8.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -1576,7 +1621,7 @@ export namespace AbiBytes8 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes8.decodeOrThrow(cursor)
+    return RawHexAbiBytes8.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -1586,8 +1631,11 @@ export namespace AbiBytes8 {
 }
 
 export namespace BytesAbiBytes8 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes8 {
@@ -1614,13 +1662,16 @@ export class BytesAbiBytes8 {
   }
 
   static fromOrThrow(value: BytesAbiBytes8.From) {
-    return BytesAbiBytes8.create(value)
+    return new BytesAbiBytes8(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -1673,12 +1724,7 @@ export namespace RawHexAbiBytes8 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1706,13 +1752,16 @@ export class RawHexAbiBytes8 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes8.From) {
-    return new RawHexAbiBytes8(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes8(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -1767,7 +1816,7 @@ export { AbiBytes9 as Bytes9 }
   
 export type AbiBytes9 =
   | BytesAbiBytes9
-  | ZeroHexAbiBytes9
+  | RawHexAbiBytes9
   
 export namespace AbiBytes9 {
   export const dynamic = false
@@ -1775,20 +1824,22 @@ export namespace AbiBytes9 {
 
   export type Create =
     | BytesAbiBytes9.Create
-    | ZeroHexAbiBytes9.Create
+    | RawHexAbiBytes9.Create
   
   export type From = 
     | BytesAbiBytes9.From
-    | ZeroHexAbiBytes9.From
+    | RawHexAbiBytes9.From
   
   export function create(value: AbiBytes9.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes9.create(value)
-    return ZeroHexAbiBytes9.create(value)
+    return RawHexAbiBytes9.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes9.From) {
-    return AbiBytes9.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes9.create(value)
+    return RawHexAbiBytes9.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -1796,7 +1847,7 @@ export namespace AbiBytes9 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes9.decodeOrThrow(cursor)
+    return RawHexAbiBytes9.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -1806,8 +1857,11 @@ export namespace AbiBytes9 {
 }
 
 export namespace BytesAbiBytes9 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes9 {
@@ -1834,13 +1888,16 @@ export class BytesAbiBytes9 {
   }
 
   static fromOrThrow(value: BytesAbiBytes9.From) {
-    return BytesAbiBytes9.create(value)
+    return new BytesAbiBytes9(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -1893,12 +1950,7 @@ export namespace RawHexAbiBytes9 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1926,13 +1978,16 @@ export class RawHexAbiBytes9 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes9.From) {
-    return new RawHexAbiBytes9(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes9(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -1987,7 +2042,7 @@ export { AbiBytes10 as Bytes10 }
   
 export type AbiBytes10 =
   | BytesAbiBytes10
-  | ZeroHexAbiBytes10
+  | RawHexAbiBytes10
   
 export namespace AbiBytes10 {
   export const dynamic = false
@@ -1995,20 +2050,22 @@ export namespace AbiBytes10 {
 
   export type Create =
     | BytesAbiBytes10.Create
-    | ZeroHexAbiBytes10.Create
+    | RawHexAbiBytes10.Create
   
   export type From = 
     | BytesAbiBytes10.From
-    | ZeroHexAbiBytes10.From
+    | RawHexAbiBytes10.From
   
   export function create(value: AbiBytes10.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes10.create(value)
-    return ZeroHexAbiBytes10.create(value)
+    return RawHexAbiBytes10.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes10.From) {
-    return AbiBytes10.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes10.create(value)
+    return RawHexAbiBytes10.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -2016,7 +2073,7 @@ export namespace AbiBytes10 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes10.decodeOrThrow(cursor)
+    return RawHexAbiBytes10.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -2026,8 +2083,11 @@ export namespace AbiBytes10 {
 }
 
 export namespace BytesAbiBytes10 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes10 {
@@ -2054,13 +2114,16 @@ export class BytesAbiBytes10 {
   }
 
   static fromOrThrow(value: BytesAbiBytes10.From) {
-    return BytesAbiBytes10.create(value)
+    return new BytesAbiBytes10(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -2113,12 +2176,7 @@ export namespace RawHexAbiBytes10 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -2146,13 +2204,16 @@ export class RawHexAbiBytes10 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes10.From) {
-    return new RawHexAbiBytes10(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes10(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -2207,7 +2268,7 @@ export { AbiBytes11 as Bytes11 }
   
 export type AbiBytes11 =
   | BytesAbiBytes11
-  | ZeroHexAbiBytes11
+  | RawHexAbiBytes11
   
 export namespace AbiBytes11 {
   export const dynamic = false
@@ -2215,20 +2276,22 @@ export namespace AbiBytes11 {
 
   export type Create =
     | BytesAbiBytes11.Create
-    | ZeroHexAbiBytes11.Create
+    | RawHexAbiBytes11.Create
   
   export type From = 
     | BytesAbiBytes11.From
-    | ZeroHexAbiBytes11.From
+    | RawHexAbiBytes11.From
   
   export function create(value: AbiBytes11.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes11.create(value)
-    return ZeroHexAbiBytes11.create(value)
+    return RawHexAbiBytes11.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes11.From) {
-    return AbiBytes11.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes11.create(value)
+    return RawHexAbiBytes11.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -2236,7 +2299,7 @@ export namespace AbiBytes11 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes11.decodeOrThrow(cursor)
+    return RawHexAbiBytes11.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -2246,8 +2309,11 @@ export namespace AbiBytes11 {
 }
 
 export namespace BytesAbiBytes11 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes11 {
@@ -2274,13 +2340,16 @@ export class BytesAbiBytes11 {
   }
 
   static fromOrThrow(value: BytesAbiBytes11.From) {
-    return BytesAbiBytes11.create(value)
+    return new BytesAbiBytes11(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -2333,12 +2402,7 @@ export namespace RawHexAbiBytes11 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -2366,13 +2430,16 @@ export class RawHexAbiBytes11 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes11.From) {
-    return new RawHexAbiBytes11(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes11(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -2427,7 +2494,7 @@ export { AbiBytes12 as Bytes12 }
   
 export type AbiBytes12 =
   | BytesAbiBytes12
-  | ZeroHexAbiBytes12
+  | RawHexAbiBytes12
   
 export namespace AbiBytes12 {
   export const dynamic = false
@@ -2435,20 +2502,22 @@ export namespace AbiBytes12 {
 
   export type Create =
     | BytesAbiBytes12.Create
-    | ZeroHexAbiBytes12.Create
+    | RawHexAbiBytes12.Create
   
   export type From = 
     | BytesAbiBytes12.From
-    | ZeroHexAbiBytes12.From
+    | RawHexAbiBytes12.From
   
   export function create(value: AbiBytes12.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes12.create(value)
-    return ZeroHexAbiBytes12.create(value)
+    return RawHexAbiBytes12.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes12.From) {
-    return AbiBytes12.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes12.create(value)
+    return RawHexAbiBytes12.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -2456,7 +2525,7 @@ export namespace AbiBytes12 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes12.decodeOrThrow(cursor)
+    return RawHexAbiBytes12.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -2466,8 +2535,11 @@ export namespace AbiBytes12 {
 }
 
 export namespace BytesAbiBytes12 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes12 {
@@ -2494,13 +2566,16 @@ export class BytesAbiBytes12 {
   }
 
   static fromOrThrow(value: BytesAbiBytes12.From) {
-    return BytesAbiBytes12.create(value)
+    return new BytesAbiBytes12(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -2553,12 +2628,7 @@ export namespace RawHexAbiBytes12 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -2586,13 +2656,16 @@ export class RawHexAbiBytes12 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes12.From) {
-    return new RawHexAbiBytes12(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes12(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -2647,7 +2720,7 @@ export { AbiBytes13 as Bytes13 }
   
 export type AbiBytes13 =
   | BytesAbiBytes13
-  | ZeroHexAbiBytes13
+  | RawHexAbiBytes13
   
 export namespace AbiBytes13 {
   export const dynamic = false
@@ -2655,20 +2728,22 @@ export namespace AbiBytes13 {
 
   export type Create =
     | BytesAbiBytes13.Create
-    | ZeroHexAbiBytes13.Create
+    | RawHexAbiBytes13.Create
   
   export type From = 
     | BytesAbiBytes13.From
-    | ZeroHexAbiBytes13.From
+    | RawHexAbiBytes13.From
   
   export function create(value: AbiBytes13.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes13.create(value)
-    return ZeroHexAbiBytes13.create(value)
+    return RawHexAbiBytes13.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes13.From) {
-    return AbiBytes13.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes13.create(value)
+    return RawHexAbiBytes13.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -2676,7 +2751,7 @@ export namespace AbiBytes13 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes13.decodeOrThrow(cursor)
+    return RawHexAbiBytes13.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -2686,8 +2761,11 @@ export namespace AbiBytes13 {
 }
 
 export namespace BytesAbiBytes13 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes13 {
@@ -2714,13 +2792,16 @@ export class BytesAbiBytes13 {
   }
 
   static fromOrThrow(value: BytesAbiBytes13.From) {
-    return BytesAbiBytes13.create(value)
+    return new BytesAbiBytes13(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -2773,12 +2854,7 @@ export namespace RawHexAbiBytes13 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -2806,13 +2882,16 @@ export class RawHexAbiBytes13 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes13.From) {
-    return new RawHexAbiBytes13(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes13(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -2867,7 +2946,7 @@ export { AbiBytes14 as Bytes14 }
   
 export type AbiBytes14 =
   | BytesAbiBytes14
-  | ZeroHexAbiBytes14
+  | RawHexAbiBytes14
   
 export namespace AbiBytes14 {
   export const dynamic = false
@@ -2875,20 +2954,22 @@ export namespace AbiBytes14 {
 
   export type Create =
     | BytesAbiBytes14.Create
-    | ZeroHexAbiBytes14.Create
+    | RawHexAbiBytes14.Create
   
   export type From = 
     | BytesAbiBytes14.From
-    | ZeroHexAbiBytes14.From
+    | RawHexAbiBytes14.From
   
   export function create(value: AbiBytes14.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes14.create(value)
-    return ZeroHexAbiBytes14.create(value)
+    return RawHexAbiBytes14.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes14.From) {
-    return AbiBytes14.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes14.create(value)
+    return RawHexAbiBytes14.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -2896,7 +2977,7 @@ export namespace AbiBytes14 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes14.decodeOrThrow(cursor)
+    return RawHexAbiBytes14.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -2906,8 +2987,11 @@ export namespace AbiBytes14 {
 }
 
 export namespace BytesAbiBytes14 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes14 {
@@ -2934,13 +3018,16 @@ export class BytesAbiBytes14 {
   }
 
   static fromOrThrow(value: BytesAbiBytes14.From) {
-    return BytesAbiBytes14.create(value)
+    return new BytesAbiBytes14(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -2993,12 +3080,7 @@ export namespace RawHexAbiBytes14 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3026,13 +3108,16 @@ export class RawHexAbiBytes14 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes14.From) {
-    return new RawHexAbiBytes14(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes14(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -3087,7 +3172,7 @@ export { AbiBytes15 as Bytes15 }
   
 export type AbiBytes15 =
   | BytesAbiBytes15
-  | ZeroHexAbiBytes15
+  | RawHexAbiBytes15
   
 export namespace AbiBytes15 {
   export const dynamic = false
@@ -3095,20 +3180,22 @@ export namespace AbiBytes15 {
 
   export type Create =
     | BytesAbiBytes15.Create
-    | ZeroHexAbiBytes15.Create
+    | RawHexAbiBytes15.Create
   
   export type From = 
     | BytesAbiBytes15.From
-    | ZeroHexAbiBytes15.From
+    | RawHexAbiBytes15.From
   
   export function create(value: AbiBytes15.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes15.create(value)
-    return ZeroHexAbiBytes15.create(value)
+    return RawHexAbiBytes15.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes15.From) {
-    return AbiBytes15.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes15.create(value)
+    return RawHexAbiBytes15.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -3116,7 +3203,7 @@ export namespace AbiBytes15 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes15.decodeOrThrow(cursor)
+    return RawHexAbiBytes15.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -3126,8 +3213,11 @@ export namespace AbiBytes15 {
 }
 
 export namespace BytesAbiBytes15 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes15 {
@@ -3154,13 +3244,16 @@ export class BytesAbiBytes15 {
   }
 
   static fromOrThrow(value: BytesAbiBytes15.From) {
-    return BytesAbiBytes15.create(value)
+    return new BytesAbiBytes15(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -3213,12 +3306,7 @@ export namespace RawHexAbiBytes15 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3246,13 +3334,16 @@ export class RawHexAbiBytes15 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes15.From) {
-    return new RawHexAbiBytes15(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes15(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -3307,7 +3398,7 @@ export { AbiBytes16 as Bytes16 }
   
 export type AbiBytes16 =
   | BytesAbiBytes16
-  | ZeroHexAbiBytes16
+  | RawHexAbiBytes16
   
 export namespace AbiBytes16 {
   export const dynamic = false
@@ -3315,20 +3406,22 @@ export namespace AbiBytes16 {
 
   export type Create =
     | BytesAbiBytes16.Create
-    | ZeroHexAbiBytes16.Create
+    | RawHexAbiBytes16.Create
   
   export type From = 
     | BytesAbiBytes16.From
-    | ZeroHexAbiBytes16.From
+    | RawHexAbiBytes16.From
   
   export function create(value: AbiBytes16.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes16.create(value)
-    return ZeroHexAbiBytes16.create(value)
+    return RawHexAbiBytes16.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes16.From) {
-    return AbiBytes16.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes16.create(value)
+    return RawHexAbiBytes16.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -3336,7 +3429,7 @@ export namespace AbiBytes16 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes16.decodeOrThrow(cursor)
+    return RawHexAbiBytes16.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -3346,8 +3439,11 @@ export namespace AbiBytes16 {
 }
 
 export namespace BytesAbiBytes16 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes16 {
@@ -3374,13 +3470,16 @@ export class BytesAbiBytes16 {
   }
 
   static fromOrThrow(value: BytesAbiBytes16.From) {
-    return BytesAbiBytes16.create(value)
+    return new BytesAbiBytes16(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -3433,12 +3532,7 @@ export namespace RawHexAbiBytes16 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3466,13 +3560,16 @@ export class RawHexAbiBytes16 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes16.From) {
-    return new RawHexAbiBytes16(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes16(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -3527,7 +3624,7 @@ export { AbiBytes17 as Bytes17 }
   
 export type AbiBytes17 =
   | BytesAbiBytes17
-  | ZeroHexAbiBytes17
+  | RawHexAbiBytes17
   
 export namespace AbiBytes17 {
   export const dynamic = false
@@ -3535,20 +3632,22 @@ export namespace AbiBytes17 {
 
   export type Create =
     | BytesAbiBytes17.Create
-    | ZeroHexAbiBytes17.Create
+    | RawHexAbiBytes17.Create
   
   export type From = 
     | BytesAbiBytes17.From
-    | ZeroHexAbiBytes17.From
+    | RawHexAbiBytes17.From
   
   export function create(value: AbiBytes17.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes17.create(value)
-    return ZeroHexAbiBytes17.create(value)
+    return RawHexAbiBytes17.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes17.From) {
-    return AbiBytes17.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes17.create(value)
+    return RawHexAbiBytes17.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -3556,7 +3655,7 @@ export namespace AbiBytes17 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes17.decodeOrThrow(cursor)
+    return RawHexAbiBytes17.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -3566,8 +3665,11 @@ export namespace AbiBytes17 {
 }
 
 export namespace BytesAbiBytes17 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes17 {
@@ -3594,13 +3696,16 @@ export class BytesAbiBytes17 {
   }
 
   static fromOrThrow(value: BytesAbiBytes17.From) {
-    return BytesAbiBytes17.create(value)
+    return new BytesAbiBytes17(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -3653,12 +3758,7 @@ export namespace RawHexAbiBytes17 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3686,13 +3786,16 @@ export class RawHexAbiBytes17 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes17.From) {
-    return new RawHexAbiBytes17(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes17(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -3747,7 +3850,7 @@ export { AbiBytes18 as Bytes18 }
   
 export type AbiBytes18 =
   | BytesAbiBytes18
-  | ZeroHexAbiBytes18
+  | RawHexAbiBytes18
   
 export namespace AbiBytes18 {
   export const dynamic = false
@@ -3755,20 +3858,22 @@ export namespace AbiBytes18 {
 
   export type Create =
     | BytesAbiBytes18.Create
-    | ZeroHexAbiBytes18.Create
+    | RawHexAbiBytes18.Create
   
   export type From = 
     | BytesAbiBytes18.From
-    | ZeroHexAbiBytes18.From
+    | RawHexAbiBytes18.From
   
   export function create(value: AbiBytes18.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes18.create(value)
-    return ZeroHexAbiBytes18.create(value)
+    return RawHexAbiBytes18.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes18.From) {
-    return AbiBytes18.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes18.create(value)
+    return RawHexAbiBytes18.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -3776,7 +3881,7 @@ export namespace AbiBytes18 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes18.decodeOrThrow(cursor)
+    return RawHexAbiBytes18.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -3786,8 +3891,11 @@ export namespace AbiBytes18 {
 }
 
 export namespace BytesAbiBytes18 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes18 {
@@ -3814,13 +3922,16 @@ export class BytesAbiBytes18 {
   }
 
   static fromOrThrow(value: BytesAbiBytes18.From) {
-    return BytesAbiBytes18.create(value)
+    return new BytesAbiBytes18(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -3873,12 +3984,7 @@ export namespace RawHexAbiBytes18 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3906,13 +4012,16 @@ export class RawHexAbiBytes18 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes18.From) {
-    return new RawHexAbiBytes18(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes18(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -3967,7 +4076,7 @@ export { AbiBytes19 as Bytes19 }
   
 export type AbiBytes19 =
   | BytesAbiBytes19
-  | ZeroHexAbiBytes19
+  | RawHexAbiBytes19
   
 export namespace AbiBytes19 {
   export const dynamic = false
@@ -3975,20 +4084,22 @@ export namespace AbiBytes19 {
 
   export type Create =
     | BytesAbiBytes19.Create
-    | ZeroHexAbiBytes19.Create
+    | RawHexAbiBytes19.Create
   
   export type From = 
     | BytesAbiBytes19.From
-    | ZeroHexAbiBytes19.From
+    | RawHexAbiBytes19.From
   
   export function create(value: AbiBytes19.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes19.create(value)
-    return ZeroHexAbiBytes19.create(value)
+    return RawHexAbiBytes19.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes19.From) {
-    return AbiBytes19.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes19.create(value)
+    return RawHexAbiBytes19.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -3996,7 +4107,7 @@ export namespace AbiBytes19 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes19.decodeOrThrow(cursor)
+    return RawHexAbiBytes19.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -4006,8 +4117,11 @@ export namespace AbiBytes19 {
 }
 
 export namespace BytesAbiBytes19 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes19 {
@@ -4034,13 +4148,16 @@ export class BytesAbiBytes19 {
   }
 
   static fromOrThrow(value: BytesAbiBytes19.From) {
-    return BytesAbiBytes19.create(value)
+    return new BytesAbiBytes19(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -4093,12 +4210,7 @@ export namespace RawHexAbiBytes19 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -4126,13 +4238,16 @@ export class RawHexAbiBytes19 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes19.From) {
-    return new RawHexAbiBytes19(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes19(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -4187,7 +4302,7 @@ export { AbiBytes20 as Bytes20 }
   
 export type AbiBytes20 =
   | BytesAbiBytes20
-  | ZeroHexAbiBytes20
+  | RawHexAbiBytes20
   
 export namespace AbiBytes20 {
   export const dynamic = false
@@ -4195,20 +4310,22 @@ export namespace AbiBytes20 {
 
   export type Create =
     | BytesAbiBytes20.Create
-    | ZeroHexAbiBytes20.Create
+    | RawHexAbiBytes20.Create
   
   export type From = 
     | BytesAbiBytes20.From
-    | ZeroHexAbiBytes20.From
+    | RawHexAbiBytes20.From
   
   export function create(value: AbiBytes20.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes20.create(value)
-    return ZeroHexAbiBytes20.create(value)
+    return RawHexAbiBytes20.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes20.From) {
-    return AbiBytes20.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes20.create(value)
+    return RawHexAbiBytes20.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -4216,7 +4333,7 @@ export namespace AbiBytes20 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes20.decodeOrThrow(cursor)
+    return RawHexAbiBytes20.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -4226,8 +4343,11 @@ export namespace AbiBytes20 {
 }
 
 export namespace BytesAbiBytes20 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes20 {
@@ -4254,13 +4374,16 @@ export class BytesAbiBytes20 {
   }
 
   static fromOrThrow(value: BytesAbiBytes20.From) {
-    return BytesAbiBytes20.create(value)
+    return new BytesAbiBytes20(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -4313,12 +4436,7 @@ export namespace RawHexAbiBytes20 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -4346,13 +4464,16 @@ export class RawHexAbiBytes20 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes20.From) {
-    return new RawHexAbiBytes20(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes20(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -4407,7 +4528,7 @@ export { AbiBytes21 as Bytes21 }
   
 export type AbiBytes21 =
   | BytesAbiBytes21
-  | ZeroHexAbiBytes21
+  | RawHexAbiBytes21
   
 export namespace AbiBytes21 {
   export const dynamic = false
@@ -4415,20 +4536,22 @@ export namespace AbiBytes21 {
 
   export type Create =
     | BytesAbiBytes21.Create
-    | ZeroHexAbiBytes21.Create
+    | RawHexAbiBytes21.Create
   
   export type From = 
     | BytesAbiBytes21.From
-    | ZeroHexAbiBytes21.From
+    | RawHexAbiBytes21.From
   
   export function create(value: AbiBytes21.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes21.create(value)
-    return ZeroHexAbiBytes21.create(value)
+    return RawHexAbiBytes21.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes21.From) {
-    return AbiBytes21.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes21.create(value)
+    return RawHexAbiBytes21.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -4436,7 +4559,7 @@ export namespace AbiBytes21 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes21.decodeOrThrow(cursor)
+    return RawHexAbiBytes21.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -4446,8 +4569,11 @@ export namespace AbiBytes21 {
 }
 
 export namespace BytesAbiBytes21 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes21 {
@@ -4474,13 +4600,16 @@ export class BytesAbiBytes21 {
   }
 
   static fromOrThrow(value: BytesAbiBytes21.From) {
-    return BytesAbiBytes21.create(value)
+    return new BytesAbiBytes21(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -4533,12 +4662,7 @@ export namespace RawHexAbiBytes21 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -4566,13 +4690,16 @@ export class RawHexAbiBytes21 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes21.From) {
-    return new RawHexAbiBytes21(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes21(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -4627,7 +4754,7 @@ export { AbiBytes22 as Bytes22 }
   
 export type AbiBytes22 =
   | BytesAbiBytes22
-  | ZeroHexAbiBytes22
+  | RawHexAbiBytes22
   
 export namespace AbiBytes22 {
   export const dynamic = false
@@ -4635,20 +4762,22 @@ export namespace AbiBytes22 {
 
   export type Create =
     | BytesAbiBytes22.Create
-    | ZeroHexAbiBytes22.Create
+    | RawHexAbiBytes22.Create
   
   export type From = 
     | BytesAbiBytes22.From
-    | ZeroHexAbiBytes22.From
+    | RawHexAbiBytes22.From
   
   export function create(value: AbiBytes22.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes22.create(value)
-    return ZeroHexAbiBytes22.create(value)
+    return RawHexAbiBytes22.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes22.From) {
-    return AbiBytes22.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes22.create(value)
+    return RawHexAbiBytes22.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -4656,7 +4785,7 @@ export namespace AbiBytes22 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes22.decodeOrThrow(cursor)
+    return RawHexAbiBytes22.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -4666,8 +4795,11 @@ export namespace AbiBytes22 {
 }
 
 export namespace BytesAbiBytes22 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes22 {
@@ -4694,13 +4826,16 @@ export class BytesAbiBytes22 {
   }
 
   static fromOrThrow(value: BytesAbiBytes22.From) {
-    return BytesAbiBytes22.create(value)
+    return new BytesAbiBytes22(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -4753,12 +4888,7 @@ export namespace RawHexAbiBytes22 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -4786,13 +4916,16 @@ export class RawHexAbiBytes22 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes22.From) {
-    return new RawHexAbiBytes22(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes22(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -4847,7 +4980,7 @@ export { AbiBytes23 as Bytes23 }
   
 export type AbiBytes23 =
   | BytesAbiBytes23
-  | ZeroHexAbiBytes23
+  | RawHexAbiBytes23
   
 export namespace AbiBytes23 {
   export const dynamic = false
@@ -4855,20 +4988,22 @@ export namespace AbiBytes23 {
 
   export type Create =
     | BytesAbiBytes23.Create
-    | ZeroHexAbiBytes23.Create
+    | RawHexAbiBytes23.Create
   
   export type From = 
     | BytesAbiBytes23.From
-    | ZeroHexAbiBytes23.From
+    | RawHexAbiBytes23.From
   
   export function create(value: AbiBytes23.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes23.create(value)
-    return ZeroHexAbiBytes23.create(value)
+    return RawHexAbiBytes23.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes23.From) {
-    return AbiBytes23.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes23.create(value)
+    return RawHexAbiBytes23.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -4876,7 +5011,7 @@ export namespace AbiBytes23 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes23.decodeOrThrow(cursor)
+    return RawHexAbiBytes23.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -4886,8 +5021,11 @@ export namespace AbiBytes23 {
 }
 
 export namespace BytesAbiBytes23 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes23 {
@@ -4914,13 +5052,16 @@ export class BytesAbiBytes23 {
   }
 
   static fromOrThrow(value: BytesAbiBytes23.From) {
-    return BytesAbiBytes23.create(value)
+    return new BytesAbiBytes23(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -4973,12 +5114,7 @@ export namespace RawHexAbiBytes23 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5006,13 +5142,16 @@ export class RawHexAbiBytes23 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes23.From) {
-    return new RawHexAbiBytes23(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes23(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -5067,7 +5206,7 @@ export { AbiBytes24 as Bytes24 }
   
 export type AbiBytes24 =
   | BytesAbiBytes24
-  | ZeroHexAbiBytes24
+  | RawHexAbiBytes24
   
 export namespace AbiBytes24 {
   export const dynamic = false
@@ -5075,20 +5214,22 @@ export namespace AbiBytes24 {
 
   export type Create =
     | BytesAbiBytes24.Create
-    | ZeroHexAbiBytes24.Create
+    | RawHexAbiBytes24.Create
   
   export type From = 
     | BytesAbiBytes24.From
-    | ZeroHexAbiBytes24.From
+    | RawHexAbiBytes24.From
   
   export function create(value: AbiBytes24.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes24.create(value)
-    return ZeroHexAbiBytes24.create(value)
+    return RawHexAbiBytes24.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes24.From) {
-    return AbiBytes24.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes24.create(value)
+    return RawHexAbiBytes24.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -5096,7 +5237,7 @@ export namespace AbiBytes24 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes24.decodeOrThrow(cursor)
+    return RawHexAbiBytes24.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -5106,8 +5247,11 @@ export namespace AbiBytes24 {
 }
 
 export namespace BytesAbiBytes24 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes24 {
@@ -5134,13 +5278,16 @@ export class BytesAbiBytes24 {
   }
 
   static fromOrThrow(value: BytesAbiBytes24.From) {
-    return BytesAbiBytes24.create(value)
+    return new BytesAbiBytes24(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -5193,12 +5340,7 @@ export namespace RawHexAbiBytes24 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5226,13 +5368,16 @@ export class RawHexAbiBytes24 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes24.From) {
-    return new RawHexAbiBytes24(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes24(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -5287,7 +5432,7 @@ export { AbiBytes25 as Bytes25 }
   
 export type AbiBytes25 =
   | BytesAbiBytes25
-  | ZeroHexAbiBytes25
+  | RawHexAbiBytes25
   
 export namespace AbiBytes25 {
   export const dynamic = false
@@ -5295,20 +5440,22 @@ export namespace AbiBytes25 {
 
   export type Create =
     | BytesAbiBytes25.Create
-    | ZeroHexAbiBytes25.Create
+    | RawHexAbiBytes25.Create
   
   export type From = 
     | BytesAbiBytes25.From
-    | ZeroHexAbiBytes25.From
+    | RawHexAbiBytes25.From
   
   export function create(value: AbiBytes25.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes25.create(value)
-    return ZeroHexAbiBytes25.create(value)
+    return RawHexAbiBytes25.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes25.From) {
-    return AbiBytes25.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes25.create(value)
+    return RawHexAbiBytes25.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -5316,7 +5463,7 @@ export namespace AbiBytes25 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes25.decodeOrThrow(cursor)
+    return RawHexAbiBytes25.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -5326,8 +5473,11 @@ export namespace AbiBytes25 {
 }
 
 export namespace BytesAbiBytes25 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes25 {
@@ -5354,13 +5504,16 @@ export class BytesAbiBytes25 {
   }
 
   static fromOrThrow(value: BytesAbiBytes25.From) {
-    return BytesAbiBytes25.create(value)
+    return new BytesAbiBytes25(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -5413,12 +5566,7 @@ export namespace RawHexAbiBytes25 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5446,13 +5594,16 @@ export class RawHexAbiBytes25 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes25.From) {
-    return new RawHexAbiBytes25(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes25(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -5507,7 +5658,7 @@ export { AbiBytes26 as Bytes26 }
   
 export type AbiBytes26 =
   | BytesAbiBytes26
-  | ZeroHexAbiBytes26
+  | RawHexAbiBytes26
   
 export namespace AbiBytes26 {
   export const dynamic = false
@@ -5515,20 +5666,22 @@ export namespace AbiBytes26 {
 
   export type Create =
     | BytesAbiBytes26.Create
-    | ZeroHexAbiBytes26.Create
+    | RawHexAbiBytes26.Create
   
   export type From = 
     | BytesAbiBytes26.From
-    | ZeroHexAbiBytes26.From
+    | RawHexAbiBytes26.From
   
   export function create(value: AbiBytes26.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes26.create(value)
-    return ZeroHexAbiBytes26.create(value)
+    return RawHexAbiBytes26.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes26.From) {
-    return AbiBytes26.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes26.create(value)
+    return RawHexAbiBytes26.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -5536,7 +5689,7 @@ export namespace AbiBytes26 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes26.decodeOrThrow(cursor)
+    return RawHexAbiBytes26.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -5546,8 +5699,11 @@ export namespace AbiBytes26 {
 }
 
 export namespace BytesAbiBytes26 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes26 {
@@ -5574,13 +5730,16 @@ export class BytesAbiBytes26 {
   }
 
   static fromOrThrow(value: BytesAbiBytes26.From) {
-    return BytesAbiBytes26.create(value)
+    return new BytesAbiBytes26(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -5633,12 +5792,7 @@ export namespace RawHexAbiBytes26 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5666,13 +5820,16 @@ export class RawHexAbiBytes26 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes26.From) {
-    return new RawHexAbiBytes26(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes26(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -5727,7 +5884,7 @@ export { AbiBytes27 as Bytes27 }
   
 export type AbiBytes27 =
   | BytesAbiBytes27
-  | ZeroHexAbiBytes27
+  | RawHexAbiBytes27
   
 export namespace AbiBytes27 {
   export const dynamic = false
@@ -5735,20 +5892,22 @@ export namespace AbiBytes27 {
 
   export type Create =
     | BytesAbiBytes27.Create
-    | ZeroHexAbiBytes27.Create
+    | RawHexAbiBytes27.Create
   
   export type From = 
     | BytesAbiBytes27.From
-    | ZeroHexAbiBytes27.From
+    | RawHexAbiBytes27.From
   
   export function create(value: AbiBytes27.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes27.create(value)
-    return ZeroHexAbiBytes27.create(value)
+    return RawHexAbiBytes27.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes27.From) {
-    return AbiBytes27.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes27.create(value)
+    return RawHexAbiBytes27.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -5756,7 +5915,7 @@ export namespace AbiBytes27 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes27.decodeOrThrow(cursor)
+    return RawHexAbiBytes27.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -5766,8 +5925,11 @@ export namespace AbiBytes27 {
 }
 
 export namespace BytesAbiBytes27 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes27 {
@@ -5794,13 +5956,16 @@ export class BytesAbiBytes27 {
   }
 
   static fromOrThrow(value: BytesAbiBytes27.From) {
-    return BytesAbiBytes27.create(value)
+    return new BytesAbiBytes27(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -5853,12 +6018,7 @@ export namespace RawHexAbiBytes27 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5886,13 +6046,16 @@ export class RawHexAbiBytes27 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes27.From) {
-    return new RawHexAbiBytes27(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes27(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -5947,7 +6110,7 @@ export { AbiBytes28 as Bytes28 }
   
 export type AbiBytes28 =
   | BytesAbiBytes28
-  | ZeroHexAbiBytes28
+  | RawHexAbiBytes28
   
 export namespace AbiBytes28 {
   export const dynamic = false
@@ -5955,20 +6118,22 @@ export namespace AbiBytes28 {
 
   export type Create =
     | BytesAbiBytes28.Create
-    | ZeroHexAbiBytes28.Create
+    | RawHexAbiBytes28.Create
   
   export type From = 
     | BytesAbiBytes28.From
-    | ZeroHexAbiBytes28.From
+    | RawHexAbiBytes28.From
   
   export function create(value: AbiBytes28.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes28.create(value)
-    return ZeroHexAbiBytes28.create(value)
+    return RawHexAbiBytes28.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes28.From) {
-    return AbiBytes28.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes28.create(value)
+    return RawHexAbiBytes28.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -5976,7 +6141,7 @@ export namespace AbiBytes28 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes28.decodeOrThrow(cursor)
+    return RawHexAbiBytes28.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -5986,8 +6151,11 @@ export namespace AbiBytes28 {
 }
 
 export namespace BytesAbiBytes28 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes28 {
@@ -6014,13 +6182,16 @@ export class BytesAbiBytes28 {
   }
 
   static fromOrThrow(value: BytesAbiBytes28.From) {
-    return BytesAbiBytes28.create(value)
+    return new BytesAbiBytes28(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -6073,12 +6244,7 @@ export namespace RawHexAbiBytes28 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6106,13 +6272,16 @@ export class RawHexAbiBytes28 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes28.From) {
-    return new RawHexAbiBytes28(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes28(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -6167,7 +6336,7 @@ export { AbiBytes29 as Bytes29 }
   
 export type AbiBytes29 =
   | BytesAbiBytes29
-  | ZeroHexAbiBytes29
+  | RawHexAbiBytes29
   
 export namespace AbiBytes29 {
   export const dynamic = false
@@ -6175,20 +6344,22 @@ export namespace AbiBytes29 {
 
   export type Create =
     | BytesAbiBytes29.Create
-    | ZeroHexAbiBytes29.Create
+    | RawHexAbiBytes29.Create
   
   export type From = 
     | BytesAbiBytes29.From
-    | ZeroHexAbiBytes29.From
+    | RawHexAbiBytes29.From
   
   export function create(value: AbiBytes29.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes29.create(value)
-    return ZeroHexAbiBytes29.create(value)
+    return RawHexAbiBytes29.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes29.From) {
-    return AbiBytes29.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes29.create(value)
+    return RawHexAbiBytes29.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -6196,7 +6367,7 @@ export namespace AbiBytes29 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes29.decodeOrThrow(cursor)
+    return RawHexAbiBytes29.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -6206,8 +6377,11 @@ export namespace AbiBytes29 {
 }
 
 export namespace BytesAbiBytes29 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes29 {
@@ -6234,13 +6408,16 @@ export class BytesAbiBytes29 {
   }
 
   static fromOrThrow(value: BytesAbiBytes29.From) {
-    return BytesAbiBytes29.create(value)
+    return new BytesAbiBytes29(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -6293,12 +6470,7 @@ export namespace RawHexAbiBytes29 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6326,13 +6498,16 @@ export class RawHexAbiBytes29 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes29.From) {
-    return new RawHexAbiBytes29(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes29(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -6387,7 +6562,7 @@ export { AbiBytes30 as Bytes30 }
   
 export type AbiBytes30 =
   | BytesAbiBytes30
-  | ZeroHexAbiBytes30
+  | RawHexAbiBytes30
   
 export namespace AbiBytes30 {
   export const dynamic = false
@@ -6395,20 +6570,22 @@ export namespace AbiBytes30 {
 
   export type Create =
     | BytesAbiBytes30.Create
-    | ZeroHexAbiBytes30.Create
+    | RawHexAbiBytes30.Create
   
   export type From = 
     | BytesAbiBytes30.From
-    | ZeroHexAbiBytes30.From
+    | RawHexAbiBytes30.From
   
   export function create(value: AbiBytes30.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes30.create(value)
-    return ZeroHexAbiBytes30.create(value)
+    return RawHexAbiBytes30.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes30.From) {
-    return AbiBytes30.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes30.create(value)
+    return RawHexAbiBytes30.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -6416,7 +6593,7 @@ export namespace AbiBytes30 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes30.decodeOrThrow(cursor)
+    return RawHexAbiBytes30.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -6426,8 +6603,11 @@ export namespace AbiBytes30 {
 }
 
 export namespace BytesAbiBytes30 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes30 {
@@ -6454,13 +6634,16 @@ export class BytesAbiBytes30 {
   }
 
   static fromOrThrow(value: BytesAbiBytes30.From) {
-    return BytesAbiBytes30.create(value)
+    return new BytesAbiBytes30(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -6513,12 +6696,7 @@ export namespace RawHexAbiBytes30 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6546,13 +6724,16 @@ export class RawHexAbiBytes30 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes30.From) {
-    return new RawHexAbiBytes30(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes30(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -6607,7 +6788,7 @@ export { AbiBytes31 as Bytes31 }
   
 export type AbiBytes31 =
   | BytesAbiBytes31
-  | ZeroHexAbiBytes31
+  | RawHexAbiBytes31
   
 export namespace AbiBytes31 {
   export const dynamic = false
@@ -6615,20 +6796,22 @@ export namespace AbiBytes31 {
 
   export type Create =
     | BytesAbiBytes31.Create
-    | ZeroHexAbiBytes31.Create
+    | RawHexAbiBytes31.Create
   
   export type From = 
     | BytesAbiBytes31.From
-    | ZeroHexAbiBytes31.From
+    | RawHexAbiBytes31.From
   
   export function create(value: AbiBytes31.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes31.create(value)
-    return ZeroHexAbiBytes31.create(value)
+    return RawHexAbiBytes31.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes31.From) {
-    return AbiBytes31.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes31.create(value)
+    return RawHexAbiBytes31.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -6636,7 +6819,7 @@ export namespace AbiBytes31 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes31.decodeOrThrow(cursor)
+    return RawHexAbiBytes31.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -6646,8 +6829,11 @@ export namespace AbiBytes31 {
 }
 
 export namespace BytesAbiBytes31 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes31 {
@@ -6674,13 +6860,16 @@ export class BytesAbiBytes31 {
   }
 
   static fromOrThrow(value: BytesAbiBytes31.From) {
-    return BytesAbiBytes31.create(value)
+    return new BytesAbiBytes31(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -6733,12 +6922,7 @@ export namespace RawHexAbiBytes31 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6766,13 +6950,16 @@ export class RawHexAbiBytes31 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes31.From) {
-    return new RawHexAbiBytes31(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes31(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
@@ -6827,7 +7014,7 @@ export { AbiBytes32 as Bytes32 }
   
 export type AbiBytes32 =
   | BytesAbiBytes32
-  | ZeroHexAbiBytes32
+  | RawHexAbiBytes32
   
 export namespace AbiBytes32 {
   export const dynamic = false
@@ -6835,20 +7022,22 @@ export namespace AbiBytes32 {
 
   export type Create =
     | BytesAbiBytes32.Create
-    | ZeroHexAbiBytes32.Create
+    | RawHexAbiBytes32.Create
   
   export type From = 
     | BytesAbiBytes32.From
-    | ZeroHexAbiBytes32.From
+    | RawHexAbiBytes32.From
   
   export function create(value: AbiBytes32.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes32.create(value)
-    return ZeroHexAbiBytes32.create(value)
+    return RawHexAbiBytes32.create(value)
   }
 
   export function fromOrThrow(value: AbiBytes32.From) {
-    return AbiBytes32.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiBytes32.create(value)
+    return RawHexAbiBytes32.create(RawHexAsInteger.fromOrThrow(value))
   }
   
   export function codegen() {
@@ -6856,7 +7045,7 @@ export namespace AbiBytes32 {
   }
 
   export function decodeOrThrow(cursor: TextCursor) {
-    return ZeroHexAbiBytes32.decodeOrThrow(cursor)
+    return RawHexAbiBytes32.decodeOrThrow(cursor)
   }
 
   export function readOrThrow(cursor: Cursor) {
@@ -6866,8 +7055,11 @@ export namespace AbiBytes32 {
 }
 
 export namespace BytesAbiBytes32 {
+
   export type Create = Uint8Array
-  export type From = Uint8Array
+
+  export type From = BytesAsInteger.From
+
 }
 
 export class BytesAbiBytes32 {
@@ -6894,13 +7086,16 @@ export class BytesAbiBytes32 {
   }
 
   static fromOrThrow(value: BytesAbiBytes32.From) {
-    return BytesAbiBytes32.create(value)
+    return new BytesAbiBytes32(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${Base16.get().encodeOrThrow(this.value)}` as ZeroHexString
   }
@@ -6953,12 +7148,7 @@ export namespace RawHexAbiBytes32 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6986,13 +7176,16 @@ export class RawHexAbiBytes32 {
   }
 
   static fromOrThrow(value: RawHexAbiBytes32.From) {
-    return new RawHexAbiBytes32(RawHexUtf8.fromOrThrow(value))
+    return new RawHexAbiBytes32(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Uint8Array {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return `0x${this.value}` as ZeroHexString
   }
