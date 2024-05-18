@@ -38,8 +38,8 @@ export namespace AbiBytes${bytes} {
 
   export function fromOrThrow(value: AbiBytes${bytes}.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes${bytes}.create(value)
-    return RawHexAbiBytes${bytes}.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes${bytes}.fromOrThrow(value)
+    return RawHexAbiBytes${bytes}.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -79,7 +79,7 @@ export class BytesAbiBytes${bytes} {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -169,7 +169,7 @@ export class RawHexAbiBytes${bytes} {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 

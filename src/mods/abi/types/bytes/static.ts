@@ -30,8 +30,8 @@ export namespace AbiBytes1 {
 
   export function fromOrThrow(value: AbiBytes1.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes1.create(value)
-    return RawHexAbiBytes1.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes1.fromOrThrow(value)
+    return RawHexAbiBytes1.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -71,7 +71,7 @@ export class BytesAbiBytes1 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -161,7 +161,7 @@ export class RawHexAbiBytes1 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -256,8 +256,8 @@ export namespace AbiBytes2 {
 
   export function fromOrThrow(value: AbiBytes2.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes2.create(value)
-    return RawHexAbiBytes2.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes2.fromOrThrow(value)
+    return RawHexAbiBytes2.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -297,7 +297,7 @@ export class BytesAbiBytes2 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -387,7 +387,7 @@ export class RawHexAbiBytes2 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -482,8 +482,8 @@ export namespace AbiBytes3 {
 
   export function fromOrThrow(value: AbiBytes3.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes3.create(value)
-    return RawHexAbiBytes3.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes3.fromOrThrow(value)
+    return RawHexAbiBytes3.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -523,7 +523,7 @@ export class BytesAbiBytes3 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -613,7 +613,7 @@ export class RawHexAbiBytes3 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -708,8 +708,8 @@ export namespace AbiBytes4 {
 
   export function fromOrThrow(value: AbiBytes4.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes4.create(value)
-    return RawHexAbiBytes4.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes4.fromOrThrow(value)
+    return RawHexAbiBytes4.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -749,7 +749,7 @@ export class BytesAbiBytes4 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -839,7 +839,7 @@ export class RawHexAbiBytes4 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -934,8 +934,8 @@ export namespace AbiBytes5 {
 
   export function fromOrThrow(value: AbiBytes5.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes5.create(value)
-    return RawHexAbiBytes5.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes5.fromOrThrow(value)
+    return RawHexAbiBytes5.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -975,7 +975,7 @@ export class BytesAbiBytes5 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -1065,7 +1065,7 @@ export class RawHexAbiBytes5 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -1160,8 +1160,8 @@ export namespace AbiBytes6 {
 
   export function fromOrThrow(value: AbiBytes6.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes6.create(value)
-    return RawHexAbiBytes6.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes6.fromOrThrow(value)
+    return RawHexAbiBytes6.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -1201,7 +1201,7 @@ export class BytesAbiBytes6 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -1291,7 +1291,7 @@ export class RawHexAbiBytes6 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -1386,8 +1386,8 @@ export namespace AbiBytes7 {
 
   export function fromOrThrow(value: AbiBytes7.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes7.create(value)
-    return RawHexAbiBytes7.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes7.fromOrThrow(value)
+    return RawHexAbiBytes7.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -1427,7 +1427,7 @@ export class BytesAbiBytes7 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -1517,7 +1517,7 @@ export class RawHexAbiBytes7 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -1612,8 +1612,8 @@ export namespace AbiBytes8 {
 
   export function fromOrThrow(value: AbiBytes8.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes8.create(value)
-    return RawHexAbiBytes8.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes8.fromOrThrow(value)
+    return RawHexAbiBytes8.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -1653,7 +1653,7 @@ export class BytesAbiBytes8 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -1743,7 +1743,7 @@ export class RawHexAbiBytes8 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -1838,8 +1838,8 @@ export namespace AbiBytes9 {
 
   export function fromOrThrow(value: AbiBytes9.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes9.create(value)
-    return RawHexAbiBytes9.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes9.fromOrThrow(value)
+    return RawHexAbiBytes9.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -1879,7 +1879,7 @@ export class BytesAbiBytes9 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -1969,7 +1969,7 @@ export class RawHexAbiBytes9 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -2064,8 +2064,8 @@ export namespace AbiBytes10 {
 
   export function fromOrThrow(value: AbiBytes10.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes10.create(value)
-    return RawHexAbiBytes10.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes10.fromOrThrow(value)
+    return RawHexAbiBytes10.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -2105,7 +2105,7 @@ export class BytesAbiBytes10 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -2195,7 +2195,7 @@ export class RawHexAbiBytes10 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -2290,8 +2290,8 @@ export namespace AbiBytes11 {
 
   export function fromOrThrow(value: AbiBytes11.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes11.create(value)
-    return RawHexAbiBytes11.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes11.fromOrThrow(value)
+    return RawHexAbiBytes11.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -2331,7 +2331,7 @@ export class BytesAbiBytes11 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -2421,7 +2421,7 @@ export class RawHexAbiBytes11 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -2516,8 +2516,8 @@ export namespace AbiBytes12 {
 
   export function fromOrThrow(value: AbiBytes12.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes12.create(value)
-    return RawHexAbiBytes12.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes12.fromOrThrow(value)
+    return RawHexAbiBytes12.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -2557,7 +2557,7 @@ export class BytesAbiBytes12 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -2647,7 +2647,7 @@ export class RawHexAbiBytes12 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -2742,8 +2742,8 @@ export namespace AbiBytes13 {
 
   export function fromOrThrow(value: AbiBytes13.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes13.create(value)
-    return RawHexAbiBytes13.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes13.fromOrThrow(value)
+    return RawHexAbiBytes13.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -2783,7 +2783,7 @@ export class BytesAbiBytes13 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -2873,7 +2873,7 @@ export class RawHexAbiBytes13 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -2968,8 +2968,8 @@ export namespace AbiBytes14 {
 
   export function fromOrThrow(value: AbiBytes14.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes14.create(value)
-    return RawHexAbiBytes14.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes14.fromOrThrow(value)
+    return RawHexAbiBytes14.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -3009,7 +3009,7 @@ export class BytesAbiBytes14 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -3099,7 +3099,7 @@ export class RawHexAbiBytes14 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -3194,8 +3194,8 @@ export namespace AbiBytes15 {
 
   export function fromOrThrow(value: AbiBytes15.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes15.create(value)
-    return RawHexAbiBytes15.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes15.fromOrThrow(value)
+    return RawHexAbiBytes15.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -3235,7 +3235,7 @@ export class BytesAbiBytes15 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -3325,7 +3325,7 @@ export class RawHexAbiBytes15 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -3420,8 +3420,8 @@ export namespace AbiBytes16 {
 
   export function fromOrThrow(value: AbiBytes16.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes16.create(value)
-    return RawHexAbiBytes16.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes16.fromOrThrow(value)
+    return RawHexAbiBytes16.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -3461,7 +3461,7 @@ export class BytesAbiBytes16 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -3551,7 +3551,7 @@ export class RawHexAbiBytes16 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -3646,8 +3646,8 @@ export namespace AbiBytes17 {
 
   export function fromOrThrow(value: AbiBytes17.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes17.create(value)
-    return RawHexAbiBytes17.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes17.fromOrThrow(value)
+    return RawHexAbiBytes17.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -3687,7 +3687,7 @@ export class BytesAbiBytes17 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -3777,7 +3777,7 @@ export class RawHexAbiBytes17 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -3872,8 +3872,8 @@ export namespace AbiBytes18 {
 
   export function fromOrThrow(value: AbiBytes18.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes18.create(value)
-    return RawHexAbiBytes18.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes18.fromOrThrow(value)
+    return RawHexAbiBytes18.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -3913,7 +3913,7 @@ export class BytesAbiBytes18 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -4003,7 +4003,7 @@ export class RawHexAbiBytes18 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -4098,8 +4098,8 @@ export namespace AbiBytes19 {
 
   export function fromOrThrow(value: AbiBytes19.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes19.create(value)
-    return RawHexAbiBytes19.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes19.fromOrThrow(value)
+    return RawHexAbiBytes19.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -4139,7 +4139,7 @@ export class BytesAbiBytes19 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -4229,7 +4229,7 @@ export class RawHexAbiBytes19 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -4324,8 +4324,8 @@ export namespace AbiBytes20 {
 
   export function fromOrThrow(value: AbiBytes20.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes20.create(value)
-    return RawHexAbiBytes20.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes20.fromOrThrow(value)
+    return RawHexAbiBytes20.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -4365,7 +4365,7 @@ export class BytesAbiBytes20 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -4455,7 +4455,7 @@ export class RawHexAbiBytes20 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -4550,8 +4550,8 @@ export namespace AbiBytes21 {
 
   export function fromOrThrow(value: AbiBytes21.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes21.create(value)
-    return RawHexAbiBytes21.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes21.fromOrThrow(value)
+    return RawHexAbiBytes21.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -4591,7 +4591,7 @@ export class BytesAbiBytes21 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -4681,7 +4681,7 @@ export class RawHexAbiBytes21 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -4776,8 +4776,8 @@ export namespace AbiBytes22 {
 
   export function fromOrThrow(value: AbiBytes22.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes22.create(value)
-    return RawHexAbiBytes22.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes22.fromOrThrow(value)
+    return RawHexAbiBytes22.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -4817,7 +4817,7 @@ export class BytesAbiBytes22 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -4907,7 +4907,7 @@ export class RawHexAbiBytes22 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -5002,8 +5002,8 @@ export namespace AbiBytes23 {
 
   export function fromOrThrow(value: AbiBytes23.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes23.create(value)
-    return RawHexAbiBytes23.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes23.fromOrThrow(value)
+    return RawHexAbiBytes23.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -5043,7 +5043,7 @@ export class BytesAbiBytes23 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -5133,7 +5133,7 @@ export class RawHexAbiBytes23 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -5228,8 +5228,8 @@ export namespace AbiBytes24 {
 
   export function fromOrThrow(value: AbiBytes24.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes24.create(value)
-    return RawHexAbiBytes24.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes24.fromOrThrow(value)
+    return RawHexAbiBytes24.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -5269,7 +5269,7 @@ export class BytesAbiBytes24 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -5359,7 +5359,7 @@ export class RawHexAbiBytes24 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -5454,8 +5454,8 @@ export namespace AbiBytes25 {
 
   export function fromOrThrow(value: AbiBytes25.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes25.create(value)
-    return RawHexAbiBytes25.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes25.fromOrThrow(value)
+    return RawHexAbiBytes25.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -5495,7 +5495,7 @@ export class BytesAbiBytes25 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -5585,7 +5585,7 @@ export class RawHexAbiBytes25 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -5680,8 +5680,8 @@ export namespace AbiBytes26 {
 
   export function fromOrThrow(value: AbiBytes26.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes26.create(value)
-    return RawHexAbiBytes26.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes26.fromOrThrow(value)
+    return RawHexAbiBytes26.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -5721,7 +5721,7 @@ export class BytesAbiBytes26 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -5811,7 +5811,7 @@ export class RawHexAbiBytes26 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -5906,8 +5906,8 @@ export namespace AbiBytes27 {
 
   export function fromOrThrow(value: AbiBytes27.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes27.create(value)
-    return RawHexAbiBytes27.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes27.fromOrThrow(value)
+    return RawHexAbiBytes27.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -5947,7 +5947,7 @@ export class BytesAbiBytes27 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -6037,7 +6037,7 @@ export class RawHexAbiBytes27 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -6132,8 +6132,8 @@ export namespace AbiBytes28 {
 
   export function fromOrThrow(value: AbiBytes28.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes28.create(value)
-    return RawHexAbiBytes28.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes28.fromOrThrow(value)
+    return RawHexAbiBytes28.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -6173,7 +6173,7 @@ export class BytesAbiBytes28 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -6263,7 +6263,7 @@ export class RawHexAbiBytes28 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -6358,8 +6358,8 @@ export namespace AbiBytes29 {
 
   export function fromOrThrow(value: AbiBytes29.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes29.create(value)
-    return RawHexAbiBytes29.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes29.fromOrThrow(value)
+    return RawHexAbiBytes29.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -6399,7 +6399,7 @@ export class BytesAbiBytes29 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -6489,7 +6489,7 @@ export class RawHexAbiBytes29 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -6584,8 +6584,8 @@ export namespace AbiBytes30 {
 
   export function fromOrThrow(value: AbiBytes30.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes30.create(value)
-    return RawHexAbiBytes30.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes30.fromOrThrow(value)
+    return RawHexAbiBytes30.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -6625,7 +6625,7 @@ export class BytesAbiBytes30 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -6715,7 +6715,7 @@ export class RawHexAbiBytes30 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -6810,8 +6810,8 @@ export namespace AbiBytes31 {
 
   export function fromOrThrow(value: AbiBytes31.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes31.create(value)
-    return RawHexAbiBytes31.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes31.fromOrThrow(value)
+    return RawHexAbiBytes31.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -6851,7 +6851,7 @@ export class BytesAbiBytes31 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -6941,7 +6941,7 @@ export class RawHexAbiBytes31 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 
@@ -7036,8 +7036,8 @@ export namespace AbiBytes32 {
 
   export function fromOrThrow(value: AbiBytes32.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes32.create(value)
-    return RawHexAbiBytes32.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes32.fromOrThrow(value)
+    return RawHexAbiBytes32.fromOrThrow(value)
   }
   
   export function codegen() {
@@ -7077,7 +7077,7 @@ export class BytesAbiBytes32 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: Uint8Array
   ) { }
 
@@ -7167,7 +7167,7 @@ export class RawHexAbiBytes32 {
   readonly dynamic = this.#class.dynamic
   readonly size = this.#class.size
 
-  private constructor(
+  constructor(
     readonly value: RawHexString
   ) { }
 

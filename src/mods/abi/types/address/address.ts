@@ -31,8 +31,8 @@ export namespace AbiAddress {
 
   export function fromOrThrow(value: AbiAddress.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiAddress.create(value)
-    return RawHexAbiAddress.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiAddress.fromOrThrow(value)
+    return RawHexAbiAddress.fromOrThrow(value)
   }
 
   export function codegen() {

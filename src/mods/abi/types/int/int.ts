@@ -2,6 +2,7 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { RawHexAsInteger } from "mods/types/helpers/generic.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
   
 const BN_0 = 0n
@@ -18,27 +19,23 @@ export namespace AbiInt8 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt8.Create
+    | RawHexAbiInt8.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt8.From
+    | RawHexAbiInt8.From
 
   export function create(value: AbiInt8.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt8.create(value)
-    return RawHexAbiInt8.fromOrThrow(value)
+    return RawHexAbiInt8.create(value)
   }
 
   export function fromOrThrow(value: AbiInt8.From) {
-    return AbiInt8.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt8.fromOrThrow(value)
+    return RawHexAbiInt8.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -87,7 +84,7 @@ export class BytesAbiInt8 {
   }
 
   static fromOrThrow(value: BytesAbiInt8.From) {
-    return BytesAbiInt8.create(value)
+    return new BytesAbiInt8(value)
   }
 
   intoOrThrow(): bigint {
@@ -149,12 +146,7 @@ export namespace RawHexAbiInt8 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -193,15 +185,19 @@ export class RawHexAbiInt8 {
     return new RawHexAbiInt8(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt8.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt8.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt8(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt8.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt8.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt8.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt8(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt8(value.slice(2) as RawHexString)
     return RawHexAbiInt8.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -275,27 +271,23 @@ export namespace AbiInt16 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt16.Create
+    | RawHexAbiInt16.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt16.From
+    | RawHexAbiInt16.From
 
   export function create(value: AbiInt16.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt16.create(value)
-    return RawHexAbiInt16.fromOrThrow(value)
+    return RawHexAbiInt16.create(value)
   }
 
   export function fromOrThrow(value: AbiInt16.From) {
-    return AbiInt16.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt16.fromOrThrow(value)
+    return RawHexAbiInt16.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -344,7 +336,7 @@ export class BytesAbiInt16 {
   }
 
   static fromOrThrow(value: BytesAbiInt16.From) {
-    return BytesAbiInt16.create(value)
+    return new BytesAbiInt16(value)
   }
 
   intoOrThrow(): bigint {
@@ -406,12 +398,7 @@ export namespace RawHexAbiInt16 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -450,15 +437,19 @@ export class RawHexAbiInt16 {
     return new RawHexAbiInt16(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt16.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt16.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt16(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt16.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt16.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt16.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt16(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt16(value.slice(2) as RawHexString)
     return RawHexAbiInt16.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -532,27 +523,23 @@ export namespace AbiInt24 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt24.Create
+    | RawHexAbiInt24.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt24.From
+    | RawHexAbiInt24.From
 
   export function create(value: AbiInt24.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt24.create(value)
-    return RawHexAbiInt24.fromOrThrow(value)
+    return RawHexAbiInt24.create(value)
   }
 
   export function fromOrThrow(value: AbiInt24.From) {
-    return AbiInt24.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt24.fromOrThrow(value)
+    return RawHexAbiInt24.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -601,7 +588,7 @@ export class BytesAbiInt24 {
   }
 
   static fromOrThrow(value: BytesAbiInt24.From) {
-    return BytesAbiInt24.create(value)
+    return new BytesAbiInt24(value)
   }
 
   intoOrThrow(): bigint {
@@ -663,12 +650,7 @@ export namespace RawHexAbiInt24 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -707,15 +689,19 @@ export class RawHexAbiInt24 {
     return new RawHexAbiInt24(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt24.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt24.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt24(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt24.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt24.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt24.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt24(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt24(value.slice(2) as RawHexString)
     return RawHexAbiInt24.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -789,27 +775,23 @@ export namespace AbiInt32 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt32.Create
+    | RawHexAbiInt32.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt32.From
+    | RawHexAbiInt32.From
 
   export function create(value: AbiInt32.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt32.create(value)
-    return RawHexAbiInt32.fromOrThrow(value)
+    return RawHexAbiInt32.create(value)
   }
 
   export function fromOrThrow(value: AbiInt32.From) {
-    return AbiInt32.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt32.fromOrThrow(value)
+    return RawHexAbiInt32.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -858,7 +840,7 @@ export class BytesAbiInt32 {
   }
 
   static fromOrThrow(value: BytesAbiInt32.From) {
-    return BytesAbiInt32.create(value)
+    return new BytesAbiInt32(value)
   }
 
   intoOrThrow(): bigint {
@@ -920,12 +902,7 @@ export namespace RawHexAbiInt32 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -964,15 +941,19 @@ export class RawHexAbiInt32 {
     return new RawHexAbiInt32(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt32.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt32.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt32(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt32.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt32.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt32.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt32(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt32(value.slice(2) as RawHexString)
     return RawHexAbiInt32.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -1046,27 +1027,23 @@ export namespace AbiInt40 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt40.Create
+    | RawHexAbiInt40.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt40.From
+    | RawHexAbiInt40.From
 
   export function create(value: AbiInt40.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt40.create(value)
-    return RawHexAbiInt40.fromOrThrow(value)
+    return RawHexAbiInt40.create(value)
   }
 
   export function fromOrThrow(value: AbiInt40.From) {
-    return AbiInt40.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt40.fromOrThrow(value)
+    return RawHexAbiInt40.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -1115,7 +1092,7 @@ export class BytesAbiInt40 {
   }
 
   static fromOrThrow(value: BytesAbiInt40.From) {
-    return BytesAbiInt40.create(value)
+    return new BytesAbiInt40(value)
   }
 
   intoOrThrow(): bigint {
@@ -1177,12 +1154,7 @@ export namespace RawHexAbiInt40 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1221,15 +1193,19 @@ export class RawHexAbiInt40 {
     return new RawHexAbiInt40(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt40.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt40.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt40(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt40.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt40.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt40.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt40(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt40(value.slice(2) as RawHexString)
     return RawHexAbiInt40.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -1303,27 +1279,23 @@ export namespace AbiInt48 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt48.Create
+    | RawHexAbiInt48.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt48.From
+    | RawHexAbiInt48.From
 
   export function create(value: AbiInt48.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt48.create(value)
-    return RawHexAbiInt48.fromOrThrow(value)
+    return RawHexAbiInt48.create(value)
   }
 
   export function fromOrThrow(value: AbiInt48.From) {
-    return AbiInt48.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt48.fromOrThrow(value)
+    return RawHexAbiInt48.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -1372,7 +1344,7 @@ export class BytesAbiInt48 {
   }
 
   static fromOrThrow(value: BytesAbiInt48.From) {
-    return BytesAbiInt48.create(value)
+    return new BytesAbiInt48(value)
   }
 
   intoOrThrow(): bigint {
@@ -1434,12 +1406,7 @@ export namespace RawHexAbiInt48 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1478,15 +1445,19 @@ export class RawHexAbiInt48 {
     return new RawHexAbiInt48(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt48.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt48.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt48(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt48.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt48.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt48.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt48(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt48(value.slice(2) as RawHexString)
     return RawHexAbiInt48.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -1560,27 +1531,23 @@ export namespace AbiInt56 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt56.Create
+    | RawHexAbiInt56.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt56.From
+    | RawHexAbiInt56.From
 
   export function create(value: AbiInt56.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt56.create(value)
-    return RawHexAbiInt56.fromOrThrow(value)
+    return RawHexAbiInt56.create(value)
   }
 
   export function fromOrThrow(value: AbiInt56.From) {
-    return AbiInt56.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt56.fromOrThrow(value)
+    return RawHexAbiInt56.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -1629,7 +1596,7 @@ export class BytesAbiInt56 {
   }
 
   static fromOrThrow(value: BytesAbiInt56.From) {
-    return BytesAbiInt56.create(value)
+    return new BytesAbiInt56(value)
   }
 
   intoOrThrow(): bigint {
@@ -1691,12 +1658,7 @@ export namespace RawHexAbiInt56 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1735,15 +1697,19 @@ export class RawHexAbiInt56 {
     return new RawHexAbiInt56(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt56.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt56.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt56(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt56.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt56.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt56.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt56(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt56(value.slice(2) as RawHexString)
     return RawHexAbiInt56.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -1817,27 +1783,23 @@ export namespace AbiInt64 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt64.Create
+    | RawHexAbiInt64.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt64.From
+    | RawHexAbiInt64.From
 
   export function create(value: AbiInt64.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt64.create(value)
-    return RawHexAbiInt64.fromOrThrow(value)
+    return RawHexAbiInt64.create(value)
   }
 
   export function fromOrThrow(value: AbiInt64.From) {
-    return AbiInt64.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt64.fromOrThrow(value)
+    return RawHexAbiInt64.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -1886,7 +1848,7 @@ export class BytesAbiInt64 {
   }
 
   static fromOrThrow(value: BytesAbiInt64.From) {
-    return BytesAbiInt64.create(value)
+    return new BytesAbiInt64(value)
   }
 
   intoOrThrow(): bigint {
@@ -1948,12 +1910,7 @@ export namespace RawHexAbiInt64 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -1992,15 +1949,19 @@ export class RawHexAbiInt64 {
     return new RawHexAbiInt64(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt64.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt64.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt64(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt64.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt64.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt64.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt64(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt64(value.slice(2) as RawHexString)
     return RawHexAbiInt64.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -2074,27 +2035,23 @@ export namespace AbiInt72 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt72.Create
+    | RawHexAbiInt72.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt72.From
+    | RawHexAbiInt72.From
 
   export function create(value: AbiInt72.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt72.create(value)
-    return RawHexAbiInt72.fromOrThrow(value)
+    return RawHexAbiInt72.create(value)
   }
 
   export function fromOrThrow(value: AbiInt72.From) {
-    return AbiInt72.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt72.fromOrThrow(value)
+    return RawHexAbiInt72.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -2143,7 +2100,7 @@ export class BytesAbiInt72 {
   }
 
   static fromOrThrow(value: BytesAbiInt72.From) {
-    return BytesAbiInt72.create(value)
+    return new BytesAbiInt72(value)
   }
 
   intoOrThrow(): bigint {
@@ -2205,12 +2162,7 @@ export namespace RawHexAbiInt72 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -2249,15 +2201,19 @@ export class RawHexAbiInt72 {
     return new RawHexAbiInt72(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt72.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt72.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt72(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt72.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt72.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt72.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt72(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt72(value.slice(2) as RawHexString)
     return RawHexAbiInt72.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -2331,27 +2287,23 @@ export namespace AbiInt80 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt80.Create
+    | RawHexAbiInt80.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt80.From
+    | RawHexAbiInt80.From
 
   export function create(value: AbiInt80.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt80.create(value)
-    return RawHexAbiInt80.fromOrThrow(value)
+    return RawHexAbiInt80.create(value)
   }
 
   export function fromOrThrow(value: AbiInt80.From) {
-    return AbiInt80.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt80.fromOrThrow(value)
+    return RawHexAbiInt80.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -2400,7 +2352,7 @@ export class BytesAbiInt80 {
   }
 
   static fromOrThrow(value: BytesAbiInt80.From) {
-    return BytesAbiInt80.create(value)
+    return new BytesAbiInt80(value)
   }
 
   intoOrThrow(): bigint {
@@ -2462,12 +2414,7 @@ export namespace RawHexAbiInt80 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -2506,15 +2453,19 @@ export class RawHexAbiInt80 {
     return new RawHexAbiInt80(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt80.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt80.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt80(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt80.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt80.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt80.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt80(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt80(value.slice(2) as RawHexString)
     return RawHexAbiInt80.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -2588,27 +2539,23 @@ export namespace AbiInt88 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt88.Create
+    | RawHexAbiInt88.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt88.From
+    | RawHexAbiInt88.From
 
   export function create(value: AbiInt88.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt88.create(value)
-    return RawHexAbiInt88.fromOrThrow(value)
+    return RawHexAbiInt88.create(value)
   }
 
   export function fromOrThrow(value: AbiInt88.From) {
-    return AbiInt88.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt88.fromOrThrow(value)
+    return RawHexAbiInt88.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -2657,7 +2604,7 @@ export class BytesAbiInt88 {
   }
 
   static fromOrThrow(value: BytesAbiInt88.From) {
-    return BytesAbiInt88.create(value)
+    return new BytesAbiInt88(value)
   }
 
   intoOrThrow(): bigint {
@@ -2719,12 +2666,7 @@ export namespace RawHexAbiInt88 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -2763,15 +2705,19 @@ export class RawHexAbiInt88 {
     return new RawHexAbiInt88(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt88.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt88.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt88(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt88.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt88.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt88.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt88(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt88(value.slice(2) as RawHexString)
     return RawHexAbiInt88.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -2845,27 +2791,23 @@ export namespace AbiInt96 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt96.Create
+    | RawHexAbiInt96.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt96.From
+    | RawHexAbiInt96.From
 
   export function create(value: AbiInt96.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt96.create(value)
-    return RawHexAbiInt96.fromOrThrow(value)
+    return RawHexAbiInt96.create(value)
   }
 
   export function fromOrThrow(value: AbiInt96.From) {
-    return AbiInt96.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt96.fromOrThrow(value)
+    return RawHexAbiInt96.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -2914,7 +2856,7 @@ export class BytesAbiInt96 {
   }
 
   static fromOrThrow(value: BytesAbiInt96.From) {
-    return BytesAbiInt96.create(value)
+    return new BytesAbiInt96(value)
   }
 
   intoOrThrow(): bigint {
@@ -2976,12 +2918,7 @@ export namespace RawHexAbiInt96 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3020,15 +2957,19 @@ export class RawHexAbiInt96 {
     return new RawHexAbiInt96(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt96.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt96.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt96(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt96.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt96.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt96.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt96(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt96(value.slice(2) as RawHexString)
     return RawHexAbiInt96.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -3102,27 +3043,23 @@ export namespace AbiInt104 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt104.Create
+    | RawHexAbiInt104.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt104.From
+    | RawHexAbiInt104.From
 
   export function create(value: AbiInt104.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt104.create(value)
-    return RawHexAbiInt104.fromOrThrow(value)
+    return RawHexAbiInt104.create(value)
   }
 
   export function fromOrThrow(value: AbiInt104.From) {
-    return AbiInt104.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt104.fromOrThrow(value)
+    return RawHexAbiInt104.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -3171,7 +3108,7 @@ export class BytesAbiInt104 {
   }
 
   static fromOrThrow(value: BytesAbiInt104.From) {
-    return BytesAbiInt104.create(value)
+    return new BytesAbiInt104(value)
   }
 
   intoOrThrow(): bigint {
@@ -3233,12 +3170,7 @@ export namespace RawHexAbiInt104 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3277,15 +3209,19 @@ export class RawHexAbiInt104 {
     return new RawHexAbiInt104(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt104.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt104.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt104(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt104.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt104.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt104.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt104(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt104(value.slice(2) as RawHexString)
     return RawHexAbiInt104.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -3359,27 +3295,23 @@ export namespace AbiInt112 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt112.Create
+    | RawHexAbiInt112.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt112.From
+    | RawHexAbiInt112.From
 
   export function create(value: AbiInt112.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt112.create(value)
-    return RawHexAbiInt112.fromOrThrow(value)
+    return RawHexAbiInt112.create(value)
   }
 
   export function fromOrThrow(value: AbiInt112.From) {
-    return AbiInt112.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt112.fromOrThrow(value)
+    return RawHexAbiInt112.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -3428,7 +3360,7 @@ export class BytesAbiInt112 {
   }
 
   static fromOrThrow(value: BytesAbiInt112.From) {
-    return BytesAbiInt112.create(value)
+    return new BytesAbiInt112(value)
   }
 
   intoOrThrow(): bigint {
@@ -3490,12 +3422,7 @@ export namespace RawHexAbiInt112 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3534,15 +3461,19 @@ export class RawHexAbiInt112 {
     return new RawHexAbiInt112(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt112.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt112.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt112(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt112.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt112.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt112.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt112(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt112(value.slice(2) as RawHexString)
     return RawHexAbiInt112.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -3616,27 +3547,23 @@ export namespace AbiInt120 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt120.Create
+    | RawHexAbiInt120.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt120.From
+    | RawHexAbiInt120.From
 
   export function create(value: AbiInt120.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt120.create(value)
-    return RawHexAbiInt120.fromOrThrow(value)
+    return RawHexAbiInt120.create(value)
   }
 
   export function fromOrThrow(value: AbiInt120.From) {
-    return AbiInt120.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt120.fromOrThrow(value)
+    return RawHexAbiInt120.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -3685,7 +3612,7 @@ export class BytesAbiInt120 {
   }
 
   static fromOrThrow(value: BytesAbiInt120.From) {
-    return BytesAbiInt120.create(value)
+    return new BytesAbiInt120(value)
   }
 
   intoOrThrow(): bigint {
@@ -3747,12 +3674,7 @@ export namespace RawHexAbiInt120 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -3791,15 +3713,19 @@ export class RawHexAbiInt120 {
     return new RawHexAbiInt120(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt120.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt120.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt120(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt120.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt120.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt120.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt120(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt120(value.slice(2) as RawHexString)
     return RawHexAbiInt120.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -3873,27 +3799,23 @@ export namespace AbiInt128 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt128.Create
+    | RawHexAbiInt128.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt128.From
+    | RawHexAbiInt128.From
 
   export function create(value: AbiInt128.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt128.create(value)
-    return RawHexAbiInt128.fromOrThrow(value)
+    return RawHexAbiInt128.create(value)
   }
 
   export function fromOrThrow(value: AbiInt128.From) {
-    return AbiInt128.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt128.fromOrThrow(value)
+    return RawHexAbiInt128.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -3942,7 +3864,7 @@ export class BytesAbiInt128 {
   }
 
   static fromOrThrow(value: BytesAbiInt128.From) {
-    return BytesAbiInt128.create(value)
+    return new BytesAbiInt128(value)
   }
 
   intoOrThrow(): bigint {
@@ -4004,12 +3926,7 @@ export namespace RawHexAbiInt128 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -4048,15 +3965,19 @@ export class RawHexAbiInt128 {
     return new RawHexAbiInt128(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt128.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt128.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt128(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt128.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt128.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt128.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt128(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt128(value.slice(2) as RawHexString)
     return RawHexAbiInt128.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -4130,27 +4051,23 @@ export namespace AbiInt136 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt136.Create
+    | RawHexAbiInt136.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt136.From
+    | RawHexAbiInt136.From
 
   export function create(value: AbiInt136.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt136.create(value)
-    return RawHexAbiInt136.fromOrThrow(value)
+    return RawHexAbiInt136.create(value)
   }
 
   export function fromOrThrow(value: AbiInt136.From) {
-    return AbiInt136.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt136.fromOrThrow(value)
+    return RawHexAbiInt136.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -4199,7 +4116,7 @@ export class BytesAbiInt136 {
   }
 
   static fromOrThrow(value: BytesAbiInt136.From) {
-    return BytesAbiInt136.create(value)
+    return new BytesAbiInt136(value)
   }
 
   intoOrThrow(): bigint {
@@ -4261,12 +4178,7 @@ export namespace RawHexAbiInt136 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -4305,15 +4217,19 @@ export class RawHexAbiInt136 {
     return new RawHexAbiInt136(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt136.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt136.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt136(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt136.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt136.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt136.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt136(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt136(value.slice(2) as RawHexString)
     return RawHexAbiInt136.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -4387,27 +4303,23 @@ export namespace AbiInt144 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt144.Create
+    | RawHexAbiInt144.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt144.From
+    | RawHexAbiInt144.From
 
   export function create(value: AbiInt144.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt144.create(value)
-    return RawHexAbiInt144.fromOrThrow(value)
+    return RawHexAbiInt144.create(value)
   }
 
   export function fromOrThrow(value: AbiInt144.From) {
-    return AbiInt144.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt144.fromOrThrow(value)
+    return RawHexAbiInt144.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -4456,7 +4368,7 @@ export class BytesAbiInt144 {
   }
 
   static fromOrThrow(value: BytesAbiInt144.From) {
-    return BytesAbiInt144.create(value)
+    return new BytesAbiInt144(value)
   }
 
   intoOrThrow(): bigint {
@@ -4518,12 +4430,7 @@ export namespace RawHexAbiInt144 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -4562,15 +4469,19 @@ export class RawHexAbiInt144 {
     return new RawHexAbiInt144(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt144.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt144.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt144(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt144.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt144.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt144.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt144(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt144(value.slice(2) as RawHexString)
     return RawHexAbiInt144.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -4644,27 +4555,23 @@ export namespace AbiInt152 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt152.Create
+    | RawHexAbiInt152.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt152.From
+    | RawHexAbiInt152.From
 
   export function create(value: AbiInt152.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt152.create(value)
-    return RawHexAbiInt152.fromOrThrow(value)
+    return RawHexAbiInt152.create(value)
   }
 
   export function fromOrThrow(value: AbiInt152.From) {
-    return AbiInt152.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt152.fromOrThrow(value)
+    return RawHexAbiInt152.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -4713,7 +4620,7 @@ export class BytesAbiInt152 {
   }
 
   static fromOrThrow(value: BytesAbiInt152.From) {
-    return BytesAbiInt152.create(value)
+    return new BytesAbiInt152(value)
   }
 
   intoOrThrow(): bigint {
@@ -4775,12 +4682,7 @@ export namespace RawHexAbiInt152 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -4819,15 +4721,19 @@ export class RawHexAbiInt152 {
     return new RawHexAbiInt152(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt152.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt152.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt152(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt152.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt152.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt152.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt152(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt152(value.slice(2) as RawHexString)
     return RawHexAbiInt152.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -4901,27 +4807,23 @@ export namespace AbiInt160 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt160.Create
+    | RawHexAbiInt160.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt160.From
+    | RawHexAbiInt160.From
 
   export function create(value: AbiInt160.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt160.create(value)
-    return RawHexAbiInt160.fromOrThrow(value)
+    return RawHexAbiInt160.create(value)
   }
 
   export function fromOrThrow(value: AbiInt160.From) {
-    return AbiInt160.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt160.fromOrThrow(value)
+    return RawHexAbiInt160.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -4970,7 +4872,7 @@ export class BytesAbiInt160 {
   }
 
   static fromOrThrow(value: BytesAbiInt160.From) {
-    return BytesAbiInt160.create(value)
+    return new BytesAbiInt160(value)
   }
 
   intoOrThrow(): bigint {
@@ -5032,12 +4934,7 @@ export namespace RawHexAbiInt160 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5076,15 +4973,19 @@ export class RawHexAbiInt160 {
     return new RawHexAbiInt160(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt160.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt160.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt160(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt160.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt160.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt160.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt160(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt160(value.slice(2) as RawHexString)
     return RawHexAbiInt160.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -5158,27 +5059,23 @@ export namespace AbiInt168 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt168.Create
+    | RawHexAbiInt168.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt168.From
+    | RawHexAbiInt168.From
 
   export function create(value: AbiInt168.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt168.create(value)
-    return RawHexAbiInt168.fromOrThrow(value)
+    return RawHexAbiInt168.create(value)
   }
 
   export function fromOrThrow(value: AbiInt168.From) {
-    return AbiInt168.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt168.fromOrThrow(value)
+    return RawHexAbiInt168.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -5227,7 +5124,7 @@ export class BytesAbiInt168 {
   }
 
   static fromOrThrow(value: BytesAbiInt168.From) {
-    return BytesAbiInt168.create(value)
+    return new BytesAbiInt168(value)
   }
 
   intoOrThrow(): bigint {
@@ -5289,12 +5186,7 @@ export namespace RawHexAbiInt168 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5333,15 +5225,19 @@ export class RawHexAbiInt168 {
     return new RawHexAbiInt168(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt168.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt168.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt168(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt168.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt168.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt168.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt168(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt168(value.slice(2) as RawHexString)
     return RawHexAbiInt168.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -5415,27 +5311,23 @@ export namespace AbiInt176 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt176.Create
+    | RawHexAbiInt176.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt176.From
+    | RawHexAbiInt176.From
 
   export function create(value: AbiInt176.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt176.create(value)
-    return RawHexAbiInt176.fromOrThrow(value)
+    return RawHexAbiInt176.create(value)
   }
 
   export function fromOrThrow(value: AbiInt176.From) {
-    return AbiInt176.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt176.fromOrThrow(value)
+    return RawHexAbiInt176.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -5484,7 +5376,7 @@ export class BytesAbiInt176 {
   }
 
   static fromOrThrow(value: BytesAbiInt176.From) {
-    return BytesAbiInt176.create(value)
+    return new BytesAbiInt176(value)
   }
 
   intoOrThrow(): bigint {
@@ -5546,12 +5438,7 @@ export namespace RawHexAbiInt176 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5590,15 +5477,19 @@ export class RawHexAbiInt176 {
     return new RawHexAbiInt176(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt176.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt176.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt176(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt176.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt176.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt176.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt176(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt176(value.slice(2) as RawHexString)
     return RawHexAbiInt176.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -5672,27 +5563,23 @@ export namespace AbiInt184 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt184.Create
+    | RawHexAbiInt184.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt184.From
+    | RawHexAbiInt184.From
 
   export function create(value: AbiInt184.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt184.create(value)
-    return RawHexAbiInt184.fromOrThrow(value)
+    return RawHexAbiInt184.create(value)
   }
 
   export function fromOrThrow(value: AbiInt184.From) {
-    return AbiInt184.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt184.fromOrThrow(value)
+    return RawHexAbiInt184.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -5741,7 +5628,7 @@ export class BytesAbiInt184 {
   }
 
   static fromOrThrow(value: BytesAbiInt184.From) {
-    return BytesAbiInt184.create(value)
+    return new BytesAbiInt184(value)
   }
 
   intoOrThrow(): bigint {
@@ -5803,12 +5690,7 @@ export namespace RawHexAbiInt184 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -5847,15 +5729,19 @@ export class RawHexAbiInt184 {
     return new RawHexAbiInt184(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt184.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt184.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt184(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt184.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt184.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt184.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt184(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt184(value.slice(2) as RawHexString)
     return RawHexAbiInt184.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -5929,27 +5815,23 @@ export namespace AbiInt192 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt192.Create
+    | RawHexAbiInt192.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt192.From
+    | RawHexAbiInt192.From
 
   export function create(value: AbiInt192.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt192.create(value)
-    return RawHexAbiInt192.fromOrThrow(value)
+    return RawHexAbiInt192.create(value)
   }
 
   export function fromOrThrow(value: AbiInt192.From) {
-    return AbiInt192.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt192.fromOrThrow(value)
+    return RawHexAbiInt192.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -5998,7 +5880,7 @@ export class BytesAbiInt192 {
   }
 
   static fromOrThrow(value: BytesAbiInt192.From) {
-    return BytesAbiInt192.create(value)
+    return new BytesAbiInt192(value)
   }
 
   intoOrThrow(): bigint {
@@ -6060,12 +5942,7 @@ export namespace RawHexAbiInt192 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6104,15 +5981,19 @@ export class RawHexAbiInt192 {
     return new RawHexAbiInt192(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt192.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt192.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt192(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt192.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt192.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt192.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt192(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt192(value.slice(2) as RawHexString)
     return RawHexAbiInt192.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -6186,27 +6067,23 @@ export namespace AbiInt200 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt200.Create
+    | RawHexAbiInt200.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt200.From
+    | RawHexAbiInt200.From
 
   export function create(value: AbiInt200.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt200.create(value)
-    return RawHexAbiInt200.fromOrThrow(value)
+    return RawHexAbiInt200.create(value)
   }
 
   export function fromOrThrow(value: AbiInt200.From) {
-    return AbiInt200.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt200.fromOrThrow(value)
+    return RawHexAbiInt200.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -6255,7 +6132,7 @@ export class BytesAbiInt200 {
   }
 
   static fromOrThrow(value: BytesAbiInt200.From) {
-    return BytesAbiInt200.create(value)
+    return new BytesAbiInt200(value)
   }
 
   intoOrThrow(): bigint {
@@ -6317,12 +6194,7 @@ export namespace RawHexAbiInt200 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6361,15 +6233,19 @@ export class RawHexAbiInt200 {
     return new RawHexAbiInt200(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt200.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt200.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt200(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt200.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt200.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt200.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt200(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt200(value.slice(2) as RawHexString)
     return RawHexAbiInt200.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -6443,27 +6319,23 @@ export namespace AbiInt208 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt208.Create
+    | RawHexAbiInt208.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt208.From
+    | RawHexAbiInt208.From
 
   export function create(value: AbiInt208.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt208.create(value)
-    return RawHexAbiInt208.fromOrThrow(value)
+    return RawHexAbiInt208.create(value)
   }
 
   export function fromOrThrow(value: AbiInt208.From) {
-    return AbiInt208.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt208.fromOrThrow(value)
+    return RawHexAbiInt208.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -6512,7 +6384,7 @@ export class BytesAbiInt208 {
   }
 
   static fromOrThrow(value: BytesAbiInt208.From) {
-    return BytesAbiInt208.create(value)
+    return new BytesAbiInt208(value)
   }
 
   intoOrThrow(): bigint {
@@ -6574,12 +6446,7 @@ export namespace RawHexAbiInt208 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6618,15 +6485,19 @@ export class RawHexAbiInt208 {
     return new RawHexAbiInt208(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt208.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt208.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt208(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt208.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt208.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt208.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt208(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt208(value.slice(2) as RawHexString)
     return RawHexAbiInt208.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -6700,27 +6571,23 @@ export namespace AbiInt216 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt216.Create
+    | RawHexAbiInt216.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt216.From
+    | RawHexAbiInt216.From
 
   export function create(value: AbiInt216.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt216.create(value)
-    return RawHexAbiInt216.fromOrThrow(value)
+    return RawHexAbiInt216.create(value)
   }
 
   export function fromOrThrow(value: AbiInt216.From) {
-    return AbiInt216.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt216.fromOrThrow(value)
+    return RawHexAbiInt216.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -6769,7 +6636,7 @@ export class BytesAbiInt216 {
   }
 
   static fromOrThrow(value: BytesAbiInt216.From) {
-    return BytesAbiInt216.create(value)
+    return new BytesAbiInt216(value)
   }
 
   intoOrThrow(): bigint {
@@ -6831,12 +6698,7 @@ export namespace RawHexAbiInt216 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -6875,15 +6737,19 @@ export class RawHexAbiInt216 {
     return new RawHexAbiInt216(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt216.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt216.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt216(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt216.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt216.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt216.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt216(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt216(value.slice(2) as RawHexString)
     return RawHexAbiInt216.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -6957,27 +6823,23 @@ export namespace AbiInt224 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt224.Create
+    | RawHexAbiInt224.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt224.From
+    | RawHexAbiInt224.From
 
   export function create(value: AbiInt224.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt224.create(value)
-    return RawHexAbiInt224.fromOrThrow(value)
+    return RawHexAbiInt224.create(value)
   }
 
   export function fromOrThrow(value: AbiInt224.From) {
-    return AbiInt224.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt224.fromOrThrow(value)
+    return RawHexAbiInt224.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -7026,7 +6888,7 @@ export class BytesAbiInt224 {
   }
 
   static fromOrThrow(value: BytesAbiInt224.From) {
-    return BytesAbiInt224.create(value)
+    return new BytesAbiInt224(value)
   }
 
   intoOrThrow(): bigint {
@@ -7088,12 +6950,7 @@ export namespace RawHexAbiInt224 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -7132,15 +6989,19 @@ export class RawHexAbiInt224 {
     return new RawHexAbiInt224(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt224.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt224.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt224(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt224.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt224.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt224.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt224(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt224(value.slice(2) as RawHexString)
     return RawHexAbiInt224.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -7214,27 +7075,23 @@ export namespace AbiInt232 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt232.Create
+    | RawHexAbiInt232.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt232.From
+    | RawHexAbiInt232.From
 
   export function create(value: AbiInt232.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt232.create(value)
-    return RawHexAbiInt232.fromOrThrow(value)
+    return RawHexAbiInt232.create(value)
   }
 
   export function fromOrThrow(value: AbiInt232.From) {
-    return AbiInt232.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt232.fromOrThrow(value)
+    return RawHexAbiInt232.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -7283,7 +7140,7 @@ export class BytesAbiInt232 {
   }
 
   static fromOrThrow(value: BytesAbiInt232.From) {
-    return BytesAbiInt232.create(value)
+    return new BytesAbiInt232(value)
   }
 
   intoOrThrow(): bigint {
@@ -7345,12 +7202,7 @@ export namespace RawHexAbiInt232 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -7389,15 +7241,19 @@ export class RawHexAbiInt232 {
     return new RawHexAbiInt232(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt232.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt232.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt232(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt232.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt232.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt232.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt232(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt232(value.slice(2) as RawHexString)
     return RawHexAbiInt232.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -7471,27 +7327,23 @@ export namespace AbiInt240 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt240.Create
+    | RawHexAbiInt240.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt240.From
+    | RawHexAbiInt240.From
 
   export function create(value: AbiInt240.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt240.create(value)
-    return RawHexAbiInt240.fromOrThrow(value)
+    return RawHexAbiInt240.create(value)
   }
 
   export function fromOrThrow(value: AbiInt240.From) {
-    return AbiInt240.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt240.fromOrThrow(value)
+    return RawHexAbiInt240.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -7540,7 +7392,7 @@ export class BytesAbiInt240 {
   }
 
   static fromOrThrow(value: BytesAbiInt240.From) {
-    return BytesAbiInt240.create(value)
+    return new BytesAbiInt240(value)
   }
 
   intoOrThrow(): bigint {
@@ -7602,12 +7454,7 @@ export namespace RawHexAbiInt240 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -7646,15 +7493,19 @@ export class RawHexAbiInt240 {
     return new RawHexAbiInt240(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt240.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt240.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt240(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt240.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt240.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt240.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt240(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt240(value.slice(2) as RawHexString)
     return RawHexAbiInt240.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -7728,27 +7579,23 @@ export namespace AbiInt248 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt248.Create
+    | RawHexAbiInt248.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt248.From
+    | RawHexAbiInt248.From
 
   export function create(value: AbiInt248.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt248.create(value)
-    return RawHexAbiInt248.fromOrThrow(value)
+    return RawHexAbiInt248.create(value)
   }
 
   export function fromOrThrow(value: AbiInt248.From) {
-    return AbiInt248.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt248.fromOrThrow(value)
+    return RawHexAbiInt248.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -7797,7 +7644,7 @@ export class BytesAbiInt248 {
   }
 
   static fromOrThrow(value: BytesAbiInt248.From) {
-    return BytesAbiInt248.create(value)
+    return new BytesAbiInt248(value)
   }
 
   intoOrThrow(): bigint {
@@ -7859,12 +7706,7 @@ export namespace RawHexAbiInt248 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -7903,15 +7745,19 @@ export class RawHexAbiInt248 {
     return new RawHexAbiInt248(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt248.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt248.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt248(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt248.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt248.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt248.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt248(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt248(value.slice(2) as RawHexString)
     return RawHexAbiInt248.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 
@@ -7985,27 +7831,23 @@ export namespace AbiInt256 {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt256.Create
+    | RawHexAbiInt256.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt256.From
+    | RawHexAbiInt256.From
 
   export function create(value: AbiInt256.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt256.create(value)
-    return RawHexAbiInt256.fromOrThrow(value)
+    return RawHexAbiInt256.create(value)
   }
 
   export function fromOrThrow(value: AbiInt256.From) {
-    return AbiInt256.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt256.fromOrThrow(value)
+    return RawHexAbiInt256.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -8054,7 +7896,7 @@ export class BytesAbiInt256 {
   }
 
   static fromOrThrow(value: BytesAbiInt256.From) {
-    return BytesAbiInt256.create(value)
+    return new BytesAbiInt256(value)
   }
 
   intoOrThrow(): bigint {
@@ -8116,12 +7958,7 @@ export namespace RawHexAbiInt256 {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -8160,15 +7997,19 @@ export class RawHexAbiInt256 {
     return new RawHexAbiInt256(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt256.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt256.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt256(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt256.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt256.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt256.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt256(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt256(value.slice(2) as RawHexString)
     return RawHexAbiInt256.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 

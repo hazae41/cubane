@@ -3,6 +3,7 @@ function $pre$() {
 import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
+import { RawHexAsInteger } from "mods/types/helpers/generic.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
   
 const BN_0 = 0n
@@ -26,27 +27,23 @@ export namespace AbiInt${bits} {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt${bits}.Create
+    | RawHexAbiInt${bits}.Create
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | BytesAbiInt${bits}.From
+    | RawHexAbiInt${bits}.From
 
   export function create(value: AbiInt${bits}.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiInt${bits}.create(value)
-    return RawHexAbiInt${bits}.fromOrThrow(value)
+    return RawHexAbiInt${bits}.create(value)
   }
 
   export function fromOrThrow(value: AbiInt${bits}.From) {
-    return AbiInt${bits}.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiInt${bits}.fromOrThrow(value)
+    return RawHexAbiInt${bits}.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -95,7 +92,7 @@ export class BytesAbiInt${bits} {
   }
 
   static fromOrThrow(value: BytesAbiInt${bits}.From) {
-    return BytesAbiInt${bits}.create(value)
+    return new BytesAbiInt${bits}(value)
   }
 
   intoOrThrow(): bigint {
@@ -157,12 +154,7 @@ export namespace RawHexAbiInt${bits} {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -201,15 +193,19 @@ export class RawHexAbiInt${bits} {
     return new RawHexAbiInt${bits}(value2.toString(16) as RawHexString)
   }
 
+  static fromNumberOrThrow(value: number) {
+    return RawHexAbiInt${bits}.fromBigIntOrThrow(BigInt(value))
+  }
+
   static fromOrThrow(value: RawHexAbiInt${bits}.From) {
     if (value instanceof Uint8Array)
       return new RawHexAbiInt${bits}(Base16.get().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt${bits}.fromBigIntOrThrow(value)
     if (typeof value === "number")
-      return RawHexAbiInt${bits}.fromBigIntOrThrow(BigInt(value))
+      return RawHexAbiInt${bits}.fromNumberOrThrow(value)
     if (ZeroHexString.String.is(value))
-      return new RawHexAbiInt${bits}(RawHexString.fromZeroHex(value))
+      return new RawHexAbiInt${bits}(value.slice(2) as RawHexString)
     return RawHexAbiInt${bits}.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
 

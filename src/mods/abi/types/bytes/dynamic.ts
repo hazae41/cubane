@@ -30,8 +30,8 @@ export namespace AbiBytes {
 
   export function fromOrThrow(value: AbiBytes.From) {
     if (value instanceof Uint8Array)
-      return BytesAbiBytes.create(value)
-    return RawHexAbiBytes.create(RawHexAsInteger.fromOrThrow(value))
+      return BytesAbiBytes.fromOrThrow(value)
+    return RawHexAbiBytes.fromOrThrow(value)
   }
 
   export function codegen() {

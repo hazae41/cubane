@@ -2,8 +2,8 @@ function $pre$() {
   return `import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesInteger, NumberInteger, RawHexInteger } from "mods/types/integer/index.js";
-import { RawHexString, ZeroHexString } from "mods/types/string/index.js";`
+import { BytesAsInteger, NumberAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
+import { RawHexString } from "mods/types/string/index.js";`
 }
 
 $pre$()
@@ -26,18 +26,14 @@ export namespace AbiUint${bits} {
   export const size = 32
 
   export type Create =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | RawHexAbiUint${bits}.Create
+    | BytesAbiUint${bits}.Create
+    ${numberable ? `| NumberAbiUint${bits}.Create` : ``}  
 
   export type From = 
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+    | RawHexAbiUint${bits}.From
+    | BytesAbiUint${bits}.From
+    ${numberable ? `| NumberAbiUint${bits}.From` : ``}
 
   export function create(value: AbiUint${bits}.Create) {
     if (value instanceof Uint8Array)
@@ -45,12 +41,18 @@ export namespace AbiUint${bits} {
     ${numberable ? `if (typeof value === "number")
       return NumberAbiUint${bits}.create(value)
     if (typeof value === "bigint")
-      return NumberAbiUint${bits}.create(Number(value))` : ``}
-    return RawHexAbiUint${bits}.fromOrThrow(value)
+      return NumberAbiUint${bits}.create(value)` : ``}
+    return RawHexAbiUint${bits}.create(value)
   }
 
   export function fromOrThrow(value: AbiUint${bits}.From) {
-    return AbiUint${bits}.create(value)
+    if (value instanceof Uint8Array)
+      return BytesAbiUint${bits}.fromOrThrow(value)
+    ${numberable ? `if (typeof value === "number")
+      return NumberAbiUint${bits}.fromOrThrow(value)
+    if (typeof value === "bigint")
+      return NumberAbiUint${bits}.fromOrThrow(value)` : ``}
+    return RawHexAbiUint${bits}.fromOrThrow(value)
   }
 
   export function codegen() {
@@ -75,12 +77,7 @@ export namespace BytesAbiUint${bits} {
 
   export type Create = Uint8Array
 
-  export type From =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = BytesAsInteger.From
 
 }
 
@@ -108,7 +105,7 @@ export class BytesAbiUint${bits} {
   }
 
   static fromOrThrow(value: BytesAbiUint${bits}.From) {
-    return new BytesAbiUint${bits}(BytesInteger.fromOrThrow(value))
+    return new BytesAbiUint${bits}(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -170,12 +167,7 @@ ${numberable ? `export namespace NumberAbiUint${bits} {
 
   export type Create = number
 
-  export type From =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = NumberAsInteger.From
 
 }
 
@@ -203,7 +195,7 @@ export class NumberAbiUint${bits} {
   }
 
   static fromOrThrow(value: NumberAbiUint${bits}.From) {
-    return new NumberAbiUint${bits}(NumberInteger.fromOrThrow(value))
+    return new NumberAbiUint${bits}(NumberAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
@@ -265,12 +257,7 @@ export namespace RawHexAbiUint${bits} {
 
   export type Create = RawHexString
 
-  export type From =
-    | string 
-    | number 
-    | bigint 
-    | Uint8Array
-    | ZeroHexString
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -298,7 +285,7 @@ export class RawHexAbiUint${bits} {
   }
 
   static fromOrThrow(value: RawHexAbiUint${bits}.From) {
-    return new RawHexAbiUint${bits}(RawHexInteger.fromOrThrow(value))
+    return new RawHexAbiUint${bits}(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): bigint {
