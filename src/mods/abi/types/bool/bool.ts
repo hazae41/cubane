@@ -4,8 +4,11 @@ import { TextCursor } from "libs/cursor/cursor.js";
 export { AbiBool as Bool };
 
 export namespace AbiBool {
+
   export type Create = boolean
+
   export type From = boolean
+
 }
 
 export class AbiBool {
@@ -33,6 +36,9 @@ export class AbiBool {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): boolean {
     return this.value
   }

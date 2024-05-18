@@ -18,8 +18,11 @@ export class InvalidFunctionSelector extends Error {
 }
 
 export namespace AbiFunctionSelector {
+
   export type Create = Uint8Array<4>
+
   export type From = readonly [number, number, number, number]
+
 }
 
 export class AbiFunctionSelector {
@@ -81,8 +84,11 @@ export class AbiFunctionSelector {
 }
 
 export namespace AbiFunctionSelectorAndArguments {
+
   export type Create<T extends readonly AbiFactory[]> = AbiFactory.Instances<T>
+
   export type From<T extends readonly AbiFactory[]> = AbiFactory.Froms<T>
+
 }
 
 export class AbiFunctionSelectorAndArguments {

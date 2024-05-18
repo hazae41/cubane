@@ -89,6 +89,9 @@ export class BytesAbiBytes${bytes} {
     return this.value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return \`0x\${Base16.get().encodeOrThrow(this.value)}\` as ZeroHexString
   }
@@ -181,6 +184,9 @@ export class RawHexAbiBytes${bytes} {
     return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): ZeroHexString {
     return \`0x\${this.value}\` as ZeroHexString
   }

@@ -115,6 +115,9 @@ export class BytesAbiUint${bits} {
     return new RawHexAbiUint${bits}(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiUint${bits}(this.encodePackedOrThrow()).toJSON()
   }
@@ -207,6 +210,9 @@ export class NumberAbiUint${bits} {
     return BigInt(this.value)
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.value.toString()
   }
@@ -298,7 +304,10 @@ export class RawHexAbiUint${bits} {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-
+  
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }

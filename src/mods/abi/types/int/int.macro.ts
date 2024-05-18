@@ -102,6 +102,9 @@ export class BytesAbiInt${bits} {
     return new RawHexAbiInt${bits}(this.encodePackedOrThrow()).intoOrThrow()
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return new RawHexAbiInt${bits}(this.encodePackedOrThrow()).toJSON()
   }
@@ -220,6 +223,9 @@ export class RawHexAbiInt${bits} {
     return value
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): string {
     return this.intoOrThrow().toString()
   }

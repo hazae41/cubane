@@ -3,8 +3,7 @@ import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Address } from "mods/types/address/index.js";
 import { RawHexString } from "mods/types/string/index.js";
-import { WrappedBytes } from "mods/types/wrapped/bytes.js";
-import { BytesAsInteger, RawHexAsInteger, Wrapped } from "mods/types/wrapped/generic.js";
+import { BytesAsInteger, RawHexAsInteger } from "mods/types/wrapped/generic.js";
 
 export { AbiAddress as Address, BytesAbiAddress as BytesAddress, RawHexAbiAddress as RawHexAddress };
 
@@ -16,14 +15,24 @@ export namespace AbiAddress {
   export const dynamic = false
   export const size = 32
 
-  export type From = Wrapped.From
+  export type Create =
+    | BytesAbiAddress.Create
+    | RawHexAbiAddress.Create
+
+  export type From =
+    | BytesAsInteger.From
+    | RawHexAsInteger.From
+
+  export function create(value: AbiAddress.Create) {
+    if (value instanceof Uint8Array)
+      return BytesAbiAddress.create(value)
+    return RawHexAbiAddress.create(value)
+  }
 
   export function fromOrThrow(value: AbiAddress.From) {
-    if (value instanceof Wrapped === false)
-      return fromOrThrow(Wrapped.fromOrThrow(value))
-    if (value instanceof WrappedBytes)
-      return BytesAbiAddress.create(value.value)
-    return RawHexAbiAddress.create(value.toRawHexAsIntegerOrThrow())
+    if (value instanceof Uint8Array)
+      return BytesAbiAddress.create(value)
+    return RawHexAbiAddress.create(RawHexAsInteger.fromOrThrow(value))
   }
 
   export function codegen() {
@@ -44,7 +53,7 @@ export namespace BytesAbiAddress {
 
   export type Create = Uint8Array
 
-  export type From = Wrapped.From
+  export type From = BytesAsInteger.From
 
 }
 
@@ -73,6 +82,9 @@ export class BytesAbiAddress {
     return Address.checksumOrThrow(Base16.get().encodeOrThrow(this.value) as RawHexString)
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): Address {
     return this.intoOrThrow()
   }
@@ -112,7 +124,7 @@ export namespace RawHexAbiAddress {
 
   export type Create = RawHexString
 
-  export type From = Wrapped.From
+  export type From = RawHexAsInteger.From
 
 }
 
@@ -141,6 +153,9 @@ export class RawHexAbiAddress {
     return Address.checksumOrThrow(this.value)
   }
 
+  /**
+   * @deprecated
+   */
   toJSON(): Address {
     return this.intoOrThrow()
   }

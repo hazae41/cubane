@@ -1,79 +1,37 @@
+import { Base16 } from "@hazae41/base16"
+import { Bytes } from "@hazae41/bytes"
+import { BigInts } from "libs/bigint/bigint.js"
+import { Numbers } from "libs/number/number.js"
 import { RawHexString, ZeroHexString } from "../string/index.js"
-import { WrappedBigInt } from "./bigint.js"
-import { WrappedBytes } from "./bytes.js"
-import { WrappedNumber } from "./number.js"
-import { WrappedString, WrappedZeroHexString } from "./string.js"
-
-export namespace Wrapped {
-
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | Wrapped<unknown>
-
-}
-
-export abstract class Wrapped<T> {
-  abstract readonly value: T
-
-  abstract toBigIntAsIntegerOrThrow(): bigint
-  abstract toWrappedBigIntAsIntegerOrThrow(): Wrapped<bigint>
-
-  abstract toNumberAsIntegerOrThrow(): number
-  abstract toWrappedNumberAsIntegerOrThrow(): Wrapped<number>
-
-  abstract toZeroHexAsIntegerOrThrow(): ZeroHexString
-  abstract toWrappedZeroHexAsIntegerOrThrow(): Wrapped<ZeroHexString>
-
-  abstract toBytesAsIntegerOrThrow(): Uint8Array
-  abstract toWrappedBytesAsIntegerOrThrow(): Wrapped<Uint8Array>
-
-  abstract toStringAsIntegerOrThrow(): string
-  abstract toWrappedStringAsIntegerOrThrow(): Wrapped<string>
-
-  abstract toRawHexAsIntegerOrThrow(): RawHexString
-  abstract toWrappedRawHexAsIntegerOrThrow(): Wrapped<RawHexString>
-
-  abstract toBytesAsUtf8OrThrow(): Uint8Array
-  abstract toWrappedBytesAsUtf8OrThrow(): Wrapped<Uint8Array>
-
-  abstract toZeroHexAsUtf8OrThrow(): ZeroHexString
-  abstract toWrappedZeroHexAsUtf8OrThrow(): Wrapped<ZeroHexString>
-
-  abstract toRawHexAsUtf8OrThrow(): RawHexString
-  abstract toWrappedRawHexAsUtf8OrThrow(): Wrapped<RawHexString>
-
-  static fromOrThrow(value: Wrapped.From) {
-    if (value instanceof Wrapped)
-      return value
-    if (value instanceof Uint8Array)
-      return new WrappedBytes(value)
-    if (typeof value === "bigint")
-      return new WrappedBigInt(value)
-    if (typeof value === "number")
-      return new WrappedNumber(value)
-    if (ZeroHexString.String.is(value))
-      return new WrappedZeroHexString(value)
-    return new WrappedString(value)
-  }
-
-}
 
 /**
  * Decode an utf-8 string-like to a zero-hex string
  */
 export namespace ZeroHexAsUtf8 {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toWrappedZeroHexAsUtf8OrThrow()
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return value
   }
 
-  export function fromOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toZeroHexAsUtf8OrThrow()
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return `0x${Base16.get().encodeOrThrow(value)}` as ZeroHexString
+  }
+
+  export function fromStringOrThrow(value: string) {
+    return `0x${Base16.get().encodeOrThrow(Bytes.fromUtf8(value))}` as ZeroHexString
+  }
+
+  export function fromOrThrow(value: From): ZeroHexString {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
   }
 
 }
@@ -83,14 +41,29 @@ export namespace ZeroHexAsUtf8 {
  */
 export namespace RawHexAsUtf8 {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toWrappedRawHexAsUtf8OrThrow()
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return value.slice(2) as RawHexString
   }
 
-  export function fromOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toRawHexAsUtf8OrThrow()
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return Base16.get().encodeOrThrow(value) as RawHexString
+  }
+
+  export function fromStringOrThrow(value: string) {
+    return Base16.get().encodeOrThrow(Bytes.fromUtf8(value)) as RawHexString
+  }
+
+  export function fromOrThrow(value: From): RawHexString {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
   }
 
 }
@@ -100,14 +73,61 @@ export namespace RawHexAsUtf8 {
  */
 export namespace BytesAsUtf8 {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toWrappedBytesAsUtf8OrThrow()
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return value
+  }
+
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose()
+  }
+
+  export function fromStringOrThrow(value: string) {
+    return Bytes.fromUtf8(value)
   }
 
   export function fromOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toBytesAsUtf8OrThrow()
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
+  }
+
+}
+
+/**
+ * Decode an utf-8 string-like to a string
+ */
+export namespace StringAsUtf8 {
+
+  export type From =
+    | string
+    | Uint8Array
+    | ZeroHexString
+
+  export function fromStringOrThrow(value: string) {
+    return value
+  }
+
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return Bytes.toUtf8(value)
+  }
+
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return Bytes.toUtf8(Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose())
+  }
+
+  export function fromOrThrow(from: From) {
+    if (from instanceof Uint8Array)
+      return fromBytesOrThrow(from)
+    if (ZeroHexString.String.is(from))
+      return fromZeroHexOrThrow(from)
+    return fromStringOrThrow(from)
   }
 
 }
@@ -117,14 +137,43 @@ export namespace BytesAsUtf8 {
  */
 export namespace BigIntAsInteger {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | bigint
+    | number
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toWrappedBigIntAsIntegerOrThrow()
+  export function fromBigIntOrThrow(value: bigint) {
+    return value
+  }
+
+  export function fromNumberOrThrow(value: number) {
+    return BigInt(value)
+  }
+
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return BigInts.decodeZeroHex(value)
+  }
+
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return BigInts.decodeRawHex(Base16.get().encodeOrThrow(value))
+  }
+
+  export function fromStringOrThrow(value: string) {
+    return BigInts.decodeDecimal(value)
   }
 
   export function fromOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toBigIntAsIntegerOrThrow()
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
   }
 
 }
@@ -134,14 +183,43 @@ export namespace BigIntAsInteger {
  */
 export namespace NumberAsInteger {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | bigint
+    | number
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toWrappedNumberAsIntegerOrThrow()
+  export function fromNumberOrThrow(value: number) {
+    return value
+  }
+
+  export function fromBigIntOrThrow(value: bigint) {
+    return Number(value)
+  }
+
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return Numbers.decodeZeroHex(value)
+  }
+
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return Numbers.decodeRawHex(Base16.get().encodeOrThrow(value))
+  }
+
+  export function fromStringOrThrow(value: string) {
+    return Numbers.decodeDecimal(value)
   }
 
   export function fromOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toNumberAsIntegerOrThrow()
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
   }
 
 }
@@ -151,14 +229,43 @@ export namespace NumberAsInteger {
  */
 export namespace ZeroHexAsInteger {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | bigint
+    | number
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toWrappedZeroHexAsIntegerOrThrow()
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return value
   }
 
-  export function fromOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toZeroHexAsIntegerOrThrow()
+  export function fromBigIntOrThrow(value: bigint) {
+    return `0x${value.toString(16)}` as ZeroHexString
+  }
+
+  export function fromNumberOrThrow(value: number) {
+    return `0x${value.toString(16)}` as ZeroHexString
+  }
+
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return `0x${Base16.get().encodeOrThrow(value)}` as ZeroHexString
+  }
+
+  export function fromStringOrThrow(value: string) {
+    return `0x${BigInts.decodeDecimal(value).toString(16)}` as ZeroHexString
+  }
+
+  export function fromOrThrow(value: From) {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
   }
 
 }
@@ -168,14 +275,43 @@ export namespace ZeroHexAsInteger {
  */
 export namespace RawHexAsInteger {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | bigint
+    | number
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toWrappedRawHexAsIntegerOrThrow()
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return value.slice(2) as RawHexString
   }
 
-  export function fromOrThrow(from: From) {
-    return Wrapped.fromOrThrow(from).toRawHexAsIntegerOrThrow()
+  export function fromBigIntOrThrow(value: bigint) {
+    return value.toString(16) as RawHexString
+  }
+
+  export function fromNumberOrThrow(value: number) {
+    return value.toString(16) as RawHexString
+  }
+
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return Base16.get().encodeOrThrow(value) as RawHexString
+  }
+
+  export function fromStringOrThrow(value: string) {
+    return BigInts.decodeDecimal(value).toString(16) as RawHexString
+  }
+
+  export function fromOrThrow(value: From) {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
   }
 
 }
@@ -185,31 +321,89 @@ export namespace RawHexAsInteger {
  */
 export namespace BytesAsInteger {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | bigint
+    | number
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toWrappedBytesAsIntegerOrThrow()
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return value
+  }
+
+  export function fromBigIntOrThrow(value: bigint) {
+    return Base16.get().padStartAndDecodeOrThrow(value.toString(16)).copyAndDispose()
+  }
+
+  export function fromNumberOrThrow(value: number) {
+    return Base16.get().padStartAndDecodeOrThrow(value.toString(16)).copyAndDispose()
+  }
+
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose()
+  }
+
+  export function fromStringOrThrow(value: string) {
+    return Base16.get().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16)).copyAndDispose()
   }
 
   export function fromOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toBytesAsIntegerOrThrow()
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
   }
 
 }
 
 /**
- * Convert an integer-like to a decimal string
+ * Convert an integer-like to a string
  */
 export namespace StringAsInteger {
 
-  export type From = Wrapped.From
+  export type From =
+    | string
+    | bigint
+    | number
+    | Uint8Array
+    | ZeroHexString
 
-  export function fromAndWrapOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toWrappedStringAsIntegerOrThrow()
+  export function fromStringOrThrow(value: string) {
+    return value
+  }
+
+  export function fromBigIntOrThrow(value: bigint) {
+    return value.toString()
+  }
+
+  export function fromNumberOrThrow(value: number) {
+    return value.toString()
+  }
+
+  export function fromZeroHexOrThrow(value: ZeroHexString) {
+    return BigInts.decodeZeroHex(value).toString()
+  }
+
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return BigInts.decodeRawHex(Base16.get().encodeOrThrow(value)).toString()
   }
 
   export function fromOrThrow(value: From) {
-    return Wrapped.fromOrThrow(value).toStringAsIntegerOrThrow()
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.String.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
   }
 
 }
