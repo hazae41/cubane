@@ -19,8 +19,8 @@ export namespace AbiBytes {
     | RawHexAbiBytes.Create
 
   export type From =
-    | BytesAsInteger.From
-    | RawHexAsInteger.From
+    | BytesAbiBytes.From
+    | RawHexAbiBytes.From
 
   export function create(value: AbiBytes.Create) {
     if (value instanceof Uint8Array)

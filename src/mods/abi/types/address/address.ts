@@ -20,8 +20,8 @@ export namespace AbiAddress {
     | RawHexAbiAddress.Create
 
   export type From =
-    | BytesAsInteger.From
-    | RawHexAsInteger.From
+    | BytesAbiAddress.From
+    | RawHexAbiAddress.From
 
   export function create(value: AbiAddress.Create) {
     if (value instanceof Uint8Array)
