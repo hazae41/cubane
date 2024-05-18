@@ -106,7 +106,7 @@ test("recursion", async () => {
     '0000000000000000000000000000000000000000000000000000000000000020' + // first array element (acts as ptr to array itself)
     '0000000000000000000000000000000000000000000000000000000000000020'; // second array element
 
-  assert(throws(() => decodeOrThrow(signature.args, `0x${payload}`)))
+  assert(throws(() => decodeOrThrow(signature.args, `0x${payload}` as ZeroHexString)))
 })
 
 test("ZST array", async () => {
@@ -118,7 +118,7 @@ test("ZST vector", async () => {
 
   const payload = "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000FFFFFFFF"
 
-  assert(throws(() => decodeOrThrow(signature.args, `0x${payload}`)))
+  assert(throws(() => decodeOrThrow(signature.args, `0x${payload}` as ZeroHexString)))
 })
 
 test("more bugs", async () => {

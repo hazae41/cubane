@@ -20,7 +20,7 @@ export class EncodeError extends Error {
 }
 
 export function encodeOrThrow(encodable: Encodable): ZeroHexString {
-  return `0x${encodable.encodeOrThrow()}`
+  return `0x${encodable.encodeOrThrow()}` as ZeroHexString
 }
 
 export function tryEncode(encodable: Encodable): Result<ZeroHexString, EncodeError> {

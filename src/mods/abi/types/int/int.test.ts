@@ -11,7 +11,7 @@ Keccak256.set(await Keccak256.fromMorax())
 
 test("int32", async ({ message, test }) => {
   const value = -123n * (Math.random() > 0.5 ? 1n : -1n)
-  const abi = Int32.create(value)
+  const abi = Int32.fromOrThrow(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   // console.log(message, value)
@@ -28,7 +28,7 @@ test("int32", async ({ message, test }) => {
 test("int256", async ({ message, test }) => {
   const random = Bytes.random(31)
   const value = BigInts.importOrThrow(random) * (Math.random() > 0.5 ? 1n : -1n)
-  const abi = Int256.create(value)
+  const abi = Int256.fromOrThrow(value)
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   // console.log(message, value)

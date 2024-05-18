@@ -1,6 +1,6 @@
 import { Base16 } from "@hazae41/base16";
 import { BytesOrCopiable, Copiable } from "@hazae41/box";
-import { ZeroHexString } from "mods/types/helpers/string.js";
+import { ZeroHexString } from "mods/types/string/index.js";
 
 export namespace Numbers {
 
@@ -17,7 +17,7 @@ export namespace Numbers {
   }
 
   export function encodeZeroHex(value: number): ZeroHexString {
-    return `0x${encodeRawHex(value)}`
+    return `0x${encodeRawHex(value)}` as ZeroHexString
   }
 
   export function decodeZeroHex(value: ZeroHexString): number {
