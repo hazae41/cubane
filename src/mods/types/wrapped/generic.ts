@@ -42,6 +42,9 @@ export abstract class Wrapped<T> {
   abstract toZeroHexAsUtf8OrThrow(): ZeroHexString
   abstract toWrappedZeroHexAsUtf8OrThrow(): Wrapped<ZeroHexString>
 
+  abstract toRawHexAsUtf8OrThrow(): RawHexString
+  abstract toWrappedRawHexAsUtf8OrThrow(): Wrapped<RawHexString>
+
   static fromOrThrow(value: Wrapped.From) {
     if (value instanceof Wrapped)
       return value
@@ -71,6 +74,23 @@ export namespace ZeroHexAsUtf8 {
 
   export function fromOrThrow(from: From) {
     return Wrapped.fromOrThrow(from).toZeroHexAsUtf8OrThrow()
+  }
+
+}
+
+/**
+ * Decode an utf-8 string-like to a raw-hex string
+ */
+export namespace RawHexAsUtf8 {
+
+  export type From = Wrapped.From
+
+  export function fromAndWrapOrThrow(from: From) {
+    return Wrapped.fromOrThrow(from).toWrappedRawHexAsUtf8OrThrow()
+  }
+
+  export function fromOrThrow(from: From) {
+    return Wrapped.fromOrThrow(from).toRawHexAsUtf8OrThrow()
   }
 
 }

@@ -2,7 +2,9 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Address } from "mods/types/address/index.js";
-import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
+import { RawHexString } from "mods/types/string/index.js";
+import { WrappedBytes } from "mods/types/wrapped/bytes.js";
+import { BytesAsInteger, RawHexAsInteger, Wrapped } from "mods/types/wrapped/generic.js";
 
 export { AbiAddress as Address, BytesAbiAddress as BytesAddress, RawHexAbiAddress as RawHexAddress };
 
@@ -14,22 +16,14 @@ export namespace AbiAddress {
   export const dynamic = false
   export const size = 32
 
-  export type Create =
-    | Uint8Array
-    | ZeroHexString
-
-  export type From =
-    | Uint8Array
-    | ZeroHexString
-
-  export function create(value: AbiAddress.Create) {
-    if (value instanceof Uint8Array)
-      return BytesAbiAddress.create(value)
-    return RawHexAbiAddress.fromZeroHexOrThrow(value)
-  }
+  export type From = Wrapped.From
 
   export function fromOrThrow(value: AbiAddress.From) {
-    return AbiAddress.create(value)
+    if (value instanceof Wrapped === false)
+      return fromOrThrow(Wrapped.fromOrThrow(value))
+    if (value instanceof WrappedBytes)
+      return BytesAbiAddress.create(value.value)
+    return RawHexAbiAddress.create(value.toRawHexAsIntegerOrThrow())
   }
 
   export function codegen() {
@@ -50,9 +44,7 @@ export namespace BytesAbiAddress {
 
   export type Create = Uint8Array
 
-  export type From =
-    | Uint8Array
-    | ZeroHexString
+  export type From = Wrapped.From
 
 }
 
@@ -73,18 +65,12 @@ export class BytesAbiAddress {
     return new BytesAbiAddress(value)
   }
 
-  static fromZeroHexOrThrow(value: ZeroHexString) {
-    return new BytesAbiAddress(Base16.get().padStartAndDecodeOrThrow(value).copyAndDispose())
-  }
-
   static fromOrThrow(value: BytesAbiAddress.From) {
-    if (value instanceof Uint8Array)
-      return new BytesAbiAddress(value)
-    return BytesAbiAddress.fromZeroHexOrThrow(value)
+    return new BytesAbiAddress(BytesAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Address {
-    return Address.fromBytesOrThrow(this.value)
+    return Address.checksumOrThrow(Base16.get().encodeOrThrow(this.value) as RawHexString)
   }
 
   toJSON(): Address {
@@ -126,9 +112,7 @@ export namespace RawHexAbiAddress {
 
   export type Create = RawHexString
 
-  export type From =
-    | Uint8Array
-    | ZeroHexString
+  export type From = Wrapped.From
 
 }
 
@@ -149,22 +133,12 @@ export class RawHexAbiAddress {
     return new RawHexAbiAddress(value)
   }
 
-  static fromBytesOrThrow(value: Uint8Array) {
-    return new RawHexAbiAddress(Base16.get().encodeOrThrow(value))
-  }
-
-  static fromZeroHexOrThrow(value: ZeroHexString) {
-    return new RawHexAbiAddress(value.slice(2))
-  }
-
   static fromOrThrow(value: RawHexAbiAddress.From) {
-    if (value instanceof Uint8Array)
-      return RawHexAbiAddress.fromBytesOrThrow(value)
-    return RawHexAbiAddress.fromZeroHexOrThrow(value)
+    return new RawHexAbiAddress(RawHexAsInteger.fromOrThrow(value))
   }
 
   intoOrThrow(): Address {
-    return Address.fromRawHexOrThrow(this.value)
+    return Address.checksumOrThrow(this.value)
   }
 
   toJSON(): Address {

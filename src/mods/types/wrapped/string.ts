@@ -80,6 +80,14 @@ export class WrappedZeroHexString extends Wrapped<ZeroHexString> {
     return this
   }
 
+  toRawHexAsUtf8OrThrow() {
+    return this.value.slice(2) as RawHexString
+  }
+
+  toWrappedRawHexAsUtf8OrThrow() {
+    return new WrappedRawHexString(this.toRawHexAsUtf8OrThrow())
+  }
+
 }
 
 export class WrappedRawHexString extends Wrapped<string> {
@@ -154,6 +162,14 @@ export class WrappedRawHexString extends Wrapped<string> {
     return new WrappedZeroHexString(this.toZeroHexAsUtf8OrThrow())
   }
 
+  toRawHexAsUtf8OrThrow() {
+    return this.value
+  }
+
+  toWrappedRawHexAsUtf8OrThrow() {
+    return this
+  }
+
 }
 
 export class WrappedString extends Wrapped<string> {
@@ -226,6 +242,14 @@ export class WrappedString extends Wrapped<string> {
 
   toWrappedZeroHexAsUtf8OrThrow() {
     return new WrappedZeroHexString(this.toZeroHexAsUtf8OrThrow())
+  }
+
+  toRawHexAsUtf8OrThrow() {
+    return Base16.get().encodeOrThrow(Bytes.fromUtf8(this.value)) as RawHexString
+  }
+
+  toWrappedRawHexAsUtf8OrThrow() {
+    return new WrappedRawHexString(this.toRawHexAsUtf8OrThrow())
   }
 
 }

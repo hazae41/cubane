@@ -80,4 +80,12 @@ export class WrappedNumber extends Wrapped<number> {
     return new WrappedZeroHexString(this.toZeroHexAsUtf8OrThrow())
   }
 
+  toRawHexAsUtf8OrThrow() {
+    return Base16.get().encodeOrThrow(Bytes.fromUtf8(this.value.toString())) as RawHexString
+  }
+
+  toWrappedRawHexAsUtf8OrThrow() {
+    return new WrappedRawHexString(this.toRawHexAsUtf8OrThrow())
+  }
+
 }

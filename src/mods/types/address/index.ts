@@ -40,7 +40,7 @@ export namespace Address {
 
   }
 
-  function checksumOrThrow(raw: RawHexString) {
+  export function checksumOrThrow(raw: RawHexString) {
     const lowerCase = raw.toLowerCase()
     const upperCase = raw.toUpperCase()
 
@@ -62,6 +62,10 @@ export namespace Address {
     }
 
     return address as Address
+  }
+
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return checksumOrThrow(Base16.get().encodeOrThrow(value) as RawHexString)
   }
 
   export function fromOrThrow(from: Address.From): Address {
