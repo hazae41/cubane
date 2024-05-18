@@ -64,10 +64,6 @@ export namespace Address {
     return address as Address
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
-    return checksumOrThrow(Base16.get().encodeOrThrow(value) as RawHexString)
-  }
-
   export function fromOrThrow(from: Address.From): Address {
     return checksumOrThrow(RawHexAsInteger.fromOrThrow(from))
   }
