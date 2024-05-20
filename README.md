@@ -78,12 +78,14 @@ See https://github.com/hazae41/symbol-dispose-polyfill for more
 
 You can bring your own implementation for some algorithms
 
-#### Keccak256 (mandatory)
+#### Keccak256 (required)
 
-Morax includes a fast WebAssembly port of Keccak256
+Noble-hashes includes a small implementation of Keccak256
+
+https://github.com/paulmillr/noble-hashes
 
 ```bash
-npm i @hazae41/morax
+npm i @noble/hashes
 ```
 
 `keccak256.ts`
@@ -91,17 +93,37 @@ npm i @hazae41/morax
 ```typescript
 import { Keccak256 } from "@hazae41/keccak256"
 
-Keccak256.set(await Keccak256.fromMorax())
+Keccak256.set(await Keccak256.fromNoble())
 ```
 
 See https://github.com/hazae41/keccak256 for more
 
-#### Base16 (optional)
+#### Secp256k1 (recommended)
 
-Alocer includes a fast WebAssembly port of Base16
+Noble-curves includes a small implementation of Secp256k1
+
+https://github.com/paulmillr/noble-curves
 
 ```bash
-npm i @hazae41/alocer
+npm i @noble/curves
+```
+
+`secp256k1.ts`
+
+```typescript
+import { Secp256k1 } from "@hazae41/secp256k1"
+
+Secp256k1.set(await Secp256k1.fromNoble())
+```
+
+See https://github.com/hazae41/secp256k1 for more
+
+#### Base16 (optional)
+
+Scure-base includes a small implementation of Base16
+
+```bash
+npm i @scure/base
 ```
 
 `base16.ts`
@@ -109,7 +131,7 @@ npm i @hazae41/alocer
 ```typescript
 import { Base16 } from "@hazae41/base16"
 
-Base16.set(await Base16.fromBufferOrAlocer())
+Base16.set(await Base16.fromBufferOrScure())
 ```
 
 See https://github.com/hazae41/base16 for more
