@@ -243,7 +243,9 @@ const bytes = Writable.writeToBytesOrThrow(catAndDog)
 const hex = "0x" + Base16.get().encodeOrThrow(bytes)
 ```
 
-### Signing
+### Signatures
+
+#### Signing personal message
 
 ```tsx
 import { Bytes } from "@hazae41/bytes"
@@ -261,7 +263,7 @@ const signatureBytes = signatureExt.value.exportOrThrow().copyAndDispose()
 const signatureZeroHex = `0x${Base16.get().encodeOrThrow(signatureBytes)}`
 ```
 
-### Recovery
+#### Recovering personal message
 
 ```tsx
 import { ExtPublicKey, Address } from "@hazae41/cubane"
