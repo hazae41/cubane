@@ -262,7 +262,9 @@ export namespace WasmSignature {
 
   export type Create = Secp256k1.SignatureAndRecovery
 
-  export type From = Secp256k1.SignatureAndRecovery
+  export type From =
+    | WasmSignature
+    | Secp256k1.SignatureAndRecovery
 
 }
 
@@ -277,6 +279,8 @@ export class WasmSignature {
   }
 
   static fromOrThrow(value: WasmSignature.From): WasmSignature {
+    if (value instanceof WasmSignature)
+      return value
     return new WasmSignature(value)
   }
 
