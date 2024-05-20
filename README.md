@@ -78,7 +78,7 @@ See https://github.com/hazae41/symbol-dispose-polyfill for more
 
 You can bring your own implementation for some algorithms
 
-#### Keccak256 (required)
+#### Keccak256 (required for almost everything)
 
 Noble-hashes includes a small implementation of Keccak256
 
@@ -98,7 +98,7 @@ Keccak256.set(await Keccak256.fromNoble())
 
 See https://github.com/hazae41/keccak256 for more
 
-#### Secp256k1 (recommended)
+#### Secp256k1 (required for signatures)
 
 Noble-curves includes a small implementation of Secp256k1
 
@@ -121,6 +121,8 @@ See https://github.com/hazae41/secp256k1 for more
 #### Base16 (optional)
 
 Scure-base includes a small implementation of Base16
+
+https://github.com/paulmillr/scure-base
 
 ```bash
 npm i @scure/base
