@@ -59,8 +59,38 @@ export class WasmPublicKey {
     using hash = Keccak256.get().hashOrThrow(tmessage)
     using recovered = Secp256k1.get().PublicKey.recoverOrThrow(hash, tsignature.value)
 
-    using left = this.value.exportCompressedOrThrow()
-    using right = recovered.exportCompressedOrThrow()
+    using left = this.value.exportUncompressedOrThrow()
+    using right = recovered.exportUncompressedOrThrow()
+
+    return Bytes.equals(left.bytes, right.bytes)
+  }
+
+  static recoverPersonalMessageOrThrow(message: BytesAsUtf8.From, signature: WasmSignature.From) {
+    const tmessage = BytesAsUtf8.fromOrThrow(message)
+    const tsignature = WasmSignature.fromOrThrow(signature)
+
+    const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + tmessage.length.toString())
+    const concat = Bytes.concat([prefix, tmessage])
+
+    using hash = Keccak256.get().hashOrThrow(concat)
+
+    const inner = Secp256k1.get().PublicKey.recoverOrThrow(hash, tsignature.value)
+
+    return new WasmPublicKey(inner)
+  }
+
+  verifyPersonalMessageOrThrow(message: BytesAsUtf8.From, signature: WasmSignature.From) {
+    const tmessage = BytesAsUtf8.fromOrThrow(message)
+    const tsignature = WasmSignature.fromOrThrow(signature)
+
+    const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + tmessage.length.toString())
+    const concat = Bytes.concat([prefix, tmessage])
+
+    using hash = Keccak256.get().hashOrThrow(concat)
+    using recovered = Secp256k1.get().PublicKey.recoverOrThrow(hash, tsignature.value)
+
+    using left = this.value.exportUncompressedOrThrow()
+    using right = recovered.exportUncompressedOrThrow()
 
     return Bytes.equals(left.bytes, right.bytes)
   }

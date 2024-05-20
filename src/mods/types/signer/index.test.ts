@@ -6,7 +6,8 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test } from "@hazae41/phobos";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { ethers } from "ethers";
-import { WasmPrivateKey } from "./index.js";
+import { Address } from "../address/index.js";
+import { WasmPrivateKey, WasmPublicKey } from "./index.js";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
@@ -32,14 +33,20 @@ test("wasm sign personal message", async ({ }) => {
   const ethersWallet = new ethers.Wallet(ethersSigningKey)
   const ethersSignatureZeroHex = await ethersWallet.signMessage(message)
 
-  const signer = new WasmPrivateKey(Secp256k1.get().PrivateKey.importOrThrow(privateKey))
-  const signature = signer.signPersonalMessageOrThrow(message).value.exportOrThrow().copyAndDispose()
-  const signatureZeroHex = `0x${Base16.get().encodeOrThrow(signature)}`
+  const privateKeyWasm = new WasmPrivateKey(Secp256k1.get().PrivateKey.importOrThrow(privateKey))
 
-  /**
-   * Ignore recovery part
-   */
+  const signatureWasm = privateKeyWasm.signPersonalMessageOrThrow(message)
+  const signatureBytes = signatureWasm.value.exportOrThrow().copyAndDispose()
+  const signatureZeroHex = `0x${Base16.get().encodeOrThrow(signatureBytes)}`
+
+  /* Ignore recovery part */
   assert(ethersSignatureZeroHex.slice(0, -2) === signatureZeroHex.slice(0, -2))
 
   assert(ethersWallet.address === ethers.verifyMessage(message, signatureZeroHex))
+
+  const recoveredPublicKeyWasm = WasmPublicKey.recoverPersonalMessageOrThrow(message, signatureWasm)
+  const recoveredPublicKeyBytes = recoveredPublicKeyWasm.value.exportUncompressedOrThrow().copyAndDispose()
+  const recoveredAddressZeroHex = Address.computeOrThrow(recoveredPublicKeyBytes)
+
+  assert(ethersWallet.address === recoveredAddressZeroHex)
 })
