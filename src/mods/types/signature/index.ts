@@ -8,7 +8,7 @@ export type Signature =
   | RsvSignature
   | ZeroHexSignature
   | BytesSignature
-  | WasmSignature
+  | ExtSignature
 
 export namespace Signature {
 
@@ -22,7 +22,7 @@ export namespace Signature {
     | RsvSignature
     | ZeroHexSignature
     | BytesSignature
-    | WasmSignature
+    | ExtSignature
     | RsvSignatureInit
     | ZeroHexString
     | Uint8Array
@@ -30,7 +30,7 @@ export namespace Signature {
 
   export function create(value: Create): Signature {
     if (value instanceof Secp256k1.SignatureAndRecovery)
-      return new WasmSignature(value)
+      return new ExtSignature(value)
     if (value instanceof Uint8Array)
       return new BytesSignature(value)
     if (typeof value === "string")
@@ -45,7 +45,7 @@ export namespace Signature {
       return value
     if (value instanceof BytesSignature)
       return value
-    if (value instanceof WasmSignature)
+    if (value instanceof ExtSignature)
       return value
     return create(value)
   }
@@ -66,7 +66,7 @@ export namespace RsvSignature {
     | RsvSignature
     | ZeroHexSignature
     | BytesSignature
-    | WasmSignature
+    | ExtSignature
     | RsvSignatureInit
     | ZeroHexString
     | Uint8Array
@@ -93,7 +93,7 @@ export class RsvSignature {
       return RsvSignature.fromOrThrow(from.value)
     if (from instanceof BytesSignature)
       return RsvSignature.fromOrThrow(from.value)
-    if (from instanceof WasmSignature)
+    if (from instanceof ExtSignature)
       return RsvSignature.fromOrThrow(from.value)
 
     if (from instanceof Secp256k1.SignatureAndRecovery) {
@@ -143,7 +143,7 @@ export namespace ZeroHexSignature {
     | RsvSignature
     | ZeroHexSignature
     | BytesSignature
-    | WasmSignature
+    | ExtSignature
     | RsvSignatureInit
     | ZeroHexString
     | Uint8Array
@@ -168,7 +168,7 @@ export class ZeroHexSignature {
       return from
     if (from instanceof BytesSignature)
       return ZeroHexSignature.fromOrThrow(from.value)
-    if (from instanceof WasmSignature)
+    if (from instanceof ExtSignature)
       return ZeroHexSignature.fromOrThrow(from.value)
 
     if (from instanceof Secp256k1.SignatureAndRecovery) {
@@ -210,7 +210,7 @@ export namespace BytesSignature {
     | RsvSignature
     | ZeroHexSignature
     | BytesSignature
-    | WasmSignature
+    | ExtSignature
     | RsvSignatureInit
     | ZeroHexString
     | Uint8Array
@@ -235,7 +235,7 @@ export class BytesSignature {
       return BytesSignature.fromOrThrow(from.value)
     if (from instanceof BytesSignature)
       return from
-    if (from instanceof WasmSignature)
+    if (from instanceof ExtSignature)
       return BytesSignature.fromOrThrow(from.value)
 
     if (from instanceof Secp256k1.SignatureAndRecovery)
@@ -258,30 +258,30 @@ export class BytesSignature {
 
 }
 
-export namespace WasmSignature {
+export namespace ExtSignature {
 
   export type Create = Secp256k1.SignatureAndRecovery
 
   export type From =
-    | WasmSignature
+    | ExtSignature
     | Secp256k1.SignatureAndRecovery
 
 }
 
-export class WasmSignature {
+export class ExtSignature {
 
   constructor(
     readonly value: Secp256k1.SignatureAndRecovery
   ) { }
 
-  static create(value: WasmSignature.Create): WasmSignature {
-    return new WasmSignature(value)
+  static create(value: ExtSignature.Create): ExtSignature {
+    return new ExtSignature(value)
   }
 
-  static fromOrThrow(value: WasmSignature.From): WasmSignature {
-    if (value instanceof WasmSignature)
+  static fromOrThrow(value: ExtSignature.From): ExtSignature {
+    if (value instanceof ExtSignature)
       return value
-    return new WasmSignature(value)
+    return new ExtSignature(value)
   }
 
 }

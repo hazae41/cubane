@@ -7,14 +7,14 @@ import { assert, test } from "@hazae41/phobos";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { ethers } from "ethers";
 import { Address } from "../address/index.js";
-import { WasmPrivateKey, WasmPublicKey } from "./index.js";
+import { ExtPrivateKey, ExtPublicKey } from "./index.js";
 
 Base16.set(await Base16.fromBufferOrAlocer())
 Keccak256.set(await Keccak256.fromMorax())
 Secp256k1.set(await Secp256k1.fromEligos())
 
 test("wasm sign unsafe message", async ({ }) => {
-  const signer = new WasmPrivateKey(Secp256k1.get().PrivateKey.randomOrThrow())
+  const signer = new ExtPrivateKey(Secp256k1.get().PrivateKey.randomOrThrow())
   const identity = signer.getPublicKeyOrThrow()
 
   const message = "hello world"
@@ -33,7 +33,7 @@ test("wasm sign personal message", async ({ }) => {
   const ethersWallet = new ethers.Wallet(ethersSigningKey)
   const ethersSignatureZeroHex = await ethersWallet.signMessage(message)
 
-  const privateKeyWasm = new WasmPrivateKey(Secp256k1.get().PrivateKey.importOrThrow(privateKey))
+  const privateKeyWasm = new ExtPrivateKey(Secp256k1.get().PrivateKey.importOrThrow(privateKey))
 
   const signatureWasm = privateKeyWasm.signPersonalMessageOrThrow(message)
   const signatureBytes = signatureWasm.value.exportOrThrow().copyAndDispose()
@@ -44,7 +44,7 @@ test("wasm sign personal message", async ({ }) => {
 
   assert(ethersWallet.address === ethers.verifyMessage(message, signatureZeroHex))
 
-  const recoveredPublicKeyWasm = WasmPublicKey.recoverPersonalMessageOrThrow(message, signatureWasm)
+  const recoveredPublicKeyWasm = ExtPublicKey.recoverPersonalMessageOrThrow(message, signatureWasm)
   const recoveredPublicKeyBytes = recoveredPublicKeyWasm.value.exportUncompressedOrThrow().copyAndDispose()
   const recoveredAddressZeroHex = Address.computeOrThrow(recoveredPublicKeyBytes)
 
