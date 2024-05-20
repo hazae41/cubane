@@ -242,3 +242,31 @@ const catAndDog = RlpList.from([cat, dog])
 const bytes = Writable.writeToBytesOrThrow(catAndDog)
 const hex = "0x" + Base16.get().encodeOrThrow(bytes)
 ```
+
+### Signing
+
+```tsx
+import { Bytes } from "@hazae41/bytes"
+import { ExtPrivateKey } from "@hazae41/cubane"
+import { Secp256k1 } from "@hazae41/secp256k1"
+import { Base16 } from "@hazae41/base16"
+
+const message = "hello world"
+
+const privateKeyBytes = Bytes.random(32)
+const privateKeyExt = new ExtPrivateKey(Secp256k1.get().PrivateKey.importOrThrow(privateKeyBytes))
+
+const signatureExt = privateKeyExt.signPersonalMessageOrThrow(message)
+const signatureBytes = signatureExt.value.exportOrThrow().copyAndDispose()
+const signatureZeroHex = `0x${Base16.get().encodeOrThrow(signatureBytes)}`
+```
+
+### Recovery
+
+```tsx
+import { ExtPublicKey, Address } from "@hazae41/cubane"
+
+const recoveredPublicKeyExt = ExtPublicKey.recoverPersonalMessageOrThrow(message, signatureExt)
+const recoveredPublicKeyBytes = recoveredPublicKeyExt.value.exportUncompressedOrThrow().copyAndDispose()
+const recoveredAddressZeroHex = Address.computeOrThrow(recoveredPublicKeyBytes)
+```
