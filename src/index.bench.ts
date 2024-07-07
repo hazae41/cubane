@@ -113,7 +113,7 @@ if (false) {
 
   const tx = Base16.get().padStartAndDecodeOrThrow(txhex).copyAndDispose()
 
-  const rlp = Rlp.toPrimitive(Readable.readFromBytesOrThrow(Rlp, tx)) as Uint8Array[]
+  const rlp = Readable.readFromBytesOrThrow(Rlp, tx).intoOrThrow() as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
 
   // const rlphex = ethers.hexlify(rlp) as ZeroHexString
@@ -169,7 +169,7 @@ if (false) {
 
   const tx = Base16.get().padStartAndDecodeOrThrow(txhex).copyAndDispose()
 
-  const rlp = Rlp.toPrimitive(Readable.readFromBytesOrThrow(Rlp, tx)) as Uint8Array[]
+  const rlp = Readable.readFromBytesOrThrow(Rlp, tx).intoOrThrow() as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
 
   // const rlphex = ethers.hexlify(rlp) as ZeroHexString
