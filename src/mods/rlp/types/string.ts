@@ -29,6 +29,10 @@ export class RlpString1 {
     return new RlpString1(bytes)
   }
 
+  intoOrThrow(): Uint8Array {
+    return this.value
+  }
+
 }
 
 export class RlpString55 {
@@ -60,6 +64,10 @@ export class RlpString55 {
     const bytes = new Uint8Array(value)
 
     return new RlpString55(bytes)
+  }
+
+  intoOrThrow() {
+    return this.value
   }
 
 }
@@ -98,6 +106,10 @@ export class RlpStringUint8 {
     return new RlpStringUint8(bytes)
   }
 
+  intoOrThrow() {
+    return this.value
+  }
+
 }
 
 export class RlpStringUint16 {
@@ -132,6 +144,10 @@ export class RlpStringUint16 {
     const bytes = new Uint8Array(value)
 
     return new RlpStringUint16(bytes)
+  }
+
+  intoOrThrow() {
+    return this.value
   }
 
 }
@@ -170,6 +186,10 @@ export class RlpStringUint24 {
     return new RlpStringUint24(bytes)
   }
 
+  intoOrThrow() {
+    return this.value
+  }
+
 }
 
 export class RlpStringUint32 {
@@ -206,6 +226,10 @@ export class RlpStringUint32 {
     return new RlpStringUint32(bytes)
   }
 
+  intoOrThrow() {
+    return this.value
+  }
+
 }
 
 export type RlpString =
@@ -218,7 +242,7 @@ export type RlpString =
 
 export namespace RlpString {
 
-  export function from(value: Uint8Array): RlpString {
+  export function fromOrThrow(value: Uint8Array): RlpString {
     if (value.length === 1 && value[0] < 0x80)
       return new RlpString1(value)
     if (value.length < 56)

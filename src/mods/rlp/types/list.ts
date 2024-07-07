@@ -1,5 +1,5 @@
 import { Cursor } from "@hazae41/cursor";
-import { RlpType, readOrThrow } from "../rlp.js";
+import { BytesOrBytesArray, RlpType, readOrThrow } from "../rlp.js";
 
 export class RlpList55 {
 
@@ -39,6 +39,10 @@ export class RlpList55 {
       value.push(readOrThrow(cursor))
 
     return new RlpList55(value, length)
+  }
+
+  intoOrThrow(): BytesOrBytesArray[] {
+    return this.value.map(x => x.intoOrThrow())
   }
 
 }
@@ -86,6 +90,10 @@ export class RlpListUint8 {
     return new RlpListUint8(value, length)
   }
 
+  intoOrThrow(): BytesOrBytesArray[] {
+    return this.value.map(x => x.intoOrThrow())
+  }
+
 }
 
 export class RlpListUint16 {
@@ -129,6 +137,10 @@ export class RlpListUint16 {
       value.push(readOrThrow(cursor))
 
     return new RlpListUint16(value, length)
+  }
+
+  intoOrThrow(): BytesOrBytesArray[] {
+    return this.value.map(x => x.intoOrThrow())
   }
 
 }
@@ -176,6 +188,10 @@ export class RlpListUint24 {
     return new RlpListUint24(value, length)
   }
 
+  intoOrThrow(): BytesOrBytesArray[] {
+    return this.value.map(x => x.intoOrThrow())
+  }
+
 }
 
 export class RlpListUint32 {
@@ -221,6 +237,10 @@ export class RlpListUint32 {
     return new RlpListUint32(value, length)
   }
 
+  intoOrThrow(): BytesOrBytesArray[] {
+    return this.value.map(x => x.intoOrThrow())
+  }
+
 }
 
 export type RlpList =
@@ -232,7 +252,7 @@ export type RlpList =
 
 export namespace RlpList {
 
-  export function from(value: RlpType[]) {
+  export function fromOrThrow(value: RlpType[]) {
     const size = value.reduce((a, b) => a + b.sizeOrThrow(), 0)
 
     if (size < 56)

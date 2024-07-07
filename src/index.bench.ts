@@ -123,7 +123,7 @@ if (false) {
 
   console.log("Benching RLP bytes->hex")
 
-  const rlpStruct = Rlp.fromPrimitive(rlp)
+  const rlpStruct = Rlp.fromOrThrow(rlp)
 
   const benchCubaneBytes = benchSync("cubane", () => {
     const bytes = Writable.tryWriteToBytes(rlpStruct).unwrap()
@@ -179,7 +179,7 @@ if (false) {
 
   console.log("Benching RLP bytes->bytes")
 
-  const rlpStruct = Rlp.fromPrimitive(rlp)
+  const rlpStruct = Rlp.fromOrThrow(rlp)
 
   const benchCubaneBytes = benchSync("cubane", () => {
     const bytes = Writable.tryWriteToBytes(rlpStruct).unwrap()

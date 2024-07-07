@@ -10,16 +10,10 @@ export type BytesOrBytesArray =
   | Uint8Array
   | BytesOrBytesArray[]
 
-export function fromPrimitive(value: BytesOrBytesArray): RlpType {
+export function fromOrThrow(value: BytesOrBytesArray): RlpType {
   if (Array.isArray(value))
-    return RlpList.from(value.map(fromPrimitive))
-  return RlpString.from(value)
-}
-
-export function toPrimitive(value: RlpType): BytesOrBytesArray {
-  if (value.isString())
-    return value.value
-  return value.value.map(toPrimitive)
+    return RlpList.fromOrThrow(value.map(fromOrThrow))
+  return RlpString.fromOrThrow(value)
 }
 
 export function readOrThrow(cursor: Cursor) {
