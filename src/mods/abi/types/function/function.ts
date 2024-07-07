@@ -47,7 +47,7 @@ export class AbiFunctionSelector {
   }
 
   codegen() {
-    return `Abi.FunctionSelector.from([${this.value}])`
+    return `Abi.FunctionSelector.fromOrThrow([${this.value}])`
   }
 
   get class() {
@@ -139,7 +139,7 @@ export class AbiFunctionSelectorAndArguments {
       }
 
       static codegen() {
-        return `Abi.FunctionSelectorAndArguments.fromOrThrow(${$func.codegen()},${$args.codegen()})`
+        return `Abi.FunctionSelectorAndArguments.create(${$func.codegen()},${$args.codegen()})`
       }
 
       get class() {
