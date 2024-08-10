@@ -19,8 +19,12 @@
   "scripts": {
     "macro": "saumon build -r ./src",
     "build": "rimraf dist && rollup -c",
+    "build:bench": "rimraf dist && rollup -c rollup.config.bench.js",
+    "build:test": "rimraf dist && rollup -c rollup.config.test.js",
     "test": "node ./dist/test/src/index.test.mjs",
+    "test:bun": "bun ./dist/test/src/index.test.mjs",
     "bench": "node ./dist/bench/index.bench.mjs",
+    "bench:bun": "bun ./dist/bench/index.bench.mjs",
     "prepare": "npm run build"
   },
   "dependencies": {
@@ -41,6 +45,7 @@
     "@hazae41/deimos": "^1.0.6",
     "@hazae41/morax": "^1.1.5",
     "@hazae41/phobos": "^1.0.10",
+    "@hazae41/rimraf": "^1.0.1",
     "@hazae41/saumon": "^0.2.7",
     "@hazae41/symbol-dispose-polyfill": "^1.0.2",
     "@rollup/plugin-commonjs": "^25.0.7",
