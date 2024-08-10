@@ -162,8 +162,6 @@ export class ZeroHexSignature {
   }
 
   static fromOrThrow(from: ZeroHexSignature.From): ZeroHexSignature {
-    if (from instanceof RsvSignature)
-      return ZeroHexSignature.fromOrThrow(from)
     if (from instanceof ZeroHexSignature)
       return from
     if (from instanceof BytesSignature)
@@ -229,12 +227,10 @@ export class BytesSignature {
   }
 
   static fromOrThrow(from: BytesSignature.From): BytesSignature {
-    if (from instanceof RsvSignature)
-      return BytesSignature.fromOrThrow(from)
-    if (from instanceof ZeroHexSignature)
-      return BytesSignature.fromOrThrow(from.value)
     if (from instanceof BytesSignature)
       return from
+    if (from instanceof ZeroHexSignature)
+      return BytesSignature.fromOrThrow(from.value)
     if (from instanceof ExtSignature)
       return BytesSignature.fromOrThrow(from.value)
 
