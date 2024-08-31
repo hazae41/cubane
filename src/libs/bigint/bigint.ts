@@ -33,11 +33,11 @@ export namespace BigInts {
   }
 
   export function exportOrThrow(value: bigint): Copiable {
-    return Base16.get().padStartAndDecodeOrThrow(encodeRawHex(value))
+    return Base16.get().getOrThrow().padStartAndDecodeOrThrow(encodeRawHex(value))
   }
 
   export function importOrThrow(bytes: BytesOrCopiable): bigint {
-    return decodeRawHex(Base16.get().encodeOrThrow(bytes))
+    return decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(bytes))
   }
 
 }

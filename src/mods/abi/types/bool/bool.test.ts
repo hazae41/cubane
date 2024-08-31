@@ -13,7 +13,7 @@ test("bool true", async ({ message, test }) => {
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   // console.log(message, value)
-  // console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  // console.log(message, Base16.get().getOrThrow().tryEncode(bytes).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(AbiBool, bytes).unwrap()
   const value2 = abi2.value
@@ -29,7 +29,7 @@ test("bool false", async ({ message, test }) => {
   const bytes = Writable.tryWriteToBytes(abi).unwrap()
 
   // console.log(message, value)
-  // console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  // console.log(message, Base16.get().getOrThrow().tryEncode(bytes).unwrap())
 
   const abi2 = Readable.tryReadFromBytes(AbiBool, bytes).unwrap()
   const value2 = abi2.value

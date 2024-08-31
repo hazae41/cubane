@@ -99,7 +99,7 @@ export class BytesAbiBytes${bytes} {
    * @deprecated
    */
   toJSON(): ZeroHexString {
-    return \`0x\${Base16.get().encodeOrThrow(this.value)}\` as ZeroHexString
+    return \`0x\${Base16.get().getOrThrow().encodeOrThrow(this.value)}\` as ZeroHexString
   }
 
   static codegen() {
@@ -111,16 +111,16 @@ export class BytesAbiBytes${bytes} {
   }
 
   encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padEnd(64, "0")
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padEnd(64, "0")
   }
 
   encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+    return Base16.get().getOrThrow().encodeOrThrow(this.value)
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes${bytes}.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
 
     cursor.offset += 64 - BytesAbiBytes${bytes}.nibbles
 
@@ -182,7 +182,7 @@ export class RawHexAbiBytes${bytes} {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
   }
 
   /**
@@ -221,7 +221,7 @@ export class RawHexAbiBytes${bytes} {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
     cursor.fillOrThrow(0, 32 - RawHexAbiBytes${bytes}.bytes)
@@ -229,7 +229,7 @@ export class RawHexAbiBytes${bytes} {
 
   static readOrThrow(cursor: Cursor) {
     const content = cursor.readOrThrow(RawHexAbiBytes${bytes}.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes${bytes}.bytes
     

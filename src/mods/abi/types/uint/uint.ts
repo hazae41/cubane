@@ -4,8 +4,8 @@ import { TextCursor } from "libs/cursor/cursor.js";
 import { BytesAsInteger, NumberAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
 import { RawHexString } from "mods/types/string/index.js";
 
-export { AbiUint8 as Uint8, BytesAbiUint8 as BytesUint8, RawHexAbiUint8 as RawHexUint8, NumberAbiUint8 as NumberUint8 }
-  
+export { BytesAbiUint8 as BytesUint8, NumberAbiUint8 as NumberUint8, RawHexAbiUint8 as RawHexUint8, AbiUint8 as Uint8 };
+
 export type AbiUint8 =
   | RawHexAbiUint8
   | BytesAbiUint8
@@ -18,9 +18,9 @@ export namespace AbiUint8 {
   export type Create =
     | RawHexAbiUint8.Create
     | BytesAbiUint8.Create
-    | NumberAbiUint8.Create  
+    | NumberAbiUint8.Create
 
-  export type From = 
+  export type From =
     | RawHexAbiUint8.From
     | BytesAbiUint8.From
     | NumberAbiUint8.From
@@ -114,19 +114,19 @@ export class BytesAbiUint8 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint8.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint8.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint8(value)
   }
 
@@ -216,7 +216,7 @@ export class NumberAbiUint8 {
 
     const content = cursor.readOrThrow(NumberAbiUint8.nibbles)
     const value = parseInt(content, 16)
-    
+
     return new NumberAbiUint8(value)
   }
 
@@ -277,7 +277,7 @@ export class RawHexAbiUint8 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -314,7 +314,7 @@ export class RawHexAbiUint8 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -324,15 +324,15 @@ export class RawHexAbiUint8 {
     cursor.offset += 32 - RawHexAbiUint8.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint8.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint8(value as RawHexString)
   }
 
 }
 
-export { AbiUint16 as Uint16, BytesAbiUint16 as BytesUint16, RawHexAbiUint16 as RawHexUint16, NumberAbiUint16 as NumberUint16 }
-  
+export { BytesAbiUint16 as BytesUint16, NumberAbiUint16 as NumberUint16, RawHexAbiUint16 as RawHexUint16, AbiUint16 as Uint16 };
+
 export type AbiUint16 =
   | RawHexAbiUint16
   | BytesAbiUint16
@@ -345,9 +345,9 @@ export namespace AbiUint16 {
   export type Create =
     | RawHexAbiUint16.Create
     | BytesAbiUint16.Create
-    | NumberAbiUint16.Create  
+    | NumberAbiUint16.Create
 
-  export type From = 
+  export type From =
     | RawHexAbiUint16.From
     | BytesAbiUint16.From
     | NumberAbiUint16.From
@@ -441,19 +441,19 @@ export class BytesAbiUint16 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint16.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint16.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint16(value)
   }
 
@@ -543,7 +543,7 @@ export class NumberAbiUint16 {
 
     const content = cursor.readOrThrow(NumberAbiUint16.nibbles)
     const value = parseInt(content, 16)
-    
+
     return new NumberAbiUint16(value)
   }
 
@@ -604,7 +604,7 @@ export class RawHexAbiUint16 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -641,7 +641,7 @@ export class RawHexAbiUint16 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -651,15 +651,15 @@ export class RawHexAbiUint16 {
     cursor.offset += 32 - RawHexAbiUint16.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint16.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint16(value as RawHexString)
   }
 
 }
 
-export { AbiUint24 as Uint24, BytesAbiUint24 as BytesUint24, RawHexAbiUint24 as RawHexUint24, NumberAbiUint24 as NumberUint24 }
-  
+export { BytesAbiUint24 as BytesUint24, NumberAbiUint24 as NumberUint24, RawHexAbiUint24 as RawHexUint24, AbiUint24 as Uint24 };
+
 export type AbiUint24 =
   | RawHexAbiUint24
   | BytesAbiUint24
@@ -672,9 +672,9 @@ export namespace AbiUint24 {
   export type Create =
     | RawHexAbiUint24.Create
     | BytesAbiUint24.Create
-    | NumberAbiUint24.Create  
+    | NumberAbiUint24.Create
 
-  export type From = 
+  export type From =
     | RawHexAbiUint24.From
     | BytesAbiUint24.From
     | NumberAbiUint24.From
@@ -768,19 +768,19 @@ export class BytesAbiUint24 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint24.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint24.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint24(value)
   }
 
@@ -870,7 +870,7 @@ export class NumberAbiUint24 {
 
     const content = cursor.readOrThrow(NumberAbiUint24.nibbles)
     const value = parseInt(content, 16)
-    
+
     return new NumberAbiUint24(value)
   }
 
@@ -931,7 +931,7 @@ export class RawHexAbiUint24 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -968,7 +968,7 @@ export class RawHexAbiUint24 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -978,15 +978,15 @@ export class RawHexAbiUint24 {
     cursor.offset += 32 - RawHexAbiUint24.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint24.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint24(value as RawHexString)
   }
 
 }
 
-export { AbiUint32 as Uint32, BytesAbiUint32 as BytesUint32, RawHexAbiUint32 as RawHexUint32, NumberAbiUint32 as NumberUint32 }
-  
+export { BytesAbiUint32 as BytesUint32, NumberAbiUint32 as NumberUint32, RawHexAbiUint32 as RawHexUint32, AbiUint32 as Uint32 };
+
 export type AbiUint32 =
   | RawHexAbiUint32
   | BytesAbiUint32
@@ -999,9 +999,9 @@ export namespace AbiUint32 {
   export type Create =
     | RawHexAbiUint32.Create
     | BytesAbiUint32.Create
-    | NumberAbiUint32.Create  
+    | NumberAbiUint32.Create
 
-  export type From = 
+  export type From =
     | RawHexAbiUint32.From
     | BytesAbiUint32.From
     | NumberAbiUint32.From
@@ -1095,19 +1095,19 @@ export class BytesAbiUint32 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint32.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint32.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint32(value)
   }
 
@@ -1197,7 +1197,7 @@ export class NumberAbiUint32 {
 
     const content = cursor.readOrThrow(NumberAbiUint32.nibbles)
     const value = parseInt(content, 16)
-    
+
     return new NumberAbiUint32(value)
   }
 
@@ -1258,7 +1258,7 @@ export class RawHexAbiUint32 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -1295,7 +1295,7 @@ export class RawHexAbiUint32 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -1305,19 +1305,19 @@ export class RawHexAbiUint32 {
     cursor.offset += 32 - RawHexAbiUint32.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint32.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint32(value as RawHexString)
   }
 
 }
 
-export { AbiUint40 as Uint40, BytesAbiUint40 as BytesUint40, RawHexAbiUint40 as RawHexUint40 }
-  
+export { BytesAbiUint40 as BytesUint40, RawHexAbiUint40 as RawHexUint40, AbiUint40 as Uint40 };
+
 export type AbiUint40 =
   | RawHexAbiUint40
   | BytesAbiUint40
-  
+
 
 export namespace AbiUint40 {
   export const dynamic = false
@@ -1326,24 +1326,24 @@ export namespace AbiUint40 {
   export type Create =
     | RawHexAbiUint40.Create
     | BytesAbiUint40.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint40.From
     | BytesAbiUint40.From
-    
+
 
   export function create(value: AbiUint40.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint40.create(value)
-    
+
     return RawHexAbiUint40.create(value)
   }
 
   export function fromOrThrow(value: AbiUint40.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint40.fromOrThrow(value)
-    
+
     return RawHexAbiUint40.fromOrThrow(value)
   }
 
@@ -1416,19 +1416,19 @@ export class BytesAbiUint40 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint40.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint40.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint40(value)
   }
 
@@ -1491,7 +1491,7 @@ export class RawHexAbiUint40 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -1528,7 +1528,7 @@ export class RawHexAbiUint40 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -1538,19 +1538,19 @@ export class RawHexAbiUint40 {
     cursor.offset += 32 - RawHexAbiUint40.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint40.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint40(value as RawHexString)
   }
 
 }
 
-export { AbiUint48 as Uint48, BytesAbiUint48 as BytesUint48, RawHexAbiUint48 as RawHexUint48 }
-  
+export { BytesAbiUint48 as BytesUint48, RawHexAbiUint48 as RawHexUint48, AbiUint48 as Uint48 };
+
 export type AbiUint48 =
   | RawHexAbiUint48
   | BytesAbiUint48
-  
+
 
 export namespace AbiUint48 {
   export const dynamic = false
@@ -1559,24 +1559,24 @@ export namespace AbiUint48 {
   export type Create =
     | RawHexAbiUint48.Create
     | BytesAbiUint48.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint48.From
     | BytesAbiUint48.From
-    
+
 
   export function create(value: AbiUint48.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint48.create(value)
-    
+
     return RawHexAbiUint48.create(value)
   }
 
   export function fromOrThrow(value: AbiUint48.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint48.fromOrThrow(value)
-    
+
     return RawHexAbiUint48.fromOrThrow(value)
   }
 
@@ -1649,19 +1649,19 @@ export class BytesAbiUint48 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint48.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint48.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint48(value)
   }
 
@@ -1724,7 +1724,7 @@ export class RawHexAbiUint48 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -1761,7 +1761,7 @@ export class RawHexAbiUint48 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -1771,19 +1771,19 @@ export class RawHexAbiUint48 {
     cursor.offset += 32 - RawHexAbiUint48.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint48.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint48(value as RawHexString)
   }
 
 }
 
-export { AbiUint56 as Uint56, BytesAbiUint56 as BytesUint56, RawHexAbiUint56 as RawHexUint56 }
-  
+export { BytesAbiUint56 as BytesUint56, RawHexAbiUint56 as RawHexUint56, AbiUint56 as Uint56 };
+
 export type AbiUint56 =
   | RawHexAbiUint56
   | BytesAbiUint56
-  
+
 
 export namespace AbiUint56 {
   export const dynamic = false
@@ -1792,24 +1792,24 @@ export namespace AbiUint56 {
   export type Create =
     | RawHexAbiUint56.Create
     | BytesAbiUint56.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint56.From
     | BytesAbiUint56.From
-    
+
 
   export function create(value: AbiUint56.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint56.create(value)
-    
+
     return RawHexAbiUint56.create(value)
   }
 
   export function fromOrThrow(value: AbiUint56.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint56.fromOrThrow(value)
-    
+
     return RawHexAbiUint56.fromOrThrow(value)
   }
 
@@ -1882,19 +1882,19 @@ export class BytesAbiUint56 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint56.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint56.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint56(value)
   }
 
@@ -1957,7 +1957,7 @@ export class RawHexAbiUint56 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -1994,7 +1994,7 @@ export class RawHexAbiUint56 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -2004,19 +2004,19 @@ export class RawHexAbiUint56 {
     cursor.offset += 32 - RawHexAbiUint56.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint56.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint56(value as RawHexString)
   }
 
 }
 
-export { AbiUint64 as Uint64, BytesAbiUint64 as BytesUint64, RawHexAbiUint64 as RawHexUint64 }
-  
+export { BytesAbiUint64 as BytesUint64, RawHexAbiUint64 as RawHexUint64, AbiUint64 as Uint64 };
+
 export type AbiUint64 =
   | RawHexAbiUint64
   | BytesAbiUint64
-  
+
 
 export namespace AbiUint64 {
   export const dynamic = false
@@ -2025,24 +2025,24 @@ export namespace AbiUint64 {
   export type Create =
     | RawHexAbiUint64.Create
     | BytesAbiUint64.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint64.From
     | BytesAbiUint64.From
-    
+
 
   export function create(value: AbiUint64.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint64.create(value)
-    
+
     return RawHexAbiUint64.create(value)
   }
 
   export function fromOrThrow(value: AbiUint64.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint64.fromOrThrow(value)
-    
+
     return RawHexAbiUint64.fromOrThrow(value)
   }
 
@@ -2115,19 +2115,19 @@ export class BytesAbiUint64 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint64.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint64.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint64(value)
   }
 
@@ -2190,7 +2190,7 @@ export class RawHexAbiUint64 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -2227,7 +2227,7 @@ export class RawHexAbiUint64 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -2237,19 +2237,19 @@ export class RawHexAbiUint64 {
     cursor.offset += 32 - RawHexAbiUint64.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint64.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint64(value as RawHexString)
   }
 
 }
 
-export { AbiUint72 as Uint72, BytesAbiUint72 as BytesUint72, RawHexAbiUint72 as RawHexUint72 }
-  
+export { BytesAbiUint72 as BytesUint72, RawHexAbiUint72 as RawHexUint72, AbiUint72 as Uint72 };
+
 export type AbiUint72 =
   | RawHexAbiUint72
   | BytesAbiUint72
-  
+
 
 export namespace AbiUint72 {
   export const dynamic = false
@@ -2258,24 +2258,24 @@ export namespace AbiUint72 {
   export type Create =
     | RawHexAbiUint72.Create
     | BytesAbiUint72.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint72.From
     | BytesAbiUint72.From
-    
+
 
   export function create(value: AbiUint72.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint72.create(value)
-    
+
     return RawHexAbiUint72.create(value)
   }
 
   export function fromOrThrow(value: AbiUint72.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint72.fromOrThrow(value)
-    
+
     return RawHexAbiUint72.fromOrThrow(value)
   }
 
@@ -2348,19 +2348,19 @@ export class BytesAbiUint72 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint72.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint72.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint72(value)
   }
 
@@ -2423,7 +2423,7 @@ export class RawHexAbiUint72 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -2460,7 +2460,7 @@ export class RawHexAbiUint72 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -2470,19 +2470,19 @@ export class RawHexAbiUint72 {
     cursor.offset += 32 - RawHexAbiUint72.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint72.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint72(value as RawHexString)
   }
 
 }
 
-export { AbiUint80 as Uint80, BytesAbiUint80 as BytesUint80, RawHexAbiUint80 as RawHexUint80 }
-  
+export { BytesAbiUint80 as BytesUint80, RawHexAbiUint80 as RawHexUint80, AbiUint80 as Uint80 };
+
 export type AbiUint80 =
   | RawHexAbiUint80
   | BytesAbiUint80
-  
+
 
 export namespace AbiUint80 {
   export const dynamic = false
@@ -2491,24 +2491,24 @@ export namespace AbiUint80 {
   export type Create =
     | RawHexAbiUint80.Create
     | BytesAbiUint80.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint80.From
     | BytesAbiUint80.From
-    
+
 
   export function create(value: AbiUint80.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint80.create(value)
-    
+
     return RawHexAbiUint80.create(value)
   }
 
   export function fromOrThrow(value: AbiUint80.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint80.fromOrThrow(value)
-    
+
     return RawHexAbiUint80.fromOrThrow(value)
   }
 
@@ -2581,19 +2581,19 @@ export class BytesAbiUint80 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint80.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint80.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint80(value)
   }
 
@@ -2656,7 +2656,7 @@ export class RawHexAbiUint80 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -2693,7 +2693,7 @@ export class RawHexAbiUint80 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -2703,19 +2703,19 @@ export class RawHexAbiUint80 {
     cursor.offset += 32 - RawHexAbiUint80.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint80.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint80(value as RawHexString)
   }
 
 }
 
-export { AbiUint88 as Uint88, BytesAbiUint88 as BytesUint88, RawHexAbiUint88 as RawHexUint88 }
-  
+export { BytesAbiUint88 as BytesUint88, RawHexAbiUint88 as RawHexUint88, AbiUint88 as Uint88 };
+
 export type AbiUint88 =
   | RawHexAbiUint88
   | BytesAbiUint88
-  
+
 
 export namespace AbiUint88 {
   export const dynamic = false
@@ -2724,24 +2724,24 @@ export namespace AbiUint88 {
   export type Create =
     | RawHexAbiUint88.Create
     | BytesAbiUint88.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint88.From
     | BytesAbiUint88.From
-    
+
 
   export function create(value: AbiUint88.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint88.create(value)
-    
+
     return RawHexAbiUint88.create(value)
   }
 
   export function fromOrThrow(value: AbiUint88.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint88.fromOrThrow(value)
-    
+
     return RawHexAbiUint88.fromOrThrow(value)
   }
 
@@ -2814,19 +2814,19 @@ export class BytesAbiUint88 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint88.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint88.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint88(value)
   }
 
@@ -2889,7 +2889,7 @@ export class RawHexAbiUint88 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -2926,7 +2926,7 @@ export class RawHexAbiUint88 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -2936,19 +2936,19 @@ export class RawHexAbiUint88 {
     cursor.offset += 32 - RawHexAbiUint88.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint88.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint88(value as RawHexString)
   }
 
 }
 
-export { AbiUint96 as Uint96, BytesAbiUint96 as BytesUint96, RawHexAbiUint96 as RawHexUint96 }
-  
+export { BytesAbiUint96 as BytesUint96, RawHexAbiUint96 as RawHexUint96, AbiUint96 as Uint96 };
+
 export type AbiUint96 =
   | RawHexAbiUint96
   | BytesAbiUint96
-  
+
 
 export namespace AbiUint96 {
   export const dynamic = false
@@ -2957,24 +2957,24 @@ export namespace AbiUint96 {
   export type Create =
     | RawHexAbiUint96.Create
     | BytesAbiUint96.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint96.From
     | BytesAbiUint96.From
-    
+
 
   export function create(value: AbiUint96.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint96.create(value)
-    
+
     return RawHexAbiUint96.create(value)
   }
 
   export function fromOrThrow(value: AbiUint96.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint96.fromOrThrow(value)
-    
+
     return RawHexAbiUint96.fromOrThrow(value)
   }
 
@@ -3047,19 +3047,19 @@ export class BytesAbiUint96 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint96.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint96.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint96(value)
   }
 
@@ -3122,7 +3122,7 @@ export class RawHexAbiUint96 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -3159,7 +3159,7 @@ export class RawHexAbiUint96 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -3169,19 +3169,19 @@ export class RawHexAbiUint96 {
     cursor.offset += 32 - RawHexAbiUint96.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint96.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint96(value as RawHexString)
   }
 
 }
 
-export { AbiUint104 as Uint104, BytesAbiUint104 as BytesUint104, RawHexAbiUint104 as RawHexUint104 }
-  
+export { BytesAbiUint104 as BytesUint104, RawHexAbiUint104 as RawHexUint104, AbiUint104 as Uint104 };
+
 export type AbiUint104 =
   | RawHexAbiUint104
   | BytesAbiUint104
-  
+
 
 export namespace AbiUint104 {
   export const dynamic = false
@@ -3190,24 +3190,24 @@ export namespace AbiUint104 {
   export type Create =
     | RawHexAbiUint104.Create
     | BytesAbiUint104.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint104.From
     | BytesAbiUint104.From
-    
+
 
   export function create(value: AbiUint104.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint104.create(value)
-    
+
     return RawHexAbiUint104.create(value)
   }
 
   export function fromOrThrow(value: AbiUint104.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint104.fromOrThrow(value)
-    
+
     return RawHexAbiUint104.fromOrThrow(value)
   }
 
@@ -3280,19 +3280,19 @@ export class BytesAbiUint104 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint104.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint104.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint104(value)
   }
 
@@ -3355,7 +3355,7 @@ export class RawHexAbiUint104 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -3392,7 +3392,7 @@ export class RawHexAbiUint104 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -3402,19 +3402,19 @@ export class RawHexAbiUint104 {
     cursor.offset += 32 - RawHexAbiUint104.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint104.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint104(value as RawHexString)
   }
 
 }
 
-export { AbiUint112 as Uint112, BytesAbiUint112 as BytesUint112, RawHexAbiUint112 as RawHexUint112 }
-  
+export { BytesAbiUint112 as BytesUint112, RawHexAbiUint112 as RawHexUint112, AbiUint112 as Uint112 };
+
 export type AbiUint112 =
   | RawHexAbiUint112
   | BytesAbiUint112
-  
+
 
 export namespace AbiUint112 {
   export const dynamic = false
@@ -3423,24 +3423,24 @@ export namespace AbiUint112 {
   export type Create =
     | RawHexAbiUint112.Create
     | BytesAbiUint112.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint112.From
     | BytesAbiUint112.From
-    
+
 
   export function create(value: AbiUint112.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint112.create(value)
-    
+
     return RawHexAbiUint112.create(value)
   }
 
   export function fromOrThrow(value: AbiUint112.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint112.fromOrThrow(value)
-    
+
     return RawHexAbiUint112.fromOrThrow(value)
   }
 
@@ -3513,19 +3513,19 @@ export class BytesAbiUint112 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint112.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint112.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint112(value)
   }
 
@@ -3588,7 +3588,7 @@ export class RawHexAbiUint112 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -3625,7 +3625,7 @@ export class RawHexAbiUint112 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -3635,19 +3635,19 @@ export class RawHexAbiUint112 {
     cursor.offset += 32 - RawHexAbiUint112.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint112.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint112(value as RawHexString)
   }
 
 }
 
-export { AbiUint120 as Uint120, BytesAbiUint120 as BytesUint120, RawHexAbiUint120 as RawHexUint120 }
-  
+export { BytesAbiUint120 as BytesUint120, RawHexAbiUint120 as RawHexUint120, AbiUint120 as Uint120 };
+
 export type AbiUint120 =
   | RawHexAbiUint120
   | BytesAbiUint120
-  
+
 
 export namespace AbiUint120 {
   export const dynamic = false
@@ -3656,24 +3656,24 @@ export namespace AbiUint120 {
   export type Create =
     | RawHexAbiUint120.Create
     | BytesAbiUint120.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint120.From
     | BytesAbiUint120.From
-    
+
 
   export function create(value: AbiUint120.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint120.create(value)
-    
+
     return RawHexAbiUint120.create(value)
   }
 
   export function fromOrThrow(value: AbiUint120.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint120.fromOrThrow(value)
-    
+
     return RawHexAbiUint120.fromOrThrow(value)
   }
 
@@ -3746,19 +3746,19 @@ export class BytesAbiUint120 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint120.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint120.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint120(value)
   }
 
@@ -3821,7 +3821,7 @@ export class RawHexAbiUint120 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -3858,7 +3858,7 @@ export class RawHexAbiUint120 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -3868,19 +3868,19 @@ export class RawHexAbiUint120 {
     cursor.offset += 32 - RawHexAbiUint120.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint120.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint120(value as RawHexString)
   }
 
 }
 
-export { AbiUint128 as Uint128, BytesAbiUint128 as BytesUint128, RawHexAbiUint128 as RawHexUint128 }
-  
+export { BytesAbiUint128 as BytesUint128, RawHexAbiUint128 as RawHexUint128, AbiUint128 as Uint128 };
+
 export type AbiUint128 =
   | RawHexAbiUint128
   | BytesAbiUint128
-  
+
 
 export namespace AbiUint128 {
   export const dynamic = false
@@ -3889,24 +3889,24 @@ export namespace AbiUint128 {
   export type Create =
     | RawHexAbiUint128.Create
     | BytesAbiUint128.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint128.From
     | BytesAbiUint128.From
-    
+
 
   export function create(value: AbiUint128.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint128.create(value)
-    
+
     return RawHexAbiUint128.create(value)
   }
 
   export function fromOrThrow(value: AbiUint128.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint128.fromOrThrow(value)
-    
+
     return RawHexAbiUint128.fromOrThrow(value)
   }
 
@@ -3979,19 +3979,19 @@ export class BytesAbiUint128 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint128.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint128.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint128(value)
   }
 
@@ -4054,7 +4054,7 @@ export class RawHexAbiUint128 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -4091,7 +4091,7 @@ export class RawHexAbiUint128 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -4101,19 +4101,19 @@ export class RawHexAbiUint128 {
     cursor.offset += 32 - RawHexAbiUint128.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint128.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint128(value as RawHexString)
   }
 
 }
 
-export { AbiUint136 as Uint136, BytesAbiUint136 as BytesUint136, RawHexAbiUint136 as RawHexUint136 }
-  
+export { BytesAbiUint136 as BytesUint136, RawHexAbiUint136 as RawHexUint136, AbiUint136 as Uint136 };
+
 export type AbiUint136 =
   | RawHexAbiUint136
   | BytesAbiUint136
-  
+
 
 export namespace AbiUint136 {
   export const dynamic = false
@@ -4122,24 +4122,24 @@ export namespace AbiUint136 {
   export type Create =
     | RawHexAbiUint136.Create
     | BytesAbiUint136.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint136.From
     | BytesAbiUint136.From
-    
+
 
   export function create(value: AbiUint136.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint136.create(value)
-    
+
     return RawHexAbiUint136.create(value)
   }
 
   export function fromOrThrow(value: AbiUint136.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint136.fromOrThrow(value)
-    
+
     return RawHexAbiUint136.fromOrThrow(value)
   }
 
@@ -4212,19 +4212,19 @@ export class BytesAbiUint136 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint136.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint136.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint136(value)
   }
 
@@ -4287,7 +4287,7 @@ export class RawHexAbiUint136 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -4324,7 +4324,7 @@ export class RawHexAbiUint136 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -4334,19 +4334,19 @@ export class RawHexAbiUint136 {
     cursor.offset += 32 - RawHexAbiUint136.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint136.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint136(value as RawHexString)
   }
 
 }
 
-export { AbiUint144 as Uint144, BytesAbiUint144 as BytesUint144, RawHexAbiUint144 as RawHexUint144 }
-  
+export { BytesAbiUint144 as BytesUint144, RawHexAbiUint144 as RawHexUint144, AbiUint144 as Uint144 };
+
 export type AbiUint144 =
   | RawHexAbiUint144
   | BytesAbiUint144
-  
+
 
 export namespace AbiUint144 {
   export const dynamic = false
@@ -4355,24 +4355,24 @@ export namespace AbiUint144 {
   export type Create =
     | RawHexAbiUint144.Create
     | BytesAbiUint144.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint144.From
     | BytesAbiUint144.From
-    
+
 
   export function create(value: AbiUint144.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint144.create(value)
-    
+
     return RawHexAbiUint144.create(value)
   }
 
   export function fromOrThrow(value: AbiUint144.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint144.fromOrThrow(value)
-    
+
     return RawHexAbiUint144.fromOrThrow(value)
   }
 
@@ -4445,19 +4445,19 @@ export class BytesAbiUint144 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint144.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint144.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint144(value)
   }
 
@@ -4520,7 +4520,7 @@ export class RawHexAbiUint144 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -4557,7 +4557,7 @@ export class RawHexAbiUint144 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -4567,19 +4567,19 @@ export class RawHexAbiUint144 {
     cursor.offset += 32 - RawHexAbiUint144.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint144.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint144(value as RawHexString)
   }
 
 }
 
-export { AbiUint152 as Uint152, BytesAbiUint152 as BytesUint152, RawHexAbiUint152 as RawHexUint152 }
-  
+export { BytesAbiUint152 as BytesUint152, RawHexAbiUint152 as RawHexUint152, AbiUint152 as Uint152 };
+
 export type AbiUint152 =
   | RawHexAbiUint152
   | BytesAbiUint152
-  
+
 
 export namespace AbiUint152 {
   export const dynamic = false
@@ -4588,24 +4588,24 @@ export namespace AbiUint152 {
   export type Create =
     | RawHexAbiUint152.Create
     | BytesAbiUint152.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint152.From
     | BytesAbiUint152.From
-    
+
 
   export function create(value: AbiUint152.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint152.create(value)
-    
+
     return RawHexAbiUint152.create(value)
   }
 
   export function fromOrThrow(value: AbiUint152.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint152.fromOrThrow(value)
-    
+
     return RawHexAbiUint152.fromOrThrow(value)
   }
 
@@ -4678,19 +4678,19 @@ export class BytesAbiUint152 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint152.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint152.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint152(value)
   }
 
@@ -4753,7 +4753,7 @@ export class RawHexAbiUint152 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -4790,7 +4790,7 @@ export class RawHexAbiUint152 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -4800,19 +4800,19 @@ export class RawHexAbiUint152 {
     cursor.offset += 32 - RawHexAbiUint152.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint152.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint152(value as RawHexString)
   }
 
 }
 
-export { AbiUint160 as Uint160, BytesAbiUint160 as BytesUint160, RawHexAbiUint160 as RawHexUint160 }
-  
+export { BytesAbiUint160 as BytesUint160, RawHexAbiUint160 as RawHexUint160, AbiUint160 as Uint160 };
+
 export type AbiUint160 =
   | RawHexAbiUint160
   | BytesAbiUint160
-  
+
 
 export namespace AbiUint160 {
   export const dynamic = false
@@ -4821,24 +4821,24 @@ export namespace AbiUint160 {
   export type Create =
     | RawHexAbiUint160.Create
     | BytesAbiUint160.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint160.From
     | BytesAbiUint160.From
-    
+
 
   export function create(value: AbiUint160.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint160.create(value)
-    
+
     return RawHexAbiUint160.create(value)
   }
 
   export function fromOrThrow(value: AbiUint160.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint160.fromOrThrow(value)
-    
+
     return RawHexAbiUint160.fromOrThrow(value)
   }
 
@@ -4911,19 +4911,19 @@ export class BytesAbiUint160 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint160.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint160.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint160(value)
   }
 
@@ -4986,7 +4986,7 @@ export class RawHexAbiUint160 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -5023,7 +5023,7 @@ export class RawHexAbiUint160 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -5033,19 +5033,19 @@ export class RawHexAbiUint160 {
     cursor.offset += 32 - RawHexAbiUint160.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint160.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint160(value as RawHexString)
   }
 
 }
 
-export { AbiUint168 as Uint168, BytesAbiUint168 as BytesUint168, RawHexAbiUint168 as RawHexUint168 }
-  
+export { BytesAbiUint168 as BytesUint168, RawHexAbiUint168 as RawHexUint168, AbiUint168 as Uint168 };
+
 export type AbiUint168 =
   | RawHexAbiUint168
   | BytesAbiUint168
-  
+
 
 export namespace AbiUint168 {
   export const dynamic = false
@@ -5054,24 +5054,24 @@ export namespace AbiUint168 {
   export type Create =
     | RawHexAbiUint168.Create
     | BytesAbiUint168.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint168.From
     | BytesAbiUint168.From
-    
+
 
   export function create(value: AbiUint168.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint168.create(value)
-    
+
     return RawHexAbiUint168.create(value)
   }
 
   export function fromOrThrow(value: AbiUint168.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint168.fromOrThrow(value)
-    
+
     return RawHexAbiUint168.fromOrThrow(value)
   }
 
@@ -5144,19 +5144,19 @@ export class BytesAbiUint168 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint168.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint168.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint168(value)
   }
 
@@ -5219,7 +5219,7 @@ export class RawHexAbiUint168 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -5256,7 +5256,7 @@ export class RawHexAbiUint168 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -5266,19 +5266,19 @@ export class RawHexAbiUint168 {
     cursor.offset += 32 - RawHexAbiUint168.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint168.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint168(value as RawHexString)
   }
 
 }
 
-export { AbiUint176 as Uint176, BytesAbiUint176 as BytesUint176, RawHexAbiUint176 as RawHexUint176 }
-  
+export { BytesAbiUint176 as BytesUint176, RawHexAbiUint176 as RawHexUint176, AbiUint176 as Uint176 };
+
 export type AbiUint176 =
   | RawHexAbiUint176
   | BytesAbiUint176
-  
+
 
 export namespace AbiUint176 {
   export const dynamic = false
@@ -5287,24 +5287,24 @@ export namespace AbiUint176 {
   export type Create =
     | RawHexAbiUint176.Create
     | BytesAbiUint176.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint176.From
     | BytesAbiUint176.From
-    
+
 
   export function create(value: AbiUint176.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint176.create(value)
-    
+
     return RawHexAbiUint176.create(value)
   }
 
   export function fromOrThrow(value: AbiUint176.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint176.fromOrThrow(value)
-    
+
     return RawHexAbiUint176.fromOrThrow(value)
   }
 
@@ -5377,19 +5377,19 @@ export class BytesAbiUint176 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint176.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint176.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint176(value)
   }
 
@@ -5452,7 +5452,7 @@ export class RawHexAbiUint176 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -5489,7 +5489,7 @@ export class RawHexAbiUint176 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -5499,19 +5499,19 @@ export class RawHexAbiUint176 {
     cursor.offset += 32 - RawHexAbiUint176.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint176.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint176(value as RawHexString)
   }
 
 }
 
-export { AbiUint184 as Uint184, BytesAbiUint184 as BytesUint184, RawHexAbiUint184 as RawHexUint184 }
-  
+export { BytesAbiUint184 as BytesUint184, RawHexAbiUint184 as RawHexUint184, AbiUint184 as Uint184 };
+
 export type AbiUint184 =
   | RawHexAbiUint184
   | BytesAbiUint184
-  
+
 
 export namespace AbiUint184 {
   export const dynamic = false
@@ -5520,24 +5520,24 @@ export namespace AbiUint184 {
   export type Create =
     | RawHexAbiUint184.Create
     | BytesAbiUint184.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint184.From
     | BytesAbiUint184.From
-    
+
 
   export function create(value: AbiUint184.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint184.create(value)
-    
+
     return RawHexAbiUint184.create(value)
   }
 
   export function fromOrThrow(value: AbiUint184.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint184.fromOrThrow(value)
-    
+
     return RawHexAbiUint184.fromOrThrow(value)
   }
 
@@ -5610,19 +5610,19 @@ export class BytesAbiUint184 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint184.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint184.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint184(value)
   }
 
@@ -5685,7 +5685,7 @@ export class RawHexAbiUint184 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -5722,7 +5722,7 @@ export class RawHexAbiUint184 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -5732,19 +5732,19 @@ export class RawHexAbiUint184 {
     cursor.offset += 32 - RawHexAbiUint184.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint184.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint184(value as RawHexString)
   }
 
 }
 
-export { AbiUint192 as Uint192, BytesAbiUint192 as BytesUint192, RawHexAbiUint192 as RawHexUint192 }
-  
+export { BytesAbiUint192 as BytesUint192, RawHexAbiUint192 as RawHexUint192, AbiUint192 as Uint192 };
+
 export type AbiUint192 =
   | RawHexAbiUint192
   | BytesAbiUint192
-  
+
 
 export namespace AbiUint192 {
   export const dynamic = false
@@ -5753,24 +5753,24 @@ export namespace AbiUint192 {
   export type Create =
     | RawHexAbiUint192.Create
     | BytesAbiUint192.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint192.From
     | BytesAbiUint192.From
-    
+
 
   export function create(value: AbiUint192.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint192.create(value)
-    
+
     return RawHexAbiUint192.create(value)
   }
 
   export function fromOrThrow(value: AbiUint192.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint192.fromOrThrow(value)
-    
+
     return RawHexAbiUint192.fromOrThrow(value)
   }
 
@@ -5843,19 +5843,19 @@ export class BytesAbiUint192 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint192.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint192.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint192(value)
   }
 
@@ -5918,7 +5918,7 @@ export class RawHexAbiUint192 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -5955,7 +5955,7 @@ export class RawHexAbiUint192 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -5965,19 +5965,19 @@ export class RawHexAbiUint192 {
     cursor.offset += 32 - RawHexAbiUint192.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint192.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint192(value as RawHexString)
   }
 
 }
 
-export { AbiUint200 as Uint200, BytesAbiUint200 as BytesUint200, RawHexAbiUint200 as RawHexUint200 }
-  
+export { BytesAbiUint200 as BytesUint200, RawHexAbiUint200 as RawHexUint200, AbiUint200 as Uint200 };
+
 export type AbiUint200 =
   | RawHexAbiUint200
   | BytesAbiUint200
-  
+
 
 export namespace AbiUint200 {
   export const dynamic = false
@@ -5986,24 +5986,24 @@ export namespace AbiUint200 {
   export type Create =
     | RawHexAbiUint200.Create
     | BytesAbiUint200.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint200.From
     | BytesAbiUint200.From
-    
+
 
   export function create(value: AbiUint200.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint200.create(value)
-    
+
     return RawHexAbiUint200.create(value)
   }
 
   export function fromOrThrow(value: AbiUint200.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint200.fromOrThrow(value)
-    
+
     return RawHexAbiUint200.fromOrThrow(value)
   }
 
@@ -6076,19 +6076,19 @@ export class BytesAbiUint200 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint200.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint200.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint200(value)
   }
 
@@ -6151,7 +6151,7 @@ export class RawHexAbiUint200 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -6188,7 +6188,7 @@ export class RawHexAbiUint200 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -6198,19 +6198,19 @@ export class RawHexAbiUint200 {
     cursor.offset += 32 - RawHexAbiUint200.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint200.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint200(value as RawHexString)
   }
 
 }
 
-export { AbiUint208 as Uint208, BytesAbiUint208 as BytesUint208, RawHexAbiUint208 as RawHexUint208 }
-  
+export { BytesAbiUint208 as BytesUint208, RawHexAbiUint208 as RawHexUint208, AbiUint208 as Uint208 };
+
 export type AbiUint208 =
   | RawHexAbiUint208
   | BytesAbiUint208
-  
+
 
 export namespace AbiUint208 {
   export const dynamic = false
@@ -6219,24 +6219,24 @@ export namespace AbiUint208 {
   export type Create =
     | RawHexAbiUint208.Create
     | BytesAbiUint208.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint208.From
     | BytesAbiUint208.From
-    
+
 
   export function create(value: AbiUint208.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint208.create(value)
-    
+
     return RawHexAbiUint208.create(value)
   }
 
   export function fromOrThrow(value: AbiUint208.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint208.fromOrThrow(value)
-    
+
     return RawHexAbiUint208.fromOrThrow(value)
   }
 
@@ -6309,19 +6309,19 @@ export class BytesAbiUint208 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint208.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint208.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint208(value)
   }
 
@@ -6384,7 +6384,7 @@ export class RawHexAbiUint208 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -6421,7 +6421,7 @@ export class RawHexAbiUint208 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -6431,19 +6431,19 @@ export class RawHexAbiUint208 {
     cursor.offset += 32 - RawHexAbiUint208.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint208.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint208(value as RawHexString)
   }
 
 }
 
-export { AbiUint216 as Uint216, BytesAbiUint216 as BytesUint216, RawHexAbiUint216 as RawHexUint216 }
-  
+export { BytesAbiUint216 as BytesUint216, RawHexAbiUint216 as RawHexUint216, AbiUint216 as Uint216 };
+
 export type AbiUint216 =
   | RawHexAbiUint216
   | BytesAbiUint216
-  
+
 
 export namespace AbiUint216 {
   export const dynamic = false
@@ -6452,24 +6452,24 @@ export namespace AbiUint216 {
   export type Create =
     | RawHexAbiUint216.Create
     | BytesAbiUint216.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint216.From
     | BytesAbiUint216.From
-    
+
 
   export function create(value: AbiUint216.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint216.create(value)
-    
+
     return RawHexAbiUint216.create(value)
   }
 
   export function fromOrThrow(value: AbiUint216.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint216.fromOrThrow(value)
-    
+
     return RawHexAbiUint216.fromOrThrow(value)
   }
 
@@ -6542,19 +6542,19 @@ export class BytesAbiUint216 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint216.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint216.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint216(value)
   }
 
@@ -6617,7 +6617,7 @@ export class RawHexAbiUint216 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -6654,7 +6654,7 @@ export class RawHexAbiUint216 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -6664,19 +6664,19 @@ export class RawHexAbiUint216 {
     cursor.offset += 32 - RawHexAbiUint216.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint216.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint216(value as RawHexString)
   }
 
 }
 
-export { AbiUint224 as Uint224, BytesAbiUint224 as BytesUint224, RawHexAbiUint224 as RawHexUint224 }
-  
+export { BytesAbiUint224 as BytesUint224, RawHexAbiUint224 as RawHexUint224, AbiUint224 as Uint224 };
+
 export type AbiUint224 =
   | RawHexAbiUint224
   | BytesAbiUint224
-  
+
 
 export namespace AbiUint224 {
   export const dynamic = false
@@ -6685,24 +6685,24 @@ export namespace AbiUint224 {
   export type Create =
     | RawHexAbiUint224.Create
     | BytesAbiUint224.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint224.From
     | BytesAbiUint224.From
-    
+
 
   export function create(value: AbiUint224.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint224.create(value)
-    
+
     return RawHexAbiUint224.create(value)
   }
 
   export function fromOrThrow(value: AbiUint224.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint224.fromOrThrow(value)
-    
+
     return RawHexAbiUint224.fromOrThrow(value)
   }
 
@@ -6775,19 +6775,19 @@ export class BytesAbiUint224 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint224.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint224.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint224(value)
   }
 
@@ -6850,7 +6850,7 @@ export class RawHexAbiUint224 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -6887,7 +6887,7 @@ export class RawHexAbiUint224 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -6897,19 +6897,19 @@ export class RawHexAbiUint224 {
     cursor.offset += 32 - RawHexAbiUint224.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint224.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint224(value as RawHexString)
   }
 
 }
 
-export { AbiUint232 as Uint232, BytesAbiUint232 as BytesUint232, RawHexAbiUint232 as RawHexUint232 }
-  
+export { BytesAbiUint232 as BytesUint232, RawHexAbiUint232 as RawHexUint232, AbiUint232 as Uint232 };
+
 export type AbiUint232 =
   | RawHexAbiUint232
   | BytesAbiUint232
-  
+
 
 export namespace AbiUint232 {
   export const dynamic = false
@@ -6918,24 +6918,24 @@ export namespace AbiUint232 {
   export type Create =
     | RawHexAbiUint232.Create
     | BytesAbiUint232.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint232.From
     | BytesAbiUint232.From
-    
+
 
   export function create(value: AbiUint232.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint232.create(value)
-    
+
     return RawHexAbiUint232.create(value)
   }
 
   export function fromOrThrow(value: AbiUint232.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint232.fromOrThrow(value)
-    
+
     return RawHexAbiUint232.fromOrThrow(value)
   }
 
@@ -7008,19 +7008,19 @@ export class BytesAbiUint232 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint232.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint232.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint232(value)
   }
 
@@ -7083,7 +7083,7 @@ export class RawHexAbiUint232 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -7120,7 +7120,7 @@ export class RawHexAbiUint232 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -7130,19 +7130,19 @@ export class RawHexAbiUint232 {
     cursor.offset += 32 - RawHexAbiUint232.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint232.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint232(value as RawHexString)
   }
 
 }
 
-export { AbiUint240 as Uint240, BytesAbiUint240 as BytesUint240, RawHexAbiUint240 as RawHexUint240 }
-  
+export { BytesAbiUint240 as BytesUint240, RawHexAbiUint240 as RawHexUint240, AbiUint240 as Uint240 };
+
 export type AbiUint240 =
   | RawHexAbiUint240
   | BytesAbiUint240
-  
+
 
 export namespace AbiUint240 {
   export const dynamic = false
@@ -7151,24 +7151,24 @@ export namespace AbiUint240 {
   export type Create =
     | RawHexAbiUint240.Create
     | BytesAbiUint240.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint240.From
     | BytesAbiUint240.From
-    
+
 
   export function create(value: AbiUint240.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint240.create(value)
-    
+
     return RawHexAbiUint240.create(value)
   }
 
   export function fromOrThrow(value: AbiUint240.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint240.fromOrThrow(value)
-    
+
     return RawHexAbiUint240.fromOrThrow(value)
   }
 
@@ -7241,19 +7241,19 @@ export class BytesAbiUint240 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint240.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint240.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint240(value)
   }
 
@@ -7316,7 +7316,7 @@ export class RawHexAbiUint240 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -7353,7 +7353,7 @@ export class RawHexAbiUint240 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -7363,19 +7363,19 @@ export class RawHexAbiUint240 {
     cursor.offset += 32 - RawHexAbiUint240.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint240.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint240(value as RawHexString)
   }
 
 }
 
-export { AbiUint248 as Uint248, BytesAbiUint248 as BytesUint248, RawHexAbiUint248 as RawHexUint248 }
-  
+export { BytesAbiUint248 as BytesUint248, RawHexAbiUint248 as RawHexUint248, AbiUint248 as Uint248 };
+
 export type AbiUint248 =
   | RawHexAbiUint248
   | BytesAbiUint248
-  
+
 
 export namespace AbiUint248 {
   export const dynamic = false
@@ -7384,24 +7384,24 @@ export namespace AbiUint248 {
   export type Create =
     | RawHexAbiUint248.Create
     | BytesAbiUint248.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint248.From
     | BytesAbiUint248.From
-    
+
 
   export function create(value: AbiUint248.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint248.create(value)
-    
+
     return RawHexAbiUint248.create(value)
   }
 
   export function fromOrThrow(value: AbiUint248.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint248.fromOrThrow(value)
-    
+
     return RawHexAbiUint248.fromOrThrow(value)
   }
 
@@ -7474,19 +7474,19 @@ export class BytesAbiUint248 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint248.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint248.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint248(value)
   }
 
@@ -7549,7 +7549,7 @@ export class RawHexAbiUint248 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -7586,7 +7586,7 @@ export class RawHexAbiUint248 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -7596,19 +7596,19 @@ export class RawHexAbiUint248 {
     cursor.offset += 32 - RawHexAbiUint248.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint248.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint248(value as RawHexString)
   }
 
 }
 
-export { AbiUint256 as Uint256, BytesAbiUint256 as BytesUint256, RawHexAbiUint256 as RawHexUint256 }
-  
+export { BytesAbiUint256 as BytesUint256, RawHexAbiUint256 as RawHexUint256, AbiUint256 as Uint256 };
+
 export type AbiUint256 =
   | RawHexAbiUint256
   | BytesAbiUint256
-  
+
 
 export namespace AbiUint256 {
   export const dynamic = false
@@ -7617,24 +7617,24 @@ export namespace AbiUint256 {
   export type Create =
     | RawHexAbiUint256.Create
     | BytesAbiUint256.Create
-      
 
-  export type From = 
+
+  export type From =
     | RawHexAbiUint256.From
     | BytesAbiUint256.From
-    
+
 
   export function create(value: AbiUint256.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiUint256.create(value)
-    
+
     return RawHexAbiUint256.create(value)
   }
 
   export function fromOrThrow(value: AbiUint256.From) {
     if (value instanceof Uint8Array)
       return BytesAbiUint256.fromOrThrow(value)
-    
+
     return RawHexAbiUint256.fromOrThrow(value)
   }
 
@@ -7707,19 +7707,19 @@ export class BytesAbiUint256 {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint256.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint256.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
-    
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+
     return new BytesAbiUint256(value)
   }
 
@@ -7782,7 +7782,7 @@ export class RawHexAbiUint256 {
   intoOrThrow(): bigint {
     return this.value.length ? BigInt("0x" + this.value) : 0n
   }
-  
+
   /**
    * @deprecated
    */
@@ -7819,7 +7819,7 @@ export class RawHexAbiUint256 {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -7829,7 +7829,7 @@ export class RawHexAbiUint256 {
     cursor.offset += 32 - RawHexAbiUint256.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint256.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint256(value as RawHexString)
   }
@@ -7837,71 +7837,71 @@ export class RawHexAbiUint256 {
 }
 
 export type UintByName = {
-    uint8: typeof AbiUint8,
-    uint16: typeof AbiUint16,
-    uint24: typeof AbiUint24,
-    uint32: typeof AbiUint32,
-    uint40: typeof AbiUint40,
-    uint48: typeof AbiUint48,
-    uint56: typeof AbiUint56,
-    uint64: typeof AbiUint64,
-    uint72: typeof AbiUint72,
-    uint80: typeof AbiUint80,
-    uint88: typeof AbiUint88,
-    uint96: typeof AbiUint96,
-    uint104: typeof AbiUint104,
-    uint112: typeof AbiUint112,
-    uint120: typeof AbiUint120,
-    uint128: typeof AbiUint128,
-    uint136: typeof AbiUint136,
-    uint144: typeof AbiUint144,
-    uint152: typeof AbiUint152,
-    uint160: typeof AbiUint160,
-    uint168: typeof AbiUint168,
-    uint176: typeof AbiUint176,
-    uint184: typeof AbiUint184,
-    uint192: typeof AbiUint192,
-    uint200: typeof AbiUint200,
-    uint208: typeof AbiUint208,
-    uint216: typeof AbiUint216,
-    uint224: typeof AbiUint224,
-    uint232: typeof AbiUint232,
-    uint240: typeof AbiUint240,
-    uint248: typeof AbiUint248,
-    uint256: typeof AbiUint256,
-  }
-  
-  export const uintByName: UintByName = {
-    uint8: AbiUint8,
-    uint16: AbiUint16,
-    uint24: AbiUint24,
-    uint32: AbiUint32,
-    uint40: AbiUint40,
-    uint48: AbiUint48,
-    uint56: AbiUint56,
-    uint64: AbiUint64,
-    uint72: AbiUint72,
-    uint80: AbiUint80,
-    uint88: AbiUint88,
-    uint96: AbiUint96,
-    uint104: AbiUint104,
-    uint112: AbiUint112,
-    uint120: AbiUint120,
-    uint128: AbiUint128,
-    uint136: AbiUint136,
-    uint144: AbiUint144,
-    uint152: AbiUint152,
-    uint160: AbiUint160,
-    uint168: AbiUint168,
-    uint176: AbiUint176,
-    uint184: AbiUint184,
-    uint192: AbiUint192,
-    uint200: AbiUint200,
-    uint208: AbiUint208,
-    uint216: AbiUint216,
-    uint224: AbiUint224,
-    uint232: AbiUint232,
-    uint240: AbiUint240,
-    uint248: AbiUint248,
-    uint256: AbiUint256,
-  }
+  uint8: typeof AbiUint8,
+  uint16: typeof AbiUint16,
+  uint24: typeof AbiUint24,
+  uint32: typeof AbiUint32,
+  uint40: typeof AbiUint40,
+  uint48: typeof AbiUint48,
+  uint56: typeof AbiUint56,
+  uint64: typeof AbiUint64,
+  uint72: typeof AbiUint72,
+  uint80: typeof AbiUint80,
+  uint88: typeof AbiUint88,
+  uint96: typeof AbiUint96,
+  uint104: typeof AbiUint104,
+  uint112: typeof AbiUint112,
+  uint120: typeof AbiUint120,
+  uint128: typeof AbiUint128,
+  uint136: typeof AbiUint136,
+  uint144: typeof AbiUint144,
+  uint152: typeof AbiUint152,
+  uint160: typeof AbiUint160,
+  uint168: typeof AbiUint168,
+  uint176: typeof AbiUint176,
+  uint184: typeof AbiUint184,
+  uint192: typeof AbiUint192,
+  uint200: typeof AbiUint200,
+  uint208: typeof AbiUint208,
+  uint216: typeof AbiUint216,
+  uint224: typeof AbiUint224,
+  uint232: typeof AbiUint232,
+  uint240: typeof AbiUint240,
+  uint248: typeof AbiUint248,
+  uint256: typeof AbiUint256,
+}
+
+export const uintByName: UintByName = {
+  uint8: AbiUint8,
+  uint16: AbiUint16,
+  uint24: AbiUint24,
+  uint32: AbiUint32,
+  uint40: AbiUint40,
+  uint48: AbiUint48,
+  uint56: AbiUint56,
+  uint64: AbiUint64,
+  uint72: AbiUint72,
+  uint80: AbiUint80,
+  uint88: AbiUint88,
+  uint96: AbiUint96,
+  uint104: AbiUint104,
+  uint112: AbiUint112,
+  uint120: AbiUint120,
+  uint128: AbiUint128,
+  uint136: AbiUint136,
+  uint144: AbiUint144,
+  uint152: AbiUint152,
+  uint160: AbiUint160,
+  uint168: AbiUint168,
+  uint176: AbiUint176,
+  uint184: AbiUint184,
+  uint192: AbiUint192,
+  uint200: AbiUint200,
+  uint208: AbiUint208,
+  uint216: AbiUint216,
+  uint224: AbiUint224,
+  uint232: AbiUint232,
+  uint240: AbiUint240,
+  uint248: AbiUint248,
+  uint256: AbiUint256,
+}

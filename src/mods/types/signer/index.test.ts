@@ -37,7 +37,7 @@ test("wasm sign personal message", async ({ }) => {
 
   const signatureWasm = privateKeyWasm.signPersonalMessageOrThrow(message)
   const signatureBytes = signatureWasm.value.exportOrThrow().copyAndDispose()
-  const signatureZeroHex = `0x${Base16.get().encodeOrThrow(signatureBytes)}`
+  const signatureZeroHex = `0x${Base16.get().getOrThrow().encodeOrThrow(signatureBytes)}`
 
   /* Ignore recovery part */
   assert(ethersSignatureZeroHex.slice(0, -2) === signatureZeroHex.slice(0, -2))

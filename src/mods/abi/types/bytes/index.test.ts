@@ -14,7 +14,7 @@ test("bytes", async ({ message, test }) => {
   const bytes = Writable.writeToBytesOrThrow(abi)
 
   // console.log(message, value)
-  // console.log(message, Base16.get().tryEncode(bytes).unwrap())
+  // console.log(message, Base16.get().getOrThrow().tryEncode(bytes).unwrap())
 
   const abi2 = Readable.readFromBytesOrThrow(AbiBytes, bytes)
   const value2 = abi2.value

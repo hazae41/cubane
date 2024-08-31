@@ -242,7 +242,7 @@ const dog = RlpString.from(Bytes.fromUtf8("dog"))
 const catAndDog = RlpList.from([cat, dog])
 
 const bytes = Writable.writeToBytesOrThrow(catAndDog)
-const hex = "0x" + Base16.get().encodeOrThrow(bytes)
+const hex = "0x" + Base16.get().getOrThrow().encodeOrThrow(bytes)
 ```
 
 ### Signatures
@@ -262,7 +262,7 @@ const privateKeyExt = new ExtPrivateKey(Secp256k1.get().PrivateKey.importOrThrow
 
 const signatureExt = privateKeyExt.signPersonalMessageOrThrow(message)
 const signatureBytes = signatureExt.value.exportOrThrow().copyAndDispose()
-const signatureZeroHex = `0x${Base16.get().encodeOrThrow(signatureBytes)}`
+const signatureZeroHex = `0x${Base16.get().getOrThrow().encodeOrThrow(signatureBytes)}`
 ```
 
 #### Recovering personal message

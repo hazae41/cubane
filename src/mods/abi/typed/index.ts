@@ -195,7 +195,7 @@ export namespace TypedData {
       }
 
       if (typeof value === "string") {
-        using slice = Base16.get().padStartAndDecodeOrThrow(value.slice(2))
+        using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2))
         using hash = Keccak256.get().hashOrThrow(slice.bytes)
         cursor.writeOrThrow(hash.bytes)
         return

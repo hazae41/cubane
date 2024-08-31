@@ -128,18 +128,18 @@ export class BytesAbiUint${bits} {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiUint${bits}.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint${bits}.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
+    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
     
     return new BytesAbiUint${bits}(value)
   }
@@ -328,7 +328,7 @@ export class RawHexAbiUint${bits} {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -338,7 +338,7 @@ export class RawHexAbiUint${bits} {
     cursor.offset += 32 - RawHexAbiUint${bits}.bytes
 
     const content = cursor.readOrThrow(RawHexAbiUint${bits}.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiUint${bits}(value as RawHexString)
   }

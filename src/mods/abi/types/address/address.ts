@@ -79,7 +79,7 @@ export class BytesAbiAddress {
   }
 
   intoOrThrow(): Address {
-    return Address.checksumOrThrow(Base16.get().encodeOrThrow(this.value) as RawHexString)
+    return Address.checksumOrThrow(Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString)
   }
 
   /**
@@ -94,11 +94,11 @@ export class BytesAbiAddress {
   }
 
   encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0")
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0")
   }
 
   encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+    return Base16.get().getOrThrow().encodeOrThrow(this.value)
   }
 
   sizeOrThrow() {
@@ -187,7 +187,7 @@ export class RawHexAbiAddress {
   writeOrThrow(cursor: Cursor) {
     cursor.fillOrThrow(0, 32 - 20)
 
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.writeOrThrow(slice.bytes)
   }

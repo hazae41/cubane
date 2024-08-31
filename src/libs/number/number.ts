@@ -33,11 +33,11 @@ export namespace Numbers {
   }
 
   export function exportOrThrow(value: number): Copiable {
-    return Base16.get().padStartAndDecodeOrThrow(encodeRawHex(value))
+    return Base16.get().getOrThrow().padStartAndDecodeOrThrow(encodeRawHex(value))
   }
 
   export function importOrThrow(bytes: BytesOrCopiable): number {
-    return decodeRawHex(Base16.get().encodeOrThrow(bytes))
+    return decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(bytes))
   }
 
 }

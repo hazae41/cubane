@@ -7,17 +7,17 @@ import { ExtSignature } from "../signature/index.js";
 export class ExtPrivateKey {
 
   constructor(
-    readonly value: Secp256k1.PrivateKey
+    readonly value: Secp256k1.SigningKey
   ) { }
 
   getPublicKeyOrThrow() {
-    return new ExtPublicKey(this.value.getPublicKeyOrThrow())
+    return new ExtPublicKey(this.value.getVerifyingKeyOrThrow())
   }
 
   signUnsafeMessageOrThrow(message: BytesAsUtf8.From) {
     const tmessage = BytesAsUtf8.fromOrThrow(message)
 
-    using hash = Keccak256.get().hashOrThrow(tmessage)
+    using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
 
     return new ExtSignature(this.value.signOrThrow(hash))
   }
@@ -28,7 +28,7 @@ export class ExtPrivateKey {
     const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + tmessage.length.toString())
     const concat = Bytes.concat([prefix, tmessage])
 
-    using hash = Keccak256.get().hashOrThrow(concat)
+    using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
 
     return new ExtSignature(this.value.signOrThrow(hash))
   }
@@ -38,16 +38,16 @@ export class ExtPrivateKey {
 export class ExtPublicKey {
 
   constructor(
-    readonly value: Secp256k1.PublicKey
+    readonly value: Secp256k1.VerifyingKey
   ) { }
 
   static recoverUnsafeMessageOrThrow(message: BytesAsUtf8.From, signature: ExtSignature.From) {
     const tmessage = BytesAsUtf8.fromOrThrow(message)
     const tsignature = ExtSignature.fromOrThrow(signature)
 
-    using hash = Keccak256.get().hashOrThrow(tmessage)
+    using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
 
-    const inner = Secp256k1.get().PublicKey.recoverOrThrow(hash, tsignature.value)
+    const inner = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.value)
 
     return new ExtPublicKey(inner)
   }
@@ -56,8 +56,8 @@ export class ExtPublicKey {
     const tmessage = BytesAsUtf8.fromOrThrow(message)
     const tsignature = ExtSignature.fromOrThrow(signature)
 
-    using hash = Keccak256.get().hashOrThrow(tmessage)
-    using recovered = Secp256k1.get().PublicKey.recoverOrThrow(hash, tsignature.value)
+    using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
+    using recovered = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.value)
 
     using left = this.value.exportUncompressedOrThrow()
     using right = recovered.exportUncompressedOrThrow()
@@ -72,9 +72,9 @@ export class ExtPublicKey {
     const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + tmessage.length.toString())
     const concat = Bytes.concat([prefix, tmessage])
 
-    using hash = Keccak256.get().hashOrThrow(concat)
+    using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
 
-    const inner = Secp256k1.get().PublicKey.recoverOrThrow(hash, tsignature.value)
+    const inner = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.value)
 
     return new ExtPublicKey(inner)
   }
@@ -86,8 +86,8 @@ export class ExtPublicKey {
     const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + tmessage.length.toString())
     const concat = Bytes.concat([prefix, tmessage])
 
-    using hash = Keccak256.get().hashOrThrow(concat)
-    using recovered = Secp256k1.get().PublicKey.recoverOrThrow(hash, tsignature.value)
+    using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
+    using recovered = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.value)
 
     using left = this.value.exportUncompressedOrThrow()
     using right = recovered.exportUncompressedOrThrow()
