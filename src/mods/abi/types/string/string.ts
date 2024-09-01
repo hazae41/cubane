@@ -2,6 +2,7 @@ import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { RawHexString } from "index.js";
+import { Copiable } from "libs/copiable/index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { BytesAsUtf8, RawHexAsUtf8 } from "mods/types/helpers/generic.js";
 import { NumberUint32, Uint32 } from "../uint/uint.js";
@@ -189,9 +190,7 @@ export class RawHexAbiString {
   }
 
   intoOrThrow(): string {
-    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
-
-    return Bytes.toUtf8(copiable.bytes.slice())
+    return Bytes.toUtf8(Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)))
   }
 
   /**
