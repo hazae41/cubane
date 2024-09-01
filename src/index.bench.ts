@@ -136,9 +136,6 @@ if (false) {
   const benchCubaneBytes = benchSync("cubane", () => {
     const bytes = Writable.writeToBytesOrThrow(rlpStruct)
     const hex = Base16.get().getOrThrow().encodeOrThrow(bytes)
-    // const bytes2 = Base16.get().getOrThrow().padStartAndDecodeOrThrow(hex)
-    // const rlp2 = Rlp.tryRead(new Cursor(bytes2.bytes))
-    // bytes2[Symbol.dispose]()
   }, options)
 
   const benchViem = benchSync("viem", () => {
@@ -191,7 +188,6 @@ if (false) {
 
   const benchCubaneBytes = benchSync("cubane", () => {
     const bytes = Writable.writeToBytesOrThrow(rlpStruct)
-    // const rlp2 = Rlp.tryRead(new Cursor(bytes))
   }, options)
 
   const benchViem = benchSync("viem", () => {

@@ -22,7 +22,7 @@ test("uint32", async ({ message, test }) => {
   const bytes = Writable.writeToBytesOrThrow(abi)
 
   // console.log(message, value)
-  // console.log(message, Base16.get().getOrThrow().tryEncode(bytes).unwrap())
+  // console.log(message, Base16.get().getOrThrow().encodeOrThrow(bytes))
 
   const abi2 = Readable.readFromBytesOrThrow(Uint32, bytes)
   const value2 = abi2.intoOrThrow()
@@ -39,7 +39,7 @@ test("uint256", async ({ message, test }) => {
   const bytes = Writable.writeToBytesOrThrow(abi)
 
   // console.log(message, value)
-  // console.log(message, Base16.get().getOrThrow().tryEncode(bytes).unwrap())
+  // console.log(message, Base16.get().getOrThrow().encodeOrThrow(bytes))
 
   const abi2 = Readable.readFromBytesOrThrow(Uint256, bytes)
   const value2 = abi2.intoOrThrow()

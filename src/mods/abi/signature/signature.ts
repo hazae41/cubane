@@ -1,6 +1,5 @@
 import { Bytes, Uint8Array } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
-import { Result } from "@hazae41/result";
 import { Records } from "libs/records/records.js";
 import { AbiFactory } from "../types.js";
 import { AbiAddress } from "../types/address/address.js";
@@ -31,10 +30,6 @@ export namespace FunctionSignature {
 
   export function $parse$(signature: string): AbiFunctionSelectorAndArguments.Factory<any> {
     return parseOrThrow(signature).codegen() as any
-  }
-
-  export function tryParse(signature: string): Result<AbiFunctionSelectorAndArguments.Factory<any>, Error> {
-    return Result.runAndDoubleWrapSync(() => parseOrThrow(signature))
   }
 
   export function parseOrThrow(signature: string): AbiFunctionSelectorAndArguments.Factory<any> {

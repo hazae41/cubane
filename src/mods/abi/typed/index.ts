@@ -3,7 +3,6 @@ import { Bytes } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
 import { Keccak256 } from "@hazae41/keccak256"
 import { Nullable } from "@hazae41/option"
-import { Result } from "@hazae41/result"
 import { Copiable } from "libs/copiable/index.js"
 import { Records } from "libs/records/records.js"
 import { AbiFactory } from "../types.js"
@@ -262,31 +261,6 @@ export namespace TypedData {
    */
   export function hashOrThrow(data: TypedData): Copiable<Keccak256.Output> {
     return Keccak256.get().getOrThrow().hashOrThrow(encodeOrThrow(data))
-  }
-
-  export class HashError extends Error {
-    readonly #class = HashError
-    readonly name = this.#class.name
-
-    constructor(options: ErrorOptions) {
-      super(`Could not hash TypedData`, options)
-    }
-
-    static from(cause: unknown) {
-      return new HashError({ cause })
-    }
-
-  }
-
-  /**
-   * This is the function you are probably looking for
-   * @param data 
-   * @returns 
-   */
-  export function tryHash(data: TypedData): Result<Copiable<Keccak256.Output>, HashError> {
-    return Result.runAndWrapSync(() => {
-      return hashOrThrow(data)
-    }).mapErrSync(HashError.from)
   }
 
 }
