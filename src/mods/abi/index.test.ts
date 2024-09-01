@@ -11,6 +11,10 @@ import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature } from "./signature/signature.js";
 import { AbiAddress } from "./types/address/address.js";
 
+import { Secp256k1 } from "@hazae41/secp256k1";
+import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
+import { Sha3Wasm } from "@hazae41/sha3.wasm";
+import { Copiable } from "libs/copiable/index.js";
 import { decodeOrThrow } from "./decode.js";
 import { encodeOrThrow } from "./encode.js";
 import { AbiArray, AbiTuple, AbiVector } from "./index.js";
@@ -18,33 +22,37 @@ import elements from "./index.test.json";
 
 elements;
 
-Base16.set(await Base16.fromBufferOrAlocer())
-Keccak256.set(await Keccak256.fromMorax())
+await Sha3Wasm.initBundled()
+await Secp256k1Wasm.initBundled()
+
+Base16.set(Base16.fromBuffer())
+Keccak256.set(Keccak256.fromWasm(Sha3Wasm))
+Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
 test("test", async () => {
   const abi = "f71870b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000007b000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000"
-  const signature = FunctionSignature.tryParse("test(bool,string,uint256)").unwrap()
-  const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
-  const decoded = Readable.tryReadFromBytes(signature, bytes).unwrap()
+  const signature = FunctionSignature.parseOrThrow("test(bool,string,uint256)")
+  const bytes = Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(abi))
+  const decoded = Readable.readFromBytesOrThrow(signature, bytes)
   // console.log(decoded)
 })
 
 test("test", async () => {
   const abi = "000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000076a65814b6e0fa5a3598ef6503fa1d990ec0e61a000000000000000000000000d66832ff9d808b32adfe0136a0381054f3600185"
-  const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
-  const decoded = Readable.tryReadFromBytes(AbiArray.create(AbiAddress, 3), bytes).unwrap()
+  const bytes = Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(abi))
+  const decoded = Readable.readFromBytesOrThrow(AbiArray.create(AbiAddress, 3), bytes)
   // console.log(decoded)
 })
 
 test("test", async () => {
   const abi = "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000076a65814b6e0fa5a3598ef6503fa1d990ec0e61a000000000000000000000000d66832ff9d808b32adfe0136a0381054f3600185"
-  const bytes = Base16.get().padStartAndDecodeOrThrow(abi).copyAndDispose()
-  const decoded = Readable.tryReadFromBytes(AbiTuple.create(AbiVector.create(AbiAddress)), bytes).unwrap()
+  const bytes = Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(abi))
+  const decoded = Readable.readFromBytesOrThrow(AbiTuple.create(AbiVector.create(AbiAddress)), bytes)
   // console.log(decoded.inner)
 })
 
 test("runtime encode then decode", async () => {
-  const signature = FunctionSignature.tryParse("f(bool,uint256,(string,address[3])[],bytes)").unwrap()
+  const signature = FunctionSignature.parseOrThrow("f(bool,uint256,(string,address[3])[],bytes)")
 
   const hex = `0x${signature.fromOrThrow(
     true,

@@ -8,15 +8,23 @@ import { Bytes } from "@hazae41/bytes";
 import { Cursor } from "@hazae41/cursor";
 import { benchSync } from "@hazae41/deimos";
 import { Keccak256 } from "@hazae41/keccak256";
+import { Secp256k1 } from "@hazae41/secp256k1";
+import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
+import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { ethers } from "ethers";
 import { Rlp } from "index.js";
+import { Copiable } from "libs/copiable/index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature } from "mods/abi/index.js";
 import * as viem from "viem";
 // import * as web3 from "web3";
 
-Base16.set(await Base16.fromBufferOrAlocer())
-Keccak256.set(await Keccak256.fromMorax())
+await Sha3Wasm.initBundled()
+await Secp256k1Wasm.initBundled()
+
+Base16.set(Base16.fromBuffer())
+Keccak256.set(Keccak256.fromWasm(Sha3Wasm))
+Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
 /**
  * Is uint32 faster than uint8?
@@ -28,7 +36,7 @@ if (false) {
 
   const uint32 = benchSync("uint32", () => {
     const cursor = new Cursor(bytes)
-    const x = cursor.tryGetUint32().unwrap()
+    const x = cursor.getUint32OrThrow()
   }, options)
 
   const uint8 = benchSync("uint8", () => {
@@ -43,7 +51,7 @@ if (false) {
  * Encode various types with preparsed ABI
  */
 if (true) {
-  const factory = FunctionSignature.tryParse("f(bool,uint256,string,(bool,uint256,string),bytes)").unwrap()
+  const factory = FunctionSignature.parseOrThrow("f(bool,uint256,string,(bool,uint256,string),bytes)")
 
   const viemAbi = viem.parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d, bytes e")
   const ethersAbi = ["bool a", "uint256 b", "string c", "tuple(bool a, uint256 b, string c) d", "bytes e"]
@@ -98,7 +106,7 @@ if (true) {
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
 if (false) {
-  const abi = FunctionSignature.tryParse("f(bool,uint256,string,address)").unwrap()
+  const abi = FunctionSignature.parseOrThrow("f(bool,uint256,string,address)")
 
   const txhex = ethers.Transaction.from({
     type: 0,
@@ -111,7 +119,7 @@ if (false) {
     nonce: 1,
   }).unsignedSerialized.slice(2)
 
-  const tx = Base16.get().getOrThrow().padStartAndDecodeOrThrow(txhex).copyAndDispose()
+  const tx = Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(txhex))
 
   const rlp = Readable.readFromBytesOrThrow(Rlp, tx).intoOrThrow() as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
@@ -126,7 +134,7 @@ if (false) {
   const rlpStruct = Rlp.fromOrThrow(rlp)
 
   const benchCubaneBytes = benchSync("cubane", () => {
-    const bytes = Writable.tryWriteToBytes(rlpStruct).unwrap()
+    const bytes = Writable.writeToBytesOrThrow(rlpStruct)
     const hex = Base16.get().getOrThrow().encodeOrThrow(bytes)
     // const bytes2 = Base16.get().getOrThrow().padStartAndDecodeOrThrow(hex)
     // const rlp2 = Rlp.tryRead(new Cursor(bytes2.bytes))
@@ -154,7 +162,7 @@ if (false) {
  * RLP encoding a transaction with various pre-ABI-encoded types
  */
 if (false) {
-  const abi = FunctionSignature.tryParse("f(bool,uint256,string,address,bytes)").unwrap()
+  const abi = FunctionSignature.parseOrThrow("f(bool,uint256,string,address,bytes)")
 
   const txhex = ethers.Transaction.from({
     type: 0,
@@ -167,7 +175,7 @@ if (false) {
     nonce: 1,
   }).unsignedSerialized.slice(2)
 
-  const tx = Base16.get().getOrThrow().padStartAndDecodeOrThrow(txhex).copyAndDispose()
+  const tx = Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(txhex))
 
   const rlp = Readable.readFromBytesOrThrow(Rlp, tx).intoOrThrow() as Uint8Array[]
   // const rlp = crypto.getRandomValues(new Uint8Array(4096))
@@ -182,7 +190,7 @@ if (false) {
   const rlpStruct = Rlp.fromOrThrow(rlp)
 
   const benchCubaneBytes = benchSync("cubane", () => {
-    const bytes = Writable.tryWriteToBytes(rlpStruct).unwrap()
+    const bytes = Writable.writeToBytesOrThrow(rlpStruct)
     // const rlp2 = Rlp.tryRead(new Cursor(bytes))
   }, options)
 

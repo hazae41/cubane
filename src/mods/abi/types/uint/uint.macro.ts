@@ -139,9 +139,9 @@ export class BytesAbiUint${bits} {
     cursor.offset += 64 - BytesAbiUint${bits}.nibbles
 
     const content = cursor.readOrThrow(BytesAbiUint${bits}.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
     
-    return new BytesAbiUint${bits}(value)
+    return new BytesAbiUint${bits}(copiable.bytes.slice())
   }
 
   sizeOrThrow() {

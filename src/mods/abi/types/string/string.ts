@@ -102,7 +102,7 @@ export class BytesAbiString {
     const head = NumberUint32.create(length1).encodeOrThrow()
 
     const padded2 = Math.ceil(length2 / 64) * 64
-    const body = Base16.get().encodeOrThrow(this.value).padEnd(padded2, "0")
+    const body = Base16.get().getOrThrow().encodeOrThrow(this.value).padEnd(padded2, "0")
 
     return head + body
   }
@@ -111,7 +111,7 @@ export class BytesAbiString {
     const length1 = this.value.length
 
     const head = NumberUint32.create(length1).encodePackedOrThrow()
-    const body = Base16.get().encodeOrThrow(this.value)
+    const body = Base16.get().getOrThrow().encodeOrThrow(this.value)
 
     return head + body
   }
@@ -122,12 +122,12 @@ export class BytesAbiString {
 
     const content = cursor.readOrThrow(length2)
 
-    const value = Base16.get().padEndAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padEndAndDecodeOrThrow(content)
 
     const padded2 = Math.ceil(length2 / 64) * 64
     cursor.offset += padded2 - length2
 
-    return new BytesAbiString(value)
+    return new BytesAbiString(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -189,7 +189,9 @@ export class RawHexAbiString {
   }
 
   intoOrThrow(): string {
-    return Bytes.toUtf8(Base16.get().padStartAndDecodeOrThrow(this.value).copyAndDispose())
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
+
+    return Bytes.toUtf8(copiable.bytes.slice())
   }
 
   /**
@@ -256,7 +258,7 @@ export class RawHexAbiString {
 
     NumberUint32.create(length1).writeOrThrow(cursor)
 
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
     cursor.writeOrThrow(slice.bytes)
 
     const padded1 = Math.ceil(length1 / 32) * 32
@@ -267,7 +269,7 @@ export class RawHexAbiString {
     const length1 = Uint32.readOrThrow(cursor).value
 
     const bytes = cursor.readOrThrow(length1)
-    const value = Base16.get().encodeOrThrow(bytes)
+    const value = Base16.get().getOrThrow().encodeOrThrow(bytes)
 
     const padded1 = Math.ceil(length1 / 32) * 32
     cursor.offset += padded1 - length1

@@ -1,10 +1,13 @@
 import { Base16 } from "@hazae41/base16";
 import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test } from "@hazae41/phobos";
+import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { Address } from "./index.js";
 
-Base16.set(await Base16.fromBufferOrAlocer())
-Keccak256.set(await Keccak256.fromMorax())
+await Sha3Wasm.initBundled()
+
+Base16.set(Base16.fromBuffer())
+Keccak256.set(Keccak256.fromWasm(Sha3Wasm))
 
 test("address", async ({ test }) => {
   assert(Address.String.is("0x0000000000000000000000000000000000000000"))

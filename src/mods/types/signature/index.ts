@@ -2,6 +2,7 @@ import { Base16 } from "@hazae41/base16"
 import { Uint8Array } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
 import { Secp256k1 } from "@hazae41/secp256k1"
+import { Copiable } from "libs/copiable/index.js"
 import { RawHexString, ZeroHexString } from "../string/index.js"
 
 export type Signature =
@@ -119,7 +120,7 @@ export class RsvSignature {
     }
 
     if (typeof from === "string") {
-      using slice = Base16.get().padStartAndDecodeOrThrow(from.slice(2))
+      using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(from.slice(2))
 
       const cursor = new Cursor(slice.bytes)
 
@@ -172,13 +173,13 @@ export class ZeroHexSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery) {
       using slice = from.exportOrThrow()
 
-      const raw = Base16.get().encodeOrThrow(slice.bytes)
+      const raw = Base16.get().getOrThrow().encodeOrThrow(slice.bytes)
 
       return new ZeroHexSignature(`0x${raw}` as ZeroHexString)
     }
 
     if (from instanceof Uint8Array) {
-      const raw = Base16.get().encodeOrThrow(from)
+      const raw = Base16.get().getOrThrow().encodeOrThrow(from)
 
       return new ZeroHexSignature(`0x${raw}` as ZeroHexString)
     }
@@ -186,8 +187,8 @@ export class ZeroHexSignature {
     if (typeof from === "object") {
       const { r, s, v } = from
 
-      const hr = Base16.get().encodeOrThrow(r)
-      const hs = Base16.get().encodeOrThrow(s)
+      const hr = Base16.get().getOrThrow().encodeOrThrow(r)
+      const hs = Base16.get().getOrThrow().encodeOrThrow(s)
 
       const hvx = v.toString(16) as RawHexString
       const hvp = RawHexString.padStart(hvx)
@@ -235,11 +236,11 @@ export class BytesSignature {
       return BytesSignature.fromOrThrow(from.value)
 
     if (from instanceof Secp256k1.SignatureAndRecovery)
-      return new BytesSignature(from.exportOrThrow().copyAndDispose())
+      return new BytesSignature(Copiable.copyAndDispose(from.exportOrThrow()))
     if (from instanceof Uint8Array)
       return new BytesSignature(from)
     if (typeof from === "string")
-      return new BytesSignature(Base16.get().padEndAndDecodeOrThrow(from).copyAndDispose())
+      return new BytesSignature(Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(from)))
 
     const { r, s, v } = from
 

@@ -3,13 +3,14 @@ import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { BytesAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
+import { Copiable } from "libs/copiable/index.js";
 
-export { AbiBytes1 as Bytes1 };
-
+export { AbiBytes1 as Bytes1 }
+  
 export type AbiBytes1 =
   | BytesAbiBytes1
   | RawHexAbiBytes1
-
+  
 export namespace AbiBytes1 {
   export const dynamic = false
   export const size = 32
@@ -17,11 +18,11 @@ export namespace AbiBytes1 {
   export type Create =
     | BytesAbiBytes1.Create
     | RawHexAbiBytes1.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes1.From
     | RawHexAbiBytes1.From
-
+  
   export function create(value: AbiBytes1.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes1.create(value)
@@ -33,7 +34,7 @@ export namespace AbiBytes1 {
       return BytesAbiBytes1.fromOrThrow(value)
     return RawHexAbiBytes1.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes1`
   }
@@ -112,11 +113,11 @@ export class BytesAbiBytes1 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes1.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes1.nibbles
 
-    return new BytesAbiBytes1(value)
+    return new BytesAbiBytes1(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -132,7 +133,7 @@ export class BytesAbiBytes1 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes1.bytes)
 
     cursor.offset += 32 - BytesAbiBytes1.bytes
-
+    
     return new BytesAbiBytes1(content)
   }
 
@@ -174,7 +175,7 @@ export class RawHexAbiBytes1 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -224,18 +225,18 @@ export class RawHexAbiBytes1 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes1.bytes
-
+    
     return new RawHexAbiBytes1(value as RawHexString)
   }
 
 }
 
-export { AbiBytes2 as Bytes2 };
-
+export { AbiBytes2 as Bytes2 }
+  
 export type AbiBytes2 =
   | BytesAbiBytes2
   | RawHexAbiBytes2
-
+  
 export namespace AbiBytes2 {
   export const dynamic = false
   export const size = 32
@@ -243,11 +244,11 @@ export namespace AbiBytes2 {
   export type Create =
     | BytesAbiBytes2.Create
     | RawHexAbiBytes2.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes2.From
     | RawHexAbiBytes2.From
-
+  
   export function create(value: AbiBytes2.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes2.create(value)
@@ -259,7 +260,7 @@ export namespace AbiBytes2 {
       return BytesAbiBytes2.fromOrThrow(value)
     return RawHexAbiBytes2.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes2`
   }
@@ -338,11 +339,11 @@ export class BytesAbiBytes2 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes2.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes2.nibbles
 
-    return new BytesAbiBytes2(value)
+    return new BytesAbiBytes2(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -358,7 +359,7 @@ export class BytesAbiBytes2 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes2.bytes)
 
     cursor.offset += 32 - BytesAbiBytes2.bytes
-
+    
     return new BytesAbiBytes2(content)
   }
 
@@ -400,7 +401,7 @@ export class RawHexAbiBytes2 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -450,18 +451,18 @@ export class RawHexAbiBytes2 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes2.bytes
-
+    
     return new RawHexAbiBytes2(value as RawHexString)
   }
 
 }
 
-export { AbiBytes3 as Bytes3 };
-
+export { AbiBytes3 as Bytes3 }
+  
 export type AbiBytes3 =
   | BytesAbiBytes3
   | RawHexAbiBytes3
-
+  
 export namespace AbiBytes3 {
   export const dynamic = false
   export const size = 32
@@ -469,11 +470,11 @@ export namespace AbiBytes3 {
   export type Create =
     | BytesAbiBytes3.Create
     | RawHexAbiBytes3.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes3.From
     | RawHexAbiBytes3.From
-
+  
   export function create(value: AbiBytes3.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes3.create(value)
@@ -485,7 +486,7 @@ export namespace AbiBytes3 {
       return BytesAbiBytes3.fromOrThrow(value)
     return RawHexAbiBytes3.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes3`
   }
@@ -564,11 +565,11 @@ export class BytesAbiBytes3 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes3.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes3.nibbles
 
-    return new BytesAbiBytes3(value)
+    return new BytesAbiBytes3(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -584,7 +585,7 @@ export class BytesAbiBytes3 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes3.bytes)
 
     cursor.offset += 32 - BytesAbiBytes3.bytes
-
+    
     return new BytesAbiBytes3(content)
   }
 
@@ -626,7 +627,7 @@ export class RawHexAbiBytes3 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -676,18 +677,18 @@ export class RawHexAbiBytes3 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes3.bytes
-
+    
     return new RawHexAbiBytes3(value as RawHexString)
   }
 
 }
 
-export { AbiBytes4 as Bytes4 };
-
+export { AbiBytes4 as Bytes4 }
+  
 export type AbiBytes4 =
   | BytesAbiBytes4
   | RawHexAbiBytes4
-
+  
 export namespace AbiBytes4 {
   export const dynamic = false
   export const size = 32
@@ -695,11 +696,11 @@ export namespace AbiBytes4 {
   export type Create =
     | BytesAbiBytes4.Create
     | RawHexAbiBytes4.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes4.From
     | RawHexAbiBytes4.From
-
+  
   export function create(value: AbiBytes4.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes4.create(value)
@@ -711,7 +712,7 @@ export namespace AbiBytes4 {
       return BytesAbiBytes4.fromOrThrow(value)
     return RawHexAbiBytes4.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes4`
   }
@@ -790,11 +791,11 @@ export class BytesAbiBytes4 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes4.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes4.nibbles
 
-    return new BytesAbiBytes4(value)
+    return new BytesAbiBytes4(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -810,7 +811,7 @@ export class BytesAbiBytes4 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes4.bytes)
 
     cursor.offset += 32 - BytesAbiBytes4.bytes
-
+    
     return new BytesAbiBytes4(content)
   }
 
@@ -852,7 +853,7 @@ export class RawHexAbiBytes4 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -902,18 +903,18 @@ export class RawHexAbiBytes4 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes4.bytes
-
+    
     return new RawHexAbiBytes4(value as RawHexString)
   }
 
 }
 
-export { AbiBytes5 as Bytes5 };
-
+export { AbiBytes5 as Bytes5 }
+  
 export type AbiBytes5 =
   | BytesAbiBytes5
   | RawHexAbiBytes5
-
+  
 export namespace AbiBytes5 {
   export const dynamic = false
   export const size = 32
@@ -921,11 +922,11 @@ export namespace AbiBytes5 {
   export type Create =
     | BytesAbiBytes5.Create
     | RawHexAbiBytes5.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes5.From
     | RawHexAbiBytes5.From
-
+  
   export function create(value: AbiBytes5.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes5.create(value)
@@ -937,7 +938,7 @@ export namespace AbiBytes5 {
       return BytesAbiBytes5.fromOrThrow(value)
     return RawHexAbiBytes5.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes5`
   }
@@ -1016,11 +1017,11 @@ export class BytesAbiBytes5 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes5.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes5.nibbles
 
-    return new BytesAbiBytes5(value)
+    return new BytesAbiBytes5(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -1036,7 +1037,7 @@ export class BytesAbiBytes5 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes5.bytes)
 
     cursor.offset += 32 - BytesAbiBytes5.bytes
-
+    
     return new BytesAbiBytes5(content)
   }
 
@@ -1078,7 +1079,7 @@ export class RawHexAbiBytes5 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -1128,18 +1129,18 @@ export class RawHexAbiBytes5 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes5.bytes
-
+    
     return new RawHexAbiBytes5(value as RawHexString)
   }
 
 }
 
-export { AbiBytes6 as Bytes6 };
-
+export { AbiBytes6 as Bytes6 }
+  
 export type AbiBytes6 =
   | BytesAbiBytes6
   | RawHexAbiBytes6
-
+  
 export namespace AbiBytes6 {
   export const dynamic = false
   export const size = 32
@@ -1147,11 +1148,11 @@ export namespace AbiBytes6 {
   export type Create =
     | BytesAbiBytes6.Create
     | RawHexAbiBytes6.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes6.From
     | RawHexAbiBytes6.From
-
+  
   export function create(value: AbiBytes6.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes6.create(value)
@@ -1163,7 +1164,7 @@ export namespace AbiBytes6 {
       return BytesAbiBytes6.fromOrThrow(value)
     return RawHexAbiBytes6.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes6`
   }
@@ -1242,11 +1243,11 @@ export class BytesAbiBytes6 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes6.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes6.nibbles
 
-    return new BytesAbiBytes6(value)
+    return new BytesAbiBytes6(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -1262,7 +1263,7 @@ export class BytesAbiBytes6 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes6.bytes)
 
     cursor.offset += 32 - BytesAbiBytes6.bytes
-
+    
     return new BytesAbiBytes6(content)
   }
 
@@ -1304,7 +1305,7 @@ export class RawHexAbiBytes6 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -1354,18 +1355,18 @@ export class RawHexAbiBytes6 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes6.bytes
-
+    
     return new RawHexAbiBytes6(value as RawHexString)
   }
 
 }
 
-export { AbiBytes7 as Bytes7 };
-
+export { AbiBytes7 as Bytes7 }
+  
 export type AbiBytes7 =
   | BytesAbiBytes7
   | RawHexAbiBytes7
-
+  
 export namespace AbiBytes7 {
   export const dynamic = false
   export const size = 32
@@ -1373,11 +1374,11 @@ export namespace AbiBytes7 {
   export type Create =
     | BytesAbiBytes7.Create
     | RawHexAbiBytes7.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes7.From
     | RawHexAbiBytes7.From
-
+  
   export function create(value: AbiBytes7.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes7.create(value)
@@ -1389,7 +1390,7 @@ export namespace AbiBytes7 {
       return BytesAbiBytes7.fromOrThrow(value)
     return RawHexAbiBytes7.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes7`
   }
@@ -1468,11 +1469,11 @@ export class BytesAbiBytes7 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes7.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes7.nibbles
 
-    return new BytesAbiBytes7(value)
+    return new BytesAbiBytes7(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -1488,7 +1489,7 @@ export class BytesAbiBytes7 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes7.bytes)
 
     cursor.offset += 32 - BytesAbiBytes7.bytes
-
+    
     return new BytesAbiBytes7(content)
   }
 
@@ -1530,7 +1531,7 @@ export class RawHexAbiBytes7 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -1580,18 +1581,18 @@ export class RawHexAbiBytes7 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes7.bytes
-
+    
     return new RawHexAbiBytes7(value as RawHexString)
   }
 
 }
 
-export { AbiBytes8 as Bytes8 };
-
+export { AbiBytes8 as Bytes8 }
+  
 export type AbiBytes8 =
   | BytesAbiBytes8
   | RawHexAbiBytes8
-
+  
 export namespace AbiBytes8 {
   export const dynamic = false
   export const size = 32
@@ -1599,11 +1600,11 @@ export namespace AbiBytes8 {
   export type Create =
     | BytesAbiBytes8.Create
     | RawHexAbiBytes8.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes8.From
     | RawHexAbiBytes8.From
-
+  
   export function create(value: AbiBytes8.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes8.create(value)
@@ -1615,7 +1616,7 @@ export namespace AbiBytes8 {
       return BytesAbiBytes8.fromOrThrow(value)
     return RawHexAbiBytes8.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes8`
   }
@@ -1694,11 +1695,11 @@ export class BytesAbiBytes8 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes8.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes8.nibbles
 
-    return new BytesAbiBytes8(value)
+    return new BytesAbiBytes8(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -1714,7 +1715,7 @@ export class BytesAbiBytes8 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes8.bytes)
 
     cursor.offset += 32 - BytesAbiBytes8.bytes
-
+    
     return new BytesAbiBytes8(content)
   }
 
@@ -1756,7 +1757,7 @@ export class RawHexAbiBytes8 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -1806,18 +1807,18 @@ export class RawHexAbiBytes8 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes8.bytes
-
+    
     return new RawHexAbiBytes8(value as RawHexString)
   }
 
 }
 
-export { AbiBytes9 as Bytes9 };
-
+export { AbiBytes9 as Bytes9 }
+  
 export type AbiBytes9 =
   | BytesAbiBytes9
   | RawHexAbiBytes9
-
+  
 export namespace AbiBytes9 {
   export const dynamic = false
   export const size = 32
@@ -1825,11 +1826,11 @@ export namespace AbiBytes9 {
   export type Create =
     | BytesAbiBytes9.Create
     | RawHexAbiBytes9.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes9.From
     | RawHexAbiBytes9.From
-
+  
   export function create(value: AbiBytes9.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes9.create(value)
@@ -1841,7 +1842,7 @@ export namespace AbiBytes9 {
       return BytesAbiBytes9.fromOrThrow(value)
     return RawHexAbiBytes9.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes9`
   }
@@ -1920,11 +1921,11 @@ export class BytesAbiBytes9 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes9.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes9.nibbles
 
-    return new BytesAbiBytes9(value)
+    return new BytesAbiBytes9(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -1940,7 +1941,7 @@ export class BytesAbiBytes9 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes9.bytes)
 
     cursor.offset += 32 - BytesAbiBytes9.bytes
-
+    
     return new BytesAbiBytes9(content)
   }
 
@@ -1982,7 +1983,7 @@ export class RawHexAbiBytes9 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -2032,18 +2033,18 @@ export class RawHexAbiBytes9 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes9.bytes
-
+    
     return new RawHexAbiBytes9(value as RawHexString)
   }
 
 }
 
-export { AbiBytes10 as Bytes10 };
-
+export { AbiBytes10 as Bytes10 }
+  
 export type AbiBytes10 =
   | BytesAbiBytes10
   | RawHexAbiBytes10
-
+  
 export namespace AbiBytes10 {
   export const dynamic = false
   export const size = 32
@@ -2051,11 +2052,11 @@ export namespace AbiBytes10 {
   export type Create =
     | BytesAbiBytes10.Create
     | RawHexAbiBytes10.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes10.From
     | RawHexAbiBytes10.From
-
+  
   export function create(value: AbiBytes10.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes10.create(value)
@@ -2067,7 +2068,7 @@ export namespace AbiBytes10 {
       return BytesAbiBytes10.fromOrThrow(value)
     return RawHexAbiBytes10.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes10`
   }
@@ -2146,11 +2147,11 @@ export class BytesAbiBytes10 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes10.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes10.nibbles
 
-    return new BytesAbiBytes10(value)
+    return new BytesAbiBytes10(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -2166,7 +2167,7 @@ export class BytesAbiBytes10 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes10.bytes)
 
     cursor.offset += 32 - BytesAbiBytes10.bytes
-
+    
     return new BytesAbiBytes10(content)
   }
 
@@ -2208,7 +2209,7 @@ export class RawHexAbiBytes10 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -2258,18 +2259,18 @@ export class RawHexAbiBytes10 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes10.bytes
-
+    
     return new RawHexAbiBytes10(value as RawHexString)
   }
 
 }
 
-export { AbiBytes11 as Bytes11 };
-
+export { AbiBytes11 as Bytes11 }
+  
 export type AbiBytes11 =
   | BytesAbiBytes11
   | RawHexAbiBytes11
-
+  
 export namespace AbiBytes11 {
   export const dynamic = false
   export const size = 32
@@ -2277,11 +2278,11 @@ export namespace AbiBytes11 {
   export type Create =
     | BytesAbiBytes11.Create
     | RawHexAbiBytes11.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes11.From
     | RawHexAbiBytes11.From
-
+  
   export function create(value: AbiBytes11.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes11.create(value)
@@ -2293,7 +2294,7 @@ export namespace AbiBytes11 {
       return BytesAbiBytes11.fromOrThrow(value)
     return RawHexAbiBytes11.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes11`
   }
@@ -2372,11 +2373,11 @@ export class BytesAbiBytes11 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes11.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes11.nibbles
 
-    return new BytesAbiBytes11(value)
+    return new BytesAbiBytes11(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -2392,7 +2393,7 @@ export class BytesAbiBytes11 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes11.bytes)
 
     cursor.offset += 32 - BytesAbiBytes11.bytes
-
+    
     return new BytesAbiBytes11(content)
   }
 
@@ -2434,7 +2435,7 @@ export class RawHexAbiBytes11 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -2484,18 +2485,18 @@ export class RawHexAbiBytes11 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes11.bytes
-
+    
     return new RawHexAbiBytes11(value as RawHexString)
   }
 
 }
 
-export { AbiBytes12 as Bytes12 };
-
+export { AbiBytes12 as Bytes12 }
+  
 export type AbiBytes12 =
   | BytesAbiBytes12
   | RawHexAbiBytes12
-
+  
 export namespace AbiBytes12 {
   export const dynamic = false
   export const size = 32
@@ -2503,11 +2504,11 @@ export namespace AbiBytes12 {
   export type Create =
     | BytesAbiBytes12.Create
     | RawHexAbiBytes12.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes12.From
     | RawHexAbiBytes12.From
-
+  
   export function create(value: AbiBytes12.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes12.create(value)
@@ -2519,7 +2520,7 @@ export namespace AbiBytes12 {
       return BytesAbiBytes12.fromOrThrow(value)
     return RawHexAbiBytes12.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes12`
   }
@@ -2598,11 +2599,11 @@ export class BytesAbiBytes12 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes12.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes12.nibbles
 
-    return new BytesAbiBytes12(value)
+    return new BytesAbiBytes12(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -2618,7 +2619,7 @@ export class BytesAbiBytes12 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes12.bytes)
 
     cursor.offset += 32 - BytesAbiBytes12.bytes
-
+    
     return new BytesAbiBytes12(content)
   }
 
@@ -2660,7 +2661,7 @@ export class RawHexAbiBytes12 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -2710,18 +2711,18 @@ export class RawHexAbiBytes12 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes12.bytes
-
+    
     return new RawHexAbiBytes12(value as RawHexString)
   }
 
 }
 
-export { AbiBytes13 as Bytes13 };
-
+export { AbiBytes13 as Bytes13 }
+  
 export type AbiBytes13 =
   | BytesAbiBytes13
   | RawHexAbiBytes13
-
+  
 export namespace AbiBytes13 {
   export const dynamic = false
   export const size = 32
@@ -2729,11 +2730,11 @@ export namespace AbiBytes13 {
   export type Create =
     | BytesAbiBytes13.Create
     | RawHexAbiBytes13.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes13.From
     | RawHexAbiBytes13.From
-
+  
   export function create(value: AbiBytes13.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes13.create(value)
@@ -2745,7 +2746,7 @@ export namespace AbiBytes13 {
       return BytesAbiBytes13.fromOrThrow(value)
     return RawHexAbiBytes13.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes13`
   }
@@ -2824,11 +2825,11 @@ export class BytesAbiBytes13 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes13.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes13.nibbles
 
-    return new BytesAbiBytes13(value)
+    return new BytesAbiBytes13(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -2844,7 +2845,7 @@ export class BytesAbiBytes13 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes13.bytes)
 
     cursor.offset += 32 - BytesAbiBytes13.bytes
-
+    
     return new BytesAbiBytes13(content)
   }
 
@@ -2886,7 +2887,7 @@ export class RawHexAbiBytes13 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -2936,18 +2937,18 @@ export class RawHexAbiBytes13 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes13.bytes
-
+    
     return new RawHexAbiBytes13(value as RawHexString)
   }
 
 }
 
-export { AbiBytes14 as Bytes14 };
-
+export { AbiBytes14 as Bytes14 }
+  
 export type AbiBytes14 =
   | BytesAbiBytes14
   | RawHexAbiBytes14
-
+  
 export namespace AbiBytes14 {
   export const dynamic = false
   export const size = 32
@@ -2955,11 +2956,11 @@ export namespace AbiBytes14 {
   export type Create =
     | BytesAbiBytes14.Create
     | RawHexAbiBytes14.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes14.From
     | RawHexAbiBytes14.From
-
+  
   export function create(value: AbiBytes14.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes14.create(value)
@@ -2971,7 +2972,7 @@ export namespace AbiBytes14 {
       return BytesAbiBytes14.fromOrThrow(value)
     return RawHexAbiBytes14.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes14`
   }
@@ -3050,11 +3051,11 @@ export class BytesAbiBytes14 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes14.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes14.nibbles
 
-    return new BytesAbiBytes14(value)
+    return new BytesAbiBytes14(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -3070,7 +3071,7 @@ export class BytesAbiBytes14 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes14.bytes)
 
     cursor.offset += 32 - BytesAbiBytes14.bytes
-
+    
     return new BytesAbiBytes14(content)
   }
 
@@ -3112,7 +3113,7 @@ export class RawHexAbiBytes14 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -3162,18 +3163,18 @@ export class RawHexAbiBytes14 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes14.bytes
-
+    
     return new RawHexAbiBytes14(value as RawHexString)
   }
 
 }
 
-export { AbiBytes15 as Bytes15 };
-
+export { AbiBytes15 as Bytes15 }
+  
 export type AbiBytes15 =
   | BytesAbiBytes15
   | RawHexAbiBytes15
-
+  
 export namespace AbiBytes15 {
   export const dynamic = false
   export const size = 32
@@ -3181,11 +3182,11 @@ export namespace AbiBytes15 {
   export type Create =
     | BytesAbiBytes15.Create
     | RawHexAbiBytes15.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes15.From
     | RawHexAbiBytes15.From
-
+  
   export function create(value: AbiBytes15.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes15.create(value)
@@ -3197,7 +3198,7 @@ export namespace AbiBytes15 {
       return BytesAbiBytes15.fromOrThrow(value)
     return RawHexAbiBytes15.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes15`
   }
@@ -3276,11 +3277,11 @@ export class BytesAbiBytes15 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes15.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes15.nibbles
 
-    return new BytesAbiBytes15(value)
+    return new BytesAbiBytes15(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -3296,7 +3297,7 @@ export class BytesAbiBytes15 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes15.bytes)
 
     cursor.offset += 32 - BytesAbiBytes15.bytes
-
+    
     return new BytesAbiBytes15(content)
   }
 
@@ -3338,7 +3339,7 @@ export class RawHexAbiBytes15 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -3388,18 +3389,18 @@ export class RawHexAbiBytes15 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes15.bytes
-
+    
     return new RawHexAbiBytes15(value as RawHexString)
   }
 
 }
 
-export { AbiBytes16 as Bytes16 };
-
+export { AbiBytes16 as Bytes16 }
+  
 export type AbiBytes16 =
   | BytesAbiBytes16
   | RawHexAbiBytes16
-
+  
 export namespace AbiBytes16 {
   export const dynamic = false
   export const size = 32
@@ -3407,11 +3408,11 @@ export namespace AbiBytes16 {
   export type Create =
     | BytesAbiBytes16.Create
     | RawHexAbiBytes16.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes16.From
     | RawHexAbiBytes16.From
-
+  
   export function create(value: AbiBytes16.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes16.create(value)
@@ -3423,7 +3424,7 @@ export namespace AbiBytes16 {
       return BytesAbiBytes16.fromOrThrow(value)
     return RawHexAbiBytes16.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes16`
   }
@@ -3502,11 +3503,11 @@ export class BytesAbiBytes16 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes16.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes16.nibbles
 
-    return new BytesAbiBytes16(value)
+    return new BytesAbiBytes16(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -3522,7 +3523,7 @@ export class BytesAbiBytes16 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes16.bytes)
 
     cursor.offset += 32 - BytesAbiBytes16.bytes
-
+    
     return new BytesAbiBytes16(content)
   }
 
@@ -3564,7 +3565,7 @@ export class RawHexAbiBytes16 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -3614,18 +3615,18 @@ export class RawHexAbiBytes16 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes16.bytes
-
+    
     return new RawHexAbiBytes16(value as RawHexString)
   }
 
 }
 
-export { AbiBytes17 as Bytes17 };
-
+export { AbiBytes17 as Bytes17 }
+  
 export type AbiBytes17 =
   | BytesAbiBytes17
   | RawHexAbiBytes17
-
+  
 export namespace AbiBytes17 {
   export const dynamic = false
   export const size = 32
@@ -3633,11 +3634,11 @@ export namespace AbiBytes17 {
   export type Create =
     | BytesAbiBytes17.Create
     | RawHexAbiBytes17.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes17.From
     | RawHexAbiBytes17.From
-
+  
   export function create(value: AbiBytes17.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes17.create(value)
@@ -3649,7 +3650,7 @@ export namespace AbiBytes17 {
       return BytesAbiBytes17.fromOrThrow(value)
     return RawHexAbiBytes17.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes17`
   }
@@ -3728,11 +3729,11 @@ export class BytesAbiBytes17 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes17.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes17.nibbles
 
-    return new BytesAbiBytes17(value)
+    return new BytesAbiBytes17(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -3748,7 +3749,7 @@ export class BytesAbiBytes17 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes17.bytes)
 
     cursor.offset += 32 - BytesAbiBytes17.bytes
-
+    
     return new BytesAbiBytes17(content)
   }
 
@@ -3790,7 +3791,7 @@ export class RawHexAbiBytes17 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -3840,18 +3841,18 @@ export class RawHexAbiBytes17 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes17.bytes
-
+    
     return new RawHexAbiBytes17(value as RawHexString)
   }
 
 }
 
-export { AbiBytes18 as Bytes18 };
-
+export { AbiBytes18 as Bytes18 }
+  
 export type AbiBytes18 =
   | BytesAbiBytes18
   | RawHexAbiBytes18
-
+  
 export namespace AbiBytes18 {
   export const dynamic = false
   export const size = 32
@@ -3859,11 +3860,11 @@ export namespace AbiBytes18 {
   export type Create =
     | BytesAbiBytes18.Create
     | RawHexAbiBytes18.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes18.From
     | RawHexAbiBytes18.From
-
+  
   export function create(value: AbiBytes18.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes18.create(value)
@@ -3875,7 +3876,7 @@ export namespace AbiBytes18 {
       return BytesAbiBytes18.fromOrThrow(value)
     return RawHexAbiBytes18.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes18`
   }
@@ -3954,11 +3955,11 @@ export class BytesAbiBytes18 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes18.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes18.nibbles
 
-    return new BytesAbiBytes18(value)
+    return new BytesAbiBytes18(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -3974,7 +3975,7 @@ export class BytesAbiBytes18 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes18.bytes)
 
     cursor.offset += 32 - BytesAbiBytes18.bytes
-
+    
     return new BytesAbiBytes18(content)
   }
 
@@ -4016,7 +4017,7 @@ export class RawHexAbiBytes18 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -4066,18 +4067,18 @@ export class RawHexAbiBytes18 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes18.bytes
-
+    
     return new RawHexAbiBytes18(value as RawHexString)
   }
 
 }
 
-export { AbiBytes19 as Bytes19 };
-
+export { AbiBytes19 as Bytes19 }
+  
 export type AbiBytes19 =
   | BytesAbiBytes19
   | RawHexAbiBytes19
-
+  
 export namespace AbiBytes19 {
   export const dynamic = false
   export const size = 32
@@ -4085,11 +4086,11 @@ export namespace AbiBytes19 {
   export type Create =
     | BytesAbiBytes19.Create
     | RawHexAbiBytes19.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes19.From
     | RawHexAbiBytes19.From
-
+  
   export function create(value: AbiBytes19.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes19.create(value)
@@ -4101,7 +4102,7 @@ export namespace AbiBytes19 {
       return BytesAbiBytes19.fromOrThrow(value)
     return RawHexAbiBytes19.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes19`
   }
@@ -4180,11 +4181,11 @@ export class BytesAbiBytes19 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes19.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes19.nibbles
 
-    return new BytesAbiBytes19(value)
+    return new BytesAbiBytes19(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -4200,7 +4201,7 @@ export class BytesAbiBytes19 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes19.bytes)
 
     cursor.offset += 32 - BytesAbiBytes19.bytes
-
+    
     return new BytesAbiBytes19(content)
   }
 
@@ -4242,7 +4243,7 @@ export class RawHexAbiBytes19 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -4292,18 +4293,18 @@ export class RawHexAbiBytes19 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes19.bytes
-
+    
     return new RawHexAbiBytes19(value as RawHexString)
   }
 
 }
 
-export { AbiBytes20 as Bytes20 };
-
+export { AbiBytes20 as Bytes20 }
+  
 export type AbiBytes20 =
   | BytesAbiBytes20
   | RawHexAbiBytes20
-
+  
 export namespace AbiBytes20 {
   export const dynamic = false
   export const size = 32
@@ -4311,11 +4312,11 @@ export namespace AbiBytes20 {
   export type Create =
     | BytesAbiBytes20.Create
     | RawHexAbiBytes20.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes20.From
     | RawHexAbiBytes20.From
-
+  
   export function create(value: AbiBytes20.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes20.create(value)
@@ -4327,7 +4328,7 @@ export namespace AbiBytes20 {
       return BytesAbiBytes20.fromOrThrow(value)
     return RawHexAbiBytes20.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes20`
   }
@@ -4406,11 +4407,11 @@ export class BytesAbiBytes20 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes20.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes20.nibbles
 
-    return new BytesAbiBytes20(value)
+    return new BytesAbiBytes20(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -4426,7 +4427,7 @@ export class BytesAbiBytes20 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes20.bytes)
 
     cursor.offset += 32 - BytesAbiBytes20.bytes
-
+    
     return new BytesAbiBytes20(content)
   }
 
@@ -4468,7 +4469,7 @@ export class RawHexAbiBytes20 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -4518,18 +4519,18 @@ export class RawHexAbiBytes20 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes20.bytes
-
+    
     return new RawHexAbiBytes20(value as RawHexString)
   }
 
 }
 
-export { AbiBytes21 as Bytes21 };
-
+export { AbiBytes21 as Bytes21 }
+  
 export type AbiBytes21 =
   | BytesAbiBytes21
   | RawHexAbiBytes21
-
+  
 export namespace AbiBytes21 {
   export const dynamic = false
   export const size = 32
@@ -4537,11 +4538,11 @@ export namespace AbiBytes21 {
   export type Create =
     | BytesAbiBytes21.Create
     | RawHexAbiBytes21.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes21.From
     | RawHexAbiBytes21.From
-
+  
   export function create(value: AbiBytes21.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes21.create(value)
@@ -4553,7 +4554,7 @@ export namespace AbiBytes21 {
       return BytesAbiBytes21.fromOrThrow(value)
     return RawHexAbiBytes21.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes21`
   }
@@ -4632,11 +4633,11 @@ export class BytesAbiBytes21 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes21.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes21.nibbles
 
-    return new BytesAbiBytes21(value)
+    return new BytesAbiBytes21(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -4652,7 +4653,7 @@ export class BytesAbiBytes21 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes21.bytes)
 
     cursor.offset += 32 - BytesAbiBytes21.bytes
-
+    
     return new BytesAbiBytes21(content)
   }
 
@@ -4694,7 +4695,7 @@ export class RawHexAbiBytes21 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -4744,18 +4745,18 @@ export class RawHexAbiBytes21 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes21.bytes
-
+    
     return new RawHexAbiBytes21(value as RawHexString)
   }
 
 }
 
-export { AbiBytes22 as Bytes22 };
-
+export { AbiBytes22 as Bytes22 }
+  
 export type AbiBytes22 =
   | BytesAbiBytes22
   | RawHexAbiBytes22
-
+  
 export namespace AbiBytes22 {
   export const dynamic = false
   export const size = 32
@@ -4763,11 +4764,11 @@ export namespace AbiBytes22 {
   export type Create =
     | BytesAbiBytes22.Create
     | RawHexAbiBytes22.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes22.From
     | RawHexAbiBytes22.From
-
+  
   export function create(value: AbiBytes22.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes22.create(value)
@@ -4779,7 +4780,7 @@ export namespace AbiBytes22 {
       return BytesAbiBytes22.fromOrThrow(value)
     return RawHexAbiBytes22.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes22`
   }
@@ -4858,11 +4859,11 @@ export class BytesAbiBytes22 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes22.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes22.nibbles
 
-    return new BytesAbiBytes22(value)
+    return new BytesAbiBytes22(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -4878,7 +4879,7 @@ export class BytesAbiBytes22 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes22.bytes)
 
     cursor.offset += 32 - BytesAbiBytes22.bytes
-
+    
     return new BytesAbiBytes22(content)
   }
 
@@ -4920,7 +4921,7 @@ export class RawHexAbiBytes22 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -4970,18 +4971,18 @@ export class RawHexAbiBytes22 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes22.bytes
-
+    
     return new RawHexAbiBytes22(value as RawHexString)
   }
 
 }
 
-export { AbiBytes23 as Bytes23 };
-
+export { AbiBytes23 as Bytes23 }
+  
 export type AbiBytes23 =
   | BytesAbiBytes23
   | RawHexAbiBytes23
-
+  
 export namespace AbiBytes23 {
   export const dynamic = false
   export const size = 32
@@ -4989,11 +4990,11 @@ export namespace AbiBytes23 {
   export type Create =
     | BytesAbiBytes23.Create
     | RawHexAbiBytes23.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes23.From
     | RawHexAbiBytes23.From
-
+  
   export function create(value: AbiBytes23.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes23.create(value)
@@ -5005,7 +5006,7 @@ export namespace AbiBytes23 {
       return BytesAbiBytes23.fromOrThrow(value)
     return RawHexAbiBytes23.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes23`
   }
@@ -5084,11 +5085,11 @@ export class BytesAbiBytes23 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes23.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes23.nibbles
 
-    return new BytesAbiBytes23(value)
+    return new BytesAbiBytes23(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -5104,7 +5105,7 @@ export class BytesAbiBytes23 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes23.bytes)
 
     cursor.offset += 32 - BytesAbiBytes23.bytes
-
+    
     return new BytesAbiBytes23(content)
   }
 
@@ -5146,7 +5147,7 @@ export class RawHexAbiBytes23 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -5196,18 +5197,18 @@ export class RawHexAbiBytes23 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes23.bytes
-
+    
     return new RawHexAbiBytes23(value as RawHexString)
   }
 
 }
 
-export { AbiBytes24 as Bytes24 };
-
+export { AbiBytes24 as Bytes24 }
+  
 export type AbiBytes24 =
   | BytesAbiBytes24
   | RawHexAbiBytes24
-
+  
 export namespace AbiBytes24 {
   export const dynamic = false
   export const size = 32
@@ -5215,11 +5216,11 @@ export namespace AbiBytes24 {
   export type Create =
     | BytesAbiBytes24.Create
     | RawHexAbiBytes24.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes24.From
     | RawHexAbiBytes24.From
-
+  
   export function create(value: AbiBytes24.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes24.create(value)
@@ -5231,7 +5232,7 @@ export namespace AbiBytes24 {
       return BytesAbiBytes24.fromOrThrow(value)
     return RawHexAbiBytes24.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes24`
   }
@@ -5310,11 +5311,11 @@ export class BytesAbiBytes24 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes24.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes24.nibbles
 
-    return new BytesAbiBytes24(value)
+    return new BytesAbiBytes24(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -5330,7 +5331,7 @@ export class BytesAbiBytes24 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes24.bytes)
 
     cursor.offset += 32 - BytesAbiBytes24.bytes
-
+    
     return new BytesAbiBytes24(content)
   }
 
@@ -5372,7 +5373,7 @@ export class RawHexAbiBytes24 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -5422,18 +5423,18 @@ export class RawHexAbiBytes24 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes24.bytes
-
+    
     return new RawHexAbiBytes24(value as RawHexString)
   }
 
 }
 
-export { AbiBytes25 as Bytes25 };
-
+export { AbiBytes25 as Bytes25 }
+  
 export type AbiBytes25 =
   | BytesAbiBytes25
   | RawHexAbiBytes25
-
+  
 export namespace AbiBytes25 {
   export const dynamic = false
   export const size = 32
@@ -5441,11 +5442,11 @@ export namespace AbiBytes25 {
   export type Create =
     | BytesAbiBytes25.Create
     | RawHexAbiBytes25.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes25.From
     | RawHexAbiBytes25.From
-
+  
   export function create(value: AbiBytes25.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes25.create(value)
@@ -5457,7 +5458,7 @@ export namespace AbiBytes25 {
       return BytesAbiBytes25.fromOrThrow(value)
     return RawHexAbiBytes25.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes25`
   }
@@ -5536,11 +5537,11 @@ export class BytesAbiBytes25 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes25.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes25.nibbles
 
-    return new BytesAbiBytes25(value)
+    return new BytesAbiBytes25(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -5556,7 +5557,7 @@ export class BytesAbiBytes25 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes25.bytes)
 
     cursor.offset += 32 - BytesAbiBytes25.bytes
-
+    
     return new BytesAbiBytes25(content)
   }
 
@@ -5598,7 +5599,7 @@ export class RawHexAbiBytes25 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -5648,18 +5649,18 @@ export class RawHexAbiBytes25 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes25.bytes
-
+    
     return new RawHexAbiBytes25(value as RawHexString)
   }
 
 }
 
-export { AbiBytes26 as Bytes26 };
-
+export { AbiBytes26 as Bytes26 }
+  
 export type AbiBytes26 =
   | BytesAbiBytes26
   | RawHexAbiBytes26
-
+  
 export namespace AbiBytes26 {
   export const dynamic = false
   export const size = 32
@@ -5667,11 +5668,11 @@ export namespace AbiBytes26 {
   export type Create =
     | BytesAbiBytes26.Create
     | RawHexAbiBytes26.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes26.From
     | RawHexAbiBytes26.From
-
+  
   export function create(value: AbiBytes26.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes26.create(value)
@@ -5683,7 +5684,7 @@ export namespace AbiBytes26 {
       return BytesAbiBytes26.fromOrThrow(value)
     return RawHexAbiBytes26.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes26`
   }
@@ -5762,11 +5763,11 @@ export class BytesAbiBytes26 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes26.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes26.nibbles
 
-    return new BytesAbiBytes26(value)
+    return new BytesAbiBytes26(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -5782,7 +5783,7 @@ export class BytesAbiBytes26 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes26.bytes)
 
     cursor.offset += 32 - BytesAbiBytes26.bytes
-
+    
     return new BytesAbiBytes26(content)
   }
 
@@ -5824,7 +5825,7 @@ export class RawHexAbiBytes26 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -5874,18 +5875,18 @@ export class RawHexAbiBytes26 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes26.bytes
-
+    
     return new RawHexAbiBytes26(value as RawHexString)
   }
 
 }
 
-export { AbiBytes27 as Bytes27 };
-
+export { AbiBytes27 as Bytes27 }
+  
 export type AbiBytes27 =
   | BytesAbiBytes27
   | RawHexAbiBytes27
-
+  
 export namespace AbiBytes27 {
   export const dynamic = false
   export const size = 32
@@ -5893,11 +5894,11 @@ export namespace AbiBytes27 {
   export type Create =
     | BytesAbiBytes27.Create
     | RawHexAbiBytes27.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes27.From
     | RawHexAbiBytes27.From
-
+  
   export function create(value: AbiBytes27.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes27.create(value)
@@ -5909,7 +5910,7 @@ export namespace AbiBytes27 {
       return BytesAbiBytes27.fromOrThrow(value)
     return RawHexAbiBytes27.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes27`
   }
@@ -5988,11 +5989,11 @@ export class BytesAbiBytes27 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes27.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes27.nibbles
 
-    return new BytesAbiBytes27(value)
+    return new BytesAbiBytes27(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -6008,7 +6009,7 @@ export class BytesAbiBytes27 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes27.bytes)
 
     cursor.offset += 32 - BytesAbiBytes27.bytes
-
+    
     return new BytesAbiBytes27(content)
   }
 
@@ -6050,7 +6051,7 @@ export class RawHexAbiBytes27 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -6100,18 +6101,18 @@ export class RawHexAbiBytes27 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes27.bytes
-
+    
     return new RawHexAbiBytes27(value as RawHexString)
   }
 
 }
 
-export { AbiBytes28 as Bytes28 };
-
+export { AbiBytes28 as Bytes28 }
+  
 export type AbiBytes28 =
   | BytesAbiBytes28
   | RawHexAbiBytes28
-
+  
 export namespace AbiBytes28 {
   export const dynamic = false
   export const size = 32
@@ -6119,11 +6120,11 @@ export namespace AbiBytes28 {
   export type Create =
     | BytesAbiBytes28.Create
     | RawHexAbiBytes28.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes28.From
     | RawHexAbiBytes28.From
-
+  
   export function create(value: AbiBytes28.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes28.create(value)
@@ -6135,7 +6136,7 @@ export namespace AbiBytes28 {
       return BytesAbiBytes28.fromOrThrow(value)
     return RawHexAbiBytes28.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes28`
   }
@@ -6214,11 +6215,11 @@ export class BytesAbiBytes28 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes28.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes28.nibbles
 
-    return new BytesAbiBytes28(value)
+    return new BytesAbiBytes28(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -6234,7 +6235,7 @@ export class BytesAbiBytes28 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes28.bytes)
 
     cursor.offset += 32 - BytesAbiBytes28.bytes
-
+    
     return new BytesAbiBytes28(content)
   }
 
@@ -6276,7 +6277,7 @@ export class RawHexAbiBytes28 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -6326,18 +6327,18 @@ export class RawHexAbiBytes28 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes28.bytes
-
+    
     return new RawHexAbiBytes28(value as RawHexString)
   }
 
 }
 
-export { AbiBytes29 as Bytes29 };
-
+export { AbiBytes29 as Bytes29 }
+  
 export type AbiBytes29 =
   | BytesAbiBytes29
   | RawHexAbiBytes29
-
+  
 export namespace AbiBytes29 {
   export const dynamic = false
   export const size = 32
@@ -6345,11 +6346,11 @@ export namespace AbiBytes29 {
   export type Create =
     | BytesAbiBytes29.Create
     | RawHexAbiBytes29.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes29.From
     | RawHexAbiBytes29.From
-
+  
   export function create(value: AbiBytes29.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes29.create(value)
@@ -6361,7 +6362,7 @@ export namespace AbiBytes29 {
       return BytesAbiBytes29.fromOrThrow(value)
     return RawHexAbiBytes29.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes29`
   }
@@ -6440,11 +6441,11 @@ export class BytesAbiBytes29 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes29.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes29.nibbles
 
-    return new BytesAbiBytes29(value)
+    return new BytesAbiBytes29(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -6460,7 +6461,7 @@ export class BytesAbiBytes29 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes29.bytes)
 
     cursor.offset += 32 - BytesAbiBytes29.bytes
-
+    
     return new BytesAbiBytes29(content)
   }
 
@@ -6502,7 +6503,7 @@ export class RawHexAbiBytes29 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -6552,18 +6553,18 @@ export class RawHexAbiBytes29 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes29.bytes
-
+    
     return new RawHexAbiBytes29(value as RawHexString)
   }
 
 }
 
-export { AbiBytes30 as Bytes30 };
-
+export { AbiBytes30 as Bytes30 }
+  
 export type AbiBytes30 =
   | BytesAbiBytes30
   | RawHexAbiBytes30
-
+  
 export namespace AbiBytes30 {
   export const dynamic = false
   export const size = 32
@@ -6571,11 +6572,11 @@ export namespace AbiBytes30 {
   export type Create =
     | BytesAbiBytes30.Create
     | RawHexAbiBytes30.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes30.From
     | RawHexAbiBytes30.From
-
+  
   export function create(value: AbiBytes30.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes30.create(value)
@@ -6587,7 +6588,7 @@ export namespace AbiBytes30 {
       return BytesAbiBytes30.fromOrThrow(value)
     return RawHexAbiBytes30.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes30`
   }
@@ -6666,11 +6667,11 @@ export class BytesAbiBytes30 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes30.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes30.nibbles
 
-    return new BytesAbiBytes30(value)
+    return new BytesAbiBytes30(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -6686,7 +6687,7 @@ export class BytesAbiBytes30 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes30.bytes)
 
     cursor.offset += 32 - BytesAbiBytes30.bytes
-
+    
     return new BytesAbiBytes30(content)
   }
 
@@ -6728,7 +6729,7 @@ export class RawHexAbiBytes30 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -6778,18 +6779,18 @@ export class RawHexAbiBytes30 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes30.bytes
-
+    
     return new RawHexAbiBytes30(value as RawHexString)
   }
 
 }
 
-export { AbiBytes31 as Bytes31 };
-
+export { AbiBytes31 as Bytes31 }
+  
 export type AbiBytes31 =
   | BytesAbiBytes31
   | RawHexAbiBytes31
-
+  
 export namespace AbiBytes31 {
   export const dynamic = false
   export const size = 32
@@ -6797,11 +6798,11 @@ export namespace AbiBytes31 {
   export type Create =
     | BytesAbiBytes31.Create
     | RawHexAbiBytes31.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes31.From
     | RawHexAbiBytes31.From
-
+  
   export function create(value: AbiBytes31.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes31.create(value)
@@ -6813,7 +6814,7 @@ export namespace AbiBytes31 {
       return BytesAbiBytes31.fromOrThrow(value)
     return RawHexAbiBytes31.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes31`
   }
@@ -6892,11 +6893,11 @@ export class BytesAbiBytes31 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes31.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes31.nibbles
 
-    return new BytesAbiBytes31(value)
+    return new BytesAbiBytes31(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -6912,7 +6913,7 @@ export class BytesAbiBytes31 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes31.bytes)
 
     cursor.offset += 32 - BytesAbiBytes31.bytes
-
+    
     return new BytesAbiBytes31(content)
   }
 
@@ -6954,7 +6955,7 @@ export class RawHexAbiBytes31 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -7004,18 +7005,18 @@ export class RawHexAbiBytes31 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes31.bytes
-
+    
     return new RawHexAbiBytes31(value as RawHexString)
   }
 
 }
 
-export { AbiBytes32 as Bytes32 };
-
+export { AbiBytes32 as Bytes32 }
+  
 export type AbiBytes32 =
   | BytesAbiBytes32
   | RawHexAbiBytes32
-
+  
 export namespace AbiBytes32 {
   export const dynamic = false
   export const size = 32
@@ -7023,11 +7024,11 @@ export namespace AbiBytes32 {
   export type Create =
     | BytesAbiBytes32.Create
     | RawHexAbiBytes32.Create
-
-  export type From =
+  
+  export type From = 
     | BytesAbiBytes32.From
     | RawHexAbiBytes32.From
-
+  
   export function create(value: AbiBytes32.Create) {
     if (value instanceof Uint8Array)
       return BytesAbiBytes32.create(value)
@@ -7039,7 +7040,7 @@ export namespace AbiBytes32 {
       return BytesAbiBytes32.fromOrThrow(value)
     return RawHexAbiBytes32.fromOrThrow(value)
   }
-
+  
   export function codegen() {
     return `Abi.Bytes32`
   }
@@ -7118,11 +7119,11 @@ export class BytesAbiBytes32 {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes32.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes32.nibbles
 
-    return new BytesAbiBytes32(value)
+    return new BytesAbiBytes32(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -7138,7 +7139,7 @@ export class BytesAbiBytes32 {
     const content = cursor.readAndCopyOrThrow(BytesAbiBytes32.bytes)
 
     cursor.offset += 32 - BytesAbiBytes32.bytes
-
+    
     return new BytesAbiBytes32(content)
   }
 
@@ -7180,7 +7181,7 @@ export class RawHexAbiBytes32 {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**
@@ -7230,78 +7231,78 @@ export class RawHexAbiBytes32 {
     const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     cursor.offset += 32 - RawHexAbiBytes32.bytes
-
+    
     return new RawHexAbiBytes32(value as RawHexString)
   }
 
 }
 
 export type BytesByName = {
-  bytes1: typeof AbiBytes1,
-  bytes2: typeof AbiBytes2,
-  bytes3: typeof AbiBytes3,
-  bytes4: typeof AbiBytes4,
-  bytes5: typeof AbiBytes5,
-  bytes6: typeof AbiBytes6,
-  bytes7: typeof AbiBytes7,
-  bytes8: typeof AbiBytes8,
-  bytes9: typeof AbiBytes9,
-  bytes10: typeof AbiBytes10,
-  bytes11: typeof AbiBytes11,
-  bytes12: typeof AbiBytes12,
-  bytes13: typeof AbiBytes13,
-  bytes14: typeof AbiBytes14,
-  bytes15: typeof AbiBytes15,
-  bytes16: typeof AbiBytes16,
-  bytes17: typeof AbiBytes17,
-  bytes18: typeof AbiBytes18,
-  bytes19: typeof AbiBytes19,
-  bytes20: typeof AbiBytes20,
-  bytes21: typeof AbiBytes21,
-  bytes22: typeof AbiBytes22,
-  bytes23: typeof AbiBytes23,
-  bytes24: typeof AbiBytes24,
-  bytes25: typeof AbiBytes25,
-  bytes26: typeof AbiBytes26,
-  bytes27: typeof AbiBytes27,
-  bytes28: typeof AbiBytes28,
-  bytes29: typeof AbiBytes29,
-  bytes30: typeof AbiBytes30,
-  bytes31: typeof AbiBytes31,
-  bytes32: typeof AbiBytes32,
-}
-
-export const bytesByName: BytesByName = {
-  bytes1: AbiBytes1,
-  bytes2: AbiBytes2,
-  bytes3: AbiBytes3,
-  bytes4: AbiBytes4,
-  bytes5: AbiBytes5,
-  bytes6: AbiBytes6,
-  bytes7: AbiBytes7,
-  bytes8: AbiBytes8,
-  bytes9: AbiBytes9,
-  bytes10: AbiBytes10,
-  bytes11: AbiBytes11,
-  bytes12: AbiBytes12,
-  bytes13: AbiBytes13,
-  bytes14: AbiBytes14,
-  bytes15: AbiBytes15,
-  bytes16: AbiBytes16,
-  bytes17: AbiBytes17,
-  bytes18: AbiBytes18,
-  bytes19: AbiBytes19,
-  bytes20: AbiBytes20,
-  bytes21: AbiBytes21,
-  bytes22: AbiBytes22,
-  bytes23: AbiBytes23,
-  bytes24: AbiBytes24,
-  bytes25: AbiBytes25,
-  bytes26: AbiBytes26,
-  bytes27: AbiBytes27,
-  bytes28: AbiBytes28,
-  bytes29: AbiBytes29,
-  bytes30: AbiBytes30,
-  bytes31: AbiBytes31,
-  bytes32: AbiBytes32,
-} as const
+    bytes1: typeof AbiBytes1,
+    bytes2: typeof AbiBytes2,
+    bytes3: typeof AbiBytes3,
+    bytes4: typeof AbiBytes4,
+    bytes5: typeof AbiBytes5,
+    bytes6: typeof AbiBytes6,
+    bytes7: typeof AbiBytes7,
+    bytes8: typeof AbiBytes8,
+    bytes9: typeof AbiBytes9,
+    bytes10: typeof AbiBytes10,
+    bytes11: typeof AbiBytes11,
+    bytes12: typeof AbiBytes12,
+    bytes13: typeof AbiBytes13,
+    bytes14: typeof AbiBytes14,
+    bytes15: typeof AbiBytes15,
+    bytes16: typeof AbiBytes16,
+    bytes17: typeof AbiBytes17,
+    bytes18: typeof AbiBytes18,
+    bytes19: typeof AbiBytes19,
+    bytes20: typeof AbiBytes20,
+    bytes21: typeof AbiBytes21,
+    bytes22: typeof AbiBytes22,
+    bytes23: typeof AbiBytes23,
+    bytes24: typeof AbiBytes24,
+    bytes25: typeof AbiBytes25,
+    bytes26: typeof AbiBytes26,
+    bytes27: typeof AbiBytes27,
+    bytes28: typeof AbiBytes28,
+    bytes29: typeof AbiBytes29,
+    bytes30: typeof AbiBytes30,
+    bytes31: typeof AbiBytes31,
+    bytes32: typeof AbiBytes32,
+  }
+  
+  export const bytesByName: BytesByName = {
+    bytes1: AbiBytes1,
+    bytes2: AbiBytes2,
+    bytes3: AbiBytes3,
+    bytes4: AbiBytes4,
+    bytes5: AbiBytes5,
+    bytes6: AbiBytes6,
+    bytes7: AbiBytes7,
+    bytes8: AbiBytes8,
+    bytes9: AbiBytes9,
+    bytes10: AbiBytes10,
+    bytes11: AbiBytes11,
+    bytes12: AbiBytes12,
+    bytes13: AbiBytes13,
+    bytes14: AbiBytes14,
+    bytes15: AbiBytes15,
+    bytes16: AbiBytes16,
+    bytes17: AbiBytes17,
+    bytes18: AbiBytes18,
+    bytes19: AbiBytes19,
+    bytes20: AbiBytes20,
+    bytes21: AbiBytes21,
+    bytes22: AbiBytes22,
+    bytes23: AbiBytes23,
+    bytes24: AbiBytes24,
+    bytes25: AbiBytes25,
+    bytes26: AbiBytes26,
+    bytes27: AbiBytes27,
+    bytes28: AbiBytes28,
+    bytes29: AbiBytes29,
+    bytes30: AbiBytes30,
+    bytes31: AbiBytes31,
+    bytes32: AbiBytes32,
+  } as const

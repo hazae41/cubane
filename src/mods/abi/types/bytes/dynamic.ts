@@ -1,6 +1,7 @@
 import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { RawHexString, ZeroHexString } from "index.js";
+import { Copiable } from "libs/copiable/index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { BytesAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
 import { NumberUint32, Uint32 } from "../uint/uint.js";
@@ -121,12 +122,12 @@ export class BytesAbiBytes {
 
     const content = cursor.readOrThrow(length2)
 
-    const value = Base16.get().getOrThrow().padEndAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padEndAndDecodeOrThrow(content)
 
     const padded2 = Math.ceil(length2 / 64) * 64
     cursor.offset += padded2 - length2
 
-    return new BytesAbiBytes(value)
+    return new BytesAbiBytes(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -188,7 +189,7 @@ export class RawHexAbiBytes {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**

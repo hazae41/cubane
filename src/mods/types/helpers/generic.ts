@@ -1,6 +1,7 @@
 import { Base16 } from "@hazae41/base16"
 import { Bytes } from "@hazae41/bytes"
 import { BigInts } from "libs/bigint/bigint.js"
+import { Copiable } from "libs/copiable/index.js"
 import { Numbers } from "libs/number/number.js"
 import { RawHexString, ZeroHexString } from "../string/index.js"
 
@@ -19,11 +20,11 @@ export namespace ZeroHexAsUtf8 {
   }
 
   export function fromBytesOrThrow(value: Uint8Array) {
-    return `0x${Base16.get().encodeOrThrow(value)}` as ZeroHexString
+    return `0x${Base16.get().getOrThrow().encodeOrThrow(value)}` as ZeroHexString
   }
 
   export function fromStringOrThrow(value: string) {
-    return `0x${Base16.get().encodeOrThrow(Bytes.fromUtf8(value))}` as ZeroHexString
+    return `0x${Base16.get().getOrThrow().encodeOrThrow(Bytes.fromUtf8(value))}` as ZeroHexString
   }
 
   export function fromOrThrow(value: From): ZeroHexString {
@@ -51,11 +52,11 @@ export namespace RawHexAsUtf8 {
   }
 
   export function fromBytesOrThrow(value: Uint8Array) {
-    return Base16.get().encodeOrThrow(value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(value) as RawHexString
   }
 
   export function fromStringOrThrow(value: string) {
-    return Base16.get().encodeOrThrow(Bytes.fromUtf8(value)) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(Bytes.fromUtf8(value)) as RawHexString
   }
 
   export function fromOrThrow(value: From): RawHexString {
@@ -83,7 +84,7 @@ export namespace BytesAsUtf8 {
   }
 
   export function fromZeroHexOrThrow(value: ZeroHexString) {
-    return Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2)))
   }
 
   export function fromStringOrThrow(value: string) {
@@ -119,7 +120,9 @@ export namespace StringAsUtf8 {
   }
 
   export function fromZeroHexOrThrow(value: ZeroHexString) {
-    return Bytes.toUtf8(Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose())
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2))
+
+    return Bytes.toUtf8(copiable.bytes)
   }
 
   export function fromOrThrow(from: From) {
@@ -157,7 +160,7 @@ export namespace BigIntAsInteger {
   }
 
   export function fromBytesOrThrow(value: Uint8Array) {
-    return BigInts.decodeRawHex(Base16.get().encodeOrThrow(value))
+    return BigInts.decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(value))
   }
 
   export function fromStringOrThrow(value: string) {
@@ -203,7 +206,7 @@ export namespace NumberAsInteger {
   }
 
   export function fromBytesOrThrow(value: Uint8Array) {
-    return Numbers.decodeRawHex(Base16.get().encodeOrThrow(value))
+    return Numbers.decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(value))
   }
 
   export function fromStringOrThrow(value: string) {
@@ -249,7 +252,7 @@ export namespace ZeroHexAsInteger {
   }
 
   export function fromBytesOrThrow(value: Uint8Array) {
-    return `0x${Base16.get().encodeOrThrow(value)}` as ZeroHexString
+    return `0x${Base16.get().getOrThrow().encodeOrThrow(value)}` as ZeroHexString
   }
 
   export function fromStringOrThrow(value: string) {
@@ -295,7 +298,7 @@ export namespace RawHexAsInteger {
   }
 
   export function fromBytesOrThrow(value: Uint8Array) {
-    return Base16.get().encodeOrThrow(value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(value) as RawHexString
   }
 
   export function fromStringOrThrow(value: string) {
@@ -333,19 +336,19 @@ export namespace BytesAsInteger {
   }
 
   export function fromBigIntOrThrow(value: bigint) {
-    return Base16.get().padStartAndDecodeOrThrow(value.toString(16)).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.toString(16)))
   }
 
   export function fromNumberOrThrow(value: number) {
-    return Base16.get().padStartAndDecodeOrThrow(value.toString(16)).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.toString(16)))
   }
 
   export function fromZeroHexOrThrow(value: ZeroHexString) {
-    return Base16.get().padStartAndDecodeOrThrow(value.slice(2)).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2)))
   }
 
   export function fromStringOrThrow(value: string) {
-    return Base16.get().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16)).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16)))
   }
 
   export function fromOrThrow(value: From) {
@@ -391,7 +394,7 @@ export namespace StringAsInteger {
   }
 
   export function fromBytesOrThrow(value: Uint8Array) {
-    return BigInts.decodeRawHex(Base16.get().encodeOrThrow(value)).toString()
+    return BigInts.decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(value)).toString()
   }
 
   export function fromOrThrow(value: From) {

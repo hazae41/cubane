@@ -1,4 +1,4 @@
-import { Bytes } from "@hazae41/bytes";
+import { Bytes, Uint8Array } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Result } from "@hazae41/result";
 import { Records } from "libs/records/records.js";
@@ -44,8 +44,8 @@ export namespace FunctionSignature {
       throw new Error(`Expected parenthesis`)
 
     const bytes = Bytes.fromUtf8(signature)
-    using hash = Keccak256.get().hashOrThrow(bytes)
-    const func = AbiFunctionSelector.create(hash.bytes.slice(0, 4) as Bytes<4>)
+    using hash = Keccak256.get().getOrThrow().hashOrThrow(bytes)
+    const func = AbiFunctionSelector.create(hash.bytes.slice(0, 4) as Uint8Array<4>)
     const args = parseArgumentsOrThrow(tokens)
 
     return AbiFunctionSelectorAndArguments.create(func, args)

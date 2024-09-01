@@ -45,7 +45,7 @@ export namespace Address {
     const upperCase = raw.toUpperCase()
 
     const bytes = Bytes.fromUtf8(lowerCase)
-    using hashed = Keccak256.get().hashOrThrow(bytes)
+    using hashed = Keccak256.get().getOrThrow().hashOrThrow(bytes)
 
     let address = "0x"
 
@@ -80,8 +80,8 @@ export namespace Address {
    * @returns 
    */
   export function computeOrThrow(uncompressedPublicKey: Uint8Array) {
-    using hashedSlice = Keccak256.get().hashOrThrow(uncompressedPublicKey.subarray(1))
-    const rawLowerCase = Base16.get().encodeOrThrow(hashedSlice.bytes.slice(-20))
+    using hashedSlice = Keccak256.get().getOrThrow().hashOrThrow(uncompressedPublicKey.subarray(1))
+    const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashedSlice.bytes.slice(-20))
 
     return checksumOrThrow(rawLowerCase as RawHexString)
   }

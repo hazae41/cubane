@@ -55,18 +55,18 @@ export class AbiFunctionSelector {
   }
 
   encodeOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+    return Base16.get().getOrThrow().encodeOrThrow(this.value)
   }
 
   encodePackedOrThrow() {
-    return Base16.get().encodeOrThrow(this.value)
+    return Base16.get().getOrThrow().encodeOrThrow(this.value)
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(8)
-    const bytes = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
-    return new AbiFunctionSelector(bytes as Uint8Array<4>)
+    return new AbiFunctionSelector(copiable.bytes.slice() as Uint8Array<4>)
   }
 
   sizeOrThrow() {

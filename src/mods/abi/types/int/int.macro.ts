@@ -115,20 +115,20 @@ export class BytesAbiInt${bits} {
   }
 
   encodeOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value).padStart(64, "0") as RawHexString
   }
 
   encodePackedOrThrow(): RawHexString {
-    return Base16.get().encodeOrThrow(this.value) as RawHexString
+    return Base16.get().getOrThrow().encodeOrThrow(this.value) as RawHexString
   }
 
   static decodeOrThrow(cursor: TextCursor) {
     cursor.offset += 64 - BytesAbiInt${bits}.nibbles
 
     const content = cursor.readOrThrow(BytesAbiInt${bits}.nibbles)
-    const value = Base16.get().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
     
-    return new BytesAbiInt${bits}(value)
+    return new BytesAbiInt${bits}(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -199,7 +199,7 @@ export class RawHexAbiInt${bits} {
 
   static fromOrThrow(value: RawHexAbiInt${bits}.From) {
     if (value instanceof Uint8Array)
-      return new RawHexAbiInt${bits}(Base16.get().encodeOrThrow(value) as RawHexString)
+      return new RawHexAbiInt${bits}(Base16.get().getOrThrow().encodeOrThrow(value) as RawHexString)
     if (typeof value === "bigint")
       return RawHexAbiInt${bits}.fromBigIntOrThrow(value)
     if (typeof value === "number")
@@ -251,7 +251,7 @@ export class RawHexAbiInt${bits} {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().padStartAndDecodeOrThrow(this.value)
+    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
     cursor.fillOrThrow(0, 32 - slice.bytes.length)
     cursor.writeOrThrow(slice.bytes)
@@ -261,7 +261,7 @@ export class RawHexAbiInt${bits} {
     cursor.offset += 32 - RawHexAbiInt${bits}.bytes
 
     const content = cursor.readOrThrow(RawHexAbiInt${bits}.bytes)
-    const value = Base16.get().encodeOrThrow(content)
+    const value = Base16.get().getOrThrow().encodeOrThrow(content)
 
     return new RawHexAbiInt${bits}(value as RawHexString)
   }

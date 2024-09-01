@@ -1,10 +1,10 @@
 import { Base16 } from "@hazae41/base16"
-import { Copiable } from "@hazae41/box"
 import { Bytes } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
 import { Keccak256 } from "@hazae41/keccak256"
 import { Nullable } from "@hazae41/option"
 import { Result } from "@hazae41/result"
+import { Copiable } from "libs/copiable/index.js"
 import { Records } from "libs/records/records.js"
 import { AbiFactory } from "../types.js"
 import { AbiAddress } from "../types/address/address.js"
@@ -142,7 +142,7 @@ export namespace TypedData {
       return cached
 
     const bytes = encodeTypeOrThrow(types, type)
-    const hashed = Keccak256.get().hashOrThrow(bytes).copyAndDispose()
+    const hashed = Copiable.copyAndDispose(Keccak256.get().getOrThrow().hashOrThrow(bytes))
     cache.set(type, hashed)
     return hashed
   }
@@ -172,14 +172,14 @@ export namespace TypedData {
 
     if (type === "string") {
       if (value instanceof Uint8Array) {
-        using hash = Keccak256.get().hashOrThrow(value)
+        using hash = Keccak256.get().getOrThrow().hashOrThrow(value)
         cursor.writeOrThrow(hash.bytes)
         return
       }
 
       if (typeof value === "string") {
         const bytes = Bytes.fromUtf8(value as string)
-        using hash = Keccak256.get().hashOrThrow(bytes)
+        using hash = Keccak256.get().getOrThrow().hashOrThrow(bytes)
         cursor.writeOrThrow(hash.bytes)
         return
       }
@@ -189,14 +189,14 @@ export namespace TypedData {
 
     if (type === "bytes") {
       if (value instanceof Uint8Array) {
-        using hash = Keccak256.get().hashOrThrow(value)
+        using hash = Keccak256.get().getOrThrow().hashOrThrow(value)
         cursor.writeOrThrow(hash.bytes)
         return
       }
 
       if (typeof value === "string") {
         using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2))
-        using hash = Keccak256.get().hashOrThrow(slice.bytes)
+        using hash = Keccak256.get().getOrThrow().hashOrThrow(slice.bytes)
         cursor.writeOrThrow(hash.bytes)
         return
       }
@@ -207,17 +207,17 @@ export namespace TypedData {
     Records.resolveOrThrow(factoryByName, type).fromOrThrow(value).writeOrThrow(cursor)
   }
 
-  export function hashArrayOrThrow(types: TypedDataTypes, type: string, array: readonly unknown[], typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {
+  export function hashArrayOrThrow(types: TypedDataTypes, type: string, array: readonly unknown[], typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()): Copiable<Keccak256.Output> {
     const bytes = new Uint8Array(32 * array.length)
     const cursor = new Cursor(bytes)
 
     for (const value of array)
       encodeFieldOrThrow(types, type, value, cursor, typeSizeCache, typeHashCache)
 
-    return Keccak256.get().hashOrThrow(bytes)
+    return Keccak256.get().getOrThrow().hashOrThrow(bytes)
   }
 
-  export function hashStructOrThrow(types: TypedDataTypes, type: string, struct: TypedDataStruct, typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()) {
+  export function hashStructOrThrow(types: TypedDataTypes, type: string, struct: TypedDataStruct, typeSizeCache = new Map<string, number>(), typeHashCache = new Map<string, Uint8Array>()): Copiable<Keccak256.Output> {
     const typeSize = sizeStructWithCacheOrThrow(types, type, typeSizeCache)
     const typeHash = encodeTypeWithCacheOrThrow(types, type, typeHashCache)
 
@@ -232,7 +232,7 @@ export namespace TypedData {
       encodeFieldOrThrow(types, type, value, cursor, typeSizeCache, typeHashCache)
     }
 
-    return Keccak256.get().hashOrThrow(bytes)
+    return Keccak256.get().getOrThrow().hashOrThrow(bytes)
   }
 
 
@@ -261,7 +261,7 @@ export namespace TypedData {
    * @returns 
    */
   export function hashOrThrow(data: TypedData): Copiable<Keccak256.Output> {
-    return Keccak256.get().hashOrThrow(encodeOrThrow(data))
+    return Keccak256.get().getOrThrow().hashOrThrow(encodeOrThrow(data))
   }
 
   export class HashError extends Error {

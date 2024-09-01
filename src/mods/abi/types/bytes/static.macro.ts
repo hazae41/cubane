@@ -3,7 +3,8 @@ function $pre$() {
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { BytesAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
-import { RawHexString, ZeroHexString } from "mods/types/string/index.js";`
+import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
+import { Copiable } from "libs/copiable/index.js";`
 }
 
 $pre$()
@@ -120,11 +121,11 @@ export class BytesAbiBytes${bytes} {
 
   static decodeOrThrow(cursor: TextCursor) {
     const content = cursor.readOrThrow(BytesAbiBytes${bytes}.nibbles)
-    const value = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content).copyAndDispose()
+    using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
 
     cursor.offset += 64 - BytesAbiBytes${bytes}.nibbles
 
-    return new BytesAbiBytes${bytes}(value)
+    return new BytesAbiBytes${bytes}(copiable.bytes.slice())
   }
 
   sizeOrThrow() {
@@ -182,7 +183,7 @@ export class RawHexAbiBytes${bytes} {
   }
 
   intoOrThrow(): Uint8Array {
-    return Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value).copyAndDispose()
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padEndAndDecodeOrThrow(this.value))
   }
 
   /**

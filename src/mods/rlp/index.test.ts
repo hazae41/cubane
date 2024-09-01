@@ -3,14 +3,22 @@ import { Readable, Writable } from "@hazae41/binary";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { test } from "@hazae41/phobos";
+import { Secp256k1 } from "@hazae41/secp256k1";
+import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
+import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { Rlp } from "index.js";
 import { BigInts } from "libs/bigint/bigint.js";
+import { Copiable } from "libs/copiable/index.js";
 
-Base16.set(await Base16.fromBufferOrAlocer())
-Keccak256.set(await Keccak256.fromMorax())
+await Sha3Wasm.initBundled()
+await Secp256k1Wasm.initBundled()
+
+Base16.set(Base16.fromBuffer())
+Keccak256.set(Keccak256.fromWasm(Sha3Wasm))
+Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
 function hexlify(bytes: Uint8Array) {
-  return Base16.get().encodeOrThrow(bytes)
+  return Base16.get().getOrThrow().encodeOrThrow(bytes)
 }
 
 await test("dog", async ({ message, test }) => {
@@ -71,7 +79,7 @@ await test("15", async ({ message, test }) => {
 })
 
 await test("1024", async ({ message, test }) => {
-  const string = BigInts.exportOrThrow(BigInt(1024)).copyAndDispose()
+  const string = Copiable.copyAndDispose(BigInts.exportOrThrow(BigInt(1024)))
   const bytes = Writable.writeToBytesOrThrow(Rlp.fromOrThrow(string))
   const value = Readable.readFromBytesOrThrow(Rlp, bytes).intoOrThrow()
 

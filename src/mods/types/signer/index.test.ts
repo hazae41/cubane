@@ -5,16 +5,22 @@ import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test } from "@hazae41/phobos";
 import { Secp256k1 } from "@hazae41/secp256k1";
+import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
+import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { ethers } from "ethers";
+import { Copiable } from "libs/copiable/index.js";
 import { Address } from "../address/index.js";
 import { ExtPrivateKey, ExtPublicKey } from "./index.js";
 
-Base16.set(await Base16.fromBufferOrAlocer())
-Keccak256.set(await Keccak256.fromMorax())
-Secp256k1.set(await Secp256k1.fromEligos())
+await Sha3Wasm.initBundled()
+await Secp256k1Wasm.initBundled()
+
+Base16.set(Base16.fromBuffer())
+Keccak256.set(Keccak256.fromWasm(Sha3Wasm))
+Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
 test("wasm sign unsafe message", async ({ }) => {
-  const signer = new ExtPrivateKey(Secp256k1.get().PrivateKey.randomOrThrow())
+  const signer = new ExtPrivateKey(Secp256k1.get().getOrThrow().SigningKey.randomOrThrow())
   const identity = signer.getPublicKeyOrThrow()
 
   const message = "hello world"
@@ -33,10 +39,10 @@ test("wasm sign personal message", async ({ }) => {
   const ethersWallet = new ethers.Wallet(ethersSigningKey)
   const ethersSignatureZeroHex = await ethersWallet.signMessage(message)
 
-  const privateKeyWasm = new ExtPrivateKey(Secp256k1.get().PrivateKey.importOrThrow(privateKey))
+  const privateKeyWasm = new ExtPrivateKey(Secp256k1.get().getOrThrow().SigningKey.importOrThrow(privateKey))
 
   const signatureWasm = privateKeyWasm.signPersonalMessageOrThrow(message)
-  const signatureBytes = signatureWasm.value.exportOrThrow().copyAndDispose()
+  const signatureBytes = Copiable.copyAndDispose(signatureWasm.value.exportOrThrow())
   const signatureZeroHex = `0x${Base16.get().getOrThrow().encodeOrThrow(signatureBytes)}`
 
   /* Ignore recovery part */
@@ -45,7 +51,7 @@ test("wasm sign personal message", async ({ }) => {
   assert(ethersWallet.address === ethers.verifyMessage(message, signatureZeroHex))
 
   const recoveredPublicKeyWasm = ExtPublicKey.recoverPersonalMessageOrThrow(message, signatureWasm)
-  const recoveredPublicKeyBytes = recoveredPublicKeyWasm.value.exportUncompressedOrThrow().copyAndDispose()
+  const recoveredPublicKeyBytes = Copiable.copyAndDispose(recoveredPublicKeyWasm.value.exportUncompressedOrThrow())
   const recoveredAddressZeroHex = Address.computeOrThrow(recoveredPublicKeyBytes)
 
   assert(ethersWallet.address === recoveredAddressZeroHex)
