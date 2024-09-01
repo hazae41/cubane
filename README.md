@@ -80,63 +80,15 @@ You can bring your own implementation for some algorithms
 
 #### Keccak256 (required for almost everything)
 
-Noble-hashes includes a small implementation of Keccak256
-
-https://github.com/paulmillr/noble-hashes
-
-```bash
-npm i @noble/hashes
-```
-
-`keccak256.ts`
-
-```typescript
-import { Keccak256 } from "@hazae41/keccak256"
-
-Keccak256.set(await Keccak256.fromNoble())
-```
-
-See https://github.com/hazae41/keccak256 for more
+See https://github.com/hazae41/keccak256 for setup
 
 #### Secp256k1 (required for signatures)
 
-Noble-curves includes a small implementation of Secp256k1
-
-https://github.com/paulmillr/noble-curves
-
-```bash
-npm i @noble/curves
-```
-
-`secp256k1.ts`
-
-```typescript
-import { Secp256k1 } from "@hazae41/secp256k1"
-
-Secp256k1.set(await Secp256k1.fromNoble())
-```
-
-See https://github.com/hazae41/secp256k1 for more
+See https://github.com/hazae41/secp256k1 for setup
 
 #### Base16 (optional)
 
-Scure-base includes a small implementation of Base16
-
-https://github.com/paulmillr/scure-base
-
-```bash
-npm i @scure/base
-```
-
-`base16.ts`
-
-```typescript
-import { Base16 } from "@hazae41/base16"
-
-Base16.set(await Base16.fromBufferOrScure())
-```
-
-See https://github.com/hazae41/base16 for more
+See https://github.com/hazae41/base16 for setup
 
 ## Usage
 
