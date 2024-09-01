@@ -1,7 +1,7 @@
 import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
-import { Nullable } from "@hazae41/option";
+import { Nullable } from "libs/nullable/index.js";
 import { RawHexAsInteger } from "../helpers/generic.js";
 import { RawHexString, ZeroHexString } from "../string/index.js";
 

@@ -1,5 +1,5 @@
 import { Cursor } from "@hazae41/cursor";
-import { Nullable } from "@hazae41/option";
+import { Nullable } from "libs/nullable/index.js";
 import { BytesAsInteger } from "../helpers/generic.js";
 
 export interface Eip1559TransactionEnvelopeInit {
