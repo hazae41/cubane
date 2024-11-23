@@ -51,7 +51,7 @@ export class Fixed<D extends number = number> implements BigIntFixedInit {
     if (init instanceof Fixed)
       return init
     if (typeof init.value === "string")
-      return this.fromZeroHex(init.value, init.decimals)
+      return Fixed.fromZeroHex(init.value, init.decimals)
     return new Fixed(init.value, init.decimals)
   }
 
@@ -60,7 +60,7 @@ export class Fixed<D extends number = number> implements BigIntFixedInit {
   }
 
   static fromJSON(init: ZeroHexFixedInit) {
-    return this.fromZeroHex(init.value, init.decimals)
+    return Fixed.fromZeroHex(init.value, init.decimals)
   }
 
   move<D extends number>(decimals: D) {
@@ -131,9 +131,9 @@ export class Fixed<D extends number = number> implements BigIntFixedInit {
 
   static fromStringOrZeroHex<D extends number>(text: string, decimals: D) {
     if (ZeroHexString.String.is(text))
-      return this.fromZeroHex(text, decimals)
+      return Fixed.fromZeroHex(text, decimals)
     else
-      return this.fromString(text, decimals)
+      return Fixed.fromString(text, decimals)
   }
 
 }
