@@ -34,6 +34,7 @@ export namespace Fixed {
 }
 
 export class Fixed<D extends number = number> implements BigIntFixedInit {
+
   readonly tens: bigint
 
   constructor(
@@ -51,16 +52,66 @@ export class Fixed<D extends number = number> implements BigIntFixedInit {
     if (init instanceof Fixed)
       return init
     if (typeof init.value === "string")
-      return Fixed.fromZeroHex(init.value, init.decimals)
+      return Fixed.fromZeroHexString(init.value, init.decimals)
     return new Fixed(init.value, init.decimals)
   }
 
-  toJSON() {
-    return new ZeroHexFixedInit(this.toZeroHex(), this.decimals)
+  static fromZeroHexInit<D extends number>(init: ZeroHexFixedInit<D>) {
+    return Fixed.fromZeroHexString(init.value, init.decimals)
   }
 
-  static fromJSON(init: ZeroHexFixedInit) {
-    return Fixed.fromZeroHex(init.value, init.decimals)
+  static fromBigIntInit<D extends number>(init: BigIntFixedInit<D>) {
+    return new Fixed(init.value, init.decimals)
+  }
+
+  static fromZeroHexString<D extends number>(value: ZeroHexString, decimals: D) {
+    return new Fixed(BigInts.decodeZeroHex(value), decimals)
+  }
+
+  static fromDecimalString<D extends number>(text: string, decimals: D) {
+    const [whole = "0", decimal = "0"] = text.split(".")
+
+    const value = BigInt(whole + decimal.padEnd(decimals, "0").slice(0, decimals))
+
+    return new Fixed(value, decimals)
+  }
+
+  static fromString<D extends number>(text: string, decimals: D) {
+    if (ZeroHexString.String.is(text))
+      return Fixed.fromZeroHexString(text, decimals)
+    return Fixed.fromDecimalString(text, decimals)
+  }
+
+  toZeroHexInit() {
+    return new ZeroHexFixedInit(this.toZeroHexString(), this.decimals)
+  }
+
+  toBigIntInit() {
+    return new BigIntFixedInit(this.value, this.decimals)
+  }
+
+  toZeroHexString() {
+    return BigInts.encodeZeroHex(this.value)
+  }
+
+  toDecimalString() {
+    const raw = this.value.toString().padStart(this.decimals, "0")
+
+    const whole = raw.slice(0, raw.length - this.decimals).replaceAll("0", " ").trimStart().replaceAll(" ", "0")
+    const decimal = raw.slice(raw.length - this.decimals).replaceAll("0", " ").trimEnd().replaceAll(" ", "0")
+
+    if (!decimal)
+      return (whole || "0")
+
+    return `${whole || "0"}.${decimal}`
+  }
+
+  toString() {
+    return this.toDecimalString()
+  }
+
+  toJSON() {
+    return this.toZeroHexInit()
   }
 
   move<D extends number>(decimals: D) {
@@ -99,41 +150,6 @@ export class Fixed<D extends number = number> implements BigIntFixedInit {
 
   round() {
     return new Fixed(this.value + (this.tens / 2n) - ((this.value + (this.tens / 2n)) % this.tens), this.decimals)
-  }
-
-  toZeroHex() {
-    return BigInts.encodeZeroHex(this.value)
-  }
-
-  static fromZeroHex<D extends number>(value: ZeroHexString, decimals: D) {
-    return new Fixed(BigInts.decodeZeroHex(value), decimals)
-  }
-
-  toString() {
-    const raw = this.value.toString().padStart(this.decimals, "0")
-
-    const whole = raw.slice(0, raw.length - this.decimals).replaceAll("0", " ").trimStart().replaceAll(" ", "0")
-    const decimal = raw.slice(raw.length - this.decimals).replaceAll("0", " ").trimEnd().replaceAll(" ", "0")
-
-    if (!decimal)
-      return (whole || "0")
-
-    return `${whole || "0"}.${decimal}`
-  }
-
-  static fromString<D extends number>(text: string, decimals: D) {
-    const [whole = "0", decimal = "0"] = text.split(".")
-
-    const value = BigInt(whole + decimal.padEnd(decimals, "0").slice(0, decimals))
-
-    return new Fixed(value, decimals)
-  }
-
-  static fromStringOrZeroHex<D extends number>(text: string, decimals: D) {
-    if (ZeroHexString.String.is(text))
-      return Fixed.fromZeroHex(text, decimals)
-    else
-      return Fixed.fromString(text, decimals)
   }
 
 }
