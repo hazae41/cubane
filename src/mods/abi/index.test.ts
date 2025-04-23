@@ -18,7 +18,7 @@ import { Copiable } from "libs/copiable/index.js";
 import { decodeOrThrow } from "./decode.js";
 import { encodeOrThrow } from "./encode.js";
 import { AbiArray, AbiTuple, AbiVector } from "./index.js";
-import elements from "./index.test.json";
+import elements from "./index.test.json" with { type: "json" };
 
 elements;
 

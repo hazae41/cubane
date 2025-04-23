@@ -7,7 +7,7 @@ import { TypedData } from "./index.js";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
 import { Sha3Wasm } from "@hazae41/sha3.wasm";
-import json from "./index.test.json";
+import json from "./index.test.json" with { type: "json" };
 
 json;
 

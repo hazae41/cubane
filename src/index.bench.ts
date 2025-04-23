@@ -17,7 +17,6 @@ import { Copiable } from "libs/copiable/index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature } from "mods/abi/index.js";
 import * as viem from "viem";
-// import * as web3 from "web3";
 
 await Sha3Wasm.initBundled()
 await Secp256k1Wasm.initBundled()
@@ -55,7 +54,6 @@ if (true) {
 
   const viemAbi = viem.parseAbiParameters("bool a, uint256 b, string c, (bool a, uint256 b, string c) d, bytes e")
   const ethersAbi = ["bool a", "uint256 b", "string c", "tuple(bool a, uint256 b, string c) d", "bytes e"]
-  const web3Abi = ["bool", "uint256", "string", "(bool, uint256, string)", "bytes"]
 
   const random = Bytes.random(128)
 
@@ -90,11 +88,6 @@ if (true) {
     ethers.AbiCoder.defaultAbiCoder().decode(ethersAbi, hex)
     // console.log(message, hex)
   }, options)
-
-  // const benchWeb3 = benchSync("web3", ({ message }) => {
-  //   const hex = web3.eth.abi.encodeParameters(web3Abi, [true, "123456789", "hello world", [true, "123456789", "hello world"], web3.utils.bytesToHex(random)])
-  //   // console.log(message, hex)
-  // }, options)
 
   benchCubaneBytes.table(benchCubaneHex, benchViem, benchEthers)
 
