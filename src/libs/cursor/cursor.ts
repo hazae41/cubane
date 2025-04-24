@@ -1,4 +1,4 @@
-import { RawHexString } from "index.js"
+import { RawHexString } from "@hazae41/hex"
 
 export class TextCursor {
 

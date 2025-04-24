@@ -1,6 +1,6 @@
 import { Base16 } from "@hazae41/base16";
+import { ZeroHexString } from "@hazae41/hex";
 import { BytesOrCopiable, Copiable } from "libs/copiable/index.js";
-import { ZeroHexString } from "mods/types/string/index.js";
 
 export namespace BigInts {
 

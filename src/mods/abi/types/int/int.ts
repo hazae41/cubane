@@ -1,9 +1,9 @@
 import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
+import { RawHexString, ZeroHexString } from "@hazae41/hex";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { RawHexAsInteger } from "mods/types/formats/index.js";
-import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
 
 const BN_0 = 0n
 const BN_1 = 1n
@@ -196,7 +196,7 @@ export class RawHexAbiInt8 {
       return RawHexAbiInt8.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt8.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt8(value.slice(2) as RawHexString)
     return RawHexAbiInt8.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -448,7 +448,7 @@ export class RawHexAbiInt16 {
       return RawHexAbiInt16.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt16.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt16(value.slice(2) as RawHexString)
     return RawHexAbiInt16.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -700,7 +700,7 @@ export class RawHexAbiInt24 {
       return RawHexAbiInt24.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt24.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt24(value.slice(2) as RawHexString)
     return RawHexAbiInt24.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -952,7 +952,7 @@ export class RawHexAbiInt32 {
       return RawHexAbiInt32.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt32.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt32(value.slice(2) as RawHexString)
     return RawHexAbiInt32.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -1204,7 +1204,7 @@ export class RawHexAbiInt40 {
       return RawHexAbiInt40.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt40.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt40(value.slice(2) as RawHexString)
     return RawHexAbiInt40.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -1456,7 +1456,7 @@ export class RawHexAbiInt48 {
       return RawHexAbiInt48.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt48.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt48(value.slice(2) as RawHexString)
     return RawHexAbiInt48.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -1708,7 +1708,7 @@ export class RawHexAbiInt56 {
       return RawHexAbiInt56.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt56.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt56(value.slice(2) as RawHexString)
     return RawHexAbiInt56.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -1960,7 +1960,7 @@ export class RawHexAbiInt64 {
       return RawHexAbiInt64.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt64.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt64(value.slice(2) as RawHexString)
     return RawHexAbiInt64.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -2212,7 +2212,7 @@ export class RawHexAbiInt72 {
       return RawHexAbiInt72.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt72.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt72(value.slice(2) as RawHexString)
     return RawHexAbiInt72.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -2464,7 +2464,7 @@ export class RawHexAbiInt80 {
       return RawHexAbiInt80.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt80.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt80(value.slice(2) as RawHexString)
     return RawHexAbiInt80.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -2716,7 +2716,7 @@ export class RawHexAbiInt88 {
       return RawHexAbiInt88.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt88.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt88(value.slice(2) as RawHexString)
     return RawHexAbiInt88.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -2968,7 +2968,7 @@ export class RawHexAbiInt96 {
       return RawHexAbiInt96.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt96.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt96(value.slice(2) as RawHexString)
     return RawHexAbiInt96.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -3220,7 +3220,7 @@ export class RawHexAbiInt104 {
       return RawHexAbiInt104.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt104.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt104(value.slice(2) as RawHexString)
     return RawHexAbiInt104.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -3472,7 +3472,7 @@ export class RawHexAbiInt112 {
       return RawHexAbiInt112.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt112.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt112(value.slice(2) as RawHexString)
     return RawHexAbiInt112.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -3724,7 +3724,7 @@ export class RawHexAbiInt120 {
       return RawHexAbiInt120.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt120.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt120(value.slice(2) as RawHexString)
     return RawHexAbiInt120.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -3976,7 +3976,7 @@ export class RawHexAbiInt128 {
       return RawHexAbiInt128.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt128.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt128(value.slice(2) as RawHexString)
     return RawHexAbiInt128.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -4228,7 +4228,7 @@ export class RawHexAbiInt136 {
       return RawHexAbiInt136.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt136.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt136(value.slice(2) as RawHexString)
     return RawHexAbiInt136.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -4480,7 +4480,7 @@ export class RawHexAbiInt144 {
       return RawHexAbiInt144.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt144.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt144(value.slice(2) as RawHexString)
     return RawHexAbiInt144.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -4732,7 +4732,7 @@ export class RawHexAbiInt152 {
       return RawHexAbiInt152.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt152.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt152(value.slice(2) as RawHexString)
     return RawHexAbiInt152.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -4984,7 +4984,7 @@ export class RawHexAbiInt160 {
       return RawHexAbiInt160.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt160.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt160(value.slice(2) as RawHexString)
     return RawHexAbiInt160.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -5236,7 +5236,7 @@ export class RawHexAbiInt168 {
       return RawHexAbiInt168.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt168.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt168(value.slice(2) as RawHexString)
     return RawHexAbiInt168.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -5488,7 +5488,7 @@ export class RawHexAbiInt176 {
       return RawHexAbiInt176.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt176.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt176(value.slice(2) as RawHexString)
     return RawHexAbiInt176.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -5740,7 +5740,7 @@ export class RawHexAbiInt184 {
       return RawHexAbiInt184.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt184.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt184(value.slice(2) as RawHexString)
     return RawHexAbiInt184.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -5992,7 +5992,7 @@ export class RawHexAbiInt192 {
       return RawHexAbiInt192.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt192.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt192(value.slice(2) as RawHexString)
     return RawHexAbiInt192.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -6244,7 +6244,7 @@ export class RawHexAbiInt200 {
       return RawHexAbiInt200.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt200.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt200(value.slice(2) as RawHexString)
     return RawHexAbiInt200.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -6496,7 +6496,7 @@ export class RawHexAbiInt208 {
       return RawHexAbiInt208.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt208.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt208(value.slice(2) as RawHexString)
     return RawHexAbiInt208.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -6748,7 +6748,7 @@ export class RawHexAbiInt216 {
       return RawHexAbiInt216.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt216.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt216(value.slice(2) as RawHexString)
     return RawHexAbiInt216.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -7000,7 +7000,7 @@ export class RawHexAbiInt224 {
       return RawHexAbiInt224.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt224.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt224(value.slice(2) as RawHexString)
     return RawHexAbiInt224.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -7252,7 +7252,7 @@ export class RawHexAbiInt232 {
       return RawHexAbiInt232.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt232.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt232(value.slice(2) as RawHexString)
     return RawHexAbiInt232.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -7504,7 +7504,7 @@ export class RawHexAbiInt240 {
       return RawHexAbiInt240.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt240.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt240(value.slice(2) as RawHexString)
     return RawHexAbiInt240.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -7756,7 +7756,7 @@ export class RawHexAbiInt248 {
       return RawHexAbiInt248.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt248.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt248(value.slice(2) as RawHexString)
     return RawHexAbiInt248.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }
@@ -8008,7 +8008,7 @@ export class RawHexAbiInt256 {
       return RawHexAbiInt256.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt256.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt256(value.slice(2) as RawHexString)
     return RawHexAbiInt256.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }

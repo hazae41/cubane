@@ -1,4 +1,4 @@
-import { ZeroHexString } from "mods/types/string/index.js"
+import { ZeroHexString } from "@hazae41/hex"
 
 export interface Encodable {
   encodeOrThrow(): string

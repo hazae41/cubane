@@ -3,7 +3,7 @@ function $pre$() {
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { BytesAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
-import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
+import { RawHexString, ZeroHexString } from "@hazae41/hex";
 import { Copiable } from "libs/copiable/index.js";`
 }
 

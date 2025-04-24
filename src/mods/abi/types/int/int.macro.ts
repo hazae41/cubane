@@ -4,7 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { RawHexAsInteger } from "mods/types/helpers/generic.js";
-import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
+import { RawHexString, ZeroHexString } from "@hazae41/hex";;
   
 const BN_0 = 0n
 const BN_1 = 1n`
@@ -204,7 +204,7 @@ export class RawHexAbiInt${bits} {
       return RawHexAbiInt${bits}.fromBigIntOrThrow(value)
     if (typeof value === "number")
       return RawHexAbiInt${bits}.fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return new RawHexAbiInt${bits}(value.slice(2) as RawHexString)
     return RawHexAbiInt${bits}.fromBigIntOrThrow(BigInts.decodeDecimal(value))
   }

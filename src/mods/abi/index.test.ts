@@ -4,9 +4,9 @@ export * from "./types/index.test.js";
 
 import { Base16 } from "@hazae41/base16";
 import { Readable } from "@hazae41/binary";
+import { ZeroHexString } from "@hazae41/hex";
 import { Keccak256 } from "@hazae41/keccak256";
 import { assert, test, throws } from "@hazae41/phobos";
-import { ZeroHexString } from "index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { FunctionSignature } from "./signature/signature.js";
 import { AbiAddress } from "./types/address/address.js";
