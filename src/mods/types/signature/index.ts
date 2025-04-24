@@ -1,5 +1,5 @@
 import { Base16 } from "@hazae41/base16"
-import { Bytes, Uint8Array } from "@hazae41/bytes"
+import { Uint8Array } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
 import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { Secp256k1 } from "@hazae41/secp256k1"
@@ -26,7 +26,7 @@ export abstract class Signature {
       return ExtSignature.fromOrThrow(from)
     if (from instanceof Uint8Array)
       return BytesSignature.fromOrThrow(from)
-    if (typeof from === "string")
+    if (typeof from !== "object")
       return ZeroHexSignature.fromOrThrow(from)
     return RsvZeroHexSignature.fromOrThrow(from)
   }
@@ -261,7 +261,7 @@ export namespace ZeroHexSignature {
   export type Create = ZeroHexString<65>
 
   export type From =
-    | string
+    | ZeroHexAsInteger.From
     | Signature
 
 }
@@ -281,9 +281,7 @@ export class ZeroHexSignature extends Signature {
   static fromOrThrow(from: ZeroHexSignature.From): ZeroHexSignature {
     if (from instanceof Signature)
       return from.toZeroHexOrThrow()
-    if (ZeroHexString.Length.is(from, 65))
-      return new ZeroHexSignature(from)
-    throw new Error()
+    return new ZeroHexSignature(ZeroHexAsInteger.Length.fromOrThrow(from, 65))
   }
 
   toZeroHexOrThrow(): ZeroHexSignature {
@@ -339,7 +337,7 @@ export namespace BytesSignature {
   export type Create = Uint8Array<65>
 
   export type From =
-    | Uint8Array
+    | BytesAsInteger.From
     | Signature
 
 }
@@ -359,9 +357,7 @@ export class BytesSignature extends Signature {
   static fromOrThrow(from: BytesSignature.From): BytesSignature {
     if (from instanceof Signature)
       return from.toBytesOrThrow()
-    if (Bytes.is(from, 65))
-      return new BytesSignature(from)
-    throw new Error()
+    return new BytesSignature(BytesAsInteger.Length.fromOrThrow(from, 65))
   }
 
   toBytesOrThrow(): BytesSignature {
