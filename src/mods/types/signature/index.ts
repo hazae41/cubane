@@ -4,7 +4,8 @@ import { Cursor } from "@hazae41/cursor"
 import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { Copiable } from "libs/copiable/index.js"
-import { BytesAsInteger, NumberAsInteger, ZeroHexAsInteger } from "../formats/index.js"
+import { BytesAsInteger, BytesAsUtf8, NumberAsInteger, ZeroHexAsInteger } from "../formats/index.js"
+import { ExtPublicKey } from "../signer/index.js"
 
 export namespace Signature {
 
@@ -457,6 +458,10 @@ export class ExtSignature extends Signature {
     super()
   }
 
+  [Symbol.dispose]() {
+    this.value[Symbol.dispose]()
+  }
+
   static create(value: ExtSignature.Create): ExtSignature {
     return new ExtSignature(value)
   }
@@ -524,6 +529,14 @@ export class ExtSignature extends Signature {
     const inner = Secp256k1.get().getOrThrow().SignatureAndRecovery.importOrThrow(value)
 
     return new ExtSignature(inner)
+  }
+
+  recoverUnsafeMessageOrThrow(message: BytesAsUtf8.From): ExtPublicKey {
+    return ExtPublicKey.recoverUnsafeMessageOrThrow(message, this)
+  }
+
+  recoverPersonalMessageOrThrow(message: BytesAsUtf8.From): ExtPublicKey {
+    return ExtPublicKey.recoverPersonalMessageOrThrow(message, this)
   }
 
 }

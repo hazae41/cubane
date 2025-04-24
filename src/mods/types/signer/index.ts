@@ -10,6 +10,10 @@ export class ExtPrivateKey {
     readonly value: Secp256k1.SigningKey
   ) { }
 
+  [Symbol.dispose]() {
+    this.value[Symbol.dispose]()
+  }
+
   getPublicKeyOrThrow() {
     return new ExtPublicKey(this.value.getVerifyingKeyOrThrow())
   }
@@ -40,6 +44,10 @@ export class ExtPublicKey {
   constructor(
     readonly value: Secp256k1.VerifyingKey
   ) { }
+
+  [Symbol.dispose]() {
+    this.value[Symbol.dispose]()
+  }
 
   static recoverUnsafeMessageOrThrow(message: BytesAsUtf8.From, signature: ExtSignature.From) {
     const tmessage = BytesAsUtf8.fromOrThrow(message)
