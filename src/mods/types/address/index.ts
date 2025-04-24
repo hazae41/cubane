@@ -53,9 +53,7 @@ export namespace Address {
   }
 
   export function fromOrNull(from: Address.From): Nullable<Address> {
-    try {
-      return fromOrThrow(from)
-    } catch { }
+    try { return fromOrThrow(from) } catch { }
   }
 
   /**
