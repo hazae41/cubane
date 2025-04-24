@@ -23,12 +23,12 @@ export namespace Signature {
     | ExtSignature.From
 
   export function fromOrThrow(from: Signature.From): Signature {
-    if (from instanceof Secp256k1.SignatureAndRecovery)
-      return ExtSignature.fromOrThrow(from)
-    if (from instanceof Uint8Array)
-      return BytesSignature.fromOrThrow(from)
     if (typeof from !== "object")
       return ZeroHexSignature.fromOrThrow(from)
+    if (from instanceof Uint8Array)
+      return BytesSignature.fromOrThrow(from)
+    if (from instanceof Secp256k1.SignatureAndRecovery)
+      return ExtSignature.fromOrThrow(from)
     return RsvZeroHexSignature.fromOrThrow(from)
   }
 
