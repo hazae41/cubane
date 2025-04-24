@@ -4,7 +4,7 @@ import { Cursor } from "@hazae41/cursor"
 import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { Copiable } from "libs/copiable/index.js"
-import { BytesAsInteger, ZeroHexAsInteger } from "../formats/index.js"
+import { BytesAsInteger, NumberAsInteger, ZeroHexAsInteger } from "../formats/index.js"
 
 export namespace Signature {
 
@@ -54,7 +54,7 @@ export namespace RsvZeroHexSignatureInit {
   export interface Unsafe {
     readonly r: ZeroHexAsInteger.From
     readonly s: ZeroHexAsInteger.From
-    readonly v: number
+    readonly v: NumberAsInteger.From
   }
 
 }
@@ -91,8 +91,9 @@ export class RsvZeroHexSignature extends Signature {
 
     const hr = ZeroHexAsInteger.Length.fromOrThrow(r, 32)
     const hs = ZeroHexAsInteger.Length.fromOrThrow(s, 32)
+    const nv = NumberAsInteger.fromOrThrow(v)
 
-    return new RsvZeroHexSignature(hr, hs, v)
+    return new RsvZeroHexSignature(hr, hs, nv)
   }
 
   toRsvZeroHexOrThrow(): RsvZeroHexSignature {
@@ -162,7 +163,7 @@ export namespace RsvBytesSignatureInit {
   export interface Unsafe {
     readonly r: BytesAsInteger.From
     readonly s: BytesAsInteger.From
-    readonly v: number
+    readonly v: NumberAsInteger.From
   }
 
 }
@@ -199,8 +200,9 @@ export class RsvBytesSignature extends Signature {
 
     const br = BytesAsInteger.Length.fromOrThrow(r, 32)
     const bs = BytesAsInteger.Length.fromOrThrow(s, 32)
+    const nv = NumberAsInteger.fromOrThrow(v)
 
-    return new RsvBytesSignature(br, bs, v)
+    return new RsvBytesSignature(br, bs, nv)
   }
 
   toRsvBytesOrThrow(): RsvBytesSignature {
