@@ -1,5 +1,5 @@
 import { Base16 } from "@hazae41/base16"
-import { Bytes } from "@hazae41/bytes"
+import { Bytes, Uint8Array } from "@hazae41/bytes"
 import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { BigInts } from "libs/bigint/bigint.js"
 import { Copiable } from "libs/copiable/index.js"
@@ -271,6 +271,14 @@ export namespace ZeroHexAsInteger {
     return fromStringOrThrow(value)
   }
 
+  export namespace Length {
+
+    export function fromOrThrow<N extends number>(value: ZeroHexAsInteger.From, byteLength: N): ZeroHexString<N> {
+      return ZeroHexString.Length.fromOrThrow(ZeroHexAsInteger.fromOrThrow(value), byteLength)
+    }
+
+  }
+
 }
 
 /**
@@ -317,6 +325,14 @@ export namespace RawHexAsInteger {
     return fromStringOrThrow(value)
   }
 
+  export namespace Length {
+
+    export function fromOrThrow<N extends number>(value: RawHexAsInteger.From, byteLength: N): RawHexString<N> {
+      return RawHexString.Length.fromOrThrow(RawHexAsInteger.fromOrThrow(value), byteLength)
+    }
+
+  }
+
 }
 
 /**
@@ -361,6 +377,14 @@ export namespace BytesAsInteger {
     if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
+  }
+
+  export namespace Length {
+
+    export function fromOrThrow<N extends number>(value: BytesAsInteger.From, byteLength: N): Uint8Array<N> {
+      return Bytes.castOrThrow(BytesAsInteger.fromOrThrow(value), byteLength)
+    }
+
   }
 
 }

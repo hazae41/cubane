@@ -4,6 +4,7 @@ import { Cursor } from "@hazae41/cursor"
 import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { Copiable } from "libs/copiable/index.js"
+import { BytesAsInteger, ZeroHexAsInteger } from "../formats/index.js"
 
 export namespace Signature {
 
@@ -34,11 +35,11 @@ export abstract class Signature {
     const { r, s } = from
 
     if (typeof r === "string" && typeof s === "string")
-      return RsvZeroHexSignature.fromOrThrow(from as RsvZeroHexSignature.From)
+      return RsvZeroHexSignature.fromOrThrow(from)
     if (r instanceof Uint8Array && s instanceof Uint8Array)
-      return RsvBytesSignature.fromOrThrow(from as RsvBytesSignature.From)
+      return RsvBytesSignature.fromOrThrow(from)
 
-    throw new Error()
+    return RsvZeroHexSignature.fromOrThrow(from)
   }
 
   abstract toRsvZeroHexOrThrow(): RsvZeroHexSignature
@@ -62,8 +63,8 @@ export interface RsvZeroHexSignatureInit {
 export namespace RsvZeroHexSignatureInit {
 
   export interface Unsafe {
-    readonly r: string
-    readonly s: string
+    readonly r: ZeroHexAsInteger.From
+    readonly s: ZeroHexAsInteger.From
     readonly v: number
   }
 
@@ -99,10 +100,10 @@ export class RsvZeroHexSignature extends Signature {
 
     const { r, s, v } = from
 
-    if (ZeroHexString.Length.is(r, 32) && ZeroHexString.Length.is(s, 32) && typeof v === "number")
-      return new RsvZeroHexSignature(r, s, v)
+    const hr = ZeroHexAsInteger.Length.fromOrThrow(r, 32)
+    const hs = ZeroHexAsInteger.Length.fromOrThrow(s, 32)
 
-    throw new Error()
+    return new RsvZeroHexSignature(hr, hs, v)
   }
 
   toRsvZeroHexOrThrow(): RsvZeroHexSignature {
@@ -170,8 +171,8 @@ export interface RsvBytesSignatureInit {
 export namespace RsvBytesSignatureInit {
 
   export interface Unsafe {
-    readonly r: Uint8Array
-    readonly s: Uint8Array
+    readonly r: BytesAsInteger.From
+    readonly s: BytesAsInteger.From
     readonly v: number
   }
 
@@ -207,10 +208,10 @@ export class RsvBytesSignature extends Signature {
 
     const { r, s, v } = from
 
-    if (Bytes.is(r, 32) && Bytes.is(s, 32) && typeof v === "number")
-      return new RsvBytesSignature(r, s, v)
+    const br = BytesAsInteger.Length.fromOrThrow(r, 32)
+    const bs = BytesAsInteger.Length.fromOrThrow(s, 32)
 
-    throw new Error()
+    return new RsvBytesSignature(br, bs, v)
   }
 
   toRsvBytesOrThrow(): RsvBytesSignature {
