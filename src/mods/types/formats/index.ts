@@ -2,7 +2,7 @@ import { Base16 } from "@hazae41/base16"
 import { Bytes, Uint8Array } from "@hazae41/bytes"
 import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { BigInts } from "libs/bigint/bigint.js"
-import { Copiable } from "libs/copiable/index.js"
+import { Copiable, Copied } from "libs/copiable/index.js"
 import { Numbers } from "libs/number/number.js"
 
 /**
@@ -383,6 +383,61 @@ export namespace BytesAsInteger {
 
     export function fromOrThrow<N extends number>(value: BytesAsInteger.From, byteLength: N): Uint8Array<N> {
       return Bytes.castOrThrow(BytesAsInteger.fromOrThrow(value), byteLength)
+    }
+
+  }
+
+}
+
+export namespace CopiableBytesAsInteger {
+
+  export type From =
+    | string
+    | bigint
+    | number
+    | Uint8Array
+    | ZeroHexString
+
+  export function fromBytesOrThrow(value: Uint8Array): Copiable<Uint8Array> {
+    return new Copied(value)
+  }
+
+  export function fromBigIntOrThrow(value: bigint): Copiable<Uint8Array> {
+    return Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.toString(16))
+  }
+
+  export function fromNumberOrThrow(value: number): Copiable<Uint8Array> {
+    return Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.toString(16))
+  }
+
+  export function fromZeroHexOrThrow(value: ZeroHexString): Copiable<Uint8Array> {
+    return Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2))
+  }
+
+  export function fromStringOrThrow(value: string): Copiable<Uint8Array> {
+    return Base16.get().getOrThrow().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16))
+  }
+
+  export function fromOrThrow(value: From): Copiable<Uint8Array> {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
+  }
+
+  export namespace Length {
+
+    export function fromOrThrow<N extends number>(value: CopiableBytesAsInteger.From, byteLength: N): Copiable<Uint8Array<N>> {
+      const copiable = CopiableBytesAsInteger.fromOrThrow(value)
+
+      Bytes.castOrThrow(copiable.bytes, byteLength)
+
+      return copiable as Copiable<Uint8Array<N>>
     }
 
   }

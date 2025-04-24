@@ -10,6 +10,7 @@ import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { ethers } from "ethers";
 import { Copiable } from "libs/copiable/index.js";
 import { Address } from "../address/index.js";
+import { ZeroHexSignature } from "../signature/index.js";
 import { ExtPrivateKey, ExtPublicKey } from "./index.js";
 
 await Sha3Wasm.initBundled()
@@ -42,8 +43,7 @@ test("wasm sign personal message", async ({ }) => {
   const privateKeyWasm = new ExtPrivateKey(Secp256k1.get().getOrThrow().SigningKey.importOrThrow(privateKey))
 
   const signatureWasm = privateKeyWasm.signPersonalMessageOrThrow(message)
-  const signatureBytes = Copiable.copyAndDispose(signatureWasm.value.exportOrThrow())
-  const signatureZeroHex = `0x${Base16.get().getOrThrow().encodeOrThrow(signatureBytes)}`
+  const signatureZeroHex = ZeroHexSignature.fromExtOrThrow(signatureWasm).value
 
   /* Ignore recovery part */
   assert(ethersSignatureZeroHex.slice(0, -2) === signatureZeroHex.slice(0, -2))
