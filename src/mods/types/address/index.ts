@@ -34,6 +34,10 @@ export namespace Address {
     try { return fromOrThrow(from) } catch { }
   }
 
+  export function fromBytesOrThrow(from: Uint8Array) {
+    return fromRawHexOrThrow(RawHexAsInteger.fromBytesOrThrow(from))
+  }
+
   export function fromRawHexOrThrow(from: RawHexString) {
     const lowerCase = from.toLowerCase()
     const upperCase = from.toUpperCase()

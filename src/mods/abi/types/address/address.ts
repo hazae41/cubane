@@ -79,7 +79,7 @@ export class BytesAbiAddress {
   }
 
   intoOrThrow(): Address {
-    return Address.fromOrThrow(this.value)
+    return Address.fromBytesOrThrow(this.value)
   }
 
   /**
