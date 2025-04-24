@@ -23,10 +23,14 @@ export namespace Address {
   export function is(value: string): value is Address {
     if (!ZeroHexString.is(value))
       return false
-    return value === checksumOrThrow(RawHexString.fromZeroHex(value))
+    return value === fromOrNull(value)
   }
 
-  export function checksumOrThrow(raw: RawHexString) {
+  export type From = RawHexAsInteger.From
+
+  export function fromOrThrow(from: From) {
+    const raw = RawHexAsInteger.fromOrThrow(from)
+
     const lowerCase = raw.toLowerCase()
     const upperCase = raw.toUpperCase()
 
@@ -50,12 +54,6 @@ export namespace Address {
     return address as Address
   }
 
-  export type From = RawHexAsInteger.From
-
-  export function fromOrThrow(from: Address.From): Address {
-    return checksumOrThrow(RawHexAsInteger.fromOrThrow(from))
-  }
-
   export function fromOrNull(from: Address.From): Nullable<Address> {
     try {
       return fromOrThrow(from)
@@ -73,7 +71,7 @@ export namespace Address {
     using hashedSlice = Keccak256.get().getOrThrow().hashOrThrow(uncompressedPublicKeyBytes.subarray(1))
     const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashedSlice.bytes.slice(-20))
 
-    return checksumOrThrow(rawLowerCase as RawHexString)
+    return fromOrThrow(rawLowerCase as RawHexString)
   }
 
   export type Formatted = `0x${string}...${string}`
