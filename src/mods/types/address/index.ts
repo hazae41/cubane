@@ -1,9 +1,9 @@
 import { Base16 } from "@hazae41/base16";
-import { Bytes, Uint8Array } from "@hazae41/bytes";
+import { Bytes } from "@hazae41/bytes";
 import { RawHexString, ZeroHexString } from "@hazae41/hex";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "libs/nullable/index.js";
-import { RawHexAsInteger } from "../formats/index.js";
+import { BytesAsInteger, RawHexAsInteger } from "../formats/index.js";
 
 declare global {
 
@@ -67,8 +67,10 @@ export namespace Address {
    * @param uncompressedPublicKey 
    * @returns 
    */
-  export function computeOrThrow(uncompressedPublicKey: Uint8Array) {
-    using hashedSlice = Keccak256.get().getOrThrow().hashOrThrow(uncompressedPublicKey.subarray(1))
+  export function computeOrThrow(uncompressedPublicKey: BytesAsInteger.From) {
+    const uncompressedPublicKeyBytes = BytesAsInteger.fromOrThrow(uncompressedPublicKey)
+
+    using hashedSlice = Keccak256.get().getOrThrow().hashOrThrow(uncompressedPublicKeyBytes.subarray(1))
     const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashedSlice.bytes.slice(-20))
 
     return checksumOrThrow(rawLowerCase as RawHexString)
