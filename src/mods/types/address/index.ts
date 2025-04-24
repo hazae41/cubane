@@ -1,43 +1,31 @@
 import { Base16 } from "@hazae41/base16";
-import { Bytes } from "@hazae41/bytes";
+import { Bytes, Uint8Array } from "@hazae41/bytes";
+import { RawHexString, ZeroHexString } from "@hazae41/hex";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "libs/nullable/index.js";
 import { RawHexAsInteger } from "../helpers/generic.js";
-import { RawHexString, ZeroHexString } from "../string/index.js";
 
 declare global {
+
   interface SymbolConstructor {
     readonly isAddress: symbol
   }
+
 }
 
 /**
  * A "0x"-prefixed and checksummed valid hex string of length 42
  */
-export type Address = ZeroHexString<42> & { readonly [Symbol.isAddress]: true }
+export type Address = ZeroHexString<20> & { readonly [Symbol.isAddress]: true }
 
 export namespace Address {
 
-  export type From = RawHexAsInteger.From
+  export type Unsafe = ZeroHexString.Unsafe
 
-  export namespace String {
-
-    export function is(value: string): value is Address {
-      if (!ZeroHexString.String.is(value))
-        return false
-      return value === checksumOrThrow(RawHexString.fromZeroHex(value))
-    }
-
-  }
-
-  export namespace Unknown {
-
-    export function is(value: unknown): value is Address {
-      if (!ZeroHexString.Unknown.is(value))
-        return false
-      return value === checksumOrThrow(RawHexString.fromZeroHex(value))
-    }
-
+  export function is(value: string): value is Address {
+    if (!ZeroHexString.is(value))
+      return false
+    return value === checksumOrThrow(RawHexString.fromZeroHex(value))
   }
 
   export function checksumOrThrow(raw: RawHexString) {
@@ -63,6 +51,8 @@ export namespace Address {
 
     return address as Address
   }
+
+  export type From = RawHexAsInteger.From
 
   export function fromOrThrow(from: Address.From): Address {
     return checksumOrThrow(RawHexAsInteger.fromOrThrow(from))

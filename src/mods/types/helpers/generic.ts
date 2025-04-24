@@ -1,9 +1,9 @@
 import { Base16 } from "@hazae41/base16"
 import { Bytes } from "@hazae41/bytes"
+import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { BigInts } from "libs/bigint/bigint.js"
 import { Copiable } from "libs/copiable/index.js"
 import { Numbers } from "libs/number/number.js"
-import { RawHexString, ZeroHexString } from "../string/index.js"
 
 /**
  * Decode an utf-8 string-like to a zero-hex string
@@ -30,7 +30,7 @@ export namespace ZeroHexAsUtf8 {
   export function fromOrThrow(value: From): ZeroHexString {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
@@ -62,7 +62,7 @@ export namespace RawHexAsUtf8 {
   export function fromOrThrow(value: From): RawHexString {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
@@ -94,7 +94,7 @@ export namespace BytesAsUtf8 {
   export function fromOrThrow(value: From) {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
@@ -128,7 +128,7 @@ export namespace StringAsUtf8 {
   export function fromOrThrow(from: From) {
     if (from instanceof Uint8Array)
       return fromBytesOrThrow(from)
-    if (ZeroHexString.String.is(from))
+    if (ZeroHexString.is(from))
       return fromZeroHexOrThrow(from)
     return fromStringOrThrow(from)
   }
@@ -174,7 +174,7 @@ export namespace BigIntAsInteger {
       return fromBigIntOrThrow(value)
     if (typeof value === "number")
       return fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
@@ -220,7 +220,7 @@ export namespace NumberAsInteger {
       return fromBigIntOrThrow(value)
     if (typeof value === "number")
       return fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
@@ -266,7 +266,7 @@ export namespace ZeroHexAsInteger {
       return fromBigIntOrThrow(value)
     if (typeof value === "number")
       return fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
@@ -312,7 +312,7 @@ export namespace RawHexAsInteger {
       return fromBigIntOrThrow(value)
     if (typeof value === "number")
       return fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
@@ -358,7 +358,7 @@ export namespace BytesAsInteger {
       return fromBigIntOrThrow(value)
     if (typeof value === "number")
       return fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
@@ -404,7 +404,7 @@ export namespace StringAsInteger {
       return fromBigIntOrThrow(value)
     if (typeof value === "number")
       return fromNumberOrThrow(value)
-    if (ZeroHexString.String.is(value))
+    if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
