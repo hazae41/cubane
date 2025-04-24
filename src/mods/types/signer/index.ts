@@ -1,7 +1,7 @@
 import { Bytes } from "@hazae41/bytes";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
-import { BytesAsUtf8 } from "../helpers/generic.js";
+import { BytesAsUtf8 } from "../formats/index.js";
 import { ExtSignature } from "../signature/index.js";
 
 export class ExtPrivateKey {

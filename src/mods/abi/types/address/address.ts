@@ -2,7 +2,7 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { Address } from "mods/types/address/index.js";
-import { BytesAsInteger, RawHexAsInteger } from "mods/types/helpers/generic.js";
+import { BytesAsInteger, RawHexAsInteger } from "mods/types/formats/index.js";
 import { RawHexString } from "mods/types/string/index.js";
 
 export { AbiAddress as Address, BytesAbiAddress as BytesAddress, RawHexAbiAddress as RawHexAddress };

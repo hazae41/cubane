@@ -3,7 +3,7 @@ import { Bytes, Uint8Array } from "@hazae41/bytes";
 import { RawHexString, ZeroHexString } from "@hazae41/hex";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "libs/nullable/index.js";
-import { RawHexAsInteger } from "../helpers/generic.js";
+import { RawHexAsInteger } from "../formats/index.js";
 
 declare global {
 

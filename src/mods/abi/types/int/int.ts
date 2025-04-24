@@ -2,14 +2,14 @@ import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { RawHexAsInteger } from "mods/types/helpers/generic.js";
+import { RawHexAsInteger } from "mods/types/formats/index.js";
 import { RawHexString, ZeroHexString } from "mods/types/string/index.js";
-  
+
 const BN_0 = 0n
 const BN_1 = 1n
 
-export { AbiInt8 as Int8, BytesAbiInt8 as BytesInt8, RawHexAbiInt8 as RawHexInt8 }
-  
+export { BytesAbiInt8 as BytesInt8, AbiInt8 as Int8, RawHexAbiInt8 as RawHexInt8 };
+
 export type AbiInt8 =
   | RawHexAbiInt8
   | BytesAbiInt8
@@ -22,7 +22,7 @@ export namespace AbiInt8 {
     | BytesAbiInt8.Create
     | RawHexAbiInt8.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt8.From
     | RawHexAbiInt8.From
 
@@ -57,7 +57,7 @@ export namespace BytesAbiInt8 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt8 {
@@ -119,7 +119,7 @@ export class BytesAbiInt8 {
 
     const content = cursor.readOrThrow(BytesAbiInt8.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt8(copiable.bytes.slice())
   }
 
@@ -176,7 +176,7 @@ export class RawHexAbiInt8 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt8(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -260,8 +260,8 @@ export class RawHexAbiInt8 {
 
 }
 
-export { AbiInt16 as Int16, BytesAbiInt16 as BytesInt16, RawHexAbiInt16 as RawHexInt16 }
-  
+export { BytesAbiInt16 as BytesInt16, AbiInt16 as Int16, RawHexAbiInt16 as RawHexInt16 };
+
 export type AbiInt16 =
   | RawHexAbiInt16
   | BytesAbiInt16
@@ -274,7 +274,7 @@ export namespace AbiInt16 {
     | BytesAbiInt16.Create
     | RawHexAbiInt16.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt16.From
     | RawHexAbiInt16.From
 
@@ -309,7 +309,7 @@ export namespace BytesAbiInt16 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt16 {
@@ -371,7 +371,7 @@ export class BytesAbiInt16 {
 
     const content = cursor.readOrThrow(BytesAbiInt16.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt16(copiable.bytes.slice())
   }
 
@@ -428,7 +428,7 @@ export class RawHexAbiInt16 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt16(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -512,8 +512,8 @@ export class RawHexAbiInt16 {
 
 }
 
-export { AbiInt24 as Int24, BytesAbiInt24 as BytesInt24, RawHexAbiInt24 as RawHexInt24 }
-  
+export { BytesAbiInt24 as BytesInt24, AbiInt24 as Int24, RawHexAbiInt24 as RawHexInt24 };
+
 export type AbiInt24 =
   | RawHexAbiInt24
   | BytesAbiInt24
@@ -526,7 +526,7 @@ export namespace AbiInt24 {
     | BytesAbiInt24.Create
     | RawHexAbiInt24.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt24.From
     | RawHexAbiInt24.From
 
@@ -561,7 +561,7 @@ export namespace BytesAbiInt24 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt24 {
@@ -623,7 +623,7 @@ export class BytesAbiInt24 {
 
     const content = cursor.readOrThrow(BytesAbiInt24.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt24(copiable.bytes.slice())
   }
 
@@ -680,7 +680,7 @@ export class RawHexAbiInt24 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt24(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -764,8 +764,8 @@ export class RawHexAbiInt24 {
 
 }
 
-export { AbiInt32 as Int32, BytesAbiInt32 as BytesInt32, RawHexAbiInt32 as RawHexInt32 }
-  
+export { BytesAbiInt32 as BytesInt32, AbiInt32 as Int32, RawHexAbiInt32 as RawHexInt32 };
+
 export type AbiInt32 =
   | RawHexAbiInt32
   | BytesAbiInt32
@@ -778,7 +778,7 @@ export namespace AbiInt32 {
     | BytesAbiInt32.Create
     | RawHexAbiInt32.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt32.From
     | RawHexAbiInt32.From
 
@@ -813,7 +813,7 @@ export namespace BytesAbiInt32 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt32 {
@@ -875,7 +875,7 @@ export class BytesAbiInt32 {
 
     const content = cursor.readOrThrow(BytesAbiInt32.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt32(copiable.bytes.slice())
   }
 
@@ -932,7 +932,7 @@ export class RawHexAbiInt32 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt32(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -1016,8 +1016,8 @@ export class RawHexAbiInt32 {
 
 }
 
-export { AbiInt40 as Int40, BytesAbiInt40 as BytesInt40, RawHexAbiInt40 as RawHexInt40 }
-  
+export { BytesAbiInt40 as BytesInt40, AbiInt40 as Int40, RawHexAbiInt40 as RawHexInt40 };
+
 export type AbiInt40 =
   | RawHexAbiInt40
   | BytesAbiInt40
@@ -1030,7 +1030,7 @@ export namespace AbiInt40 {
     | BytesAbiInt40.Create
     | RawHexAbiInt40.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt40.From
     | RawHexAbiInt40.From
 
@@ -1065,7 +1065,7 @@ export namespace BytesAbiInt40 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt40 {
@@ -1127,7 +1127,7 @@ export class BytesAbiInt40 {
 
     const content = cursor.readOrThrow(BytesAbiInt40.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt40(copiable.bytes.slice())
   }
 
@@ -1184,7 +1184,7 @@ export class RawHexAbiInt40 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt40(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -1268,8 +1268,8 @@ export class RawHexAbiInt40 {
 
 }
 
-export { AbiInt48 as Int48, BytesAbiInt48 as BytesInt48, RawHexAbiInt48 as RawHexInt48 }
-  
+export { BytesAbiInt48 as BytesInt48, AbiInt48 as Int48, RawHexAbiInt48 as RawHexInt48 };
+
 export type AbiInt48 =
   | RawHexAbiInt48
   | BytesAbiInt48
@@ -1282,7 +1282,7 @@ export namespace AbiInt48 {
     | BytesAbiInt48.Create
     | RawHexAbiInt48.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt48.From
     | RawHexAbiInt48.From
 
@@ -1317,7 +1317,7 @@ export namespace BytesAbiInt48 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt48 {
@@ -1379,7 +1379,7 @@ export class BytesAbiInt48 {
 
     const content = cursor.readOrThrow(BytesAbiInt48.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt48(copiable.bytes.slice())
   }
 
@@ -1436,7 +1436,7 @@ export class RawHexAbiInt48 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt48(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -1520,8 +1520,8 @@ export class RawHexAbiInt48 {
 
 }
 
-export { AbiInt56 as Int56, BytesAbiInt56 as BytesInt56, RawHexAbiInt56 as RawHexInt56 }
-  
+export { BytesAbiInt56 as BytesInt56, AbiInt56 as Int56, RawHexAbiInt56 as RawHexInt56 };
+
 export type AbiInt56 =
   | RawHexAbiInt56
   | BytesAbiInt56
@@ -1534,7 +1534,7 @@ export namespace AbiInt56 {
     | BytesAbiInt56.Create
     | RawHexAbiInt56.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt56.From
     | RawHexAbiInt56.From
 
@@ -1569,7 +1569,7 @@ export namespace BytesAbiInt56 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt56 {
@@ -1631,7 +1631,7 @@ export class BytesAbiInt56 {
 
     const content = cursor.readOrThrow(BytesAbiInt56.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt56(copiable.bytes.slice())
   }
 
@@ -1688,7 +1688,7 @@ export class RawHexAbiInt56 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt56(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -1772,8 +1772,8 @@ export class RawHexAbiInt56 {
 
 }
 
-export { AbiInt64 as Int64, BytesAbiInt64 as BytesInt64, RawHexAbiInt64 as RawHexInt64 }
-  
+export { BytesAbiInt64 as BytesInt64, AbiInt64 as Int64, RawHexAbiInt64 as RawHexInt64 };
+
 export type AbiInt64 =
   | RawHexAbiInt64
   | BytesAbiInt64
@@ -1786,7 +1786,7 @@ export namespace AbiInt64 {
     | BytesAbiInt64.Create
     | RawHexAbiInt64.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt64.From
     | RawHexAbiInt64.From
 
@@ -1821,7 +1821,7 @@ export namespace BytesAbiInt64 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt64 {
@@ -1883,7 +1883,7 @@ export class BytesAbiInt64 {
 
     const content = cursor.readOrThrow(BytesAbiInt64.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt64(copiable.bytes.slice())
   }
 
@@ -1940,7 +1940,7 @@ export class RawHexAbiInt64 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt64(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -2024,8 +2024,8 @@ export class RawHexAbiInt64 {
 
 }
 
-export { AbiInt72 as Int72, BytesAbiInt72 as BytesInt72, RawHexAbiInt72 as RawHexInt72 }
-  
+export { BytesAbiInt72 as BytesInt72, AbiInt72 as Int72, RawHexAbiInt72 as RawHexInt72 };
+
 export type AbiInt72 =
   | RawHexAbiInt72
   | BytesAbiInt72
@@ -2038,7 +2038,7 @@ export namespace AbiInt72 {
     | BytesAbiInt72.Create
     | RawHexAbiInt72.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt72.From
     | RawHexAbiInt72.From
 
@@ -2073,7 +2073,7 @@ export namespace BytesAbiInt72 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt72 {
@@ -2135,7 +2135,7 @@ export class BytesAbiInt72 {
 
     const content = cursor.readOrThrow(BytesAbiInt72.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt72(copiable.bytes.slice())
   }
 
@@ -2192,7 +2192,7 @@ export class RawHexAbiInt72 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt72(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -2276,8 +2276,8 @@ export class RawHexAbiInt72 {
 
 }
 
-export { AbiInt80 as Int80, BytesAbiInt80 as BytesInt80, RawHexAbiInt80 as RawHexInt80 }
-  
+export { BytesAbiInt80 as BytesInt80, AbiInt80 as Int80, RawHexAbiInt80 as RawHexInt80 };
+
 export type AbiInt80 =
   | RawHexAbiInt80
   | BytesAbiInt80
@@ -2290,7 +2290,7 @@ export namespace AbiInt80 {
     | BytesAbiInt80.Create
     | RawHexAbiInt80.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt80.From
     | RawHexAbiInt80.From
 
@@ -2325,7 +2325,7 @@ export namespace BytesAbiInt80 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt80 {
@@ -2387,7 +2387,7 @@ export class BytesAbiInt80 {
 
     const content = cursor.readOrThrow(BytesAbiInt80.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt80(copiable.bytes.slice())
   }
 
@@ -2444,7 +2444,7 @@ export class RawHexAbiInt80 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt80(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -2528,8 +2528,8 @@ export class RawHexAbiInt80 {
 
 }
 
-export { AbiInt88 as Int88, BytesAbiInt88 as BytesInt88, RawHexAbiInt88 as RawHexInt88 }
-  
+export { BytesAbiInt88 as BytesInt88, AbiInt88 as Int88, RawHexAbiInt88 as RawHexInt88 };
+
 export type AbiInt88 =
   | RawHexAbiInt88
   | BytesAbiInt88
@@ -2542,7 +2542,7 @@ export namespace AbiInt88 {
     | BytesAbiInt88.Create
     | RawHexAbiInt88.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt88.From
     | RawHexAbiInt88.From
 
@@ -2577,7 +2577,7 @@ export namespace BytesAbiInt88 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt88 {
@@ -2639,7 +2639,7 @@ export class BytesAbiInt88 {
 
     const content = cursor.readOrThrow(BytesAbiInt88.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt88(copiable.bytes.slice())
   }
 
@@ -2696,7 +2696,7 @@ export class RawHexAbiInt88 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt88(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -2780,8 +2780,8 @@ export class RawHexAbiInt88 {
 
 }
 
-export { AbiInt96 as Int96, BytesAbiInt96 as BytesInt96, RawHexAbiInt96 as RawHexInt96 }
-  
+export { BytesAbiInt96 as BytesInt96, AbiInt96 as Int96, RawHexAbiInt96 as RawHexInt96 };
+
 export type AbiInt96 =
   | RawHexAbiInt96
   | BytesAbiInt96
@@ -2794,7 +2794,7 @@ export namespace AbiInt96 {
     | BytesAbiInt96.Create
     | RawHexAbiInt96.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt96.From
     | RawHexAbiInt96.From
 
@@ -2829,7 +2829,7 @@ export namespace BytesAbiInt96 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt96 {
@@ -2891,7 +2891,7 @@ export class BytesAbiInt96 {
 
     const content = cursor.readOrThrow(BytesAbiInt96.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt96(copiable.bytes.slice())
   }
 
@@ -2948,7 +2948,7 @@ export class RawHexAbiInt96 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt96(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -3032,8 +3032,8 @@ export class RawHexAbiInt96 {
 
 }
 
-export { AbiInt104 as Int104, BytesAbiInt104 as BytesInt104, RawHexAbiInt104 as RawHexInt104 }
-  
+export { BytesAbiInt104 as BytesInt104, AbiInt104 as Int104, RawHexAbiInt104 as RawHexInt104 };
+
 export type AbiInt104 =
   | RawHexAbiInt104
   | BytesAbiInt104
@@ -3046,7 +3046,7 @@ export namespace AbiInt104 {
     | BytesAbiInt104.Create
     | RawHexAbiInt104.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt104.From
     | RawHexAbiInt104.From
 
@@ -3081,7 +3081,7 @@ export namespace BytesAbiInt104 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt104 {
@@ -3143,7 +3143,7 @@ export class BytesAbiInt104 {
 
     const content = cursor.readOrThrow(BytesAbiInt104.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt104(copiable.bytes.slice())
   }
 
@@ -3200,7 +3200,7 @@ export class RawHexAbiInt104 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt104(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -3284,8 +3284,8 @@ export class RawHexAbiInt104 {
 
 }
 
-export { AbiInt112 as Int112, BytesAbiInt112 as BytesInt112, RawHexAbiInt112 as RawHexInt112 }
-  
+export { BytesAbiInt112 as BytesInt112, AbiInt112 as Int112, RawHexAbiInt112 as RawHexInt112 };
+
 export type AbiInt112 =
   | RawHexAbiInt112
   | BytesAbiInt112
@@ -3298,7 +3298,7 @@ export namespace AbiInt112 {
     | BytesAbiInt112.Create
     | RawHexAbiInt112.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt112.From
     | RawHexAbiInt112.From
 
@@ -3333,7 +3333,7 @@ export namespace BytesAbiInt112 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt112 {
@@ -3395,7 +3395,7 @@ export class BytesAbiInt112 {
 
     const content = cursor.readOrThrow(BytesAbiInt112.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt112(copiable.bytes.slice())
   }
 
@@ -3452,7 +3452,7 @@ export class RawHexAbiInt112 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt112(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -3536,8 +3536,8 @@ export class RawHexAbiInt112 {
 
 }
 
-export { AbiInt120 as Int120, BytesAbiInt120 as BytesInt120, RawHexAbiInt120 as RawHexInt120 }
-  
+export { BytesAbiInt120 as BytesInt120, AbiInt120 as Int120, RawHexAbiInt120 as RawHexInt120 };
+
 export type AbiInt120 =
   | RawHexAbiInt120
   | BytesAbiInt120
@@ -3550,7 +3550,7 @@ export namespace AbiInt120 {
     | BytesAbiInt120.Create
     | RawHexAbiInt120.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt120.From
     | RawHexAbiInt120.From
 
@@ -3585,7 +3585,7 @@ export namespace BytesAbiInt120 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt120 {
@@ -3647,7 +3647,7 @@ export class BytesAbiInt120 {
 
     const content = cursor.readOrThrow(BytesAbiInt120.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt120(copiable.bytes.slice())
   }
 
@@ -3704,7 +3704,7 @@ export class RawHexAbiInt120 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt120(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -3788,8 +3788,8 @@ export class RawHexAbiInt120 {
 
 }
 
-export { AbiInt128 as Int128, BytesAbiInt128 as BytesInt128, RawHexAbiInt128 as RawHexInt128 }
-  
+export { BytesAbiInt128 as BytesInt128, AbiInt128 as Int128, RawHexAbiInt128 as RawHexInt128 };
+
 export type AbiInt128 =
   | RawHexAbiInt128
   | BytesAbiInt128
@@ -3802,7 +3802,7 @@ export namespace AbiInt128 {
     | BytesAbiInt128.Create
     | RawHexAbiInt128.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt128.From
     | RawHexAbiInt128.From
 
@@ -3837,7 +3837,7 @@ export namespace BytesAbiInt128 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt128 {
@@ -3899,7 +3899,7 @@ export class BytesAbiInt128 {
 
     const content = cursor.readOrThrow(BytesAbiInt128.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt128(copiable.bytes.slice())
   }
 
@@ -3956,7 +3956,7 @@ export class RawHexAbiInt128 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt128(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -4040,8 +4040,8 @@ export class RawHexAbiInt128 {
 
 }
 
-export { AbiInt136 as Int136, BytesAbiInt136 as BytesInt136, RawHexAbiInt136 as RawHexInt136 }
-  
+export { BytesAbiInt136 as BytesInt136, AbiInt136 as Int136, RawHexAbiInt136 as RawHexInt136 };
+
 export type AbiInt136 =
   | RawHexAbiInt136
   | BytesAbiInt136
@@ -4054,7 +4054,7 @@ export namespace AbiInt136 {
     | BytesAbiInt136.Create
     | RawHexAbiInt136.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt136.From
     | RawHexAbiInt136.From
 
@@ -4089,7 +4089,7 @@ export namespace BytesAbiInt136 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt136 {
@@ -4151,7 +4151,7 @@ export class BytesAbiInt136 {
 
     const content = cursor.readOrThrow(BytesAbiInt136.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt136(copiable.bytes.slice())
   }
 
@@ -4208,7 +4208,7 @@ export class RawHexAbiInt136 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt136(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -4292,8 +4292,8 @@ export class RawHexAbiInt136 {
 
 }
 
-export { AbiInt144 as Int144, BytesAbiInt144 as BytesInt144, RawHexAbiInt144 as RawHexInt144 }
-  
+export { BytesAbiInt144 as BytesInt144, AbiInt144 as Int144, RawHexAbiInt144 as RawHexInt144 };
+
 export type AbiInt144 =
   | RawHexAbiInt144
   | BytesAbiInt144
@@ -4306,7 +4306,7 @@ export namespace AbiInt144 {
     | BytesAbiInt144.Create
     | RawHexAbiInt144.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt144.From
     | RawHexAbiInt144.From
 
@@ -4341,7 +4341,7 @@ export namespace BytesAbiInt144 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt144 {
@@ -4403,7 +4403,7 @@ export class BytesAbiInt144 {
 
     const content = cursor.readOrThrow(BytesAbiInt144.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt144(copiable.bytes.slice())
   }
 
@@ -4460,7 +4460,7 @@ export class RawHexAbiInt144 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt144(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -4544,8 +4544,8 @@ export class RawHexAbiInt144 {
 
 }
 
-export { AbiInt152 as Int152, BytesAbiInt152 as BytesInt152, RawHexAbiInt152 as RawHexInt152 }
-  
+export { BytesAbiInt152 as BytesInt152, AbiInt152 as Int152, RawHexAbiInt152 as RawHexInt152 };
+
 export type AbiInt152 =
   | RawHexAbiInt152
   | BytesAbiInt152
@@ -4558,7 +4558,7 @@ export namespace AbiInt152 {
     | BytesAbiInt152.Create
     | RawHexAbiInt152.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt152.From
     | RawHexAbiInt152.From
 
@@ -4593,7 +4593,7 @@ export namespace BytesAbiInt152 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt152 {
@@ -4655,7 +4655,7 @@ export class BytesAbiInt152 {
 
     const content = cursor.readOrThrow(BytesAbiInt152.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt152(copiable.bytes.slice())
   }
 
@@ -4712,7 +4712,7 @@ export class RawHexAbiInt152 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt152(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -4796,8 +4796,8 @@ export class RawHexAbiInt152 {
 
 }
 
-export { AbiInt160 as Int160, BytesAbiInt160 as BytesInt160, RawHexAbiInt160 as RawHexInt160 }
-  
+export { BytesAbiInt160 as BytesInt160, AbiInt160 as Int160, RawHexAbiInt160 as RawHexInt160 };
+
 export type AbiInt160 =
   | RawHexAbiInt160
   | BytesAbiInt160
@@ -4810,7 +4810,7 @@ export namespace AbiInt160 {
     | BytesAbiInt160.Create
     | RawHexAbiInt160.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt160.From
     | RawHexAbiInt160.From
 
@@ -4845,7 +4845,7 @@ export namespace BytesAbiInt160 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt160 {
@@ -4907,7 +4907,7 @@ export class BytesAbiInt160 {
 
     const content = cursor.readOrThrow(BytesAbiInt160.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt160(copiable.bytes.slice())
   }
 
@@ -4964,7 +4964,7 @@ export class RawHexAbiInt160 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt160(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -5048,8 +5048,8 @@ export class RawHexAbiInt160 {
 
 }
 
-export { AbiInt168 as Int168, BytesAbiInt168 as BytesInt168, RawHexAbiInt168 as RawHexInt168 }
-  
+export { BytesAbiInt168 as BytesInt168, AbiInt168 as Int168, RawHexAbiInt168 as RawHexInt168 };
+
 export type AbiInt168 =
   | RawHexAbiInt168
   | BytesAbiInt168
@@ -5062,7 +5062,7 @@ export namespace AbiInt168 {
     | BytesAbiInt168.Create
     | RawHexAbiInt168.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt168.From
     | RawHexAbiInt168.From
 
@@ -5097,7 +5097,7 @@ export namespace BytesAbiInt168 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt168 {
@@ -5159,7 +5159,7 @@ export class BytesAbiInt168 {
 
     const content = cursor.readOrThrow(BytesAbiInt168.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt168(copiable.bytes.slice())
   }
 
@@ -5216,7 +5216,7 @@ export class RawHexAbiInt168 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt168(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -5300,8 +5300,8 @@ export class RawHexAbiInt168 {
 
 }
 
-export { AbiInt176 as Int176, BytesAbiInt176 as BytesInt176, RawHexAbiInt176 as RawHexInt176 }
-  
+export { BytesAbiInt176 as BytesInt176, AbiInt176 as Int176, RawHexAbiInt176 as RawHexInt176 };
+
 export type AbiInt176 =
   | RawHexAbiInt176
   | BytesAbiInt176
@@ -5314,7 +5314,7 @@ export namespace AbiInt176 {
     | BytesAbiInt176.Create
     | RawHexAbiInt176.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt176.From
     | RawHexAbiInt176.From
 
@@ -5349,7 +5349,7 @@ export namespace BytesAbiInt176 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt176 {
@@ -5411,7 +5411,7 @@ export class BytesAbiInt176 {
 
     const content = cursor.readOrThrow(BytesAbiInt176.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt176(copiable.bytes.slice())
   }
 
@@ -5468,7 +5468,7 @@ export class RawHexAbiInt176 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt176(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -5552,8 +5552,8 @@ export class RawHexAbiInt176 {
 
 }
 
-export { AbiInt184 as Int184, BytesAbiInt184 as BytesInt184, RawHexAbiInt184 as RawHexInt184 }
-  
+export { BytesAbiInt184 as BytesInt184, AbiInt184 as Int184, RawHexAbiInt184 as RawHexInt184 };
+
 export type AbiInt184 =
   | RawHexAbiInt184
   | BytesAbiInt184
@@ -5566,7 +5566,7 @@ export namespace AbiInt184 {
     | BytesAbiInt184.Create
     | RawHexAbiInt184.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt184.From
     | RawHexAbiInt184.From
 
@@ -5601,7 +5601,7 @@ export namespace BytesAbiInt184 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt184 {
@@ -5663,7 +5663,7 @@ export class BytesAbiInt184 {
 
     const content = cursor.readOrThrow(BytesAbiInt184.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt184(copiable.bytes.slice())
   }
 
@@ -5720,7 +5720,7 @@ export class RawHexAbiInt184 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt184(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -5804,8 +5804,8 @@ export class RawHexAbiInt184 {
 
 }
 
-export { AbiInt192 as Int192, BytesAbiInt192 as BytesInt192, RawHexAbiInt192 as RawHexInt192 }
-  
+export { BytesAbiInt192 as BytesInt192, AbiInt192 as Int192, RawHexAbiInt192 as RawHexInt192 };
+
 export type AbiInt192 =
   | RawHexAbiInt192
   | BytesAbiInt192
@@ -5818,7 +5818,7 @@ export namespace AbiInt192 {
     | BytesAbiInt192.Create
     | RawHexAbiInt192.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt192.From
     | RawHexAbiInt192.From
 
@@ -5853,7 +5853,7 @@ export namespace BytesAbiInt192 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt192 {
@@ -5915,7 +5915,7 @@ export class BytesAbiInt192 {
 
     const content = cursor.readOrThrow(BytesAbiInt192.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt192(copiable.bytes.slice())
   }
 
@@ -5972,7 +5972,7 @@ export class RawHexAbiInt192 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt192(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -6056,8 +6056,8 @@ export class RawHexAbiInt192 {
 
 }
 
-export { AbiInt200 as Int200, BytesAbiInt200 as BytesInt200, RawHexAbiInt200 as RawHexInt200 }
-  
+export { BytesAbiInt200 as BytesInt200, AbiInt200 as Int200, RawHexAbiInt200 as RawHexInt200 };
+
 export type AbiInt200 =
   | RawHexAbiInt200
   | BytesAbiInt200
@@ -6070,7 +6070,7 @@ export namespace AbiInt200 {
     | BytesAbiInt200.Create
     | RawHexAbiInt200.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt200.From
     | RawHexAbiInt200.From
 
@@ -6105,7 +6105,7 @@ export namespace BytesAbiInt200 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt200 {
@@ -6167,7 +6167,7 @@ export class BytesAbiInt200 {
 
     const content = cursor.readOrThrow(BytesAbiInt200.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt200(copiable.bytes.slice())
   }
 
@@ -6224,7 +6224,7 @@ export class RawHexAbiInt200 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt200(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -6308,8 +6308,8 @@ export class RawHexAbiInt200 {
 
 }
 
-export { AbiInt208 as Int208, BytesAbiInt208 as BytesInt208, RawHexAbiInt208 as RawHexInt208 }
-  
+export { BytesAbiInt208 as BytesInt208, AbiInt208 as Int208, RawHexAbiInt208 as RawHexInt208 };
+
 export type AbiInt208 =
   | RawHexAbiInt208
   | BytesAbiInt208
@@ -6322,7 +6322,7 @@ export namespace AbiInt208 {
     | BytesAbiInt208.Create
     | RawHexAbiInt208.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt208.From
     | RawHexAbiInt208.From
 
@@ -6357,7 +6357,7 @@ export namespace BytesAbiInt208 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt208 {
@@ -6419,7 +6419,7 @@ export class BytesAbiInt208 {
 
     const content = cursor.readOrThrow(BytesAbiInt208.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt208(copiable.bytes.slice())
   }
 
@@ -6476,7 +6476,7 @@ export class RawHexAbiInt208 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt208(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -6560,8 +6560,8 @@ export class RawHexAbiInt208 {
 
 }
 
-export { AbiInt216 as Int216, BytesAbiInt216 as BytesInt216, RawHexAbiInt216 as RawHexInt216 }
-  
+export { BytesAbiInt216 as BytesInt216, AbiInt216 as Int216, RawHexAbiInt216 as RawHexInt216 };
+
 export type AbiInt216 =
   | RawHexAbiInt216
   | BytesAbiInt216
@@ -6574,7 +6574,7 @@ export namespace AbiInt216 {
     | BytesAbiInt216.Create
     | RawHexAbiInt216.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt216.From
     | RawHexAbiInt216.From
 
@@ -6609,7 +6609,7 @@ export namespace BytesAbiInt216 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt216 {
@@ -6671,7 +6671,7 @@ export class BytesAbiInt216 {
 
     const content = cursor.readOrThrow(BytesAbiInt216.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt216(copiable.bytes.slice())
   }
 
@@ -6728,7 +6728,7 @@ export class RawHexAbiInt216 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt216(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -6812,8 +6812,8 @@ export class RawHexAbiInt216 {
 
 }
 
-export { AbiInt224 as Int224, BytesAbiInt224 as BytesInt224, RawHexAbiInt224 as RawHexInt224 }
-  
+export { BytesAbiInt224 as BytesInt224, AbiInt224 as Int224, RawHexAbiInt224 as RawHexInt224 };
+
 export type AbiInt224 =
   | RawHexAbiInt224
   | BytesAbiInt224
@@ -6826,7 +6826,7 @@ export namespace AbiInt224 {
     | BytesAbiInt224.Create
     | RawHexAbiInt224.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt224.From
     | RawHexAbiInt224.From
 
@@ -6861,7 +6861,7 @@ export namespace BytesAbiInt224 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt224 {
@@ -6923,7 +6923,7 @@ export class BytesAbiInt224 {
 
     const content = cursor.readOrThrow(BytesAbiInt224.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt224(copiable.bytes.slice())
   }
 
@@ -6980,7 +6980,7 @@ export class RawHexAbiInt224 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt224(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -7064,8 +7064,8 @@ export class RawHexAbiInt224 {
 
 }
 
-export { AbiInt232 as Int232, BytesAbiInt232 as BytesInt232, RawHexAbiInt232 as RawHexInt232 }
-  
+export { BytesAbiInt232 as BytesInt232, AbiInt232 as Int232, RawHexAbiInt232 as RawHexInt232 };
+
 export type AbiInt232 =
   | RawHexAbiInt232
   | BytesAbiInt232
@@ -7078,7 +7078,7 @@ export namespace AbiInt232 {
     | BytesAbiInt232.Create
     | RawHexAbiInt232.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt232.From
     | RawHexAbiInt232.From
 
@@ -7113,7 +7113,7 @@ export namespace BytesAbiInt232 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt232 {
@@ -7175,7 +7175,7 @@ export class BytesAbiInt232 {
 
     const content = cursor.readOrThrow(BytesAbiInt232.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt232(copiable.bytes.slice())
   }
 
@@ -7232,7 +7232,7 @@ export class RawHexAbiInt232 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt232(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -7316,8 +7316,8 @@ export class RawHexAbiInt232 {
 
 }
 
-export { AbiInt240 as Int240, BytesAbiInt240 as BytesInt240, RawHexAbiInt240 as RawHexInt240 }
-  
+export { BytesAbiInt240 as BytesInt240, AbiInt240 as Int240, RawHexAbiInt240 as RawHexInt240 };
+
 export type AbiInt240 =
   | RawHexAbiInt240
   | BytesAbiInt240
@@ -7330,7 +7330,7 @@ export namespace AbiInt240 {
     | BytesAbiInt240.Create
     | RawHexAbiInt240.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt240.From
     | RawHexAbiInt240.From
 
@@ -7365,7 +7365,7 @@ export namespace BytesAbiInt240 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt240 {
@@ -7427,7 +7427,7 @@ export class BytesAbiInt240 {
 
     const content = cursor.readOrThrow(BytesAbiInt240.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt240(copiable.bytes.slice())
   }
 
@@ -7484,7 +7484,7 @@ export class RawHexAbiInt240 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt240(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -7568,8 +7568,8 @@ export class RawHexAbiInt240 {
 
 }
 
-export { AbiInt248 as Int248, BytesAbiInt248 as BytesInt248, RawHexAbiInt248 as RawHexInt248 }
-  
+export { BytesAbiInt248 as BytesInt248, AbiInt248 as Int248, RawHexAbiInt248 as RawHexInt248 };
+
 export type AbiInt248 =
   | RawHexAbiInt248
   | BytesAbiInt248
@@ -7582,7 +7582,7 @@ export namespace AbiInt248 {
     | BytesAbiInt248.Create
     | RawHexAbiInt248.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt248.From
     | RawHexAbiInt248.From
 
@@ -7617,7 +7617,7 @@ export namespace BytesAbiInt248 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt248 {
@@ -7679,7 +7679,7 @@ export class BytesAbiInt248 {
 
     const content = cursor.readOrThrow(BytesAbiInt248.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt248(copiable.bytes.slice())
   }
 
@@ -7736,7 +7736,7 @@ export class RawHexAbiInt248 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt248(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -7820,8 +7820,8 @@ export class RawHexAbiInt248 {
 
 }
 
-export { AbiInt256 as Int256, BytesAbiInt256 as BytesInt256, RawHexAbiInt256 as RawHexInt256 }
-  
+export { BytesAbiInt256 as BytesInt256, AbiInt256 as Int256, RawHexAbiInt256 as RawHexInt256 };
+
 export type AbiInt256 =
   | RawHexAbiInt256
   | BytesAbiInt256
@@ -7834,7 +7834,7 @@ export namespace AbiInt256 {
     | BytesAbiInt256.Create
     | RawHexAbiInt256.Create
 
-  export type From = 
+  export type From =
     | BytesAbiInt256.From
     | RawHexAbiInt256.From
 
@@ -7869,7 +7869,7 @@ export namespace BytesAbiInt256 {
   export type Create = Uint8Array
 
   export type From = Uint8Array
-  
+
 }
 
 export class BytesAbiInt256 {
@@ -7931,7 +7931,7 @@ export class BytesAbiInt256 {
 
     const content = cursor.readOrThrow(BytesAbiInt256.nibbles)
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(content)
-    
+
     return new BytesAbiInt256(copiable.bytes.slice())
   }
 
@@ -7988,7 +7988,7 @@ export class RawHexAbiInt256 {
   }
 
   static fromBigIntOrThrow(value: bigint) {
-    if (value >= BN_0) 
+    if (value >= BN_0)
       return new RawHexAbiInt256(value.toString(16) as RawHexString)
 
     const mask = (BN_1 << 256n) - BN_1
@@ -8073,71 +8073,71 @@ export class RawHexAbiInt256 {
 }
 
 export type IntByName = {
-    int8: typeof AbiInt8,
-    int16: typeof AbiInt16,
-    int24: typeof AbiInt24,
-    int32: typeof AbiInt32,
-    int40: typeof AbiInt40,
-    int48: typeof AbiInt48,
-    int56: typeof AbiInt56,
-    int64: typeof AbiInt64,
-    int72: typeof AbiInt72,
-    int80: typeof AbiInt80,
-    int88: typeof AbiInt88,
-    int96: typeof AbiInt96,
-    int104: typeof AbiInt104,
-    int112: typeof AbiInt112,
-    int120: typeof AbiInt120,
-    int128: typeof AbiInt128,
-    int136: typeof AbiInt136,
-    int144: typeof AbiInt144,
-    int152: typeof AbiInt152,
-    int160: typeof AbiInt160,
-    int168: typeof AbiInt168,
-    int176: typeof AbiInt176,
-    int184: typeof AbiInt184,
-    int192: typeof AbiInt192,
-    int200: typeof AbiInt200,
-    int208: typeof AbiInt208,
-    int216: typeof AbiInt216,
-    int224: typeof AbiInt224,
-    int232: typeof AbiInt232,
-    int240: typeof AbiInt240,
-    int248: typeof AbiInt248,
-    int256: typeof AbiInt256,
-  }
-  
-  export const intByName: IntByName = {
-    int8: AbiInt8,
-    int16: AbiInt16,
-    int24: AbiInt24,
-    int32: AbiInt32,
-    int40: AbiInt40,
-    int48: AbiInt48,
-    int56: AbiInt56,
-    int64: AbiInt64,
-    int72: AbiInt72,
-    int80: AbiInt80,
-    int88: AbiInt88,
-    int96: AbiInt96,
-    int104: AbiInt104,
-    int112: AbiInt112,
-    int120: AbiInt120,
-    int128: AbiInt128,
-    int136: AbiInt136,
-    int144: AbiInt144,
-    int152: AbiInt152,
-    int160: AbiInt160,
-    int168: AbiInt168,
-    int176: AbiInt176,
-    int184: AbiInt184,
-    int192: AbiInt192,
-    int200: AbiInt200,
-    int208: AbiInt208,
-    int216: AbiInt216,
-    int224: AbiInt224,
-    int232: AbiInt232,
-    int240: AbiInt240,
-    int248: AbiInt248,
-    int256: AbiInt256,
-  }
+  int8: typeof AbiInt8,
+  int16: typeof AbiInt16,
+  int24: typeof AbiInt24,
+  int32: typeof AbiInt32,
+  int40: typeof AbiInt40,
+  int48: typeof AbiInt48,
+  int56: typeof AbiInt56,
+  int64: typeof AbiInt64,
+  int72: typeof AbiInt72,
+  int80: typeof AbiInt80,
+  int88: typeof AbiInt88,
+  int96: typeof AbiInt96,
+  int104: typeof AbiInt104,
+  int112: typeof AbiInt112,
+  int120: typeof AbiInt120,
+  int128: typeof AbiInt128,
+  int136: typeof AbiInt136,
+  int144: typeof AbiInt144,
+  int152: typeof AbiInt152,
+  int160: typeof AbiInt160,
+  int168: typeof AbiInt168,
+  int176: typeof AbiInt176,
+  int184: typeof AbiInt184,
+  int192: typeof AbiInt192,
+  int200: typeof AbiInt200,
+  int208: typeof AbiInt208,
+  int216: typeof AbiInt216,
+  int224: typeof AbiInt224,
+  int232: typeof AbiInt232,
+  int240: typeof AbiInt240,
+  int248: typeof AbiInt248,
+  int256: typeof AbiInt256,
+}
+
+export const intByName: IntByName = {
+  int8: AbiInt8,
+  int16: AbiInt16,
+  int24: AbiInt24,
+  int32: AbiInt32,
+  int40: AbiInt40,
+  int48: AbiInt48,
+  int56: AbiInt56,
+  int64: AbiInt64,
+  int72: AbiInt72,
+  int80: AbiInt80,
+  int88: AbiInt88,
+  int96: AbiInt96,
+  int104: AbiInt104,
+  int112: AbiInt112,
+  int120: AbiInt120,
+  int128: AbiInt128,
+  int136: AbiInt136,
+  int144: AbiInt144,
+  int152: AbiInt152,
+  int160: AbiInt160,
+  int168: AbiInt168,
+  int176: AbiInt176,
+  int184: AbiInt184,
+  int192: AbiInt192,
+  int200: AbiInt200,
+  int208: AbiInt208,
+  int216: AbiInt216,
+  int224: AbiInt224,
+  int232: AbiInt232,
+  int240: AbiInt240,
+  int248: AbiInt248,
+  int256: AbiInt256,
+}
