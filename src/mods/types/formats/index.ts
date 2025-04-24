@@ -15,15 +15,15 @@ export namespace ZeroHexAsUtf8 {
     | Uint8Array
     | ZeroHexString
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): ZeroHexString {
     return value
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): ZeroHexString {
     return `0x${Base16.get().getOrThrow().encodeOrThrow(value)}` as ZeroHexString
   }
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): ZeroHexString {
     return `0x${Base16.get().getOrThrow().encodeOrThrow(Bytes.fromUtf8(value))}` as ZeroHexString
   }
 
@@ -47,15 +47,15 @@ export namespace RawHexAsUtf8 {
     | Uint8Array
     | ZeroHexString
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): RawHexString {
     return value.slice(2) as RawHexString
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): RawHexString {
     return Base16.get().getOrThrow().encodeOrThrow(value) as RawHexString
   }
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): RawHexString {
     return Base16.get().getOrThrow().encodeOrThrow(Bytes.fromUtf8(value)) as RawHexString
   }
 
@@ -79,19 +79,19 @@ export namespace BytesAsUtf8 {
     | Uint8Array
     | ZeroHexString
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): Uint8Array {
     return value
   }
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): Uint8Array {
     return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2)))
   }
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): Uint8Array {
     return Bytes.fromUtf8(value)
   }
 
-  export function fromOrThrow(value: From) {
+  export function fromOrThrow(value: From): Uint8Array {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (ZeroHexString.is(value))
@@ -111,21 +111,21 @@ export namespace StringAsUtf8 {
     | Uint8Array
     | ZeroHexString
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): string {
     return value
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): string {
     return Bytes.toUtf8(value)
   }
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): string {
     using copiable = Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2))
 
     return Bytes.toUtf8(copiable.bytes)
   }
 
-  export function fromOrThrow(from: From) {
+  export function fromOrThrow(from: From): string {
     if (from instanceof Uint8Array)
       return fromBytesOrThrow(from)
     if (ZeroHexString.is(from))
@@ -147,27 +147,27 @@ export namespace BigIntAsInteger {
     | Uint8Array
     | ZeroHexString
 
-  export function fromBigIntOrThrow(value: bigint) {
+  export function fromBigIntOrThrow(value: bigint): bigint {
     return value
   }
 
-  export function fromNumberOrThrow(value: number) {
+  export function fromNumberOrThrow(value: number): bigint {
     return BigInt(value)
   }
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): bigint {
     return BigInts.decodeZeroHex(value)
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): bigint {
     return BigInts.decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(value))
   }
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): bigint {
     return BigInts.decodeDecimal(value)
   }
 
-  export function fromOrThrow(value: From) {
+  export function fromOrThrow(value: From): bigint {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (typeof value === "bigint")
@@ -193,27 +193,27 @@ export namespace NumberAsInteger {
     | Uint8Array
     | ZeroHexString
 
-  export function fromNumberOrThrow(value: number) {
+  export function fromNumberOrThrow(value: number): number {
     return value
   }
 
-  export function fromBigIntOrThrow(value: bigint) {
+  export function fromBigIntOrThrow(value: bigint): number {
     return Number(value)
   }
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): number {
     return Numbers.decodeZeroHex(value)
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): number {
     return Numbers.decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(value))
   }
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): number {
     return Numbers.decodeDecimal(value)
   }
 
-  export function fromOrThrow(value: From) {
+  export function fromOrThrow(value: From): number {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (typeof value === "bigint")
@@ -239,27 +239,27 @@ export namespace ZeroHexAsInteger {
     | Uint8Array
     | ZeroHexString
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): ZeroHexString {
     return value
   }
 
-  export function fromBigIntOrThrow(value: bigint) {
+  export function fromBigIntOrThrow(value: bigint): ZeroHexString {
     return `0x${value.toString(16)}` as ZeroHexString
   }
 
-  export function fromNumberOrThrow(value: number) {
+  export function fromNumberOrThrow(value: number): ZeroHexString {
     return `0x${value.toString(16)}` as ZeroHexString
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): ZeroHexString {
     return `0x${Base16.get().getOrThrow().encodeOrThrow(value)}` as ZeroHexString
   }
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): ZeroHexString {
     return `0x${BigInts.decodeDecimal(value).toString(16)}` as ZeroHexString
   }
 
-  export function fromOrThrow(value: From) {
+  export function fromOrThrow(value: From): ZeroHexString {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (typeof value === "bigint")
@@ -285,27 +285,27 @@ export namespace RawHexAsInteger {
     | Uint8Array
     | ZeroHexString
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): RawHexString {
     return value.slice(2) as RawHexString
   }
 
-  export function fromBigIntOrThrow(value: bigint) {
+  export function fromBigIntOrThrow(value: bigint): RawHexString {
     return value.toString(16) as RawHexString
   }
 
-  export function fromNumberOrThrow(value: number) {
+  export function fromNumberOrThrow(value: number): RawHexString {
     return value.toString(16) as RawHexString
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): RawHexString {
     return Base16.get().getOrThrow().encodeOrThrow(value) as RawHexString
   }
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): RawHexString {
     return BigInts.decodeDecimal(value).toString(16) as RawHexString
   }
 
-  export function fromOrThrow(value: From) {
+  export function fromOrThrow(value: From): RawHexString {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (typeof value === "bigint")
@@ -331,27 +331,27 @@ export namespace BytesAsInteger {
     | Uint8Array
     | ZeroHexString
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): Uint8Array {
     return value
   }
 
-  export function fromBigIntOrThrow(value: bigint) {
+  export function fromBigIntOrThrow(value: bigint): Uint8Array {
     return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.toString(16)))
   }
 
-  export function fromNumberOrThrow(value: number) {
+  export function fromNumberOrThrow(value: number): Uint8Array {
     return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.toString(16)))
   }
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): Uint8Array {
     return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2)))
   }
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): Uint8Array {
     return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16)))
   }
 
-  export function fromOrThrow(value: From) {
+  export function fromOrThrow(value: From): Uint8Array {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (typeof value === "bigint")
@@ -377,27 +377,27 @@ export namespace StringAsInteger {
     | Uint8Array
     | ZeroHexString
 
-  export function fromStringOrThrow(value: string) {
+  export function fromStringOrThrow(value: string): string {
     return value
   }
 
-  export function fromBigIntOrThrow(value: bigint) {
+  export function fromBigIntOrThrow(value: bigint): string {
     return value.toString()
   }
 
-  export function fromNumberOrThrow(value: number) {
+  export function fromNumberOrThrow(value: number): string {
     return value.toString()
   }
 
-  export function fromZeroHexOrThrow(value: ZeroHexString) {
+  export function fromZeroHexOrThrow(value: ZeroHexString): string {
     return BigInts.decodeZeroHex(value).toString()
   }
 
-  export function fromBytesOrThrow(value: Uint8Array) {
+  export function fromBytesOrThrow(value: Uint8Array): string {
     return BigInts.decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(value)).toString()
   }
 
-  export function fromOrThrow(value: From) {
+  export function fromOrThrow(value: From): string {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (typeof value === "bigint")
