@@ -150,7 +150,7 @@ export class RawHexAbiAddress {
   }
 
   intoOrThrow(): Address {
-    return Address.fromOrThrow(this.value)
+    return Address.fromRawHexOrThrow(this.value)
   }
 
   /**

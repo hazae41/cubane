@@ -27,10 +27,16 @@ export namespace Address {
   export type From = RawHexAsInteger.From
 
   export function fromOrThrow(from: From) {
-    const raw = RawHexAsInteger.fromOrThrow(from)
+    return fromRawHexOrThrow(RawHexAsInteger.fromOrThrow(from))
+  }
 
-    const lowerCase = raw.toLowerCase()
-    const upperCase = raw.toUpperCase()
+  export function fromOrNull(from: Address.From): Nullable<Address> {
+    try { return fromOrThrow(from) } catch { }
+  }
+
+  export function fromRawHexOrThrow(from: RawHexString) {
+    const lowerCase = from.toLowerCase()
+    const upperCase = from.toUpperCase()
 
     const bytes = Bytes.fromUtf8(lowerCase)
     using hashed = Keccak256.get().getOrThrow().hashOrThrow(bytes)
@@ -52,10 +58,6 @@ export namespace Address {
     return address as Address
   }
 
-  export function fromOrNull(from: Address.From): Nullable<Address> {
-    try { return fromOrThrow(from) } catch { }
-  }
-
   /**
    * Compute address from uncompressed public key
    * @param uncompressedPublicKey 
@@ -67,7 +69,7 @@ export namespace Address {
     using hashedSlice = Keccak256.get().getOrThrow().hashOrThrow(uncompressedPublicKeyBytes.subarray(1))
     const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashedSlice.bytes.slice(-20))
 
-    return fromOrThrow(rawLowerCase as RawHexString)
+    return fromRawHexOrThrow(rawLowerCase as RawHexString)
   }
 
   export type Formatted = `0x${string}...${string}`
