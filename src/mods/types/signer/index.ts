@@ -23,7 +23,7 @@ export class ExtPrivateKey {
 
     using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
 
-    return new ExtSignature(this.value.signOrThrow(hash))
+    return this.value.signOrThrow(hash)
   }
 
   signPersonalMessageOrThrow(message: BytesAsUtf8.From) {
@@ -34,7 +34,7 @@ export class ExtPrivateKey {
 
     using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
 
-    return new ExtSignature(this.value.signOrThrow(hash))
+    return this.value.signOrThrow(hash)
   }
 
 }
@@ -55,7 +55,7 @@ export class ExtPublicKey {
 
     using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
 
-    const inner = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.value)
+    const inner = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature)
 
     return new ExtPublicKey(inner)
   }
@@ -65,7 +65,7 @@ export class ExtPublicKey {
     const tsignature = ExtSignature.fromOrThrow(signature)
 
     using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
-    using recovered = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.value)
+    using recovered = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature)
 
     using left = this.value.exportUncompressedOrThrow()
     using right = recovered.exportUncompressedOrThrow()
@@ -82,7 +82,7 @@ export class ExtPublicKey {
 
     using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
 
-    const inner = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.value)
+    const inner = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature)
 
     return new ExtPublicKey(inner)
   }
@@ -95,7 +95,7 @@ export class ExtPublicKey {
     const concat = Bytes.concat([prefix, tmessage])
 
     using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
-    using recovered = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.value)
+    using recovered = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature)
 
     using left = this.value.exportUncompressedOrThrow()
     using right = recovered.exportUncompressedOrThrow()

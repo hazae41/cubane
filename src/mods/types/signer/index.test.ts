@@ -43,7 +43,7 @@ test("wasm sign personal message", async ({ }) => {
   const privateKeyWasm = new ExtPrivateKey(Secp256k1.get().getOrThrow().SigningKey.importOrThrow(privateKey))
 
   const signatureWasm = privateKeyWasm.signPersonalMessageOrThrow(message)
-  const signatureZeroHex = ZeroHexSignature.fromExtOrThrow(signatureWasm).value
+  const signatureZeroHex = ZeroHexSignature.fromExtOrThrow(signatureWasm)
 
   /* Ignore recovery part */
   assert(ethersSignatureZeroHex.slice(0, -2) === signatureZeroHex.slice(0, -2))
