@@ -28,17 +28,6 @@ export abstract class Signature {
       return BytesSignature.fromOrThrow(from)
     if (typeof from === "string")
       return ZeroHexSignature.fromOrThrow(from)
-
-    if (typeof from !== "object")
-      throw new Error()
-
-    const { r, s } = from
-
-    if (typeof r === "string" && typeof s === "string")
-      return RsvZeroHexSignature.fromOrThrow(from)
-    if (r instanceof Uint8Array && s instanceof Uint8Array)
-      return RsvBytesSignature.fromOrThrow(from)
-
     return RsvZeroHexSignature.fromOrThrow(from)
   }
 
