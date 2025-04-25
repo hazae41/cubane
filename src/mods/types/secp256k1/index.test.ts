@@ -20,11 +20,11 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
 test("wasm sign unsafe message", async ({ }) => {
   const signer = Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()
-  const identity = SigningKey.getVerifyingKeyOrThrow(signer)
 
   const message = "hello world"
   const signature = SigningKey.signUnsafeMessageOrThrow(signer, message)
 
+  const identity = SigningKey.getVerifyingKeyOrThrow(signer)
   const verified = VerifyingKey.verifyUnsafeMessageOrThrow(identity, signature, message)
 
   assert(verified)
@@ -41,7 +41,6 @@ test("wasm sign personal message", async ({ }) => {
   const signatureWasm = SigningKey.signPersonalMessageOrThrow(privateKey, message)
   const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureWasm)
 
-  /* Ignore recovery part */
   assert(ethersSignatureZeroHex.slice(0, -2) === signatureZeroHex.slice(0, -2))
 
   assert(ethersWallet.address === ethers.verifyMessage(message, signatureZeroHex))

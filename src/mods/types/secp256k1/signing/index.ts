@@ -110,7 +110,7 @@ export namespace ExtSigningKey {
   }
 
   export function fromExtOrThrow(from: ExtSigningKey): Box<ExtSigningKey> {
-    return new Box(from).moveOrThrow()
+    return Box.createAsDropped(from)
   }
 
   export function fromOtherOrThrow(from: BytesAsInteger.From): Box<ExtSigningKey> {

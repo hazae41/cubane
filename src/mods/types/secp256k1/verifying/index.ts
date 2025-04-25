@@ -135,7 +135,7 @@ export namespace ExtVerifyingKey {
   }
 
   export function fromExtOrThrow(from: ExtVerifyingKey): Box<ExtVerifyingKey> {
-    return new Box(from).moveOrThrow()
+    return Box.createAsDropped(from)
   }
 
   export function fromOtherOrThrow(from: BytesAsInteger.From): Box<ExtVerifyingKey> {

@@ -228,16 +228,17 @@ export namespace ZeroHexSignature {
 
   export function fromExtOrThrow(from: ExtSignature): ZeroHexSignature {
     using slice = from.exportOrThrow()
-    const hexed = Base16.get().getOrThrow().encodeOrThrow(slice.bytes)
 
-    return `0x${hexed}` as ZeroHexString<65>
+    const base16 = Base16.get().getOrThrow().encodeOrThrow(slice.bytes)
+
+    return `0x${base16}` as ZeroHexString<65>
   }
 
   export function fromBytesOrThrow(from: Uint8Array): ZeroHexSignature {
     const bytes = Bytes.castOrThrow(from, 65)
-    const hexed = Base16.get().getOrThrow().encodeOrThrow(bytes)
+    const base16 = Base16.get().getOrThrow().encodeOrThrow(bytes)
 
-    return `0x${hexed}` as ZeroHexString<65>
+    return `0x${base16}` as ZeroHexString<65>
   }
 
   export function fromRsvOrThrow(from: RsvSignature.From): ZeroHexSignature {
@@ -345,7 +346,7 @@ export namespace ExtSignature {
   }
 
   export function fromExtOrThrow(from: ExtSignature): Box<ExtSignature> {
-    return new Box(from).moveOrThrow()
+    return Box.createAsDropped(from)
   }
 
 }
