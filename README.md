@@ -202,13 +202,10 @@ const hex = "0x" + Base16.get().getOrThrow().encodeOrThrow(bytes)
 #### Signing personal message
 
 ```tsx
-import { Bytes } from "@hazae41/bytes"
-import { ExtPrivateKey } from "@hazae41/cubane"
-import { Secp256k1 } from "@hazae41/secp256k1"
-import { Base16 } from "@hazae41/base16"
+import { SigningKey, ZeroHexSignature } from "@hazae41/cubane"
 
 const message = "hello world"
-const signingKey = Bytes.random(32)
+const signingKey = crypto.getRandomValues(new Uint8Array(32))
 
 const signatureWasm = SigningKey.signPersonalMessageOrThrow(signingKey, message) // WASM pointer
 const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureWasm) // "0x..."
