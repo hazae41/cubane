@@ -1,16 +1,23 @@
+import { Base16 } from "@hazae41/base16";
 import { Box } from "@hazae41/box";
-import { Bytes } from "@hazae41/bytes";
+import { Bytes, Uint8Array } from "@hazae41/bytes";
+import { ZeroHexString } from "@hazae41/hex";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
-import { BytesAsUtf8 } from "../formats/index.js";
+import { Copiable } from "libs/copiable/index.js";
+import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "../formats/index.js";
 import { ExtSignature } from "../signature/index.js";
 
 export type SigningKey =
+  | ZeroHexSigningKey
+  | BytesSigningKey
   | ExtSigningKey
 
 export namespace SigningKey {
 
   export type From =
+    | ZeroHexSigningKey.From
+    | BytesSigningKey.From
     | ExtSigningKey.From
 
   export function getVerifyingKeyOrThrow(privateKeyFrom: SigningKey.From) {
@@ -41,14 +48,72 @@ export namespace SigningKey {
 
 }
 
+export type ZeroHexSigningKey = ZeroHexString<32>
+
+export namespace ZeroHexSigningKey {
+
+  export type From = ZeroHexAsInteger.From
+
+  export function fromOrThrow(from: SigningKey.From): ZeroHexSigningKey {
+    if (from instanceof Secp256k1.SigningKey)
+      return fromExtOrThrow(from)
+    return fromOtherOrThrow(from)
+  }
+
+  export function fromExtOrThrow(from: ExtSigningKey): ZeroHexSigningKey {
+    using slice = from.exportOrThrow()
+
+    const base16 = Base16.get().getOrThrow().encodeOrThrow(slice.bytes)
+
+    return `0x${base16}` as ZeroHexString<32>
+  }
+
+  export function fromOtherOrThrow(from: ZeroHexAsInteger.From): ZeroHexSigningKey {
+    return ZeroHexAsInteger.Length.fromOrThrow(from, 32)
+  }
+
+}
+
+export type BytesSigningKey = Uint8Array<32>
+
+export namespace BytesSigningKey {
+
+  export type From = BytesAsInteger.From
+
+  export function fromOrThrow(from: SigningKey.From): BytesSigningKey {
+    if (from instanceof Secp256k1.SigningKey)
+      return fromExtOrThrow(from)
+    return fromOtherOrThrow(from)
+  }
+
+  export function fromExtOrThrow(from: ExtSigningKey): BytesSigningKey {
+    return Copiable.copyAndDispose(from.exportOrThrow()) as Uint8Array<32>
+  }
+
+  export function fromOtherOrThrow(from: BytesAsInteger.From): BytesSigningKey {
+    return BytesAsInteger.Length.fromOrThrow(from, 32)
+  }
+
+}
+
 export type ExtSigningKey = Secp256k1.SigningKey
 
 export namespace ExtSigningKey {
 
   export type From = Secp256k1.SigningKey
 
-  export function fromOrThrow(value: ExtSigningKey.From) {
-    return new Box(value).moveOrThrow()
+  export function fromOrThrow(from: SigningKey.From): Box<ExtSigningKey> {
+    if (from instanceof Secp256k1.SigningKey)
+      return fromExtOrThrow(from)
+    return fromOtherOrThrow(from)
+  }
+
+  export function fromExtOrThrow(from: ExtSigningKey): Box<ExtSigningKey> {
+    return new Box(from).moveOrThrow()
+  }
+
+  export function fromOtherOrThrow(from: BytesAsInteger.From): Box<ExtSigningKey> {
+    return new Box(Secp256k1.get().getOrThrow().SigningKey.importOrThrow(BytesAsInteger.Length.fromOrThrow(from, 32)))
   }
 
 }
