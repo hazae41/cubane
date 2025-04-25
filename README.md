@@ -211,7 +211,7 @@ const message = "hello world"
 const signingKey = Bytes.random(32)
 
 const signatureWasm = SigningKey.signPersonalMessageOrThrow(signingKey, message) // WASM pointer
-const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureExt) // "0x..."
+const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureWasm) // "0x..."
 ```
 
 #### Recovering personal message
@@ -220,5 +220,5 @@ const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureExt) // "0x..."
 import { Address, recoverPersonalMessageOrThrow } from "@hazae41/cubane"
 
 const verifyingKeyWasm = recoverPersonalMessageOrThrow(message, signature)
-const addressZeroHex = Address.computeOrThrow(publicKey)
+const addressZeroHex = Address.computeOrThrow(verifyingKeyWasm)
 ```
