@@ -208,21 +208,17 @@ import { Secp256k1 } from "@hazae41/secp256k1"
 import { Base16 } from "@hazae41/base16"
 
 const message = "hello world"
+const signingKey = Bytes.random(32)
 
-const privateKeyBytes = Bytes.random(32)
-const privateKeyExt = new ExtPrivateKey(Secp256k1.get().PrivateKey.importOrThrow(privateKeyBytes))
-
-const signatureExt = privateKeyExt.signPersonalMessageOrThrow(message)
-const signatureBytes = signatureExt.value.exportOrThrow().copyAndDispose()
-const signatureZeroHex = `0x${Base16.get().getOrThrow().encodeOrThrow(signatureBytes)}`
+const signatureWasm = SigningKey.signPersonalMessageOrThrow(signingKey, message) // WASM pointer
+const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureExt) // "0x..."
 ```
 
 #### Recovering personal message
 
 ```tsx
-import { ExtPublicKey, Address } from "@hazae41/cubane"
+import { Address, recoverPersonalMessageOrThrow } from "@hazae41/cubane"
 
-const recoveredPublicKeyExt = ExtPublicKey.recoverPersonalMessageOrThrow(message, signatureExt)
-const recoveredPublicKeyBytes = recoveredPublicKeyExt.value.exportUncompressedOrThrow().copyAndDispose()
-const recoveredAddressZeroHex = Address.computeOrThrow(recoveredPublicKeyBytes)
+const verifyingKeyWasm = recoverPersonalMessageOrThrow(message, signature)
+const addressZeroHex = Address.computeOrThrow(publicKey)
 ```
