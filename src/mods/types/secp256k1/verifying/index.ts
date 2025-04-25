@@ -6,9 +6,9 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/types/formats/index.js";
-import { ExtSignature } from "../signature/index.js";
+import { ExtSignature, Signature } from "../signature/index.js";
 
-export function recoverUnsafeMessageOrThrow(signature: ExtSignature.From, message: BytesAsUtf8.From) {
+export function recoverUnsafeMessageOrThrow(signature: Signature.From, message: BytesAsUtf8.From) {
   using tsignature = ExtSignature.fromOrThrow(signature)
   const tmessage = BytesAsUtf8.fromOrThrow(message)
 
@@ -17,7 +17,7 @@ export function recoverUnsafeMessageOrThrow(signature: ExtSignature.From, messag
   return Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.get())
 }
 
-export function recoverPersonalMessageOrThrow(signature: ExtSignature.From, message: BytesAsUtf8.From) {
+export function recoverPersonalMessageOrThrow(signature: Signature.From, message: BytesAsUtf8.From) {
   using tsignature = ExtSignature.fromOrThrow(signature)
   const tmessage = BytesAsUtf8.fromOrThrow(message)
 
@@ -41,7 +41,7 @@ export namespace VerifyingKey {
     | BytesVerifyingKey.From
     | ExtVerifyingKey.From
 
-  export function verifyUnsafeMessageOrThrow(verifyingKey: VerifyingKey.From, signature: ExtSignature.From, message: BytesAsUtf8.From) {
+  export function verifyUnsafeMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
     using tverifyingKey = ExtVerifyingKey.fromOrThrow(verifyingKey)
     using tsignature = ExtSignature.fromOrThrow(signature)
     const tmessage = BytesAsUtf8.fromOrThrow(message)
@@ -55,7 +55,7 @@ export namespace VerifyingKey {
     return Bytes.equals(left.bytes, right.bytes)
   }
 
-  export function verifyPersonalMessageOrThrow(verifyingKey: VerifyingKey.From, signature: ExtSignature.From, message: BytesAsUtf8.From) {
+  export function verifyPersonalMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
     using tverifyingKey = ExtVerifyingKey.fromOrThrow(verifyingKey)
     using tsignature = ExtSignature.fromOrThrow(signature)
     const tmessage = BytesAsUtf8.fromOrThrow(message)
