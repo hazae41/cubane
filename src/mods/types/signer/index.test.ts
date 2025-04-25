@@ -11,7 +11,6 @@ import { ethers } from "ethers";
 import { Copiable } from "libs/copiable/index.js";
 import { Address } from "../address/index.js";
 import { ZeroHexSignature } from "../signature/index.js";
-import { ExtPrivateKey, ExtPublicKey } from "./index.js";
 
 await Sha3Wasm.initBundled()
 await Secp256k1Wasm.initBundled()
