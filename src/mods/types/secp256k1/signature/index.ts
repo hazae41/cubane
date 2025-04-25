@@ -5,7 +5,7 @@ import { Cursor } from "@hazae41/cursor"
 import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { Copiable } from "libs/copiable/index.js"
-import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger, ZeroHexAsInteger } from "../formats/index.js"
+import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger, ZeroHexAsInteger } from "../../formats/index.js"
 
 export type Signature =
   | RsvZeroHexSignature
