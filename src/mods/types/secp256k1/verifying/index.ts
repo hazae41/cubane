@@ -30,11 +30,15 @@ export function recoverPersonalMessageOrThrow(signature: ExtSignature.From, mess
 }
 
 export type VerifyingKey =
+  | ZeroHexVerifyingKey
+  | BytesVerifyingKey
   | ExtVerifyingKey
 
 export namespace VerifyingKey {
 
   export type From =
+    | ZeroHexVerifyingKey.From
+    | BytesVerifyingKey.From
     | ExtVerifyingKey.From
 
   export function verifyUnsafeMessageOrThrow(verifyingKey: VerifyingKey.From, signature: ExtSignature.From, message: BytesAsUtf8.From) {
