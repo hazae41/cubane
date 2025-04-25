@@ -347,10 +347,6 @@ export namespace BytesAsInteger {
     | Uint8Array
     | ZeroHexString
 
-  export function fromBytesOrThrow(value: Uint8Array): Uint8Array {
-    return value
-  }
-
   export function fromBigIntOrThrow(value: bigint): Uint8Array {
     return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.toString(16)))
   }
@@ -369,7 +365,7 @@ export namespace BytesAsInteger {
 
   export function fromOrThrow(value: From): Uint8Array {
     if (value instanceof Uint8Array)
-      return fromBytesOrThrow(value)
+      return value
     if (typeof value === "bigint")
       return fromBigIntOrThrow(value)
     if (typeof value === "number")
@@ -456,10 +452,6 @@ export namespace StringAsInteger {
     | Uint8Array
     | ZeroHexString
 
-  export function fromStringOrThrow(value: string): string {
-    return value
-  }
-
   export function fromBigIntOrThrow(value: bigint): string {
     return value.toString()
   }
@@ -485,7 +477,7 @@ export namespace StringAsInteger {
       return fromNumberOrThrow(value)
     if (ZeroHexString.is(value))
       return fromZeroHexOrThrow(value)
-    return fromStringOrThrow(value)
+    return value
   }
 
 }
