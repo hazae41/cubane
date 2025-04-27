@@ -6,27 +6,45 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/types/formats/index.js";
-import { ExtSignature, Signature } from "../signature/index.js";
+import { ExtSignature, RsvBytesSignature, Signature } from "../signature/index.js";
 
 export function recoverUnsafeMessageOrThrow(signature: Signature.From, message: BytesAsUtf8.From) {
-  using tsignature = ExtSignature.fromOrThrow(signature)
-  const tmessage = BytesAsUtf8.fromOrThrow(message)
+  const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
-  using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
+  if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
+    throw new Error("Unshifted signature")
 
-  return Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.get())
+  const { r, s } = signatureRsvBytes
+  const v = signatureRsvBytes.v - 27
+
+  using signatureExt = ExtSignature.fromRsvOrThrow({ r, s, v })
+  const messageBytes = BytesAsUtf8.fromOrThrow(message)
+
+  using hashExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
+  const recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashExt, signatureExt.get())
+
+  return recoveredVerifyingKeyExt
 }
 
 export function recoverPersonalMessageOrThrow(signature: Signature.From, message: BytesAsUtf8.From) {
-  using tsignature = ExtSignature.fromOrThrow(signature)
-  const tmessage = BytesAsUtf8.fromOrThrow(message)
+  const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
-  const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + tmessage.length.toString())
-  const concat = Bytes.concat([prefix, tmessage])
+  if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
+    throw new Error("Unshifted signature")
 
-  using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
+  const { r, s } = signatureRsvBytes
+  const v = signatureRsvBytes.v - 27
 
-  return Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.get())
+  using signatureExt = ExtSignature.fromRsvOrThrow({ r, s, v })
+  const messageBytes = BytesAsUtf8.fromOrThrow(message)
+
+  const prefixExt = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
+  const concatExt = Bytes.concat([prefixExt, messageBytes])
+
+  using hashExt = Keccak256.get().getOrThrow().hashOrThrow(concatExt)
+  const recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashExt, signatureExt.get())
+
+  return recoveredVerifyingKeyExt
 }
 
 export type VerifyingKey =
@@ -42,34 +60,50 @@ export namespace VerifyingKey {
     | ExtVerifyingKey.From
 
   export function verifyUnsafeMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
-    using tverifyingKey = ExtVerifyingKey.fromOrThrow(verifyingKey)
-    using tsignature = ExtSignature.fromOrThrow(signature)
-    const tmessage = BytesAsUtf8.fromOrThrow(message)
+    const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
-    using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
-    using recovered = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.get())
+    if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
+      throw new Error("Unshifted signature")
 
-    using left = tverifyingKey.get().exportUncompressedOrThrow()
-    using right = recovered.exportUncompressedOrThrow()
+    const { r, s } = signatureRsvBytes
+    const v = signatureRsvBytes.v - 27
 
-    return Bytes.equals(left.bytes, right.bytes)
+    using verifyingKeyExt = ExtVerifyingKey.fromOrThrow(verifyingKey)
+    using signatureExt = ExtSignature.fromRsvOrThrow({ r, s, v })
+    const messageBytes = BytesAsUtf8.fromOrThrow(message)
+
+    using hashExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
+    using recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashExt, signatureExt.get())
+
+    using leftExt = verifyingKeyExt.get().exportUncompressedOrThrow()
+    using rightExt = recoveredVerifyingKeyExt.exportUncompressedOrThrow()
+
+    return Bytes.equals(leftExt.bytes, rightExt.bytes)
   }
 
   export function verifyPersonalMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
-    using tverifyingKey = ExtVerifyingKey.fromOrThrow(verifyingKey)
-    using tsignature = ExtSignature.fromOrThrow(signature)
-    const tmessage = BytesAsUtf8.fromOrThrow(message)
+    const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
-    const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + tmessage.length.toString())
-    const concat = Bytes.concat([prefix, tmessage])
+    if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
+      throw new Error("Unshifted signature")
 
-    using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
-    using recovered = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hash, tsignature.get())
+    const { r, s } = signatureRsvBytes
+    const v = signatureRsvBytes.v - 27
 
-    using left = tverifyingKey.get().exportUncompressedOrThrow()
-    using right = recovered.exportUncompressedOrThrow()
+    using verifyingKeyExt = ExtVerifyingKey.fromOrThrow(verifyingKey)
+    using signatureExt = ExtSignature.fromRsvOrThrow({ r, s, v })
+    const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
-    return Bytes.equals(left.bytes, right.bytes)
+    const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
+    const concatBytes = Bytes.concat([prefixBytes, messageBytes])
+
+    using hashExt = Keccak256.get().getOrThrow().hashOrThrow(concatBytes)
+    using recoveredVerifiyngKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashExt, signatureExt.get())
+
+    using leftExt = verifyingKeyExt.get().exportUncompressedOrThrow()
+    using rightExt = recoveredVerifiyngKeyExt.exportUncompressedOrThrow()
+
+    return Bytes.equals(leftExt.bytes, rightExt.bytes)
   }
 
 }

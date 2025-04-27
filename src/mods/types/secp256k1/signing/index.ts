@@ -6,7 +6,7 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/types/formats/index.js";
-import { ExtSignature } from "../signature/index.js";
+import { RsvBytesSignature } from "../signature/index.js";
 
 export type SigningKey =
   | ZeroHexSigningKey
@@ -21,30 +21,43 @@ export namespace SigningKey {
     | ExtSigningKey.From
 
   export function getVerifyingKeyOrThrow(privateKeyFrom: SigningKey.From) {
-    using tsigningKey = ExtSigningKey.fromOrThrow(privateKeyFrom)
+    using signingKeyExtBox = ExtSigningKey.fromOrThrow(privateKeyFrom)
+    const verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
 
-    return tsigningKey.get().getVerifyingKeyOrThrow()
+    return verifyingKeyExt
   }
 
-  export function signUnsafeMessageOrThrow(privateKey: SigningKey.From, message: BytesAsUtf8.From): ExtSignature {
-    using tsigningKey = ExtSigningKey.fromOrThrow(privateKey)
-    const tmessage = BytesAsUtf8.fromOrThrow(message)
+  export function signUnsafeMessageOrThrow(privateKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+    using signingKeyExt = ExtSigningKey.fromOrThrow(privateKey)
+    const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
-    using hash = Keccak256.get().getOrThrow().hashOrThrow(tmessage)
+    using hashExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
+    using signatureExt = signingKeyExt.get().signOrThrow(hashExt)
 
-    return tsigningKey.get().signOrThrow(hash)
+    const signatureRsvBytes = RsvBytesSignature.fromExtOrThrow(signatureExt)
+
+    const { r, s } = signatureRsvBytes
+    const v = signatureRsvBytes.v + 27
+
+    return { r, s, v }
   }
 
-  export function signPersonalMessageOrThrow(privateKey: SigningKey.From, message: BytesAsUtf8.From) {
-    using tsigningKey = ExtSigningKey.fromOrThrow(privateKey)
-    const tmessage = BytesAsUtf8.fromOrThrow(message)
+  export function signPersonalMessageOrThrow(privateKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+    using signingKeyExt = ExtSigningKey.fromOrThrow(privateKey)
+    const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
-    const prefix = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + tmessage.length.toString())
-    const concat = Bytes.concat([prefix, tmessage])
+    const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
+    const concatBytes = Bytes.concat([prefixBytes, messageBytes])
 
-    using hash = Keccak256.get().getOrThrow().hashOrThrow(concat)
+    using hashExt = Keccak256.get().getOrThrow().hashOrThrow(concatBytes)
+    using signatureExt = signingKeyExt.get().signOrThrow(hashExt)
 
-    return tsigningKey.get().signOrThrow(hash)
+    const signatureRsvBytes = RsvBytesSignature.fromExtOrThrow(signatureExt)
+
+    const { r, s } = signatureRsvBytes
+    const v = signatureRsvBytes.v + 27
+
+    return { r, s, v }
   }
 
 }
