@@ -38,14 +38,17 @@ test("wasm sign personal message", async ({ }) => {
   const ethersWallet = new ethers.Wallet(ethersSigningKey)
   const ethersSignatureZeroHex = await ethersWallet.signMessage(message)
 
-  const signatureWasm = SigningKey.signPersonalMessageOrThrow(privateKey, message)
-  const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureWasm)
+  const signatureRsvBytes = SigningKey.signPersonalMessageOrThrow(privateKey, message)
+  const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureRsvBytes)
 
-  assert(ethersSignatureZeroHex.slice(0, -2) === signatureZeroHex.slice(0, -2))
+  console.log(signatureRsvBytes)
+  console.log("signatureZeroHex", signatureZeroHex)
+  console.log("ethersSignatureZeroHex", ethersSignatureZeroHex)
+  assert(ethersSignatureZeroHex === signatureZeroHex)
 
   assert(ethersWallet.address === ethers.verifyMessage(message, signatureZeroHex))
 
-  const publicKeyWasm = recoverPersonalMessageOrThrow(signatureWasm, message)
+  const publicKeyWasm = recoverPersonalMessageOrThrow(signatureRsvBytes, message)
   const addressZeroHex = Address.computeOrThrow(publicKeyWasm)
 
   assert(ethersWallet.address === addressZeroHex)

@@ -5,7 +5,7 @@ import { Cursor } from "@hazae41/cursor"
 import { RawHexString, ZeroHexString } from "@hazae41/hex"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { Copiable } from "libs/copiable/index.js"
-import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger, ZeroHexAsInteger } from "../../formats/index.js"
+import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger, RawHexAsInteger, ZeroHexAsInteger } from "../../formats/index.js"
 
 export type Signature =
   | RsvZeroHexSignature
@@ -244,10 +244,10 @@ export namespace ZeroHexSignature {
   export function fromRsvOrThrow(from: RsvSignature.From): ZeroHexSignature {
     const { r, s, v } = from
 
-    const hr = ZeroHexAsInteger.Length.fromOrThrow(r, 32)
-    const hs = ZeroHexAsInteger.Length.fromOrThrow(s, 32)
+    const hr = RawHexAsInteger.Length.fromOrThrow(r, 32)
+    const hs = RawHexAsInteger.Length.fromOrThrow(s, 32)
 
-    const hvx = NumberAsInteger.fromOrThrow(v).toString(16) as RawHexString
+    const hvx = RawHexAsInteger.fromOrThrow(v)
     const hvp = RawHexString.padStart(hvx)
 
     return `0x${hr}${hs}${hvp}` as ZeroHexString<65>
