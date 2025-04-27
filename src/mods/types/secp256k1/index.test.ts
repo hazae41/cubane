@@ -8,8 +8,7 @@ import { Secp256k1 } from "@hazae41/secp256k1";
 import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
 import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { ethers } from "ethers";
-import { Address } from "mods/types/address/index.js";
-import { recoverPersonalMessageOrThrow, SigningKey, VerifyingKey, ZeroHexSignature } from "./index.js";
+import { recoverMessageOrThrow, SigningKey, VerifyingKey, ZeroHexSignature } from "./index.js";
 
 await Sha3Wasm.initBundled()
 await Secp256k1Wasm.initBundled()
@@ -22,10 +21,10 @@ test("wasm sign unsafe message", async ({ }) => {
   const signer = Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()
 
   const message = "hello world"
-  const signature = SigningKey.signUnsafeMessageOrThrow(signer, message)
+  const signature = SigningKey.signUnprefixedMessageOrThrow(signer, message)
 
   const identity = SigningKey.getVerifyingKeyOrThrow(signer)
-  const verified = VerifyingKey.verifyUnsafeMessageOrThrow(identity, signature, message)
+  const verified = VerifyingKey.verifyUnprefixedMessageOrThrow(identity, signature, message)
 
   assert(verified)
 })
@@ -38,18 +37,15 @@ test("wasm sign personal message", async ({ }) => {
   const ethersWallet = new ethers.Wallet(ethersSigningKey)
   const ethersSignatureZeroHex = await ethersWallet.signMessage(message)
 
-  const signatureRsvBytes = SigningKey.signPersonalMessageOrThrow(privateKey, message)
+  const signatureRsvBytes = SigningKey.signMessageOrThrow(privateKey, message)
   const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureRsvBytes)
 
-  console.log(signatureRsvBytes)
-  console.log("signatureZeroHex", signatureZeroHex)
-  console.log("ethersSignatureZeroHex", ethersSignatureZeroHex)
   assert(ethersSignatureZeroHex === signatureZeroHex)
 
   assert(ethersWallet.address === ethers.verifyMessage(message, signatureZeroHex))
 
-  const publicKeyWasm = recoverPersonalMessageOrThrow(signatureRsvBytes, message)
-  const addressZeroHex = Address.computeOrThrow(publicKeyWasm)
+  const publicKeyWasm = recoverMessageOrThrow(signatureRsvBytes, message)
+  const addressZeroHex = VerifyingKey.getAddressOrThrow(publicKeyWasm)
 
   assert(ethersWallet.address === addressZeroHex)
 })

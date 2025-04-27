@@ -1,12 +1,14 @@
 import { Base16 } from "@hazae41/base16";
 import { Box } from "@hazae41/box";
 import { Bytes, Uint8Array } from "@hazae41/bytes";
-import { ZeroHexString } from "@hazae41/hex";
+import { RawHexString, ZeroHexString } from "@hazae41/hex";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
+import { Address } from "mods/types/address/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/types/formats/index.js";
 import { RsvBytesSignature } from "../signature/index.js";
+import { BytesVerifyingKey } from "../verifying/index.js";
 
 export type SigningKey =
   | ZeroHexSigningKey
@@ -20,15 +22,39 @@ export namespace SigningKey {
     | BytesSigningKey.From
     | ExtSigningKey.From
 
-  export function getVerifyingKeyOrThrow(privateKeyFrom: SigningKey.From) {
-    using signingKeyExtBox = ExtSigningKey.fromOrThrow(privateKeyFrom)
+  export function getVerifyingKeyOrThrow(signingKey: SigningKey.From) {
+    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     const verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
 
     return verifyingKeyExt
   }
 
-  export function signUnsafeMessageOrThrow(privateKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
-    using signingKeyExtBox = ExtSigningKey.fromOrThrow(privateKey)
+  export function getUncheckedAddressOrThrow(signingKey: SigningKey.From) {
+    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
+    using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
+
+    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKeyExt)
+
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
+    const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt)
+
+    return `0x${rawLowerCase.slice(-40)}` as ZeroHexString<20>
+  }
+
+  export function getAddressOrThrow(signingKey: SigningKey.From) {
+    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
+    using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
+
+    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKeyExt)
+
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
+    const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt)
+
+    return Address.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString)
+  }
+
+  export function signUnprefixedMessageOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
@@ -42,8 +68,8 @@ export namespace SigningKey {
     return { r, s, v }
   }
 
-  export function signPersonalMessageOrThrow(privateKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
-    using signingKeyExtBox = ExtSigningKey.fromOrThrow(privateKey)
+  export function signMessageOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
     const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())

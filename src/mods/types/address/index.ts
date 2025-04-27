@@ -1,10 +1,8 @@
-import { Base16 } from "@hazae41/base16";
 import { Bytes } from "@hazae41/bytes";
 import { RawHexString, ZeroHexString } from "@hazae41/hex";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "libs/nullable/index.js";
 import { RawHexAsInteger } from "../formats/index.js";
-import { BytesVerifyingKey, VerifyingKey } from "../secp256k1/index.js";
 
 declare global {
 
@@ -61,20 +59,6 @@ export namespace Address {
     }
 
     return address as Address
-  }
-
-  /**
-   * Compute address from uncompressed public key
-   * @param uncompressedPublicKey 
-   * @returns 
-   */
-  export function computeOrThrow(verifyingKey: VerifyingKey.From) {
-    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
-
-    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
-    const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt.bytes.slice(-20))
-
-    return fromRawHexOrThrow(rawLowerCase as RawHexString)
   }
 
   export type Formatted = `0x${string}...${string}`
