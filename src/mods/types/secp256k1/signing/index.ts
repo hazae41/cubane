@@ -8,7 +8,6 @@ import { Copiable } from "libs/copiable/index.js";
 import { Address } from "mods/types/address/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/types/formats/index.js";
 import { RsvBytesSignature } from "../signature/index.js";
-import { BytesVerifyingKey } from "../verifying/index.js";
 
 export type SigningKey =
   | ZeroHexSigningKey
@@ -31,11 +30,11 @@ export namespace SigningKey {
 
   export function getUncheckedAddressOrThrow(signingKey: SigningKey.From) {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
+
     using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
+    using verifyingKeyMemoryExt = verifyingKeyExt.exportUncompressedOrThrow()
 
-    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKeyExt)
-
-    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyMemoryExt.bytes.subarray(1))
     const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt)
 
     return `0x${rawLowerCase.slice(-40)}` as ZeroHexString<20>
@@ -43,11 +42,11 @@ export namespace SigningKey {
 
   export function getAddressOrThrow(signingKey: SigningKey.From) {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
+
     using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
+    using verifyingKeyMemoryExt = verifyingKeyExt.exportUncompressedOrThrow()
 
-    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKeyExt)
-
-    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyMemoryExt.bytes.subarray(1))
     const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt)
 
     return Address.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString)

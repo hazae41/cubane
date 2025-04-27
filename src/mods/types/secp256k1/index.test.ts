@@ -46,6 +46,8 @@ test("wasm sign personal message", async ({ }) => {
 
   const publicKeyWasm = recoverMessageOrThrow(signatureRsvBytes, message)
   const addressZeroHex = VerifyingKey.getAddressOrThrow(publicKeyWasm)
+  const addressZeroHex2 = SigningKey.getAddressOrThrow(privateKey)
 
   assert(ethersWallet.address === addressZeroHex)
+  assert(addressZeroHex === addressZeroHex2)
 })
