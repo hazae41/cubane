@@ -28,11 +28,11 @@ export namespace SigningKey {
   }
 
   export function signUnsafeMessageOrThrow(privateKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
-    using signingKeyExt = ExtSigningKey.fromOrThrow(privateKey)
+    using signingKeyExtBox = ExtSigningKey.fromOrThrow(privateKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
-    using hashExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
-    using signatureExt = signingKeyExt.get().signOrThrow(hashExt)
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
+    using signatureExt = signingKeyExtBox.get().signOrThrow(hashMemoryExt)
 
     const signatureRsvBytes = RsvBytesSignature.fromExtOrThrow(signatureExt)
 
@@ -43,14 +43,14 @@ export namespace SigningKey {
   }
 
   export function signPersonalMessageOrThrow(privateKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
-    using signingKeyExt = ExtSigningKey.fromOrThrow(privateKey)
+    using signingKeyExtBox = ExtSigningKey.fromOrThrow(privateKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
     const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
     const concatBytes = Bytes.concat([prefixBytes, messageBytes])
 
-    using hashExt = Keccak256.get().getOrThrow().hashOrThrow(concatBytes)
-    using signatureExt = signingKeyExt.get().signOrThrow(hashExt)
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(concatBytes)
+    using signatureExt = signingKeyExtBox.get().signOrThrow(hashMemoryExt)
 
     const signatureRsvBytes = RsvBytesSignature.fromExtOrThrow(signatureExt)
 

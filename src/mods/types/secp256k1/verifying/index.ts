@@ -17,11 +17,11 @@ export function recoverUnsafeMessageOrThrow(signature: Signature.From, message: 
   const { r, s } = signatureRsvBytes
   const v = signatureRsvBytes.v - 27
 
-  using signatureExt = ExtSignature.fromRsvOrThrow({ r, s, v })
+  using signatureExtBox = ExtSignature.fromRsvOrThrow({ r, s, v })
   const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
-  using hashExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
-  const recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashExt, signatureExt.get())
+  using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
+  const recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashMemoryExt, signatureExtBox.get())
 
   return recoveredVerifyingKeyExt
 }
@@ -35,14 +35,14 @@ export function recoverPersonalMessageOrThrow(signature: Signature.From, message
   const { r, s } = signatureRsvBytes
   const v = signatureRsvBytes.v - 27
 
-  using signatureExt = ExtSignature.fromRsvOrThrow({ r, s, v })
+  using signatureExtBox = ExtSignature.fromRsvOrThrow({ r, s, v })
   const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
   const prefixExt = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
   const concatExt = Bytes.concat([prefixExt, messageBytes])
 
-  using hashExt = Keccak256.get().getOrThrow().hashOrThrow(concatExt)
-  const recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashExt, signatureExt.get())
+  using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(concatExt)
+  const recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashMemoryExt, signatureExtBox.get())
 
   return recoveredVerifyingKeyExt
 }
@@ -68,17 +68,15 @@ export namespace VerifyingKey {
     const { r, s } = signatureRsvBytes
     const v = signatureRsvBytes.v - 27
 
-    using verifyingKeyExt = ExtVerifyingKey.fromOrThrow(verifyingKey)
-    using signatureExt = ExtSignature.fromRsvOrThrow({ r, s, v })
+    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
+    using signatureExtBox = ExtSignature.fromRsvOrThrow({ r, s, v })
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
-    using hashExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
-    using recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashExt, signatureExt.get())
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
+    using recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashMemoryExt, signatureExtBox.get())
+    using recoveredVerifyingKeyMemoryExt = recoveredVerifyingKeyExt.exportUncompressedOrThrow()
 
-    using leftExt = verifyingKeyExt.get().exportUncompressedOrThrow()
-    using rightExt = recoveredVerifyingKeyExt.exportUncompressedOrThrow()
-
-    return Bytes.equals(leftExt.bytes, rightExt.bytes)
+    return Bytes.equals(verifyingKeyBytes, recoveredVerifyingKeyMemoryExt.bytes)
   }
 
   export function verifyPersonalMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
@@ -90,20 +88,18 @@ export namespace VerifyingKey {
     const { r, s } = signatureRsvBytes
     const v = signatureRsvBytes.v - 27
 
-    using verifyingKeyExt = ExtVerifyingKey.fromOrThrow(verifyingKey)
-    using signatureExt = ExtSignature.fromRsvOrThrow({ r, s, v })
+    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
+    using signatureExtBox = ExtSignature.fromRsvOrThrow({ r, s, v })
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
     const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
     const concatBytes = Bytes.concat([prefixBytes, messageBytes])
 
-    using hashExt = Keccak256.get().getOrThrow().hashOrThrow(concatBytes)
-    using recoveredVerifiyngKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashExt, signatureExt.get())
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(concatBytes)
+    using recoveredVerifiyngKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashMemoryExt, signatureExtBox.get())
+    using recoveredVerifyingKeyMemoryExt = recoveredVerifiyngKeyExt.exportUncompressedOrThrow()
 
-    using leftExt = verifyingKeyExt.get().exportUncompressedOrThrow()
-    using rightExt = recoveredVerifiyngKeyExt.exportUncompressedOrThrow()
-
-    return Bytes.equals(leftExt.bytes, rightExt.bytes)
+    return Bytes.equals(verifyingKeyBytes, recoveredVerifyingKeyMemoryExt.bytes)
   }
 
 }
