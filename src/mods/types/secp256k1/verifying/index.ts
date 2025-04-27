@@ -59,6 +59,15 @@ export namespace VerifyingKey {
     | BytesVerifyingKey.From
     | ExtVerifyingKey.From
 
+  export function getAddressOrThrow(verifyingKey: VerifyingKey.From) {
+    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
+
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes)
+    const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt.bytes.slice(-20))
+
+    return `0x${rawLowerCase}` as ZeroHexString<20>
+  }
+
   export function verifyUnsafeMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
     const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 

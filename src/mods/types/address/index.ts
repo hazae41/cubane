@@ -69,10 +69,10 @@ export namespace Address {
    * @returns 
    */
   export function computeOrThrow(verifyingKey: VerifyingKey.From) {
-    const tverifyingKey = BytesVerifyingKey.fromOrThrow(verifyingKey)
+    const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
 
-    using hashedSlice = Keccak256.get().getOrThrow().hashOrThrow(tverifyingKey.subarray(1))
-    const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashedSlice.bytes.slice(-20))
+    using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
+    const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt.bytes.slice(-20))
 
     return fromRawHexOrThrow(rawLowerCase as RawHexString)
   }
