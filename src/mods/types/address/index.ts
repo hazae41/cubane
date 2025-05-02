@@ -20,7 +20,7 @@ export type Address = ZeroHexString<20> & { readonly [Symbol.isAddress]: true }
 export namespace Address {
 
   export function is(value: string): value is Address {
-    return ZeroHexString.is(value) && value === fromOrNull(value)
+    return value === fromOrNull(value)
   }
 
   export type From = RawHexAsInteger.From
