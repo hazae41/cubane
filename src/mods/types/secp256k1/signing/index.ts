@@ -21,6 +21,10 @@ export namespace SigningKey {
     | BytesSigningKey.From
     | ExtSigningKey.From
 
+  export function randomOrThrow(): ExtSigningKey {
+    return Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()
+  }
+
   export function getVerifyingKeyOrThrow(signingKey: SigningKey.From) {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     const verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
