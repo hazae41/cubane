@@ -38,19 +38,19 @@ export namespace SigningKey {
     return ExtSigningKey.getAddressOrThrow(signingKey)
   }
 
-  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): ExtSignature {
+  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From) {
     return ExtSigningKey.signUnprefixedMessageNoOffsetOrThrow(signingKey, message)
   }
 
-  export function signUnprefixedMessageOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+  export function signUnprefixedMessageOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From) {
     return ExtSigningKey.signUnprefixedMessageOrThrow(signingKey, message)
   }
 
-  export function signMessageNoOffsetOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): ExtSignature {
+  export function signMessageNoOffsetOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From) {
     return ExtSigningKey.signMessageNoOffsetOrThrow(signingKey, message)
   }
 
-  export function signMessageOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+  export function signMessageOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From) {
     return ExtSigningKey.signMessageOrThrow(signingKey, message)
   }
 
