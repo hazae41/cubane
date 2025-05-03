@@ -144,6 +144,13 @@ export class ExtSigner {
     this.signingKey[Symbol.dispose]()
   }
 
+  static randomOrThrow() {
+    const signingKey = ExtSigningKey.randomOrThrow()
+    const address = SigningKey.getAddressOrThrow(signingKey)
+
+    return new ExtSigner(address, signingKey)
+  }
+
   static fromOrThrow(from: ExtSigner.From): Box<ExtSigner> {
     if (from instanceof ExtSigner)
       return Box.createAsDropped(from)
