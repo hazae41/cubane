@@ -9,7 +9,7 @@ export abstract class Signer {
 }
 
 export namespace ZeroHexSigner {
-  export type From = Signer | ZeroHexSigningKey.From
+  export type From = Signer | SigningKey.From
 }
 
 export class ZeroHexSigner extends Signer {
@@ -36,7 +36,7 @@ export class ZeroHexSigner extends Signer {
     return new ZeroHexSigner(address, signingKey)
   }
 
-  static fromSigningKeyOrThrow(from: ZeroHexSigningKey.From): ZeroHexSigner {
+  static fromSigningKeyOrThrow(from: SigningKey.From): ZeroHexSigner {
     const signingKey = ZeroHexSigningKey.fromOrThrow(from)
     const address = SigningKey.getAddressOrThrow(signingKey)
 
@@ -71,7 +71,7 @@ export class ZeroHexSigner extends Signer {
 }
 
 export namespace BytesSigner {
-  export type From = Signer | BytesSigningKey.From
+  export type From = Signer | SigningKey.From
 }
 
 export class BytesSigner {
@@ -96,7 +96,7 @@ export class BytesSigner {
     return new BytesSigner(address, signingKey)
   }
 
-  static fromSigningKeyOrThrow(from: BytesSigningKey.From): BytesSigner {
+  static fromSigningKeyOrThrow(from: SigningKey.From): BytesSigner {
     const signingKey = BytesSigningKey.fromOrThrow(from)
     const address = SigningKey.getAddressOrThrow(signingKey)
 
@@ -130,7 +130,7 @@ export class BytesSigner {
 }
 
 export namespace ExtSigner {
-  export type From = Signer | ExtSigningKey.From
+  export type From = Signer | SigningKey.From
 }
 
 export class ExtSigner {
@@ -162,7 +162,7 @@ export class ExtSigner {
     return Box.create(new ExtSigner(address, signingKey.get()))
   }
 
-  static fromSigningKeyOrThrow(from: ExtSigningKey.From): Box<ExtSigner> {
+  static fromSigningKeyOrThrow(from: SigningKey.From): Box<ExtSigner> {
     const signingKey = ExtSigningKey.fromOrThrow(from)
     const address = SigningKey.getAddressOrThrow(signingKey.get())
 
