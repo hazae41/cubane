@@ -1,6 +1,6 @@
 import { Base16 } from "@hazae41/base16"
 import { Bytes, Uint8Array } from "@hazae41/bytes"
-import { RawHexString, ZeroHexString } from "@hazae41/hex"
+import { RawHexString, ZeroHexString } from "@hazae41/hexane"
 import { BigInts } from "libs/bigint/bigint.js"
 import { Copiable, Copied } from "libs/copiable/index.js"
 import { Numbers } from "libs/number/number.js"
@@ -274,7 +274,7 @@ export namespace ZeroHexAsInteger {
   export namespace Length {
 
     export function fromOrThrow<N extends number>(value: ZeroHexAsInteger.From, byteLength: N): ZeroHexString<N> {
-      return ZeroHexString.Length.fromOrThrow(ZeroHexAsInteger.fromOrThrow(value), byteLength)
+      return ZeroHexString.Length.asOrThrow(ZeroHexAsInteger.fromOrThrow(value), byteLength)
     }
 
   }
@@ -328,7 +328,7 @@ export namespace RawHexAsInteger {
   export namespace Length {
 
     export function fromOrThrow<N extends number>(value: RawHexAsInteger.From, byteLength: N): RawHexString<N> {
-      return RawHexString.Length.fromOrThrow(RawHexAsInteger.fromOrThrow(value), byteLength)
+      return RawHexString.Length.asOrThrow(RawHexAsInteger.fromOrThrow(value), byteLength)
     }
 
   }

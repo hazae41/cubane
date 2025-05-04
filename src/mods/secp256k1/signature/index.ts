@@ -2,10 +2,10 @@ import { Base16 } from "@hazae41/base16"
 import { Box } from "@hazae41/box"
 import { Bytes, Uint8Array } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
-import { RawHexString, ZeroHexString } from "@hazae41/hex"
+import { RawHexString, ZeroHexString } from "@hazae41/hexane"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { Copiable } from "libs/copiable/index.js"
-import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger, RawHexAsInteger, ZeroHexAsInteger } from "../../formats/index.js"
+import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger, RawHexAsInteger, ZeroHexAsInteger } from "../../convert/index.js"
 
 export type Signature =
   | RsvZeroHexSignature

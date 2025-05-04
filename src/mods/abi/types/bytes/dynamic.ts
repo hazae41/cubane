@@ -1,9 +1,9 @@
 import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
-import { RawHexString, ZeroHexString } from "@hazae41/hex";
+import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Copiable } from "libs/copiable/index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesAsInteger, RawHexAsInteger } from "mods/types/formats/index.js";
+import { BytesAsInteger, RawHexAsInteger } from "mods/convert/index.js";
 import { NumberUint32, Uint32 } from "../uint/uint.js";
 
 export { AbiBytes as Bytes };

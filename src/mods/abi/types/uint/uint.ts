@@ -1,8 +1,8 @@
 import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
-import { RawHexString } from "@hazae41/hex";
+import { RawHexString } from "@hazae41/hexane";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesAsInteger, NumberAsInteger, RawHexAsInteger } from "mods/types/formats/index.js";
+import { BytesAsInteger, NumberAsInteger, RawHexAsInteger } from "mods/convert/index.js";
 
 export { BytesAbiUint8 as BytesUint8, NumberAbiUint8 as NumberUint8, RawHexAbiUint8 as RawHexUint8, AbiUint8 as Uint8 };
 

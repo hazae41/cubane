@@ -1,8 +1,8 @@
 import { Bytes } from "@hazae41/bytes";
-import { RawHexString, ZeroHexString } from "@hazae41/hex";
+import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "libs/nullable/index.js";
-import { RawHexAsInteger } from "../formats/index.js";
+import { RawHexAsInteger } from "../convert/index.js";
 
 declare global {
 

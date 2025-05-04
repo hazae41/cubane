@@ -1,4 +1,4 @@
-import { RawHexString } from "@hazae41/hex"
+import { RawHexString } from "@hazae41/hexane"
 
 export class TextCursor {
 

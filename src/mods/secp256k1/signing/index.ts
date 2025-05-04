@@ -1,12 +1,12 @@
 import { Base16 } from "@hazae41/base16";
 import { Box } from "@hazae41/box";
 import { Bytes, Uint8Array } from "@hazae41/bytes";
-import { RawHexString, ZeroHexString } from "@hazae41/hex";
+import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
-import { Address } from "mods/types/address/index.js";
-import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/types/formats/index.js";
+import { Address } from "mods/address/index.js";
+import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/convert/index.js";
 import { ExtSignature, RsvBytesSignature } from "../signature/index.js";
 import { ExtVerifyingKey } from "../verifying/index.js";
 

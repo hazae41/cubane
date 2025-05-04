@@ -1,5 +1,5 @@
 import { Base16 } from "@hazae41/base16";
-import { ZeroHexString } from "@hazae41/hex";
+import { ZeroHexString } from "@hazae41/hexane";
 import { BytesOrCopiable, Copiable } from "libs/copiable/index.js";
 
 export namespace Numbers {

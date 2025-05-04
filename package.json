@@ -34,7 +34,7 @@
     "@hazae41/bytes": "^1.2.11",
     "@hazae41/cursor": "^1.2.4",
     "@hazae41/fixed": "^1.0.1",
-    "@hazae41/hex": "^1.0.3",
+    "@hazae41/hexane": "^1.0.4",
     "@hazae41/keccak256": "^1.0.11",
     "@hazae41/secp256k1": "^1.0.3",
     "idna-uts46-hx": "^6.0.8"

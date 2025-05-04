@@ -1,9 +1,9 @@
 import { Base16 } from "@hazae41/base16";
 import { Cursor } from "@hazae41/cursor";
-import { RawHexString, ZeroHexString } from "@hazae41/hex";
+import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { RawHexAsInteger } from "mods/types/formats/index.js";
+import { RawHexAsInteger } from "mods/convert/index.js";
 
 const BN_0 = 0n
 const BN_1 = 1n

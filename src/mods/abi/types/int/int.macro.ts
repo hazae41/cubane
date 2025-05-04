@@ -4,7 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { BigInts } from "libs/bigint/bigint.js";
 import { TextCursor } from "libs/cursor/cursor.js";
 import { RawHexAsInteger } from "mods/types/helpers/generic.js";
-import { RawHexString, ZeroHexString } from "@hazae41/hex";;
+import { RawHexString, ZeroHexString } from "@hazae41/hexane";;
   
 const BN_0 = 0n
 const BN_1 = 1n`

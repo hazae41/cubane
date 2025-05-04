@@ -1,4 +1,4 @@
-import { ZeroHexString } from "@hazae41/hex"
+import { ZeroHexString } from "@hazae41/hexane"
 import { TextCursor } from "libs/cursor/cursor.js"
 
 export interface Decodable<T> {

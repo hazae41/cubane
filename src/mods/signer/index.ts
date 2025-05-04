@@ -1,6 +1,6 @@
 import { Box } from "@hazae41/box";
 import { Address } from "../address/index.js";
-import { BytesAsUtf8 } from "../formats/index.js";
+import { BytesAsUtf8 } from "../convert/index.js";
 import { BytesSigningKey, ExtSigningKey, SigningKey, ZeroHexSigningKey } from "../secp256k1/index.js";
 
 export abstract class Signer {
