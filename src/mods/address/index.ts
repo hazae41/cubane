@@ -1,21 +1,16 @@
 import { Bytes } from "@hazae41/bytes";
+import { $error } from "@hazae41/gardien";
 import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "libs/nullable/index.js";
 import { RawHexAsInteger } from "../convert/index.js";
 
-declare global {
-
-  interface SymbolConstructor {
-    readonly isAddress: symbol
-  }
-
-}
+declare const AddressSymbol: unique symbol
 
 /**
  * A "0x"-prefixed and checksummed valid hex string of length 42
  */
-export type Address = ZeroHexString<20> & { readonly [Symbol.isAddress]: true }
+export type Address = ZeroHexString<20> & { readonly [AddressSymbol]: true }
 
 export namespace Address {
 
@@ -23,21 +18,29 @@ export namespace Address {
     return value === fromOrNull(value)
   }
 
+  export function asOrThrow(value: string): Address
+
+  export function asOrThrow(value: ZeroHexString): Address
+
+  export function asOrThrow(value: string): Address {
+    if (!is(value))
+      throw new Error()
+    return value
+  }
+
   export type From = RawHexAsInteger.From
 
   export function fromOrThrow(from: From) {
-    return fromRawHexOrThrow(RawHexAsInteger.fromOrThrow(from))
+    return fromRawHexOrThrow(RawHexAsInteger.Length.fromOrThrow(from, 20))
   }
 
-  export function fromOrNull(from: Address.From): Nullable<Address> {
-    try { return fromOrThrow(from) } catch { }
+  export function fromOrNull(from: From): Nullable<Address> {
+    try {
+      return fromOrThrow(from)
+    } catch { }
   }
 
-  export function fromBytesOrThrow(from: Uint8Array) {
-    return fromRawHexOrThrow(RawHexAsInteger.fromBytesOrThrow(from))
-  }
-
-  export function fromRawHexOrThrow(from: RawHexString) {
+  export function fromRawHexOrThrow(from: RawHexString<20>) {
     const lowerCase = from.toLowerCase()
     const upperCase = from.toUpperCase()
 
@@ -72,4 +75,8 @@ export namespace Address {
     return `0x${address.slice(2, 6)}...${address.slice(-4)}`
   }
 
+}
+
+export function $address(message?: string) {
+  return $error(Address, message)
 }

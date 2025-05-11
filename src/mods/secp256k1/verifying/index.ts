@@ -75,7 +75,7 @@ export namespace VerifyingKey {
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
     const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt)
 
-    return Address.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString)
+    return Address.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
   }
 
   export function verifyUnprefixedMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
