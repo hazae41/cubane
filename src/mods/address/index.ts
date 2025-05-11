@@ -5,12 +5,12 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { Nullable } from "libs/nullable/index.js";
 import { RawHexAsInteger } from "../convert/index.js";
 
-declare const AddressSymbol: unique symbol
+export type AddressSymbol = symbol & { readonly name: "AddressSymbol" }
 
 /**
- * A "0x"-prefixed and checksummed valid hex string of length 42
+ * A "0x"-prefixed and checksummed valid hex string of byte length 20
  */
-export type Address = ZeroHexString<20> & { readonly [AddressSymbol]: true }
+export type Address = ZeroHexString<20> & { readonly [k: AddressSymbol]: true }
 
 export namespace Address {
 

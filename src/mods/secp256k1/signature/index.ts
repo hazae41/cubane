@@ -47,7 +47,7 @@ export namespace RsvSignature {
 
 }
 
-export interface RsvZeroHexSignatureInit {
+export interface RsvZeroHexSignature {
   readonly r: ZeroHexString<32>
   readonly s: ZeroHexString<32>
   readonly v: number
