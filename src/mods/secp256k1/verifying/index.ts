@@ -5,7 +5,7 @@ import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
-import { Address } from "mods/address/index.js";
+import { AddressString } from "mods/address/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/convert/index.js";
 import { ExtSignature, RsvBytesSignature, Signature } from "../signature/index.js";
 
@@ -75,7 +75,7 @@ export namespace VerifyingKey {
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
     const rawLowerCase = Base16.get().getOrThrow().encodeOrThrow(hashMemoryExt)
 
-    return Address.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
+    return AddressString.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
   }
 
   export function verifyUnprefixedMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {

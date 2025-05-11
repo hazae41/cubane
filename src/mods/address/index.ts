@@ -2,47 +2,52 @@ import { Bytes } from "@hazae41/bytes";
 import { $error } from "@hazae41/gardien";
 import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
-import { Nullable } from "libs/nullable/index.js";
 import { RawHexAsInteger } from "../convert/index.js";
+
+export function $address(message?: string) {
+  return $error(AddressString, message)
+}
 
 export type AddressSymbol = symbol & { readonly name: "AddressSymbol" }
 
 /**
  * A "0x"-prefixed and checksummed valid hex string of byte length 20
  */
-export type Address = ZeroHexString<20> & { readonly [k: AddressSymbol]: true }
+export type AddressString = ZeroHexString<20> & { readonly [k: AddressSymbol]: true }
 
-export namespace Address {
+export namespace AddressString {
 
-  export function is(value: string): value is Address {
-    return value === fromOrNull(value)
+  export type From = RawHexAsInteger.From
+
+}
+
+export namespace AddressString {
+
+  export function is(value: string): value is AddressString {
+    try {
+      return value === fromOrThrow(value)
+    } catch {
+      return false
+    }
   }
 
-  export function asOrThrow(value: string): Address
+  export function asOrThrow(value: string): AddressString
 
-  export function asOrThrow(value: ZeroHexString): Address
+  export function asOrThrow(value: `0x${string}`): AddressString
 
-  export function asOrThrow(value: string): Address {
+  export function asOrThrow(value: string): AddressString {
     if (!is(value))
       throw new Error()
     return value
   }
 
-  export type From = RawHexAsInteger.From
-
-  export function fromOrThrow(from: From) {
-    return fromRawHexOrThrow(RawHexAsInteger.Length.fromOrThrow(from, 20))
+  export function fromOrThrow(value: From) {
+    return fromRawHexOrThrow(RawHexAsInteger.Length.fromOrThrow(value, 20))
   }
 
-  export function fromOrNull(from: From): Nullable<Address> {
-    try {
-      return fromOrThrow(from)
-    } catch { }
-  }
-
-  export function fromRawHexOrThrow(from: RawHexString<20>) {
-    const lowerCase = from.toLowerCase()
-    const upperCase = from.toUpperCase()
+  export function fromRawHexOrThrow(value: RawHexString<20>) {
+    const lowerCase = value.toLowerCase()
+    const upperCase = value.toUpperCase()
 
     const bytes = Bytes.fromUtf8(lowerCase)
     using hashed = Keccak256.get().getOrThrow().hashOrThrow(bytes)
@@ -61,22 +66,15 @@ export namespace Address {
         : lowerCase[i + 1]
     }
 
-    return address as Address
+    return address as AddressString
   }
-
-  export type Formatted = `0x${string}...${string}`
 
   /**
    * Format address as "0xFFFF...FFFF" for UI display
-   * @param address 
    * @returns 
    */
-  export function format(address: Address): Formatted {
-    return `0x${address.slice(2, 6)}...${address.slice(-4)}`
+  export function format(value: AddressString): `0x${string}...${string}` {
+    return `0x${value.slice(2, 6)}...${value.slice(-4)}`
   }
 
-}
-
-export function $address(message?: string) {
-  return $error(Address, message)
 }

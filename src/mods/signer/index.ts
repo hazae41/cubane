@@ -1,10 +1,10 @@
 import { Box } from "@hazae41/box";
-import { Address } from "../address/index.js";
+import { AddressString } from "../address/index.js";
 import { BytesAsUtf8 } from "../convert/index.js";
 import { BytesSigningKey, ExtSigningKey, SigningKey, ZeroHexSigningKey } from "../secp256k1/index.js";
 
 export abstract class Signer {
-  abstract readonly address: Address
+  abstract readonly address: AddressString
   abstract readonly signingKey: SigningKey
 }
 
@@ -15,7 +15,7 @@ export namespace ZeroHexSigner {
 export class ZeroHexSigner extends Signer {
 
   private constructor(
-    readonly address: Address,
+    readonly address: AddressString,
     readonly signingKey: ZeroHexSigningKey
   ) {
     super()
@@ -77,7 +77,7 @@ export namespace BytesSigner {
 export class BytesSigner {
 
   private constructor(
-    readonly address: Address,
+    readonly address: AddressString,
     readonly signingKey: BytesSigningKey
   ) { }
 
@@ -136,7 +136,7 @@ export namespace ExtSigner {
 export class ExtSigner {
 
   constructor(
-    readonly address: Address,
+    readonly address: AddressString,
     readonly signingKey: ExtSigningKey
   ) { }
 
