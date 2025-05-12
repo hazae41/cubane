@@ -4,7 +4,15 @@ import { Bytes, Uint8Array } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
 import { RawHexString, ZeroHexString } from "@hazae41/hexane"
 import { Secp256k1 } from "@hazae41/secp256k1"
+import { Copiable } from "libs/copiable/index.js"
 import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger, RawHexAsInteger, ZeroHexAsInteger } from "../../convert/index.js"
+
+export type SignatureInit =
+  | RsvZeroHexSignatureInit
+  | RsvBytesSignatureInit
+  | ZeroHexSignatureInit
+  | BytesSignatureInit
+  | ExtSignatureInit
 
 export type Signature =
   | RsvZeroHexSignature
@@ -15,32 +23,25 @@ export type Signature =
 
 export namespace Signature {
 
-  export type From =
-    | RsvZeroHexSignatureInit
-    | RsvBytesSignatureInit
-    | ZeroHexSignatureInit
-    | BytesSignatureInit
-    | ExtSignatureInit
+  export type From = SignatureInit
 
   export function fromOrThrow(from: From): Signature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
       return from
     if (from instanceof Uint8Array)
-      return BytesSignature.fromBytesOrThrow(from)
-    if (typeof from === "object")
-      return RsvZeroHexSignature.fromRsvOrThrow(from)
-    return ZeroHexSignature.fromOtherOrThrow(from)
+      return BytesSignature.fromOrThrow(from)
+    return ZeroHexSignature.fromOrThrow(from)
   }
 
 }
 
-export type RsvSignature =
-  | RsvZeroHexSignature
-  | RsvBytesSignature
-
 export type RsvSignatureInit =
   | RsvZeroHexSignatureInit
   | RsvBytesSignatureInit
+
+export type RsvSignature =
+  | RsvZeroHexSignature
+  | RsvBytesSignature
 
 export interface RsvZeroHexSignatureInit {
   readonly r: ZeroHexAsInteger.From
@@ -77,7 +78,7 @@ export class RsvZeroHexSignature {
 
 export namespace RsvZeroHexSignature {
 
-  export type From = Signature.From
+  export type From = SignatureInit
 
   export function fromOrThrow(from: From): RsvZeroHexSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
@@ -175,7 +176,7 @@ export namespace RsvBytesSignature {
 
 export namespace RsvBytesSignature {
 
-  export type From = Signature.From
+  export type From = SignatureInit
 
   export function fromOrThrow(from: From): RsvBytesSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
@@ -225,7 +226,7 @@ export type ZeroHexSignature = ZeroHexString<65>
 
 export namespace ZeroHexSignature {
 
-  export type From = Signature.From
+  export type From = SignatureInit
 
   export function fromOrThrow(from: From): ZeroHexSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
@@ -279,7 +280,7 @@ export type BytesSignature = Uint8Array<65>
 
 export namespace BytesSignature {
 
-  export type From = Signature.From
+  export type From = SignatureInit
 
   export function fromOrThrow(from: From): BytesSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
@@ -296,9 +297,7 @@ export namespace BytesSignature {
 export namespace BytesSignature {
 
   export function fromExtOrThrow(from: ExtSignature): BytesSignature {
-    using memory = from.exportOrThrow()
-
-    return memory.bytes.slice() as Uint8Array<65>
+    return Copiable.copyAndDispose(from.exportOrThrow()) as Uint8Array<65>
   }
 
   export function fromBytesOrThrow(from: Uint8Array): BytesSignature {
@@ -327,7 +326,7 @@ export type ExtSignature = Secp256k1.SignatureAndRecovery
 
 export namespace ExtSignature {
 
-  export type From = Signature.From
+  export type From = SignatureInit
 
   export function fromOrThrow(from: From): Box<ExtSignature> {
     if (from instanceof Secp256k1.SignatureAndRecovery)

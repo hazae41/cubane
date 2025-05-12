@@ -15,23 +15,37 @@ export type SigningKey =
   | BytesSigningKey
   | ExtSigningKey
 
+export type SigningKeyInit =
+  | ZeroHexSigningKeyInit
+  | BytesSigningKeyInit
+  | ExtSigningKeyInit
+
 export namespace SigningKey {
 
-  export type From =
-    | ZeroHexSigningKey.Lose
-    | BytesSigningKey.Lose
-    | ExtSigningKey.Lose
+  export type From = SigningKeyInit
+
+  export function fromOrThrow(from: From): SigningKey {
+    if (from instanceof Secp256k1.SigningKey)
+      return from
+    if (from instanceof Uint8Array)
+      return BytesSigningKey.fromOrThrow(from)
+    return ZeroHexSigningKey.fromOrThrow(from)
+  }
+
+}
+
+export namespace SigningKey {
 
   export function randomOrThrow() {
     return ExtSigningKey.randomOrThrow()
   }
 
-  export function getVerifyingKeyOrThrow(signingKey: SigningKey.From): ExtVerifyingKey {
+  export function getVerifyingKeyOrThrow(signingKey: ExtSigningKey.From): ExtVerifyingKey {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     return signingKeyExtBox.get().getVerifyingKeyOrThrow()
   }
 
-  export function getUncheckedAddressOrThrow(signingKey: SigningKey.From): ZeroHexString<20> {
+  export function getUncheckedAddressOrThrow(signingKey: ExtSigningKey.From): ZeroHexString<20> {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
 
     using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
@@ -43,7 +57,7 @@ export namespace SigningKey {
     return `0x${rawLowerCase.slice(-40)}` as ZeroHexString<20>
   }
 
-  export function getAddressOrThrow(signingKey: SigningKey.From): AddressString {
+  export function getAddressOrThrow(signingKey: ExtSigningKey.From): AddressString {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
 
     using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
@@ -55,7 +69,7 @@ export namespace SigningKey {
     return AddressString.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
   }
 
-  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): ExtSignature {
+  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): ExtSignature {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
@@ -63,7 +77,7 @@ export namespace SigningKey {
     return signingKeyExtBox.get().signOrThrow(hashMemoryExt)
   }
 
-  export function signUnprefixedMessageOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+  export function signUnprefixedMessageOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
     using signatureExt = signUnprefixedMessageNoOffsetOrThrow(signingKey, message)
     const signatureRsvBytes = RsvBytesSignature.fromExtOrThrow(signatureExt)
 
@@ -73,7 +87,7 @@ export namespace SigningKey {
     return new RsvBytesSignature(r, s, v)
   }
 
-  export function signMessageNoOffsetOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): ExtSignature {
+  export function signMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): ExtSignature {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
@@ -84,7 +98,7 @@ export namespace SigningKey {
     return signingKeyExtBox.get().signOrThrow(hashMemoryExt)
   }
 
-  export function signMessageOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+  export function signMessageOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
     using signatureExt = signMessageNoOffsetOrThrow(signingKey, message)
     const signatureRsvBytes = RsvBytesSignature.fromExtOrThrow(signatureExt)
 
@@ -94,22 +108,25 @@ export namespace SigningKey {
     return new RsvBytesSignature(r, s, v)
   }
 
-
 }
+
+export type ZeroHexSigningKeyInit = ZeroHexAsInteger.From
 
 export type ZeroHexSigningKey = ZeroHexString<32>
 
 export namespace ZeroHexSigningKey {
 
-  export type Lose = ZeroHexAsInteger.From
+  export type From = SigningKeyInit
 
-  export type From = SigningKey.From
-
-  export function fromOrThrow(from: ZeroHexSigningKey.From): ZeroHexSigningKey {
+  export function fromOrThrow(from: From): ZeroHexSigningKey {
     if (from instanceof Secp256k1.SigningKey)
       return fromExtOrThrow(from)
     return fromOtherOrThrow(from)
   }
+
+}
+
+export namespace ZeroHexSigningKey {
 
   export function fromExtOrThrow(from: ExtSigningKey): ZeroHexSigningKey {
     using memory = from.exportOrThrow()
@@ -122,49 +139,25 @@ export namespace ZeroHexSigningKey {
     return ZeroHexAsInteger.Length.fromOrThrow(from, 32)
   }
 
-  export function getVerifyingKeyOrThrow(signingKey: ZeroHexSigningKey.From) {
-    return SigningKey.getVerifyingKeyOrThrow(signingKey)
-  }
-
-  export function getUncheckedAddressOrThrow(signingKey: ZeroHexSigningKey.From) {
-    return SigningKey.getUncheckedAddressOrThrow(signingKey)
-  }
-
-  export function getAddressOrThrow(signingKey: ZeroHexSigningKey.From) {
-    return SigningKey.getAddressOrThrow(signingKey)
-  }
-
-  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ZeroHexSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signUnprefixedMessageNoOffsetOrThrow(signingKey, message)
-  }
-
-  export function signUnprefixedMessageOrThrow(signingKey: ZeroHexSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signUnprefixedMessageOrThrow(signingKey, message)
-  }
-
-  export function signMessageNoOffsetOrThrow(signingKey: ZeroHexSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signMessageNoOffsetOrThrow(signingKey, message)
-  }
-
-  export function signMessageOrThrow(signingKey: ZeroHexSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signMessageOrThrow(signingKey, message)
-  }
-
 }
+
+export type BytesSigningKeyInit = BytesAsInteger.From
 
 export type BytesSigningKey = Uint8Array<32>
 
 export namespace BytesSigningKey {
 
-  export type Lose = BytesAsInteger.From
+  export type From = SigningKeyInit
 
-  export type From = SigningKey.From
-
-  export function fromOrThrow(from: BytesSigningKey.From): BytesSigningKey {
+  export function fromOrThrow(from: From): BytesSigningKey {
     if (from instanceof Secp256k1.SigningKey)
       return fromExtOrThrow(from)
     return fromOtherOrThrow(from)
   }
+
+}
+
+export namespace BytesSigningKey {
 
   export function fromExtOrThrow(from: ExtSigningKey): BytesSigningKey {
     return Copiable.copyAndDispose(from.exportOrThrow()) as Uint8Array<32>
@@ -174,52 +167,28 @@ export namespace BytesSigningKey {
     return BytesAsInteger.Length.fromOrThrow(from, 32)
   }
 
-  export function getVerifyingKeyOrThrow(signingKey: BytesSigningKey.From) {
-    return SigningKey.getVerifyingKeyOrThrow(signingKey)
-  }
-
-  export function getUncheckedAddressOrThrow(signingKey: BytesSigningKey.From) {
-    return SigningKey.getUncheckedAddressOrThrow(signingKey)
-  }
-
-  export function getAddressOrThrow(signingKey: BytesSigningKey.From) {
-    return SigningKey.getAddressOrThrow(signingKey)
-  }
-
-  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: BytesSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signUnprefixedMessageNoOffsetOrThrow(signingKey, message)
-  }
-
-  export function signUnprefixedMessageOrThrow(signingKey: BytesSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signUnprefixedMessageOrThrow(signingKey, message)
-  }
-
-  export function signMessageNoOffsetOrThrow(signingKey: BytesSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signMessageNoOffsetOrThrow(signingKey, message)
-  }
-
-  export function signMessageOrThrow(signingKey: BytesSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signMessageOrThrow(signingKey, message)
-  }
-
 }
+
+export type ExtSigningKeyInit = Secp256k1.SigningKey
 
 export type ExtSigningKey = Secp256k1.SigningKey
 
 export namespace ExtSigningKey {
 
-  export type Lose = Secp256k1.SigningKey
+  export type From = SigningKeyInit
 
-  export function randomOrThrow(): ExtSigningKey {
-    return Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()
-  }
-
-  export type From = SigningKey.From
-
-  export function fromOrThrow(from: ExtSigningKey.From): Box<ExtSigningKey> {
+  export function fromOrThrow(from: From): Box<ExtSigningKey> {
     if (from instanceof Secp256k1.SigningKey)
       return fromExtOrThrow(from)
     return fromOtherOrThrow(from)
+  }
+
+}
+
+export namespace ExtSigningKey {
+
+  export function randomOrThrow(): ExtSigningKey {
+    return Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()
   }
 
   export function fromExtOrThrow(from: ExtSigningKey): Box<ExtSigningKey> {
@@ -228,34 +197,6 @@ export namespace ExtSigningKey {
 
   export function fromOtherOrThrow(from: BytesAsInteger.From): Box<ExtSigningKey> {
     return new Box(Secp256k1.get().getOrThrow().SigningKey.importOrThrow(BytesAsInteger.Length.fromOrThrow(from, 32)))
-  }
-
-  export function getVerifyingKeyOrThrow(signingKey: ExtSigningKey.From) {
-    return SigningKey.getVerifyingKeyOrThrow(signingKey)
-  }
-
-  export function getUncheckedAddressOrThrow(signingKey: ExtSigningKey.From) {
-    return SigningKey.getUncheckedAddressOrThrow(signingKey)
-  }
-
-  export function getAddressOrThrow(signingKey: ExtSigningKey.From) {
-    return SigningKey.getAddressOrThrow(signingKey)
-  }
-
-  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signUnprefixedMessageNoOffsetOrThrow(signingKey, message)
-  }
-
-  export function signUnprefixedMessageOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signUnprefixedMessageOrThrow(signingKey, message)
-  }
-
-  export function signMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signMessageNoOffsetOrThrow(signingKey, message)
-  }
-
-  export function signMessageOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From) {
-    return SigningKey.signMessageOrThrow(signingKey, message)
   }
 
 }

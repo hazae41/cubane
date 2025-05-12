@@ -49,23 +49,23 @@ export class ZeroHexSigner extends Signer {
   }
 
   getVerifyingKeyOrThrow() {
-    return ZeroHexSigningKey.getVerifyingKeyOrThrow(this.signingKey)
+    return SigningKey.getVerifyingKeyOrThrow(this.signingKey)
   }
 
   signUnprefixedMessageNoOffsetOrThrow(message: BytesAsUtf8.From) {
-    return ZeroHexSigningKey.signUnprefixedMessageNoOffsetOrThrow(this.signingKey, message)
+    return SigningKey.signUnprefixedMessageNoOffsetOrThrow(this.signingKey, message)
   }
 
   signUnprefixedMessageOrThrow(message: BytesAsUtf8.From) {
-    return ZeroHexSigningKey.signUnprefixedMessageOrThrow(this.signingKey, message)
+    return SigningKey.signUnprefixedMessageOrThrow(this.signingKey, message)
   }
 
   signMessageNoOffsetOrThrow(message: BytesAsUtf8.From) {
-    return ZeroHexSigningKey.signMessageNoOffsetOrThrow(this.signingKey, message)
+    return SigningKey.signMessageNoOffsetOrThrow(this.signingKey, message)
   }
 
   signMessageOrThrow(message: BytesAsUtf8.From) {
-    return ZeroHexSigningKey.signMessageOrThrow(this.signingKey, message)
+    return SigningKey.signMessageOrThrow(this.signingKey, message)
   }
 
 }
@@ -108,23 +108,23 @@ export class BytesSigner {
   }
 
   getVerifyingKeyOrThrow() {
-    return BytesSigningKey.getVerifyingKeyOrThrow(this.signingKey)
+    return SigningKey.getVerifyingKeyOrThrow(this.signingKey)
   }
 
   signUnprefixedMessageNoOffsetOrThrow(message: BytesAsUtf8.From) {
-    return BytesSigningKey.signUnprefixedMessageNoOffsetOrThrow(this.signingKey, message)
+    return SigningKey.signUnprefixedMessageNoOffsetOrThrow(this.signingKey, message)
   }
 
   signUnprefixedMessageOrThrow(message: BytesAsUtf8.From) {
-    return BytesSigningKey.signUnprefixedMessageOrThrow(this.signingKey, message)
+    return SigningKey.signUnprefixedMessageOrThrow(this.signingKey, message)
   }
 
   signMessageNoOffsetOrThrow(message: BytesAsUtf8.From) {
-    return BytesSigningKey.signMessageNoOffsetOrThrow(this.signingKey, message)
+    return SigningKey.signMessageNoOffsetOrThrow(this.signingKey, message)
   }
 
   signMessageOrThrow(message: BytesAsUtf8.From) {
-    return BytesSigningKey.signMessageOrThrow(this.signingKey, message)
+    return SigningKey.signMessageOrThrow(this.signingKey, message)
   }
 
 }
@@ -184,23 +184,23 @@ export class ExtSigner {
   }
 
   getVerifyingKeyOrThrow() {
-    return ExtSigningKey.getVerifyingKeyOrThrow(this.signingKey)
+    return SigningKey.getVerifyingKeyOrThrow(this.signingKey)
   }
 
   signUnprefixedMessageNoOffsetOrThrow(message: BytesAsUtf8.From) {
-    return ExtSigningKey.signUnprefixedMessageNoOffsetOrThrow(this.signingKey, message)
+    return SigningKey.signUnprefixedMessageNoOffsetOrThrow(this.signingKey, message)
   }
 
   signUnprefixedMessageOrThrow(message: BytesAsUtf8.From) {
-    return ExtSigningKey.signUnprefixedMessageOrThrow(this.signingKey, message)
+    return SigningKey.signUnprefixedMessageOrThrow(this.signingKey, message)
   }
 
   signMessageNoOffsetOrThrow(message: BytesAsUtf8.From) {
-    return ExtSigningKey.signMessageNoOffsetOrThrow(this.signingKey, message)
+    return SigningKey.signMessageNoOffsetOrThrow(this.signingKey, message)
   }
 
   signMessageOrThrow(message: BytesAsUtf8.From) {
-    return ExtSigningKey.signMessageOrThrow(this.signingKey, message)
+    return SigningKey.signMessageOrThrow(this.signingKey, message)
   }
 
 }

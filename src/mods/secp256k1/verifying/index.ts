@@ -7,9 +7,9 @@ import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { AddressString } from "mods/address/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/convert/index.js";
-import { ExtSignature, RsvBytesSignature, Signature } from "../signature/index.js";
+import { ExtSignature, RsvBytesSignature } from "../signature/index.js";
 
-export function recoverUnprefixedMessageOrThrow(signature: Signature.From, message: BytesAsUtf8.From) {
+export function recoverUnprefixedMessageOrThrow(signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
   const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
   if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
@@ -27,7 +27,7 @@ export function recoverUnprefixedMessageOrThrow(signature: Signature.From, messa
   return recoveredVerifyingKeyExt
 }
 
-export function recoverMessageOrThrow(signature: Signature.From, message: BytesAsUtf8.From) {
+export function recoverMessageOrThrow(signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
   const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
   if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
@@ -48,6 +48,11 @@ export function recoverMessageOrThrow(signature: Signature.From, message: BytesA
   return recoveredVerifyingKeyExt
 }
 
+export type VerifyingKeyInit =
+  | ZeroHexVerifyingKeyInit
+  | BytesVerifyingKeyInit
+  | ExtVerifyingKeyInit
+
 export type VerifyingKey =
   | ZeroHexVerifyingKey
   | BytesVerifyingKey
@@ -55,12 +60,21 @@ export type VerifyingKey =
 
 export namespace VerifyingKey {
 
-  export type From =
-    | ZeroHexVerifyingKey.From
-    | BytesVerifyingKey.From
-    | ExtVerifyingKey.From
+  export type From = VerifyingKeyInit
 
-  export function getUncheckedAddressOrThrow(verifyingKey: VerifyingKey.From) {
+  export function fromOrThrow(from: From): VerifyingKey {
+    if (from instanceof Secp256k1.VerifyingKey)
+      return from
+    if (from instanceof Uint8Array)
+      return BytesVerifyingKey.fromOrThrow(from)
+    return ZeroHexVerifyingKey.fromOrThrow(from)
+  }
+
+}
+
+export namespace VerifyingKey {
+
+  export function getUncheckedAddressOrThrow(verifyingKey: BytesVerifyingKey.From) {
     const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
@@ -69,7 +83,7 @@ export namespace VerifyingKey {
     return `0x${rawLowerCase.slice(-40)}` as ZeroHexString<20>
   }
 
-  export function getAddressOrThrow(verifyingKey: VerifyingKey.From) {
+  export function getAddressOrThrow(verifyingKey: BytesVerifyingKey.From) {
     const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyBytes.subarray(1))
@@ -78,7 +92,7 @@ export namespace VerifyingKey {
     return AddressString.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
   }
 
-  export function verifyUnprefixedMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
+  export function verifyUnprefixedMessageOrThrow(verifyingKey: BytesVerifyingKey.From, signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
     const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
     if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
@@ -98,7 +112,7 @@ export namespace VerifyingKey {
     return Bytes.equals(verifyingKeyBytes, recoveredVerifyingKeyMemoryExt.bytes)
   }
 
-  export function verifyMessageOrThrow(verifyingKey: VerifyingKey.From, signature: Signature.From, message: BytesAsUtf8.From) {
+  export function verifyMessageOrThrow(verifyingKey: BytesVerifyingKey.From, signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
     const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
     if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
@@ -123,17 +137,23 @@ export namespace VerifyingKey {
 
 }
 
+export type ZeroHexVerifyingKeyInit = ZeroHexAsInteger.From
+
 export type ZeroHexVerifyingKey = ZeroHexString<65>
 
 export namespace ZeroHexVerifyingKey {
 
-  export type From = ZeroHexAsInteger.From
+  export type From = VerifyingKeyInit
 
-  export function fromOrThrow(from: VerifyingKey.From): ZeroHexVerifyingKey {
+  export function fromOrThrow(from: From): ZeroHexVerifyingKey {
     if (from instanceof Secp256k1.VerifyingKey)
       return fromExtOrThrow(from)
     return fromOtherOrThrow(from)
   }
+
+}
+
+export namespace ZeroHexVerifyingKey {
 
   export function fromExtOrThrow(from: ExtVerifyingKey): ZeroHexVerifyingKey {
     using memory = from.exportUncompressedOrThrow()
@@ -148,17 +168,22 @@ export namespace ZeroHexVerifyingKey {
 
 }
 
+export type BytesVerifyingKeyInit = BytesAsInteger.From
+
 export type BytesVerifyingKey = Uint8Array<65>
 
 export namespace BytesVerifyingKey {
 
-  export type From = BytesAsInteger.From
+  export type From = VerifyingKeyInit
 
-  export function fromOrThrow(from: VerifyingKey.From): BytesVerifyingKey {
+  export function fromOrThrow(from: From): BytesVerifyingKey {
     if (from instanceof Secp256k1.VerifyingKey)
       return fromExtOrThrow(from)
     return fromOtherOrThrow(from)
   }
+
+}
+export namespace BytesVerifyingKey {
 
   export function fromExtOrThrow(from: ExtVerifyingKey): BytesVerifyingKey {
     return Copiable.copyAndDispose(from.exportUncompressedOrThrow()) as Uint8Array<65>
@@ -170,17 +195,23 @@ export namespace BytesVerifyingKey {
 
 }
 
+export type ExtVerifyingKeyInit = Secp256k1.VerifyingKey
+
 export type ExtVerifyingKey = Secp256k1.VerifyingKey
 
 export namespace ExtVerifyingKey {
 
-  export type From = Secp256k1.VerifyingKey
+  export type From = VerifyingKeyInit
 
-  export function fromOrThrow(from: VerifyingKey.From): Box<ExtVerifyingKey> {
+  export function fromOrThrow(from: From): Box<ExtVerifyingKey> {
     if (from instanceof Secp256k1.VerifyingKey)
       return fromExtOrThrow(from)
     return fromOtherOrThrow(from)
   }
+
+}
+
+export namespace ExtVerifyingKey {
 
   export function fromExtOrThrow(from: ExtVerifyingKey): Box<ExtVerifyingKey> {
     return Box.createAsDropped(from)
