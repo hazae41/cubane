@@ -281,6 +281,12 @@ export namespace RlpString {
     return value instanceof AbstractRlpString
   }
 
+  export function asOrThrow(value: unknown): RlpString {
+    if (!is(value))
+      throw new Error()
+    return value
+  }
+
   export function unwrap<T>(value: T): Exclude<T, RlpString> | Uint8Array {
     if (is(value))
       return value.value

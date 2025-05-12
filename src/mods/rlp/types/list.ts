@@ -1,12 +1,16 @@
 import { Cursor } from "@hazae41/cursor";
 import { BytesOrBytesArray, RlpType, readOrThrow } from "../rlp.js";
 
-export class RlpList55 {
+export abstract class AbstractRlpList { }
+
+export class RlpList55 extends AbstractRlpList {
 
   constructor(
     readonly value: RlpType[],
     readonly length: number
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): this is RlpList55 {
     return true
@@ -47,12 +51,14 @@ export class RlpList55 {
 
 }
 
-export class RlpListUint8 {
+export class RlpListUint8 extends AbstractRlpList {
 
   constructor(
     readonly value: RlpType[],
     readonly length: number
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): this is RlpListUint8 {
     return true
@@ -96,12 +102,14 @@ export class RlpListUint8 {
 
 }
 
-export class RlpListUint16 {
+export class RlpListUint16 extends AbstractRlpList {
 
   constructor(
     readonly value: RlpType[],
     readonly length: number
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): this is RlpListUint16 {
     return true
@@ -145,12 +153,14 @@ export class RlpListUint16 {
 
 }
 
-export class RlpListUint24 {
+export class RlpListUint24 extends AbstractRlpList {
 
   constructor(
     readonly value: RlpType[],
     readonly length: number
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): this is RlpListUint24 {
     return true
@@ -194,12 +204,14 @@ export class RlpListUint24 {
 
 }
 
-export class RlpListUint32 {
+export class RlpListUint32 extends AbstractRlpList {
 
   constructor(
     readonly value: RlpType[],
     readonly length: number
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): this is RlpListUint32 {
     return true
@@ -249,6 +261,20 @@ export type RlpList =
   | RlpListUint16
   | RlpListUint24
   | RlpListUint32
+
+export namespace RlpList {
+
+  export function is(value: unknown): value is RlpList {
+    return value instanceof AbstractRlpList
+  }
+
+  export function asOrThrow(value: unknown): RlpList {
+    if (!is(value))
+      throw new Error()
+    return value
+  }
+
+}
 
 export namespace RlpList {
 

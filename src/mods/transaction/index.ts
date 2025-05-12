@@ -1,7 +1,8 @@
-import { Cursor } from "@hazae41/cursor";
+import { Writable } from "@hazae41/binary";
+import { asOrThrow } from "@hazae41/gardien";
 import { ZeroHexString } from "@hazae41/hexane";
 import { BigIntAsInteger, BytesAsInteger, ZeroHexAsInteger } from "mods/convert/index.js";
-import { RlpString, RlpStringAsInteger } from "mods/rlp/index.js";
+import { RlpList, RlpString, RlpStringAsInteger, RlpType } from "mods/rlp/index.js";
 
 export interface Eip1559TransactionInit {
   readonly to: RlpStringAsInteger.From
@@ -90,31 +91,31 @@ export class RlpEip1559Transaction {
     readonly chainId: RlpString
   ) { }
 
-  sizeOrThrow() {
-    return 0
-      + this.to.sizeOrThrow()
-      + this.from.sizeOrThrow()
-      + this.value.sizeOrThrow()
-      + this.data.sizeOrThrow()
-      + this.nonce.sizeOrThrow()
-      + this.gas.sizeOrThrow()
-      + this.gasPrice.sizeOrThrow()
-      + this.maxPriorityFeePerGas.sizeOrThrow()
-      + this.maxFeePerGas.sizeOrThrow()
-      + this.chainId.sizeOrThrow()
+  static decodeOrThrow(root: RlpType): RlpEip1559Transaction {
+    const list = asOrThrow(RlpList, root)
+
+    let cursor = 0
+
+    const to = asOrThrow(RlpString, list.value[cursor++])
+    const from = asOrThrow(RlpString, list.value[cursor++])
+    const value = asOrThrow(RlpString, list.value[cursor++])
+    const data = asOrThrow(RlpString, list.value[cursor++])
+    const nonce = asOrThrow(RlpString, list.value[cursor++])
+    const gas = asOrThrow(RlpString, list.value[cursor++])
+    const gasPrice = asOrThrow(RlpString, list.value[cursor++])
+    const maxPriorityFeePerGas = asOrThrow(RlpString, list.value[cursor++])
+    const maxFeePerGas = asOrThrow(RlpString, list.value[cursor++])
+    const chainId = asOrThrow(RlpString, list.value[cursor++])
+
+    if (cursor !== list.value.length)
+      throw new Error("Invalid cursor")
+
+    return new RlpEip1559Transaction(to, from, value, data, nonce, gas, gasPrice, maxPriorityFeePerGas, maxFeePerGas, chainId)
   }
 
-  writeOrThrow(cursor: Cursor) {
-    this.to.writeOrThrow(cursor)
-    this.from.writeOrThrow(cursor)
-    this.value.writeOrThrow(cursor)
-    this.data.writeOrThrow(cursor)
-    this.nonce.writeOrThrow(cursor)
-    this.gas.writeOrThrow(cursor)
-    this.gasPrice.writeOrThrow(cursor)
-    this.maxPriorityFeePerGas.writeOrThrow(cursor)
-    this.maxFeePerGas.writeOrThrow(cursor)
-    this.chainId.writeOrThrow(cursor)
+  encodeOrThrow(): RlpList {
+    const { to, from, value, data, nonce, gas, gasPrice, maxPriorityFeePerGas, maxFeePerGas, chainId } = this
+    return RlpList.fromOrThrow([to, from, value, data, nonce, gas, gasPrice, maxPriorityFeePerGas, maxFeePerGas, chainId])
   }
 
 }
@@ -138,4 +139,8 @@ export namespace RlpEip1559Transaction {
     return new RlpEip1559Transaction(to, from, value, data, nonce, gas, gasPrice, maxPriorityFeePerGas, maxFeePerGas, chainId)
   }
 
+}
+
+function tx2bytes(x: RawEip1559Transaction) {
+  return Writable.writeToBytesOrThrow(RlpEip1559Transaction.fromOrThrow(x).encodeOrThrow())
 }
