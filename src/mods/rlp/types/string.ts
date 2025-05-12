@@ -1,10 +1,15 @@
 import { Cursor } from "@hazae41/cursor"
+import { BytesAsInteger } from "mods/convert/index.js"
 
-export class RlpString1 {
+export abstract class AbstractRlpString { }
+
+export class RlpString1 extends AbstractRlpString {
 
   constructor(
     readonly value: Uint8Array
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): false {
     return false
@@ -35,11 +40,13 @@ export class RlpString1 {
 
 }
 
-export class RlpString55 {
+export class RlpString55 extends AbstractRlpString {
 
   constructor(
     readonly value: Uint8Array
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): false {
     return false
@@ -72,11 +79,13 @@ export class RlpString55 {
 
 }
 
-export class RlpStringUint8 {
+export class RlpStringUint8 extends AbstractRlpString {
 
   constructor(
     readonly value: Uint8Array
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): false {
     return false
@@ -112,11 +121,13 @@ export class RlpStringUint8 {
 
 }
 
-export class RlpStringUint16 {
+export class RlpStringUint16 extends AbstractRlpString {
 
   constructor(
     readonly value: Uint8Array
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): false {
     return false
@@ -152,11 +163,13 @@ export class RlpStringUint16 {
 
 }
 
-export class RlpStringUint24 {
+export class RlpStringUint24 extends AbstractRlpString {
 
   constructor(
     readonly value: Uint8Array
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): false {
     return false
@@ -192,11 +205,13 @@ export class RlpStringUint24 {
 
 }
 
-export class RlpStringUint32 {
+export class RlpStringUint32 extends AbstractRlpString {
 
   constructor(
     readonly value: Uint8Array
-  ) { }
+  ) {
+    super()
+  }
 
   isList(): false {
     return false
@@ -242,6 +257,8 @@ export type RlpString =
 
 export namespace RlpString {
 
+  export type From = Uint8Array
+
   export function fromOrThrow(value: Uint8Array): RlpString {
     if (value.length === 1 && value[0] < 0x80)
       return new RlpString1(value)
@@ -254,6 +271,39 @@ export namespace RlpString {
     if (value.length < 16_777_216)
       return new RlpStringUint24(value)
     return new RlpStringUint32(value)
+  }
+
+}
+
+export namespace RlpString {
+
+  export function is(value: unknown): value is RlpString {
+    return value instanceof AbstractRlpString
+  }
+
+  export function unwrap<T>(value: T): Exclude<T, RlpString> | Uint8Array {
+    if (is(value))
+      return value.value
+    return value as Exclude<T, RlpString>
+  }
+
+}
+
+export namespace RlpStringAsInteger {
+
+  export type From =
+    | RlpString
+    | BytesAsInteger.From
+
+  export function fromOrThrow(from: From): RlpString {
+    if (RlpString.is(from))
+      return from
+    if (from instanceof Uint8Array)
+      return RlpString.fromOrThrow(from)
+
+    const bytes = BytesAsInteger.fromOrThrow(from)
+
+    return RlpString.fromOrThrow(bytes)
   }
 
 }

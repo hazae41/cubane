@@ -3,16 +3,29 @@ import { AddressString } from "../address/index.js";
 import { BytesAsUtf8 } from "../convert/index.js";
 import { BytesSigningKey, ExtSigningKey, SigningKey, ZeroHexSigningKey } from "../secp256k1/index.js";
 
-export abstract class Signer {
+export abstract class AbstractSigner {
   abstract readonly address: AddressString
   abstract readonly signingKey: SigningKey
 }
 
-export namespace ZeroHexSigner {
-  export type From = Signer | ZeroHexSigningKey.From
+export type Signer =
+  | ZeroHexSigner
+  | BytesSigner
+  | ExtSigner
+
+export namespace Signer {
+
+  export function is(value: unknown): value is Signer {
+    return value instanceof AbstractSigner
+  }
+
 }
 
-export class ZeroHexSigner extends Signer {
+export namespace ZeroHexSigner {
+  export type From = AbstractSigner | ZeroHexSigningKey.From
+}
+
+export class ZeroHexSigner extends AbstractSigner {
 
   private constructor(
     readonly address: AddressString,
@@ -24,12 +37,12 @@ export class ZeroHexSigner extends Signer {
   static fromOrThrow(from: ZeroHexSigner.From): ZeroHexSigner {
     if (from instanceof ZeroHexSigner)
       return from
-    if (from instanceof Signer)
+    if (from instanceof AbstractSigner)
       return ZeroHexSigner.fromSignerOrThrow(from)
     return ZeroHexSigner.fromSigningKeyOrThrow(from)
   }
 
-  static fromSignerOrThrow(from: Signer): ZeroHexSigner {
+  static fromSignerOrThrow(from: AbstractSigner): ZeroHexSigner {
     const signingKey = ZeroHexSigningKey.fromOrThrow(from.signingKey)
     const address = from.address
 
@@ -71,7 +84,7 @@ export class ZeroHexSigner extends Signer {
 }
 
 export namespace BytesSigner {
-  export type From = Signer | BytesSigningKey.From
+  export type From = AbstractSigner | BytesSigningKey.From
 }
 
 export class BytesSigner {
@@ -84,12 +97,12 @@ export class BytesSigner {
   static fromOrThrow(from: BytesSigner.From): BytesSigner {
     if (from instanceof BytesSigner)
       return from
-    if (from instanceof Signer)
+    if (from instanceof AbstractSigner)
       return BytesSigner.fromSignerOrThrow(from)
     return BytesSigner.fromSigningKeyOrThrow(from)
   }
 
-  static fromSignerOrThrow(from: Signer): BytesSigner {
+  static fromSignerOrThrow(from: AbstractSigner): BytesSigner {
     const signingKey = BytesSigningKey.fromOrThrow(from.signingKey)
     const address = from.address
 
@@ -130,7 +143,7 @@ export class BytesSigner {
 }
 
 export namespace ExtSigner {
-  export type From = Signer | ExtSigningKey.From
+  export type From = AbstractSigner | ExtSigningKey.From
 }
 
 export class ExtSigner {
@@ -154,12 +167,12 @@ export class ExtSigner {
   static fromOrThrow(from: ExtSigner.From): Box<ExtSigner> {
     if (from instanceof ExtSigner)
       return Box.createAsDropped(from)
-    if (from instanceof Signer)
+    if (from instanceof AbstractSigner)
       return ExtSigner.fromSignerOrThrow(from)
     return ExtSigner.fromSigningKeyOrThrow(from)
   }
 
-  static fromSignerOrThrow(from: Signer): Box<ExtSigner> {
+  static fromSignerOrThrow(from: AbstractSigner): Box<ExtSigner> {
     const signingKey = ExtSigningKey.fromOrThrow(from.signingKey)
     const address = from.address
 
