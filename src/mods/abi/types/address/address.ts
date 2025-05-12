@@ -187,9 +187,9 @@ export class RawHexAbiAddress {
   writeOrThrow(cursor: Cursor) {
     cursor.fillOrThrow(0, 32 - 20)
 
-    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
+    using memory = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
-    cursor.writeOrThrow(slice.bytes)
+    cursor.writeOrThrow(memory.bytes)
   }
 
 }

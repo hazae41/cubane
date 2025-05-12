@@ -328,10 +328,10 @@ export class RawHexAbiUint${bits} {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
+    using memory = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
-    cursor.fillOrThrow(0, 32 - slice.bytes.length)
-    cursor.writeOrThrow(slice.bytes)
+    cursor.fillOrThrow(0, 32 - memory.bytes.length)
+    cursor.writeOrThrow(memory.bytes)
   }
 
   static readOrThrow(cursor: Cursor) {

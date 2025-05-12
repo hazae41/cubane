@@ -136,9 +136,8 @@ export namespace ZeroHexVerifyingKey {
   }
 
   export function fromExtOrThrow(from: ExtVerifyingKey): ZeroHexVerifyingKey {
-    using slice = from.exportUncompressedOrThrow()
-
-    const base16 = Base16.get().getOrThrow().encodeOrThrow(slice.bytes)
+    using memory = from.exportUncompressedOrThrow()
+    const base16 = Base16.get().getOrThrow().encodeOrThrow(memory.bytes)
 
     return `0x${base16}` as ZeroHexString<65>
   }

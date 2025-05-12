@@ -70,7 +70,7 @@ export namespace SigningKey {
     const { r, s } = signatureRsvBytes
     const v = signatureRsvBytes.v + 27
 
-    return { r, s, v }
+    return new RsvBytesSignature(r, s, v)
   }
 
   export function signMessageNoOffsetOrThrow(signingKey: SigningKey.From, message: BytesAsUtf8.From): ExtSignature {
@@ -91,7 +91,7 @@ export namespace SigningKey {
     const { r, s } = signatureRsvBytes
     const v = signatureRsvBytes.v + 27
 
-    return { r, s, v }
+    return new RsvBytesSignature(r, s, v)
   }
 
 
@@ -112,9 +112,8 @@ export namespace ZeroHexSigningKey {
   }
 
   export function fromExtOrThrow(from: ExtSigningKey): ZeroHexSigningKey {
-    using slice = from.exportOrThrow()
-
-    const base16 = Base16.get().getOrThrow().encodeOrThrow(slice.bytes)
+    using memory = from.exportOrThrow()
+    const base16 = Base16.get().getOrThrow().encodeOrThrow(memory.bytes)
 
     return `0x${base16}` as ZeroHexString<32>
   }

@@ -257,8 +257,8 @@ export class RawHexAbiString {
 
     NumberUint32.create(length1).writeOrThrow(cursor)
 
-    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
-    cursor.writeOrThrow(slice.bytes)
+    using memory = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
+    cursor.writeOrThrow(memory.bytes)
 
     const padded1 = Math.ceil(length1 / 32) * 32
     cursor.fillOrThrow(0, padded1 - length1)

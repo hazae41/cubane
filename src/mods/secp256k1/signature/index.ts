@@ -4,7 +4,6 @@ import { Bytes, Uint8Array } from "@hazae41/bytes"
 import { Cursor } from "@hazae41/cursor"
 import { RawHexString, ZeroHexString } from "@hazae41/hexane"
 import { Secp256k1 } from "@hazae41/secp256k1"
-import { Copiable } from "libs/copiable/index.js"
 import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger, RawHexAsInteger, ZeroHexAsInteger } from "../../convert/index.js"
 
 export type Signature =
@@ -17,13 +16,13 @@ export type Signature =
 export namespace Signature {
 
   export type From =
-    | RsvZeroHexSignature.From
-    | RsvBytesSignature.From
-    | ZeroHexSignature.From
-    | BytesSignature.From
-    | ExtSignature.From
+    | RsvZeroHexSignatureInit
+    | RsvBytesSignatureInit
+    | ZeroHexSignatureInit
+    | BytesSignatureInit
+    | ExtSignatureInit
 
-  export function fromOrThrow(from: Signature.From): Signature {
+  export function fromOrThrow(from: From): Signature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
       return from
     if (from instanceof Uint8Array)
@@ -39,18 +38,14 @@ export type RsvSignature =
   | RsvZeroHexSignature
   | RsvBytesSignature
 
-export namespace RsvSignature {
+export type RsvSignatureInit =
+  | RsvZeroHexSignatureInit
+  | RsvBytesSignatureInit
 
-  export type From =
-    | RsvZeroHexSignature.From
-    | RsvBytesSignature.From
-
-}
-
-export interface RsvZeroHexSignature {
-  readonly r: ZeroHexString<32>
-  readonly s: ZeroHexString<32>
-  readonly v: number
+export interface RsvZeroHexSignatureInit {
+  readonly r: ZeroHexAsInteger.From
+  readonly s: ZeroHexAsInteger.From
+  readonly v: NumberAsInteger.From
 }
 
 export class RsvZeroHexSignature {
@@ -61,17 +56,30 @@ export class RsvZeroHexSignature {
     readonly v: number
   ) { }
 
+  sizeOrThrow() {
+    return 65
+  }
+
+  writeOrThrow(cursor: Cursor) {
+    const { r, s, v } = this
+
+    using br = CopiableBytesAsInteger.Length.fromOrThrow(r, 32)
+    using bs = CopiableBytesAsInteger.Length.fromOrThrow(s, 32)
+
+    const nv = NumberAsInteger.fromOrThrow(v)
+
+    cursor.writeOrThrow(br.bytes)
+    cursor.writeOrThrow(bs.bytes)
+    cursor.writeUint8OrThrow(nv)
+  }
+
 }
 
 export namespace RsvZeroHexSignature {
 
-  export interface From {
-    readonly r: ZeroHexAsInteger.From
-    readonly s: ZeroHexAsInteger.From
-    readonly v: NumberAsInteger.From
-  }
+  export type From = Signature.From
 
-  export function fromOrThrow(from: Signature.From): RsvZeroHexSignature {
+  export function fromOrThrow(from: From): RsvZeroHexSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
       return fromExtOrThrow(from)
     if (from instanceof Uint8Array)
@@ -81,31 +89,23 @@ export namespace RsvZeroHexSignature {
     return fromOtherOrThrow(from)
   }
 
-  export function fromExtOrThrow(from: ExtSignature): RsvZeroHexSignature {
-    using slice = from.exportOrThrow()
+}
+export namespace RsvZeroHexSignature {
 
-    const cursor = new Cursor(slice.bytes)
-
+  export function readOrThrow(cursor: Cursor): RsvZeroHexSignature {
     const hr = Base16.get().getOrThrow().encodeOrThrow(cursor.readOrThrow(32)) as ZeroHexString<32>
     const hs = Base16.get().getOrThrow().encodeOrThrow(cursor.readOrThrow(32)) as ZeroHexString<32>
 
-    const v = cursor.readUint8OrThrow()
+    const nv = cursor.readUint8OrThrow()
 
-    return new RsvZeroHexSignature(hr, hs, v)
+    return new RsvZeroHexSignature(hr, hs, nv)
   }
 
-  export function fromBytesOrThrow(from: Uint8Array): RsvZeroHexSignature {
-    const cursor = new Cursor(from)
+}
 
-    const hr = Base16.get().getOrThrow().encodeOrThrow(cursor.readOrThrow(32)) as ZeroHexString<32>
-    const hs = Base16.get().getOrThrow().encodeOrThrow(cursor.readOrThrow(32)) as ZeroHexString<32>
+export namespace RsvZeroHexSignature {
 
-    const v = cursor.readUint8OrThrow()
-
-    return new RsvZeroHexSignature(hr, hs, v)
-  }
-
-  export function fromRsvOrThrow(from: RsvSignature.From): RsvZeroHexSignature {
+  export function fromRsvOrThrow(from: RsvSignatureInit): RsvZeroHexSignature {
     const { r, s, v } = from
 
     const hr = ZeroHexAsInteger.Length.fromOrThrow(r, 32)
@@ -115,25 +115,28 @@ export namespace RsvZeroHexSignature {
     return new RsvZeroHexSignature(hr, hs, nv)
   }
 
+  export function fromBytesOrThrow(from: Uint8Array): RsvZeroHexSignature {
+    return readOrThrow(new Cursor(from))
+  }
+
+  export function fromExtOrThrow(from: ExtSignature): RsvZeroHexSignature {
+    using memory = from.exportOrThrow()
+
+    return fromBytesOrThrow(memory.bytes)
+  }
+
   export function fromOtherOrThrow(from: ZeroHexAsInteger.From): RsvZeroHexSignature {
-    const bytes = BytesAsInteger.Length.fromOrThrow(from, 65)
+    using memory = CopiableBytesAsInteger.Length.fromOrThrow(from, 65)
 
-    const cursor = new Cursor(bytes)
-
-    const hr = Base16.get().getOrThrow().encodeOrThrow(cursor.readOrThrow(32)) as ZeroHexString<32>
-    const hs = Base16.get().getOrThrow().encodeOrThrow(cursor.readOrThrow(32)) as ZeroHexString<32>
-
-    const v = cursor.readUint8OrThrow()
-
-    return new RsvZeroHexSignature(hr, hs, v)
+    return fromBytesOrThrow(memory.bytes)
   }
 
 }
 
-export interface RsvBytesSignature {
-  readonly r: Uint8Array<32>
-  readonly s: Uint8Array<32>
-  readonly v: number
+export interface RsvBytesSignatureInit {
+  readonly r: BytesAsInteger.From
+  readonly s: BytesAsInteger.From
+  readonly v: NumberAsInteger.From
 }
 
 export class RsvBytesSignature {
@@ -144,17 +147,37 @@ export class RsvBytesSignature {
     readonly v: number
   ) { }
 
+  sizeOrThrow() {
+    return 65
+  }
+
+  writeOrThrow(cursor: Cursor) {
+    const { r, s, v } = this
+
+    cursor.writeOrThrow(r)
+    cursor.writeOrThrow(s)
+    cursor.writeUint8OrThrow(v)
+  }
+
 }
 
 export namespace RsvBytesSignature {
 
-  export interface From {
-    readonly r: BytesAsInteger.From
-    readonly s: BytesAsInteger.From
-    readonly v: NumberAsInteger.From
+  export function readOrThrow(cursor: Cursor): RsvBytesSignature {
+    const r = cursor.readAndCopyOrThrow(32)
+    const s = cursor.readAndCopyOrThrow(32)
+    const v = cursor.readUint8OrThrow()
+
+    return new RsvBytesSignature(r, s, v)
   }
 
-  export function fromOrThrow(from: Signature.From): RsvBytesSignature {
+}
+
+export namespace RsvBytesSignature {
+
+  export type From = Signature.From
+
+  export function fromOrThrow(from: From): RsvBytesSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
       return fromExtOrThrow(from)
     if (from instanceof Uint8Array)
@@ -164,29 +187,11 @@ export namespace RsvBytesSignature {
     return fromOtherOrThrow(from)
   }
 
-  export function fromExtOrThrow(from: ExtSignature): RsvBytesSignature {
-    using slice = from.exportOrThrow()
+}
 
-    const cursor = new Cursor(slice.bytes)
+export namespace RsvBytesSignature {
 
-    const r = cursor.readAndCopyOrThrow(32)
-    const s = cursor.readAndCopyOrThrow(32)
-    const v = cursor.readUint8OrThrow()
-
-    return new RsvBytesSignature(r, s, v)
-  }
-
-  export function fromBytesOrThrow(from: Uint8Array): RsvBytesSignature {
-    const cursor = new Cursor(from)
-
-    const r = cursor.readAndCopyOrThrow(32)
-    const s = cursor.readAndCopyOrThrow(32)
-    const v = cursor.readUint8OrThrow()
-
-    return new RsvBytesSignature(r, s, v)
-  }
-
-  export function fromRsvOrThrow(from: RsvSignature.From): RsvBytesSignature {
+  export function fromRsvOrThrow(from: RsvSignatureInit): RsvBytesSignature {
     const { r, s, v } = from
 
     const br = BytesAsInteger.Length.fromOrThrow(r, 32)
@@ -196,27 +201,33 @@ export namespace RsvBytesSignature {
     return new RsvBytesSignature(br, bs, nv)
   }
 
+  export function fromBytesOrThrow(from: Uint8Array): RsvBytesSignature {
+    return readOrThrow(new Cursor(from))
+  }
+
+  export function fromExtOrThrow(from: ExtSignature): RsvBytesSignature {
+    using memory = from.exportOrThrow()
+
+    return fromBytesOrThrow(memory.bytes)
+  }
+
   export function fromOtherOrThrow(from: BytesAsInteger.From): RsvBytesSignature {
-    const bytes = BytesAsInteger.Length.fromOrThrow(from, 65)
+    using memory = CopiableBytesAsInteger.Length.fromOrThrow(from, 65)
 
-    const cursor = new Cursor(bytes)
-
-    const r = cursor.readAndCopyOrThrow(32)
-    const s = cursor.readAndCopyOrThrow(32)
-    const v = cursor.readUint8OrThrow()
-
-    return new RsvBytesSignature(r, s, v)
+    return fromBytesOrThrow(memory.bytes)
   }
 
 }
+
+export type ZeroHexSignatureInit = ZeroHexAsInteger.From
 
 export type ZeroHexSignature = ZeroHexString<65>
 
 export namespace ZeroHexSignature {
 
-  export type From = ZeroHexAsInteger.From
+  export type From = Signature.From
 
-  export function fromOrThrow(from: Signature.From): ZeroHexSignature {
+  export function fromOrThrow(from: From): ZeroHexSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
       return fromExtOrThrow(from)
     if (from instanceof Uint8Array)
@@ -226,22 +237,11 @@ export namespace ZeroHexSignature {
     return fromOtherOrThrow(from)
   }
 
-  export function fromExtOrThrow(from: ExtSignature): ZeroHexSignature {
-    using slice = from.exportOrThrow()
+}
 
-    const base16 = Base16.get().getOrThrow().encodeOrThrow(slice.bytes)
+export namespace ZeroHexSignature {
 
-    return `0x${base16}` as ZeroHexString<65>
-  }
-
-  export function fromBytesOrThrow(from: Uint8Array): ZeroHexSignature {
-    const bytes = Bytes.castOrThrow(from, 65)
-    const base16 = Base16.get().getOrThrow().encodeOrThrow(bytes)
-
-    return `0x${base16}` as ZeroHexString<65>
-  }
-
-  export function fromRsvOrThrow(from: RsvSignature.From): ZeroHexSignature {
+  export function fromRsvOrThrow(from: RsvSignatureInit): ZeroHexSignature {
     const { r, s, v } = from
 
     const hr = RawHexAsInteger.Length.fromOrThrow(r, 32)
@@ -253,19 +253,35 @@ export namespace ZeroHexSignature {
     return `0x${hr}${hs}${hvp}` as ZeroHexString<65>
   }
 
+  export function fromExtOrThrow(from: ExtSignature): ZeroHexSignature {
+    using memory = from.exportOrThrow()
+    const base16 = Base16.get().getOrThrow().encodeOrThrow(memory.bytes)
+
+    return `0x${base16}` as ZeroHexString<65>
+  }
+
+  export function fromBytesOrThrow(from: Uint8Array): ZeroHexSignature {
+    const bytes = Bytes.castOrThrow(from, 65)
+    const base16 = Base16.get().getOrThrow().encodeOrThrow(bytes)
+
+    return `0x${base16}` as ZeroHexString<65>
+  }
+
   export function fromOtherOrThrow(from: ZeroHexAsInteger.From): ZeroHexSignature {
     return ZeroHexAsInteger.Length.fromOrThrow(from, 65)
   }
 
 }
 
+export type BytesSignatureInit = BytesAsInteger.From
+
 export type BytesSignature = Uint8Array<65>
 
 export namespace BytesSignature {
 
-  export type From = BytesAsInteger.From
+  export type From = Signature.From
 
-  export function fromOrThrow(from: Signature.From): BytesSignature {
+  export function fromOrThrow(from: From): BytesSignature {
     if (from instanceof Secp256k1.SignatureAndRecovery)
       return fromExtOrThrow(from)
     if (from instanceof Uint8Array)
@@ -275,26 +291,25 @@ export namespace BytesSignature {
     return fromOtherOrThrow(from)
   }
 
+}
+
+export namespace BytesSignature {
+
   export function fromExtOrThrow(from: ExtSignature): BytesSignature {
-    return Copiable.copyAndDispose(from.exportOrThrow()) as Uint8Array<65>
+    using memory = from.exportOrThrow()
+
+    return memory.bytes.slice() as Uint8Array<65>
   }
 
   export function fromBytesOrThrow(from: Uint8Array): BytesSignature {
-    return Bytes.castOrThrow(from, 65) as Uint8Array<65>
+    return Bytes.castOrThrow(from, 65)
   }
 
-  export function fromRsvOrThrow(from: RsvSignature.From): BytesSignature {
-    const { r, s, v } = from
-
-    using br = CopiableBytesAsInteger.Length.fromOrThrow(r, 32)
-    using bs = CopiableBytesAsInteger.Length.fromOrThrow(s, 32)
-
+  export function fromRsvOrThrow(from: RsvSignatureInit): BytesSignature {
+    const rsv = RsvBytesSignature.fromRsvOrThrow(from)
     const cursor = new Cursor(new Uint8Array(65))
 
-    cursor.writeOrThrow(br.bytes)
-    cursor.writeOrThrow(bs.bytes)
-
-    cursor.writeUint8OrThrow(NumberAsInteger.fromOrThrow(v))
+    rsv.writeOrThrow(cursor)
 
     return cursor.bytes as Uint8Array<65>
   }
@@ -305,13 +320,16 @@ export namespace BytesSignature {
 
 }
 
+export type ExtSignatureInit = Secp256k1.SignatureAndRecovery
+
 export type ExtSignature = Secp256k1.SignatureAndRecovery
+
 
 export namespace ExtSignature {
 
-  export type From = Secp256k1.SignatureAndRecovery
+  export type From = Signature.From
 
-  export function fromOrThrow(from: Signature.From): Box<ExtSignature> {
+  export function fromOrThrow(from: From): Box<ExtSignature> {
     if (from instanceof Secp256k1.SignatureAndRecovery)
       return fromExtOrThrow(from)
     if (from instanceof Uint8Array)
@@ -321,18 +339,15 @@ export namespace ExtSignature {
     return fromOtherOrThrow(from)
   }
 
-  export function fromRsvOrThrow(from: RsvSignature.From): Box<ExtSignature> {
-    const { r, s, v } = from
+}
 
-    using br = CopiableBytesAsInteger.Length.fromOrThrow(r, 32)
-    using bs = CopiableBytesAsInteger.Length.fromOrThrow(s, 32)
+export namespace ExtSignature {
 
+  export function fromRsvOrThrow(from: RsvSignatureInit): Box<ExtSignature> {
+    const rsv = RsvBytesSignature.fromRsvOrThrow(from)
     const cursor = new Cursor(new Uint8Array(65))
 
-    cursor.writeOrThrow(br.bytes)
-    cursor.writeOrThrow(bs.bytes)
-
-    cursor.writeUint8OrThrow(NumberAsInteger.fromOrThrow(v))
+    rsv.writeOrThrow(cursor)
 
     return new Box(Secp256k1.get().getOrThrow().SignatureAndRecovery.importOrThrow(cursor.bytes))
   }

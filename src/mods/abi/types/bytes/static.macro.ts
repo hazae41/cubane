@@ -222,9 +222,9 @@ export class RawHexAbiBytes${bytes} {
   }
 
   writeOrThrow(cursor: Cursor) {
-    using slice = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
+    using memory = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
 
-    cursor.writeOrThrow(slice.bytes)
+    cursor.writeOrThrow(memory.bytes)
     cursor.fillOrThrow(0, 32 - RawHexAbiBytes${bytes}.bytes)
   }
 
