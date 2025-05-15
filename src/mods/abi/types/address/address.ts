@@ -79,7 +79,7 @@ export class BytesAbiAddress {
   }
 
   intoOrThrow(): AddressString {
-    return AddressString.fromOrThrow(this.value)
+    return AddressString.fromBytesOrThrow(this.value)
   }
 
   /**
@@ -150,7 +150,7 @@ export class RawHexAbiAddress {
   }
 
   intoOrThrow(): AddressString {
-    return AddressString.fromOrThrow(this.value)
+    return AddressString.fromRawHexOrThrow(this.value as RawHexString<20>)
   }
 
   /**

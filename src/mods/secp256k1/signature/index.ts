@@ -1,3 +1,10 @@
+export * from "./abstract/index.js"
+export * from "./bytes/index.js"
+export * from "./external/index.js"
+export * from "./rsvbytes/index.js"
+export * from "./rsvzerohex/index.js"
+export * from "./zerohex/index.js"
+
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { BytesSignature, BytesSignatureInit } from "./bytes/index.js"
 import { ExternalSignature, ExternalSignatureInit } from "./external/index.js"
@@ -18,8 +25,6 @@ export type Signature =
   | ZeroHexSignature
   | BytesSignature
   | ExternalSignature
-
-export abstract class AbstractSignature { }
 
 export namespace Signature {
 

@@ -45,6 +45,10 @@ export namespace AddressString {
     return fromRawHexOrThrow(RawHexAsInteger.Length.fromOrThrow(value, 20))
   }
 
+  export function fromBytesOrThrow(value: Uint8Array) {
+    return fromRawHexOrThrow(RawHexAsInteger.Length.fromOrThrow(value, 20))
+  }
+
   export function fromRawHexOrThrow(value: RawHexString<20>) {
     const lowerCase = value.toLowerCase()
     const upperCase = value.toUpperCase()
