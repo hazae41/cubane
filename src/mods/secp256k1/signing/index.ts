@@ -9,7 +9,7 @@ import { AddressString } from "mods/address/index.js";
 import { BytesAsInteger, BytesAsUtf8, CopiableBytesAsInteger, ZeroHexAsInteger } from "mods/convert/index.js";
 import { ExternalSignature } from "../signature/external/index.js";
 import { RsvBytesSignature } from "../signature/rsvbytes/index.js";
-import { ExtVerifyingKey } from "../verifying/index.js";
+import { ExternalVerifyingKey } from "../verifying/index.js";
 
 export type SigningKey =
   | ZeroHexSigningKey
@@ -53,10 +53,11 @@ export namespace SigningKey {
     return ExternalSigningKey.randomOrThrow()
   }
 
-  export function getVerifyingKeyOrThrow(signingKey: ExternalSigningKey.From): ExtVerifyingKey {
+  export function getVerifyingKeyOrThrow(signingKey: ExternalSigningKey.From): ExternalVerifyingKey {
     using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
+    const verifyingKeyExt = extSigningKey.value.getVerifyingKeyOrThrow()
 
-    return extSigningKey.value.getVerifyingKeyOrThrow()
+    return new ExternalVerifyingKey(new Box(verifyingKeyExt))
   }
 
   export function getUncheckedAddressOrThrow(signingKey: ExternalSigningKey.From): ZeroHexString<20> {
