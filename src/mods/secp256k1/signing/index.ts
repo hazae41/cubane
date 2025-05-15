@@ -234,7 +234,7 @@ export class ExternalSigningKey extends AbstractSigningKey {
   }
 
   [Symbol.dispose]() {
-    this.value[Symbol.dispose]()
+    this.boxed[Symbol.dispose]()
   }
 
 }

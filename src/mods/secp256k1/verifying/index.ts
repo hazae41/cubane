@@ -256,7 +256,7 @@ export class ExternalVerifyingKey extends AbstractVerifyingKey {
   }
 
   [Symbol.dispose]() {
-    this.value[Symbol.dispose]()
+    this.boxed[Symbol.dispose]()
   }
 
 }

@@ -24,7 +24,7 @@ export class ExternalSignature extends AbstractSignature {
   }
 
   [Symbol.dispose]() {
-    this.value[Symbol.dispose]()
+    this.boxed[Symbol.dispose]()
   }
 
   sizeOrThrow() {
