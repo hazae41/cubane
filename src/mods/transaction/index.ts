@@ -38,7 +38,7 @@ export class ZeroHexEip1559Transaction {
 
 }
 
-export class RawEip1559Transaction {
+export class JsEip1559Transaction {
 
   constructor(
     readonly chainId: bigint,
@@ -54,11 +54,11 @@ export class RawEip1559Transaction {
 
 }
 
-export namespace RawEip1559Transaction {
+export namespace JsEip1559Transaction {
 
   export type From = Eip1559TransactionInit
 
-  export function fromOrThrow(init: Eip1559TransactionInit): RawEip1559Transaction {
+  export function fromOrThrow(init: Eip1559TransactionInit): JsEip1559Transaction {
     const chainId = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.chainId))
     const nonce = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.nonce))
     const maxPriorityFeePerGas = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.maxPriorityFeePerGas))
@@ -69,7 +69,7 @@ export namespace RawEip1559Transaction {
     const data = init.data != null ? BytesAsInteger.fromOrThrow(RlpString.unwrap(init.data)) : null
     const accessList = init.accessList != null ? BytesAsInteger.fromOrThrow(RlpString.unwrap(init.accessList)) : null
 
-    return new RawEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
+    return new JsEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 }
 
@@ -84,7 +84,7 @@ export class RlpEip1559Transaction {
     readonly to: RlpString,
     readonly value: RlpString,
     readonly data: Nullable<RlpString>,
-    readonly accessList: Nullable<RlpString>,
+    readonly accessList: Nullable<RlpType>,
   ) { }
 
   static decodeOrThrow(root: RlpType): RlpEip1559Transaction {
@@ -144,6 +144,6 @@ export namespace RlpEip1559Transaction {
 
 }
 
-function tx2bytes(x: RawEip1559Transaction) {
+function tx2bytes(x: JsEip1559Transaction) {
   return Writable.writeToBytesOrThrow(RlpEip1559Transaction.fromOrThrow(x).encodeOrThrow())
 }

@@ -7,7 +7,7 @@ import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { AddressString } from "mods/address/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/convert/index.js";
-import { ExtSignature, RsvBytesSignature } from "../signature/index.js";
+import { RsvBytesSignature } from "../signature/index.js";
 
 export function recoverUnprefixedMessageOrThrow(signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
   const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)

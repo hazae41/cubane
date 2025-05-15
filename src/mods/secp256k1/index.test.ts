@@ -8,7 +8,7 @@ import { Secp256k1 } from "@hazae41/secp256k1";
 import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
 import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { ethers } from "ethers";
-import { recoverMessageOrThrow, SigningKey, VerifyingKey, ZeroHexSignature } from "./index.js";
+import { recoverMessageOrThrow, SigningKey, VerifyingKey } from "./index.js";
 
 await Sha3Wasm.initBundled()
 await Secp256k1Wasm.initBundled()

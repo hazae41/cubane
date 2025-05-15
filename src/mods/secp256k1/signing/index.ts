@@ -7,7 +7,7 @@ import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { AddressString } from "mods/address/index.js";
 import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/convert/index.js";
-import { ExtSignature, RsvBytesSignature } from "../signature/index.js";
+import { ExtSignatureObject, RsvBytesSignature } from "../signature/index.js";
 import { ExtVerifyingKey } from "../verifying/index.js";
 
 export type SigningKey =
@@ -69,7 +69,7 @@ export namespace SigningKey {
     return AddressString.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
   }
 
-  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): ExtSignature {
+  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): ExtSignatureObject {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
@@ -87,7 +87,7 @@ export namespace SigningKey {
     return new RsvBytesSignature(r, s, v)
   }
 
-  export function signMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): ExtSignature {
+  export function signMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): ExtSignatureObject {
     using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
