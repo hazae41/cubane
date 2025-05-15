@@ -60,9 +60,9 @@ export namespace SigningKey {
   }
 
   export function getUncheckedAddressOrThrow(signingKey: ExternalSigningKey.From): ZeroHexString<20> {
-    using signingKeyExtBox = ExternalSigningKey.fromOrThrow(signingKey)
+    using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
 
-    using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
+    using verifyingKeyExt = extSigningKey.value.getVerifyingKeyOrThrow()
     using verifyingKeyMemoryExt = verifyingKeyExt.exportUncompressedOrThrow()
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyMemoryExt.bytes.subarray(1))
@@ -84,11 +84,13 @@ export namespace SigningKey {
   }
 
   export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): ExternalSignature {
-    using signingKeyExtBox = ExternalSigningKey.fromOrThrow(signingKey)
+    using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
-    return signingKeyExtBox.value.signOrThrow(hashMemoryExt)
+    const signatureExt = extSigningKey.value.signOrThrow(hashMemoryExt)
+
+    return new ExternalSignature(new Box(signatureExt))
   }
 
   export function signUnprefixedMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
