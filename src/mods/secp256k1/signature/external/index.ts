@@ -1,6 +1,7 @@
+import { Box } from "@hazae41/box"
 import { Cursor } from "@hazae41/cursor"
 import { Secp256k1 } from "@hazae41/secp256k1"
-import { BytesAsInteger } from "mods/convert/index.js"
+import { CopiableBytesAsInteger } from "mods/convert/index.js"
 import { BytesSignature, BytesSignatureInit } from "../bytes/index.js"
 import { RsvSignatureInit, Signature, SignatureInit } from "../index.js"
 import { RsvBytesSignature } from "../rsvbytes/index.js"
@@ -13,8 +14,12 @@ export type ExternalSignatureObject = Secp256k1.SignatureAndRecovery
 export class ExternalSignature {
 
   constructor(
-    readonly value: ExternalSignatureObject
+    readonly boxed: Box<ExternalSignatureObject>
   ) { }
+
+  get value() {
+    return this.boxed.get()
+  }
 
   [Symbol.dispose]() {
     this.value[Symbol.dispose]()
@@ -55,25 +60,25 @@ export namespace ExternalSignature {
   }
 
   function fromExternalOrThrow(from: ExternalSignatureInit): ExternalSignature {
-    return new ExternalSignature(from)
+    return new ExternalSignature(Box.createAsDropped(from))
   }
 
   function fromRsvOrThrow(from: RsvSignatureInit): ExternalSignature {
     const rsv = RsvBytesSignature.fromOrThrow(from)
-    const cursor = new Cursor(new Uint8Array(65))
+    const cursor = new Cursor(new Uint8Array(65)) // TODO: cursor on wasm memory
 
     rsv.writeOrThrow(cursor)
 
     const value = Secp256k1.get().getOrThrow().SignatureAndRecovery.importOrThrow(cursor.bytes)
 
-    return new ExternalSignature(value)
+    return new ExternalSignature(new Box(value))
   }
 
   function fromOtherOrThrow(from: BytesSignatureInit): ExternalSignature {
-    const bytes = BytesAsInteger.Length.fromOrThrow(from, 65)
-    const value = Secp256k1.get().getOrThrow().SignatureAndRecovery.importOrThrow(bytes)
+    using memory = CopiableBytesAsInteger.Length.fromOrThrow(from, 65)
+    const value = Secp256k1.get().getOrThrow().SignatureAndRecovery.importOrThrow(memory.bytes)
 
-    return new ExternalSignature(value)
+    return new ExternalSignature(new Box(value))
   }
 
 }

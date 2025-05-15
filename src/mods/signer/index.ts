@@ -1,7 +1,7 @@
 import { Box } from "@hazae41/box";
 import { AddressString } from "../address/index.js";
 import { BytesAsUtf8 } from "../convert/index.js";
-import { BytesSigningKey, ExtSigningKey, SigningKey, ZeroHexSigningKey } from "../secp256k1/index.js";
+import { BytesSigningKey, ExternalSigningKey, SigningKey, ZeroHexSigningKey } from "../secp256k1/index.js";
 
 export abstract class AbstractSigner {
   abstract readonly address: AddressString
@@ -143,14 +143,14 @@ export class BytesSigner {
 }
 
 export namespace ExtSigner {
-  export type From = AbstractSigner | ExtSigningKey.From
+  export type From = AbstractSigner | ExternalSigningKey.From
 }
 
 export class ExtSigner {
 
   constructor(
     readonly address: AddressString,
-    readonly signingKey: ExtSigningKey
+    readonly signingKey: ExternalSigningKey
   ) { }
 
   [Symbol.dispose]() {
@@ -158,7 +158,7 @@ export class ExtSigner {
   }
 
   static randomOrThrow() {
-    const signingKey = ExtSigningKey.randomOrThrow()
+    const signingKey = ExternalSigningKey.randomOrThrow()
     const address = SigningKey.getAddressOrThrow(signingKey)
 
     return new ExtSigner(address, signingKey)
@@ -173,7 +173,7 @@ export class ExtSigner {
   }
 
   static fromSignerOrThrow(from: AbstractSigner): Box<ExtSigner> {
-    const signingKey = ExtSigningKey.fromOrThrow(from.signingKey)
+    const signingKey = ExternalSigningKey.fromOrThrow(from.signingKey)
     const address = from.address
 
     if (signingKey.dropped)
@@ -182,8 +182,8 @@ export class ExtSigner {
     return Box.create(new ExtSigner(address, signingKey.get()))
   }
 
-  static fromSigningKeyOrThrow(from: ExtSigningKey.From): Box<ExtSigner> {
-    const signingKey = ExtSigningKey.fromOrThrow(from)
+  static fromSigningKeyOrThrow(from: ExternalSigningKey.From): Box<ExtSigner> {
+    const signingKey = ExternalSigningKey.fromOrThrow(from)
     const address = SigningKey.getAddressOrThrow(signingKey.get())
 
     if (signingKey.dropped)

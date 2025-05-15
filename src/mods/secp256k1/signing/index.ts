@@ -6,27 +6,40 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { AddressString } from "mods/address/index.js";
-import { BytesAsInteger, BytesAsUtf8, ZeroHexAsInteger } from "mods/convert/index.js";
-import { ExtSignatureObject, RsvBytesSignature } from "../signature/index.js";
+import { BytesAsInteger, BytesAsUtf8, CopiableBytesAsInteger, ZeroHexAsInteger } from "mods/convert/index.js";
+import { ExternalSignature } from "../signature/external/index.js";
+import { RsvBytesSignature } from "../signature/rsvbytes/index.js";
 import { ExtVerifyingKey } from "../verifying/index.js";
 
 export type SigningKey =
   | ZeroHexSigningKey
   | BytesSigningKey
-  | ExtSigningKey
+  | ExternalSigningKey
 
 export type SigningKeyInit =
   | ZeroHexSigningKeyInit
   | BytesSigningKeyInit
-  | ExtSigningKeyInit
+  | ExternalSigningKeyInit
+
+export abstract class AbstractSigningKey { }
 
 export namespace SigningKey {
 
-  export type From = SigningKeyInit
+  export function is(value: unknown): value is SigningKey {
+    return value instanceof AbstractSigningKey
+  }
+
+}
+
+export namespace SigningKey {
+
+  export type From = SigningKey | SigningKeyInit
 
   export function fromOrThrow(from: From): SigningKey {
-    if (from instanceof Secp256k1.SigningKey)
+    if (is(from))
       return from
+    if (from instanceof Secp256k1.SigningKey)
+      return ExternalSigningKey.fromOrThrow(from)
     if (from instanceof Uint8Array)
       return BytesSigningKey.fromOrThrow(from)
     return ZeroHexSigningKey.fromOrThrow(from)
@@ -37,16 +50,17 @@ export namespace SigningKey {
 export namespace SigningKey {
 
   export function randomOrThrow() {
-    return ExtSigningKey.randomOrThrow()
+    return ExternalSigningKey.randomOrThrow()
   }
 
-  export function getVerifyingKeyOrThrow(signingKey: ExtSigningKey.From): ExtVerifyingKey {
-    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
-    return signingKeyExtBox.get().getVerifyingKeyOrThrow()
+  export function getVerifyingKeyOrThrow(signingKey: ExternalSigningKey.From): ExtVerifyingKey {
+    using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
+
+    return extSigningKey.value.getVerifyingKeyOrThrow()
   }
 
-  export function getUncheckedAddressOrThrow(signingKey: ExtSigningKey.From): ZeroHexString<20> {
-    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
+  export function getUncheckedAddressOrThrow(signingKey: ExternalSigningKey.From): ZeroHexString<20> {
+    using signingKeyExtBox = ExternalSigningKey.fromOrThrow(signingKey)
 
     using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
     using verifyingKeyMemoryExt = verifyingKeyExt.exportUncompressedOrThrow()
@@ -57,10 +71,10 @@ export namespace SigningKey {
     return `0x${rawLowerCase.slice(-40)}` as ZeroHexString<20>
   }
 
-  export function getAddressOrThrow(signingKey: ExtSigningKey.From): AddressString {
-    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
+  export function getAddressOrThrow(signingKey: ExternalSigningKey.From): AddressString {
+    using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
 
-    using verifyingKeyExt = signingKeyExtBox.get().getVerifyingKeyOrThrow()
+    using verifyingKeyExt = extSigningKey.value.getVerifyingKeyOrThrow()
     using verifyingKeyMemoryExt = verifyingKeyExt.exportUncompressedOrThrow()
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(verifyingKeyMemoryExt.bytes.subarray(1))
@@ -69,17 +83,17 @@ export namespace SigningKey {
     return AddressString.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
   }
 
-  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): ExtSignatureObject {
-    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
+  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): ExternalSignature {
+    using signingKeyExtBox = ExternalSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
-    return signingKeyExtBox.get().signOrThrow(hashMemoryExt)
+    return signingKeyExtBox.value.signOrThrow(hashMemoryExt)
   }
 
-  export function signUnprefixedMessageOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+  export function signUnprefixedMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
     using signatureExt = signUnprefixedMessageNoOffsetOrThrow(signingKey, message)
-    const signatureRsvBytes = RsvBytesSignature.fromExtOrThrow(signatureExt)
+    const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signatureExt)
 
     const { r, s } = signatureRsvBytes
     const v = signatureRsvBytes.v + 27
@@ -87,20 +101,22 @@ export namespace SigningKey {
     return new RsvBytesSignature(r, s, v)
   }
 
-  export function signMessageNoOffsetOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): ExtSignatureObject {
-    using signingKeyExtBox = ExtSigningKey.fromOrThrow(signingKey)
+  export function signMessageNoOffsetOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): ExternalSignature {
+    using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
     const messageBytes = BytesAsUtf8.fromOrThrow(message)
 
     const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
     const concatBytes = Bytes.concat([prefixBytes, messageBytes])
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(concatBytes)
-    return signingKeyExtBox.get().signOrThrow(hashMemoryExt)
+    const signatureExt = extSigningKey.value.signOrThrow(hashMemoryExt)
+
+    return new ExternalSignature(new Box(signatureExt))
   }
 
-  export function signMessageOrThrow(signingKey: ExtSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+  export function signMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
     using signatureExt = signMessageNoOffsetOrThrow(signingKey, message)
-    const signatureRsvBytes = RsvBytesSignature.fromExtOrThrow(signatureExt)
+    const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signatureExt)
 
     const { r, s } = signatureRsvBytes
     const v = signatureRsvBytes.v + 27
@@ -112,91 +128,146 @@ export namespace SigningKey {
 
 export type ZeroHexSigningKeyInit = ZeroHexAsInteger.From
 
-export type ZeroHexSigningKey = ZeroHexString<32>
+export type ZeroHexSigningKeyString = ZeroHexString<32>
 
-export namespace ZeroHexSigningKey {
+export class ZeroHexSigningKey {
 
-  export type From = SigningKeyInit
+  constructor(
+    readonly value: ZeroHexSigningKeyString
+  ) { }
 
-  export function fromOrThrow(from: From): ZeroHexSigningKey {
-    if (from instanceof Secp256k1.SigningKey)
-      return fromExtOrThrow(from)
-    return fromOtherOrThrow(from)
-  }
+  [Symbol.dispose]() { }
 
 }
 
 export namespace ZeroHexSigningKey {
 
-  export function fromExtOrThrow(from: ExtSigningKey): ZeroHexSigningKey {
+  export type From = SigningKey | SigningKeyInit
+
+  export function fromOrThrow(from: From): ZeroHexSigningKey {
+    if (from instanceof ZeroHexSigningKey)
+      return from
+
+    if (from instanceof BytesSigningKey)
+      return fromOtherOrThrow(from.value)
+    if (from instanceof ExternalSigningKey)
+      return fromExternalOrThrow(from.value)
+
+    if (from instanceof Secp256k1.SigningKey)
+      return fromExternalOrThrow(from)
+    return fromOtherOrThrow(from)
+  }
+
+  function fromExternalOrThrow(from: ExternalSigningKeyInit): ZeroHexSigningKey {
     using memory = from.exportOrThrow()
     const base16 = Base16.get().getOrThrow().encodeOrThrow(memory.bytes)
 
-    return `0x${base16}` as ZeroHexString<32>
+    return new ZeroHexSigningKey(`0x${base16}` as ZeroHexString<32>)
   }
 
-  export function fromOtherOrThrow(from: ZeroHexAsInteger.From): ZeroHexSigningKey {
-    return ZeroHexAsInteger.Length.fromOrThrow(from, 32)
+  function fromOtherOrThrow(from: ZeroHexSigningKeyInit): ZeroHexSigningKey {
+    return new ZeroHexSigningKey(ZeroHexAsInteger.Length.fromOrThrow(from, 32))
   }
 
 }
 
 export type BytesSigningKeyInit = BytesAsInteger.From
 
-export type BytesSigningKey = Uint8Array<32>
+export type BytesSigningKeyBytes = Uint8Array<32>
+
+export class BytesSigningKey {
+
+  constructor(
+    readonly value: BytesSigningKeyBytes
+  ) { }
+
+  [Symbol.dispose]() { }
+
+}
 
 export namespace BytesSigningKey {
 
-  export type From = SigningKeyInit
+  export type From = SigningKey | SigningKeyInit
 
   export function fromOrThrow(from: From): BytesSigningKey {
+    if (from instanceof BytesSigningKey)
+      return from
+
+    if (from instanceof ZeroHexSigningKey)
+      return fromOtherOrThrow(from.value)
+    if (from instanceof ExternalSigningKey)
+      return fromExternalOrThrow(from.value)
+
     if (from instanceof Secp256k1.SigningKey)
-      return fromExtOrThrow(from)
+      return fromExternalOrThrow(from)
     return fromOtherOrThrow(from)
   }
 
-}
-
-export namespace BytesSigningKey {
-
-  export function fromExtOrThrow(from: ExtSigningKey): BytesSigningKey {
-    return Copiable.copyAndDispose(from.exportOrThrow()) as Uint8Array<32>
+  function fromExternalOrThrow(from: ExternalSigningKeyInit): BytesSigningKey {
+    return new BytesSigningKey(Copiable.copyAndDispose(from.exportOrThrow()) as Uint8Array<32>)
   }
 
-  export function fromOtherOrThrow(from: BytesAsInteger.From): BytesSigningKey {
-    return BytesAsInteger.Length.fromOrThrow(from, 32)
+  function fromOtherOrThrow(from: BytesSigningKeyInit): BytesSigningKey {
+    return new BytesSigningKey(BytesAsInteger.Length.fromOrThrow(from, 32))
   }
 
 }
 
-export type ExtSigningKeyInit = Secp256k1.SigningKey
+export type ExternalSigningKeyInit = Secp256k1.SigningKey
 
-export type ExtSigningKey = Secp256k1.SigningKey
+export type ExternalSigningKeyObject = Secp256k1.SigningKey
 
-export namespace ExtSigningKey {
+export class ExternalSigningKey {
 
-  export type From = SigningKeyInit
+  constructor(
+    readonly boxed: Box<ExternalSigningKeyObject>
+  ) { }
 
-  export function fromOrThrow(from: From): Box<ExtSigningKey> {
+  get value() {
+    return this.boxed.get()
+  }
+
+  [Symbol.dispose]() {
+    this.value[Symbol.dispose]()
+  }
+
+}
+
+export namespace ExternalSigningKey {
+
+  export type From = SigningKey | SigningKeyInit
+
+  export function fromOrThrow(from: From): ExternalSigningKey {
+    if (from instanceof ExternalSigningKey)
+      return from
+
+    if (from instanceof BytesSigningKey)
+      return fromOtherOrThrow(from.value)
+    if (from instanceof ZeroHexSigningKey)
+      return fromOtherOrThrow(from.value)
+
     if (from instanceof Secp256k1.SigningKey)
-      return fromExtOrThrow(from)
+      return fromExternalOrThrow(from)
     return fromOtherOrThrow(from)
   }
 
+  function fromExternalOrThrow(from: ExternalSigningKeyInit): ExternalSigningKey {
+    return new ExternalSigningKey(Box.createAsDropped(from))
+  }
+
+  function fromOtherOrThrow(from: BytesSigningKeyInit): ExternalSigningKey {
+    using memory = CopiableBytesAsInteger.Length.fromOrThrow(from, 32)
+    const value = Secp256k1.get().getOrThrow().SigningKey.importOrThrow(memory)
+
+    return new ExternalSigningKey(new Box(value))
+  }
+
 }
 
-export namespace ExtSigningKey {
+export namespace ExternalSigningKey {
 
-  export function randomOrThrow(): ExtSigningKey {
-    return Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()
-  }
-
-  export function fromExtOrThrow(from: ExtSigningKey): Box<ExtSigningKey> {
-    return Box.createAsDropped(from)
-  }
-
-  export function fromOtherOrThrow(from: BytesAsInteger.From): Box<ExtSigningKey> {
-    return new Box(Secp256k1.get().getOrThrow().SigningKey.importOrThrow(BytesAsInteger.Length.fromOrThrow(from, 32)))
+  export function randomOrThrow(): ExternalSigningKey {
+    return new ExternalSigningKey(new Box(Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()))
   }
 
 }
