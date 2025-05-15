@@ -9,6 +9,7 @@ import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
 import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { ethers } from "ethers";
 import { recoverMessageOrThrow, SigningKey, VerifyingKey } from "./index.js";
+import { ZeroHexSignature } from "./signature/zerohex/index.js";
 
 await Sha3Wasm.initBundled()
 await Secp256k1Wasm.initBundled()
@@ -40,9 +41,9 @@ test("wasm sign personal message", async ({ }) => {
   const signatureRsvBytes = SigningKey.signMessageOrThrow(privateKey, message)
   const signatureZeroHex = ZeroHexSignature.fromOrThrow(signatureRsvBytes)
 
-  assert(ethersSignatureZeroHex === signatureZeroHex)
+  assert(ethersSignatureZeroHex === signatureZeroHex.value)
 
-  assert(ethersWallet.address === ethers.verifyMessage(message, signatureZeroHex))
+  assert(ethersWallet.address === ethers.verifyMessage(message, signatureZeroHex.value))
 
   const publicKeyWasm = recoverMessageOrThrow(signatureRsvBytes, message)
   const addressZeroHex = VerifyingKey.getAddressOrThrow(publicKeyWasm)
