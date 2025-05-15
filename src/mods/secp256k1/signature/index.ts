@@ -23,19 +23,20 @@ export abstract class AbstractSignature { }
 
 export namespace Signature {
 
-  export function is(value: unknown): value is Signature {
-    return value instanceof AbstractSignature
-  }
-
-}
-
-export namespace Signature {
-
   export type From = Signature | SignatureInit
 
   export function fromOrThrow(from: From): Signature {
-    if (is(from))
+    if (from instanceof BytesSignature)
       return from
+    if (from instanceof ZeroHexSignature)
+      return from
+    if (from instanceof RsvBytesSignature)
+      return from
+    if (from instanceof RsvZeroHexSignature)
+      return from
+    if (from instanceof ExternalSignature)
+      return from
+
     if (from instanceof Secp256k1.SignatureAndRecovery)
       return ExternalSignature.fromOrThrow(from)
     if (from instanceof Uint8Array)

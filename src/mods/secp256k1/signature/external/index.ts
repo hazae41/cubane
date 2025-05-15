@@ -3,7 +3,7 @@ import { Cursor } from "@hazae41/cursor"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { CopiableBytesAsInteger } from "mods/convert/index.js"
 import { BytesSignature, BytesSignatureInit } from "../bytes/index.js"
-import { RsvSignatureInit, Signature, SignatureInit } from "../index.js"
+import { AbstractSignature, RsvSignatureInit, Signature, SignatureInit } from "../index.js"
 import { RsvBytesSignature } from "../rsvbytes/index.js"
 import { ZeroHexSignature } from "../zerohex/index.js"
 
@@ -11,11 +11,13 @@ export type ExternalSignatureInit = Secp256k1.SignatureAndRecovery
 
 export type ExternalSignatureObject = Secp256k1.SignatureAndRecovery
 
-export class ExternalSignature {
+export class ExternalSignature extends AbstractSignature {
 
   constructor(
     readonly boxed: Box<ExternalSignatureObject>
-  ) { }
+  ) {
+    super()
+  }
 
   get value() {
     return this.boxed.get()

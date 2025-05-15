@@ -63,19 +63,16 @@ export abstract class AbstractVerifyingKey { }
 
 export namespace VerifyingKey {
 
-  export function is(value: unknown): value is VerifyingKey {
-    return value instanceof AbstractVerifyingKey
-  }
-
-}
-
-export namespace VerifyingKey {
-
   export type From = VerifyingKey | VerifyingKeyInit
 
   export function fromOrThrow(from: From): VerifyingKey {
-    if (is(from))
+    if (from instanceof BytesVerifyingKey)
       return from
+    if (from instanceof ZeroHexVerifyingKey)
+      return from
+    if (from instanceof ExternalVerifyingKey)
+      return from
+
     if (from instanceof Secp256k1.VerifyingKey)
       return ExternalVerifyingKey.fromOrThrow(from)
     if (from instanceof Uint8Array)

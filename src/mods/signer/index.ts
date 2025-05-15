@@ -12,14 +12,6 @@ export type Signer =
   | BytesSigner
   | ExtSigner
 
-export namespace Signer {
-
-  export function is(value: unknown): value is Signer {
-    return value instanceof AbstractSigner
-  }
-
-}
-
 export class ZeroHexSigner extends AbstractSigner {
 
   constructor(

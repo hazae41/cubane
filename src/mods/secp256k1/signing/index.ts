@@ -25,19 +25,16 @@ export abstract class AbstractSigningKey { }
 
 export namespace SigningKey {
 
-  export function is(value: unknown): value is SigningKey {
-    return value instanceof AbstractSigningKey
-  }
-
-}
-
-export namespace SigningKey {
-
   export type From = SigningKey | SigningKeyInit
 
   export function fromOrThrow(from: From): SigningKey {
-    if (is(from))
+    if (from instanceof ZeroHexSigningKey)
       return from
+    if (from instanceof BytesSigningKey)
+      return from
+    if (from instanceof ExternalSigningKey)
+      return from
+
     if (from instanceof Secp256k1.SigningKey)
       return ExternalSigningKey.fromOrThrow(from)
     if (from instanceof Uint8Array)
@@ -133,11 +130,13 @@ export type ZeroHexSigningKeyInit = ZeroHexAsInteger.From
 
 export type ZeroHexSigningKeyString = ZeroHexString<32>
 
-export class ZeroHexSigningKey {
+export class ZeroHexSigningKey extends AbstractSigningKey {
 
   constructor(
     readonly value: ZeroHexSigningKeyString
-  ) { }
+  ) {
+    super()
+  }
 
   [Symbol.dispose]() { }
 
@@ -178,11 +177,13 @@ export type BytesSigningKeyInit = BytesAsInteger.From
 
 export type BytesSigningKeyBytes = Uint8Array<32>
 
-export class BytesSigningKey {
+export class BytesSigningKey extends AbstractSigningKey {
 
   constructor(
     readonly value: BytesSigningKeyBytes
-  ) { }
+  ) {
+    super()
+  }
 
   [Symbol.dispose]() { }
 
@@ -220,11 +221,13 @@ export type ExternalSigningKeyInit = Secp256k1.SigningKey
 
 export type ExternalSigningKeyObject = Secp256k1.SigningKey
 
-export class ExternalSigningKey {
+export class ExternalSigningKey extends AbstractSigningKey {
 
   constructor(
     readonly boxed: Box<ExternalSigningKeyObject>
-  ) { }
+  ) {
+    super()
+  }
 
   get value() {
     return this.boxed.get()

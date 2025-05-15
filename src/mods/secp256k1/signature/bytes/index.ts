@@ -3,7 +3,7 @@ import { Cursor } from "@hazae41/cursor"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { BytesAsInteger } from "mods/convert/index.js"
 import { ExternalSignature, ExternalSignatureInit } from "../external/index.js"
-import { RsvSignatureInit, Signature, SignatureInit } from "../index.js"
+import { AbstractSignature, RsvSignatureInit, Signature, SignatureInit } from "../index.js"
 import { RsvBytesSignature } from "../rsvbytes/index.js"
 import { ZeroHexSignature } from "../zerohex/index.js"
 
@@ -11,11 +11,13 @@ export type BytesSignatureInit = BytesAsInteger.From
 
 export type BytesSignatureBytes = Uint8Array<65>
 
-export class BytesSignature {
+export class BytesSignature extends AbstractSignature {
 
   constructor(
     readonly value: BytesSignatureBytes
-  ) { }
+  ) {
+    super()
+  }
 
   [Symbol.dispose]() { }
 
