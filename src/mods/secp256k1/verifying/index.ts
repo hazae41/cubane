@@ -1,14 +1,20 @@
+export * from "./abstract/index.js";
+export * from "./bytes/index.js";
+export * from "./external/index.js";
+export * from "./zerohex/index.js";
+
 import { Base16 } from "@hazae41/base16";
-import { Box } from "@hazae41/box";
-import { Bytes, Uint8Array } from "@hazae41/bytes";
+import { Bytes } from "@hazae41/bytes";
 import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
-import { Copiable } from "libs/copiable/index.js";
 import { AddressString } from "mods/address/index.js";
-import { BytesAsInteger, BytesAsUtf8, CopiableBytesAsInteger, ZeroHexAsInteger } from "mods/convert/index.js";
+import { BytesAsUtf8 } from "mods/convert/index.js";
 import { ExternalSignature } from "../signature/external/index.js";
 import { RsvBytesSignature } from "../signature/rsvbytes/index.js";
+import { BytesVerifyingKey, BytesVerifyingKeyInit } from "./bytes/index.js";
+import { ExternalVerifyingKey, ExternalVerifyingKeyInit } from "./external/index.js";
+import { ZeroHexVerifyingKey, ZeroHexVerifyingKeyInit } from "./zerohex/index.js";
 
 export function recoverUnprefixedMessageOrThrow(signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
   const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
@@ -58,8 +64,6 @@ export type VerifyingKey =
   | ZeroHexVerifyingKey
   | BytesVerifyingKey
   | ExternalVerifyingKey
-
-export abstract class AbstractVerifyingKey { }
 
 export namespace VerifyingKey {
 
@@ -143,151 +147,6 @@ export namespace VerifyingKey {
     using recoveredVerifyingKeyMemoryExt = recoveredVerifiyngKeyExt.exportUncompressedOrThrow()
 
     return Bytes.equals(verifyingKeyBytes.value, recoveredVerifyingKeyMemoryExt.bytes)
-  }
-
-}
-
-export type ZeroHexVerifyingKeyInit = ZeroHexAsInteger.From
-
-export type ZeroHexVerifyingKeyString = ZeroHexString<65>
-
-export class ZeroHexVerifyingKey extends AbstractVerifyingKey {
-
-  constructor(
-    readonly value: ZeroHexVerifyingKeyString
-  ) {
-    super()
-  }
-
-  [Symbol.dispose]() { }
-
-}
-
-export namespace ZeroHexVerifyingKey {
-
-  export type From = VerifyingKey | VerifyingKeyInit
-
-  export function fromOrThrow(from: From): ZeroHexVerifyingKey {
-    if (from instanceof ZeroHexVerifyingKey)
-      return from
-
-    if (from instanceof BytesVerifyingKey)
-      return fromOtherOrThrow(from.value)
-    if (from instanceof ExternalVerifyingKey)
-      return fromExternalOrThrow(from.value)
-
-    if (from instanceof Secp256k1.VerifyingKey)
-      return fromExternalOrThrow(from)
-    return fromOtherOrThrow(from)
-  }
-
-  function fromExternalOrThrow(from: ExternalVerifyingKeyInit): ZeroHexVerifyingKey {
-    using memory = from.exportUncompressedOrThrow()
-    const base16 = Base16.get().getOrThrow().encodeOrThrow(memory.bytes)
-
-    return new ZeroHexVerifyingKey(`0x${base16}` as ZeroHexString<65>)
-  }
-
-  function fromOtherOrThrow(from: ZeroHexVerifyingKeyInit): ZeroHexVerifyingKey {
-    return new ZeroHexVerifyingKey(ZeroHexAsInteger.Length.fromOrThrow(from, 65))
-  }
-
-
-}
-
-export type BytesVerifyingKeyInit = BytesAsInteger.From
-
-export type BytesVerifyingKeyBytes = Uint8Array<65>
-
-export class BytesVerifyingKey extends AbstractVerifyingKey {
-
-  constructor(
-    readonly value: BytesVerifyingKeyBytes
-  ) {
-    super()
-  }
-
-  [Symbol.dispose]() { }
-
-}
-
-export namespace BytesVerifyingKey {
-
-  export type From = VerifyingKey | VerifyingKeyInit
-
-  export function fromOrThrow(from: From): BytesVerifyingKey {
-    if (from instanceof BytesVerifyingKey)
-      return from
-
-    if (from instanceof ZeroHexVerifyingKey)
-      return fromOtherOrThrow(from.value)
-    if (from instanceof ExternalVerifyingKey)
-      return fromExternalOrThrow(from.value)
-
-    if (from instanceof Secp256k1.VerifyingKey)
-      return fromExternalOrThrow(from)
-    return fromOtherOrThrow(from)
-  }
-
-  function fromExternalOrThrow(from: ExternalVerifyingKeyInit): BytesVerifyingKey {
-    return new BytesVerifyingKey(Copiable.copyAndDispose(from.exportUncompressedOrThrow()) as Uint8Array<65>)
-  }
-
-  function fromOtherOrThrow(from: BytesVerifyingKeyInit): BytesVerifyingKey {
-    return new BytesVerifyingKey(BytesAsInteger.Length.fromOrThrow(from, 65))
-  }
-
-}
-
-export type ExternalVerifyingKeyInit = Secp256k1.VerifyingKey
-
-export type ExternalVerifyingKeyObject = Secp256k1.VerifyingKey
-
-export class ExternalVerifyingKey extends AbstractVerifyingKey {
-
-  constructor(
-    readonly boxed: Box<ExternalVerifyingKeyObject>
-  ) {
-    super()
-  }
-
-  get value() {
-    return this.boxed.get()
-  }
-
-  [Symbol.dispose]() {
-    this.boxed[Symbol.dispose]()
-  }
-
-}
-
-export namespace ExternalVerifyingKey {
-
-  export type From = VerifyingKey | VerifyingKeyInit
-
-  export function fromOrThrow(from: From): ExternalVerifyingKey {
-    if (from instanceof ExternalVerifyingKey)
-      return from
-
-    if (from instanceof ZeroHexVerifyingKey)
-      return fromOtherOrThrow(from.value)
-    if (from instanceof BytesVerifyingKey)
-      return fromOtherOrThrow(from.value)
-
-    if (from instanceof Secp256k1.VerifyingKey)
-      return fromExternalOrThrow(from)
-    return fromOtherOrThrow(from)
-  }
-
-  function fromExternalOrThrow(from: ExternalVerifyingKeyInit): ExternalVerifyingKey {
-    return new ExternalVerifyingKey(Box.createAsDropped(from))
-  }
-
-  function fromOtherOrThrow(from: BytesVerifyingKeyInit): ExternalVerifyingKey {
-    using memory = CopiableBytesAsInteger.Length.fromOrThrow(from, 65)
-    const value = Secp256k1.get().getOrThrow().VerifyingKey.importOrThrow(memory.bytes)
-
-    return new ExternalVerifyingKey(new Box(value))
   }
 
 }

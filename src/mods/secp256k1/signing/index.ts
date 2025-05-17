@@ -1,3 +1,4 @@
+export * from "./abstract/index.js";
 export * from "./bytes/index.js";
 export * from "./external/index.js";
 export * from "./zerohex/index.js";
