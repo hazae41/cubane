@@ -10,7 +10,7 @@ export abstract class AbstractSigner {
 export type Signer =
   | ZeroHexSigner
   | BytesSigner
-  | ExtSigner
+  | ExternalSigner
 
 export class ZeroHexSigner extends AbstractSigner {
 
@@ -137,7 +137,7 @@ export namespace BytesSigner {
 
 }
 
-export class ExtSigner {
+export class ExternalSigner {
 
   constructor(
     readonly address: AddressString,
@@ -174,41 +174,41 @@ export class ExtSigner {
 
 }
 
-export namespace ExtSigner {
+export namespace ExternalSigner {
 
   export function randomOrThrow() {
     const signingKey = ExternalSigningKey.randomOrThrow()
     const address = SigningKey.getAddressOrThrow(signingKey)
 
-    return new ExtSigner(address, signingKey)
+    return new ExternalSigner(address, signingKey)
   }
 
 }
 
-export namespace ExtSigner {
+export namespace ExternalSigner {
 
   export type From = AbstractSigner | ExternalSigningKey.From
 
-  export function fromOrThrow(from: ExtSigner.From): ExtSigner {
-    if (from instanceof ExtSigner)
+  export function fromOrThrow(from: ExternalSigner.From): ExternalSigner {
+    if (from instanceof ExternalSigner)
       return from
     if (from instanceof AbstractSigner)
       return fromSignerOrThrow(from)
     return fromSigningKeyOrThrow(from)
   }
 
-  function fromSignerOrThrow(from: AbstractSigner): ExtSigner {
+  function fromSignerOrThrow(from: AbstractSigner): ExternalSigner {
     const signingKey = ExternalSigningKey.fromOrThrow(from.signingKey)
     const address = from.address
 
-    return new ExtSigner(address, signingKey)
+    return new ExternalSigner(address, signingKey)
   }
 
-  function fromSigningKeyOrThrow(from: ExternalSigningKey.From): ExtSigner {
+  function fromSigningKeyOrThrow(from: ExternalSigningKey.From): ExternalSigner {
     const signingKey = ExternalSigningKey.fromOrThrow(from)
     const address = SigningKey.getAddressOrThrow(signingKey)
 
-    return new ExtSigner(address, signingKey)
+    return new ExternalSigner(address, signingKey)
   }
 
 }
