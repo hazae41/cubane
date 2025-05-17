@@ -19,28 +19,6 @@ export namespace AddressString {
 
   export type From = RawHexAsInteger.From
 
-}
-
-export namespace AddressString {
-
-  export function is(value: string): value is AddressString {
-    try {
-      return value === fromOrThrow(value)
-    } catch {
-      return false
-    }
-  }
-
-  export function asOrThrow(value: string): AddressString
-
-  export function asOrThrow(value: `0x${string}`): AddressString
-
-  export function asOrThrow(value: string): AddressString {
-    if (!is(value))
-      throw new Error()
-    return value
-  }
-
   export function fromOrThrow(value: From) {
     return fromRawHexOrThrow(RawHexAsInteger.Length.fromOrThrow(value, 20))
   }
@@ -73,12 +51,40 @@ export namespace AddressString {
     return address as AddressString
   }
 
+}
+
+export namespace AddressString {
+
+  export function is(value: string): value is AddressString {
+    try {
+      return value === fromOrThrow(value)
+    } catch {
+      return false
+    }
+  }
+
+  export function asOrThrow(value: string): AddressString
+
+  export function asOrThrow(value: `0x${string}`): AddressString
+
+  export function asOrThrow(value: string): AddressString {
+    if (!is(value))
+      throw new Error()
+    return value
+  }
+
+}
+
+export namespace AddressString {
+
+  type xxxx = string & { readonly length: 4 }
+
   /**
-   * Format address as "0xFFFF...FFFF" for UI display
+   * Format address as "0xXXXX...XXXX" for UI display
    * @returns 
    */
-  export function format(value: AddressString): `0x${string}...${string}` {
-    return `0x${value.slice(2, 6)}...${value.slice(-4)}`
+  export function format(value: AddressString): `0x${xxxx}...${xxxx}` {
+    return `0x${value.slice(2, 6)}...${value.slice(-4)}` as any
   }
 
 }
