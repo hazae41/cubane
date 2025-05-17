@@ -21,7 +21,7 @@ export class ZeroHexSignature extends AbstractSignature {
 
   [Symbol.dispose]() { }
 
-  sizeOrThrow() {
+  sizeOrThrow(): 65 {
     return 65
   }
 
@@ -29,6 +29,14 @@ export class ZeroHexSignature extends AbstractSignature {
     using memory = CopiableBytesAsInteger.fromZeroHexOrThrow(this.value)
 
     cursor.writeOrThrow(memory.bytes)
+  }
+
+  intoOrThrow(): ZeroHexSignatureString {
+    return this.value
+  }
+
+  toJSON(): ZeroHexSignatureString {
+    return this.value
   }
 
 }

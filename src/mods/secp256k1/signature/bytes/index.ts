@@ -5,7 +5,7 @@ import { BytesAsInteger } from "mods/convert/index.js"
 import { ExternalSignature, ExternalSignatureInit } from "../external/index.js"
 import { AbstractSignature, RsvSignatureInit, Signature, SignatureInit } from "../index.js"
 import { RsvBytesSignature } from "../rsvbytes/index.js"
-import { ZeroHexSignature } from "../zerohex/index.js"
+import { ZeroHexSignature, ZeroHexSignatureString } from "../zerohex/index.js"
 
 export type BytesSignatureInit = BytesAsInteger.From
 
@@ -21,12 +21,20 @@ export class BytesSignature extends AbstractSignature {
 
   [Symbol.dispose]() { }
 
-  sizeOrThrow() {
+  sizeOrThrow(): 65 {
     return 65
   }
 
   writeOrThrow(cursor: Cursor) {
     cursor.writeOrThrow(this.value)
+  }
+
+  intoOrThrow(): BytesSignatureBytes {
+    return this.value
+  }
+
+  toJSON(): ZeroHexSignatureString {
+    return ZeroHexSignature.fromOrThrow(this).toJSON()
   }
 
 }

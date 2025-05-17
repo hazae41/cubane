@@ -5,7 +5,7 @@ import { CopiableBytesAsInteger } from "mods/convert/index.js"
 import { BytesSignature, BytesSignatureInit } from "../bytes/index.js"
 import { AbstractSignature, RsvSignatureInit, Signature, SignatureInit } from "../index.js"
 import { RsvBytesSignature } from "../rsvbytes/index.js"
-import { ZeroHexSignature } from "../zerohex/index.js"
+import { ZeroHexSignature, ZeroHexSignatureString } from "../zerohex/index.js"
 
 export type ExternalSignatureInit = Secp256k1.SignatureAndRecovery
 
@@ -27,7 +27,7 @@ export class ExternalSignature extends AbstractSignature {
     this.boxed[Symbol.dispose]()
   }
 
-  sizeOrThrow() {
+  sizeOrThrow(): 65 {
     return 65
   }
 
@@ -35,6 +35,14 @@ export class ExternalSignature extends AbstractSignature {
     using memory = this.value.exportOrThrow()
 
     cursor.writeOrThrow(memory.bytes)
+  }
+
+  intoOrThrow(): Box<ExternalSignatureObject> {
+    return this.boxed
+  }
+
+  toJSON(): ZeroHexSignatureString {
+    return ZeroHexSignature.fromOrThrow(this).toJSON()
   }
 
 }

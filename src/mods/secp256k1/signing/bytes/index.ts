@@ -6,7 +6,7 @@ import { BytesAsInteger } from "mods/convert/index.js";
 import { AbstractSigningKey } from "../abstract/index.js";
 import { ExternalSigningKey, ExternalSigningKeyInit } from "../external/index.js";
 import { SigningKey, SigningKeyInit } from "../index.js";
-import { ZeroHexSigningKey } from "../zerohex/index.js";
+import { ZeroHexSigningKey, ZeroHexSigningKeyString } from "../zerohex/index.js";
 
 export type BytesSigningKeyInit = BytesAsInteger.From
 
@@ -34,8 +34,8 @@ export class BytesSigningKey extends AbstractSigningKey {
     return this.value
   }
 
-  toJSON(): string {
-    return ZeroHexSigningKey.fromOrThrow(this).intoOrThrow()
+  toJSON(): ZeroHexSigningKeyString {
+    return ZeroHexSigningKey.fromOrThrow(this).toJSON()
   }
 
 }

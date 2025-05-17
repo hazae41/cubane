@@ -42,7 +42,7 @@ export class ExternalVerifyingKey extends AbstractVerifyingKey {
   }
 
   toJSON(): ZeroHexVerifyingKeyString {
-    return ZeroHexVerifyingKey.fromOrThrow(this).intoOrThrow()
+    return ZeroHexVerifyingKey.fromOrThrow(this).toJSON()
   }
 
 }

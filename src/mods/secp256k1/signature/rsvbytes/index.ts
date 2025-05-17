@@ -4,13 +4,19 @@ import { Secp256k1 } from "@hazae41/secp256k1"
 import { BytesAsInteger, CopiableBytesAsInteger, NumberAsInteger } from "mods/convert/index.js"
 import { BytesSignature, BytesSignatureInit } from "../bytes/index.js"
 import { ExternalSignature, ExternalSignatureInit } from "../external/index.js"
-import { AbstractSignature, RsvSignatureInit, Signature, SignatureInit } from "../index.js"
+import { AbstractSignature, RsvSignatureInit, RsvZeroHexSignature, RsvZeroHexSignatureObject, Signature, SignatureInit } from "../index.js"
 import { ZeroHexSignature } from "../zerohex/index.js"
 
 export interface RsvBytesSignatureInit {
   readonly r: BytesAsInteger.From
   readonly s: BytesAsInteger.From
   readonly v: NumberAsInteger.From
+}
+
+export interface RsvBytesSignatureObject {
+  readonly r: Uint8Array<32>,
+  readonly s: Uint8Array<32>,
+  readonly v: number
 }
 
 export class RsvBytesSignature extends AbstractSignature {
@@ -35,6 +41,15 @@ export class RsvBytesSignature extends AbstractSignature {
     cursor.writeOrThrow(r)
     cursor.writeOrThrow(s)
     cursor.writeUint8OrThrow(v)
+  }
+
+  intoOrThrow(): RsvBytesSignatureObject {
+    const { r, s, v } = this
+    return { r, s, v }
+  }
+
+  toJSON(): RsvZeroHexSignatureObject {
+    return RsvZeroHexSignature.fromOrThrow(this).toJSON()
   }
 
 }

@@ -4,7 +4,7 @@ import { ZeroHexString } from "@hazae41/hexane"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { CopiableBytesAsInteger, NumberAsInteger, ZeroHexAsInteger } from "mods/convert/index.js"
 import { BytesSignature } from "../bytes/index.js"
-import { ExternalSignature, ExternalSignatureObject } from "../external/index.js"
+import { ExternalSignature, ExternalSignatureInit } from "../external/index.js"
 import { AbstractSignature, RsvSignatureInit, Signature, SignatureInit } from "../index.js"
 import { ZeroHexSignature } from "../zerohex/index.js"
 
@@ -12,6 +12,12 @@ export interface RsvZeroHexSignatureInit {
   readonly r: ZeroHexAsInteger.From
   readonly s: ZeroHexAsInteger.From
   readonly v: NumberAsInteger.From
+}
+
+export interface RsvZeroHexSignatureObject {
+  readonly r: ZeroHexString<32>,
+  readonly s: ZeroHexString<32>,
+  readonly v: number
 }
 
 export class RsvZeroHexSignature extends AbstractSignature {
@@ -41,6 +47,16 @@ export class RsvZeroHexSignature extends AbstractSignature {
     cursor.writeOrThrow(br.bytes)
     cursor.writeOrThrow(bs.bytes)
     cursor.writeUint8OrThrow(nv)
+  }
+
+  intoOrThrow(): RsvZeroHexSignatureObject {
+    const { r, s, v } = this
+    return { r, s, v }
+  }
+
+  toJSON(): RsvZeroHexSignatureObject {
+    const { r, s, v } = this
+    return { r, s, v }
   }
 
 }
@@ -92,7 +108,7 @@ export namespace RsvZeroHexSignature {
     return new RsvZeroHexSignature(hr, hs, nv)
   }
 
-  function fromExternalOrThrow(from: ExternalSignatureObject): RsvZeroHexSignature {
+  function fromExternalOrThrow(from: ExternalSignatureInit): RsvZeroHexSignature {
     using memory = from.exportOrThrow()
 
     return readOrThrow(new Cursor(memory.bytes))

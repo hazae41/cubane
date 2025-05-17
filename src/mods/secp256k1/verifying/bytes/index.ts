@@ -35,7 +35,7 @@ export class BytesVerifyingKey extends AbstractVerifyingKey {
   }
 
   toJSON(): ZeroHexVerifyingKeyString {
-    return ZeroHexVerifyingKey.fromOrThrow(this).intoOrThrow()
+    return ZeroHexVerifyingKey.fromOrThrow(this).toJSON()
   }
 
 }

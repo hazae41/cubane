@@ -42,7 +42,7 @@ export class ExternalSigningKey extends AbstractSigningKey {
   }
 
   toJSON(): ZeroHexSigningKeyString {
-    return ZeroHexSigningKey.fromOrThrow(this).intoOrThrow()
+    return ZeroHexSigningKey.fromOrThrow(this).toJSON()
   }
 
 }
