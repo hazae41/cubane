@@ -1,16 +1,17 @@
 import { Box } from "@hazae41/box";
+import { Cursor } from "@hazae41/cursor";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { CopiableBytesAsInteger } from "mods/convert/index.js";
 import { AbstractVerifyingKey } from "../abstract/index.js";
 import { BytesVerifyingKey, BytesVerifyingKeyInit } from "../bytes/index.js";
 import { VerifyingKey, VerifyingKeyInit } from "../index.js";
-import { ZeroHexVerifyingKey } from "../zerohex/index.js";
+import { ZeroHexVerifyingKey, ZeroHexVerifyingKeyString } from "../zerohex/index.js";
 
 export type ExternalVerifyingKeyInit = Secp256k1.VerifyingKey
 
 export type ExternalVerifyingKeyObject = Secp256k1.VerifyingKey
 
-export class ExternalVerifyingKey extends AbstractVerifyingKey {
+export class ExternalVerifyingKey extends AbstractVerifyingKey<Box<ExternalVerifyingKeyObject>> {
 
   constructor(
     readonly boxed: Box<ExternalVerifyingKeyObject>
@@ -24,6 +25,24 @@ export class ExternalVerifyingKey extends AbstractVerifyingKey {
 
   [Symbol.dispose]() {
     this.boxed[Symbol.dispose]()
+  }
+
+  sizeOrThrow(): 65 {
+    return 65
+  }
+
+  writeOrThrow(cursor: Cursor): void {
+    using memory = this.value.exportUncompressedOrThrow()
+
+    cursor.writeOrThrow(memory.bytes)
+  }
+
+  intoOrThrow(): Box<ExternalVerifyingKeyObject> {
+    return this.boxed
+  }
+
+  toJSON(): ZeroHexVerifyingKeyString {
+    return ZeroHexVerifyingKey.fromOrThrow(this).intoOrThrow()
   }
 
 }

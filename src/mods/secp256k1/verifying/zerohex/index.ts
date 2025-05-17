@@ -1,4 +1,5 @@
 import { Base16 } from "@hazae41/base16";
+import { Cursor } from "@hazae41/cursor";
 import { ZeroHexString } from "@hazae41/hexane";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { ZeroHexAsInteger } from "mods/convert/index.js";
@@ -11,7 +12,7 @@ export type ZeroHexVerifyingKeyInit = ZeroHexAsInteger.From
 
 export type ZeroHexVerifyingKeyString = ZeroHexString<65>
 
-export class ZeroHexVerifyingKey extends AbstractVerifyingKey {
+export class ZeroHexVerifyingKey extends AbstractVerifyingKey<ZeroHexVerifyingKeyString> {
 
   constructor(
     readonly value: ZeroHexVerifyingKeyString
@@ -20,6 +21,24 @@ export class ZeroHexVerifyingKey extends AbstractVerifyingKey {
   }
 
   [Symbol.dispose]() { }
+
+  sizeOrThrow(): 65 {
+    return 65
+  }
+
+  writeOrThrow(cursor: Cursor): void {
+    using memory = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
+
+    cursor.writeOrThrow(memory.bytes)
+  }
+
+  intoOrThrow(): ZeroHexVerifyingKeyString {
+    return this.value
+  }
+
+  toJSON(): ZeroHexVerifyingKeyString {
+    return this.value
+  }
 
 }
 

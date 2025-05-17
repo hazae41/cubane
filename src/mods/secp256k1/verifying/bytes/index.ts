@@ -1,17 +1,18 @@
 import { Uint8Array } from "@hazae41/bytes";
+import { Cursor } from "@hazae41/cursor";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { BytesAsInteger } from "mods/convert/index.js";
 import { AbstractVerifyingKey } from "../abstract/index.js";
 import { ExternalVerifyingKey, ExternalVerifyingKeyInit } from "../external/index.js";
 import { VerifyingKey, VerifyingKeyInit } from "../index.js";
-import { ZeroHexVerifyingKey } from "../zerohex/index.js";
+import { ZeroHexVerifyingKey, ZeroHexVerifyingKeyString } from "../zerohex/index.js";
 
 export type BytesVerifyingKeyInit = BytesAsInteger.From
 
 export type BytesVerifyingKeyBytes = Uint8Array<65>
 
-export class BytesVerifyingKey extends AbstractVerifyingKey {
+export class BytesVerifyingKey extends AbstractVerifyingKey<BytesVerifyingKeyBytes> {
 
   constructor(
     readonly value: BytesVerifyingKeyBytes
@@ -20,6 +21,22 @@ export class BytesVerifyingKey extends AbstractVerifyingKey {
   }
 
   [Symbol.dispose]() { }
+
+  sizeOrThrow(): 65 {
+    return 65
+  }
+
+  writeOrThrow(cursor: Cursor): void {
+    cursor.writeOrThrow(this.value)
+  }
+
+  intoOrThrow(): BytesVerifyingKeyBytes {
+    return this.value
+  }
+
+  toJSON(): ZeroHexVerifyingKeyString {
+    return ZeroHexVerifyingKey.fromOrThrow(this).intoOrThrow()
+  }
 
 }
 
