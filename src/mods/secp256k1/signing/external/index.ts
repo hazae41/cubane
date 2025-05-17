@@ -1,10 +1,11 @@
 import { Box } from "@hazae41/box";
+import { Cursor } from "@hazae41/cursor";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { CopiableBytesAsInteger } from "mods/convert/index.js";
 import { AbstractSigningKey } from "../abstract/index.js";
 import { BytesSigningKey, BytesSigningKeyInit } from "../bytes/index.js";
 import { SigningKey, SigningKeyInit } from "../index.js";
-import { ZeroHexSigningKey } from "../zerohex/index.js";
+import { ZeroHexSigningKey, ZeroHexSigningKeyString } from "../zerohex/index.js";
 
 export type ExternalSigningKeyInit = Secp256k1.SigningKey
 
@@ -24,6 +25,24 @@ export class ExternalSigningKey extends AbstractSigningKey {
 
   [Symbol.dispose]() {
     this.boxed[Symbol.dispose]()
+  }
+
+  sizeOrThrow(): 32 {
+    return 32
+  }
+
+  writeOrThrow(cursor: Cursor): void {
+    using memory = this.value.exportOrThrow()
+
+    cursor.writeOrThrow(memory.bytes)
+  }
+
+  intoOrThrow(): Box<ExternalSigningKeyObject> {
+    return this.boxed
+  }
+
+  toJSON(): ZeroHexSigningKeyString {
+    return ZeroHexSigningKey.fromOrThrow(this).intoOrThrow()
   }
 
 }

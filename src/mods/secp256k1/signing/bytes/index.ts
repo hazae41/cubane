@@ -1,4 +1,5 @@
 import { Uint8Array } from "@hazae41/bytes";
+import { Cursor } from "@hazae41/cursor";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Copiable } from "libs/copiable/index.js";
 import { BytesAsInteger } from "mods/convert/index.js";
@@ -20,6 +21,22 @@ export class BytesSigningKey extends AbstractSigningKey {
   }
 
   [Symbol.dispose]() { }
+
+  sizeOrThrow(): 32 {
+    return 32
+  }
+
+  writeOrThrow(cursor: Cursor): void {
+    cursor.writeOrThrow(this.value)
+  }
+
+  intoOrThrow(): BytesSigningKeyBytes {
+    return this.value
+  }
+
+  toJSON(): string {
+    return ZeroHexSigningKey.fromOrThrow(this).intoOrThrow()
+  }
 
 }
 

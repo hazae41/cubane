@@ -1,4 +1,5 @@
 import { Base16 } from "@hazae41/base16";
+import { Cursor } from "@hazae41/cursor";
 import { ZeroHexString } from "@hazae41/hexane";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { ZeroHexAsInteger } from "mods/convert/index.js";
@@ -20,6 +21,24 @@ export class ZeroHexSigningKey extends AbstractSigningKey {
   }
 
   [Symbol.dispose]() { }
+
+  sizeOrThrow(): 32 {
+    return 32
+  }
+
+  writeOrThrow(cursor: Cursor): void {
+    using memory = Base16.get().getOrThrow().padStartAndDecodeOrThrow(this.value)
+
+    cursor.writeOrThrow(memory.bytes)
+  }
+
+  intoOrThrow(): ZeroHexSigningKeyString {
+    return this.value
+  }
+
+  toJSON(): ZeroHexSigningKeyString {
+    return this.value
+  }
 
 }
 
