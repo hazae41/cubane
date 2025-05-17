@@ -84,3 +84,5 @@ export namespace AddressString {
   }
 
 }
+
+export type UncheckedAddressString = ZeroHexString<20>
