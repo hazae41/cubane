@@ -3,8 +3,13 @@ import { BytesAsUtf8 } from "../convert/index.js";
 import { BytesSigningKey, ExternalSigningKey, SigningKey, ZeroHexSigningKey } from "../secp256k1/index.js";
 
 export abstract class AbstractSigner {
+
   abstract readonly address: AddressString
+
   abstract readonly signingKey: SigningKey
+
+  abstract toJSON(): unknown
+
 }
 
 export type Signer =
