@@ -11,7 +11,7 @@ export type ExternalVerifyingKeyInit = Secp256k1.VerifyingKey
 
 export type ExternalVerifyingKeyObject = Secp256k1.VerifyingKey
 
-export class ExternalVerifyingKey extends AbstractVerifyingKey<Box<ExternalVerifyingKeyObject>> {
+export class ExternalVerifyingKey extends AbstractVerifyingKey {
 
   constructor(
     readonly boxed: Box<ExternalVerifyingKeyObject>

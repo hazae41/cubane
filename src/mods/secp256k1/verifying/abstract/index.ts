@@ -1,12 +1,12 @@
 import { Cursor } from "@hazae41/cursor";
 
-export abstract class AbstractVerifyingKey<T> {
+export abstract class AbstractVerifyingKey {
 
-  abstract sizeOrThrow(): 65
+  abstract sizeOrThrow(): number
 
   abstract writeOrThrow(cursor: Cursor): void
 
-  abstract intoOrThrow(): T
+  abstract intoOrThrow(): unknown
 
   /**
    * @deprecated

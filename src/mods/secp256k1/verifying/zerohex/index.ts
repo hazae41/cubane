@@ -12,7 +12,7 @@ export type ZeroHexVerifyingKeyInit = ZeroHexAsInteger.From
 
 export type ZeroHexVerifyingKeyString = ZeroHexString<65>
 
-export class ZeroHexVerifyingKey extends AbstractVerifyingKey<ZeroHexVerifyingKeyString> {
+export class ZeroHexVerifyingKey extends AbstractVerifyingKey {
 
   constructor(
     readonly value: ZeroHexVerifyingKeyString

@@ -12,7 +12,7 @@ export type BytesVerifyingKeyInit = BytesAsInteger.From
 
 export type BytesVerifyingKeyBytes = Uint8Array<65>
 
-export class BytesVerifyingKey extends AbstractVerifyingKey<BytesVerifyingKeyBytes> {
+export class BytesVerifyingKey extends AbstractVerifyingKey {
 
   constructor(
     readonly value: BytesVerifyingKeyBytes
