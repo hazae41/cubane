@@ -11,7 +11,7 @@ export function $address(message?: string) {
 export type AddressSymbol = symbol & { readonly name: "AddressSymbol" }
 
 /**
- * A "0x"-prefixed and checksummed valid hex string of byte length 20
+ * 0x-prefixed and checksummed valid hexadecimal string of byte length 20
  */
 export type AddressString = ZeroHexString<20> & { readonly [k: AddressSymbol]: true }
 
