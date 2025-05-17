@@ -1,4 +1,3 @@
-import { Writable } from "@hazae41/binary";
 import { asOrNull, asOrThrow } from "@hazae41/gardien";
 import { ZeroHexString } from "@hazae41/hexane";
 import { Nullable } from "libs/nullable/index.js";
@@ -142,8 +141,4 @@ export namespace RlpEip1559Transaction {
     return new RlpEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
-}
-
-function tx2bytes(x: JsEip1559Transaction) {
-  return Writable.writeToBytesOrThrow(RlpEip1559Transaction.fromOrThrow(x).encodeOrThrow())
 }

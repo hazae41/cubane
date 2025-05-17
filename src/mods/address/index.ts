@@ -77,13 +77,9 @@ export namespace AddressString {
 
 export namespace AddressString {
 
-  type xxxx = string & { readonly length: 4 }
+  export type Formated = `0x${string}...${string}`
 
-  /**
-   * Format address as "0xXXXX...XXXX" for UI display
-   * @returns 
-   */
-  export function format(value: AddressString): `0x${xxxx}...${xxxx}` {
+  export function format(value: AddressString): Formated {
     return `0x${value.slice(2, 6)}...${value.slice(-4)}` as any
   }
 
