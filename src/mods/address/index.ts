@@ -80,7 +80,7 @@ export namespace AddressString {
   export type Formated = `0x${string}...${string}`
 
   export function format(value: AddressString): Formated {
-    return `0x${value.slice(2, 6)}...${value.slice(-4)}` as any
+    return `0x${value.slice(2, 6)}...${value.slice(-4)}`
   }
 
 }
