@@ -53,7 +53,7 @@ export namespace ExternalSigningKey {
 
   export function fromOrThrow(from: From): ExternalSigningKey {
     if (from instanceof ExternalSigningKey)
-      return from
+      return fromExternalOrThrow(from.value)
 
     if (from instanceof BytesSigningKey)
       return fromOtherOrThrow(from.value)
@@ -62,6 +62,7 @@ export namespace ExternalSigningKey {
 
     if (from instanceof Secp256k1.SigningKey)
       return fromExternalOrThrow(from)
+
     return fromOtherOrThrow(from)
   }
 

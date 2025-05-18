@@ -53,7 +53,7 @@ export namespace ExternalSignature {
 
   export function fromOrThrow(from: From): ExternalSignature {
     if (from instanceof ExternalSignature)
-      return from
+      return fromExternalOrThrow(from.value)
 
     if (from instanceof BytesSignature)
       return fromOtherOrThrow(from.value)

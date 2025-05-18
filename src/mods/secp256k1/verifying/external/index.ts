@@ -53,7 +53,7 @@ export namespace ExternalVerifyingKey {
 
   export function fromOrThrow(from: From): ExternalVerifyingKey {
     if (from instanceof ExternalVerifyingKey)
-      return from
+      return fromExternalOrThrow(from.value)
 
     if (from instanceof ZeroHexVerifyingKey)
       return fromOtherOrThrow(from.value)

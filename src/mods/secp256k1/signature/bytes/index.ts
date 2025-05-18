@@ -58,6 +58,7 @@ export namespace BytesSignature {
       return fromOtherOrThrow(from)
     if (typeof from === "object")
       return fromRsvOrThrow(from)
+
     return fromOtherOrThrow(from)
   }
 
