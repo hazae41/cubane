@@ -1,4 +1,4 @@
-import { asOrNull, asOrThrow } from "@hazae41/gardien";
+import { asOrThrow } from "@hazae41/gardien";
 import { ZeroHexString } from "@hazae41/hexane";
 import { Nullable } from "libs/nullable/index.js";
 import { BytesLike, IntegerLike, ZeroHexAsInteger } from "mods/convert/index.js";
@@ -160,7 +160,7 @@ export class RlpEip1559Transaction {
     readonly to: RlpString,
     readonly value: RlpString,
     readonly data: Nullable<RlpString>,
-    readonly accessList: Nullable<RlpType>,
+    readonly accessList: Nullable<RlpAccessList>,
   ) { }
 
   static decodeOrThrow(root: RlpType): RlpEip1559Transaction {
@@ -175,8 +175,12 @@ export class RlpEip1559Transaction {
     const gasLimit = asOrThrow(RlpString, list.value[cursor++])
     const to = asOrThrow(RlpString, list.value[cursor++])
     const value = asOrThrow(RlpString, list.value[cursor++])
-    const data = asOrNull(RlpString, list.value[cursor++])
-    const accessList = asOrNull(RlpList, list.value[cursor++])
+
+    const rawData = asOrThrow(RlpString, list.value[cursor++])
+    const data = rawData.value.length > 0 ? rawData : null
+
+    const rawAccessList = asOrThrow(RlpList, list.value[cursor++]) as RlpAccessList
+    const accessList = rawAccessList.value.length > 0 ? rawAccessList : null
 
     if (cursor !== list.value.length)
       throw new Error("Invalid cursor")
@@ -184,18 +188,13 @@ export class RlpEip1559Transaction {
     return new RlpEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
-  encodeOrThrow(): RlpList {
+  encodeOrThrow() {
     const { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList } = this
 
-    const list: RlpType[] = [chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value]
+    const rawData = data != null ? data : RlpString.empty()
+    const rawAccessList = accessList != null ? accessList : RlpList.empty()
 
-    if (data != null)
-      list.push(data)
-
-    if (accessList != null)
-      list.push(accessList)
-
-    return RlpList.fromOrThrow(list)
+    return RlpList.fromOrThrow([chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList] as const)
   }
 
 }
@@ -212,7 +211,7 @@ export namespace RlpEip1559Transaction {
     const gasLimit = RlpStringAsSelfOrInteger.fromOrThrow(init.gasLimit)
     const to = RlpStringAsSelfOrInteger.fromOrThrow(init.to)
     const value = RlpStringAsSelfOrInteger.fromOrThrow(init.value)
-    const data = init.data != null ? RlpStringAsSelfOrInteger.fromOrThrow(init.data) : null
+    const data = init.data != null ? RlpStringAsSelfOrInteger.fromOrThrow(init.data) : RlpString.empty()
     const accessList = init.accessList != null ? RlpAccessList.fromOrThrow(init.accessList) : null
 
     return new RlpEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)

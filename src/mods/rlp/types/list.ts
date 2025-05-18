@@ -266,6 +266,14 @@ export type RlpList<T extends RlpType[] = RlpType[]> =
 
 export namespace RlpList {
 
+  export function empty(): RlpList {
+    return new RlpList55([], 0)
+  }
+
+}
+
+export namespace RlpList {
+
   export function is(value: unknown): value is RlpList {
     return value instanceof AbstractRlpList
   }

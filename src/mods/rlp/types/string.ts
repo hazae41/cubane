@@ -21,7 +21,7 @@ export class RlpString1 extends AbstractRlpString {
   }
 
   sizeOrThrow(): number {
-    return 1
+    return this.value.length
   }
 
   writeOrThrow(cursor: Cursor): void {
@@ -255,6 +255,14 @@ export type RlpString =
   | RlpStringUint16
   | RlpStringUint24
   | RlpStringUint32
+
+export namespace RlpString {
+
+  export function empty() {
+    return new RlpString1(new Uint8Array([0]))
+  }
+
+}
 
 export namespace RlpString {
 
