@@ -5,15 +5,21 @@ import { BigInts } from "libs/bigint/bigint.js"
 import { Copiable, Copied } from "libs/copiable/index.js"
 import { Numbers } from "libs/number/number.js"
 
+export type BytesLike<N extends number> =
+  | Uint8Array<N>
+  | ZeroHexString<N>
+
+export type TextLike =
+  | string
+  | Uint8Array
+  | ZeroHexString
+
 /**
  * Decode an utf-8 string-like to a zero-hex string
  */
-export namespace ZeroHexAsUtf8 {
+export namespace ZeroHexAsText {
 
-  export type From =
-    | string
-    | Uint8Array
-    | ZeroHexString
+  export type From = TextLike
 
   export function fromZeroHexOrThrow(value: ZeroHexString): ZeroHexString {
     return value
@@ -40,12 +46,9 @@ export namespace ZeroHexAsUtf8 {
 /**
  * Decode an utf-8 string-like to a raw-hex string
  */
-export namespace RawHexAsUtf8 {
+export namespace RawHexAsText {
 
-  export type From =
-    | string
-    | Uint8Array
-    | ZeroHexString
+  export type From = TextLike
 
   export function fromZeroHexOrThrow(value: ZeroHexString): RawHexString {
     return value.slice(2) as RawHexString
@@ -72,12 +75,9 @@ export namespace RawHexAsUtf8 {
 /**
  * Decode an utf-8 string-like to bytes
  */
-export namespace BytesAsUtf8 {
+export namespace BytesAsText {
 
-  export type From =
-    | string
-    | Uint8Array
-    | ZeroHexString
+  export type From = TextLike
 
   export function fromBytesOrThrow(value: Uint8Array): Uint8Array {
     return value
@@ -104,12 +104,9 @@ export namespace BytesAsUtf8 {
 /**
  * Decode an utf-8 string-like to a string
  */
-export namespace StringAsUtf8 {
+export namespace StringAsText {
 
-  export type From =
-    | string
-    | Uint8Array
-    | ZeroHexString
+  export type From = TextLike
 
   export function fromStringOrThrow(value: string): string {
     return value
@@ -135,17 +132,31 @@ export namespace StringAsUtf8 {
 
 }
 
+export type IntegerLike =
+  | string
+  | bigint
+  | number
+  | Uint8Array
+  | ZeroHexString
+
 /**
  * Convert an integer-like to a bigint
  */
 export namespace BigIntAsInteger {
 
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
+  export type From = IntegerLike
+
+  export function fromOrThrow(value: From): bigint {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
+  }
 
   export function fromBigIntOrThrow(value: bigint): bigint {
     return value
@@ -167,7 +178,16 @@ export namespace BigIntAsInteger {
     return BigInts.decodeDecimal(value)
   }
 
-  export function fromOrThrow(value: From): bigint {
+}
+
+/**
+ * Convert an integer-like to a number
+ */
+export namespace NumberAsInteger {
+
+  export type From = IntegerLike
+
+  export function fromOrThrow(value: From): number {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (typeof value === "bigint")
@@ -178,20 +198,6 @@ export namespace BigIntAsInteger {
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
-
-}
-
-/**
- * Convert an integer-like to a number
- */
-export namespace NumberAsInteger {
-
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
 
   export function fromNumberOrThrow(value: number): number {
     return value
@@ -213,7 +219,17 @@ export namespace NumberAsInteger {
     return Numbers.decodeDecimal(value)
   }
 
-  export function fromOrThrow(value: From): number {
+
+}
+
+/**
+ * Convert an integer-like to a zero-hex string
+ */
+export namespace ZeroHexAsInteger {
+
+  export type From = IntegerLike
+
+  export function fromOrThrow(value: From): ZeroHexString {
     if (value instanceof Uint8Array)
       return fromBytesOrThrow(value)
     if (typeof value === "bigint")
@@ -224,20 +240,6 @@ export namespace NumberAsInteger {
       return fromZeroHexOrThrow(value)
     return fromStringOrThrow(value)
   }
-
-}
-
-/**
- * Convert an integer-like to a zero-hex string
- */
-export namespace ZeroHexAsInteger {
-
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
 
   export function fromZeroHexOrThrow(value: ZeroHexString): ZeroHexString {
     return value
@@ -259,21 +261,9 @@ export namespace ZeroHexAsInteger {
     return `0x${BigInts.decodeDecimal(value).toString(16)}` as ZeroHexString
   }
 
-  export function fromOrThrow(value: From): ZeroHexString {
-    if (value instanceof Uint8Array)
-      return fromBytesOrThrow(value)
-    if (typeof value === "bigint")
-      return fromBigIntOrThrow(value)
-    if (typeof value === "number")
-      return fromNumberOrThrow(value)
-    if (ZeroHexString.is(value))
-      return fromZeroHexOrThrow(value)
-    return fromStringOrThrow(value)
-  }
-
   export namespace Length {
 
-    export function fromOrThrow<N extends number>(value: ZeroHexAsInteger.From, byteLength: N): ZeroHexString<N> {
+    export function fromOrThrow<N extends number>(value: From, byteLength: N): ZeroHexString<N> {
       return ZeroHexString.Length.asOrThrow(ZeroHexAsInteger.fromOrThrow(value), byteLength)
     }
 
@@ -286,12 +276,20 @@ export namespace ZeroHexAsInteger {
  */
 export namespace RawHexAsInteger {
 
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
+  export type From = IntegerLike
+
+  export function fromOrThrow(value: From): RawHexString {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
+  }
+
 
   export function fromZeroHexOrThrow(value: ZeroHexString): RawHexString {
     return value.slice(2) as RawHexString
@@ -313,21 +311,10 @@ export namespace RawHexAsInteger {
     return BigInts.decodeDecimal(value).toString(16) as RawHexString
   }
 
-  export function fromOrThrow(value: From): RawHexString {
-    if (value instanceof Uint8Array)
-      return fromBytesOrThrow(value)
-    if (typeof value === "bigint")
-      return fromBigIntOrThrow(value)
-    if (typeof value === "number")
-      return fromNumberOrThrow(value)
-    if (ZeroHexString.is(value))
-      return fromZeroHexOrThrow(value)
-    return fromStringOrThrow(value)
-  }
 
   export namespace Length {
 
-    export function fromOrThrow<N extends number>(value: RawHexAsInteger.From, byteLength: N): RawHexString<N> {
+    export function fromOrThrow<N extends number>(value: From, byteLength: N): RawHexString<N> {
       return RawHexString.Length.asOrThrow(RawHexAsInteger.fromOrThrow(value), byteLength)
     }
 
@@ -340,12 +327,19 @@ export namespace RawHexAsInteger {
  */
 export namespace BytesAsInteger {
 
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
+  export type From = IntegerLike
+
+  export function fromOrThrow(value: From): Uint8Array {
+    if (value instanceof Uint8Array)
+      return value
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
+  }
 
   export function fromBigIntOrThrow(value: bigint): Uint8Array {
     return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.toString(16)))
@@ -363,21 +357,9 @@ export namespace BytesAsInteger {
     return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16)))
   }
 
-  export function fromOrThrow(value: From): Uint8Array {
-    if (value instanceof Uint8Array)
-      return value
-    if (typeof value === "bigint")
-      return fromBigIntOrThrow(value)
-    if (typeof value === "number")
-      return fromNumberOrThrow(value)
-    if (ZeroHexString.is(value))
-      return fromZeroHexOrThrow(value)
-    return fromStringOrThrow(value)
-  }
-
   export namespace Length {
 
-    export function fromOrThrow<N extends number>(value: BytesAsInteger.From, byteLength: N): Uint8Array<N> {
+    export function fromOrThrow<N extends number>(value: From, byteLength: N): Uint8Array<N> {
       return Bytes.castOrThrow(BytesAsInteger.fromOrThrow(value), byteLength)
     }
 
@@ -387,12 +369,19 @@ export namespace BytesAsInteger {
 
 export namespace CopiableBytesAsInteger {
 
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
+  export type From = IntegerLike
+
+  export function fromOrThrow(value: From): Copiable<Uint8Array> {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.is(value))
+      return fromZeroHexOrThrow(value)
+    return fromStringOrThrow(value)
+  }
 
   export function fromBytesOrThrow(value: Uint8Array): Copiable<Uint8Array> {
     return new Copied(value)
@@ -414,21 +403,9 @@ export namespace CopiableBytesAsInteger {
     return Base16.get().getOrThrow().padStartAndDecodeOrThrow(BigInts.decodeDecimal(value).toString(16))
   }
 
-  export function fromOrThrow(value: From): Copiable<Uint8Array> {
-    if (value instanceof Uint8Array)
-      return fromBytesOrThrow(value)
-    if (typeof value === "bigint")
-      return fromBigIntOrThrow(value)
-    if (typeof value === "number")
-      return fromNumberOrThrow(value)
-    if (ZeroHexString.is(value))
-      return fromZeroHexOrThrow(value)
-    return fromStringOrThrow(value)
-  }
-
   export namespace Length {
 
-    export function fromOrThrow<N extends number>(value: CopiableBytesAsInteger.From, byteLength: N): Copiable<Uint8Array<N>> {
+    export function fromOrThrow<N extends number>(value: From, byteLength: N): Copiable<Uint8Array<N>> {
       const copiable = CopiableBytesAsInteger.fromOrThrow(value)
 
       Bytes.castOrThrow(copiable.bytes, byteLength)
@@ -445,12 +422,19 @@ export namespace CopiableBytesAsInteger {
  */
 export namespace StringAsInteger {
 
-  export type From =
-    | string
-    | bigint
-    | number
-    | Uint8Array
-    | ZeroHexString
+  export type From = IntegerLike
+
+  export function fromOrThrow(value: From): string {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    if (typeof value === "bigint")
+      return fromBigIntOrThrow(value)
+    if (typeof value === "number")
+      return fromNumberOrThrow(value)
+    if (ZeroHexString.is(value))
+      return fromZeroHexOrThrow(value)
+    return value
+  }
 
   export function fromBigIntOrThrow(value: bigint): string {
     return value.toString()
@@ -466,18 +450,6 @@ export namespace StringAsInteger {
 
   export function fromBytesOrThrow(value: Uint8Array): string {
     return BigInts.decodeRawHex(Base16.get().getOrThrow().encodeOrThrow(value)).toString()
-  }
-
-  export function fromOrThrow(value: From): string {
-    if (value instanceof Uint8Array)
-      return fromBytesOrThrow(value)
-    if (typeof value === "bigint")
-      return fromBigIntOrThrow(value)
-    if (typeof value === "number")
-      return fromNumberOrThrow(value)
-    if (ZeroHexString.is(value))
-      return fromZeroHexOrThrow(value)
-    return value
   }
 
 }

@@ -10,7 +10,7 @@ import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { AddressString } from "mods/address/index.js";
-import { BytesAsUtf8 } from "mods/convert/index.js";
+import { BytesAsText } from "mods/convert/index.js";
 import { ExternalSignature } from "../signature/external/index.js";
 import { RsvBytesSignature } from "../signature/rsvbytes/index.js";
 import { ExternalVerifyingKey } from "../verifying/index.js";
@@ -86,9 +86,9 @@ export namespace SigningKey {
     return AddressString.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
   }
 
-  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): ExternalSignature {
+  export function signUnprefixedMessageNoOffsetOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsText.From): ExternalSignature {
     using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
-    const messageBytes = BytesAsUtf8.fromOrThrow(message)
+    const messageBytes = BytesAsText.fromOrThrow(message)
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
     const signatureExt = extSigningKey.value.signOrThrow(hashMemoryExt)
@@ -96,7 +96,7 @@ export namespace SigningKey {
     return new ExternalSignature(new Box(signatureExt))
   }
 
-  export function signUnprefixedMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+  export function signUnprefixedMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsText.From): RsvBytesSignature {
     using signatureExt = signUnprefixedMessageNoOffsetOrThrow(signingKey, message)
     const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signatureExt)
 
@@ -106,9 +106,9 @@ export namespace SigningKey {
     return new RsvBytesSignature(r, s, v)
   }
 
-  export function signMessageNoOffsetOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): ExternalSignature {
+  export function signMessageNoOffsetOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsText.From): ExternalSignature {
     using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
-    const messageBytes = BytesAsUtf8.fromOrThrow(message)
+    const messageBytes = BytesAsText.fromOrThrow(message)
 
     const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
     const concatBytes = Bytes.concat([prefixBytes, messageBytes])
@@ -119,7 +119,7 @@ export namespace SigningKey {
     return new ExternalSignature(new Box(signatureExt))
   }
 
-  export function signMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsUtf8.From): RsvBytesSignature {
+  export function signMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsText.From): RsvBytesSignature {
     using signatureExt = signMessageNoOffsetOrThrow(signingKey, message)
     const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signatureExt)
 

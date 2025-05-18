@@ -1,5 +1,6 @@
 import { Cursor } from "@hazae41/cursor"
-import { BytesAsInteger } from "mods/convert/index.js"
+import { ZeroHexString } from "@hazae41/hexane"
+import { BigIntAsInteger, BytesAsInteger, IntegerLike, ZeroHexAsInteger } from "mods/convert/index.js"
 
 export abstract class AbstractRlpString { }
 
@@ -287,29 +288,68 @@ export namespace RlpString {
     return value
   }
 
-  export function unwrap<T>(value: T): Exclude<T, RlpString> | Uint8Array {
-    if (is(value))
-      return value.value
-    return value as Exclude<T, RlpString>
-  }
-
 }
 
-export namespace RlpStringAsInteger {
+export namespace RlpStringAsSelfOrInteger {
 
   export type From =
     | RlpString
-    | BytesAsInteger.From
+    | IntegerLike
 
   export function fromOrThrow(from: From): RlpString {
     if (RlpString.is(from))
       return from
-    if (from instanceof Uint8Array)
-      return RlpString.fromOrThrow(from)
+    return RlpString.fromOrThrow(BytesAsInteger.fromOrThrow(from))
+  }
 
-    const bytes = BytesAsInteger.fromOrThrow(from)
+}
 
-    return RlpString.fromOrThrow(bytes)
+export namespace BytesAsRlpStringOrInteger {
+
+  export type From =
+    | RlpString
+    | IntegerLike
+
+  export function fromOrThrow(from: From): Uint8Array {
+    if (RlpString.is(from))
+      return from.value
+    return BytesAsInteger.fromOrThrow(from)
+  }
+
+}
+
+export namespace BigIntAsRlpStringOrInteger {
+
+  export type From =
+    | RlpString
+    | IntegerLike
+
+  export function fromOrThrow(from: From): bigint {
+    if (RlpString.is(from))
+      return BigIntAsInteger.fromOrThrow(from.value)
+    return BigIntAsInteger.fromOrThrow(from)
+  }
+
+}
+
+export namespace ZeroHexAsRlpStringOrInteger {
+
+  export type From =
+    | RlpString
+    | IntegerLike
+
+  export function fromOrThrow(from: From): ZeroHexString {
+    if (RlpString.is(from))
+      return ZeroHexAsInteger.fromOrThrow(from.value)
+    return ZeroHexAsInteger.fromOrThrow(from)
+  }
+
+  export namespace Length {
+
+    export function fromOrThrow<N extends number>(value: From, byteLength: N): ZeroHexString<N> {
+      return ZeroHexString.Length.asOrThrow(ZeroHexAsRlpStringOrInteger.fromOrThrow(value), byteLength)
+    }
+
   }
 
 }

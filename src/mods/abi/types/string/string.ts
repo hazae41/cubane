@@ -4,7 +4,7 @@ import { Cursor } from "@hazae41/cursor";
 import { RawHexString } from "@hazae41/hexane";
 import { Copiable } from "libs/copiable/index.js";
 import { TextCursor } from "libs/cursor/cursor.js";
-import { BytesAsUtf8, RawHexAsUtf8 } from "mods/convert/index.js";
+import { BytesAsText, RawHexAsText } from "mods/convert/index.js";
 import { NumberUint32, Uint32 } from "../uint/uint.js";
 
 export { AbiString as String };
@@ -54,7 +54,7 @@ export namespace BytesAbiString {
 
   export type Create = Uint8Array
 
-  export type From = BytesAsUtf8.From
+  export type From = BytesAsText.From
 
 }
 
@@ -74,7 +74,7 @@ export class BytesAbiString {
   }
 
   static fromOrThrow(value: BytesAbiString.From) {
-    return new BytesAbiString(BytesAsUtf8.fromOrThrow(value))
+    return new BytesAbiString(BytesAsText.fromOrThrow(value))
   }
 
   intoOrThrow(): string {
@@ -166,7 +166,7 @@ export namespace RawHexAbiString {
 
   export type Create = RawHexString
 
-  export type From = RawHexAsUtf8.From
+  export type From = RawHexAsText.From
 
 }
 
@@ -186,7 +186,7 @@ export class RawHexAbiString {
   }
 
   static fromOrThrow(value: RawHexAbiString.From) {
-    return new RawHexAbiString(RawHexAsUtf8.fromOrThrow(value))
+    return new RawHexAbiString(RawHexAsText.fromOrThrow(value))
   }
 
   intoOrThrow(): string {

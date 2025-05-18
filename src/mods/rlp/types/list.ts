@@ -1,18 +1,20 @@
 import { Cursor } from "@hazae41/cursor";
-import { BytesOrBytesArray, RlpType, readOrThrow } from "../rlp.js";
+import { BytesOrBytesArray, readOrThrow, RlpType } from "../rlp.js";
 
-export abstract class AbstractRlpList { }
+export abstract class AbstractRlpList<T extends RlpType[] = RlpType[]> {
+  abstract readonly value: T
+}
 
-export class RlpList55 extends AbstractRlpList {
+export class RlpList55<T extends RlpType[] = RlpType[]> extends AbstractRlpList<T> {
 
   constructor(
-    readonly value: RlpType[],
+    readonly value: T,
     readonly length: number
   ) {
     super()
   }
 
-  isList(): this is RlpList55 {
+  isList(): this is RlpList55<T> {
     return true
   }
 
@@ -51,16 +53,16 @@ export class RlpList55 extends AbstractRlpList {
 
 }
 
-export class RlpListUint8 extends AbstractRlpList {
+export class RlpListUint8<T extends RlpType[] = RlpType[]> extends AbstractRlpList<T> {
 
   constructor(
-    readonly value: RlpType[],
+    readonly value: T,
     readonly length: number
   ) {
     super()
   }
 
-  isList(): this is RlpListUint8 {
+  isList(): this is RlpListUint8<T> {
     return true
   }
 
@@ -102,16 +104,16 @@ export class RlpListUint8 extends AbstractRlpList {
 
 }
 
-export class RlpListUint16 extends AbstractRlpList {
+export class RlpListUint16<T extends RlpType[] = RlpType[]> extends AbstractRlpList<T> {
 
   constructor(
-    readonly value: RlpType[],
+    readonly value: T,
     readonly length: number
   ) {
     super()
   }
 
-  isList(): this is RlpListUint16 {
+  isList(): this is RlpListUint16<T> {
     return true
   }
 
@@ -153,16 +155,16 @@ export class RlpListUint16 extends AbstractRlpList {
 
 }
 
-export class RlpListUint24 extends AbstractRlpList {
+export class RlpListUint24<T extends RlpType[] = RlpType[]> extends AbstractRlpList<T> {
 
   constructor(
-    readonly value: RlpType[],
+    readonly value: T,
     readonly length: number
   ) {
     super()
   }
 
-  isList(): this is RlpListUint24 {
+  isList(): this is RlpListUint24<T> {
     return true
   }
 
@@ -204,16 +206,16 @@ export class RlpListUint24 extends AbstractRlpList {
 
 }
 
-export class RlpListUint32 extends AbstractRlpList {
+export class RlpListUint32<T extends RlpType[] = RlpType[]> extends AbstractRlpList<T> {
 
   constructor(
-    readonly value: RlpType[],
+    readonly value: T,
     readonly length: number
   ) {
     super()
   }
 
-  isList(): this is RlpListUint32 {
+  isList(): this is RlpListUint32<T> {
     return true
   }
 
@@ -255,12 +257,12 @@ export class RlpListUint32 extends AbstractRlpList {
 
 }
 
-export type RlpList =
-  | RlpList55
-  | RlpListUint8
-  | RlpListUint16
-  | RlpListUint24
-  | RlpListUint32
+export type RlpList<T extends RlpType[] = RlpType[]> =
+  | RlpList55<T>
+  | RlpListUint8<T>
+  | RlpListUint16<T>
+  | RlpListUint24<T>
+  | RlpListUint32<T>
 
 export namespace RlpList {
 
@@ -278,7 +280,7 @@ export namespace RlpList {
 
 export namespace RlpList {
 
-  export function fromOrThrow(value: RlpType[]) {
+  export function fromOrThrow<T extends RlpType[]>(value: T): RlpList<T> {
     const size = value.reduce((a, b) => a + b.sizeOrThrow(), 0)
 
     if (size < 56)

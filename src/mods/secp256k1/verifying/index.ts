@@ -9,14 +9,14 @@ import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { AddressString } from "mods/address/index.js";
-import { BytesAsUtf8 } from "mods/convert/index.js";
+import { BytesAsText } from "mods/convert/index.js";
 import { ExternalSignature } from "../signature/external/index.js";
 import { RsvBytesSignature } from "../signature/rsvbytes/index.js";
 import { BytesVerifyingKey, BytesVerifyingKeyInit } from "./bytes/index.js";
 import { ExternalVerifyingKey, ExternalVerifyingKeyInit } from "./external/index.js";
 import { ZeroHexVerifyingKey, ZeroHexVerifyingKeyInit } from "./zerohex/index.js";
 
-export function recoverUnprefixedMessageOrThrow(signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
+export function recoverUnprefixedMessageOrThrow(signature: RsvBytesSignature.From, message: BytesAsText.From) {
   const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
   if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
@@ -26,7 +26,7 @@ export function recoverUnprefixedMessageOrThrow(signature: RsvBytesSignature.Fro
   const v = signatureRsvBytes.v - 27
 
   using extSignature = ExternalSignature.fromOrThrow({ r, s, v })
-  const messageBytes = BytesAsUtf8.fromOrThrow(message)
+  const messageBytes = BytesAsText.fromOrThrow(message)
 
   using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
   const recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashMemoryExt, extSignature.value)
@@ -34,7 +34,7 @@ export function recoverUnprefixedMessageOrThrow(signature: RsvBytesSignature.Fro
   return recoveredVerifyingKeyExt
 }
 
-export function recoverMessageOrThrow(signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
+export function recoverMessageOrThrow(signature: RsvBytesSignature.From, message: BytesAsText.From) {
   const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
   if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
@@ -44,7 +44,7 @@ export function recoverMessageOrThrow(signature: RsvBytesSignature.From, message
   const v = signatureRsvBytes.v - 27
 
   using extSignature = ExternalSignature.fromOrThrow({ r, s, v })
-  const messageBytes = BytesAsUtf8.fromOrThrow(message)
+  const messageBytes = BytesAsText.fromOrThrow(message)
 
   const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
   const concatBytes = Bytes.concat([prefixBytes, messageBytes])
@@ -106,7 +106,7 @@ export namespace VerifyingKey {
     return AddressString.fromRawHexOrThrow(rawLowerCase.slice(-40) as RawHexString<20>)
   }
 
-  export function verifyUnprefixedMessageOrThrow(verifyingKey: BytesVerifyingKey.From, signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
+  export function verifyUnprefixedMessageOrThrow(verifyingKey: BytesVerifyingKey.From, signature: RsvBytesSignature.From, message: BytesAsText.From) {
     const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
     if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
@@ -117,7 +117,7 @@ export namespace VerifyingKey {
 
     const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
     using signatureExtBox = ExternalSignature.fromOrThrow({ r, s, v })
-    const messageBytes = BytesAsUtf8.fromOrThrow(message)
+    const messageBytes = BytesAsText.fromOrThrow(message)
 
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
     using recoveredVerifyingKeyExt = Secp256k1.get().getOrThrow().VerifyingKey.recoverOrThrow(hashMemoryExt, signatureExtBox.value)
@@ -126,7 +126,7 @@ export namespace VerifyingKey {
     return Bytes.equals(verifyingKeyBytes.value, recoveredVerifyingKeyMemoryExt.bytes)
   }
 
-  export function verifyMessageOrThrow(verifyingKey: BytesVerifyingKey.From, signature: RsvBytesSignature.From, message: BytesAsUtf8.From) {
+  export function verifyMessageOrThrow(verifyingKey: BytesVerifyingKey.From, signature: RsvBytesSignature.From, message: BytesAsText.From) {
     const signatureRsvBytes = RsvBytesSignature.fromOrThrow(signature)
 
     if (signatureRsvBytes.v !== 27 && signatureRsvBytes.v !== 28)
@@ -137,7 +137,7 @@ export namespace VerifyingKey {
 
     const verifyingKeyBytes = BytesVerifyingKey.fromOrThrow(verifyingKey)
     using signatureExtBox = ExternalSignature.fromOrThrow({ r, s, v })
-    const messageBytes = BytesAsUtf8.fromOrThrow(message)
+    const messageBytes = BytesAsText.fromOrThrow(message)
 
     const prefixBytes = Bytes.fromUtf8("\x19Ethereum Signed Message:\n" + messageBytes.length.toString())
     const concatBytes = Bytes.concat([prefixBytes, messageBytes])

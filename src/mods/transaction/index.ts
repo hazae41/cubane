@@ -1,19 +1,72 @@
 import { asOrNull, asOrThrow } from "@hazae41/gardien";
 import { ZeroHexString } from "@hazae41/hexane";
 import { Nullable } from "libs/nullable/index.js";
-import { BigIntAsInteger, BytesAsInteger, ZeroHexAsInteger } from "mods/convert/index.js";
-import { RlpList, RlpString, RlpStringAsInteger, RlpType } from "mods/rlp/index.js";
+import { BytesLike, IntegerLike, ZeroHexAsInteger } from "mods/convert/index.js";
+import { AbstractRlpList, BigIntAsRlpStringOrInteger, BytesAsRlpStringOrInteger, RlpList, RlpString, RlpStringAsSelfOrInteger, RlpType, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
 
 export interface Eip1559TransactionInit {
-  readonly chainId: RlpStringAsInteger.From
-  readonly nonce: RlpStringAsInteger.From
-  readonly maxPriorityFeePerGas: RlpStringAsInteger.From
-  readonly maxFeePerGas: RlpStringAsInteger.From
-  readonly gasLimit: RlpStringAsInteger.From
-  readonly to: RlpStringAsInteger.From
-  readonly value: RlpStringAsInteger.From
-  readonly data?: Nullable<RlpStringAsInteger.From>
-  readonly accessList?: Nullable<RlpStringAsInteger.From>
+  readonly chainId: RlpStringAsSelfOrInteger.From
+  readonly nonce: RlpStringAsSelfOrInteger.From
+  readonly maxPriorityFeePerGas: RlpStringAsSelfOrInteger.From
+  readonly maxFeePerGas: RlpStringAsSelfOrInteger.From
+  readonly gasLimit: RlpStringAsSelfOrInteger.From
+  readonly to: RlpStringAsSelfOrInteger.From
+  readonly value: RlpStringAsSelfOrInteger.From
+  readonly data?: Nullable<RlpStringAsSelfOrInteger.From>
+  readonly accessList?: Nullable<AccessList>
+}
+
+export type JsAccessAddress = BytesLike<20>
+export type JsAccessStorage = BytesLike<32>
+
+export type JsAccessItem = [JsAccessAddress, JsAccessStorage[]]
+export type JsAccessList = JsAccessItem[]
+
+export type ZeroHexAccessAddress = ZeroHexString<20>
+export type ZeroHexAccessStorage = ZeroHexString<32>
+
+export type ZeroHexAccessItem = [ZeroHexAccessAddress, ZeroHexAccessStorage[]]
+export type ZeroHexAccessList = ZeroHexAccessItem[]
+
+export type RlpAccessAddress = RlpString
+
+export type RlpAccessStorageItem = RlpString
+export type RlpAccessStorageList = RlpList<RlpAccessStorageItem[]>
+
+export type RlpAccessItem = RlpList<[RlpAccessAddress, RlpAccessStorageList]>
+export type RlpAccessList = RlpList<RlpAccessItem[]>
+
+export type AccessList =
+  | RlpAccessList
+  | JsAccessList
+  | ZeroHexAccessList
+
+export namespace RlpAccessList {
+
+  export function fromOrThrow(list: AccessList): RlpAccessList {
+    if (list instanceof AbstractRlpList)
+      return list
+    return RlpList.fromOrThrow(list.map(([address, storages]) => RlpList.fromOrThrow([RlpStringAsSelfOrInteger.fromOrThrow(address), RlpList.fromOrThrow(storages.map(storage => RlpStringAsSelfOrInteger.fromOrThrow(storage)))])))
+  }
+
+}
+
+export namespace ZeroHexAccessList {
+
+  export function fromOrThrow(list: AccessList): ZeroHexAccessList {
+    if (list instanceof AbstractRlpList)
+      return fromOrThrow(list.intoOrThrow() as JsAccessList)
+    return list.map(([address, storages]) => [ZeroHexAsInteger.Length.fromOrThrow(address, 20), storages.map(storage => ZeroHexAsInteger.Length.fromOrThrow(storage, 32))])
+  }
+
+}
+
+export namespace JsAccessList {
+
+  export function fromOrThrow(list: AccessList) {
+    return ZeroHexAccessList.fromOrThrow(list)
+  }
+
 }
 
 export class ZeroHexEip1559Transaction {
@@ -27,12 +80,32 @@ export class ZeroHexEip1559Transaction {
     readonly to: ZeroHexString<20>,
     readonly value: ZeroHexString,
     readonly data: Nullable<ZeroHexString>,
-    readonly accessList: Nullable<ZeroHexString>,
+    readonly accessList: Nullable<ZeroHexAccessList>,
   ) { }
 
   toJSON() {
     const { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList } = this
     return { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList }
+  }
+
+}
+
+export namespace ZeroHexEip1559Transaction {
+
+  export type From = Eip1559TransactionInit
+
+  export function fromOrThrow(init: Eip1559TransactionInit): ZeroHexEip1559Transaction {
+    const chainId = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.chainId)
+    const nonce = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.nonce)
+    const maxPriorityFeePerGas = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
+    const maxFeePerGas = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.maxFeePerGas)
+    const gasLimit = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.gasLimit)
+    const to = ZeroHexAsRlpStringOrInteger.Length.fromOrThrow(init.to, 20)
+    const value = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.value)
+    const data = init.data != null ? ZeroHexAsRlpStringOrInteger.fromOrThrow(init.data) : null
+    const accessList = init.accessList != null ? ZeroHexAccessList.fromOrThrow(init.accessList) : null
+
+    return new ZeroHexEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
 }
@@ -47,8 +120,8 @@ export class JsEip1559Transaction {
     readonly gasLimit: bigint,
     readonly to: ZeroHexString<20>,
     readonly value: bigint,
-    readonly data: Nullable<Uint8Array>,
-    readonly accessList: Nullable<Uint8Array>,
+    readonly data: Nullable<IntegerLike>,
+    readonly accessList: Nullable<JsAccessList>,
   ) { }
 
 }
@@ -58,15 +131,15 @@ export namespace JsEip1559Transaction {
   export type From = Eip1559TransactionInit
 
   export function fromOrThrow(init: Eip1559TransactionInit): JsEip1559Transaction {
-    const chainId = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.chainId))
-    const nonce = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.nonce))
-    const maxPriorityFeePerGas = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.maxPriorityFeePerGas))
-    const maxFeePerGas = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.maxFeePerGas))
-    const gasLimit = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.gasLimit))
-    const to = ZeroHexAsInteger.Length.fromOrThrow(RlpString.unwrap(init.to), 20)
-    const value = BigIntAsInteger.fromOrThrow(RlpString.unwrap(init.value))
-    const data = init.data != null ? BytesAsInteger.fromOrThrow(RlpString.unwrap(init.data)) : null
-    const accessList = init.accessList != null ? BytesAsInteger.fromOrThrow(RlpString.unwrap(init.accessList)) : null
+    const chainId = BigIntAsRlpStringOrInteger.fromOrThrow(init.chainId)
+    const nonce = BigIntAsRlpStringOrInteger.fromOrThrow(init.nonce)
+    const maxPriorityFeePerGas = BigIntAsRlpStringOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
+    const maxFeePerGas = BigIntAsRlpStringOrInteger.fromOrThrow(init.maxFeePerGas)
+    const gasLimit = BigIntAsRlpStringOrInteger.fromOrThrow(init.gasLimit)
+    const to = ZeroHexAsRlpStringOrInteger.Length.fromOrThrow(init.to, 20)
+    const value = BigIntAsRlpStringOrInteger.fromOrThrow(init.value)
+    const data = init.data != null ? BytesAsRlpStringOrInteger.fromOrThrow(init.data) : null
+    const accessList = init.accessList != null ? JsAccessList.fromOrThrow(init.accessList) : null
 
     return new JsEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
@@ -99,7 +172,7 @@ export class RlpEip1559Transaction {
     const to = asOrThrow(RlpString, list.value[cursor++])
     const value = asOrThrow(RlpString, list.value[cursor++])
     const data = asOrNull(RlpString, list.value[cursor++])
-    const accessList = asOrNull(RlpString, list.value[cursor++])
+    const accessList = asOrNull(RlpList, list.value[cursor++])
 
     if (cursor !== list.value.length)
       throw new Error("Invalid cursor")
@@ -128,15 +201,15 @@ export namespace RlpEip1559Transaction {
   export type From = Eip1559TransactionInit
 
   export function fromOrThrow(init: Eip1559TransactionInit): RlpEip1559Transaction {
-    const chainId = RlpStringAsInteger.fromOrThrow(init.chainId)
-    const nonce = RlpStringAsInteger.fromOrThrow(init.nonce)
-    const maxPriorityFeePerGas = RlpStringAsInteger.fromOrThrow(init.maxPriorityFeePerGas)
-    const maxFeePerGas = RlpStringAsInteger.fromOrThrow(init.maxFeePerGas)
-    const gasLimit = RlpStringAsInteger.fromOrThrow(init.gasLimit)
-    const to = RlpStringAsInteger.fromOrThrow(init.to)
-    const value = RlpStringAsInteger.fromOrThrow(init.value)
-    const data = init.data != null ? RlpStringAsInteger.fromOrThrow(init.data) : null
-    const accessList = init.accessList != null ? RlpStringAsInteger.fromOrThrow(init.accessList) : null
+    const chainId = RlpStringAsSelfOrInteger.fromOrThrow(init.chainId)
+    const nonce = RlpStringAsSelfOrInteger.fromOrThrow(init.nonce)
+    const maxPriorityFeePerGas = RlpStringAsSelfOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
+    const maxFeePerGas = RlpStringAsSelfOrInteger.fromOrThrow(init.maxFeePerGas)
+    const gasLimit = RlpStringAsSelfOrInteger.fromOrThrow(init.gasLimit)
+    const to = RlpStringAsSelfOrInteger.fromOrThrow(init.to)
+    const value = RlpStringAsSelfOrInteger.fromOrThrow(init.value)
+    const data = init.data != null ? RlpStringAsSelfOrInteger.fromOrThrow(init.data) : null
+    const accessList = init.accessList != null ? RlpAccessList.fromOrThrow(init.accessList) : null
 
     return new RlpEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }

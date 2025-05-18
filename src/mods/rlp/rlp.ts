@@ -4,7 +4,7 @@ import { RlpString, RlpString1, RlpString55, RlpStringUint16, RlpStringUint24, R
 
 export type RlpType =
   | RlpString
-  | RlpList
+  | RlpList<RlpType[]>
 
 export type BytesOrBytesArray =
   | Uint8Array
