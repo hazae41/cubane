@@ -17,15 +17,19 @@ export interface Eip1559TransactionInit {
 }
 
 export type JsAccessAddress = BytesLike<20>
-export type JsAccessStorage = BytesLike<32>
 
-export type JsAccessItem = [JsAccessAddress, JsAccessStorage[]]
+export type JsAccessStorageItem = BytesLike<32>
+export type JsAccessStorageList = JsAccessStorageItem[]
+
+export type JsAccessItem = [JsAccessAddress, JsAccessStorageList]
 export type JsAccessList = JsAccessItem[]
 
 export type ZeroHexAccessAddress = ZeroHexString<20>
-export type ZeroHexAccessStorage = ZeroHexString<32>
 
-export type ZeroHexAccessItem = [ZeroHexAccessAddress, ZeroHexAccessStorage[]]
+export type ZeroHexAccessStorageItem = ZeroHexString<32>
+export type ZeroHexAccessStorageList = ZeroHexAccessStorageItem[]
+
+export type ZeroHexAccessItem = [ZeroHexAccessAddress, ZeroHexAccessStorageList]
 export type ZeroHexAccessList = ZeroHexAccessItem[]
 
 export type RlpAccessAddress = RlpString
