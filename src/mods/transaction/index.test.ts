@@ -33,7 +33,10 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
   cursor.writeUint8OrThrow(2)
   cursor.writeOrThrow(bytes)
 
-  const signature = SigningKey.signUnprefixedMessageNoOffsetOrThrow(SigningKey.randomOrThrow(), cursor.bytes)
+  const key = SigningKey.randomOrThrow()
+  const address = SigningKey.getAddressOrThrow(key)
+
+  const signature = SigningKey.signUnprefixedMessageNoOffsetOrThrow(key, cursor.bytes)
   const { r, s, v } = RsvBytesSignature.fromOrThrow(signature)
 
   const rlp2 = Rlp.fromOrThrow([...tx.encodeOrThrow().intoOrThrow(), BytesAsInteger.fromOrThrow(v), r, s])
@@ -44,7 +47,7 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
   const hex = ZeroHexAsInteger.fromOrThrow(cursor2.bytes)
 
-  console.log(hex)
+  console.log(address, hex)
 }
 
 // const cursor = new Cursor(BytesAsInteger.fromOrThrow("0x02f872058084388c42998551f34faa7d825208948edf373f2869b5a61ab53094f9cdafa6d22c7d5e87038d7ea4c6800080c001a0c7f413a62bd57714e239f5ef490c28d94acde3280e65b02f8a699c424e34f04fa04dd68c6163c205bc427f557394bbaed55a8b4b5971b8a81d5ff302dd156e3b6c"))
