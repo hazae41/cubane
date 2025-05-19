@@ -8,7 +8,7 @@ import { Rlp } from "mods/index.js";
 import { AbstractRlpList, BigIntAsRlpStringOrInteger, BytesAsRlpStringOrInteger, RlpList, RlpString, RlpStringAsSelfOrInteger, RlpType, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
 import { ExternalSigningKey, RsvBytesSignature, RsvSignatureInit, SigningKey } from "mods/secp256k1/index.js";
 
-export interface Eip1559TransactionInit {
+export interface TransactionInit2 {
   readonly chainId: RlpStringAsSelfOrInteger.From
   readonly nonce: RlpStringAsSelfOrInteger.From
   readonly maxPriorityFeePerGas: RlpStringAsSelfOrInteger.From
@@ -77,7 +77,7 @@ export namespace JsAccessList {
 
 }
 
-export class ZeroHexEip1559Transaction {
+export class ZeroHexTransaction2 {
 
   constructor(
     readonly chainId: ZeroHexString,
@@ -98,11 +98,11 @@ export class ZeroHexEip1559Transaction {
 
 }
 
-export namespace ZeroHexEip1559Transaction {
+export namespace ZeroHexTransaction2 {
 
-  export type From = Eip1559TransactionInit
+  export type From = TransactionInit2
 
-  export function fromOrThrow(init: Eip1559TransactionInit): ZeroHexEip1559Transaction {
+  export function fromOrThrow(init: TransactionInit2): ZeroHexTransaction2 {
     const chainId = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.chainId)
     const nonce = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.nonce)
     const maxPriorityFeePerGas = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
@@ -113,12 +113,12 @@ export namespace ZeroHexEip1559Transaction {
     const data = init.data != null ? ZeroHexAsRlpStringOrInteger.fromOrThrow(init.data) : null
     const accessList = init.accessList != null ? ZeroHexAccessList.fromOrThrow(init.accessList) : null
 
-    return new ZeroHexEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
+    return new ZeroHexTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
 }
 
-export class JsEip1559Transaction {
+export class JsTransaction2 {
 
   constructor(
     readonly chainId: bigint,
@@ -134,11 +134,11 @@ export class JsEip1559Transaction {
 
 }
 
-export namespace JsEip1559Transaction {
+export namespace JsTransaction2 {
 
-  export type From = Eip1559TransactionInit
+  export type From = TransactionInit2
 
-  export function fromOrThrow(init: Eip1559TransactionInit): JsEip1559Transaction {
+  export function fromOrThrow(init: TransactionInit2): JsTransaction2 {
     const chainId = BigIntAsRlpStringOrInteger.fromOrThrow(init.chainId)
     const nonce = BigIntAsRlpStringOrInteger.fromOrThrow(init.nonce)
     const maxPriorityFeePerGas = BigIntAsRlpStringOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
@@ -149,11 +149,11 @@ export namespace JsEip1559Transaction {
     const data = init.data != null ? BytesAsRlpStringOrInteger.fromOrThrow(init.data) : null
     const accessList = init.accessList != null ? JsAccessList.fromOrThrow(init.accessList) : null
 
-    return new JsEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
+    return new JsTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 }
 
-export class RlpDecodedEip1559Transaction {
+export class RlpDecodedTransaction2 {
 
   constructor(
     readonly chainId: RlpString,
@@ -167,17 +167,17 @@ export class RlpDecodedEip1559Transaction {
     readonly accessList: Nullable<RlpAccessList>,
   ) { }
 
-  static decodeOrThrow(encoded: RlpEncodedEip1559Transaction): RlpDecodedEip1559Transaction {
+  static decodeOrThrow(encoded: RlpEncodedTransaction2): RlpDecodedTransaction2 {
     const [chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList] = encoded.value.value
 
     const data = rawData.value.length > 0 ? rawData : null
     const accessList = rawAccessList.value.length > 0 ? rawAccessList : null
 
-    return new RlpDecodedEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
+    return new RlpDecodedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
-  encodeOrThrow(): RlpEncodedEip1559Transaction {
-    return RlpEncodedEip1559Transaction.encodeOrThrow(this)
+  encodeOrThrow(): RlpEncodedTransaction2 {
+    return RlpEncodedTransaction2.encodeOrThrow(this)
   }
 
   signOrThrow(signingKey: ExternalSigningKey.From) {
@@ -192,16 +192,16 @@ export class RlpDecodedEip1559Transaction {
     const s = RlpStringAsSelfOrInteger.fromOrThrow(signatureRsv.s)
     const v = RlpStringAsSelfOrInteger.fromOrThrow(signatureRsv.v)
 
-    return new RlpDecodedEip1559SignedTransaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
+    return new RlpDecodedSignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
   }
 
 }
 
-export namespace RlpDecodedEip1559Transaction {
+export namespace RlpDecodedTransaction2 {
 
-  export type From = Eip1559TransactionInit
+  export type From = TransactionInit2
 
-  export function fromOrThrow(init: Eip1559TransactionInit): RlpDecodedEip1559Transaction {
+  export function fromOrThrow(init: TransactionInit2): RlpDecodedTransaction2 {
     const chainId = RlpStringAsSelfOrInteger.fromOrThrow(init.chainId)
     const nonce = RlpStringAsSelfOrInteger.fromOrThrow(init.nonce)
     const maxPriorityFeePerGas = RlpStringAsSelfOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
@@ -212,13 +212,13 @@ export namespace RlpDecodedEip1559Transaction {
     const data = init.data != null ? RlpStringAsSelfOrInteger.fromOrThrow(init.data) : null
     const accessList = init.accessList != null ? RlpAccessList.fromOrThrow(init.accessList) : null
 
-    return new RlpDecodedEip1559Transaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
+    return new RlpDecodedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
 }
 
-export class RlpEncodedEip1559Transaction {
-  readonly #class = RlpEncodedEip1559Transaction
+export class RlpEncodedTransaction2 {
+  readonly #class = RlpEncodedTransaction2
 
   static readonly type = 0x02
 
@@ -226,7 +226,7 @@ export class RlpEncodedEip1559Transaction {
     readonly value: RlpList<[RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpAccessList]>,
   ) { }
 
-  static readOrThrow(cursor: Cursor): RlpEncodedEip1559Transaction {
+  static readOrThrow(cursor: Cursor): RlpEncodedTransaction2 {
     const root = Rlp.readOrThrow(cursor)
     const list = asOrThrow(RlpList, root)
 
@@ -245,10 +245,10 @@ export class RlpEncodedEip1559Transaction {
     if (index !== list.value.length)
       throw new Error("Invalid format")
 
-    return new RlpEncodedEip1559Transaction(list as any)
+    return new RlpEncodedTransaction2(list as any)
   }
 
-  static encodeOrThrow(decoded: RlpDecodedEip1559Transaction): RlpEncodedEip1559Transaction {
+  static encodeOrThrow(decoded: RlpDecodedTransaction2): RlpEncodedTransaction2 {
     const { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList } = decoded
 
     const rawData = data != null ? data : RlpString.empty()
@@ -256,7 +256,7 @@ export class RlpEncodedEip1559Transaction {
 
     const encoded = RlpList.fromOrThrow([chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList] as const)
 
-    return new RlpEncodedEip1559Transaction(encoded)
+    return new RlpEncodedTransaction2(encoded)
   }
 
   get type() {
@@ -273,14 +273,14 @@ export class RlpEncodedEip1559Transaction {
   }
 
   decodeOrThrow() {
-    return RlpDecodedEip1559Transaction.decodeOrThrow(this)
+    return RlpDecodedTransaction2.decodeOrThrow(this)
   }
 
 }
 
-export type Eip1559SignedTransactionInit = Eip1559TransactionInit & RsvSignatureInit
+export type SignedTransactionInit2 = TransactionInit2 & RsvSignatureInit
 
-export class JsEip1559SignedTransaction {
+export class JsSignedTransaction2 {
 
   constructor(
     readonly chainId: bigint,
@@ -299,7 +299,7 @@ export class JsEip1559SignedTransaction {
 
 }
 
-export class RlpDecodedEip1559SignedTransaction {
+export class RlpDecodedSignedTransaction2 {
 
   constructor(
     readonly chainId: RlpString,
@@ -316,7 +316,7 @@ export class RlpDecodedEip1559SignedTransaction {
     readonly s: RlpString,
   ) { }
 
-  static decodeOrThrow(root: RlpType): RlpDecodedEip1559SignedTransaction {
+  static decodeOrThrow(root: RlpType): RlpDecodedSignedTransaction2 {
     const list = asOrThrow(RlpList, root)
 
     let cursor = 0
@@ -342,7 +342,7 @@ export class RlpDecodedEip1559SignedTransaction {
     if (cursor !== list.value.length)
       throw new Error("Invalid cursor")
 
-    return new RlpDecodedEip1559SignedTransaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
+    return new RlpDecodedSignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
   }
 
   encodeOrThrow() {
@@ -356,11 +356,11 @@ export class RlpDecodedEip1559SignedTransaction {
 
 }
 
-export namespace RlpDecodedEip1559SignedTransaction {
+export namespace RlpDecodedSignedTransaction2 {
 
-  export type From = Eip1559SignedTransactionInit
+  export type From = SignedTransactionInit2
 
-  export function fromOrThrow(init: Eip1559SignedTransactionInit): RlpDecodedEip1559SignedTransaction {
+  export function fromOrThrow(init: SignedTransactionInit2): RlpDecodedSignedTransaction2 {
     const chainId = RlpStringAsSelfOrInteger.fromOrThrow(init.chainId)
     const nonce = RlpStringAsSelfOrInteger.fromOrThrow(init.nonce)
     const maxPriorityFeePerGas = RlpStringAsSelfOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
@@ -374,7 +374,7 @@ export namespace RlpDecodedEip1559SignedTransaction {
     const r = RlpStringAsSelfOrInteger.fromOrThrow(init.r)
     const s = RlpStringAsSelfOrInteger.fromOrThrow(init.s)
 
-    return new RlpDecodedEip1559SignedTransaction(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
+    return new RlpDecodedSignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
   }
 
 }
