@@ -146,6 +146,11 @@ export class RlpEncodedTransaction2 {
   ) { }
 
   static readOrThrow(cursor: Cursor): RlpEncodedTransaction2 {
+    const type = cursor.readUint8OrThrow()
+
+    if (type !== RlpEncodedTransaction2.type)
+      throw new Error("Invalid type")
+
     const root = Rlp.readOrThrow(cursor)
     const list = asOrThrow(RlpList, root)
 
@@ -268,6 +273,11 @@ export class RlpEncodedSignedTransaction2 {
   ) { }
 
   static readOrThrow(cursor: Cursor): RlpEncodedSignedTransaction2 {
+    const type = cursor.readUint8OrThrow()
+
+    if (type !== RlpEncodedSignedTransaction2.type)
+      throw new Error("Invalid type")
+
     const root = Rlp.readOrThrow(cursor)
     const list = asOrThrow(RlpList, root)
 
@@ -287,7 +297,7 @@ export class RlpEncodedSignedTransaction2 {
     asOrThrow(RlpString, list.value[index++])
 
     if (index !== list.value.length)
-      throw new Error("Invalid format")
+      throw new Error("Invalid length")
 
     return new RlpEncodedSignedTransaction2(list as any)
   }
