@@ -1,10 +1,8 @@
 import { Base16 } from "@hazae41/base16";
-import { Writable } from "@hazae41/binary";
 import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
 import { Sha3Wasm } from "@hazae41/sha3.wasm";
-import { ZeroHexAsInteger } from "mods/convert/index.js";
 import { SigningKey } from "mods/secp256k1/index.js";
 import { UnsignedTransaction2 } from "./index.js";
 
@@ -17,9 +15,8 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
 {
   const key = SigningKey.randomOrThrow()
-  const address = SigningKey.getAddressOrThrow(key)
 
-  const signed = UnsignedTransaction2.signOrThrow({
+  const tx = UnsignedTransaction2.signOrThrow({
     chainId: 1n,
     nonce: 1n,
     maxPriorityFeePerGas: 1n,
@@ -27,12 +24,8 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
     gasLimit: 1n,
     to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
     value: 1n,
-  }, key)
+  }, key).encodeZeroHexOrThrow()
 
-  const zerohex = ZeroHexAsInteger.fromOrThrow(Writable.writeToBytesOrThrow(signed.encodeOrThrow()))
-
-  console.log(address, zerohex)
+  console.log(tx.value) // 0x02...
 }
 
-// const cursor = new Cursor(BytesAsInteger.fromOrThrow("0x02f872058084388c42998551f34faa7d825208948edf373f2869b5a61ab53094f9cdafa6d22c7d5e87038d7ea4c6800080c001a0c7f413a62bd57714e239f5ef490c28d94acde3280e65b02f8a699c424e34f04fa04dd68c6163c205bc427f557394bbaed55a8b4b5971b8a81d5ff302dd156e3b6c"))
-// cursor.readUint8OrThrow()

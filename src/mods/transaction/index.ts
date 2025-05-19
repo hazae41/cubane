@@ -5,7 +5,7 @@ import { Cursor } from "@hazae41/cursor";
 import { asOrThrow } from "@hazae41/gardien";
 import { ZeroHexString } from "@hazae41/hexane";
 import { Nullable } from "libs/nullable/index.js";
-import { BytesLike, IntegerLike } from "mods/convert/index.js";
+import { BytesLike, IntegerLike, ZeroHexAsInteger } from "mods/convert/index.js";
 import { Rlp } from "mods/index.js";
 import { RlpList, RlpString, RlpStringAsSelfOrInteger, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
 import { ExternalSigningKey, RsvBytesSignature, SigningKey } from "mods/secp256k1/index.js";
@@ -238,6 +238,10 @@ export class RlpDecodedSignedTransaction2 {
     return RlpEncodedSignedTransaction2.encodeOrThrow(this)
   }
 
+  encodeZeroHexOrThrow() {
+    return ZeroHexEncodedSignedTransaction2.fromOrThrow(this)
+  }
+
 }
 
 export namespace RlpDecodedSignedTransaction2 {
@@ -328,6 +332,46 @@ export class RlpEncodedSignedTransaction2 {
 
   decodeOrThrow() {
     return RlpDecodedSignedTransaction2.decodeOrThrow(this)
+  }
+
+}
+
+export class ZeroHexEncodedSignedTransaction2 {
+
+  constructor(
+    readonly value: ZeroHexString,
+  ) { }
+
+}
+
+export namespace ZeroHexEncodedSignedTransaction2 {
+
+  export type From =
+    | RlpEncodedSignedTransaction2
+    | RlpDecodedSignedTransaction2
+    | ZeroHexString
+
+  export function fromOrThrow(from: From): ZeroHexEncodedSignedTransaction2 {
+    if (from instanceof RlpEncodedSignedTransaction2)
+      return fromRlpEncoded(from)
+    if (from instanceof RlpDecodedSignedTransaction2)
+      return fromRlpDecoded(from)
+    return fromZeroHex(from)
+  }
+
+  function fromRlpEncoded(from: RlpEncodedSignedTransaction2): ZeroHexEncodedSignedTransaction2 {
+    const bytes = Writable.writeToBytesOrThrow(from)
+    const hex = ZeroHexAsInteger.fromOrThrow(bytes)
+
+    return new ZeroHexEncodedSignedTransaction2(hex)
+  }
+
+  function fromRlpDecoded(from: RlpDecodedSignedTransaction2): ZeroHexEncodedSignedTransaction2 {
+    return fromRlpEncoded(RlpEncodedSignedTransaction2.encodeOrThrow(from))
+  }
+
+  function fromZeroHex(from: ZeroHexString): ZeroHexEncodedSignedTransaction2 {
+    return new ZeroHexEncodedSignedTransaction2(from)
   }
 
 }
