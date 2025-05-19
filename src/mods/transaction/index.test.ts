@@ -6,7 +6,7 @@ import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
 import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { ZeroHexAsInteger } from "mods/convert/index.js";
 import { SigningKey } from "mods/secp256k1/index.js";
-import { Transaction2 } from "./index.js";
+import { UnsignedTransaction2 } from "./index.js";
 
 await Sha3Wasm.initBundled()
 await Secp256k1Wasm.initBundled()
@@ -19,7 +19,7 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
   const key = SigningKey.randomOrThrow()
   const address = SigningKey.getAddressOrThrow(key)
 
-  const signed = Transaction2.signOrThrow({
+  const signed = UnsignedTransaction2.signOrThrow({
     chainId: 1n,
     nonce: 1n,
     maxPriorityFeePerGas: 1n,

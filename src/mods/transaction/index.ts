@@ -7,11 +7,11 @@ import { ZeroHexString } from "@hazae41/hexane";
 import { Nullable } from "libs/nullable/index.js";
 import { BytesLike, IntegerLike } from "mods/convert/index.js";
 import { Rlp } from "mods/index.js";
-import { BigIntAsRlpStringOrInteger, BytesAsRlpStringOrInteger, RlpList, RlpString, RlpStringAsSelfOrInteger, RlpType, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
-import { ExternalSigningKey, RsvBytesSignature, RsvSignatureInit, SigningKey } from "mods/secp256k1/index.js";
-import { AccessList, JsAccessList, RlpAccessItem, RlpAccessList, ZeroHexAccessList } from "./access/index.js";
+import { RlpList, RlpString, RlpStringAsSelfOrInteger, RlpType, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
+import { ExternalSigningKey, RsvBytesSignature, SigningKey } from "mods/secp256k1/index.js";
+import { AccessList, RlpAccessItem, RlpAccessList, ZeroHexAccessList } from "./access/index.js";
 
-export interface TransactionInit2 {
+export interface DecodedUnsignedTransactionInit2 {
   readonly chainId: RlpStringAsSelfOrInteger.From
   readonly nonce: RlpStringAsSelfOrInteger.From
   readonly maxPriorityFeePerGas: RlpStringAsSelfOrInteger.From
@@ -23,15 +23,15 @@ export interface TransactionInit2 {
   readonly accessList?: Nullable<AccessList>
 }
 
-export namespace Transaction2 {
+export namespace UnsignedTransaction2 {
 
-  export function signOrThrow(transaction: RlpDecodedTransaction2.From, signingKey: ExternalSigningKey.From): RlpDecodedSignedTransaction2 {
-    return RlpDecodedTransaction2.fromOrThrow(transaction).signOrThrow(signingKey)
+  export function signOrThrow(transaction: RlpDecodedUnsignedTransaction2.From, signingKey: ExternalSigningKey.From): RlpDecodedSignedTransaction2 {
+    return RlpDecodedUnsignedTransaction2.fromOrThrow(transaction).signOrThrow(signingKey)
   }
 
 }
 
-export class ZeroHexTransaction2 {
+export class ZeroHexDecodedUnsignedTransaction2 {
 
   constructor(
     readonly chainId: ZeroHexString,
@@ -52,11 +52,11 @@ export class ZeroHexTransaction2 {
 
 }
 
-export namespace ZeroHexTransaction2 {
+export namespace ZeroHexDecodedUnsignedTransaction2 {
 
-  export type From = TransactionInit2
+  export type From = DecodedUnsignedTransactionInit2
 
-  export function fromOrThrow(init: TransactionInit2): ZeroHexTransaction2 {
+  export function fromOrThrow(init: DecodedUnsignedTransactionInit2): ZeroHexDecodedUnsignedTransaction2 {
     const chainId = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.chainId)
     const nonce = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.nonce)
     const maxPriorityFeePerGas = ZeroHexAsRlpStringOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
@@ -67,47 +67,12 @@ export namespace ZeroHexTransaction2 {
     const data = init.data != null ? ZeroHexAsRlpStringOrInteger.fromOrThrow(init.data) : null
     const accessList = init.accessList != null ? ZeroHexAccessList.fromOrThrow(init.accessList) : null
 
-    return new ZeroHexTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
+    return new ZeroHexDecodedUnsignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
 }
 
-export class JsTransaction2 {
-
-  constructor(
-    readonly chainId: bigint,
-    readonly nonce: bigint,
-    readonly maxPriorityFeePerGas: bigint,
-    readonly maxFeePerGas: bigint,
-    readonly gasLimit: bigint,
-    readonly to: ZeroHexString<20>,
-    readonly value: bigint,
-    readonly data: Nullable<IntegerLike>,
-    readonly accessList: Nullable<JsAccessList>,
-  ) { }
-
-}
-
-export namespace JsTransaction2 {
-
-  export type From = TransactionInit2
-
-  export function fromOrThrow(init: TransactionInit2): JsTransaction2 {
-    const chainId = BigIntAsRlpStringOrInteger.fromOrThrow(init.chainId)
-    const nonce = BigIntAsRlpStringOrInteger.fromOrThrow(init.nonce)
-    const maxPriorityFeePerGas = BigIntAsRlpStringOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
-    const maxFeePerGas = BigIntAsRlpStringOrInteger.fromOrThrow(init.maxFeePerGas)
-    const gasLimit = BigIntAsRlpStringOrInteger.fromOrThrow(init.gasLimit)
-    const to = ZeroHexAsRlpStringOrInteger.Length.fromOrThrow(init.to, 20)
-    const value = BigIntAsRlpStringOrInteger.fromOrThrow(init.value)
-    const data = init.data != null ? BytesAsRlpStringOrInteger.fromOrThrow(init.data) : null
-    const accessList = init.accessList != null ? JsAccessList.fromOrThrow(init.accessList) : null
-
-    return new JsTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
-  }
-}
-
-export class RlpDecodedTransaction2 {
+export class RlpDecodedUnsignedTransaction2 {
 
   constructor(
     readonly chainId: RlpString,
@@ -121,13 +86,13 @@ export class RlpDecodedTransaction2 {
     readonly accessList: Nullable<RlpAccessList>,
   ) { }
 
-  static decodeOrThrow(encoded: RlpEncodedTransaction2): RlpDecodedTransaction2 {
+  static decodeOrThrow(encoded: RlpEncodedTransaction2): RlpDecodedUnsignedTransaction2 {
     const [chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList] = encoded.value.value
 
     const data = rawData.value.length > 0 ? rawData : null
     const accessList = rawAccessList.value.length > 0 ? rawAccessList : null
 
-    return new RlpDecodedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
+    return new RlpDecodedUnsignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
   encodeOrThrow(): RlpEncodedTransaction2 {
@@ -151,11 +116,11 @@ export class RlpDecodedTransaction2 {
 
 }
 
-export namespace RlpDecodedTransaction2 {
+export namespace RlpDecodedUnsignedTransaction2 {
 
-  export type From = TransactionInit2
+  export type From = DecodedUnsignedTransactionInit2
 
-  export function fromOrThrow(init: TransactionInit2): RlpDecodedTransaction2 {
+  export function fromOrThrow(init: DecodedUnsignedTransactionInit2): RlpDecodedUnsignedTransaction2 {
     const chainId = RlpStringAsSelfOrInteger.fromOrThrow(init.chainId)
     const nonce = RlpStringAsSelfOrInteger.fromOrThrow(init.nonce)
     const maxPriorityFeePerGas = RlpStringAsSelfOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
@@ -166,7 +131,7 @@ export namespace RlpDecodedTransaction2 {
     const data = init.data != null ? RlpStringAsSelfOrInteger.fromOrThrow(init.data) : null
     const accessList = init.accessList != null ? RlpAccessList.fromOrThrow(init.accessList) : null
 
-    return new RlpDecodedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
+    return new RlpDecodedUnsignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList)
   }
 
 }
@@ -202,7 +167,7 @@ export class RlpEncodedTransaction2 {
     return new RlpEncodedTransaction2(list as any)
   }
 
-  static encodeOrThrow(decoded: RlpDecodedTransaction2): RlpEncodedTransaction2 {
+  static encodeOrThrow(decoded: RlpDecodedUnsignedTransaction2): RlpEncodedTransaction2 {
     const { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList } = decoded
 
     const rawData = data != null ? data : RlpString.empty()
@@ -227,30 +192,15 @@ export class RlpEncodedTransaction2 {
   }
 
   decodeOrThrow() {
-    return RlpDecodedTransaction2.decodeOrThrow(this)
+    return RlpDecodedUnsignedTransaction2.decodeOrThrow(this)
   }
 
 }
 
-export type SignedTransactionInit2 = TransactionInit2 & RsvSignatureInit
-
-export class JsSignedTransaction2 {
-
-  constructor(
-    readonly chainId: bigint,
-    readonly nonce: bigint,
-    readonly maxPriorityFeePerGas: bigint,
-    readonly maxFeePerGas: bigint,
-    readonly gasLimit: bigint,
-    readonly to: ZeroHexString<20>,
-    readonly value: bigint,
-    readonly data: Nullable<IntegerLike>,
-    readonly accessList: Nullable<JsAccessList>,
-    readonly v: IntegerLike,
-    readonly r: BytesLike<32>,
-    readonly s: BytesLike<32>,
-  ) { }
-
+export interface DecodedSignedTransactionInit2 extends DecodedUnsignedTransactionInit2 {
+  readonly v: IntegerLike
+  readonly r: BytesLike<32>
+  readonly s: BytesLike<32>
 }
 
 export class RlpDecodedSignedTransaction2 {
@@ -312,9 +262,9 @@ export class RlpDecodedSignedTransaction2 {
 
 export namespace RlpDecodedSignedTransaction2 {
 
-  export type From = SignedTransactionInit2
+  export type From = DecodedSignedTransactionInit2
 
-  export function fromOrThrow(init: SignedTransactionInit2): RlpDecodedSignedTransaction2 {
+  export function fromOrThrow(init: DecodedSignedTransactionInit2): RlpDecodedSignedTransaction2 {
     const chainId = RlpStringAsSelfOrInteger.fromOrThrow(init.chainId)
     const nonce = RlpStringAsSelfOrInteger.fromOrThrow(init.nonce)
     const maxPriorityFeePerGas = RlpStringAsSelfOrInteger.fromOrThrow(init.maxPriorityFeePerGas)
