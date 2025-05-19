@@ -7,7 +7,7 @@ import { ZeroHexString } from "@hazae41/hexane";
 import { Nullable } from "libs/nullable/index.js";
 import { BytesLike, IntegerLike } from "mods/convert/index.js";
 import { Rlp } from "mods/index.js";
-import { RlpList, RlpString, RlpStringAsSelfOrInteger, RlpType, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
+import { RlpList, RlpString, RlpStringAsSelfOrInteger, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
 import { ExternalSigningKey, RsvBytesSignature, SigningKey } from "mods/secp256k1/index.js";
 import { AccessList, RlpAccessItem, RlpAccessList, ZeroHexAccessList } from "./access/index.js";
 
@@ -220,42 +220,17 @@ export class RlpDecodedSignedTransaction2 {
     readonly s: RlpString,
   ) { }
 
-  static decodeOrThrow(root: RlpType): RlpDecodedSignedTransaction2 {
-    const list = asOrThrow(RlpList, root)
+  static decodeOrThrow(encoded: RlpEncodedSignedTransaction2): RlpDecodedSignedTransaction2 {
+    const [chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList, v, r, s] = encoded.value.value
 
-    let cursor = 0
-
-    const chainId = asOrThrow(RlpString, list.value[cursor++])
-    const nonce = asOrThrow(RlpString, list.value[cursor++])
-    const maxPriorityFeePerGas = asOrThrow(RlpString, list.value[cursor++])
-    const maxFeePerGas = asOrThrow(RlpString, list.value[cursor++])
-    const gasLimit = asOrThrow(RlpString, list.value[cursor++])
-    const to = asOrThrow(RlpString, list.value[cursor++])
-    const value = asOrThrow(RlpString, list.value[cursor++])
-
-    const rawData = asOrThrow(RlpString, list.value[cursor++])
     const data = rawData.value.length > 0 ? rawData : null
-
-    const rawAccessList = asOrThrow(RlpList, list.value[cursor++]) as RlpAccessList
     const accessList = rawAccessList.value.length > 0 ? rawAccessList : null
-
-    const v = asOrThrow(RlpString, list.value[cursor++])
-    const r = asOrThrow(RlpString, list.value[cursor++])
-    const s = asOrThrow(RlpString, list.value[cursor++])
-
-    if (cursor !== list.value.length)
-      throw new Error("Invalid cursor")
 
     return new RlpDecodedSignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
   }
 
   encodeOrThrow() {
-    const { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s } = this
-
-    const rawData = data != null ? data : RlpString.empty()
-    const rawAccessList = accessList != null ? accessList : RlpList.empty()
-
-    return RlpList.fromOrThrow([chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList, v, r, s] as const)
+    return RlpEncodedSignedTransaction2.encodeOrThrow(this)
   }
 
 }
@@ -279,6 +254,70 @@ export namespace RlpDecodedSignedTransaction2 {
     const s = RlpStringAsSelfOrInteger.fromOrThrow(init.s)
 
     return new RlpDecodedSignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
+  }
+
+}
+
+export class RlpEncodedSignedTransaction2 {
+  readonly #class = RlpEncodedSignedTransaction2
+
+  static readonly type = 0x02
+
+  constructor(
+    readonly value: RlpList<[RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpAccessList, RlpString, RlpString, RlpString]>
+  ) { }
+
+  static readOrThrow(cursor: Cursor): RlpEncodedSignedTransaction2 {
+    const root = Rlp.readOrThrow(cursor)
+    const list = asOrThrow(RlpList, root)
+
+    let index = 0
+
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpList, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+    asOrThrow(RlpString, list.value[index++])
+
+    if (index !== list.value.length)
+      throw new Error("Invalid format")
+
+    return new RlpEncodedSignedTransaction2(list as any)
+  }
+
+  static encodeOrThrow(decoded: RlpDecodedSignedTransaction2): RlpEncodedSignedTransaction2 {
+    const { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s } = decoded
+
+    const rawData = data != null ? data : RlpString.empty()
+    const rawAccessList = accessList != null ? accessList : RlpList.empty<RlpAccessItem>()
+
+    const encoded = RlpList.fromOrThrow([chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList, v, r, s] as const)
+
+    return new RlpEncodedSignedTransaction2(encoded)
+  }
+
+  get type() {
+    return this.#class.type
+  }
+
+  sizeOrThrow() {
+    return 1 + this.value.sizeOrThrow()
+  }
+
+  writeOrThrow(cursor: Cursor) {
+    cursor.writeUint8OrThrow(this.type)
+    this.value.writeOrThrow(cursor)
+  }
+
+  decodeOrThrow() {
+    return RlpDecodedSignedTransaction2.decodeOrThrow(this)
   }
 
 }
