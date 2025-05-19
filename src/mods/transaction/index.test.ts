@@ -5,10 +5,9 @@ import { Keccak256 } from "@hazae41/keccak256";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
 import { Sha3Wasm } from "@hazae41/sha3.wasm";
-import { BytesAsInteger, ZeroHexAsInteger } from "mods/convert/index.js";
-import { Rlp } from "mods/index.js";
-import { RsvBytesSignature, SigningKey } from "mods/secp256k1/index.js";
-import { RlpEip1559Transaction } from "./index.js";
+import { ZeroHexAsInteger } from "mods/convert/index.js";
+import { SigningKey } from "mods/secp256k1/index.js";
+import { RlpDecodedEip1559Transaction } from "./index.js";
 
 await Sha3Wasm.initBundled()
 await Secp256k1Wasm.initBundled()
@@ -18,7 +17,7 @@ Keccak256.set(Keccak256.fromWasm(Sha3Wasm))
 Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
 {
-  const tx = RlpEip1559Transaction.fromOrThrow({
+  const unsigned = RlpDecodedEip1559Transaction.fromOrThrow({
     chainId: 1n,
     nonce: 1n,
     maxPriorityFeePerGas: 1n,
@@ -28,19 +27,16 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
     value: 1n,
   })
 
-  const bytes = Writable.writeToBytesOrThrow(tx.encodeOrThrow())
-  const cursor = new Cursor(new Uint8Array(1 + bytes.length))
-  cursor.writeUint8OrThrow(2)
-  cursor.writeOrThrow(bytes)
+  // const bytes = Writable.writeToBytesOrThrow(tx.encodeOrThrow())
+  // const cursor = new Cursor(new Uint8Array(1 + bytes.length))
+  // cursor.writeUint8OrThrow(2)
+  // cursor.writeOrThrow(bytes)
 
   const key = SigningKey.randomOrThrow()
   const address = SigningKey.getAddressOrThrow(key)
 
-  const signature = SigningKey.signUnprefixedMessageNoOffsetOrThrow(key, cursor.bytes)
-  const { r, s, v } = RsvBytesSignature.fromOrThrow(signature)
-
-  const rlp2 = Rlp.fromOrThrow([...tx.encodeOrThrow().intoOrThrow(), BytesAsInteger.fromOrThrow(v), r, s])
-  const bytes2 = Writable.writeToBytesOrThrow(rlp2)
+  const signed = unsigned.signOrThrow(key)
+  const bytes2 = Writable.writeToBytesOrThrow(signed.encodeOrThrow())
   const cursor2 = new Cursor(new Uint8Array(1 + bytes2.length))
   cursor2.writeUint8OrThrow(2)
   cursor2.writeOrThrow(bytes2)

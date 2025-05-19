@@ -266,7 +266,7 @@ export type RlpList<T extends RlpType[] = RlpType[]> =
 
 export namespace RlpList {
 
-  export function empty(): RlpList {
+  export function empty<T extends RlpType>(): RlpList<T[]> {
     return new RlpList55([], 0)
   }
 
