@@ -20,6 +20,14 @@ export interface TransactionInit2 {
   readonly accessList?: Nullable<AccessList>
 }
 
+export namespace Transaction2 {
+
+  export function signOrThrow(transaction: RlpDecodedTransaction2.From, signingKey: ExternalSigningKey.From): RlpDecodedSignedTransaction2 {
+    return RlpDecodedTransaction2.fromOrThrow(transaction).signOrThrow(signingKey)
+  }
+
+}
+
 export type JsAccessAddress = BytesLike<20>
 
 export type JsAccessStorageItem = BytesLike<32>

@@ -6,7 +6,7 @@ import { Secp256k1Wasm } from "@hazae41/secp256k1.wasm";
 import { Sha3Wasm } from "@hazae41/sha3.wasm";
 import { ZeroHexAsInteger } from "mods/convert/index.js";
 import { SigningKey } from "mods/secp256k1/index.js";
-import { RlpDecodedTransaction2 } from "./index.js";
+import { Transaction2 } from "./index.js";
 
 await Sha3Wasm.initBundled()
 await Secp256k1Wasm.initBundled()
@@ -16,7 +16,10 @@ Keccak256.set(Keccak256.fromWasm(Sha3Wasm))
 Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
 
 {
-  const unsigned = RlpDecodedTransaction2.fromOrThrow({
+  const key = SigningKey.randomOrThrow()
+  const address = SigningKey.getAddressOrThrow(key)
+
+  const signed = Transaction2.signOrThrow({
     chainId: 1n,
     nonce: 1n,
     maxPriorityFeePerGas: 1n,
@@ -24,16 +27,9 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
     gasLimit: 1n,
     to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
     value: 1n,
-  })
+  }, key)
 
-  const key = SigningKey.randomOrThrow()
-  const address = SigningKey.getAddressOrThrow(key)
-
-  const signed = unsigned.signOrThrow(key)
-  const encoded = signed.encodeOrThrow()
-
-  const bytes = Writable.writeToBytesOrThrow(encoded)
-  const zerohex = ZeroHexAsInteger.fromOrThrow(bytes)
+  const zerohex = ZeroHexAsInteger.fromOrThrow(Writable.writeToBytesOrThrow(signed.encodeOrThrow()))
 
   console.log(address, zerohex)
 }
