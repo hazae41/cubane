@@ -1,4 +1,4 @@
-import { Box } from "@hazae41/box";
+import { Owned, Viewed, Wrapped } from "@hazae41/box";
 import { Cursor } from "@hazae41/cursor";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { CopiableBytesAsInteger } from "mods/convert/index.js";
@@ -14,17 +14,17 @@ export type ExternalSigningKeyObject = Secp256k1.SigningKey
 export class ExternalSigningKey extends AbstractSigningKey {
 
   constructor(
-    readonly boxed: Box<ExternalSigningKeyObject>
+    readonly wrapped: Wrapped<ExternalSigningKeyObject>
   ) {
     super()
   }
 
   get value() {
-    return this.boxed.get()
+    return this.wrapped.get()
   }
 
   [Symbol.dispose]() {
-    this.boxed[Symbol.dispose]()
+    this.wrapped[Symbol.dispose]()
   }
 
   sizeOrThrow(): 32 {
@@ -37,8 +37,8 @@ export class ExternalSigningKey extends AbstractSigningKey {
     cursor.writeOrThrow(memory.bytes)
   }
 
-  intoOrThrow(): Box<ExternalSigningKeyObject> {
-    return this.boxed
+  intoOrThrow(): Wrapped<ExternalSigningKeyObject> {
+    return this.wrapped
   }
 
   toJSON(): ZeroHexSigningKeyString {
@@ -53,7 +53,7 @@ export namespace ExternalSigningKey {
 
   export function fromOrThrow(from: From): ExternalSigningKey {
     if (from instanceof ExternalSigningKey)
-      return fromExternalOrThrow(from.value)
+      return fromOrThrow(from.value)
 
     if (from instanceof BytesSigningKey)
       return fromOtherOrThrow(from.value)
@@ -67,14 +67,14 @@ export namespace ExternalSigningKey {
   }
 
   function fromExternalOrThrow(from: ExternalSigningKeyInit): ExternalSigningKey {
-    return new ExternalSigningKey(Box.createAsDropped(from))
+    return new ExternalSigningKey(new Viewed(from))
   }
 
   function fromOtherOrThrow(from: BytesSigningKeyInit): ExternalSigningKey {
     using memory = CopiableBytesAsInteger.Length.fromOrThrow(from, 32)
     const value = Secp256k1.get().getOrThrow().SigningKey.importOrThrow(memory)
 
-    return new ExternalSigningKey(new Box(value))
+    return new ExternalSigningKey(new Owned(value))
   }
 
 }
@@ -82,7 +82,7 @@ export namespace ExternalSigningKey {
 export namespace ExternalSigningKey {
 
   export function randomOrThrow(): ExternalSigningKey {
-    return new ExternalSigningKey(new Box(Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()))
+    return new ExternalSigningKey(new Owned(Secp256k1.get().getOrThrow().SigningKey.randomOrThrow()))
   }
 
 }

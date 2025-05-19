@@ -4,7 +4,7 @@ export * from "./external/index.js";
 export * from "./zerohex/index.js";
 
 import { Base16 } from "@hazae41/base16";
-import { Box } from "@hazae41/box";
+import { Owned } from "@hazae41/box";
 import { Bytes } from "@hazae41/bytes";
 import { RawHexString, ZeroHexString } from "@hazae41/hexane";
 import { Keccak256 } from "@hazae41/keccak256";
@@ -59,7 +59,7 @@ export namespace SigningKey {
     using extSigningKey = ExternalSigningKey.fromOrThrow(signingKey)
     const verifyingKeyExt = extSigningKey.value.getVerifyingKeyOrThrow()
 
-    return new ExternalVerifyingKey(new Box(verifyingKeyExt))
+    return new ExternalVerifyingKey(new Owned(verifyingKeyExt))
   }
 
   export function getUncheckedAddressOrThrow(signingKey: ExternalSigningKey.From): ZeroHexString<20> {
@@ -93,7 +93,7 @@ export namespace SigningKey {
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(messageBytes)
     const signatureExt = extSigningKey.value.signOrThrow(hashMemoryExt)
 
-    return new ExternalSignature(new Box(signatureExt))
+    return new ExternalSignature(new Owned(signatureExt))
   }
 
   export function signUnprefixedMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsText.From): RsvBytesSignature {
@@ -116,7 +116,7 @@ export namespace SigningKey {
     using hashMemoryExt = Keccak256.get().getOrThrow().hashOrThrow(concatBytes)
     const signatureExt = extSigningKey.value.signOrThrow(hashMemoryExt)
 
-    return new ExternalSignature(new Box(signatureExt))
+    return new ExternalSignature(new Owned(signatureExt))
   }
 
   export function signMessageOrThrow(signingKey: ExternalSigningKey.From, message: BytesAsText.From): RsvBytesSignature {

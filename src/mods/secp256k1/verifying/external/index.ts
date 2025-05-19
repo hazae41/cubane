@@ -1,4 +1,4 @@
-import { Box } from "@hazae41/box";
+import { Owned, Viewed, Wrapped } from "@hazae41/box";
 import { Cursor } from "@hazae41/cursor";
 import { Secp256k1 } from "@hazae41/secp256k1";
 import { CopiableBytesAsInteger } from "mods/convert/index.js";
@@ -14,17 +14,17 @@ export type ExternalVerifyingKeyObject = Secp256k1.VerifyingKey
 export class ExternalVerifyingKey extends AbstractVerifyingKey {
 
   constructor(
-    readonly boxed: Box<ExternalVerifyingKeyObject>
+    readonly wrapped: Wrapped<ExternalVerifyingKeyObject>
   ) {
     super()
   }
 
   get value() {
-    return this.boxed.get()
+    return this.wrapped.get()
   }
 
   [Symbol.dispose]() {
-    this.boxed[Symbol.dispose]()
+    this.wrapped[Symbol.dispose]()
   }
 
   sizeOrThrow(): 65 {
@@ -37,8 +37,8 @@ export class ExternalVerifyingKey extends AbstractVerifyingKey {
     cursor.writeOrThrow(memory.bytes)
   }
 
-  intoOrThrow(): Box<ExternalVerifyingKeyObject> {
-    return this.boxed
+  intoOrThrow(): Wrapped<ExternalVerifyingKeyObject> {
+    return this.wrapped
   }
 
   toJSON(): ZeroHexVerifyingKeyString {
@@ -66,14 +66,14 @@ export namespace ExternalVerifyingKey {
   }
 
   function fromExternalOrThrow(from: ExternalVerifyingKeyInit): ExternalVerifyingKey {
-    return new ExternalVerifyingKey(Box.createAsDropped(from))
+    return new ExternalVerifyingKey(new Viewed(from))
   }
 
   function fromOtherOrThrow(from: BytesVerifyingKeyInit): ExternalVerifyingKey {
     using memory = CopiableBytesAsInteger.Length.fromOrThrow(from, 65)
     const value = Secp256k1.get().getOrThrow().VerifyingKey.importOrThrow(memory.bytes)
 
-    return new ExternalVerifyingKey(new Box(value))
+    return new ExternalVerifyingKey(new Owned(value))
   }
 
 }

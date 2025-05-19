@@ -1,4 +1,4 @@
-import { Box } from "@hazae41/box"
+import { Owned, Viewed, Wrapped } from "@hazae41/box"
 import { Cursor } from "@hazae41/cursor"
 import { Secp256k1 } from "@hazae41/secp256k1"
 import { CopiableBytesAsInteger } from "mods/convert/index.js"
@@ -14,17 +14,17 @@ export type ExternalSignatureObject = Secp256k1.SignatureAndRecovery
 export class ExternalSignature extends AbstractSignature {
 
   constructor(
-    readonly boxed: Box<ExternalSignatureObject>
+    readonly wrapped: Wrapped<ExternalSignatureObject>
   ) {
     super()
   }
 
   get value() {
-    return this.boxed.get()
+    return this.wrapped.get()
   }
 
   [Symbol.dispose]() {
-    this.boxed[Symbol.dispose]()
+    this.wrapped[Symbol.dispose]()
   }
 
   sizeOrThrow(): 65 {
@@ -37,8 +37,8 @@ export class ExternalSignature extends AbstractSignature {
     cursor.writeOrThrow(memory.bytes)
   }
 
-  intoOrThrow(): Box<ExternalSignatureObject> {
-    return this.boxed
+  intoOrThrow(): Wrapped<ExternalSignatureObject> {
+    return this.wrapped
   }
 
   toJSON(): ZeroHexSignatureString {
@@ -53,7 +53,7 @@ export namespace ExternalSignature {
 
   export function fromOrThrow(from: From): ExternalSignature {
     if (from instanceof ExternalSignature)
-      return fromExternalOrThrow(from.value)
+      return fromOrThrow(from.value)
 
     if (from instanceof BytesSignature)
       return fromOtherOrThrow(from.value)
@@ -70,7 +70,7 @@ export namespace ExternalSignature {
   }
 
   function fromExternalOrThrow(from: ExternalSignatureInit): ExternalSignature {
-    return new ExternalSignature(Box.createAsDropped(from))
+    return new ExternalSignature(new Viewed(from))
   }
 
   function fromRsvOrThrow(from: RsvSignatureInit): ExternalSignature {
@@ -81,14 +81,14 @@ export namespace ExternalSignature {
 
     const value = Secp256k1.get().getOrThrow().SignatureAndRecovery.importOrThrow(cursor.bytes)
 
-    return new ExternalSignature(new Box(value))
+    return new ExternalSignature(new Owned(value))
   }
 
   function fromOtherOrThrow(from: BytesSignatureInit): ExternalSignature {
     using memory = CopiableBytesAsInteger.Length.fromOrThrow(from, 65)
     const value = Secp256k1.get().getOrThrow().SignatureAndRecovery.importOrThrow(memory.bytes)
 
-    return new ExternalSignature(new Box(value))
+    return new ExternalSignature(new Owned(value))
   }
 
 }
