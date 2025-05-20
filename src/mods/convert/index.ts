@@ -5,9 +5,57 @@ import { BigInts } from "libs/bigint/bigint.js"
 import { Copiable, Copied } from "libs/copiable/index.js"
 import { Numbers } from "libs/number/number.js"
 
-export type BytesLike<N extends number> =
+export type BytesLike<N extends number = number> =
   | Uint8Array<N>
   | ZeroHexString<N>
+
+export namespace BytesAsBytes {
+
+  export type From = BytesLike
+
+  export function fromOrThrow(value: From): Uint8Array {
+    if (value instanceof Uint8Array)
+      return value
+    return fromZeroHexOrThrow(value)
+  }
+
+  function fromZeroHexOrThrow(value: ZeroHexString): Uint8Array {
+    return Copiable.copyAndDispose(Base16.get().getOrThrow().padStartAndDecodeOrThrow(value.slice(2)))
+  }
+
+  export namespace Length {
+
+    export function fromOrThrow<N extends number>(value: From, byteLength: N): Uint8Array<N> {
+      return Bytes.castOrThrow(BytesAsBytes.fromOrThrow(value), byteLength)
+    }
+
+  }
+
+}
+
+export namespace ZeroHexAsBytes {
+
+  export type From = BytesLike
+
+  export function fromOrThrow(value: From): ZeroHexString {
+    if (value instanceof Uint8Array)
+      return fromBytesOrThrow(value)
+    return value
+  }
+
+  function fromBytesOrThrow(value: Uint8Array): ZeroHexString {
+    return `0x${Base16.get().getOrThrow().encodeOrThrow(value)}` as ZeroHexString
+  }
+
+  export namespace Length {
+
+    export function fromOrThrow<N extends number>(value: From, byteLength: N): ZeroHexString<N> {
+      return ZeroHexString.Length.asOrThrow(ZeroHexAsBytes.fromOrThrow(value), byteLength)
+    }
+
+  }
+
+}
 
 export type TextLike =
   | string

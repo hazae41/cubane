@@ -1,6 +1,6 @@
 import { Writable } from "@hazae41/binary";
 import { ZeroHexString } from "@hazae41/hexane";
-import { ZeroHexAsInteger } from "mods/convert/index.js";
+import { ZeroHexAsBytes } from "mods/convert/index.js";
 import { AbstractRlpList } from "mods/rlp/index.js";
 import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, SignedTransactionInit2 } from "../../index.js";
 import { BytesEncodedSignedTransaction2 } from "../bytes/index.js";
@@ -54,7 +54,7 @@ export namespace ZeroHexEncodedSignedTransaction2 {
   }
 
   function fromBytesOrThrow(from: Uint8Array): ZeroHexEncodedSignedTransaction2 {
-    return fromZeroHexOrThrow(ZeroHexAsInteger.fromOrThrow(from))
+    return fromZeroHexOrThrow(ZeroHexAsBytes.fromOrThrow(from))
   }
 
   function fromRlpOrThrow(from: AbstractRlpList): ZeroHexEncodedSignedTransaction2 {

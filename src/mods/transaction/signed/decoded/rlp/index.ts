@@ -1,6 +1,6 @@
 import { ZeroHexString } from "@hazae41/hexane";
 import { Nullable } from "libs/nullable/index.js";
-import { BytesAsInteger } from "mods/convert/index.js";
+import { BytesAsBytes } from "mods/convert/index.js";
 import { AbstractRlpList, RlpString, RlpStringAsSelfOrInteger } from "mods/rlp/index.js";
 import { RlpAccessList } from "mods/transaction/access/index.js";
 import { BytesEncodedSignedTransaction2 } from "../../encoded/bytes/index.js";
@@ -99,7 +99,7 @@ export namespace RlpDecodedSignedTransaction2 {
   }
 
   function fromZeroHexOrThrow(from: ZeroHexString): RlpDecodedSignedTransaction2 {
-    return fromBytesOrThrow(BytesAsInteger.fromOrThrow(from))
+    return fromBytesOrThrow(BytesAsBytes.fromOrThrow(from))
   }
 
   function fromDecodedOrThrow(init: DecodedSignedTransactionInit2): RlpDecodedSignedTransaction2 {

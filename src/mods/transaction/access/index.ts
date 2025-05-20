@@ -1,5 +1,5 @@
 import { ZeroHexString } from "@hazae41/hexane"
-import { BytesLike, ZeroHexAsInteger } from "mods/convert/index.js"
+import { BytesLike, ZeroHexAsBytes } from "mods/convert/index.js"
 import { AbstractRlpList, RlpList, RlpString, RlpStringAsSelfOrInteger } from "mods/rlp/index.js"
 
 export type JsAccessAddress = BytesLike<20>
@@ -45,8 +45,8 @@ export namespace ZeroHexAccessList {
 
   export function fromOrThrow(list: AccessList): ZeroHexAccessList {
     if (list instanceof AbstractRlpList)
-      return list.value.map(item => [ZeroHexAsInteger.Length.fromOrThrow(item.value[0].value, 20), item.value[1].value.map(subitem => ZeroHexAsInteger.Length.fromOrThrow(subitem.value, 32))])
-    return list.map((item) => [ZeroHexAsInteger.Length.fromOrThrow(item[0], 20), item[1].map(subitem => ZeroHexAsInteger.Length.fromOrThrow(subitem, 32))])
+      return list.value.map(item => [ZeroHexAsBytes.Length.fromOrThrow(item.value[0].value, 20), item.value[1].value.map(subitem => ZeroHexAsBytes.Length.fromOrThrow(subitem.value, 32))])
+    return list.map((item) => [ZeroHexAsBytes.Length.fromOrThrow(item[0], 20), item[1].map(subitem => ZeroHexAsBytes.Length.fromOrThrow(subitem, 32))])
   }
 
 }
