@@ -36,7 +36,7 @@ export namespace RlpAccessList {
   export function fromOrThrow(list: AccessList): RlpAccessList {
     if (list instanceof AbstractRlpList)
       return list
-    return RlpList.fromOrThrow(list.map(([address, storages]) => RlpList.fromOrThrow([RlpStringAsSelfOrInteger.fromOrThrow(address), RlpList.fromOrThrow(storages.map(storage => RlpStringAsSelfOrInteger.fromOrThrow(storage)))])))
+    return RlpList.fromOrThrow(list.map(item => RlpList.fromOrThrow([RlpStringAsSelfOrInteger.fromOrThrow(item[0]), RlpList.fromOrThrow(item[1].map(subitem => RlpStringAsSelfOrInteger.fromOrThrow(subitem)))])))
   }
 
 }
@@ -45,8 +45,8 @@ export namespace ZeroHexAccessList {
 
   export function fromOrThrow(list: AccessList): ZeroHexAccessList {
     if (list instanceof AbstractRlpList)
-      return fromOrThrow(list.intoOrThrow() as JsAccessList)
-    return list.map(([address, storages]) => [ZeroHexAsInteger.Length.fromOrThrow(address, 20), storages.map(storage => ZeroHexAsInteger.Length.fromOrThrow(storage, 32))])
+      return list.value.map(item => [ZeroHexAsInteger.Length.fromOrThrow(item.value[0].value, 20), item.value[1].value.map(subitem => ZeroHexAsInteger.Length.fromOrThrow(subitem.value, 32))])
+    return list.map((item) => [ZeroHexAsInteger.Length.fromOrThrow(item[0], 20), item[1].map(subitem => ZeroHexAsInteger.Length.fromOrThrow(subitem, 32))])
   }
 
 }

@@ -3,9 +3,12 @@ import { Cursor } from "@hazae41/cursor";
 import { asOrThrow } from "@hazae41/gardien";
 import { ZeroHexString } from "@hazae41/hexane";
 import { BytesAsInteger } from "mods/convert/index.js";
-import { Rlp } from "mods/index.js";
+import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, Rlp, SignedTransaction2, SignedTransactionInit2 } from "mods/index.js";
 import { AbstractRlpList, RlpList, RlpString } from "mods/rlp/index.js";
-import { RlpAccessItem, RlpAccessList } from "../access/index.js";
+import { RlpAccessItem, RlpAccessList } from "../../../access/index.js";
+import { RlpDecodedSignedTransaction2 } from "../../decoded/rlp/index.js";
+import { BytesEncodedSignedTransaction2 } from "../bytes/index.js";
+import { ZeroHexEncodedSignedTransaction2 } from "../zerohex/index.js";
 
 export type RlpEncodedSignedTransactionInit2 = RlpList<[RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpAccessList, RlpString, RlpString, RlpString]>
 
@@ -114,7 +117,7 @@ export namespace RlpEncodedSignedTransaction2 {
     return new RlpEncodedSignedTransaction2(from as RlpEncodedSignedTransactionValue2)
   }
 
-  function fromBytesOrThrow(from: BytesEncodedSignedTransactionInit2): RlpEncodedSignedTransaction2 {
+  function fromBytesOrThrow(from: Uint8Array): RlpEncodedSignedTransaction2 {
     return Readable.readFromBytesOrThrow(RlpEncodedSignedTransaction2, from)
   }
 

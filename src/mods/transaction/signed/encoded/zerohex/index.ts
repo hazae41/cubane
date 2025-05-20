@@ -2,6 +2,10 @@ import { Writable } from "@hazae41/binary";
 import { ZeroHexString } from "@hazae41/hexane";
 import { ZeroHexAsInteger } from "mods/convert/index.js";
 import { AbstractRlpList } from "mods/rlp/index.js";
+import { RlpDecodedSignedTransaction2 } from "../../decoded/rlp/index.js";
+import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, SignedTransaction2, SignedTransactionInit2 } from "../../index.js";
+import { BytesEncodedSignedTransaction2 } from "../bytes/index.js";
+import { RlpEncodedSignedTransaction2 } from "../rlp/index.js";
 
 export type ZeroHexEncodedSignedTransactionInit2 = ZeroHexString
 
