@@ -12,7 +12,16 @@ import { BytesEncodedSignedTransaction2, BytesEncodedSignedTransactionInit2 } fr
 import { RlpEncodedSignedTransaction2, RlpEncodedSignedTransactionInit2 } from "./encoded/rlp/index.js";
 import { ZeroHexEncodedSignedTransaction2, ZeroHexEncodedSignedTransactionInit2 } from "./encoded/zerohex/index.js";
 
-export abstract class AbstractSignedTransaction2 { }
+export abstract class AbstractSignedTransaction2 {
+  readonly #class = AbstractSignedTransaction2
+
+  static readonly type = 0x02
+
+  get type() {
+    return this.#class.type
+  }
+
+}
 
 export type SignedTransactionInit2 =
   | DecodedSignedTransactionInit2

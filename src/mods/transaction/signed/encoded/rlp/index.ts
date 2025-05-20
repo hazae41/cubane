@@ -17,8 +17,6 @@ export type RlpEncodedSignedTransactionValue2 = RlpList<[RlpString, RlpString, R
 export class RlpEncodedSignedTransaction2 extends AbstractSignedTransaction2 {
   readonly #class = RlpEncodedSignedTransaction2
 
-  static readonly type = 0x02
-
   constructor(
     readonly value: RlpEncodedSignedTransactionValue2
   ) {
@@ -64,10 +62,6 @@ export class RlpEncodedSignedTransaction2 extends AbstractSignedTransaction2 {
     const encoded = RlpList.fromOrThrow([chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList, v, r, s] as const)
 
     return new RlpEncodedSignedTransaction2(encoded)
-  }
-
-  get type() {
-    return this.#class.type
   }
 
   sizeOrThrow() {

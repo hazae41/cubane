@@ -27,6 +27,7 @@ export interface RlpDecodedSignedTransactionValue2 {
 }
 
 export class RlpDecodedSignedTransaction2 extends AbstractSignedTransaction2 {
+  readonly #class = RlpDecodedSignedTransaction2
 
   constructor(
     readonly chainId: RlpString,
