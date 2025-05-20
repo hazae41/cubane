@@ -6,7 +6,7 @@ import { ZeroHexAccessList } from "../../../access/index.js";
 import { BytesEncodedSignedTransaction2 } from "../../encoded/bytes/index.js";
 import { RlpEncodedSignedTransaction2 } from "../../encoded/rlp/index.js";
 import { ZeroHexEncodedSignedTransaction2 } from "../../encoded/zerohex/index.js";
-import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, SignedTransaction2, SignedTransactionInit2 } from "../../index.js";
+import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, SignedTransactionInit2 } from "../../index.js";
 import { RlpDecodedSignedTransaction2 } from "../rlp/index.js";
 
 export type ZeroHexDecodedSignedTransactionInit2 = DecodedSignedTransactionInit2
@@ -51,23 +51,11 @@ export class ZeroHexDecodedSignedTransaction2 extends AbstractSignedTransaction2
     return { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s }
   }
 
-  toRlpDecodedOrThrow() {
-    return RlpDecodedSignedTransaction2.fromOrThrow(this)
-  }
-
-  toRlpEncodedOrThrow() {
-    return RlpEncodedSignedTransaction2.fromOrThrow(this)
-  }
-
-  toZeroHexEncodedOrThrow() {
-    return ZeroHexEncodedSignedTransaction2.fromOrThrow(this)
-  }
-
 }
 
 export namespace ZeroHexDecodedSignedTransaction2 {
 
-  export type From = SignedTransaction2 | SignedTransactionInit2
+  export type From = AbstractSignedTransaction2 | SignedTransactionInit2
 
   export function fromOrThrow(from: From): ZeroHexDecodedSignedTransaction2 {
     if (from instanceof ZeroHexDecodedSignedTransaction2)
@@ -79,6 +67,8 @@ export namespace ZeroHexDecodedSignedTransaction2 {
       return fromRlpOrThrow(from.value)
     if (from instanceof ZeroHexEncodedSignedTransaction2)
       return fromZeroHexOrThrow(from.value)
+    if (from instanceof AbstractSignedTransaction2)
+      throw new Error()
 
     if (from instanceof AbstractRlpList)
       return fromRlpOrThrow(from)
@@ -87,8 +77,10 @@ export namespace ZeroHexDecodedSignedTransaction2 {
 
     if (typeof from === "object")
       return fromDecodedOrThrow(from)
+    if (typeof from === "string")
+      return fromZeroHexOrThrow(from)
 
-    return fromZeroHexOrThrow(from)
+    throw new Error()
   }
 
   function fromBytesOrThrow(from: Uint8Array): ZeroHexDecodedSignedTransaction2 {

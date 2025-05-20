@@ -2,7 +2,7 @@ import { Writable } from "@hazae41/binary";
 import { ZeroHexString } from "@hazae41/hexane";
 import { BytesAsInteger } from "mods/convert/index.js";
 import { AbstractRlpList } from "mods/rlp/index.js";
-import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, SignedTransaction2, SignedTransactionInit2 } from "../../index.js";
+import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, SignedTransactionInit2 } from "../../index.js";
 import { RlpEncodedSignedTransaction2 } from "../rlp/index.js";
 import { ZeroHexEncodedSignedTransaction2 } from "../zerohex/index.js";
 
@@ -23,7 +23,7 @@ export class BytesEncodedSignedTransaction2 extends AbstractSignedTransaction2 {
 
 export namespace BytesEncodedSignedTransaction2 {
 
-  export type From = SignedTransaction2 | SignedTransactionInit2
+  export type From = AbstractSignedTransaction2 | SignedTransactionInit2
 
   export function fromOrThrow(from: From): BytesEncodedSignedTransaction2 {
     if (from instanceof BytesEncodedSignedTransaction2)
@@ -33,6 +33,8 @@ export namespace BytesEncodedSignedTransaction2 {
       return fromRlpOrThrow(from.value)
     if (from instanceof ZeroHexEncodedSignedTransaction2)
       return fromZeroHexOrThrow(from.value)
+    if (from instanceof AbstractSignedTransaction2)
+      throw new Error()
 
     if (from instanceof AbstractRlpList)
       return fromRlpOrThrow(from)
@@ -41,8 +43,10 @@ export namespace BytesEncodedSignedTransaction2 {
 
     if (typeof from === "object")
       return fromDecodedOrThrow(from)
+    if (typeof from === "string")
+      return fromZeroHexOrThrow(from)
 
-    return fromZeroHexOrThrow(from)
+    throw new Error()
   }
 
   function fromBytesOrThrow(from: Uint8Array): BytesEncodedSignedTransaction2 {

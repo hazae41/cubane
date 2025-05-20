@@ -21,6 +21,26 @@ export abstract class AbstractSignedTransaction2 {
     return this.#class.type
   }
 
+  toZeroHexDecodedOrThrow() {
+    return ZeroHexDecodedSignedTransaction2.fromOrThrow(this)
+  }
+
+  toRlpDecodedOrThrow() {
+    return RlpDecodedSignedTransaction2.fromOrThrow(this)
+  }
+
+  toRlpEncodedOrThrow() {
+    return RlpEncodedSignedTransaction2.fromOrThrow(this)
+  }
+
+  toBytesEncodedOrThrow() {
+    return BytesEncodedSignedTransaction2.fromOrThrow(this)
+  }
+
+  toZeroHexEncodedOrThrow() {
+    return ZeroHexEncodedSignedTransaction2.fromOrThrow(this)
+  }
+
 }
 
 export type SignedTransactionInit2 =

@@ -4,10 +4,9 @@ import { BytesAsInteger } from "mods/convert/index.js";
 import { AbstractRlpList, RlpString, RlpStringAsSelfOrInteger } from "mods/rlp/index.js";
 import { RlpAccessList } from "mods/transaction/access/index.js";
 import { BytesEncodedSignedTransaction2 } from "../../encoded/bytes/index.js";
-import { RlpEncodedSignedTransaction2 } from "../../encoded/rlp/index.js";
+import { RlpEncodedSignedTransaction2, RlpEncodedSignedTransactionValue2 } from "../../encoded/rlp/index.js";
 import { ZeroHexEncodedSignedTransaction2 } from "../../encoded/zerohex/index.js";
-import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, SignedTransaction2, SignedTransactionInit2 } from "../../index.js";
-import { ZeroHexDecodedSignedTransaction2 } from "../zerohex/index.js";
+import { AbstractSignedTransaction2, DecodedSignedTransactionInit2, SignedTransactionInit2 } from "../../index.js";
 
 export type RlpDecodedSignedTransactionInit2 = DecodedSignedTransactionInit2
 
@@ -46,8 +45,12 @@ export class RlpDecodedSignedTransaction2 extends AbstractSignedTransaction2 {
     super()
   }
 
-  static decodeOrThrow(encoded: RlpEncodedSignedTransaction2): RlpDecodedSignedTransaction2 {
-    const [chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList, v, r, s] = encoded.value.value
+}
+
+export namespace RlpDecodedSignedTransaction2 {
+
+  export function decodeOrThrow(encoded: RlpEncodedSignedTransactionValue2): RlpDecodedSignedTransaction2 {
+    const [chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList, v, r, s] = encoded.value
 
     const data = rawData.value.length > 0 ? rawData : null
     const accessList = rawAccessList.value.length > 0 ? rawAccessList : null
@@ -55,23 +58,11 @@ export class RlpDecodedSignedTransaction2 extends AbstractSignedTransaction2 {
     return new RlpDecodedSignedTransaction2(chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s)
   }
 
-  toRlpEncodedOrThrow() {
-    return RlpEncodedSignedTransaction2.encodeOrThrow(this)
-  }
-
-  toZeroHexEncodedOrThrow() {
-    return ZeroHexEncodedSignedTransaction2.fromOrThrow(this)
-  }
-
-  toZeroHexDecodedOrThrow() {
-    return ZeroHexDecodedSignedTransaction2.fromOrThrow(this)
-  }
-
 }
 
 export namespace RlpDecodedSignedTransaction2 {
 
-  export type From = SignedTransaction2 | SignedTransactionInit2
+  export type From = AbstractSignedTransaction2 | SignedTransactionInit2
 
   export function fromOrThrow(from: From): RlpDecodedSignedTransaction2 {
     if (from instanceof RlpDecodedSignedTransaction2)
@@ -83,6 +74,8 @@ export namespace RlpDecodedSignedTransaction2 {
       return fromRlpOrThrow(from.value)
     if (from instanceof ZeroHexEncodedSignedTransaction2)
       return fromZeroHexOrThrow(from.value)
+    if (from instanceof AbstractSignedTransaction2)
+      throw new Error()
 
     if (from instanceof AbstractRlpList)
       return fromRlpOrThrow(from)
@@ -91,16 +84,18 @@ export namespace RlpDecodedSignedTransaction2 {
 
     if (typeof from === "object")
       return fromDecodedOrThrow(from)
+    if (typeof from === "string")
+      return fromZeroHexOrThrow(from)
 
-    return fromZeroHexOrThrow(from)
+    throw new Error()
   }
 
   function fromBytesOrThrow(from: Uint8Array): RlpDecodedSignedTransaction2 {
-    return RlpDecodedSignedTransaction2.decodeOrThrow(RlpEncodedSignedTransaction2.fromOrThrow(from))
+    return decodeOrThrow(RlpEncodedSignedTransaction2.fromOrThrow(from).value)
   }
 
   function fromRlpOrThrow(from: AbstractRlpList): RlpDecodedSignedTransaction2 {
-    return RlpDecodedSignedTransaction2.decodeOrThrow(RlpEncodedSignedTransaction2.fromOrThrow(from as any))
+    return decodeOrThrow(from as any)
   }
 
   function fromZeroHexOrThrow(from: ZeroHexString): RlpDecodedSignedTransaction2 {
