@@ -5,7 +5,7 @@ export * from "./encoded/rlp/index.js";
 export * from "./encoded/zerohex/index.js";
 
 import { DecodedUnsignedTransactionInit2 } from "mods/index.js";
-import { RlpStringAsSelfOrInteger } from "mods/rlp/index.js";
+import { RlpStringOrIntegerLike } from "mods/rlp/index.js";
 import { RlpDecodedSignedTransaction2 } from "./decoded/rlp/index.js";
 import { ZeroHexDecodedSignedTransaction2 } from "./decoded/zerohex/index.js";
 import { BytesEncodedSignedTransaction2, BytesEncodedSignedTransactionInit2 } from "./encoded/bytes/index.js";
@@ -28,7 +28,7 @@ export type SignedTransaction2 =
   | ZeroHexEncodedSignedTransaction2
 
 export interface DecodedSignedTransactionInit2 extends DecodedUnsignedTransactionInit2 {
-  readonly v: RlpStringAsSelfOrInteger.From
-  readonly r: RlpStringAsSelfOrInteger.From
-  readonly s: RlpStringAsSelfOrInteger.From
+  readonly v: RlpStringOrIntegerLike
+  readonly r: RlpStringOrIntegerLike
+  readonly s: RlpStringOrIntegerLike
 }

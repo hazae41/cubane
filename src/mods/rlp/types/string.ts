@@ -298,11 +298,11 @@ export namespace RlpString {
 
 }
 
+export type RlpStringOrIntegerLike = RlpString | IntegerLike
+
 export namespace RlpStringAsSelfOrInteger {
 
-  export type From =
-    | RlpString
-    | IntegerLike
+  export type From = RlpStringOrIntegerLike
 
   export function fromOrThrow(from: From): RlpString {
     if (RlpString.is(from))
@@ -314,9 +314,7 @@ export namespace RlpStringAsSelfOrInteger {
 
 export namespace BytesAsRlpStringOrInteger {
 
-  export type From =
-    | RlpString
-    | IntegerLike
+  export type From = RlpStringOrIntegerLike
 
   export function fromOrThrow(from: From): Uint8Array {
     if (RlpString.is(from))
@@ -328,9 +326,7 @@ export namespace BytesAsRlpStringOrInteger {
 
 export namespace BigIntAsRlpStringOrInteger {
 
-  export type From =
-    | RlpString
-    | IntegerLike
+  export type From = RlpStringOrIntegerLike
 
   export function fromOrThrow(from: From): bigint {
     if (RlpString.is(from))
@@ -342,9 +338,7 @@ export namespace BigIntAsRlpStringOrInteger {
 
 export namespace ZeroHexAsRlpStringOrInteger {
 
-  export type From =
-    | RlpString
-    | IntegerLike
+  export type From = RlpStringOrIntegerLike
 
   export function fromOrThrow(from: From): ZeroHexString {
     if (RlpString.is(from))

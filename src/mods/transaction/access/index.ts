@@ -27,8 +27,8 @@ export type RlpAccessItem = RlpList<[RlpAccessAddress, RlpAccessStorageList]>
 export type RlpAccessList = RlpList<RlpAccessItem[]>
 
 export type AccessList =
-  | RlpAccessList
   | JsAccessList
+  | RlpAccessList
   | ZeroHexAccessList
 
 export namespace RlpAccessList {

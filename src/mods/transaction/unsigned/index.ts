@@ -4,20 +4,20 @@ import { asOrThrow } from "@hazae41/gardien";
 import { ZeroHexString } from "@hazae41/hexane";
 import { Nullable } from "libs/nullable/index.js";
 import { Rlp } from "mods/index.js";
-import { RlpList, RlpString, RlpStringAsSelfOrInteger, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
+import { RlpList, RlpString, RlpStringAsSelfOrInteger, RlpStringOrIntegerLike, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
 import { ExternalSigningKey, RsvBytesSignature, SigningKey } from "mods/secp256k1/index.js";
 import { AccessList, RlpAccessItem, RlpAccessList, ZeroHexAccessList } from "../access/index.js";
 import { RlpDecodedSignedTransaction2 } from "../signed/index.js";
 
 export interface DecodedUnsignedTransactionInit2 {
-  readonly chainId: RlpStringAsSelfOrInteger.From
-  readonly nonce: RlpStringAsSelfOrInteger.From
-  readonly maxPriorityFeePerGas: RlpStringAsSelfOrInteger.From
-  readonly maxFeePerGas: RlpStringAsSelfOrInteger.From
-  readonly gasLimit: RlpStringAsSelfOrInteger.From
-  readonly to: RlpStringAsSelfOrInteger.From
-  readonly value: RlpStringAsSelfOrInteger.From
-  readonly data?: Nullable<RlpStringAsSelfOrInteger.From>
+  readonly chainId: RlpStringOrIntegerLike
+  readonly nonce: RlpStringOrIntegerLike
+  readonly maxPriorityFeePerGas: RlpStringOrIntegerLike
+  readonly maxFeePerGas: RlpStringOrIntegerLike
+  readonly gasLimit: RlpStringOrIntegerLike
+  readonly to: RlpStringOrIntegerLike
+  readonly value: RlpStringOrIntegerLike
+  readonly data?: Nullable<RlpStringOrIntegerLike>
   readonly accessList?: Nullable<AccessList>
 }
 
