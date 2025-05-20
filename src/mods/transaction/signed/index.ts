@@ -56,6 +56,14 @@ export type SignedTransaction2 =
   | BytesEncodedSignedTransaction2
   | ZeroHexEncodedSignedTransaction2
 
+export namespace SignedTransaction2 {
+
+  export function unsignOrThrow(transaction: RlpDecodedSignedTransaction2.From): DecodedUnsignedTransactionInit2 {
+    // return RlpDecodedSignedTransaction2.fromOrThrow(transaction)
+  }
+
+}
+
 export interface DecodedSignedTransactionInit2 extends DecodedUnsignedTransactionInit2 {
   readonly v: RlpStringOrIntegerLike
   readonly r: RlpStringOrIntegerLike

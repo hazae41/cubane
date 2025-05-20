@@ -9,6 +9,17 @@ import { ExternalSigningKey, RsvBytesSignature, SigningKey } from "mods/secp256k
 import { AccessList, RlpAccessItem, RlpAccessList, ZeroHexAccessList } from "../access/index.js";
 import { RlpDecodedSignedTransaction2 } from "../signed/index.js";
 
+export abstract class AbstractUnsignedTransaction2 {
+  readonly #class = AbstractUnsignedTransaction2
+
+  static readonly type = 0x02
+
+  get type() {
+    return this.#class.type
+  }
+
+}
+
 export interface DecodedUnsignedTransactionInit2 {
   readonly chainId: RlpStringOrIntegerLike
   readonly nonce: RlpStringOrIntegerLike
@@ -29,7 +40,7 @@ export namespace UnsignedTransaction2 {
 
 }
 
-export class ZeroHexDecodedUnsignedTransaction2 {
+export class ZeroHexDecodedUnsignedTransaction2 extends AbstractUnsignedTransaction2 {
 
   constructor(
     readonly chainId: ZeroHexString,
@@ -41,7 +52,9 @@ export class ZeroHexDecodedUnsignedTransaction2 {
     readonly value: ZeroHexString,
     readonly data: Nullable<ZeroHexString>,
     readonly accessList: Nullable<ZeroHexAccessList>,
-  ) { }
+  ) {
+    super()
+  }
 
   toJSON() {
     const { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList } = this
@@ -70,7 +83,7 @@ export namespace ZeroHexDecodedUnsignedTransaction2 {
 
 }
 
-export class RlpDecodedUnsignedTransaction2 {
+export class RlpDecodedUnsignedTransaction2 extends AbstractUnsignedTransaction2 {
 
   constructor(
     readonly chainId: RlpString,
@@ -82,7 +95,9 @@ export class RlpDecodedUnsignedTransaction2 {
     readonly value: RlpString,
     readonly data: Nullable<RlpString>,
     readonly accessList: Nullable<RlpAccessList>,
-  ) { }
+  ) {
+    super()
+  }
 
   static decodeOrThrow(encoded: RlpEncodedTransaction2): RlpDecodedUnsignedTransaction2 {
     const [chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList] = encoded.value.value
@@ -134,14 +149,16 @@ export namespace RlpDecodedUnsignedTransaction2 {
 
 }
 
-export class RlpEncodedTransaction2 {
+export class RlpEncodedTransaction2 extends AbstractUnsignedTransaction2 {
   readonly #class = RlpEncodedTransaction2
 
   static readonly type = 0x02
 
   constructor(
     readonly value: RlpList<[RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpAccessList]>,
-  ) { }
+  ) {
+    super()
+  }
 
   static readOrThrow(cursor: Cursor): RlpEncodedTransaction2 {
     const type = cursor.readUint8OrThrow()
