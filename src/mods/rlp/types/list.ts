@@ -1,8 +1,15 @@
+import { Writable } from "@hazae41/binary";
 import { Cursor } from "@hazae41/cursor";
 import { BytesOrBytesArray, readOrThrow, RlpType } from "../rlp.js";
 
-export abstract class AbstractRlpList<T extends RlpType[] = RlpType[]> {
+export abstract class AbstractRlpList<T extends RlpType[] = RlpType[]> implements Writable {
+
   abstract readonly value: T
+
+  abstract sizeOrThrow(): number
+
+  abstract writeOrThrow(cursor: Cursor): void
+
 }
 
 export class RlpList55<T extends RlpType[] = RlpType[]> extends AbstractRlpList<T> {

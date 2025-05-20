@@ -24,7 +24,7 @@ Secp256k1.set(Secp256k1.fromWasm(Secp256k1Wasm))
     gasLimit: 1n,
     to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
     value: 1n,
-  }, key).encodeZeroHexOrThrow()
+  }, key).toZeroHexEncodedOrThrow()
 
   console.log(tx.value) // 0x02...
 }
