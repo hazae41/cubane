@@ -8,6 +8,19 @@ import { DecodedUnsignedTransactionInit2, Rlp } from "mods/index.js";
 import { AbstractRlpList, RlpList, RlpString, RlpStringAsSelfOrInteger, ZeroHexAsRlpStringOrInteger } from "mods/rlp/index.js";
 import { RlpAccessItem, RlpAccessList, ZeroHexAccessList } from "../access/index.js";
 
+export type SignedTransactionInit2 =
+  | DecodedSignedTransactionInit2
+  | BytesEncodedSignedTransactionInit2
+  | ZeroHexEncodedSignedTransactionInit2
+  | RlpEncodedSignedTransactionInit2
+
+export type SignedTransaction2 =
+  | ZeroHexDecodedSignedTransaction2
+  | RlpDecodedSignedTransaction2
+  | RlpEncodedSignedTransaction2
+  | BytesEncodedSignedTransaction2
+  | ZeroHexEncodedSignedTransaction2
+
 export interface DecodedSignedTransactionInit2 extends DecodedUnsignedTransactionInit2 {
   readonly v: RlpStringAsSelfOrInteger.From
   readonly r: RlpStringAsSelfOrInteger.From
@@ -70,14 +83,7 @@ export class ZeroHexDecodedSignedTransaction2 {
 
 export namespace ZeroHexDecodedSignedTransaction2 {
 
-  export type From =
-    | DecodedSignedTransactionInit2
-    | BytesEncodedSignedTransaction2
-    | ZeroHexEncodedSignedTransaction2
-    | RlpEncodedSignedTransaction2
-    | BytesEncodedSignedTransactionInit2
-    | ZeroHexEncodedSignedTransactionInit2
-    | RlpEncodedSignedTransactionInit2
+  export type From = SignedTransaction2 | SignedTransactionInit2
 
   export function fromOrThrow(from: From): ZeroHexDecodedSignedTransaction2 {
     if (from instanceof ZeroHexDecodedSignedTransaction2)
@@ -191,14 +197,7 @@ export class RlpDecodedSignedTransaction2 {
 
 export namespace RlpDecodedSignedTransaction2 {
 
-  export type From =
-    | DecodedSignedTransactionInit2
-    | BytesEncodedSignedTransaction2
-    | ZeroHexEncodedSignedTransaction2
-    | RlpEncodedSignedTransaction2
-    | BytesEncodedSignedTransactionInit2
-    | ZeroHexEncodedSignedTransactionInit2
-    | RlpEncodedSignedTransactionInit2
+  export type From = SignedTransaction2 | SignedTransactionInit2
 
   export function fromOrThrow(from: From): RlpDecodedSignedTransaction2 {
     if (from instanceof RlpDecodedSignedTransaction2)
@@ -332,14 +331,7 @@ export class RlpEncodedSignedTransaction2 {
 
 export namespace RlpEncodedSignedTransaction2 {
 
-  export type From =
-    | DecodedSignedTransactionInit2
-    | BytesEncodedSignedTransaction2
-    | ZeroHexEncodedSignedTransaction2
-    | RlpEncodedSignedTransaction2
-    | BytesEncodedSignedTransactionInit2
-    | ZeroHexEncodedSignedTransactionInit2
-    | RlpEncodedSignedTransactionInit2
+  export type From = SignedTransaction2 | SignedTransactionInit2
 
   export function fromOrThrow(from: From): RlpEncodedSignedTransaction2 {
     if (from instanceof RlpEncodedSignedTransaction2)
@@ -394,14 +386,7 @@ export class BytesEncodedSignedTransaction2 {
 
 export namespace BytesEncodedSignedTransaction2 {
 
-  export type From =
-    | DecodedSignedTransactionInit2
-    | BytesEncodedSignedTransaction2
-    | ZeroHexEncodedSignedTransaction2
-    | RlpEncodedSignedTransaction2
-    | BytesEncodedSignedTransactionInit2
-    | ZeroHexEncodedSignedTransactionInit2
-    | RlpEncodedSignedTransactionInit2
+  export type From = SignedTransaction2 | SignedTransactionInit2
 
   export function fromOrThrow(from: From): BytesEncodedSignedTransaction2 {
     if (from instanceof BytesEncodedSignedTransaction2)
@@ -464,14 +449,7 @@ export class ZeroHexEncodedSignedTransaction2 {
 
 export namespace ZeroHexEncodedSignedTransaction2 {
 
-  export type From =
-    | DecodedSignedTransactionInit2
-    | BytesEncodedSignedTransaction2
-    | ZeroHexEncodedSignedTransaction2
-    | RlpEncodedSignedTransaction2
-    | BytesEncodedSignedTransactionInit2
-    | ZeroHexEncodedSignedTransactionInit2
-    | RlpEncodedSignedTransactionInit2
+  export type From = SignedTransaction2 | SignedTransactionInit2
 
   export function fromOrThrow(from: From): ZeroHexEncodedSignedTransaction2 {
     if (from instanceof ZeroHexEncodedSignedTransaction2)
