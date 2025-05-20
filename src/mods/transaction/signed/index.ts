@@ -21,6 +21,8 @@ export type SignedTransaction2 =
   | BytesEncodedSignedTransaction2
   | ZeroHexEncodedSignedTransaction2
 
+export abstract class AbstractSignedTransaction2 { }
+
 export interface DecodedSignedTransactionInit2 extends DecodedUnsignedTransactionInit2 {
   readonly v: RlpStringAsSelfOrInteger.From
   readonly r: RlpStringAsSelfOrInteger.From
@@ -44,7 +46,7 @@ export interface ZeroHexDecodedSignedTransactionValue2 {
   readonly s: ZeroHexString<32>,
 }
 
-export class ZeroHexDecodedSignedTransaction2 {
+export class ZeroHexDecodedSignedTransaction2 extends AbstractSignedTransaction2 {
   readonly #class = ZeroHexDecodedSignedTransaction2
 
   constructor(
@@ -60,7 +62,9 @@ export class ZeroHexDecodedSignedTransaction2 {
     readonly v: ZeroHexString,
     readonly r: ZeroHexString<32>,
     readonly s: ZeroHexString<32>,
-  ) { }
+  ) {
+    super()
+  }
 
   toJSON() {
     const { chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, data, accessList, v, r, s } = this
@@ -155,7 +159,7 @@ export interface RlpDecodedSignedTransactionValue2 {
   readonly s: RlpString
 }
 
-export class RlpDecodedSignedTransaction2 {
+export class RlpDecodedSignedTransaction2 extends AbstractSignedTransaction2 {
 
   constructor(
     readonly chainId: RlpString,
@@ -170,7 +174,9 @@ export class RlpDecodedSignedTransaction2 {
     readonly v: RlpString,
     readonly r: RlpString,
     readonly s: RlpString,
-  ) { }
+  ) {
+    super()
+  }
 
   static decodeOrThrow(encoded: RlpEncodedSignedTransaction2): RlpDecodedSignedTransaction2 {
     const [chainId, nonce, maxPriorityFeePerGas, maxFeePerGas, gasLimit, to, value, rawData, rawAccessList, v, r, s] = encoded.value.value
@@ -256,14 +262,16 @@ export type RlpEncodedSignedTransactionInit2 = RlpList<[RlpString, RlpString, Rl
 
 export type RlpEncodedSignedTransactionValue2 = RlpList<[RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpString, RlpAccessList, RlpString, RlpString, RlpString]>
 
-export class RlpEncodedSignedTransaction2 {
+export class RlpEncodedSignedTransaction2 extends AbstractSignedTransaction2 {
   readonly #class = RlpEncodedSignedTransaction2
 
   static readonly type = 0x02
 
   constructor(
     readonly value: RlpEncodedSignedTransactionValue2
-  ) { }
+  ) {
+    super()
+  }
 
   static readOrThrow(cursor: Cursor): RlpEncodedSignedTransaction2 {
     const type = cursor.readUint8OrThrow()
@@ -375,12 +383,14 @@ export type BytesEncodedSignedTransactionInit2 = Uint8Array
 
 export type BytesEncodedSignedTransactionValue2 = Uint8Array
 
-export class BytesEncodedSignedTransaction2 {
+export class BytesEncodedSignedTransaction2 extends AbstractSignedTransaction2 {
   readonly #class = BytesEncodedSignedTransaction2
 
   constructor(
     readonly value: BytesEncodedSignedTransactionValue2,
-  ) { }
+  ) {
+    super()
+  }
 
 }
 
@@ -430,12 +440,14 @@ export type ZeroHexEncodedSignedTransactionInit2 = ZeroHexString
 
 export type ZeroHexEncodedSignedTransactionValue2 = ZeroHexString
 
-export class ZeroHexEncodedSignedTransaction2 {
+export class ZeroHexEncodedSignedTransaction2 extends AbstractSignedTransaction2 {
   readonly #class = ZeroHexEncodedSignedTransaction2
 
   constructor(
     readonly value: ZeroHexString,
-  ) { }
+  ) {
+    super()
+  }
 
   toRlpDecodedOrThrow() {
     return RlpDecodedSignedTransaction2.fromOrThrow(this)
